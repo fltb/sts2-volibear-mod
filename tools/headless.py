@@ -105,6 +105,29 @@ def scenario_evidence(log, run_id, scenario):
     return result, valid
 
 
+def content_evidence(log):
+    """Validate that the mod's own cards resolved and changed the measured combat state."""
+    prefix = '[Volibear] CONTENT_RESULT '
+    records = []
+    for line in log.splitlines():
+        if line.startswith(prefix):
+            try:
+                record = json.loads(line[len(prefix):])
+            except json.JSONDecodeError:
+                return None, False
+            records.append(record)
+    if len(records) != 1:
+        return None, False
+    result = records[0]
+    valid = (result.get('passed') is True and result.get('attackDelta') == 6
+             and result.get('blockGain') == 5 and result.get('startingHp') == 80
+             and result.get('deckSize') == 10
+             and isinstance(result.get('enemyDeltas'), list) and len(result['enemyDeltas']) >= 2
+             and result['enemyDeltas'][0] == 11
+             and all(delta == 3 for delta in result['enemyDeltas'][1:]))
+    return result, valid
+
+
 def engage_evidence(result, expected):
     """Validate measured prototype evidence independently of the driver's pass bit."""
     if not isinstance(result, dict) or result.get('engageEnabled') is not expected:
@@ -345,7 +368,9 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         if alias.resolve() != game:
             raise RuntimeError('Audio diagnostic game alias points elsewhere')
         env['LD_PRELOAD'] = ':'.join([str(adapter), str(alias / 'libGodotFmod.linux.template_release.x86_64.so')]) + (':' + env['LD_PRELOAD'] if env.get('LD_PRELOAD') else '')
-    if scenario == 'baseline':
+    if scenario == 'content':
+        env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
+    if scenario in ('baseline', 'api', 'content'):
         # MonoMod's native exception helper needs globally visible libgcc unwind symbols.
         # This is scoped to the child; it changes no system loader configuration.
         if not IS_WINDOWS:
@@ -369,7 +394,11 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     if adapter_enabled:
         checks['audio_adapter_active'] = '[Volibear] AUDIO_OUTPUT nosound' in log
     scenario_result = None
-    if scenario != 'discovery':
+    if scenario == 'api':
+        checks['api_dump_complete'] = '[Volibear] API_DUMP_DONE' in log
+    elif scenario == 'content':
+        scenario_result, checks['content_assertions'] = content_evidence(log)
+    elif scenario != 'discovery':
         scenario_result, checks['scenario_assertions'] = scenario_evidence(log, run_id, scenario)
         checks['engage_variant_assertions'] = engage_evidence(
             scenario_result, env.get('VOLIBEAR_TEST_ENGAGE') == '1')
@@ -406,7 +435,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--display', choices=['headless', 'xvfb'], default='headless')
-    parser.add_argument('--scenario', choices=['discovery', 'baseline'], default='discovery')
+    parser.add_argument('--scenario', choices=['discovery', 'baseline', 'api', 'content'], default='discovery')
     parser.add_argument('--repeat', type=int, default=2)
     parser.add_argument('--timeout', type=int, default=45)
     parser.add_argument('--frames', type=int, default=300)

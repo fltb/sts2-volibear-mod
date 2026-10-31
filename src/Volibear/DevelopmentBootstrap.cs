@@ -27,9 +27,10 @@ public sealed class DevelopmentBootstrap : IBootstrapSettings
     public string Language => "eng";
     public Task Setup(Player localPlayer) => Task.CompletedTask;
 
-    public static void Install()
+    public static void Install(bool installDriver = true)
     {
-        BaselineDriver.Install();
+        if (installDriver)
+            BaselineDriver.Install();
         if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_ENGAGE") == "1")
         {
             var harmony = new Harmony("Volibear.EngagePrototype");
@@ -43,7 +44,9 @@ public sealed class DevelopmentBootstrap : IBootstrapSettings
 
     private static bool SelectSettings(ref System.Type? __result)
     {
-        __result = typeof(DevelopmentBootstrap);
+        __result = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CHARACTER") == "volibear"
+            ? typeof(VolibearBootstrap)
+            : typeof(DevelopmentBootstrap);
         return false;
     }
 }
