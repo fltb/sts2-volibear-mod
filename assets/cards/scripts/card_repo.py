@@ -183,7 +183,7 @@ def verify(root):
                 need(actual.size==expected.size and actual.mode==expected.mode,rel+': format/size mismatch')
                 need(actual.tobytes()==expected.tobytes(),rel+': pixels differ from approved source and mask')
         report.append({'id':c['id'],'master_sha256':a['master_sha256'],'anatomy_review_bound':True,'exports':4})
-    actual={str(p.relative_to(root)) for p in (root/'production').rglob('*.png')}
+    actual={p.relative_to(root).as_posix() for p in (root/'production').rglob('*.png')}
     need(actual==seen,'Unexpected or missing production PNGs')
     data=read(root/'cards/gallery_manifest.json');need([c['id'] for c in data['cards']]==[c['id'] for c in cards],'Gallery/source order differs')
     js=(root/'cards/gallery_data.js').read_text();need(json.loads(js.removeprefix('window.VOLIBEAR_CARD_GALLERY = ').rstrip(';\n'))==data,'Gallery JS/JSON mismatch')

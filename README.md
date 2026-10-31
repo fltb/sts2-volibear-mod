@@ -40,7 +40,7 @@ Python 图像工具依赖 Pillow、NumPy、SciPy、fonttools；按各目录 requ
 ```sh
 python -m venv .venv
 # Linux/macOS: source .venv/bin/activate
-# Windows: .venv\Scripts\activate
+# Windows: .venv\Scripts\Activate.ps1
 python -m pip install Pillow numpy scipy fonttools
 python assets/cards/scripts/card_repo.py verify
 # 重导出卡图（会更新副本中的导出和技术报告）
@@ -50,6 +50,12 @@ python assets/animation/animations/skeletal_v9/scripts/export.py
 python assets/animation/animations/skeletal_v9/scripts/export_clean.py
 python assets/animation/animations/skeletal_v9/scripts/refresh_viewer.py
 ```
+
+Windows 另需四点：脚本按 UTF-8 读写，须设 `PYTHONUTF8=1`；`ffmpeg`/`ffprobe` 要在 PATH 上；
+克隆后确认换行未被转换（全局 `core.autocrlf=true` 会破坏清单里的字节级 SHA 校验，仓库已带
+`* -text` 的 `.gitattributes`，本仓库仍需 `git config core.autocrlf false`）；不要用微软商店
+版 Python，它在部分宿主上以低完整性级别运行、写不了游戏目录，若宿主会降低工作区内可执行文件
+的权限，就把虚拟环境建在仓库外并直接调用其中的解释器。
 
 **禁止直接运行** `build_parts.py`、旧 restore 脚本，或用旧 user_overrides 覆盖当前 parts。动画 GIF/WebP、逐帧和审查联系表未作为最终资产重复收录，可由 export.py 重建；查看器相关下载/审查入口若需要这些派生文件，先重导出。旧 Godot 场景、PCK、旧批准报告不能代表当前版本。
 

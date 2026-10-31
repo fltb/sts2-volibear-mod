@@ -1,6 +1,10 @@
 # Isolated real-game automation
 
-Status: development checkpoint; see [current handoff](HANDOFF.md) for latest evidence and resume instructions. Real native attack, Strike AutoPlay and optional in-card Engage prototype assertions pass. Overall acceptance remains FAILED on engine teardown errors; the opt-in audio adapter fixes the earlier FMOD startup errors. Sections below describe earlier milestones as well as the runner.
+Status: development checkpoint for Windows and Linux; see [current handoff](HANDOFF.md) for
+latest evidence and resume instructions. Native attack, Strike AutoPlay, next-round
+advancement and the optional in-card Engage prototype assertions pass on both platforms. The
+shipped game still reports renderer/text resource leaks on every headless exit, with or without
+mods; the runner attributes that noise against a stock control instead of waiving it.
 
 ## Run
 
@@ -10,43 +14,97 @@ With the pinned SDK and local game configured for `tools/dev.py`:
 python3 tools/headless.py --repeat 2 --timeout 45
 ```
 
-Runs Python contract tests, builds the probe, deploys owned mod files, then launches the installed **MegaDot game executable**, not a reimplementation. Each iteration gets a unique `artifacts/headless/<run-id>/` with stdout, engine log, and JSON report. Reports record game version, source commit/dirty state, process status and individual checks. Iterations are bounded (1–10), timeout is bounded (5–300 seconds), and only a newly created process group is terminated on timeout.
+Runs Python contract tests, builds the probe, deploys owned mod files, then launches the
+installed **MegaDot game executable**, not a reimplementation. Each iteration gets a unique
+`artifacts/headless/<run-id>/` with stdout, engine log, and JSON report. Reports record game
+version, source commit/dirty state, process status and individual checks. Iterations are
+bounded (1–10), timeout is bounded (5–300 seconds), and only a newly created ownership
+boundary is terminated on timeout — a POSIX session group, or a Windows job object.
 
-The default remains pure `--headless`. Explicit `--display xvfb` starts a private virtual X server through xvfb-run and records `mode: real-game-xvfb`; it never silently substitutes this mode or launches interactive Steam. Xvfb compatibility is still under investigation and is not an accepted fallback yet.
+The default remains pure `--headless`. `--display xvfb` is a POSIX route only; on Windows the
+runner refuses it rather than silently substituting something else. No mode launches
+interactive Steam.
 
-The current `--scenario baseline --frames 2400 --timeout 90` driver executes `DamageCmd.Attack(6)` from a real monster, checks the actual damage result and player HP delta, then calls `PlayerCmd.EndTurn` and waits for the next player round. Both assertions passed in a native headless process; strict overall acceptance still fails on engine errors. This is an attack-command and native turn-scheduler test, not a full original-card play test.
+`--scenario baseline --frames 5000 --timeout 180` executes `DamageCmd.Attack(6)` from a real
+monster, checks the actual damage result and player HP delta, auto-plays Strike, then calls
+`PlayerCmd.EndTurn` and waits for the next player round. Both assertions passed in native
+headless processes on Linux (2026-10-31) and Windows (2026-10-31). This is an attack-command,
+card and native turn-scheduler test, not a full original-card play test.
+
+## Acceptance gate
+
+A zero exit code alone is never success. Two classes of log output are separated:
+
+- **Runtime errors** (`ERROR:`, `SCRIPT ERROR:`, `[ERROR]`) outside Godot's teardown report
+  must be absent. This is strict and unchanged.
+- **Engine teardown errors** (`leaked at exit`, `resources still in use at exit`) are compared
+  against the signature of a **stock control launch**: `headless.py` runs the same executable
+  once with `--nomods` and the same frame budget, and only the resource categories that control
+  produces are tolerated. Counts vary per run, so only categories are compared; a new category
+  fails the run.
+
+This does not claim a clean exit. It claims the mod introduces no exit error the shipped game
+does not already produce by itself, and the control evidence is stored in each report under
+`diagnostics.stock_teardown_control`. The 2026-10-31 Windows runs leak `Environment`,
+`DummyTexture`, `DummyMesh`, `DummyMaterial`, `DummyShader`, `ShapedTextDataAdvanced`,
+`FontAdvanced`, `FontAdvancedLinkedVariation` and the aggregate resource count with no mods
+loaded at all.
 
 ## Isolation evidence (0.107.1 / 59260271)
 
 Local inspection of the installed assembly established:
 
-- `NGame.InitializePlatform` recognizes `--force-steam=off` and returns before calling `SteamInitializer.Initialize`.
-- `SaveManager.ConstructDefault` constructs a Steam cloud backend only when `SteamInitializer.Initialized` is true.
-- Command-line arguments must reach `OS.GetCmdlineArgs`, so the option is passed as a normal engine argument, not after `--`.
-- The discovery launch actually wrote settings under the overridden `XDG_DATA_HOME/SlayTheSpire2/default/1`, not the operator's Steam account directory.
+- `NGame.InitializePlatform` recognizes `--force-steam=off` and returns before calling
+  `SteamInitializer.Initialize`.
+- `SaveManager.ConstructDefault` constructs a Steam cloud backend only when
+  `SteamInitializer.Initialized` is true.
+- Command-line arguments must reach `OS.GetCmdlineArgs`, so the option is passed as a normal
+  engine argument, not after `--`.
 
-Every invocation overrides HOME and XDG data/config/cache directories. A minimal fresh test settings file opts into mod loading only in that isolated offline profile. No normal settings, cloud saves, or current runs are read or modified by the runner. The installed game and mod directory are shared: mod deployment changes only the development-owned files. This is profile isolation, not an OS security sandbox.
+Every invocation overrides the user-data variables: `HOME`, `XDG_DATA_HOME`,
+`XDG_CONFIG_HOME`, `XDG_CACHE_HOME` on POSIX, and `HOME`, `APPDATA`, `LOCALAPPDATA` on Windows,
+where Godot resolves `user://` from `APPDATA`. A minimal fresh test settings file opts into mod
+loading only in that isolated offline profile. No normal settings, cloud saves, or current runs
+are read or modified by the runner. The installed game and mod directory are shared: mod
+deployment changes only the development-owned files. This is profile isolation, not an OS
+security sandbox.
 
-## Acceptance boundaries
+The resolved user-data directory and the Steam-disabled state are asserted from inside the mod
+(`ISOLATION_OK steam=false`) and the run fails if either is wrong.
 
-A zero exit code alone is never success. The runner requires the Steam-disabled log, no cloud backend announcement, no engine error, and the actual mod initializer marker. Even a passing discovery report explicitly says `combat_tests: not_run`.
+## Deployment ownership
 
-Still required for integration acceptance:
+Deploy writes only `Volibear.dll` and `Volibear.json`, records SHA-256 ownership under
+`.local/deploy/`, and refuses to overwrite unowned files or silently accept hand-edited builds.
+The marker deliberately lives **outside** the mod directory: the game scans every JSON file it
+finds there as a manifest and reports a missing `id` field as an error. `dev.py undeploy`
+removes exactly the files it owns and leaves anything else in place.
 
-1. Runtime assertion of the resolved user-data directory and Steam-disabled state is implemented and passed in a real headless launch (2026-10-31). The overall launch still failed its engine-error check.
-2. Structured scenario output from a real game driver, with scenario ID and per-run token, is implemented for the damage-command baseline. The runner rejects missing, stale, malformed or duplicate records and checks HP arithmetic independently.
-3. Original attack baseline, then lightning, block, Engage multi-hit/duplicate/skip/advancement/death cases.
-4. Two consecutive successful fresh-process runs.
-5. Reject missing or stale scenario reports and clean up on failure.
+## Still required for integration acceptance
+
+1. Lightning, block, and Engage multi-hit/duplicate/skip/advancement/death cases beyond the
+   current single-attack baseline.
+2. Windowed or virtual-display verification on Windows; only `--headless` is implemented there.
+3. Multi-round state machine, next-intent, and enemy-turn comparisons against the original game.
+4. A clean engine teardown, either fixed here or reported upstream; the current gate attributes
+   the leak, it does not remove it.
 
 ## Audio diagnostic (Linux)
 
-`VOLIBEAR_TEST_AUDIO_ADAPTER=1` compiles a test-only shared object and preloads it alongside the existing FMOD extension. It changes only FMOD Studio initialization to `FMOD_OUTPUTTYPE_NOSOUND` (2), leaving bank loading, game commands and combat unchanged. The runner requires an activation marker when this option is enabled. No original library is overwritten. A local directory symlink avoids ld.so's inability to represent spaces in LD_PRELOAD entries.
-
-Verified 2026-10-31: the adapter activated and eliminated the FMOD initialization/bank/listener errors in a real headless baseline. Native attack and next-round assertions still passed. Overall acceptance remains failed on renderer/text/resource leaks at exit, including when using the game's `NGame.Quit()` cleanup path. This option is still diagnostic, not evidence of a completely clean run.
+`VOLIBEAR_TEST_AUDIO_ADAPTER=1` compiles a test-only shared object and preloads it alongside the
+existing FMOD extension. It changes only FMOD Studio initialization to `FMOD_OUTPUTTYPE_NOSOUND`
+(2), leaving bank loading, game commands and combat unchanged. On Windows the option is refused
+with an explicit error: the adapter is an `LD_PRELOAD` mechanism, and Windows headless already
+initializes FMOD successfully with `--audio-driver Dummy`. No original library is overwritten.
 
 ## Initial environment observations
 
-The first headless discovery process exited zero, reported Steam disabled, and created isolated settings. It did not load Volibear until its fresh test profile opted into mods. Missing host libcurl caused Sentry extension/GDScript errors. A concurrent system `apt-get full-upgrade` was observed; no package-manager or system-library changes were made by this project. Such launches are **failed** discovery tests, not accepted baselines.
+The first Linux headless discovery process exited zero, reported Steam disabled, and created
+isolated settings. It did not load Volibear until its fresh test profile opted into mods.
+Missing host libcurl caused Sentry extension/GDScript errors. Such launches are **failed**
+discovery tests, not accepted baselines.
 
-Proprietary decompiled material, game assemblies, test profiles and logs stay local/ignored. Only independently authored code and concise API findings belong in Git.
+On Windows (2026-10-31) the first discovery launch loaded the mod immediately; the only reported
+error was the deployment marker inside the mod directory, a real defect in the deploy tool, now
+fixed. Proprietary decompiled material, game assemblies, test profiles and logs stay
+local/ignored. Only independently authored code and concise API findings belong in Git.

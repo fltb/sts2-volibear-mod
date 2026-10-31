@@ -6,6 +6,10 @@
     <AssemblyName>Volibear</AssemblyName>
     <Version>0.1.0</Version>
     <Deterministic>true</Deterministic>
+    <!-- References are the installed game's own assemblies, so restore needs no package source.
+         The .NET 9 audit feed would otherwise go to the network on every build and fail offline
+         with a lock-file error that hides the real cause. -->
+    <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
   <Target Name="CheckGameReference" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Set Sts2DataDir to your installed game's managed assembly directory." />

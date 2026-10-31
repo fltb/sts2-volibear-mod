@@ -1,43 +1,90 @@
-# 换机续作检查点（2026-10-31）
+# 换机续作检查点（2026-10-31，Windows）
 
-用户要求暂停开发并提交。目标未完成，自动目标已暂停。
+Linux 检查点之后已在新机器（Windows）重建开发环境，headless 闭环跑通。目标未完成：
+玩法、卡牌、雷伤、领域与正式迎战都还没有实现，当前只有探针和验证脚手架。
 
-## 换机配置
+## 本机环境
 
-仓库已包含资产、生产工具/参考材料及此次独立编写的开发工具；游戏本体、SDK、反编译资料、测试存档与日志不提交。安装合法 StS2 **0.107.1 / 59260271** 及 .NET SDK **9.0.320**。当前自动运行器为 Linux 实现，其他系统需适配进程组、启动文件与音频诊断。
+已安装并核实：
 
-在仓库根目录创建被忽略的 `.local/config.json`：
+- StS2 **0.107.1 / 59260271**（Steam，`release_info.json` 与 appmanifest 一致）。
+- .NET SDK **9.0.320**，隔离安装在 `%USERPROFILE%\.dotnet`，未替换系统运行时。
+- 仓库根 `.local/config.json`（被忽略）：
 
-```json
-{"game_dir":"/absolute/path/to/Slay the Spire 2","dotnet":"/absolute/path/to/dotnet"}
+  ```json
+  {"game_dir": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Slay the Spire 2",
+   "dotnet": "C:\\Users\\float\\.dotnet\\dotnet.exe"}
+  ```
+
+- Python **3.12.10**（`%LOCALAPPDATA%\Programs\Python\Python312`）。微软商店版不要用：它在这个
+  宿主上以 Low 完整性级别运行，写不了游戏目录和宿主 Temp，表现为 `Permission denied` 与
+  NuGet 锁超时；独立安装版是 Medium，正常。
+- 虚拟环境 **`%USERPROFILE%\venvs\sts2-volibear`**，含 Pillow 13、NumPy 2.5.4、SciPy 1.18.1、
+  fonttools 4.68。它故意放在仓库外：本会话的宿主会对**工作区内**的可执行文件降权到 Low，
+  仓库内的 `.venv` 因此同样写不了游戏目录。换到普通终端后仓库内 `.venv` 可用。
+- ffmpeg/ffprobe 9.0.2（`%LOCALAPPDATA%\Programs\ffmpeg\bin`，已加入用户 PATH）。
+- Node 24 / npm 12；`assets/animation` 与 `assets/cards` 已装 Playwright 1.62.1 及 Chromium。
+- 官方 Riot 录音 153 条已按 `official/inventory.json` 重新下载，11,873,857 字节，
+  `build_catalog.py --check` 通过（153 解码，目录一致）。
+
+Windows 上必须设置 `PYTHONUTF8=1`：仓库内脚本按 UTF-8 读写文件，默认 GBK 代码页会在
+读取报告时抛 `UnicodeDecodeError`。克隆时必须保持 LF：全局 `core.autocrlf=true` 会把
+换行改成 CRLF，`export_config_sha256` 等字节级校验随即失败；仓库已加入 `.gitattributes`
+（`* -text`）并在本仓库设置 `core.autocrlf=false`。
+
+构建侧两点：csproj 关闭了 `NuGetAudit`（探针只引用本机游戏程序集，不需要包源，审计会让
+restore 在离线时卡住并报一个误导性的锁错误）；`dev.py build` 在 `project.assets.json` 比
+csproj 新时传 `--no-restore`，避免每次循环重复 restore。
+
+```powershell
+$env:PYTHONUTF8='1'
+$py = "$env:USERPROFILE\venvs\sts2-volibear\Scripts\python.exe"
+& $py tools/dev.py doctor
+& $py tools/dev.py test
+& $py tools/headless.py --scenario baseline --repeat 2 --frames 5000 --timeout 180
+$env:VOLIBEAR_TEST_ENGAGE='1'   # 可选迎战变体
 ```
 
-```sh
-python3 tools/dev.py doctor
-python3 tools/dev.py test
-VOLIBEAR_TEST_ENGAGE=1 VOLIBEAR_TEST_AUDIO_ADAPTER=1 python3 tools/headless.py --scenario baseline --repeat 2 --frames 5000 --timeout 120
-```
+部署守卫会拒绝覆盖字节已被改动的已部署文件（`Previously deployed file changed`）。确认那是
+自己的改动后，删掉该 mod 目录里的自有文件和 `.local/deploy/Volibear.json` 再 `deploy` 即可。
 
-音频诊断需 C 编译器及本机原游戏 FMOD 扩展，不替换原文件。关闭迎战环境变量可跑无迎战对照。全部测试须禁用 Steam 并隔离 HOME/XDG；不要手工改普通存档。
+Steam 必须保持关闭：运行器传 `--force-steam=off`，并隔离 `HOME`/`APPDATA`/`LOCALAPPDATA`。
 
 ## 实际达到的状态
 
-- 13 项 Python 测试通过；net9 DLL 编译零警告/错误；游戏原生初始化和隔离断言通过。
-- 真实 headless，TestMode=false：原生怪物攻击使玩家 80→74；原版打击 AutoPlay 造成6点伤害。不是手动出牌/能量动作队列验收。
-- 可选迎战：仅包装测试用单张打击的 OnPlay Task；卡牌前效→真实 Monster.PerformMove→完成回调→后效。吸收从 DamageBlockInternal 实际返回值计量。
-- 简单史莱姆场景：吸收3、格挡30→27、完成回调一次恢复至30、重复请求不执行/不完成/零吸收，后效实际再攻击1。目标剩余生命15→8。
-- 原正常敌方阶段跳过目标 TakeTurn 一次；原生战斗历史中目标恰好行动一次，所有敌人历史条目数与敌人数量一致；回合1→2。尚无下一招/多轮完整验证。
-- 最新测试本机运行标识 `20261031T122149Z-4903b5f4`；场景及独立迎战证据校验通过，进程退出0，但严格总报告 FAILED：退出引擎资源泄漏未解决。此前两次独立进程通过基础迎战断言，但不能称干净集成通过。
-- FMOD NOSOUND 预加载诊断解决启动/音库/监听器错误；renderer/text/resource 退出泄漏仍存在。显式 xvfb 路线曾遇敌方回合等待超时，未验收。
+- Python 契约测试 21 项通过；net9 DLL 编译零警告/零错误；部署只写自有文件，`undeploy` 可回收。
+- 模组在真实 headless 进程中加载：`LOAD_OK` 与 `ISOLATION_OK steam=false` 均出现，
+  user-data 目录与 Steam 关闭状态在模组内部断言。
+- 战斗基线（Windows，2026-10-31）连续两个新进程全部通过：
+  `20261031T140510Z-07f9ffa5`、`20261031T140528Z-8752ebca`。真实怪物 `DamageCmd.Attack(6)`
+  使玩家 80→74；原版打击 AutoPlay 使目标 15→9；`round 1→2`；`testMode=false`。
+  更早一次同构通过为 `20261031T130756Z-d47bb1dc`、`20261031T130814Z-62d1fbd6`。
+- 迎战变体（`VOLIBEAR_TEST_ENGAGE=1`）通过：`20261031T140749Z-b1c1a028`。吸收 3、格挡
+  27→30、完成回调一次、重复请求不执行、后效再攻击 1、跳过目标 TakeTurn 一次。
+- discovery 通过：`20261031T140604Z-59512ef2`。
+- 卡图仓 `card_repo.py verify` 通过：89 张、356 个导出、89 张唯一母图。
+- 运行音频 `validate_audio.py` 通过：47 声音 / 54 cue / 26 段动作。
 
-## 下一步与未完成项
+## 退出期引擎错误
 
-1. 先解决严格退出错误；不要删错误检查或用模拟战斗冒充通过。
-2. 继续迎战死亡、战斗结束、多段、坚甲、非攻击、召唤、多目标、状态机多轮/下一招、意图播放与原版对照；窗口/资格的战斗清理及存档范围。
-3. 当前 completion 回调是开发测试效果，不是正式遗物/能力事件系统。当前补丁不作为普通角色玩法注册。
-4. 雷伤、领域 Tier2、正式卡牌/初始遗物、角色动画/PCK/中文集成尚未完成。RitsuLib 仅研究，尚未安装。
-5. dev.py 的 logs/undeploy 等工具入口待完善。
+`--nomods` 对照进程在完全相同的构建上产生同样的 RID 泄漏（Environment、DummyTexture、
+DummyMesh、DummyMaterial、DummyShader、ShapedTextDataAdvanced、FontAdvanced、
+FontAdvancedLinkedVariation 及资源总数）。因此运行器现在每次调用先跑一次原生对照，只容忍
+对照出现过的类别，出现任何新类别即失败；运行期错误仍然一律失败。这不是"退出干净"，
+只是把泄漏归因清楚，报告里保存对照证据。
+
+## 未完成项
+
+1. 雷伤、格挡、领域 Tier 2、正式卡牌与初始遗物：未实现。
+2. 迎战死亡、战斗结束、多段、坚甲、非攻击、召唤、多目标、状态机多轮/下一招、意图播放与
+   原版对照：未验证。当前只覆盖单次攻击与单敌行动。
+3. Windows 只有 `--headless`；没有窗口/虚拟显示路径。门/资格/战斗清理与存档范围未验。
+4. RitsuLib 仅研究，尚未安装；PCK、中文与角色动画接入未开始。
+5. 退出期引擎泄漏未解决，只在门禁里与原生对照区分。
 
 ## 代码风险提示
 
-EngagePrototype 的旧顶部注释尚待更新；Reset 尚未接入战斗结束，计数器生命周期待完善。无 SpawnedThisTurn 拒绝是首轮初始敌人的验证所需，但召唤目标资格未验证。只跳过 TakeTurn，原意图播放仍会执行。异常执行应终止场景，不能重试已发生部分效果的动作。不得将简单敌人成功扩大为全怪物兼容。
+`EngagePrototype` 顶部注释待更新；`Reset` 尚未接入战斗结束；无 `SpawnedThisTurn` 拒绝是
+首轮初始敌人的验证所需，召唤目标资格未验证；只跳过 `TakeTurn`，原意图播放仍会执行。
+异常执行应终止场景，不得重试已发生部分效果的动作。不得把简单敌人与单次攻击的成功扩大为
+全怪物或全卡牌兼容。

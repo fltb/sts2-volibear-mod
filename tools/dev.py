@@ -165,8 +165,16 @@ def main():
         print('Platform:', os.name, 'executable:', game_executable(game).name)
         print('PCK/Godot and RitsuLib: not yet configured; DLL-only probe supported')
     elif args.command == 'build':
-        call([c['dotnet'], 'build', 'src/Volibear/Volibear.csproj', '-c', 'Release',
-              '-p:Sts2DataDir=' + str(data)])
+        # The probe references the installed assemblies directly, so an up-to-date restore graph
+        # needs no package source. Skipping the implicit restore keeps the loop fast and offline;
+        # a changed project file or a fresh clone still restores normally.
+        assets = ROOT / 'src/Volibear/obj/project.assets.json'
+        project = ROOT / 'src/Volibear/Volibear.csproj'
+        command = [c['dotnet'], 'build', 'src/Volibear/Volibear.csproj', '-c', 'Release',
+                   '-p:Sts2DataDir=' + str(data)]
+        if assets.is_file() and assets.stat().st_mtime >= project.stat().st_mtime:
+            command.append('--no-restore')
+        call(command)
     elif args.command == 'deploy':
         deploy(game)
     elif args.command == 'undeploy':

@@ -101,7 +101,7 @@ class HeadlessRunnerTests(unittest.TestCase):
         return process, job
 
     def test_owned_process_timeout(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             directory = Path(tmp)
             process, job = self._spawn(directory, [sys.executable, '-c', 'import time; time.sleep(60)'])
             code, timed_out = headless.wait_owned_process(process, 0.05, job)
@@ -110,7 +110,7 @@ class HeadlessRunnerTests(unittest.TestCase):
             self.assertIsNotNone(process.poll())
 
     def test_wrapper_exit_still_cleans_group(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             directory = Path(tmp)
             pidfile = directory / 'child.pid'
             script = ('import subprocess,sys; from pathlib import Path; '
@@ -130,7 +130,7 @@ class HeadlessRunnerTests(unittest.TestCase):
                 self.fail('Owned child survived wrapper cleanup')
 
     def test_environment_isolated(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             directory = Path(tmp)
             env = headless.isolated_env(directory)
             for key, _ in headless.ISOLATION_BINDINGS:
@@ -139,7 +139,7 @@ class HeadlessRunnerTests(unittest.TestCase):
             self.assertTrue(headless.user_data_root(directory).is_relative_to(directory))
 
     def test_engine_log_preferred_over_redirected_stdout(self):
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
             directory = Path(tmp)
             (directory / 'stdout.log').write_text('')
             (directory / 'game.log').write_text('[Volibear] LOAD_OK\n')
