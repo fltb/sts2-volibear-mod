@@ -1,0 +1,12 @@
+{
+  "id": "Volibear",
+  "name": "Volibear Development Probe",
+  "author": "fltb",
+  "description": "M0 loading probe. Character and gameplay not implemented yet.",
+  "version": "0.1.0",
+  "min_game_version": "0.107.1",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}

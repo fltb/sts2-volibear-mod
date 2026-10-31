@@ -9,6 +9,11 @@
 **/.env.*
 /src/**/bin/
 /src/**/obj/
+/tests/**/bin/
+/tests/**/obj/
+/.local/
+/artifacts/
+/.godot/
 # Migration-only local tools/reports (contain machine paths; not repository entrypoints)
 /assemble.py
 /MIGRATION_SCOPE.md
