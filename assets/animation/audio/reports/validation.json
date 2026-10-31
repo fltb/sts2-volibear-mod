@@ -1,0 +1,390 @@
+{
+  "status": "pass",
+  "scope": "file decoding, format, silence, waveform endpoints, measured true peak, periodic-loop seam, hashes, cue references and action time ranges; not a human listening review or in-game mix test",
+  "unique_audio_assets": 47,
+  "cue_count": 54,
+  "animation_sequences_mapped": 26,
+  "source_files_checked": 7,
+  "manifest_sha256": "d22297d0713fa40042e5c3897ec191660f8876bf87e6032aa8ba2a3a27f54be6",
+  "action_cues_sha256": "5ccc73d0638905c188996d540c1017821de582e0b72af6620502f9fa6e213505",
+  "build_script_sha256": "d3972342b49c6d087d1269832470d8f6113e136f649d7270db04b6e9066a2d3b",
+  "validator_sha256": "03d8fcb0b569457742eebdf7ea0272ede165821b8ac1532518a816f76781aa78",
+  "assets": [
+    {
+      "asset": "claw_slash",
+      "ogg_decode_pass": true,
+      "samples": 38848,
+      "sample_peak": 0.7383038997650146,
+      "wav_sha256": "2ce22b8526f824988c2388e65d55cba81edbbe0c3eec444a366f57b5349d3c60",
+      "ogg_sha256": "f381f4ff8c78431bd3da33439fd5c56d01b430a78159fc40aa3a784329f0edcf"
+    },
+    {
+      "asset": "heavy_impact",
+      "ogg_decode_pass": true,
+      "samples": 38272,
+      "sample_peak": 0.7417845129966736,
+      "wav_sha256": "4872b5839d10cfb97e3bd69824b1a298401ef5536d0498f3ed799f3cf42e0e8a",
+      "ogg_sha256": "73f752f134c2e95f5468846c8877e5c5b07bc3702430e4b549f23ed4ea0f59dd"
+    },
+    {
+      "asset": "bite_hit",
+      "ogg_decode_pass": true,
+      "samples": 31026,
+      "sample_peak": 0.7408937811851501,
+      "wav_sha256": "cdac88cb8feacf2133d9b23938a0ab41474bc858876853da737b6a9e125ee0c1",
+      "ogg_sha256": "44ba0733acd5de69c91ba1dc7ccda9b2398fb7e0a14ff4494f8f439ef236bc42"
+    },
+    {
+      "asset": "guard_gain",
+      "ogg_decode_pass": true,
+      "samples": 30112,
+      "sample_peak": 0.6932972073554993,
+      "wav_sha256": "770f40dd98923b8ae8677c8bad83c2c2d6a32c2d6d25a8020e262346c5815c87",
+      "ogg_sha256": "6f648d9e4f1a0d87db6cb3b72ca7b725ce6f57471a013b15ef2d3c4b0b85c532"
+    },
+    {
+      "asset": "guard_hit",
+      "ogg_decode_pass": true,
+      "samples": 20032,
+      "sample_peak": 0.752201497554779,
+      "wav_sha256": "05b99f4405259a9ec97d32552c9cd57c651fa5e60fc85c4dfcc7ff7d85f9f162",
+      "ogg_sha256": "021e518dc52bb4be39430fe01ae85cb5f2ba4a68510621c98fd999c6a6fe5632"
+    },
+    {
+      "asset": "guard_break",
+      "ogg_decode_pass": true,
+      "samples": 16192,
+      "sample_peak": 0.4919746518135071,
+      "wav_sha256": "12b7a54cb9bc7561963bcbaf42ebd3f0c5b465b7a809697858f010e3bee9ed45",
+      "ogg_sha256": "95aa42b22132bba3269d417a43c558a2012b294f4b634cf9f06ba06faf347d49"
+    },
+    {
+      "asset": "counter_release",
+      "ogg_decode_pass": true,
+      "samples": 40672,
+      "sample_peak": 0.7456642985343933,
+      "wav_sha256": "b605717c8e8067a9a4fd431642b3e7c7d9c915f4c6bf8142494863695006c759",
+      "ogg_sha256": "aef069d9729637845634cbc01491ef80770a256ad69edfdca0ad4d2cb3cf187b"
+    },
+    {
+      "asset": "absorb",
+      "ogg_decode_pass": true,
+      "samples": 33472,
+      "sample_peak": 0.48563748598098755,
+      "wav_sha256": "1d8da4a34dcb7c156ce39dd6cd497e3760af5f6b750af703e92711a1433bbd55",
+      "ogg_sha256": "123c0175ff8440413788ddf677b9f51c43b294e07c13a8383a92af26bcca2f9d"
+    },
+    {
+      "asset": "lightning_strike",
+      "ogg_decode_pass": true,
+      "samples": 52800,
+      "sample_peak": 0.7173950672149658,
+      "wav_sha256": "97afee282fe69b1618e8a86342bb75580d1bf69c68397701655dd204743bf407",
+      "ogg_sha256": "be46ffaeb89ba1a76241a4fad0679eaade4dfaf4d08b646b1f992c8bd42bca8f"
+    },
+    {
+      "asset": "lightning_chain",
+      "ogg_decode_pass": true,
+      "samples": 43072,
+      "sample_peak": 0.6853984594345093,
+      "wav_sha256": "0333cf394123b1b577cc7a272fa4fdcc44649d7770352e2b9cee9adda2c95fe8",
+      "ogg_sha256": "40bd42bf70b5a5abe35393e4c7b97197a69d1f0ba3d25bbd344cabc6c007eee1"
+    },
+    {
+      "asset": "lightning_all",
+      "ogg_decode_pass": true,
+      "samples": 69600,
+      "sample_peak": 0.7312843799591064,
+      "wav_sha256": "b287cdca9b7bea69a7dd05a50665df37b6aa3a804eeae425d5edbcdc5950e6fa",
+      "ogg_sha256": "fa309d0de316f947911866e34d0858e6c496d3b9296b7b02f7179f19bc6546ab"
+    },
+    {
+      "asset": "lightning_growth",
+      "ogg_decode_pass": true,
+      "samples": 20032,
+      "sample_peak": 0.4273877739906311,
+      "wav_sha256": "c0279fcd0eba749d096b78f1bd638a2a5159aece9bee12766ff235f94f43accd",
+      "ogg_sha256": "6d44cef85657426c9f407d3f751338803cb86d5ad0f81ccaf916a0226f2eff2a"
+    },
+    {
+      "asset": "domain_enter",
+      "ogg_decode_pass": true,
+      "samples": 87360,
+      "sample_peak": 0.6893033981323242,
+      "wav_sha256": "e90ce1b3aaf4bfabd041c9248788118edf4aed66d2ca7502a1bcc7bcaca92053",
+      "ogg_sha256": "bb59ccbcf3040f439a989e8d17626c88633d09d15a6df94527b550f6cabcccbb"
+    },
+    {
+      "asset": "domain_exit",
+      "ogg_decode_pass": true,
+      "samples": 38752,
+      "sample_peak": 0.365522563457489,
+      "wav_sha256": "c31b5ffa10141b7c45649ae55a07c475232ce664181d17caab2e43e59354719a",
+      "ogg_sha256": "e8cf381921637e35589ed62cd152eaa3d96f5bc780aaf7e60e6b6f7a9bfe215b"
+    },
+    {
+      "asset": "domain_suppress",
+      "ogg_decode_pass": true,
+      "samples": 23872,
+      "sample_peak": 0.38057053089141846,
+      "wav_sha256": "71400b0e55e2e47efdfe89c40363eb90b1f267b041a84803dc37779b86d9882d",
+      "ogg_sha256": "bd62b49226f2da94d1fcf2748a78eec8fee93fae402e2c1220d34fd4bf98675a"
+    },
+    {
+      "asset": "card_purify",
+      "ogg_decode_pass": true,
+      "samples": 33472,
+      "sample_peak": 0.3309687077999115,
+      "wav_sha256": "9530fb11f5552dde3b9e6e13f1d6e6a4ab4e9b5cea35dffbaaf01f0623c1304f",
+      "ogg_sha256": "7b4c6b27c97461189861d02d5b74896eacf90ae4bce89d899445fe070c65cc94"
+    },
+    {
+      "asset": "feral_transfer",
+      "ogg_decode_pass": true,
+      "samples": 33472,
+      "sample_peak": 0.4470219612121582,
+      "wav_sha256": "2401b53fb372b00f0bb4b039dda3b6a4182fda700867797c39dbc26113af4cc7",
+      "ogg_sha256": "68310fc51ef35ab1fe0078c7cd4626eea9cb226c36041933c1ce56c912ddc6c4"
+    },
+    {
+      "asset": "feral_claw",
+      "ogg_decode_pass": true,
+      "samples": 35826,
+      "sample_peak": 0.7378168106079102,
+      "wav_sha256": "21722077d9eacbd56be47ff3128d5714c89e5d3a986bff4b4abbbd824157d8a5",
+      "ogg_sha256": "cfdcbf6cdc72c8e209550cad012e2b8a51708e90d0a5b4bfbb45e6a99c277d15"
+    },
+    {
+      "asset": "feral_body",
+      "ogg_decode_pass": true,
+      "samples": 33472,
+      "sample_peak": 0.46453621983528137,
+      "wav_sha256": "acd4f7c8b3aa32fe42c2ae369e263377abd5705cb1a0819cd896d96ea3374768",
+      "ogg_sha256": "d5b70a05cfe102f303bb852400982d24b3bfc7c47b689b1013197e673374a743"
+    },
+    {
+      "asset": "mark_bite",
+      "ogg_decode_pass": true,
+      "samples": 13312,
+      "sample_peak": 0.49808651208877563,
+      "wav_sha256": "56a1f8c84ca665af314e6f57f629885fa06233a19789400c008a1bf55bd0708d",
+      "ogg_sha256": "95050891a30df90ab53caa8e02ccfe7bc3730e5a91e715388d707b4b29393886"
+    },
+    {
+      "asset": "charge",
+      "ogg_decode_pass": true,
+      "samples": 47872,
+      "sample_peak": 0.6403194665908813,
+      "wav_sha256": "2d47a8c740c733b3ff162f6bfcb937e6b41b09493a1ecf64d90c2bfe9d5a50d1",
+      "ogg_sha256": "de56adf718626277c96ab4a7ae12c069a358b09c4e491e8447aa54fd80781ac6"
+    },
+    {
+      "asset": "card_draw",
+      "ogg_decode_pass": true,
+      "samples": 10912,
+      "sample_peak": 0.42666834592819214,
+      "wav_sha256": "c3777fac923da5b8b2329a2a49a36d669129bf277240cac5fcf608e95b8edc83",
+      "ogg_sha256": "563887e37d4cb939bd025eece33480a8f7565b34ee804c77253cbc518b3113ce"
+    },
+    {
+      "asset": "card_retrieve",
+      "ogg_decode_pass": true,
+      "samples": 20512,
+      "sample_peak": 0.39360588788986206,
+      "wav_sha256": "73b84b433f4cbd5e532b0899dad5156bcc142fcd8f5204a7bf647d13e2fd8f4c",
+      "ogg_sha256": "71e4869ae298f40f7be259d21a54dc28e33ee4ec22cc844a2a5cc04f0c6f8f23"
+    },
+    {
+      "asset": "card_discard",
+      "ogg_decode_pass": true,
+      "samples": 14272,
+      "sample_peak": 0.5113130211830139,
+      "wav_sha256": "10548101de3b164b65ccdd2efa5896b6e9baaa9910fff548188a5aa7bfe61823",
+      "ogg_sha256": "b4960842df617c3f233ee82b18d22218ed7b75cb31ebd4dd3e9fea8c11d09c0a"
+    },
+    {
+      "asset": "card_exhaust",
+      "ogg_decode_pass": true,
+      "samples": 26272,
+      "sample_peak": 0.4710858464241028,
+      "wav_sha256": "fc50fcdaf0d700a3dbf19f00508a9f53ea5beb59e7e32d786006e3729695bdf4",
+      "ogg_sha256": "333015a91ea43a5349b9881257688ec5eced60b50967266f0e6ee6c6b0bad856"
+    },
+    {
+      "asset": "energy_gain",
+      "ogg_decode_pass": true,
+      "samples": 27712,
+      "sample_peak": 0.3340262770652771,
+      "wav_sha256": "d70216ee9e08a8348b01d857cf8d10d71afcbe1cba61d1337336dea0c8d93355",
+      "ogg_sha256": "2ab0c95dcb10a98c5bc186cf4919b7c8408c96c24209df304cf98d96406f95a2"
+    },
+    {
+      "asset": "card_replay",
+      "ogg_decode_pass": true,
+      "samples": 26272,
+      "sample_peak": 0.5332217812538147,
+      "wav_sha256": "0f07524e1efe9a1640b82137150ec2872e3617ffd2b96ad589e632a4752d8627",
+      "ogg_sha256": "4dff334f913bfc01164cb00368bcce924910ed784c352110c96965d196a6086e"
+    },
+    {
+      "asset": "lifesteal",
+      "ogg_decode_pass": true,
+      "samples": 37312,
+      "sample_peak": 0.5669097900390625,
+      "wav_sha256": "fa3ef88d58016c11bdb88de220dedb5fffe4aa4944854d689fe9bc03351b29cd",
+      "ogg_sha256": "2c0ce3b8c0a81611e244778880fbbc590d9df9b52ecd0b1703d37b6311737e25"
+    },
+    {
+      "asset": "heal",
+      "ogg_decode_pass": true,
+      "samples": 38272,
+      "sample_peak": 0.3980289399623871,
+      "wav_sha256": "9dc4c21c1daf318a6886e889d93ffec1dd3fa5a9257d2d1947658b05f576c08f",
+      "ogg_sha256": "70670b97346ed1275a3f531e4c772f00ff968c25925be9f66d152a9eaa86684d"
+    },
+    {
+      "asset": "roar_wave",
+      "ogg_decode_pass": true,
+      "samples": 43072,
+      "sample_peak": 0.4365493059158325,
+      "wav_sha256": "a19f4837f4b50422e241b734c8f4b3c80069055fa9f27e0b94c7f6859270520c",
+      "ogg_sha256": "09e86d893258fb6eebff0e48b564d26eb35787713c577cdefb333f724f6b2cb4"
+    },
+    {
+      "asset": "cast_charge",
+      "ogg_decode_pass": true,
+      "samples": 38272,
+      "sample_peak": 0.457607239484787,
+      "wav_sha256": "f60b5fab9b70025cfbb53369c95e53e4c226f12fa6da1d0c0ac6468e66547ce9",
+      "ogg_sha256": "0f07315e9eb918b2329922c2d0cb6a72b02b6615c8babe3aaa75813e362a6994"
+    },
+    {
+      "asset": "footstep",
+      "ogg_decode_pass": true,
+      "samples": 17696,
+      "sample_peak": 0.47117966413497925,
+      "wav_sha256": "42d58f25e71124563d67fc3a356e2ff32bd75d27948ad33fec64ebb2b5d4e32b",
+      "ogg_sha256": "06788899b0d1261717fac5fcf6b763ab471f6647114bd3b109bed5c8c7c862f5"
+    },
+    {
+      "asset": "domain_loop",
+      "ogg_decode_pass": true,
+      "samples": 192000,
+      "sample_peak": 0.15007972717285156,
+      "wav_sha256": "1dbfc081801f4323b32cc319e03c5afc4ab03e00be44137f87226d589c0bd6c7",
+      "ogg_sha256": "dc7c58cce8c92db173a175a47da2b6cdf618ea4074275796cdb42cc158c6bd45"
+    },
+    {
+      "asset": "feral_aura",
+      "ogg_decode_pass": true,
+      "samples": 192000,
+      "sample_peak": 0.11828818917274475,
+      "wav_sha256": "86a3736b59c9095633ec32dc521ce908a2afd0223cf4347afd1bf28bff6ce2c9",
+      "ogg_sha256": "cf06a83f0fa8ef4e8394a754f9a623ac6f88ca67fa83ac3730d475a89893a31e"
+    },
+    {
+      "asset": "voice_select",
+      "ogg_decode_pass": true,
+      "samples": 63320,
+      "sample_peak": 0.5766332745552063,
+      "wav_sha256": "359275b8f8aef2578cd4a040ea7f2efabcee095ceda33aaf338eb5f3f1b4be03",
+      "ogg_sha256": "6bb46d206f66e0b002ebea8f603ce694f86e56da196db3223ceab9aea1ebcded"
+    },
+    {
+      "asset": "voice_attack_01",
+      "ogg_decode_pass": true,
+      "samples": 27525,
+      "sample_peak": 0.49730151891708374,
+      "wav_sha256": "3704a5f2f47021241fd144d5b5a222cb9f156df1918336edb1be2756a42c369d",
+      "ogg_sha256": "06eaf06386aa4b95714bfbb8075bb9e6393ada25e1c007e1bda5684baebfce8b"
+    },
+    {
+      "asset": "voice_attack_02",
+      "ogg_decode_pass": true,
+      "samples": 36638,
+      "sample_peak": 0.7198011875152588,
+      "wav_sha256": "4166ab0bcf0064aacde58306169b1777ad84635cea9bf1c7c98be4a179e1d656",
+      "ogg_sha256": "ad8e28d6a2e798789d671f6f764226e073e1cdbeb0a56e48b231e6a0134d0d36"
+    },
+    {
+      "asset": "voice_heavy",
+      "ogg_decode_pass": true,
+      "samples": 58667,
+      "sample_peak": 0.3979594111442566,
+      "wav_sha256": "0088637fee7bfaea8fd272aaff3038e469924b31e356d5998c61d43d9b5313e1",
+      "ogg_sha256": "906915e72e7e8a1a6d4f82422a6ac152a04465c3feb3883ef0c818b60f6386f3"
+    },
+    {
+      "asset": "voice_bite",
+      "ogg_decode_pass": true,
+      "samples": 28672,
+      "sample_peak": 0.34254831075668335,
+      "wav_sha256": "b272ec9abe1ac906f7022bd3644c382f0151c835dbf9057e9ca51f954d03d50a",
+      "ogg_sha256": "007059d2dbe7524344aa1a552f10d98ed23bd3eb29fddef105f2f4e6e5a322d8"
+    },
+    {
+      "asset": "voice_cast",
+      "ogg_decode_pass": true,
+      "samples": 36128,
+      "sample_peak": 0.5963575839996338,
+      "wav_sha256": "80217909cd5673ec16557bee9c7d41d2b1d737898747ecf3ef42122db93ed471",
+      "ogg_sha256": "391031e0d1cd9b27d9f74f68f019650c5a634894d47562a3ec071f8698db2fc9"
+    },
+    {
+      "asset": "voice_hurt_01",
+      "ogg_decode_pass": true,
+      "samples": 29520,
+      "sample_peak": 0.5528954267501831,
+      "wav_sha256": "e8235a81a5e75bc1bd44cdbb62ee42feaf60a38aca950e8b53b7e50866407cdc",
+      "ogg_sha256": "f8afbb98160f5dac8e5011633f22557f56dbaabd16194960a99ce720e31b1f16"
+    },
+    {
+      "asset": "voice_hurt_02",
+      "ogg_decode_pass": true,
+      "samples": 29232,
+      "sample_peak": 0.44245225191116333,
+      "wav_sha256": "260a55de8b15c383993199d1b876cf9b0c16691b67a7c55404d160c4ce7acbe7",
+      "ogg_sha256": "fcf52789024801175f8b68e0a09dc3eb95663201b75f70003c38fc49aee7cc4c"
+    },
+    {
+      "asset": "voice_low_health",
+      "ogg_decode_pass": true,
+      "samples": 39500,
+      "sample_peak": 0.404861718416214,
+      "wav_sha256": "1c79b44e81b23af5843cebc910592623010bb634017259540d028dfc012cf39b",
+      "ogg_sha256": "039e2aa884c0a30fbcf40d39ffd9113b808e2a0d64625b4de6b5070ebd949911"
+    },
+    {
+      "asset": "voice_roar",
+      "ogg_decode_pass": true,
+      "samples": 90720,
+      "sample_peak": 0.4439272880554199,
+      "wav_sha256": "3c90396e49c38476927640ed631329c545f60f780bcfb00e670056e6f2498d65",
+      "ogg_sha256": "40e3aa6b8d0311705ba7afef9c61571d03b3b6cdf970d761fe70026621a25993"
+    },
+    {
+      "asset": "voice_feral",
+      "ogg_decode_pass": true,
+      "samples": 85867,
+      "sample_peak": 0.37050843238830566,
+      "wav_sha256": "187f8e71f4c0fb7e729f691f7a53ef677a655a51b1f2c1e2ce709b1db3149dd3",
+      "ogg_sha256": "eb5a5dca4d453899f6b065a7536b72249866a94110d2f822c18d28eb804f830e"
+    },
+    {
+      "asset": "voice_death",
+      "ogg_decode_pass": true,
+      "samples": 118286,
+      "sample_peak": 0.6485149264335632,
+      "wav_sha256": "a89f92699155329960c74d3e3bf9654f21a65c67b10f2afa5fc979e9dada6802",
+      "ogg_sha256": "19e597a5eb6309d1247b3e83d714761b86d3a988f6d8ba22642dadc60ff1f87d"
+    },
+    {
+      "asset": "voice_victory",
+      "ogg_decode_pass": true,
+      "samples": 58500,
+      "sample_peak": 0.4511810541152954,
+      "wav_sha256": "208aa770d0c3faa60725535d3d3bd9150be389a609363b3c49199c25195bd4c8",
+      "ogg_sha256": "ad1937b97de2c32744a526516def111e357c8875ecfc4137a0db706e9e7f244b"
+    }
+  ]
+}

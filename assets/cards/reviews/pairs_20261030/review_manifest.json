@@ -1,0 +1,30 @@
+[
+  {
+    "candidate": "B01",
+    "source": "dsh-image-gen/image-885b49b0.png",
+    "sha256": "885b49b009762e3edb1a2f14c017fcbe7b8759bc3cc39f15f70903dcb644cf51",
+    "paired_reference": "B02",
+    "reference_sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb",
+    "status": "pending_user_review",
+    "formal_master_replaced": false,
+    "provider": "chatgpt-sub",
+    "model": "gpt-image-2.5-flare",
+    "tool": "edit_image",
+    "aspect_ratio": "4:3",
+    "identity_reference": "references/identity/volibear_approved.png"
+  },
+  {
+    "candidate": "T02",
+    "source": "dsh-image-gen/image-c6a2fcf9.png",
+    "sha256": "c6a2fcf933b921b0762c432e4bd77e361d0598633631a32532335123ebf1d910",
+    "paired_reference": "T01",
+    "reference_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff",
+    "status": "pending_user_review",
+    "formal_master_replaced": false,
+    "provider": "chatgpt-sub",
+    "model": "gpt-image-2.5-flare",
+    "tool": "edit_image",
+    "aspect_ratio": "4:3",
+    "identity_reference": "references/identity/volibear_approved.png"
+  }
+]

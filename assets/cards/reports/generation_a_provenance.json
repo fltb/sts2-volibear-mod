@@ -1,0 +1,56 @@
+{
+  "real_tool": "builtin image_gen",
+  "attempts": [
+    {
+      "id": "B02",
+      "attempt": 1,
+      "sha256": "344f874f2c73d8d2fec2a767baf05ee766d52169aec6c1f06f75dfdcefaee8f3",
+      "exact_prompt_path": "cards/prompts/B02.txt",
+      "retained_raw_path": "cards/source_raw/B02.png",
+      "selected": true,
+      "original_tool_output": "/workspace/scratch/6d72a9858741/generated_images/exec-5affb7de-53d9-44fe-83ee-c23e9c10a880.png",
+      "operator": "card_anatomy_a"
+    },
+    {
+      "id": "C14",
+      "attempt": 1,
+      "sha256": "a8ed8f4bc4a6eeb1c3d08846081167b790fd38307cd934457341b4a9ac9c3d32",
+      "exact_prompt_path": "cards/prompts/C14.txt",
+      "retained_raw_path": "cards/source_raw/C14.png",
+      "selected": true,
+      "original_tool_output": "/workspace/scratch/6d72a9858741/generated_images/exec-d9eaad91-dbd1-482f-aa5c-7c218c2a2aa9.png",
+      "operator": "card_anatomy_a"
+    },
+    {
+      "id": "C17",
+      "attempt": 1,
+      "sha256": "17ecb554231ae764223f5fa2919598a2cb0aca1fca1c8b5797fd629e477527ad",
+      "exact_prompt_path": "cards/prompts/C17.txt",
+      "retained_raw_path": "cards/source_raw/C17.png",
+      "selected": true,
+      "original_tool_output": "/workspace/scratch/6d72a9858741/generated_images/exec-a582c402-67a4-479f-aa00-204fdbbd7bb1.png",
+      "operator": "card_anatomy_a"
+    },
+    {
+      "id": "U12",
+      "attempt": 1,
+      "sha256": "45e36f94d46327e6ab0b0d6df2c3ba2fab5f7c6f25dcf4350acee23f9036b81b",
+      "exact_prompt_path": "cards/prompts/U12.txt",
+      "retained_raw_path": "cards/source_raw/U12.png",
+      "selected": true,
+      "original_tool_output": "/workspace/scratch/6d72a9858741/generated_images/exec-715093b2-de0e-494f-a66d-b42cfd904ae7.png",
+      "operator": "card_anatomy_a"
+    },
+    {
+      "id": "U13",
+      "attempt": 1,
+      "sha256": "49fee9e432dfc478b72081d0f13e303aab9a266c734ca5106043f3174d2effff",
+      "exact_prompt_path": "cards/prompts/U13.txt",
+      "retained_raw_path": "cards/source_raw/U13.png",
+      "selected": true,
+      "original_tool_output": "/workspace/scratch/6d72a9858741/generated_images/exec-e8b9b3ac-9cb6-4b0b-849f-8288f0e458d7.png",
+      "operator": "card_anatomy_a"
+    }
+  ],
+  "actual_generation_timestamps": "not reconstructed; source tool outputs retained"
+}

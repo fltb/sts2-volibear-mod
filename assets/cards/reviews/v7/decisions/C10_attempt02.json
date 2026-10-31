@@ -1,0 +1,41 @@
+{
+  "id": "C10",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "9c89f3e0cf8e25dfea059abbc5d3e55ef92b69280b05747f17269fb7dc76073d",
+  "master_sha256": "e48b9666cf53016e5d5cd96d7d31a3a3c2d2fd050e246e588f770192d831229d",
+  "comparison_sha256": "f9054292b6c066c2539097db11a72de50a80edf826577917696d6cd0e061c537",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "俯视局部中，熊短臂抵住连续杆身，杆连向敌人握持手与胸侧，暖色反力结果落在敌端。没有前臂绕成环或熊脸挤接点。",
+  "baseline_comparison": "从C08借清楚接触，从R12借完整体块；相较首稿和B02，已换成武器连接两端的俯视构图。缩图保留抵杆端、握手端和受力胸侧。",
+  "paw_orientation_observation": "熊手端收在杆后，没有外翻爪；敌人握杆四指与腕/前臂相连，不悬浮。",
+  "quality_axes": {
+    "main_read": 17,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:38:06+00:00"
+}

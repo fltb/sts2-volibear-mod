@@ -1,0 +1,54 @@
+{
+  "id": "R25",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "341a9c4725f48d611cfced747725182841166a096d7aca83711bb8b1cf7c937e",
+  "master_sha256": "be8dacc2f1ee368317a6c90a0bfb11b0c393f1ad14f3826422b3b10f4b1624dd",
+  "comparison_sha256": "cc364cbacda21e175ee8639e0a3c13f96018f6182173a719f929a6eae598b6ba",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "粗旧边界槽的两端断面对应，侧风暴进入缺口形成短青白连接；暗旧槽与明亮恢复段同属一个连续方向，空缺没有被碎光淹没。",
+  "baseline_comparison": "与C24雷路径及U19同源风暴语言相容；改为地面边界的重连，不再天空大圆环或另一张落雷图。缩图缺口两端与连接区仍清楚。",
+  "paw_orientation_observation": "纯环境机制图无身体零件，不存在混淆掌脚或异常关节。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:57+00:00",
+  "master": "cards/masters/R25.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/R25.jpg",
+  "anchors": [
+    "U19",
+    "C24"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

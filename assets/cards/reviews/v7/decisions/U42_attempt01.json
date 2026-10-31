@@ -1,0 +1,41 @@
+{
+  "id": "U42",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "2208dea432b92857bbcfa37f43a1591d710001a2aa9efc40f4bbf0e9cf1399cc",
+  "master_sha256": "651dabda7c4c7fdcb3eee9a8bd11f965a4d9935bdad09e06bf3fc4f719535e44",
+  "comparison_sha256": "74a37c9809143da5c0a7135961027b03802be283116ad9f53fba8be905df8674",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "完整独立护片的中央平面、厚边与连成宽底的毛缘同属一物，板上纹理连续。无熊头、手腿或莫名颈部。落地影与暖底让护体材料的重量清楚。",
+  "baseline_comparison": "借C12厚毛和U03稳固落地的大形，主角退出画面，转化结果成为厚护片；与R28局部触压过程的镜头、颜色和完成状态区分。",
+  "paw_orientation_observation": "独立护具，没有实体肢体；毛边不构成残手或残腿。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:31:51+00:00"
+}

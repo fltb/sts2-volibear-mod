@@ -1,0 +1,2240 @@
+{
+  "schema_version": 1,
+  "version": "V5",
+  "status": "pass",
+  "checked_at": "2026-10-27T12:28:50.797246+00:00",
+  "baseline_zip": "volibear_cards_repo_v4.zip",
+  "baseline_zip_sha256": "0f9bc8c4ff1a0fcd6dbf5b338ded573fedbfedaeec491c3366062a79a62dfda8",
+  "master_count": 89,
+  "production_export_count": 356,
+  "artwork_changes_this_round": 0,
+  "new_art_review_claimed": false,
+  "actual_comparison": "All 445 current file bytes SHA256 matched corresponding V4 archive entry. V4 approvals remain artwork evidence; this is a preservation check, not a new visual approval.",
+  "files": [
+    {
+      "path": "cards/masters/B01.png",
+      "sha256": "7afe4de919ecdd2a92d7c4754ed6039ef961ecd9f14a933085876766aa8ab0c0",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/B02.png",
+      "sha256": "b2727d8a8417ad141b16e3ee4026dbc6b25ded663af4e175ce03ae27d078e5bc",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/B03.png",
+      "sha256": "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/B04.png",
+      "sha256": "d41fa09420b56baeaad8a6969e644416399afd1bc461dbf8f2256f82e54ab5c1",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C01.png",
+      "sha256": "39adae1a09cf5f77c6b98c0113a5c70f8b50b00cca1cc34eb4f5cd6fb0b6b3d3",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C02.png",
+      "sha256": "ca427390b40c9908840b150e4a66da487cb6cc26846d82f48077fd9002045370",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C03.png",
+      "sha256": "372dc5ec3c551c118593a5120e30222e9b1c4dc1832e1d3a76268601c70a088d",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C04.png",
+      "sha256": "2f391aa9addf17bf170b5df3171688d81ab3438a303cebec2f7f25317619a781",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C05.png",
+      "sha256": "777290499e3cb81863058f5728fa225c0ded9878d056027a8f3e0adcae808b6f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C06.png",
+      "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C07.png",
+      "sha256": "5cb5766b0f5eac8cb0a05f74606bff37e38e1999900a7ff500403b7227026a6f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C08.png",
+      "sha256": "5be8cef9d73dd85fa5c2c99b1d017c17df35a2883f7eff1c74f914581f86ae9d",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C09.png",
+      "sha256": "e5c2c810b3ca63356a117a6bb47af26a5698b61da604f71904830bb96d8f5e5e",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C10.png",
+      "sha256": "aa0a3b4b080aa4291a1612958df1b05177c5cb26e81fbae0a13ee683d2445105",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C11.png",
+      "sha256": "a642e0af171263bbab6b728308821b9e5a34ce27d96844d5c7d9666d7e6d543c",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C12.png",
+      "sha256": "75de6910939940fd2013b17d98dcc9d9c5a53b5cd819692d4e2ac5dc5f95d0ae",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C13.png",
+      "sha256": "b4d0180fa8014c8f04967b1b6b1b15ae9ab80dc01c04da6d00dc9b35b2f0dcbb",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C14.png",
+      "sha256": "36648271e1678dffa797313dc5046be94083ce0389cc4ee5b31c2a91ad1fdf6c",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C15.png",
+      "sha256": "88bb500439200ea43fb60c79ebce3da8113d83d1d1b0403c546d5f08f7553381",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C17.png",
+      "sha256": "8a8d9569db7bf80674796767a05ae1d0fcc4ae4da9fbc474763e6253cf86fe76",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C18.png",
+      "sha256": "af405b611df056db21695c555554584bf07527ce0eb517b96719418848f11a95",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C19.png",
+      "sha256": "f66c2da1cef70f0562c78d273c6d938c4695f906aea53d493ab250bb47e695e4",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C20.png",
+      "sha256": "eb5fc7495fd5914ce936526212dd1c0526489ea4c6ff251a66b4256bed44fad9",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C21.png",
+      "sha256": "8b7c4774c6f21e6f77ff38f8d680a37b620a72c6b4addb351f0e530eccb46c6f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C22.png",
+      "sha256": "efeb82f196389b81ca923d468922b357eb28b202f6972f6006f04e040b91f997",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C24.png",
+      "sha256": "dd8877dd9c4c547c3c1ac26e8b52ad33386fcb9436b6dcfe32bcedd01af9abde",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C25.png",
+      "sha256": "3c0018ef280cf4953cc7f0a81ddcbd56996bfa93382f690c2b72e83fd9960186",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/C26.png",
+      "sha256": "5de257dd4487c098fb639199ff528483bd08b794ee39a49d52591e71d3b9a74f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R01.png",
+      "sha256": "ec69eac27233211d000934a543a21cfe7ea7164c1661836906c737d9b11b1a84",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R02.png",
+      "sha256": "312696c0a6a0dd7bc2001c918366be7b936aeef67fb945d46081267dd6756769",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R05.png",
+      "sha256": "67098adf6c4bfcdc98f89bd1b88028d35ae5d11a9cb5dd68675f279069de19dd",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R06.png",
+      "sha256": "4c577e71b0a0d86ac21e4ba77c24612c2a37b3989469740a8a4f2b135a7ae57d",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R07.png",
+      "sha256": "11450ca971cb3241db1ec7c2c86e521be7714729bfa24d899d4a95fbd7b1beff",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R08.png",
+      "sha256": "c58528af8c9ef29a0e7601f446dc408ff99d09fee48007a7cb2ac702e3158b83",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R09.png",
+      "sha256": "c5fbb9517840a49632f1d43b2f991bd7c06789ec90987ae7d23da3b25aec3333",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R10.png",
+      "sha256": "6677751b7a90e9c2f12e61493c1e8320465d8848d04e2e7e3ddbb461178f608f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R12.png",
+      "sha256": "35610d79979d826e35fd0398e86144fe13517614b5d3b3a3d38a520f3817549e",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R13.png",
+      "sha256": "ace0fc6e50d563f6520f092365876331731dd78fdcdb472ca99ef34fbd277cfc",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R14.png",
+      "sha256": "d40e52d4b933f1954923f588def0521ade8bdc643d8d9c181e062029295e51ec",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R16.png",
+      "sha256": "33162da1a3e9b4e3f95ca14959f87d64ae5a5f3719346cb0f069ac64cdbbb08f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R17.png",
+      "sha256": "9a5b06069d80f536d5e02c994a26e5e7cf53530328bd506b5bdbf80bd9eef363",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R18.png",
+      "sha256": "29c6fbfde3f4d96b565dc62fe0821c6702a9ee104ac3b1732fc34c20220cca37",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R21.png",
+      "sha256": "bbdc17dab04f8ff526234842176719cda7f9cba8a3c386e412aaf300803623b5",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R23.png",
+      "sha256": "0e4d748aa18aaf40b78fb09a418cfa53c90af602bb16170ee17ffd0e2f92c298",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R24.png",
+      "sha256": "6e27636c36f49a91a10f3161feb83275647ab626c699bd857c1bd3a9ede202a4",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R25.png",
+      "sha256": "ba591572056878c8923c0f8ce7c82adc51cdbde622dab00c724fd006fc5d4e01",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R27.png",
+      "sha256": "962a8daa8cd2784e56e0d8be902768696a9806fee117dd3931d6dd768db65b0f",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R28.png",
+      "sha256": "897bffd03863cd021c089e3a39c57219e46ea10a7c667fd9c467362d853f3dbd",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R29.png",
+      "sha256": "94e1706b9372215beff171042d948b9b481e035970cad88310d693cd2aceeeac",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R30.png",
+      "sha256": "ed025c9d201995d6c3a89b341093584aea553a3fd49eb1c7223ce17f3170a51a",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/R31.png",
+      "sha256": "82674fe59ac1bb889e6c187b669d4a4e46ebc12c34b99a8d28a570e158a40e61",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/T01.png",
+      "sha256": "4cfdb6bde980581c1da44548db6d56450e15f64c08cbcbb13bd22223369b593c",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/T02.png",
+      "sha256": "e139cf1599e3d4ede7557e0c372c454ab3c2d17ce443af6572020c37431bf548",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U02.png",
+      "sha256": "a306f33e15a840fecca9204e88b6a5a7df32e4571868b98d52c6fad6cd114f58",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U03.png",
+      "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U04.png",
+      "sha256": "1e1350ccd474cfc2ec871578f6f80f56ce9af7400375397d5b2b1e7a9badfda3",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U05.png",
+      "sha256": "0be9c30dff28eb18a69efb3df7376fddaa86f0655ae9a50c1b7906d346d6e989",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U06.png",
+      "sha256": "3c6ee9d957653540ec150acb7996c355b7933afb0d1297899f65a6b8bd1fc2ba",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U07.png",
+      "sha256": "8d2f892734851c8249f63638576bee022f446e579d9cf6b9385a2994f4109e93",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U08.png",
+      "sha256": "368d1275168ae2fd70c3c527e195f7dc1749ba58bf8640400e8abf7d38599425",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U10.png",
+      "sha256": "4a24e8c1082b0e063358726f9f911af31caceed931425fc60ff6e04a26dd3c13",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U11.png",
+      "sha256": "70ef9ef1c30f1635dca9855bc4bf11073ce5d0aaac702c664e5633e99e0b5657",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U12.png",
+      "sha256": "2362537520959793d2c7856dbc751d0f7a2a2da50c895f6bafd9dec7159c8b92",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U13.png",
+      "sha256": "49fee9e432dfc478b72081d0f13e303aab9a266c734ca5106043f3174d2effff",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U14.png",
+      "sha256": "5e6a8cf2dff3faf582b1129688a357d7deb1b795ae22b95a7d76f619308b866e",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U15.png",
+      "sha256": "3259ac37bc3acd43c6aa7ca3bffe4a28c38355a59d0cbefb516abe030cbe3118",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U17.png",
+      "sha256": "cf29af66573c945eb08005c0a607771f6511e6f4ded815aa7fbcca4d0946c65c",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U19.png",
+      "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U20.png",
+      "sha256": "880fa8857f58ec180833b737505ef9cc8af258704edf1a577671dcc807975860",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U21.png",
+      "sha256": "7d2eea090cd8d20adc561d6f5dcb7d3c765cf47ac8de84c4d6d790da54ce6623",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U23.png",
+      "sha256": "671d7f310e0666d034d1b04ec52225eb17278b57cf2881a7a320748da80ae912",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U24.png",
+      "sha256": "5b2fd771d35ad7c7d5a313a3ae6f7ecc5d848b9f9d98993ee1d12493cca5215e",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U25.png",
+      "sha256": "85f67c38309a99eee889fa76d564bb8c4031208320c650e245ce9a50a7a26441",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U26.png",
+      "sha256": "2d6f8306907c19d91f125a0b67012338731a95f9fce0faa5fcc23ee6895ea2bf",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U27.png",
+      "sha256": "4f19da046f0e62947f3bab2bb26ea7ac288aa4a85675eeaf1d260943bc6eab01",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U28.png",
+      "sha256": "417774aeaa41527035cadb841a0602efa717978295a5451cfe7de9f327d72ec9",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U29.png",
+      "sha256": "a7b56b4bfa9c92bc47e4d60c7c6f19f1a5cd2d7d9660222590b0283bd6fdaa74",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U31.png",
+      "sha256": "a9aaa2b318be528be7cc534541930aad6defb77eefbabf7f5154ebe82e4077e0",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U32.png",
+      "sha256": "b78b03c80bac035b86b1134e84ddebcab4d573bb0380dd8f1a2cbbfd301f41b0",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U34.png",
+      "sha256": "0b192a39a13740aee360737c3cab8ac0e4cca7ce051ba3e5baf793b17a487b93",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U35.png",
+      "sha256": "d96da21bdc6d7141b99999d06f7c15fbbca1e57f6cfa5c8137e4d135a2193469",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U36.png",
+      "sha256": "a882978d0c2210f7958c001e8459ba9a2015fbbe540875cd21e3b18480bf3c4a",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U37.png",
+      "sha256": "c5e84a9ce064e2316ac2abb9ee813c4e1a9c23a8ded8f0338e5b8e6d31ef61a9",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U38.png",
+      "sha256": "b26a3e17b8d9f48bf56ad96d74979c7bef579ecc9a74cc4edd7b538a1a2e6394",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U39.png",
+      "sha256": "fdc2c4d064df45cec59d5f62faffa4f35692f8cbea49b03c4525b8bf6eaf27bc",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U40.png",
+      "sha256": "3379d25ba83f475199b10da832470520d341806573596570c69e4f6b9b9c8581",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U41.png",
+      "sha256": "ebb06709f1899e1df4426d415a349568cb4991825a11036927a4625b71ef41b9",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U42.png",
+      "sha256": "3f78d4dc57c40cc3c4e4396411bd9e8ea5db55563bb56ead92b6d336939a6521",
+      "same_as_v4": true
+    },
+    {
+      "path": "cards/masters/U43.png",
+      "sha256": "b9b1e6f70b5f948c4e61ff29dfb360046813ef51bd9c9adbb6efb649f2b4c360",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b01.png",
+      "sha256": "7d17df0c42c5d57bf778b8aca2987909b4cc02387defa4ded56503e93792b6a3",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b01_p.png",
+      "sha256": "ee3a5aabf0ab2ca611b6f5c3dce13d1480d96533e5698b9335399e7004a11a56",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b02.png",
+      "sha256": "d9735d608025fa8994d0c3d1dcbf2fe9dd3233b5f9cdfe77f46c4551924d73c4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b02_p.png",
+      "sha256": "4bfcc5ac425b440aea15e4d7455f2e5991cd77a8b70438b451379c01cccae1e9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b03.png",
+      "sha256": "bc5ccf53161c184da0bdc80a8e2182551b098c5ae50e495c04d6aa85e259321e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b03_p.png",
+      "sha256": "80945cba7f7537fb75ff53dfe75ee9af96cc9796701233e8ed66a1fb0eb12d46",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b04.png",
+      "sha256": "8b6937a5555e1633c17fae7e35e6b591175381e070aca9da1256e686421ab3ba",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/b04_p.png",
+      "sha256": "9c8c8b3cc31ffe55ae6be6c9f41197517c8bb3701a95fdbba96129e9c4dc0d84",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c01.png",
+      "sha256": "2e29c5b64132e1cf1645eaf0bafd78977e6aa941862e8be13406b076a6de1e48",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c01_p.png",
+      "sha256": "0082deb0a14f4d8da54dc9c925728287742a0f5fd56a9b02c921a2d8da760f9f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c02.png",
+      "sha256": "0bf49ccafb7bf8af9486041a54c90f9241cec4e1d5d3487095a452f1817446ce",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c02_p.png",
+      "sha256": "271f73e6ec7e77bb03e5310f8614fc0587f8021647531dbfbae7fb8b044b77d7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c03.png",
+      "sha256": "413401c0c1caa72c3fadc7151ef200acd737f61ba08fc73de5fa2dff28073774",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c03_p.png",
+      "sha256": "fcd3a71c6110e3e7bc570f87a5bb508e6f3129bb6dcf30f392ae8bbae275d918",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c04.png",
+      "sha256": "fdfac0b017184488e6418c8265d55783bb96a0934494110746e325e7b26301c5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c04_p.png",
+      "sha256": "2a245a13503b4dfab2f4809f21fde17b54b0366bf249c7e4609678f730858db0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c05.png",
+      "sha256": "d3929ecf9a182649b2ea347a95a792fe26733d0c9249201d4191dec8b3ba7ac2",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c05_p.png",
+      "sha256": "bf9c033622073045d7ac260e776e6a814215c81434653fa8473023fd69d97939",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c06.png",
+      "sha256": "ad3d017c2b94cd58f2d5d5f0442f61dfab090f9900419d1c6187fe196bd22944",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c06_p.png",
+      "sha256": "808de80aa235d093ee29dd1a04bef20cba585061d731a35e1792529c33c4b77a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c07.png",
+      "sha256": "d4ace4d41f4b65473dde58d7f010039cde01ebf974937d52f74e6ff563dea36a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c07_p.png",
+      "sha256": "c05f03b189caba6425bcf535d990efd5733f3800877fed4cd716ac1e2d4fdd4d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c08.png",
+      "sha256": "d5f6cba983ea8f334476af7f9b1d316b4e168061a966402df819f22fe60c4aa0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c08_p.png",
+      "sha256": "b18daca98a8f043c710326afafc247a531cb83a74e0d00a6e38b2c33d4a28fd4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c09.png",
+      "sha256": "f000fbbba4112538c9c3c4e4c8e165b6e0914a02c9f5c87eacc06501b147c05b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c09_p.png",
+      "sha256": "86606f4ddb7b728e3ec7fdf905a30378219f4033031303db73dd7bc892e53768",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c10.png",
+      "sha256": "32f53a2ae7d05348b725b759b84bc492ddc9a138678b637f8c7d4938e33c43e0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c10_p.png",
+      "sha256": "3dcc52ca6cc4cf5aa7fdece5085b32b2a8f50ed69e896908be0b995a754ac7d0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c11.png",
+      "sha256": "02b0b9f039e079d87ffe2a005ce8290b517216a2e6e789fbb344fbd49e4b0430",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c11_p.png",
+      "sha256": "e7976689933ad0c4d6e9f4ac21d81d558b9c9606e011d0cf0ffcd3ad59017bdc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c12.png",
+      "sha256": "fa8b2f8153dd916a60f0cfc5923e42e9a9aa4374098b52fbcbb99c23ca9c2d7e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c12_p.png",
+      "sha256": "9435b688dcf7b93f10a2588b06aa9273c410430f4cace496e1be863e8d7913ad",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c13.png",
+      "sha256": "da2a7c0e04110e6f171ca5053c703dad8b835dfc3660ee8ce829087253a071d8",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c13_p.png",
+      "sha256": "5e05ad13ae47ff12d46af8135b62adec654cef54e552f346db9df3fc64cdf595",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c14.png",
+      "sha256": "5f170a746d62f146afb11eb5f58c9108c45c16861598e6e5fa74f3bee25eb5fc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c14_p.png",
+      "sha256": "d4947784966a8405fcd28dfe4a2c01edabf557e40655258576a6ab3cbdbe0386",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c15.png",
+      "sha256": "35831f941ba47a7cb03e4b74dc52bb5e14b8dd1df91563d2aaa470df47799cff",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c15_p.png",
+      "sha256": "e3361c71f0b9b07b09b8101125ae06839492ae52bac1bbfbc02e2bdf2772fbd0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c17.png",
+      "sha256": "5b5e126c7adf3b7e9e17bcfe5b30df695fc5829b6d41c160f97034576e198f16",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c17_p.png",
+      "sha256": "553222dd29056af9f92a7f457b431a8e7ebef786e3d950e4653d595082b9d014",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c18.png",
+      "sha256": "05d4c6bccb2efedd793c856d9a06d238331dea43347989b89ef340dcf4bfe860",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c18_p.png",
+      "sha256": "b7584b15b594a2be7780d88d020a87a8c40646c7f3a1b20370d54dd02a117b61",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c19.png",
+      "sha256": "472786b2b236c42dfba6052e58f09c32599764ef61a2232464dc8854fec316fc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c19_p.png",
+      "sha256": "e3d62ac3953f446ed3ef7d894d84a8ca3483139541e0e144d8f8f0d80cdb5cec",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c20.png",
+      "sha256": "7c1860330e2545c3b6dc8fa78f8963bd8e21dfa707681aca6f3053bc1b85fdaf",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c20_p.png",
+      "sha256": "66e872b7e209f5277340b89c7e77f981a44ef0f09c39942f3e3a25ea3bc17173",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c21.png",
+      "sha256": "1eba1d1476ec3eb99213b07c0bd5fab3b7ddd901d419cd179d2befd477a2c819",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c21_p.png",
+      "sha256": "2d319c1c88c258b28e488763ee2125c5bb5352730dbbfc79a2142b89bb658b9b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c22.png",
+      "sha256": "5d0a2f338e064818bf63abbb15fc912c366784f5ed96770d841f5f1a5b2a072c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c22_p.png",
+      "sha256": "216cd64d3a1eada87254495abd01558fff35fb334e8470d2aea2189268113608",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c24.png",
+      "sha256": "0b8bb35ee50e22fc157ccf8cd8cf1342376db0d406c7ebcab006a4db25863065",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c24_p.png",
+      "sha256": "cb7172c07cd120835b8ccd26fddf1570e010e9b83fae7e346f8f566d769671a7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c25.png",
+      "sha256": "5c97a89b876c076e28c904546fb6d4fb1362d69bc75c82acbdbae2324b0d9c4b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c25_p.png",
+      "sha256": "aec466dbe2e40d99039bb9f0f3d8634546b7249b7525b4a853b7fc9a48712eeb",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c26.png",
+      "sha256": "9aaeebc06ad7cafdb1820df018e2902be6b817cec66fa4abb522b0c7e6706888",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/c26_p.png",
+      "sha256": "19dbbdd55b3e87a7ade550fb6fa28f2bab8efbb6698c112d784fcd6b653238f9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r01.png",
+      "sha256": "bde42eb5d1774ac7c95fa1976ccbf470852a0eeb96fc2ef9344326b28d354542",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r01_p.png",
+      "sha256": "8f51afcaa52e7c1dcc7c1ac3472f4371a36f4a5753fa94cb7cd3e570a3ffe177",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r02.png",
+      "sha256": "12293cab0bb7c7120881b35d4fd8db1ef70c5aee002788955f98b7492525b384",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r02_p.png",
+      "sha256": "08d08ae610468804b86822cc772b334ad10a159e8270bf5e542e5f8ca8bdd011",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r05.png",
+      "sha256": "14c87c6804acee3719850de6bae9100ad79fb3bb82cedb051d65171e0904fd45",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r05_p.png",
+      "sha256": "8a5ce8e8f52ae689145264530bb7f90fbc0e4c6104e68ccc8594ec4c63c8bd7e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r06.png",
+      "sha256": "0ae9039421b8637df7311fb7d3d89c24dc75e5044e50fa98b410dd7f889bf0ff",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r06_p.png",
+      "sha256": "e2060e8ceef6b89d136563878d5e5a21e0b130f7fd35d5ba7a795e2d90f8b1a1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r07.png",
+      "sha256": "8c17c76a7265c17ab3040caadcb96d4b66b281a640fbcdb846bb7386f6e47c06",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r07_p.png",
+      "sha256": "d9f9141877f91d7c030db44e1d583c0f6b787f5b998a6612cb9b15156c4d0c1b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r08.png",
+      "sha256": "30b4abbfcea4496c51e63d3a292ab45da00018105856cf5cba4ca4a07eaa81fa",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r08_p.png",
+      "sha256": "66b8dd6355921719786d71f8753fa398253a25d83c8ad0f484658f2345174af1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r09.png",
+      "sha256": "31a7a44effb63f63b9d795387b2033c14f27c2c76fbbb67423f3a9ffb8ccf941",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r09_p.png",
+      "sha256": "a906282e9c0053211c07d94cc3c2da7c9c6b6d49d87b0756b829aaa4154e42f6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r10.png",
+      "sha256": "607cf99e21cc9c1d7533b7c6c3193a02d57e06a074b0e76fef94fc081e38262b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r10_p.png",
+      "sha256": "c8ef67df0ed093e062d512c626cdfcac54e990460fae508dc305196d4ad7b5ea",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r12.png",
+      "sha256": "cd8a3669ccb754f630b8a3cb43e61fc781f08ab4b20179501ea51654a9da779b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r12_p.png",
+      "sha256": "f1b1bdbd7314b98d233497792d0ae3da1f3942fa1b7c6db169cbc9a83bcbb2f7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r13.png",
+      "sha256": "e4c5e3ae9ee2d5fdc27b7377dfe2b185b4eaca44c9cc214e10f8a844cbf804a4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r13_p.png",
+      "sha256": "079e50b70863a42aa7a6ff07fa51308e391f7652c490bc67e00cc384967a6b24",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r14.png",
+      "sha256": "991d63a51f3007d323c27edf31a5536af5e42633b6725b16b1e4820c18dd855a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r14_p.png",
+      "sha256": "9bc9be29933a011252fd44ab4093009962f8c13678406e7487c7936313bff0ca",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r16.png",
+      "sha256": "cf1a935819a7f2109200d699ad7519b89bd6156a13deb1cf2afd7adfd4320e2f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r16_p.png",
+      "sha256": "685f98556e46113ae78210becd2b1c6ce6ede1215aea5d737f74bfefb666a058",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r17.png",
+      "sha256": "cde07f9d63f5fdc6ae938e984040e0d15486186f1f0272985fdc4fd4c7ddf48f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r17_p.png",
+      "sha256": "fd5639ee3693ae5a015521a2b9e43972bca5856e59fb544ecd051ec18fc20a6d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r18.png",
+      "sha256": "a653f212adf2d4b45dc9d1ca6249cd37ecacf4b7cfe55226d66999b620602a81",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r18_p.png",
+      "sha256": "00fbf27fb86bbbe342e22a3dfe9a505f9e290261de032fe849c889e894f4d022",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r21.png",
+      "sha256": "0a3c117a4987f756d151b3fff754e00a622737b41c93d3812ef0e200e16af5c5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r21_p.png",
+      "sha256": "7f08519accc11dcd9db2d2ec2bebf4b7eafa663e0935dc896a649d28669816e6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r23.png",
+      "sha256": "9b11c26fd67c5fe1ea4519251f38772dfb9740096a5152c27a520eda11a65881",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r23_p.png",
+      "sha256": "ec5ef896b37c568156e240575e4244d3feb82a04d9be5ef3ca2a96bcc9c2b6f4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r24.png",
+      "sha256": "df2d21b9f33419a146794feaef913d5357be22bf993661537041d288cf0b4389",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r24_p.png",
+      "sha256": "ab1ff91f39d73682d4014f06893e6df9dbb2ad4ff9f0db43c72fff4b06048afe",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r25.png",
+      "sha256": "1ca51b059d53481801f4f2045c352a296992673ad3487388efaf500f2f266668",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r25_p.png",
+      "sha256": "2dc5deef4cb6103560856435e87ea43f3d099c4f45259d6fb49ff51b9fe2c277",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r27.png",
+      "sha256": "adb38e9b0d611137de6c4206ad2334678b4e510636c4a97a57bba98b6c4c4f48",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r27_p.png",
+      "sha256": "15ad8c3457ad5a1e02bfb4f22459b4503ae555b63adb6d699177f2ef54230417",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r28.png",
+      "sha256": "066707bab222d885914f0f8b26b89cbbb62c0d957592292930088bcf0a80d844",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r28_p.png",
+      "sha256": "ad2a06b65c33194066665bcbbdecc6e47a7ba1ca446d5089f1eab7242bfb794b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r29.png",
+      "sha256": "d51d3f68c82ac1b549d450677f5ee74651c07cad3d0d341c455633112284b93b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r29_p.png",
+      "sha256": "6f56f623381d6d209b6d8235abcb3996eebd002de7830ce314f694af48480539",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r30.png",
+      "sha256": "0caed7092f38073917e6273e711d827abba0d0363a215c05424a08a368ad1173",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r30_p.png",
+      "sha256": "526370462a9b2260c941575a67a5f9c97a7074bb0bb1976d648e0abf73a807ad",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r31.png",
+      "sha256": "78fc342bb5a5e35c63b036aa8ec967aefacbec10455974ec8c7178311baf3046",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/r31_p.png",
+      "sha256": "502224ab9136e108b2796e8b35aab20ba38ce86b7bdc69f8807904891526f2d6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/t01.png",
+      "sha256": "dd8686d3ef205f9f9fd8e18a9d30e04b6d35ad3c894c2abe80cac0efad6ce982",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/t01_p.png",
+      "sha256": "f0e7dd0c7233c3377f7589a3305fbe26e362232a46bd489a8664659e73e3e52a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/t02.png",
+      "sha256": "13420d0aaa8305a6b7a557d0558d3799e53ef1481c2c72d19a82c3c6d93e8a78",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/t02_p.png",
+      "sha256": "afc7e392c300724ebe2b55248d311e9586ddf12c4cddd79c6fcaf875f677193e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u02.png",
+      "sha256": "82beb78e415b442f0f2c907001a4313b50edcfdef15623fe6a6e6852bf5eea93",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u02_p.png",
+      "sha256": "5e31a3230149d488bf8b7dab9fc4c1c2ff6b61883cc6676930f6928e9a8962ea",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u03.png",
+      "sha256": "5c8d68d32e44fd7f35fc8e7ebe01ba35cf5e149d406b2dfcb8b719bfce3fac5c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u03_p.png",
+      "sha256": "5badca08d84e053ddef4c6d912f723113aaca5b65842138ab03fb1935c3ce380",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u04.png",
+      "sha256": "3ff534d631f75ded7ca9a80fefc586f722d44db6a818efeb1221494ecfab5df3",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u04_p.png",
+      "sha256": "55ecbeb71941bf4a2aa0a65f22ac5f7707c91a3526d9e07eeff056d0766437b6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u05.png",
+      "sha256": "7a7e5601ee80bef3c7ee47a711ab35489bc1eb71e834a6079036ac1accf81fde",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u05_p.png",
+      "sha256": "2f41ce1e76172943145d2c07b74f9c3f0fb0ad39e9732519d428a6cac4641c6c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u06.png",
+      "sha256": "0aea6f417f2b61750c07d6293d07eaab0b0fe07ebc67af0eadd779380f4afdf9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u06_p.png",
+      "sha256": "8551933a4bf13e5f7ebe6e55f5fbde6a0324007b467ba6696df25d72bf51ea58",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u07.png",
+      "sha256": "c50c3ab0dc6eae06335ce34e4cc9db7603827adf62df643c53a5364106738d6d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u07_p.png",
+      "sha256": "1efb4a681abe2df65fa578dbb32e3d3e8e6c0bb2f76a4a5ac2b1cbae1cd984e7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u08.png",
+      "sha256": "355d1224f2c296eaa178370e5c7a5dc3abb3af596dc7abfca4ee3fb14f87de26",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u08_p.png",
+      "sha256": "c48bdb41289fb993d216c8046f327815684b66a43aac2e55d97c25f0bd1a1850",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u10.png",
+      "sha256": "f84fe2323345614d873356b518fc2fa777b67ad4c7a5f1379a6763a3fb46ce1a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u10_p.png",
+      "sha256": "68eae244138fbed47ee1b013cd1e643700a708d85bdb4c78045046ff486fb80d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u11.png",
+      "sha256": "599aa04b49ba9330f69738c82724d8d9f4f9c4d838588f2ea2b93cb75710c6cd",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u11_p.png",
+      "sha256": "16719bac6caf7af49412d3967e4576c4e7dfcada8e47f0f64f8e455d9bd8e976",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u12.png",
+      "sha256": "fa880d3a8ec275cf00e1305c502d833ca800ecdef10d4dfa177fdea158fe2605",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u12_p.png",
+      "sha256": "e2fff9dbccd995b97d1d26fa13da1e883e7280134b9c3ced93d2dde708ce6573",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u13.png",
+      "sha256": "d578aa7b09b0ff9cca1f78cff69bd8401a9e88b9322ca4c95aedaf183ae2c78f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u13_p.png",
+      "sha256": "a79748be612f0bb389a8a23906976f2659184b0eaa0856fa89329823a02f520c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u14.png",
+      "sha256": "3abe0471da9b37390139d3f153414274d3c26b7bb90644451c323c52a9e3093f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u14_p.png",
+      "sha256": "e5ed1dd8cdd2df30d8f615e14891da02b1f3c8a302a3c4b8b3540735af276a9c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u15.png",
+      "sha256": "912c1669480e768851bc515e777a1dcad89a350f2a60ca6967562f7d7dc13eda",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u15_p.png",
+      "sha256": "63f9ff67268085899a89c9c3a2bc370998ac9c1590c83fd3a88b79ffc28987cf",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u17.png",
+      "sha256": "5603fb270d0d20844f91a0818d881e368f9ff75acd94ea80630b172e07a0972f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u17_p.png",
+      "sha256": "5f1a78c303ccd7b0ffe5f8e142c10d7e3614ca09b38158d5cde1fad156faf610",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u19.png",
+      "sha256": "c27314c3cf8aaed1c8965e0686881f1fe0c158d34a1bdbe2d6f3d5a5f712c8ba",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u19_p.png",
+      "sha256": "9ef3ba5e8a307506949e328409d70b569804267ab55354dbf0fb7bef7721167d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u20.png",
+      "sha256": "1d257d061a0c42e08370ebafe53035df1cf713bd3d66a0cacdbbcd35a25de1ef",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u20_p.png",
+      "sha256": "99a855f446fb8546f86e9afa70624f158ed6eeb4b2b44f5538b7ecdb84971d3d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u21.png",
+      "sha256": "1ad1925c6dcf49b4aa0cfd1a191688ba011847cc4190ad5ebc167da8b6372dc8",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u21_p.png",
+      "sha256": "4b4312322970e8a4becdc871504b36b0cde63df9007a54cdcb6f6cdcaaa13a76",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u23.png",
+      "sha256": "72d5f6f7383ccfe7202d62ab81f1b4b85e647f6bb3c6a6aaa1fe605162c031b5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u23_p.png",
+      "sha256": "cb9251d01008c762716d2f3fc3e5965e7b1d01b146ae5b4bcd49358634a3c429",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u24.png",
+      "sha256": "5f048fa13d2e6d788568b1f73bd2f433a11df51d63c2cac96d2c37d6d1af0c1d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u24_p.png",
+      "sha256": "6606b1cfbb33a337a305c4379b861499197931744a923f8f9e65bb2366f8a5fc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u25.png",
+      "sha256": "d7799fcaa581057451ba2ae4f56e1477d464da68c0780fc7c9f38362809999ce",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u25_p.png",
+      "sha256": "2e478eec1cd33a1ecd22175587f7d2404f075c71723af99ff3eaaebb02915a5a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u26.png",
+      "sha256": "6a05c6f5865346b48a07aa070918bb0b46b9545ff9847a8596ac0b629589a8f9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u26_p.png",
+      "sha256": "7f49d710ffd33dec43f7ee88b4397b74b89ba4f27acbd51bb08686f36009699e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u27.png",
+      "sha256": "a3e7d166832a7171abd1fe3d54c12d81a1bed7bf54e8251005511f59b2b47813",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u27_p.png",
+      "sha256": "1a2ce681a3a94cc306d5f98cb7cbb23b31d2d9922517e80b3bb4ba0c77c248a0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u28.png",
+      "sha256": "9f35e960d6ccac642965d659fa32be7da7c22555873643658026bb3a005190c7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u28_p.png",
+      "sha256": "914df0958cb8093b10769f71d0ca4505278cdda04492ce43c7ee4e206889e789",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u29.png",
+      "sha256": "cfd8c23c4c9bf96a9d919a96a1a150b3d4c71b98eb470832d0142921a387944b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u29_p.png",
+      "sha256": "d78efae28139348e133ed3cb4d60743b78bf2c3b9cb1b7c59c0aa9f3200e2212",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u31.png",
+      "sha256": "03b4002818dec5354caee157fbaba5d4af429e812c3a19f0410e0061cdd71e33",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u31_p.png",
+      "sha256": "338a39ed81f0b78113240c08e63906e3cef24bd02ac59fe8750ffeb3263e35f0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u32.png",
+      "sha256": "1e8fe813ffb3ebe3657d2fe546a9dd1c402cad7f0fc15322b99a04874ac3e714",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u32_p.png",
+      "sha256": "0231b16c63e560b01a75f9d35b81c2d79550c8ea85ecf4cf80b399793d3b552d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u34.png",
+      "sha256": "5bdfa36057ce905993c9adb1c39fda634dd55af2b43bb13154f0f927f952af18",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u34_p.png",
+      "sha256": "213903a41905bebbc9c9e706fa9efad2e18146f1ecaa460d4436a3a4cb831506",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u35.png",
+      "sha256": "5fb653cce8df966dcdd9de4c28524fa79a5285623baf61a222ceb957a412ee41",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u35_p.png",
+      "sha256": "c003fb6f3b2571f76985c99298e9204c63411da1077e3ac7efdf9e7ccb8f14a8",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u36.png",
+      "sha256": "afa97959972104848d3b9a394fdaadb838ede5c5cdce146425bc17dd14b0a939",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u36_p.png",
+      "sha256": "64b17bf457d2f6f712be529360a391c02b78410604f0bc4b6bf6659e061ed2e0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u37.png",
+      "sha256": "0282cf6d1652d9990846de7fc5d0718cdb963112e45d870293d951a9fa40da0e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u37_p.png",
+      "sha256": "a1db349f6127473260fc573f4d00c2c9b4b9dee6bf75f65b2fee58012c95e8f7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u38.png",
+      "sha256": "f916163701464e54ae24b343432e1ef6dcedbfdaa90b2fa4c1237c3f34048ce5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u38_p.png",
+      "sha256": "f8eea81d447b84f973e3e5eae9aad87315e5fc4bc41fd481d6f05a4f74070f9f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u39.png",
+      "sha256": "9be17b574e2e2380837d5e0ed3785de8fdbc109bb6b41843040dd6d86d2e3961",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u39_p.png",
+      "sha256": "adbe7acc3fce1beb086fdc121340234eee1574cb5923a4f05f2b3dafd9fe7742",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u40.png",
+      "sha256": "08d9e1669270a3ae59f70bf2938f078f88a1382db61a52798346ab9910897568",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u40_p.png",
+      "sha256": "9cefb7e121c645cf8ffc0212cca34fcb518fe829ab31ea034873c04253e6706d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u41.png",
+      "sha256": "0ce0bdc12bf8e929ca657b3ef8b53cbf8441e07a918bf2bbf26bbcf95326154d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u41_p.png",
+      "sha256": "3d590a0486adb8f799e17efe27241a833fa57909879ec6e12a15450b2f909662",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u42.png",
+      "sha256": "073d38621f2f25ed4bb10155192176e6c5a5c2abf9700c271d2298b68179b7c1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u42_p.png",
+      "sha256": "3e004e6fc5a6cd866778185be564d764a1bf4912f452aceb4d528e76f636c400",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u43.png",
+      "sha256": "8c2e162cc744e5af72e303e806d000e7f70c0daa30e248c6b495835465a119a2",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts1/VolibearResources/images/cards/u43_p.png",
+      "sha256": "b3cc9ef6b471b121d179835e542c86f155235398a09a37b6b5b32b82661f1108",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/b01.png",
+      "sha256": "963d4a28a342f9d86725748bf3d8e8583985a2140cfdc7d35357c7d3d8b472fa",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/b02.png",
+      "sha256": "086a3acd174ccf08fae32e7d05d3a0350ce264d1488f8a36d9822fe68876d964",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/b03.png",
+      "sha256": "4fab4b716b08cde84c6151a935c1cd6c436dc0c10f0e392a83a873f1ce44da38",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/b04.png",
+      "sha256": "7078ba1670eb7135d04f3707e1089192f2b1b5fc823b3bae09e258b6fe4bf63c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/b01.png",
+      "sha256": "d79316db7219bec7ccda6f4f42056a0841b55d7d9c3aee76e492a4ecc8130b7c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/b02.png",
+      "sha256": "f55a9ea5aac626633ba917927c836fc5e309da60121cf4fb192612ec87bdb6dd",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/b03.png",
+      "sha256": "68f7d507c65a91fd3906f325c8bab5d65990c435dddbf88a1ba951eec4a59fe4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/b04.png",
+      "sha256": "bfadbda6e91df3efb9659f11e251ec3af9bebcde0c3afc45164f7a71b76ebe03",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c01.png",
+      "sha256": "c9ee286306249e77a9b76bd01675dff439df1d75fd00e1fd45eb455afdd5cb99",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c02.png",
+      "sha256": "efd1bcb39836d89e618eccfe5b7b2c726358ca94fc6c6f18ccb1c87052dba068",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c03.png",
+      "sha256": "8d07085fef524e0abace13cdfc02f20f146cd70de4620ae02da7947903ff4111",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c04.png",
+      "sha256": "90684cc780d6475bc0b3e8f406a690ff88dc54ee3fb5ec6d379f268fec46f43a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c05.png",
+      "sha256": "16dd4c19873e60caa1c70be3f3bc7e9348422c7cc50d88c1f0868e0740dbedd0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c06.png",
+      "sha256": "ab77dc26b73f86d570a3a4a099b3eb2ab8ba34f022c52aa6d38d5d51fc37cdc2",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c07.png",
+      "sha256": "10615ffaf8db87d2fddcfc92e86ff8db4c4fb00db2d4a494aeb337d6d2754fe8",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c08.png",
+      "sha256": "9dd3a0551461671e806930e2f2bb2fa192c2cbf9d6f213c122ffd142402e440b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c09.png",
+      "sha256": "e51123f6129395627ed3b78c43acd5e0bb55bfffe9d45eca4242dcc4bb32547f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c10.png",
+      "sha256": "0f8884cfffdeeb711a8c491fc0c763baf60eff6d515ceaf076b0e90afd7a60db",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c11.png",
+      "sha256": "2f2ee64fe354c89b33494b17512f49dd52888f41c418b9e1f6a18971a759a837",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c12.png",
+      "sha256": "6139dba195593eb416b8712ab0e8faeb0f1bdd5bd144db96cce6637c65637b0a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c13.png",
+      "sha256": "d02c3abd85eb94240d696327eca48e0c53c0d7db12b2ad406810d2ace53c08ba",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c14.png",
+      "sha256": "beb98863c7c5a3fa88044b75b053aba107768a3d993c824b369510e6432738ff",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c15.png",
+      "sha256": "97e61e497a84627153317e2cfca3368db40737cb52b4cfb696af9448a06c54ff",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c17.png",
+      "sha256": "addef59174da336866dcdcdb8f5d8c258a6b34f03b86fa4d27d9e0ebdad7e2bc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c18.png",
+      "sha256": "8f7bdf48b4d421e38ca53afe1338ba6b405622ed60467859a09c3d5559b1dff6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c19.png",
+      "sha256": "07d34ad1770374b474972b23cb251a3a6678e3703c6a365f149ba4d036f63246",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c20.png",
+      "sha256": "c814af9e17c988d91caba5977e9b8352aca9f0f88b6c82e60fec73928f4faee0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c21.png",
+      "sha256": "1d5f2273c6017166ca25842a53e3a42198ece713628d0217175fa990d2b493c8",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c22.png",
+      "sha256": "1583a889a61a53b47a42b0846d94ebfb16c55559aaa36038e9261588b4819ddc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c24.png",
+      "sha256": "66cabc2ee6a7eda5ef3cdc0315f6fe825d11f3a56017bb27cc7d2d78cfe036d2",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c25.png",
+      "sha256": "ce2206ed10087369a14b1cf5291e329a31e98247a183f04f6a7456a337d650a5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/c26.png",
+      "sha256": "f6af3aed5a925d7b7d7fb91d6598a549d75350faa1c4f737a7358fb41747480f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r01.png",
+      "sha256": "ec131a98d2ff09cf64c8e80b80981312cad8d3dc2d1b6b1522c642ebe4cd4f01",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r02.png",
+      "sha256": "42ddc7a200e9c74c11aed2eda719d01bc4951ae13f994404efc61d4c779715bb",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r05.png",
+      "sha256": "38b6ce249b13f6033da9848bb70087a00b30da54072da02bbd3dba98cc49db28",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r06.png",
+      "sha256": "3494d6ceb5051289d0283f8fc2303f79533a539e6d8b107917b6ec7b68fa73b3",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r07.png",
+      "sha256": "9a77115f25e23d35370449d590511f5b3000e030c6786dbd389b159de6d766d1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r08.png",
+      "sha256": "5d9b7c36f59831573876d0c509c71abce3fa171dd6e3e18fd7e5d9b7ed6bbd16",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r09.png",
+      "sha256": "04808fa6966e53e385563e7524f0a32e541de3a74759e5d9996b800072d6e7a8",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r10.png",
+      "sha256": "297696128413c170a8f7407076d29e5c3f7b32560d8977213590ffbd9e3fb91c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r12.png",
+      "sha256": "4200059689d3c03fc5c320bb1e4e5271541e3d26814f311a3658f3e26a60df35",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r13.png",
+      "sha256": "0d113ba74c7209a0a87a752ae8cee595af38b9a4bfffd767b28a43bbb4259a63",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r14.png",
+      "sha256": "be9188bc86d4400cc9e8042f69dd846a0917b8efc1e45405e1b20bde6fff59e3",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r16.png",
+      "sha256": "be280c0509828a9fc25a9ca340e394ac3cfa6adf83d393256fc5b17800ccae57",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r17.png",
+      "sha256": "d41a41a5fcd054c329d7134835784592d4f7aaaf2ec324ff4599ac2f5d3a3d49",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r18.png",
+      "sha256": "8cf389fce321ccda8a370530ee483144b5bfc424f485393a3faa5507db85a53c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r21.png",
+      "sha256": "484cb6eac5c901312784f67a9d1a518718cfe01735bfd14e417dc3f01643b243",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r23.png",
+      "sha256": "e100cbc74e44a5a1d4d6febb67386a2dc98444703e6cb6ce6789ac3cc65ca892",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r24.png",
+      "sha256": "176908ec10997c286e87efa7429386d5774fdcb503cd0b07d016eaca35f79149",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r25.png",
+      "sha256": "30973fc6008a656a74fb482357dcaa0e0775a6c6936e573a71782ccf35acd08a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r27.png",
+      "sha256": "302db009f679e501d6c1102869a129b9ade858046cef99d09106e17ca3196390",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r28.png",
+      "sha256": "68c7473dd169ae8e117f82a01b80f57e512fcffab7ff90fffe3e3d9feb18365d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r29.png",
+      "sha256": "3199776d86fc3571fcd52f6722a340e2e7cefbab536b1c3afd2b51185e0ea379",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r30.png",
+      "sha256": "da3dd05bca3517e01cc72371e559c06d3dd909c081172bb49a0567af2c21b264",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/r31.png",
+      "sha256": "ed5e15b0191e530c1ac3493416eb7b81176af5cf63abc270a528d8c79c1bc7d6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/t01.png",
+      "sha256": "536896ff1f9245d54602b2459db77b87d02bc58b8373c67d7ccd227295347868",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/t02.png",
+      "sha256": "c75905ae49a8b1bb882915406fa7cd46692990e8564a8cfc7528ca2bb1a8dabe",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u02.png",
+      "sha256": "393463ab23c3b8576953ed874ccd1e3fb4cbdac98916a8599ab795cd2b04efa0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u03.png",
+      "sha256": "38d47b87457a7032696d5380fc99a5bc59e5a7ba4010fe2dd51cba82b2638a54",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u04.png",
+      "sha256": "0720ac182b3a86dce7f6824b72cc898126a02d4ad491da54ede0564054150953",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u05.png",
+      "sha256": "e16328babe06016b67f80c6300280dd2fdeb0e9ce65a5f20d087d528df34dfcc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u06.png",
+      "sha256": "935bf4b4b8a75a2753e97eeb8205264c3d9551c40908385a83010f67a4266481",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u07.png",
+      "sha256": "db52cddb7c0ae06fd09a2f15be2f1cea6385981fa1749ed2d4f92437a1bafc44",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u08.png",
+      "sha256": "63eb4171890e9bb4b65e6ac97b396b7284b756a5bfffc5fed56f4aa5a386e3a5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u10.png",
+      "sha256": "87a36d534b5519b721d9a078fe70021b52c9b92aea3ebee04cd27310cde9733e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u11.png",
+      "sha256": "bd3c92ac625ad2003bb4e2bd23eef9ce350bbfd2524e1cec58085fbc6618fdb9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u12.png",
+      "sha256": "31401c45f827b884529c6183881cf5db47e33f64c169205d3419b361077d1089",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u13.png",
+      "sha256": "197b8acf748387592b51b19e6780888de385c10157cb9b2cae2a5594d6f2f628",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u14.png",
+      "sha256": "82e5c55eef0556627d582298696997202d3117caabff9b6dd35adbe1690ee5e6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u15.png",
+      "sha256": "7e17eae62d55b2f8afcfdd47f18fbd99d5e65b268864789cce17092c8d1810d7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u17.png",
+      "sha256": "ab6f807cb7a4cf382c5e33475735ad381599f92037b79fe3399b0848dc3e4792",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u19.png",
+      "sha256": "ffc0f85752c2716d388438c1d68896d34621418269e42ffdd023ec0eb5b517df",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u20.png",
+      "sha256": "6ee8e8b7b74cd91e6532a9be6cce9c184f32d5194af8b58a1aec99edd322ec55",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u21.png",
+      "sha256": "bd08bc275679d5ef10efa1347db96fe8c04dfecb13da6137b2db6d4b3b7a64e0",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u23.png",
+      "sha256": "b640b2391164994dd72ce299df934e4421803dbd8a839f1723f5b4d578fd6815",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u24.png",
+      "sha256": "341f1353dbf746b77aec1d8b837f37d0e125350a232bed2e7886a67818df4832",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u25.png",
+      "sha256": "92486b72ccc9540e2b49160e95f6230dc5014a40e66042ff3e6194488187d10f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u26.png",
+      "sha256": "f5005dc3f32ea658216b584cdcc171091d7b58b536576a526a2e1892a97a1640",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u27.png",
+      "sha256": "d8f3ef22f3c6deccab97ce06b71e4f85b81a878bb6fbd862c042f195316a9d60",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u28.png",
+      "sha256": "0130e41e3d288d863b511561b8cbbdc528920e99a92756b703eafe98ce834824",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u29.png",
+      "sha256": "30bc4fed30531460462298d9a4cdd138f572ca0b82652ba038844553affb2e3e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u31.png",
+      "sha256": "4d2db018b7dc2549119a1802bd4393c03256fab0b80395ab904b1081009915b4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u32.png",
+      "sha256": "6c69697656c6ffb1b60e7b99841f42bfce6819baf9dc225fa8d23c6053d7362c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u34.png",
+      "sha256": "fcf8ce869c0bc727bfe387c3c2ce3be3a851b143470beacd0b9d7cd95d9cd2a1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u35.png",
+      "sha256": "ec576d356b71f34b88a3de6f5fabbc758652bb180989227bfa207e56fcc86063",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u36.png",
+      "sha256": "0a3c0c77f8190c906b8db88b3304d4e8e50013e4c1ee85465ae5eaca056598f3",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u37.png",
+      "sha256": "836f00992169a8a28682fd5f47f73999dbe2ac904191cd9ea762d0ede3995e3b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u38.png",
+      "sha256": "49e84d21765558bea483aeb0895926bedb1184088e047e270602eadec8d417a1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u39.png",
+      "sha256": "0b4b8d2496b856bd2089d791e8e7fb5ea45040ffc791c4bfcd48e72713201c41",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u40.png",
+      "sha256": "8acaf204c58c340b1881de844fdd23ea31e63f868cc75b97253da4149d8aa80a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u41.png",
+      "sha256": "2de72e6afcfa74cde5dc84d215913bf50478235083237b7a598b1375dd077c24",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u42.png",
+      "sha256": "9b1612a54522538550db037b1c0d9b530f4e3e053e72979e6ae65a4837a679ca",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/big/u43.png",
+      "sha256": "3af513f594c10b7b5101b4e9e21389bb0d681d6257d6e2f3a51d73c184ae5f20",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c01.png",
+      "sha256": "8a28d09fa1bb403fcf067f60dcc0c7d28c62c519c6027e50a4944ce6fb06e1cf",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c02.png",
+      "sha256": "030eecf7aa9a66b1d06ec99a103375b9f0761f5b8984da7dc81806b81bbd1783",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c03.png",
+      "sha256": "52104ccbdb965a47377ec3e7c8c967b57719a75ea1e360ed9c5bd486dc0ecc9a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c04.png",
+      "sha256": "5ae977c588b5b5f8c5752a25eebd4ad198e35ad9fde5960b9a9d421f91abb1a1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c05.png",
+      "sha256": "8cb7d6a9db1d202e1acbbf6d6367fd8fc88f563c2ec89b38fe326703e26833d7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c06.png",
+      "sha256": "dc929b8357257bcec3fb269e33bca103e7e79b578070ad3aadcb1717f4e3fd93",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c07.png",
+      "sha256": "c9b9a4d7658a4312c1e76ce5e3fbf91e5128a577ab5d140407a015ef055a7262",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c08.png",
+      "sha256": "a8a7dd1288b92c8b356b90f3caf8612be264c3d14d202ea1cddf85dd8dd42e4f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c09.png",
+      "sha256": "ab2457ea4479467dee3c90346e39a387cf7645e6001835a9a85b49817b2cb312",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c10.png",
+      "sha256": "19238771e99115edf8d77d3a343a67a7ed261e719abe2182f13307ce209d6fce",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c11.png",
+      "sha256": "a4c41c315bbc2383e89f687e5afeb76b6b4e3ac23805da16653bf1b5ef9548fc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c12.png",
+      "sha256": "7b75f6877aaba237d114a092bf44b72b07e969d0100d077cb5ffd003bd9cd1d9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c13.png",
+      "sha256": "85fd2a5b80e65829c0f166d72c4be68f2abf8406f0415574762791e4d0abab87",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c14.png",
+      "sha256": "f21630694657a84f074a2bd0d84e541b2c251614bc5859559ccb5ee63ac4698f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c15.png",
+      "sha256": "9104633a4344351b7438c57f11873ca78b3fe886295a10e16fe505f2ae3f082e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c17.png",
+      "sha256": "eb72d17474d14d01257dc69df7f2286607deb4fd43dadc3414e4202086c9bf69",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c18.png",
+      "sha256": "f53d9882b3e32de762774bed8307b8d4cd7ccdfb9977a293ebf4d091605367ce",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c19.png",
+      "sha256": "cf42e2ff9c1c16848d20524a016e1e2e0ea3e90d518ee751aaf3ce1db8c1a811",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c20.png",
+      "sha256": "0683ff7ef415a64bb2f9ac0a4430e19b69081761785f5e6056f2fd4c6a640903",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c21.png",
+      "sha256": "304f8c0004c95b49d4ab9a0b0809e6d529fff5544a83c1dbbae0279e6529809c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c22.png",
+      "sha256": "3b7b5264e48f4f2fdb5888c7e745c2aad41b502b8273d3a9886f55e4127bbaee",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c24.png",
+      "sha256": "9bd0415db62d30715a29bef940ee54fcb0a8458096974544b3c0ba39b608bbe2",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c25.png",
+      "sha256": "8fdfb40d32866adb8406b017aaaa6e41b18e957e27d3ecc72597661d16e089b2",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/c26.png",
+      "sha256": "eb6c0709eb24ef2199c499ed3454a4e0de1624b32d991ee261b283850e3a71dc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r01.png",
+      "sha256": "73a01fa7f82294838b0c0c4a90730b9464a35e3dddb23d00314ef5e075267526",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r02.png",
+      "sha256": "80cd4d051c26742bd31f7687212f7890b5fa96efcdf2b4f27fa19ce87d626f1a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r05.png",
+      "sha256": "7e93fbbe12447271d657914193971cea73e3bb970f965d899a09bc4c71cbf65f",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r06.png",
+      "sha256": "d2ac7bd7feca8ae9c5e7e742cc6cec6e80747aea8b96a72b0bc557a005dc780e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r07.png",
+      "sha256": "248505eecee703bab1cfbd053f5760adfcccc255129cbbd067ae123299b28441",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r08.png",
+      "sha256": "3b0fa63bb9eac0542f9053d374eae3951717343d2c48d535934d91628eee7638",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r09.png",
+      "sha256": "14b080591c7a84d457a955dc41341557687e078e24241fc30db32b41d2d07595",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r10.png",
+      "sha256": "f1a9d06eb0727d554d6252ed68231142eeea07367673c2da509908ea4e94754a",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r12.png",
+      "sha256": "7afe09a5aa6b5306c40584f557dd8085908e1e0e4dd0fd068877e874e503f463",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r13.png",
+      "sha256": "a00845e51ea2c0ada66790e3d97333775c5328675ddb9689e0af2c38644200e6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r14.png",
+      "sha256": "9dbbc37231ac065a0034026ec81f2ae9afe7c72c3ff9b770f2db4bff7c75f834",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r16.png",
+      "sha256": "9d10db8e51188469fa99007df70b5c6384db0fbecdd8fbe378b9909cc6605938",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r17.png",
+      "sha256": "14ec71aded77dfc42e2a7f0c02fbb85ea7d2144e0582af04b4290c986be0c9b6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r18.png",
+      "sha256": "7cf1a1a4905c0cad2d98a93dc835847109e98011175393089567f5829c4b3be9",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r21.png",
+      "sha256": "bb271036d69aa2748ccd41f42e5310677bd9f4818ae7bff5593ef8e27f1d0c01",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r23.png",
+      "sha256": "a73d29d77cc06a05844ae468adf62e1dd01567960cdc5d81e1ed3669283f8601",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r24.png",
+      "sha256": "549f8a9ced4973a407b18ee930f73fd87c205914506f2c492b973476e3de7f68",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r25.png",
+      "sha256": "fe1b3a9539aa1e565f95cea49cc57c741fd6b50617e07cbb6d7cf1759118de75",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r27.png",
+      "sha256": "b34aa8bafad25d296f266abf2f0eeeb1d927cbbe13922deff2e6c82f60eb682c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r28.png",
+      "sha256": "2d0324ed4d777d65d8a07f4625a6fa0b236d79acd308a636f2f89cd028857f87",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r29.png",
+      "sha256": "e63562c4a1653479c283508a0e1a2fd9b13199bf7764bdadabbfc882a4c40d95",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r30.png",
+      "sha256": "7b122b88d3687bd71ae0f69c350ec921994fc0aea667756dbda056c05777c302",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/r31.png",
+      "sha256": "59b23e0330cbfc556d764cef9a77227098c06b87af9125dc98aaf8f0ede6aac6",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/t01.png",
+      "sha256": "662a6ad8b3189c289f9e3d062ef45801785aa4d0bb8e450c1f1ab430831d80c7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/t02.png",
+      "sha256": "c3e2c698d9ca4b92d5cade6e65c38e02f0d3383f1f6ddcaadadcf286e49f23c7",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u02.png",
+      "sha256": "e198c23527cf05e71f0f0da57a3d2b5477e0b02ea35916eb0c31ecc723f39b4d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u03.png",
+      "sha256": "b65ca087d7fda1c28d4830d3a25c08545af601c45b973a8d8fa12f2de06e05a5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u04.png",
+      "sha256": "1f12164b22b8ab0da19b0d697550841530764eefdfa61398687892c7b011bfb3",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u05.png",
+      "sha256": "83c6a893d72669cb29b5953a655f2de74ca2a007b4a0f93f0f8d0098bf542e3c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u06.png",
+      "sha256": "c21acbda7c6c63d8cea2046cc1c80d0195cf367a947d87397994151fdf4db9db",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u07.png",
+      "sha256": "0f450a27997c23e43240c5e2a6e480af3efb745a71a0033e567c1e2c602fdf67",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u08.png",
+      "sha256": "8195e474a8a7452842d81cb719efc93f38aa535a2b8df2523b8a8b2282267732",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u10.png",
+      "sha256": "aa2967da64cb7cab956401dea661d0ee2031ae01158f29a7d46237170b7b7cc4",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u11.png",
+      "sha256": "1abc4f9561b0298e47fd4a9997ed260a9c556dfccde9b30ff25718697fc4cd5d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u12.png",
+      "sha256": "7b946d16c446164002b27759fc40478189338137b997f59b75bae3893fc07229",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u13.png",
+      "sha256": "fc5210495a702e50cf472819ea48bfa0816bbbeb5b3a546395b0b3038e431a72",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u14.png",
+      "sha256": "54de90d4671acd74a82caa72c032ca01e2e1371e241f3f6ba18cf50fce7a3c9b",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u15.png",
+      "sha256": "789b3a3d561b069a58fda09210ab95db585020ff002ec96de9bcae4f6c0e1c4c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u17.png",
+      "sha256": "8196f6b70008616aba317856963c79432a5aca46daf1dab2a5d2ebf0b7fa7f47",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u19.png",
+      "sha256": "2156e169613e46a6a39d2aacb3841bd31b28efe5ccc9e2ba60d7e8397ea25a6e",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u20.png",
+      "sha256": "8682ae1d87b5be5d9d3e22a484e933c2d375da33b669b769593ebca971443039",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u21.png",
+      "sha256": "c16ac16c5252825018eb6e7a3434570154c3d669a59d8dbac46ebd7e4cb88cfc",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u23.png",
+      "sha256": "225581313882ae596dcd3ac7e8df09ca41e37a514097b0c97b67abaaf6323769",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u24.png",
+      "sha256": "ea787b2965d12e179fb8e111c3756f8aa07181e0ca0740c6810f0caf5433bbba",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u25.png",
+      "sha256": "16eabbb274fb1368158b7177e309ba4d2403d1a73f9f02d668915462c798ca55",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u26.png",
+      "sha256": "6bd4fbeaf81f45c7d34eb6647984cbe7593cc3bc524c42c05601221fd12a1c7c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u27.png",
+      "sha256": "ffec4bb07bae9f67d98777affe07b09feabe5b53ee6f4b0a346e3072aea5ef5d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u28.png",
+      "sha256": "bb863a6d4990d4c4974c0c203c126497b499c526fa6c938a90714f40309809ad",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u29.png",
+      "sha256": "8288eaa49f9f3728a0943c37f973a81b510ec4dbb86c4b06ecc9137b84a35e2d",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u31.png",
+      "sha256": "cde905f4f90175323fff6991137048deb2f893659f5bce0f61c857af72f22118",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u32.png",
+      "sha256": "93323043d3ef9429dfe68f0b6527d64fe8a99c50782a6a7905c024d503a39188",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u34.png",
+      "sha256": "943519a3161fe4c03cc78d2b55941d2b7d3ac9467b19d2e3da6ec428d6657090",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u35.png",
+      "sha256": "4a147146760638f6e26cd133344b0286276d782b8b98bacb1185d3f03da14ce1",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u36.png",
+      "sha256": "d7188fba55d88c6095c3481cee039a073bb08440d8fbcf97944857b8d7975f00",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u37.png",
+      "sha256": "8d13cdc9971e3987355deeb3007b1c610050aff44f5e8415da15b631e6b13634",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u38.png",
+      "sha256": "901b03f6e0503906dd822391f00e6941560a04a9eb07d6750d4da5e118c4c76c",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u39.png",
+      "sha256": "c682627417354be8fb42d2a3008020bf43e7abaea2f378b951ce0326da21b9fe",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u40.png",
+      "sha256": "d7a743cab2afb8824d5c8ef06a3001561ff6a87af207a9b987e8651a2580eb57",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u41.png",
+      "sha256": "de739ede51bc1acddf8e70ad8c09170ce795ab212753257c5722d83f785065d5",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u42.png",
+      "sha256": "31dd05c299b071da6a2ac53276d00e3b2aafcc8dcd274f0b88d3360c89726d44",
+      "same_as_v4": true
+    },
+    {
+      "path": "production/sts2/Volibear/images/card_portraits/u43.png",
+      "sha256": "53b90704f2727f87913da50ea44ce622b3da63f09bebfde9e9540a0f88b80a81",
+      "same_as_v4": true
+    }
+  ]
+}

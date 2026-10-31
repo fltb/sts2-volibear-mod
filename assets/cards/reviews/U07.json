@@ -1,0 +1,54 @@
+{
+  "id": "U07",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "589d7e1ca7348fab183d49b21b93f05dc95ef6deb9ca2d41160204447bb6dee2",
+  "master_sha256": "22cec0fa090674175e136a819b7e86a2b566a8cff0591d01c3a103d7cd312245",
+  "comparison_sha256": "8d45c68d721ee77d6dbced6007ced4942f7fa8c8deb8337860c08693f853f41e",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "上方山体沿单一灰白剪切面错落，下部接触与崩移方向明确。左下小熊提供尺度，山形使用宽实色面，没有巨大闪电遮住破坏关系。",
+  "baseline_comparison": "与C18的尺度及R31的破坏重量相容，以地形错动替代拳爪动作；灰阶与125像素剪切面仍成立。",
+  "paw_orientation_observation": "主体是环境，左下熊背影完整；未用毛或雷拟造额外手臂。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:57+00:00",
+  "master": "cards/masters/U07.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U07.jpg",
+  "anchors": [
+    "R23",
+    "C08"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

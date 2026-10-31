@@ -1,0 +1,41 @@
+{
+  "id": "R07",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "90b8956e23ecbf35b105a85aaba48a49265a1cfd958420a823fc2b872e390732",
+  "master_sha256": "627197b948fb0308e1e7a346c1a7fb703ff615a5a884a010a5e26563fe83846a",
+  "comparison_sha256": "a60070e259295b5250bf90cca7f6d20fb03517b96a79050f49db108c5adbe974",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "小熊留在完整后方平台，唯一宽横向雷震前缘掀起前方地面并推开两名小敌人；飞石服从同一波面，云底随波打开。",
+  "baseline_comparison": "与C24天地雷连接、R23范围压迫同调，主形是横向震面，避免再做多条竖雷；125像素仍读稳定内场与外推前缘。",
+  "paw_orientation_observation": "熊为完整小剪影，脚接后方平台；敌人都是独立小轮廓，无混入主体肢体。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:56+00:00"
+}

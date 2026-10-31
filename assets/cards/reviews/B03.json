@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "B03",
+  "decision": "approve",
+  "master_sha256": "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_a",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "单一前臂从左边入画，腕掌连续，爪尖与右向雷束分离；没有把电光误画为多余指骨。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_a.json",
+      "id": "B03",
+      "source_sha256": "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc"
+    },
+    "prior_exact_candidate_review_sha256": "0a05743a347e4224a6e473fb0da16b0e4b5bfbc9186d3694daff3a4580df5de9",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

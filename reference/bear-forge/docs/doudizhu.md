@@ -1,0 +1,63 @@
+# 斗地主：规则配置与接口验证
+
+游戏包导出 cardDefinition 与生产 GameContract；原生和受控模式均通过专用卡牌 Core 推进，逐玩家回调由既有 BaseGame 承接。通用后端兼容测试单独保留在 tests/generic。
+
+规则基准：[《竞技二打一扑克竞赛规则》2016 年 2 月，国家体育总局棋牌运动管理中心署名，全文镜像](https://www.pagat.com/docs/landlord412005.doc)。[总局发布说明](https://www.sport.gov.cn/n20001280/n20067662/n20067613/c22917445/content.html)。实现单副牌第五至十一条、术语与附录一记分；多人赛事 MP、瑞士移位和赛事组织不属于单副牌规则。配置 ID：competitive-2016-bear-1。
+
+## 固定解释
+
+1. 54 张牌，按座位 0→1→2 代表逆时针方向。每人17张，底牌3张。首叫由 setup 显式指定；全不叫重新洗牌且首叫顺移一位。这是首叫安排的明确比赛配置。
+2. 叫分仅一轮，每人最多一次；叫3立即结束。确定地主后农民同时决定加倍，结果在两人都完成后公开；地主在有人加倍时决定再加倍。加倍阶段结束前底牌对所有人隐藏，之后公开且归地主。
+3. 每个输入限时25000游戏毫秒；到达截止点采用 timeoutFirst。叫分超时不叫，加倍/再加倍超时不加倍；出牌超时引牌出最小单张，跟牌过牌。农民加倍默认不加倍及恰好截止点的顺序是明确的宿主规则补充。
+4. 翅膀可有重复单牌（书中有一对作两翼的示例），不可包含机身点数、双王同时、四张同点数、在3至A序列中与机身相邻的完整三张；对子翼必须来自不同点数。四带两单允许一对，禁止双王同时；四带两对不能拿炸弹当两个对子。这些歧义按附例和限制统一解释，不作为对所有斗地主变体的断言。
+5. 同一牌张组合可能有多个合法机身解释；动作显式声明牌型、机身高点与长度，校验其合法解释，避免比较时猜测。
+6. 再加倍仅作用于选择加倍的农民，按附录一算例：叫3，一炸一火箭且反春，仅农民1加倍且地主再加倍，得分为农民1 +96、农民2 +24、地主 -120。正文个别措辞与示例有歧义，本配置以该算例为准。
+7. 花色无比较意义，动作使用点数多重集；不因不同花色制造策略上重复的动作。牌库用54个物理牌ID发牌，手牌逻辑使用点数，保持各点数总数守恒。
+8. 余牌张数、已出牌、叫分及揭示后的加倍结果公开；手牌仅本人可见，底牌仅在公开后可见。书中少于两张的提醒额外生成公开事件。终局不额外揭示未出的私有手牌。
+
+## 公共契约消费
+
+ProgramSetup={game:Setup,seed:uint32}。card.ts 声明同步结算步骤；实例内显式随机流由 deal.ts 驱动发牌；decision 端口发布 Frame 并等待 Input，event 端口发布 AuditEvent[] 并等待 null。state、随机局部和 published 事件位置由 Instance 保存。
+
+module.ts 装配同一 cardDefinition 与 contract.ts 中的纯适配契约；不伪造通用 GameModule.program。request.receive 从 Frame 产生 {view,requests}；每个请求 key=slotId、player=席位、type='action'、data={actionSpec}。请求不含截止时间。GameContract 的 observe/projectEvent 分别生成玩家状态和可见事件。
+
+## 动作与会话控制
+
+玩家动作只有 bid、double、redouble、pass、play。ActionSchema 与 exact 列表均不含时间。onRequest 直接返回 Action。prepareAction 根据当前请求定位席位与阶段，用领域 validateInput 校验；程序收到的 action 输入也不含交付时间。
+
+会话通过独立 bindControl 接收 {now,deadlines:[{slotId,at}]}，可以返回：
+
+- {kind:'clock',at}：单调推进游戏时钟；不消耗玩家动作、不修改牌型或轮次。
+- {kind:'timeout',slotId,at}：要求处理指定入口的超时；游戏验证期限并选择原规则默认动作。
+
+时间由会话提供。真实会话按到达顺序先提交需要的时钟推进，再交付玩家动作；训练会话可使用虚拟时间。截止点采用 timeoutFirst，当前时钟达到期限后该入口 exact=[]，普通动作拒绝，超时控制可继续游戏。
+
+合法动作描述完整列出当前状态下的 Action。叫分升序、布尔 false/true、出牌先过牌再按牌型/高点/长度/排序点数串。Play.cards 为非降序多重集，保留每种合法牌型解释。
+
+## 多玩家和事件
+
+农民同时加倍产生两个请求，直接分别指定 player。一个输入被接受后，游戏封存其选择，发布剩余请求；新的 callId 使旧回复失效。玩家仅看到自己的加倍记录，全部完成后游戏公开结果。
+
+原始 AuditEvent={audience,event}，玩家接收 Event。projectEvent 同时用于观察历史和主动事件交付。相同函数可绑定三个席位，onRequest 从 request.player 区分席位，onEvent 从 control.player 区分席位。
+
+一次 BaseGame.run 最多接受一个动作或会话控制，再交付事件，停在下一请求或结束。返回 accepted 包含具体身份与输入。后续事件暂停、取消或故障保留该接受结果。
+
+## 验收追踪
+
+| 内容 | 证据 |
+| --- | --- |
+| 发牌、完整叫分、全不叫重发、加倍再加倍 | 原生完整规则循环测试 |
+| 全部牌型与比较 | 独立子集 oracle 和牌型测试 |
+| 春天、反春、逐席位得分、零和 | 领域规则测试 |
+| 私密同时选择 | 封存及剩余请求测试 |
+| 普通对局 | 三席位同一动作回调，无时间字段 |
+| 超时对局 | 独立会话回调，原规则超时默认 |
+| 时钟与期限 | 独立推进、时间倒退拒绝、截止点动作拒绝及 exact=[] |
+| 玩家请求身份 | 本模块 game.test.ts 验证错 key/错玩家；共享消费者的旧调用/其他实例拒绝由 packages/game-sdk/tests/game-integration.test.ts 验证 |
+| 事件 | 玩家投影与最终可见历史逐条一致 |
+
+运行 npm run check。卡牌两模式执行真实 Card Core/Instance/BaseGame，覆盖完整续延保存与正式绑定器；旧通用 program/IO 夹具仍验证原执行后端。
+
+## 卡牌 Core 接线
+
+schemas.ts 的 gamePorts 为 decision（request）和 event（event）声明类别与输入/返回 schema；programSchemas.ports 直接使用它。card.ts 通过 card.request 直接产生声明端口等待，将随机流、发牌、结算栈和事件游标保存在实例内；原生/受控只切换存储与记录能力。外侧 contract.ts 的端口类别取自同一声明。状态、合法动作、事件、会话控制和终局仍按 protocol.md 的对应表转换；主循环和牌型规则无需改变。

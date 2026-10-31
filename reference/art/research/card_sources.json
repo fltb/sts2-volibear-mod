@@ -1,0 +1,91 @@
+{
+  "researched_on": "2026-10-27",
+  "timezone": "Asia/Shanghai",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Mega Crit — The Neowsletter, October 2024",
+      "url": "https://www.megacrit.com/news/2024-10-02-neowsletter-issue-3/",
+      "source_type": "developer_primary",
+      "web_ref": "turn5view0",
+      "supports": ["clear, expressive art at small screen size", "crisper, less painterly visuals", "more color, playfulness and liveliness", "continuity of the series visual motifs"],
+      "does_not_establish": ["every card uses one silhouette", "mandatory flat vector rendering", "exact numeric art QA thresholds"]
+    },
+    {
+      "id": "S02",
+      "title": "Spire Codex repository",
+      "url": "https://github.com/ptrlrd/spire-codex",
+      "source_type": "dataset_maintainer_primary",
+      "web_ref": "turn2view0",
+      "supports": ["GET /api/cards", "GET /api/images", "versioned image browsing and ZIP downloads", "game data copyright retained by Mega Crit"],
+      "api_urls": ["https://spire-codex.com/api/cards", "https://spire-codex.com/api/images"],
+      "snapshot_observation": {"cards": 577, "character_cards": 439, "counts_by_character": {"ironclad": 87, "silent": 88, "defect": 88, "regent": 88, "necrobinder": 88}, "main_image_dump_label": "v0.107.1", "beta_image_dump_label": "v0.110.0"},
+      "version_claim_scope": "Observed index labels only, not a claim about the latest released game version."
+    },
+    {
+      "id": "S03",
+      "title": "STS2 ModTemplate — Adding Cards",
+      "url": "https://github.com/Alchyr/ModTemplate-StS2/wiki/Adding-Cards",
+      "source_type": "mod_framework_maintainer_primary",
+      "web_ref": "turn6view1",
+      "supports": ["normal portrait 1000x760 PNG", "optional normal portrait 250x190 PNG", "full-art 606x852 /250x350", "card_portraits/big and card_portraits directories", "class-name to snake_case filename mapping"]
+    },
+    {
+      "id": "S04",
+      "title": "ModTemplate-StS2 — CharModCard.cs",
+      "url": "https://github.com/Alchyr/ModTemplate-StS2/blob/master/content/CharacterModTemplate/CharModCode/Cards/CharModCard.cs",
+      "source_type": "mod_framework_source_primary",
+      "web_ref": "turn12search0",
+      "supports": ["CustomPortraitPath for big image", "PortraitPath for small image", "BetaPortraitPath for separate beta art", "1000x760 and 250x190 dimensions"]
+    },
+    {
+      "id": "S05",
+      "title": "BasicMod — Adding Cards",
+      "url": "https://github.com/Alchyr/BasicMod/wiki/Adding-Cards",
+      "source_type": "mod_framework_maintainer_primary",
+      "web_ref": "turn8view2",
+      "supports": ["STS1 portrait 500x380 named CardName_p.png", "STS1 small 250x190 named CardName.png", "type-specific cropping required to avoid visible overflow", "case sensitive asset names"]
+    },
+    {
+      "id": "S06",
+      "title": "StSModdingToolCardImagesCreator",
+      "url": "https://github.com/JohnnyBazooka89/StSModdingToolCardImagesCreator",
+      "source_type": "tool_author_primary",
+      "web_ref": "turn10view3",
+      "supports": ["25:19 source ratio", "Attack Skill Power crop variants", "6 outputs when processing >=500x380", "MIT license for the tool"]
+    },
+    {
+      "id": "S07",
+      "title": "Spire Codex API Terms",
+      "url": "https://github.com/ptrlrd/spire-codex/blob/main/API_TERMS.md",
+      "source_type": "service_terms_primary",
+      "web_ref": "turn7view0",
+      "supports": ["community API use within published rate limits", "API terms separate from code license", "Mega Crit retains ownership of game data", "no repackaging the game", "honor rate-limit response and backoff"]
+    },
+    {
+      "id": "S08",
+      "title": "Spire Archive repository",
+      "url": "https://github.com/nkhoit/spire-archive",
+      "source_type": "dataset_maintainer_primary",
+      "web_ref": "turn11view0",
+      "supports": ["both STS1 and STS2 data present", "game namespaced API routes", "data extracted from game files"]
+    },
+    {
+      "id": "S09",
+      "title": "Slay the Spire 2 Cards dataset README",
+      "url": "https://huggingface.co/datasets/t22000t/slay-the-spire-2-cards/blob/main/README.md",
+      "source_type": "dataset_author_primary",
+      "web_ref": "turn2view1",
+      "supports": ["cards.parquet includes portraits", "provenance.json records snapshot version", "images extracted from local Steam installation"],
+      "license_caveat": "Dataset metadata license does not establish a replacement license for Mega Crit artwork."
+    },
+    {
+      "id": "S10",
+      "title": "ModTemplate-StS2 — Extracting Assets and Text",
+      "url": "https://github.com/Alchyr/ModTemplate-StS2/wiki/Extracting-Assets-and-Text",
+      "source_type": "mod_framework_maintainer_primary",
+      "web_ref": "turn6view2",
+      "supports": ["GDRE Tools can recover local SlayTheSpire2.pck", "assets and localization available in recovered project"]
+    }
+  ]
+}

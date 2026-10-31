@@ -1,0 +1,13 @@
+{
+  "id": "R01",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "07492af2405de04a813c19f9838dbdfd9477eb41d906a96997d17d098216e50a",
+  "observations": "云层、毛感和地景小纹理过碎，简洁度落后固定卡。",
+  "defects": [
+    "云层、毛感和地景小纹理过碎，简洁度落后固定卡。"
+  ],
+  "recorded_at": "2026-10-27T17:29:00+00:00"
+}

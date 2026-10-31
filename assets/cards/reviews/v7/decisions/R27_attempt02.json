@@ -1,0 +1,13 @@
+{
+  "id": "R27",
+  "attempt": 2,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "809a765daed8bb79d20f0b11d997ce8a39d852518d3e2002f1e1aec63c2eef0d",
+  "observations": "纹理已简化，但完整熊头影仍放在两件器物后方，影边不与两物转化边界重合，改造因果不成立。需让宽影身真正覆盖两物，普通面与改造面共同沿同一斜影界转变。",
+  "defects": [
+    "纹理已简化，但完整熊头影仍放在两件器物后方，影边不与两物转化边界重合，改造因果不成立。需让宽影身真正覆盖两物，普通面与改造面共同沿同一斜影界转变。"
+  ],
+  "recorded_at": "2026-10-27T17:55:07+00:00"
+}

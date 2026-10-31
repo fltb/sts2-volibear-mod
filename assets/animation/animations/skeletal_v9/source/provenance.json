@@ -1,0 +1,44 @@
+{
+  "status": "exported_and_assistant_reviewed_user_art_approval_not_claimed",
+  "method": "built-in image_gen local hidden-surface completion plus reference-coordinate overlapping extraction",
+  "reference": "references/identity/volibear_approved.png",
+  "reference_sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+  "prompts": {
+    "core_underpaint.png": "Edit registered armless underlay in place: remove both braids and jewelry; repaint contiguous chest/abdomen fur only; preserve original head, pose, chest/waist/hips and both legs. No bodybuilder redesign, no crop/zoom. Transparent background.",
+    "core_without_spikes.png": "Edit core_underpaint in place: remove only back stones and electric arcs; paint continuous underlying cream mane; preserve head, chest, waist, hips, legs, feet and exact pose/placement. No arms or braids, no crop/zoom.",
+    "near_arm_complete.png": "Preserve isolated near arm pose, length, thickness, elbow, wrist, hand, claws, tattoo and fur. Complete cropped shoulder edge into full rounded furry concealed overlap, no exposed cut face or ball joint. Remove detached specks.",
+    "braids_complete.png": "Two complete standalone original-style ivory braids, bronze bands, cyan rune plates and tassels; no attached chest/shoulder fur. Independently reviewed/reused from otherwise rejected V6 candidate source; its rig and proportions are not reused.",
+    "far_hip_completion.png": "Complete dark rounded furry hip root on isolated far thigh, removing pale torso scraps while preserving the original lower knee/thigh pose. Blend generated completion only over upper portion."
+  },
+  "files": {
+    "near_leg_reference_crop.png": "5c405ce8f1ca5964f594bb3034c8ca2791fe8004c3a3b0c913d91f96efc8a8bb",
+    "domain_die_authored_atlas.png": "cdcebd7b57db98e79c1ca7aa227d9b562b5770081362234a51d42b1638fa4799",
+    "far_leg_reference_crop.png": "a81acf4dcc63e521088b4246d490fc497eed0db23f21d9a4b7fa277765453ede",
+    "near_arm_complete_candidate.png": "03833b03794b296f5909f516aa059d265a68cc466b0f0d61d6894c12dd4fe3a0",
+    "braids_complete.png": "1c47fd277205a531a02643da8b548a5dee14c162351d169d65abe73525b01150",
+    "near_leg_complete_candidate.png": "676933b551e85e4b6d24b2605ba7c759a845d62b2faa29bedbb2b25f5aebdeb9",
+    "near_arm_complete.png": "ae31268a85d29c6148ee1ff80d5307d5b724d3b5053640066605752491c8f760",
+    "far_arm_complete.png": "b6607a2d4dda2b683266a5b3401abe80360d99963fee308cbdfa6b04252b8db2",
+    "rejected_elongated_near_leg.png": "2e11f74a60e7d5fbc62b36d47a2790bbd34dab18947800b569a82bf3932a3b15",
+    "core_underpaint.png": "b5328b676760502649b82cf5cce43a5e6e73a100f742661508df25e12530d053",
+    "near_arm_reference_crop.png": "dc30833d786865d7c912ceac6702eadaed145db514707be2366b8ad867ce8408",
+    "far_leg_complete_candidate.png": "350850be2be95e6c61513b4ff2f63726daadf4ae9157042483e62dfca5323e17",
+    "die_authored_atlas.png": "cdcebd7b57db98e79c1ca7aa227d9b562b5770081362234a51d42b1638fa4799",
+    "core_without_spikes.png": "f67a65336f0c004cd68da1c0e1e1a130b9db74c96db565705ca6f999d264027a",
+    "far_hip_completion.png": "d70e8cb25acd75b7835a03007f9b4f6bf43a171f47fdb7bf50f75e97d0f8bdbb"
+  },
+  "acceptance": "Independent complete anatomical textures, overlapping joint motion and perceptual identity similarity. Zero pixel diff is not required.",
+  "reused_sources": {
+    "far_arm_complete.png": "animations/source/revision_v3/arm_far_complete.png",
+    "die_authored_atlas.png": "animations/clean/atlases/die.png",
+    "domain_die_authored_atlas.png": "animations/clean/atlases/domain_die.png"
+  },
+  "revision": "V9",
+  "historical_unused_sources": [
+    "near_arm_complete.png",
+    "far_hip_completion.png",
+    "core_underpaint.png"
+  ],
+  "active_anatomical_completion": "anatomical_completion.json",
+  "layering": "upper_arm_socket_near shares shoulder weights behind torso; upper_arm_near/forearm/hand in front of braids"
+}

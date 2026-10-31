@@ -1,0 +1,20 @@
+{
+  "schema_version": 5,
+  "revision": "V5",
+  "status": "pass",
+  "checked_at": "2026-10-27T12:58:36.044744+00:00",
+  "repo": "volibear_reference_repo",
+  "payload_file_count": 81,
+  "payload_uncompressed_bytes": 36218709,
+  "payload_sha256_list_digest": "3e22054cab1e8e8956776bdf4811520b385f0836e386caf4627e3805ed190db3",
+  "payload_zip_crc": "pass",
+  "payload_independent_extraction_sha256": "pass",
+  "packaging_metadata_excluded_from_payload_digest": [
+    "SHA256SUMS",
+    "reports/package_validation.json"
+  ],
+  "method": "The real ZIP payload was CRC-tested, extracted into a new temporary directory, and every extracted file hashed before this report and SHA256SUMS were appended.",
+  "final_archive_gate": "After appending the two metadata files, the complete final ZIP is CRC-tested and independently extracted again; its included verify_checksums.py must pass for every distributed file. Final ZIP byte hash is recorded outside the ZIP to avoid self-reference.",
+  "volume_policy": "One complete independent ZIP; no split volumes.",
+  "TR_policy": "Project asset-scope grading, not archive splitting or a game-validation grade."
+}

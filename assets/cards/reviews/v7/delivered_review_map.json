@@ -1,0 +1,1469 @@
+{
+  "purpose": "Portable links to unchanged bytes actually reviewed. Historical candidate paths in cross reviews are audit paths; these are delivered counterparts.",
+  "cards": [
+    {
+      "id": "B02",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/B02.png",
+        "sha256": "b6f8361db82c6238be8b00e46519e01dcba855c0031b65110aef7d4343f64ecb"
+      },
+      "master": {
+        "path": "cards/masters/B02.png",
+        "sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/B02.jpg",
+        "sha256": "e8ecdd825562e62d933a520d5c98ab54b79308abdb0e23ebd80015d57955fc40"
+      },
+      "review": {
+        "path": "reviews/B02.json",
+        "sha256": "d05f81537aaede21e096c69ffcb5cffd640fded66771c68bc9276e7ebe5c6a3f"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_B02.json",
+        "sha256": "9c02d1c47221cab1749245fda1f4bfdfc726eda8084d6ef4f05f136730ccc351"
+      }
+    },
+    {
+      "id": "B04",
+      "attempt": 3,
+      "raw": {
+        "path": "cards/source_v7/B04.png",
+        "sha256": "6ad5c812aa559bf3fb32a79bff0345a53b21a33033b3d3fab0a492c81820683a"
+      },
+      "master": {
+        "path": "cards/masters/B04.png",
+        "sha256": "67833ea2a6671df81d07a938d708f488baf757fb5299e3d7edd68f8b1369c01b"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/B04.jpg",
+        "sha256": "529b387e83726172331031d2ac208a510c5614c4a75b15aa7dd5c80ea0ad2100"
+      },
+      "review": {
+        "path": "reviews/B04.json",
+        "sha256": "91684aee42f01e3c4b84db1ebfa7af43259cc26e5a8f303c0e292fa182e01966"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_B04.json",
+        "sha256": "5fd340a5f4cbae88880899ec74c7dc7566d26b0bfb246f33cb79125fed2e99d2"
+      }
+    },
+    {
+      "id": "C01",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C01.png",
+        "sha256": "176d31ac76ddd16bbe2971e09df4ab21b6cba64fcabc6210eb8e8c0dd72c9e87"
+      },
+      "master": {
+        "path": "cards/masters/C01.png",
+        "sha256": "c944e222cbae408181942b760b3dd65cf90009a6993546a1faca94d0949324c8"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C01.jpg",
+        "sha256": "2d0e3a57bf54df25aa02771b711f9fc65f198bd227cbde9d23d260432b7f10c4"
+      },
+      "review": {
+        "path": "reviews/C01.json",
+        "sha256": "5d1defe7e11b1cdece49de373b806b6f61b7d1c49862de51258d5fb00993b0fe"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C01.json",
+        "sha256": "8eac309464dee1ee3b4b6a5e914b898468f422d18fb678fb56e870576707210d"
+      }
+    },
+    {
+      "id": "C02",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C02.png",
+        "sha256": "8182cb1c2d496e7289da621127d2e5716989733c5480a7fd5eb5a4140b3f4c51"
+      },
+      "master": {
+        "path": "cards/masters/C02.png",
+        "sha256": "a33016e5dcef904795291285382fbb4014f2d2b6c4a02f7fcf62a73a2a29c43b"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C02.jpg",
+        "sha256": "538d2517ce6484e3bf5ea508eb3f089b7f3e5cc5a16cfd55b2cbcbd7953e294b"
+      },
+      "review": {
+        "path": "reviews/C02.json",
+        "sha256": "bfba9c7c92de149087196d8a24d9ba7daa0e1619c23ba6260718c76b730854b1"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C02.json",
+        "sha256": "bcf3c0c938662e30f65e4053b636093c0eb5721f4981cee64daa83dc5534a98b"
+      }
+    },
+    {
+      "id": "C03",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/C03.png",
+        "sha256": "b9fb8ecc2be6be9a399a1d22b8bb00df5bc76d23c089417d62f0722c5400dbd3"
+      },
+      "master": {
+        "path": "cards/masters/C03.png",
+        "sha256": "ff2cdf1d7d9ddc7fb0e70c7747ba249b6e55112abc6cf6abdaba7572d93dd162"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C03.jpg",
+        "sha256": "d504f08bfa7f66b556aa8fdcebd7a01194d983785aa1a8e52e53cb9ceb56cb0a"
+      },
+      "review": {
+        "path": "reviews/C03.json",
+        "sha256": "6b81f414d2d33988f353bdf403a19468e5de0f2e307af818db22d6530499ff0d"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C03.json",
+        "sha256": "6a114dfd81dec0f9bb07c0b61e0b6ede7b303b08837ef43f9dbd61ffdfdb6719"
+      }
+    },
+    {
+      "id": "C04",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/C04.png",
+        "sha256": "368d93a8524a6ad4bd158a776dbca1e7ee7d7d47f2a79e2368d51f2da5c56d11"
+      },
+      "master": {
+        "path": "cards/masters/C04.png",
+        "sha256": "b3d3d40f83ee8cca445d9c4bc178426cb3c17c5c116ea28d785ec2884128560a"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C04.jpg",
+        "sha256": "ca4373bca625956a891acb70b3e3cca95561b297f60969b2f54386b50c57bc57"
+      },
+      "review": {
+        "path": "reviews/C04.json",
+        "sha256": "6e3a3e80717dc7b3e155dcafa6b90557d2e1859465a104bf1e5327d3f93ef4c9"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C04.json",
+        "sha256": "93d4656cc565ccad5ff690820f42d7fccbee2c4ed7b7dab5a080e9db5908b41c"
+      }
+    },
+    {
+      "id": "C07",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C07.png",
+        "sha256": "09473bf5ba4ea65806a4fac12ac8df69a27fb73c3cf9027ed9443b9751633f6f"
+      },
+      "master": {
+        "path": "cards/masters/C07.png",
+        "sha256": "db1de136aa9bcf4dd574a1897cc4a3f01f8b32e02e933b99c9372240fd32ac64"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C07.jpg",
+        "sha256": "1c753de76631c6314f493548ed5eeec50e04058d26a8334a11caba1eaf4469a2"
+      },
+      "review": {
+        "path": "reviews/C07.json",
+        "sha256": "dea0f44ce1e26d134eaa5a1150429d64c86d7e3bc3552814dbcfc5f46c1583fc"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C07.json",
+        "sha256": "3895f99c0a66645e5ae31c1dffc891d9f593b335556a98a5df57487d46ee3fcb"
+      }
+    },
+    {
+      "id": "C10",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/C10.png",
+        "sha256": "9c89f3e0cf8e25dfea059abbc5d3e55ef92b69280b05747f17269fb7dc76073d"
+      },
+      "master": {
+        "path": "cards/masters/C10.png",
+        "sha256": "e48b9666cf53016e5d5cd96d7d31a3a3c2d2fd050e246e588f770192d831229d"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C10.jpg",
+        "sha256": "f9054292b6c066c2539097db11a72de50a80edf826577917696d6cd0e061c537"
+      },
+      "review": {
+        "path": "reviews/C10.json",
+        "sha256": "066a0e0f954dad786ab5cd8fe6e8e44c1c92b12e562bd3400307254349ba6a28"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C10.json",
+        "sha256": "85c195957ce3c055e15ce6a7b047455041a7fc67dcf1663e73ac78f1df802111"
+      }
+    },
+    {
+      "id": "C11",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C11.png",
+        "sha256": "10b44ea22272678fbd083673721baf054d06eca1a899d1b1faaabef621afb6aa"
+      },
+      "master": {
+        "path": "cards/masters/C11.png",
+        "sha256": "96c14c3cb9ce86c56c856e79c41bd72b5875081a37cfdc57be347a198319a9e9"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C11.jpg",
+        "sha256": "bac59ecd59248ad751bfc30120218ac8dd2d8709d0f581a2b082c5ee2f64a70e"
+      },
+      "review": {
+        "path": "reviews/C11.json",
+        "sha256": "f0d20ed46040f1a9f5bb7a164d29558175af50d086e1b0958994c124f2e222ac"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C11.json",
+        "sha256": "d0871db9545568f200d9f158581ebd48e8f6175ddd9c89ac89a15999e2686170"
+      }
+    },
+    {
+      "id": "C14",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C14.png",
+        "sha256": "c95e34e8254267e60547ed72f4c45c9552958de065394bfcf70916eaa21ff56f"
+      },
+      "master": {
+        "path": "cards/masters/C14.png",
+        "sha256": "7e3b1aaaed7dc38dd731178d3ac9a065a180a8dfbd16d712a83315b41f165675"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C14.jpg",
+        "sha256": "b407f5861c4b4caa69b04da39c8dcbcfaef9756e41a0dea048f41abcd6fe5093"
+      },
+      "review": {
+        "path": "reviews/C14.json",
+        "sha256": "39733c8039c6e227564491f18f7dec00c896e5e2bc04505b91224579044a99e3"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C14.json",
+        "sha256": "f33344107926d4e0fddf6b8517ae60b7cc4712768e1c6d660041790cfbd37240"
+      }
+    },
+    {
+      "id": "C15",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C15.png",
+        "sha256": "4f611926c22c49c7360010eb34c8d74e7d066bd0cc47e5addf24ce5872c0dd31"
+      },
+      "master": {
+        "path": "cards/masters/C15.png",
+        "sha256": "a220214bd814c6eef72d427b412bca7493a2dc613ea6f52301ce143650350bba"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C15.jpg",
+        "sha256": "b59b74bddd4ebe79276376416ae8d8e12d8e269a12e059335389d4b96988b87b"
+      },
+      "review": {
+        "path": "reviews/C15.json",
+        "sha256": "6bffb05e543f21c2a78aeb82b943a560d2018b1100eaee38c188a1b7ae000ebd"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C15.json",
+        "sha256": "b75f47ff406c51ff82c9e3abf0fb7d85da36bd838adfe52ea492722657d06d40"
+      }
+    },
+    {
+      "id": "C17",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/C17.png",
+        "sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530"
+      },
+      "master": {
+        "path": "cards/masters/C17.png",
+        "sha256": "af0d6bd4834a76c10c045a59df0e469875717b08af1404ea8da2379dcf8a348f"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C17.jpg",
+        "sha256": "f06c3158527e1441e048f9dd9468cc6bef5458d388762dc55ccd3ab748f19c7b"
+      },
+      "review": {
+        "path": "reviews/C17.json",
+        "sha256": "7b3c4ac42be3d1beb59a6285769c15109856b9186e8fd3a6ff5d2a6901c5558c"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C17.json",
+        "sha256": "05d772623f6bf4ae424b501f6d05b2ab7f4b35363d0766072d7110d5ae52dd55"
+      }
+    },
+    {
+      "id": "C19",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C19.png",
+        "sha256": "639e6a6948b8d4ed0778a778b582efe761933fa526badfdfc8b8b5353b69531d"
+      },
+      "master": {
+        "path": "cards/masters/C19.png",
+        "sha256": "e47e00d54f700097e500ea6a0eb8e9a5ad225cb95922747044cc954543ba59c4"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C19.jpg",
+        "sha256": "c4227951f00dc879d85d144ae2a3a0d775e6a67ae8a3ee404bce9198c02f369e"
+      },
+      "review": {
+        "path": "reviews/C19.json",
+        "sha256": "d3e63544236e643cf1a1d2308098d82194d059cb4718da24c62b01b53ddaaeb2"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C19.json",
+        "sha256": "a7c67ba126f6fcd511bde2d6c4d6400f3aedd10fc2b3799cdee4c0d5f72d85c6"
+      }
+    },
+    {
+      "id": "C20",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/C20.png",
+        "sha256": "51eb996f64f25ee6f262f25f51b3822c19baf002a0a004be4bcaf011ea3ef1ae"
+      },
+      "master": {
+        "path": "cards/masters/C20.png",
+        "sha256": "507f76d2ea8ef0695dec4c1eb95091bc4ddf4f1326a05644a656b7057257193e"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C20.jpg",
+        "sha256": "57d4e95b80afcb0896b9cab13c006a38567e8961ff147eb68c42e22e18a8e077"
+      },
+      "review": {
+        "path": "reviews/C20.json",
+        "sha256": "3d155c9143b4b526a97812da835043240bc0da9a3baf010e31455b7346411e99"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C20.json",
+        "sha256": "69055b2b6fb3138d627d6b05cd273d86491d61995e6931c9bef8d1c3ec1f69ae"
+      }
+    },
+    {
+      "id": "C21",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/C21.png",
+        "sha256": "468e57234efc2ecf56001b38df35b3ca8a42023192b24a0ef3ec80f0f6a9bd48"
+      },
+      "master": {
+        "path": "cards/masters/C21.png",
+        "sha256": "e17f161a46f8dc6fe0db3b82ad1ac5a5a5bc51d2f9b52478b695292281277fb6"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C21.jpg",
+        "sha256": "53acbd0eb88eb164af649baeafecb1035adc6d4950fb2f835d8388413b6237c1"
+      },
+      "review": {
+        "path": "reviews/C21.json",
+        "sha256": "6f9c920aba0107dc8fd049445cafb70ec984284efbf6d00b7f44c449bfb95e0b"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C21.json",
+        "sha256": "9f1accd7b4841ce5e17e69121ca2a3cd7fb4ba88f54c631b0486c3759d16e54d"
+      }
+    },
+    {
+      "id": "C25",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/C25.png",
+        "sha256": "ca3d92727e28c65192400f5907dc68c344b05a685457121fef95c20dada334ad"
+      },
+      "master": {
+        "path": "cards/masters/C25.png",
+        "sha256": "2b48a2dbe26e86280b86ec2b3a0e80e080d80519da6bd0d05957f554e1fe5fe2"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/C25.jpg",
+        "sha256": "71741341aa32ca4fefb180363c0e33bf0b4cabbc1735bd44da924923463c0ecf"
+      },
+      "review": {
+        "path": "reviews/C25.json",
+        "sha256": "66e23927702bd6edd3f89169ae3a997b22532712980d079bb46e50a2a6a49300"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_C25.json",
+        "sha256": "f3f2578c63e0120dc6e07735f945d44d7422cae1c9fb08476d72657737e2b033"
+      }
+    },
+    {
+      "id": "U02",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U02.png",
+        "sha256": "844e6061d6b504abc17df60c860622f048d964b023d45debc1fee645b2e93b05"
+      },
+      "master": {
+        "path": "cards/masters/U02.png",
+        "sha256": "8e15ea0450985a34b00423e64c73ad8f2830677559f3208973ddceb0b207e240"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U02.jpg",
+        "sha256": "bfe5f8ef3579c7566b7c78bdf8c433725508fedc99744360d93111ed5e5ec325"
+      },
+      "review": {
+        "path": "reviews/U02.json",
+        "sha256": "06c0a6a11552a1638314bb04d59c13400b1575d82b3c1e9e27c153b20eaf59cd"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U02.json",
+        "sha256": "3b2368b48ef17575adf7a396b378367248a6dfcb5c2d8f37d6eb872c6c77ff32"
+      }
+    },
+    {
+      "id": "U04",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U04.png",
+        "sha256": "e31179d85b084ffda5afe8a9a02f5991056f35163c5a73633b1d76970970ac30"
+      },
+      "master": {
+        "path": "cards/masters/U04.png",
+        "sha256": "7c427eb6fe3cf41ae1990af3731686361fd5cdcfcd0012a673b241098268952c"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U04.jpg",
+        "sha256": "198d4a575162c59e172a53f5bb8f8a9a3c2d22fd140df50f018ed26592a51f7c"
+      },
+      "review": {
+        "path": "reviews/U04.json",
+        "sha256": "d420e93c4ceb2f5c3903d3b3dde184e9f8719fc6c524c258e70a46a3d6df6723"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U04.json",
+        "sha256": "09911c7fc1c36aecf7f7015e9f8f53f663b6f1bef3f77b4f833a50add757d555"
+      }
+    },
+    {
+      "id": "U05",
+      "attempt": 3,
+      "raw": {
+        "path": "cards/source_v7/U05.png",
+        "sha256": "b3e7282875f417e9764879a24ee55d902fe0b6ead06abb230db19c10427b8287"
+      },
+      "master": {
+        "path": "cards/masters/U05.png",
+        "sha256": "c76bd7bac2e04253889cf28996e3f2427c7fde811d861c6b717f0ecd85b916ed"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U05.jpg",
+        "sha256": "41d5435237bd70088fe410a2206ab41446930c8e822c3706d995f40904ac4054"
+      },
+      "review": {
+        "path": "reviews/U05.json",
+        "sha256": "c48268dfc507252ea1c5a0669c9dba8fada14a2be7ed801df2e73d52626623e8"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U05.json",
+        "sha256": "52008b713fbfa5ab14ed954a819d76f2e90b448a890b9731c1cd82ff82219469"
+      }
+    },
+    {
+      "id": "U06",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U06.png",
+        "sha256": "77185bb2812af1a621c47304dd852baffe6b45095f4daac1692446096269c800"
+      },
+      "master": {
+        "path": "cards/masters/U06.png",
+        "sha256": "86f835aeb8fdbb9ff39dd1ac38feb43c63e923234d59ea922cef4cbe71cd194b"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U06.jpg",
+        "sha256": "e639eb34de6c644ac5155b3e832d9cf6c5b2017c22685b2d508ad93efb19eaa8"
+      },
+      "review": {
+        "path": "reviews/U06.json",
+        "sha256": "4de33a04fa04e8e1d284b60128abcd8202902bb6e64bcb303d2733ffbc58bfe5"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U06.json",
+        "sha256": "5cf51f2f12356b70a5c3a76f36a31696666e0791a81af9543255261d7bc2f36b"
+      }
+    },
+    {
+      "id": "U07",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U07.png",
+        "sha256": "589d7e1ca7348fab183d49b21b93f05dc95ef6deb9ca2d41160204447bb6dee2"
+      },
+      "master": {
+        "path": "cards/masters/U07.png",
+        "sha256": "22cec0fa090674175e136a819b7e86a2b566a8cff0591d01c3a103d7cd312245"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U07.jpg",
+        "sha256": "8d45c68d721ee77d6dbced6007ced4942f7fa8c8deb8337860c08693f853f41e"
+      },
+      "review": {
+        "path": "reviews/U07.json",
+        "sha256": "ace6baa469ecc1407316a11c93c28d5feb15be97e9c2632023a98e61ec7a4f45"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U07.json",
+        "sha256": "7f003b5a5e12e60e55254b488dab0a91a9b9772181e04b38707820399a5f02b1"
+      }
+    },
+    {
+      "id": "U08",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U08.png",
+        "sha256": "18657eb5beb78d7d63fb4937c7df1f872ad1af9b5e5851ca6664ef4af4210583"
+      },
+      "master": {
+        "path": "cards/masters/U08.png",
+        "sha256": "46e6c7b578800409d70f3d4c084cdeed730f93ad850ea756dd96a6ceb542b9ee"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U08.jpg",
+        "sha256": "98d7ff03d77a2d32cf576080c2455b6e61b96135f8f9cdc6805957d5871e2a1b"
+      },
+      "review": {
+        "path": "reviews/U08.json",
+        "sha256": "12a45306af5f1d66a29320842cac0ad5a21032f82e99f800391fd971dd2b5917"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U08.json",
+        "sha256": "8bff62a51643d1d14170504c85fdffe2f6e0c130427f84ae1d0f5257734da8cc"
+      }
+    },
+    {
+      "id": "U10",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U10.png",
+        "sha256": "2b66443a1c333cb86729bb06a9e299f90b4728367db5edf74cf145b631b94b65"
+      },
+      "master": {
+        "path": "cards/masters/U10.png",
+        "sha256": "8d7e1d930985bd42b29a73dba84be5688e8a88245f5248e45125c2bb482fc501"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U10.jpg",
+        "sha256": "c07b2cb2c98669878e3766b5bc49fb9edca0416bb34fa60145ccd42f28430f0c"
+      },
+      "review": {
+        "path": "reviews/U10.json",
+        "sha256": "ee51dda7f7802a7dd7e161e8aea35246ed32dd236cf2251b1140874b4068e4cb"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U10.json",
+        "sha256": "42e4ebc3bec3928b0bc0f97d198f42124786e6f5a613e2caf8f3056ec0ffe5f4"
+      }
+    },
+    {
+      "id": "U11",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U11.png",
+        "sha256": "67b9cd1dc40e5afdb584b8b5181ae3f3c2b5b87f742e3d737939e1ab31577d5b"
+      },
+      "master": {
+        "path": "cards/masters/U11.png",
+        "sha256": "f98bd73f63501d315d81b4226fd5ecb52598cc82bcff43fdc7527b4ed5a74904"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U11.jpg",
+        "sha256": "4960204532c2edd1e072cc28b95d3a470135379ad94f9157f09cc3453d1541e1"
+      },
+      "review": {
+        "path": "reviews/U11.json",
+        "sha256": "f9268a8f13984c7ff436bf20260383f82cc17fb7932c5084fc224023c537095f"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U11.json",
+        "sha256": "a520be4ce1bbb4dd88d7a505034c1bd2ff8830cc77f4569fe0bf6c2a0384c9fc"
+      }
+    },
+    {
+      "id": "U12",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U12.png",
+        "sha256": "c44ca7e2d91067c3cfd1050d833811c17d4e37094dfba58a66541668727d9cfc"
+      },
+      "master": {
+        "path": "cards/masters/U12.png",
+        "sha256": "38adf3df032bff39965e4abd45e56acf124ede15d8857d4534a0c23bd98aa98a"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U12.jpg",
+        "sha256": "17eb9386aa4158c3665491d831b5c619347f2da1f91f98317f3130c73114dc10"
+      },
+      "review": {
+        "path": "reviews/U12.json",
+        "sha256": "8af54fc61841024f7051e57f3a9057073183bffcd9c604851c6ee11c12d6526a"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U12.json",
+        "sha256": "97c82cfb3554e70bdcffb68e97277fdf89ff3e49472678836707c991d7ef3f2a"
+      }
+    },
+    {
+      "id": "U13",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U13.png",
+        "sha256": "bb9e4ff00d502eae1830eb9a74b8ba87776c58aeb32b58cccf6341145a06e990"
+      },
+      "master": {
+        "path": "cards/masters/U13.png",
+        "sha256": "a2326674164d92a7ab906062b5b674ad15407816207fdf6ea2257761aa0596b2"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U13.jpg",
+        "sha256": "af3b262266f1a6da792db11307c5eff1f1ee9153d7252a2611b7d0a505c2cd4b"
+      },
+      "review": {
+        "path": "reviews/U13.json",
+        "sha256": "ad105d2e655b9ab15acc791bd39854b8201e043381db27b07b9c4fd8c1325b16"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U13.json",
+        "sha256": "0ba512070d7cf33de740274064bae4d9bd706ead9cc19f50ebc7c01eadfd3ac9"
+      }
+    },
+    {
+      "id": "U14",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U14.png",
+        "sha256": "139938f35f2a42cf88ef929cb820dfdece90ad100efdb289a1f4a2d20fab396b"
+      },
+      "master": {
+        "path": "cards/masters/U14.png",
+        "sha256": "3d83e57a8f1af1ced6cefad7dd2ac9c2e36bf856ea0841cca08955968a7ee8ff"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U14.jpg",
+        "sha256": "226343380c3b3f640fccf4c73b02abfff8c1595531d00a73bbfc01522e0867c9"
+      },
+      "review": {
+        "path": "reviews/U14.json",
+        "sha256": "05ebee4bbc09543988a07d2c12f7c5ab1b71ee42d196ec85fd023e825b412912"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U14.json",
+        "sha256": "5d12084fadab46a5538883c7e141b2e97a81887b83c6f7dbf31a0bfca49b9526"
+      }
+    },
+    {
+      "id": "U15",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U15.png",
+        "sha256": "e114aba2dab5423582bbc2c701c505d01d7983c7f9e194090c83326e5250bf4c"
+      },
+      "master": {
+        "path": "cards/masters/U15.png",
+        "sha256": "18bc85eed02af43db9edaf8abf3191488ea10100517f84d34913ddedb59a06eb"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U15.jpg",
+        "sha256": "de509bcb336691cacfe45b1a3e6cd521d0edb704073dfc08a209414b18eb6814"
+      },
+      "review": {
+        "path": "reviews/U15.json",
+        "sha256": "5eca289538f71d6cf25b4f31d85f2c7ec403352ffecaaa6a7b948f17df4f66ae"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U15.json",
+        "sha256": "824650c9c6d4bfaa8d278ad07d38d179eff322b76a0918c05de36faff83deceb"
+      }
+    },
+    {
+      "id": "U20",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U20.png",
+        "sha256": "49cdaf568587f4f924ecd53fabe1e8f925dea5505077407b26698e20a57d82b7"
+      },
+      "master": {
+        "path": "cards/masters/U20.png",
+        "sha256": "6955d0f4126e933beed92228d0640e9236c20631d5b68687d37b109201d17d63"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U20.jpg",
+        "sha256": "0418edcf17211deb759236971b35a90bba0a49011081f87c6df51d4f6998f0b5"
+      },
+      "review": {
+        "path": "reviews/U20.json",
+        "sha256": "a16e2e009d3da773f0d0cc85b9b20ce5346e8d54e319ae8914d80af5af0c5893"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U20.json",
+        "sha256": "d61a15f7781a0a96c4ac24bdf2c4743ef8bd09f5fb4ccf6b84a68a3413cb887f"
+      }
+    },
+    {
+      "id": "U24",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U24.png",
+        "sha256": "58580485e4298cfe65a276aba210695c120fbd017c02cc21e5e9737a2b88d00a"
+      },
+      "master": {
+        "path": "cards/masters/U24.png",
+        "sha256": "f6256153b50ff691ef1d600927b5089af4294fe263208fc00b1e1f1633dae10d"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U24.jpg",
+        "sha256": "487620fc454f8ad7d63cd42400412c6acaf8d604e25997aa077915cc865fe552"
+      },
+      "review": {
+        "path": "reviews/U24.json",
+        "sha256": "647bcd476dd562852dea61ac409d24c55c02dc1fd06cb7aa4aa0754970433025"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U24.json",
+        "sha256": "d3ac2d1e1883881ec77675e19a1aa9e9c11c61f49811fceeed17c775f4cd3725"
+      }
+    },
+    {
+      "id": "U26",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U26.png",
+        "sha256": "c1b3d61b362b63aec95bc3be30711bc2e1261bb26ef4e7f171a29f592cf6cb7a"
+      },
+      "master": {
+        "path": "cards/masters/U26.png",
+        "sha256": "915b1fcd557b65471e195a26f4d890e6f6c92a48784dbae6d4bcbbd11f975e66"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U26.jpg",
+        "sha256": "f486c5047ec9f27139a85bfa00982222113a77768aca2becbc353f2ffa74617e"
+      },
+      "review": {
+        "path": "reviews/U26.json",
+        "sha256": "f030ce3763449e4587b8e489fd5b6aefd64a2d3d4695a8277e11c57e6bff263c"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U26.json",
+        "sha256": "f5678459957213a1df5c2dab16abeedd25a1fbeb019a9f8a9d1c2cd0096e127a"
+      }
+    },
+    {
+      "id": "U27",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U27.png",
+        "sha256": "52b063e41e06618f677bca7a0d6bcbbc5b764fa2b4d1910758ee8d943c376e35"
+      },
+      "master": {
+        "path": "cards/masters/U27.png",
+        "sha256": "ce9194ae133d0b1202e0e1751fa1523c59cc50f42b3374907322323a4e2024b7"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U27.jpg",
+        "sha256": "a9a07fe66cfeed3d434db6617b50ebb0560110a7e198ac142af6c4855f91d150"
+      },
+      "review": {
+        "path": "reviews/U27.json",
+        "sha256": "3bd9270126b97fa033366fc77f205da6c79093bd3355e91d8fe42ff501db26e5"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U27.json",
+        "sha256": "abe2b8e4c2f5c77deb42a03dce2a1a42bf2a7a1e29d187e8e24f641b3f39b214"
+      }
+    },
+    {
+      "id": "U28",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U28.png",
+        "sha256": "ebabd2fd2860f4f594d69376959444a803542299f4b61979f3fe0c6cdf6c78b4"
+      },
+      "master": {
+        "path": "cards/masters/U28.png",
+        "sha256": "de9e7f6f91c2fe9ecd15f75f490752fdac8a9a2774114f1acf16cdefe7d294a4"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U28.jpg",
+        "sha256": "7891bd39e2f1e08d4dcae08d7be86d920eb31add819ea82bea2e8b77482401f8"
+      },
+      "review": {
+        "path": "reviews/U28.json",
+        "sha256": "58d2626462c73fd5dc5e65315d8cf314316df79eb49f17ef128999409ab34c20"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U28.json",
+        "sha256": "3299ed7313ec23016dd035a5d7c266559a5ca886a0fc141f170c719b4e9c18c0"
+      }
+    },
+    {
+      "id": "U29",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U29.png",
+        "sha256": "68997e640314cf385adb2e041a301169a79d1f9a59709862890c35976170f043"
+      },
+      "master": {
+        "path": "cards/masters/U29.png",
+        "sha256": "030bd482835202d7e290f98b27bbae7526031cdca55092035bbdcdef9a9b3b79"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U29.jpg",
+        "sha256": "477326f3b80950c0c7032b92a18e0abb751af89eec862ce49d815596d49936bc"
+      },
+      "review": {
+        "path": "reviews/U29.json",
+        "sha256": "a147e785a873e90af0f59773137f9c3420d53f5d07af3937b62cc8253fe77f68"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U29.json",
+        "sha256": "c51960371e6c2aeec23d26fe063aaef0696bc49a5ec880ac0dfc8371395ed7e4"
+      }
+    },
+    {
+      "id": "U31",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U31.png",
+        "sha256": "bfeedb62a20ed39ff482fbb72a986bb4517c2c52040f1b0d05aa829f62e9cfb6"
+      },
+      "master": {
+        "path": "cards/masters/U31.png",
+        "sha256": "650e48177accb01833bd4d323b96bc4f858fcce3aa144e4a9dc99e724cf45eb6"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U31.jpg",
+        "sha256": "68bc3502954a3d18c998a540639e4e71de68a3bc19c975130a39c51a0252b095"
+      },
+      "review": {
+        "path": "reviews/U31.json",
+        "sha256": "0efe5fa19e5f6873f303e799a5d137f4fbb279f2cafe8f2933f81a660329bd85"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U31.json",
+        "sha256": "8c71345cf4df425aeba190ca84e848b190453651f4c1dd55802a0a00782fa993"
+      }
+    },
+    {
+      "id": "U32",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U32.png",
+        "sha256": "d369a545ae6d42b69f51b1c39faa24ae38181b2a8c485c896336c2190cdf40dc"
+      },
+      "master": {
+        "path": "cards/masters/U32.png",
+        "sha256": "fc7164a2a4941ed3e8113716cfb6a8539fb06d7465da247c76404019108d4fd8"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U32.jpg",
+        "sha256": "c2e3431d64c07515de2dd1ba5372fe243a103e5291641cc8ed254421a31fe075"
+      },
+      "review": {
+        "path": "reviews/U32.json",
+        "sha256": "ddc61e7406928e945c1aaf29d6a3387263c351605996daa4fa6aca45cec3dd05"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U32.json",
+        "sha256": "8e282688e3d2080b07731147bb63d619952e1d71900ded732d6f6f2b38eeb726"
+      }
+    },
+    {
+      "id": "U34",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U34.png",
+        "sha256": "54aa9b7e696db203e93dc2cc7bf654e978ae071a08353b2b7b659c38c4625205"
+      },
+      "master": {
+        "path": "cards/masters/U34.png",
+        "sha256": "7ec7cda2e12f379752d7d9a352205cf2415d3a9749aaabf6f05e218619cfd266"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U34.jpg",
+        "sha256": "7ad0149bb556961f6bb15788c2489d4e986892225d2d501f60284bd470623845"
+      },
+      "review": {
+        "path": "reviews/U34.json",
+        "sha256": "66a69c3877d9c0cea1c4d2069290e39c3f57834e4a7ea39f2f62e42996c884e3"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U34.json",
+        "sha256": "6910f8d426c9fff1889975030cebbcb49f834bf9dc61f648e2eacf6f8a00c76c"
+      }
+    },
+    {
+      "id": "U36",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U36.png",
+        "sha256": "1be5fd7e284549f9b499087e5bd107c6e0a10fb5b3401ab4eba4d8813098b473"
+      },
+      "master": {
+        "path": "cards/masters/U36.png",
+        "sha256": "24d1fdcee8d2f81b65e3463346d2427145a01748fab4dd881f194ce17305f452"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U36.jpg",
+        "sha256": "fdf4df7213c030c5c852234f7681e72c125853127389e1c3e53788202f0bdd18"
+      },
+      "review": {
+        "path": "reviews/U36.json",
+        "sha256": "36eeacdbeea6343043dfe835469847699ecc9a8a18ce87d708e5c8f12461a955"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U36.json",
+        "sha256": "9c899d2a36a9692ae70b294ced55e1bb82374c11b3d6ed4d77b6cd80236ed5c1"
+      }
+    },
+    {
+      "id": "U37",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U37.png",
+        "sha256": "9d7535fa6488ccbfe7c8d6ba2c0729d1a37fa3a502ea9ca14a760f608b3ad9ca"
+      },
+      "master": {
+        "path": "cards/masters/U37.png",
+        "sha256": "048074abdb3c0ba1540810d9c25fb67165810680b79459942fda70a2be46ead1"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U37.jpg",
+        "sha256": "5c2a28abcea509ad0393821a0842f968f0d97a59fb9769cff554d09567799299"
+      },
+      "review": {
+        "path": "reviews/U37.json",
+        "sha256": "d853b5b4be17a4db5952f070f1e6d3da7a1043be5e2b08c7bbdf24764b034170"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U37.json",
+        "sha256": "4ae59ba3b2a9477dfa816d7bf6a473d87b86c59d652037dfaad67e3cebcbed7d"
+      }
+    },
+    {
+      "id": "U38",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U38.png",
+        "sha256": "8b05bd13453793d3e378b69f5d7b2661ee92644b82eaf0506c74bccb849a3d6f"
+      },
+      "master": {
+        "path": "cards/masters/U38.png",
+        "sha256": "7af5df8a72c33b1e6c3e3906046a0691996f920ea76cc2c6bfb016109ecae7ca"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U38.jpg",
+        "sha256": "29af00a3f59126f3ac929fa6b721efda3a52e3b563d7da086c681e372ac851ca"
+      },
+      "review": {
+        "path": "reviews/U38.json",
+        "sha256": "4fd5bbb597519673863472ba4f19d4d186e175fb434bc89164cab57781c69914"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U38.json",
+        "sha256": "a2faff440331b4cf9e4c7bc5b83c4aa843f04674cfb75ab39df23e54218771ff"
+      }
+    },
+    {
+      "id": "U41",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/U41.png",
+        "sha256": "ec44388f7224fc6b1d1c0dfe54a31a7232eebde02c0fbc042ad71fdb3a2d41b2"
+      },
+      "master": {
+        "path": "cards/masters/U41.png",
+        "sha256": "b8533bfb259455a4a6dd866a61b88eaf164c2b29bc04a60365897e95e34a1fa3"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U41.jpg",
+        "sha256": "1ef13f11565573c24d3c3114d30c08a0aa2846955ce95cc4ac4485462084738f"
+      },
+      "review": {
+        "path": "reviews/U41.json",
+        "sha256": "332bc484fd78b10aaa4fee481c46d3be222453663f7f2f41ee7217dc81d27c42"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U41.json",
+        "sha256": "2ac8c82d7a7fa7b3f34af7bd7edc9a677a26dba4b3b27e06eeb9b19733fd17f7"
+      }
+    },
+    {
+      "id": "U42",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U42.png",
+        "sha256": "2208dea432b92857bbcfa37f43a1591d710001a2aa9efc40f4bbf0e9cf1399cc"
+      },
+      "master": {
+        "path": "cards/masters/U42.png",
+        "sha256": "651dabda7c4c7fdcb3eee9a8bd11f965a4d9935bdad09e06bf3fc4f719535e44"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U42.jpg",
+        "sha256": "74a37c9809143da5c0a7135961027b03802be283116ad9f53fba8be905df8674"
+      },
+      "review": {
+        "path": "reviews/U42.json",
+        "sha256": "f83e0b95205de5a563964b8e45c8852f056a340f89e1d43793b33d72312d8076"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U42.json",
+        "sha256": "8e6111b8d722a4d3f84829420425a9d62d515ab15a26acf74f19fd0e4a5fbda6"
+      }
+    },
+    {
+      "id": "U43",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/U43.png",
+        "sha256": "6a4556ae926ede53a6f86afac76a2efc35bdab92bc80cb25425636c92bc3573f"
+      },
+      "master": {
+        "path": "cards/masters/U43.png",
+        "sha256": "bd5b05e7c578404d62c8109e079b130e1f0e21a201dd5bb3549a3a2712726cd8"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/U43.jpg",
+        "sha256": "a0778d1bff2250c7c78f3a46f37aa91871f903b481fb38a1235debea46e1c47a"
+      },
+      "review": {
+        "path": "reviews/U43.json",
+        "sha256": "0e770f5a072c2743e20916a2faeb1efecb4838470c72cecf4e1e66982e44274e"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_U43.json",
+        "sha256": "777749fa76a9b848af31f9686548f91127131631a52194339dbe9f4d675d6eb9"
+      }
+    },
+    {
+      "id": "R01",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/R01.png",
+        "sha256": "b5f3273ed33093c55a62e54a1a434b2fd9cbc007facf96492505c4768d0925e7"
+      },
+      "master": {
+        "path": "cards/masters/R01.png",
+        "sha256": "e2a5dd9588b2f7f0d5d3b597479fcbee4e22cb9e40e6dcd6cefdb02bec292373"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R01.jpg",
+        "sha256": "e063c91c8985a88262e4ddc2c98b64f87c1c129c091fa26b17520326c582e632"
+      },
+      "review": {
+        "path": "reviews/R01.json",
+        "sha256": "d08e366d03dba331cc1591abb0810ac34666475489be805720f69b239d17d2d2"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R01.json",
+        "sha256": "faecb1ae7a4a51cb66672016f9066d5bfcb2f3709f532f1213717ab624883609"
+      }
+    },
+    {
+      "id": "R02",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R02.png",
+        "sha256": "f0ada163faf663830dcb3775e8cdc6dee625b2ea0f53cf87c63d1957d7856eab"
+      },
+      "master": {
+        "path": "cards/masters/R02.png",
+        "sha256": "b8d410b9167ad6e8dccba8fee80baa6156cc65481d9d2edd22e23fcd8be9ed03"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R02.jpg",
+        "sha256": "12ad729934998ea770e915cac1a59895ebd9513470c5d2deee485f338120949d"
+      },
+      "review": {
+        "path": "reviews/R02.json",
+        "sha256": "91d14defadf042ebf9e3a17d46f23f87bc7ddf7e846f56e04b143546ad93d488"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R02.json",
+        "sha256": "23dce82b87ad4fd7e97e93742c76d66194f099d01a0043825cf49cccca04ac5b"
+      }
+    },
+    {
+      "id": "R05",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R05.png",
+        "sha256": "5a469ab6862ea8d1a7c5057515319b19b493fa9784c2e9ffe76fe06f7a010dd5"
+      },
+      "master": {
+        "path": "cards/masters/R05.png",
+        "sha256": "fc83883250a5ee151725c433044587e0ec519f058c5eb4d35c489d18f4a9079b"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R05.jpg",
+        "sha256": "38165efd69e17d099bd89d80c7bcac9f45c8fd8c59526f7f6056e070f682f72b"
+      },
+      "review": {
+        "path": "reviews/R05.json",
+        "sha256": "b08c0f4a9e5e2c14f48dbabd988a9d8e511b70c7030b46e15ff1bf305c0b247d"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R05.json",
+        "sha256": "94fc2003db41a56c4e3fe13a6d1b25da7e4301488c87a5c051f7271e7ddd54f2"
+      }
+    },
+    {
+      "id": "R06",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R06.png",
+        "sha256": "d77d554aa94741530531b7775e638a2ab41751c784bd3bc4909a1877096ef450"
+      },
+      "master": {
+        "path": "cards/masters/R06.png",
+        "sha256": "be7bc0378b64fefcc4e75e182ce4743b665f127ae696861afd45c784a78def33"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R06.jpg",
+        "sha256": "2250653ea89ba7d3624522310be25e2a90cb15985fdadb5014f44bd538c0f77d"
+      },
+      "review": {
+        "path": "reviews/R06.json",
+        "sha256": "ba4482eeb543483293901fc6b3b57d4f671e16eddfdee32087d3f219eb51ae15"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R06.json",
+        "sha256": "0225dfa9c4c2db30b2cb97a02d7bb30b41c362ec88ba4b5da9dd29ada4cd1f37"
+      }
+    },
+    {
+      "id": "R07",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R07.png",
+        "sha256": "90b8956e23ecbf35b105a85aaba48a49265a1cfd958420a823fc2b872e390732"
+      },
+      "master": {
+        "path": "cards/masters/R07.png",
+        "sha256": "627197b948fb0308e1e7a346c1a7fb703ff615a5a884a010a5e26563fe83846a"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R07.jpg",
+        "sha256": "a60070e259295b5250bf90cca7f6d20fb03517b96a79050f49db108c5adbe974"
+      },
+      "review": {
+        "path": "reviews/R07.json",
+        "sha256": "271f1cee33a5841fe945ccba76711063156f450f2a8662ee37a317ad803acdb1"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R07.json",
+        "sha256": "21bb9acb999d6601543cd22d417c91a5c2d1516a751de32361750c8eafac0861"
+      }
+    },
+    {
+      "id": "R08",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R08.png",
+        "sha256": "ebcdd2b971b7b56a99109f18e76054bb42e909d6e00a6cc7bf4357858596f6ae"
+      },
+      "master": {
+        "path": "cards/masters/R08.png",
+        "sha256": "5e66349875927c309ee498e9cccbbdd719f1b14e9543e30c4ad4b5afcc481edc"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R08.jpg",
+        "sha256": "ccfde5ff810ec826f83369f45e0d21bb3327d7c943e257d157179bf40ce48201"
+      },
+      "review": {
+        "path": "reviews/R08.json",
+        "sha256": "012e111b2feebcce9beeaff8dc478703009b01f6c58eafcd809b7772ef16534b"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R08.json",
+        "sha256": "67e3028d1f70bcd71440a82d9a5d940396b248de6b11568b5e6320e2f55564fc"
+      }
+    },
+    {
+      "id": "R10",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R10.png",
+        "sha256": "1490a768ffce830cc851a439b7a28d590e3039be259e026e23737df86c832439"
+      },
+      "master": {
+        "path": "cards/masters/R10.png",
+        "sha256": "11ee39e9b1e337706bd387f0688b4ac440d6442309b6b1d6e5ba1f041ae8a05e"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R10.jpg",
+        "sha256": "8df5f008ed6281db09b4a72757f1e7d56ee74c0b12fd26a34288898c9b1ae7ed"
+      },
+      "review": {
+        "path": "reviews/R10.json",
+        "sha256": "1fea12965d666ee81e23628492bcef1cff65478e28c4b00b2ac1cb4196c91ebf"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R10.json",
+        "sha256": "f1d51116d74f1374b3f6aae13e54f487c3f030c6ebb32b33181a18e0095895e1"
+      }
+    },
+    {
+      "id": "R13",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R13.png",
+        "sha256": "13ac31acfb028d5d3079d51cd6f1b4c3b1d5672eaf951727bb212c7419abae76"
+      },
+      "master": {
+        "path": "cards/masters/R13.png",
+        "sha256": "b39c2b6f797d7c7c1eff0dd7d2ebcca9cde4c2bb4ff07083a2b1eb0e928a3489"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R13.jpg",
+        "sha256": "5772f6f918843399350e0190c53fd64cc77992689c397c22828e5630a1de0a76"
+      },
+      "review": {
+        "path": "reviews/R13.json",
+        "sha256": "775d027c73cbbd1bfdf0d2be5689f8ef11ee09940cf11a9a0a3ee76da2d16fef"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R13.json",
+        "sha256": "58f56a7bd210aeb5598a2b1930233d0512433c64c84b56199a06b7e78a33fc9a"
+      }
+    },
+    {
+      "id": "R14",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/R14.png",
+        "sha256": "09202147bee0efeb6d1a0886ba0fea7021ed3d8659ab4b69ffebb25021e5a53f"
+      },
+      "master": {
+        "path": "cards/masters/R14.png",
+        "sha256": "29ffa675e3c5aa158cfed202b411b162de7937459fa1ed2263dc143f1b82c4b3"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R14.jpg",
+        "sha256": "b755ca1f6c824bcfd72c018db962adda21e45f4ecb711419eb778455f10ba24a"
+      },
+      "review": {
+        "path": "reviews/R14.json",
+        "sha256": "9cabadd90be5cb32dd1f12a2511c01e741eb7e6fe453511f961ade21ee515804"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R14.json",
+        "sha256": "8cb7668bc293158968b1562130666b1a50c2f55b3b80b738501473ec32aaeb65"
+      }
+    },
+    {
+      "id": "R16",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R16.png",
+        "sha256": "35bbf6b00fe71e8db261919e82a29ef2bbd43d8a994744150cbe5c59f5d08e77"
+      },
+      "master": {
+        "path": "cards/masters/R16.png",
+        "sha256": "0509c69b53e708f60b06722a13dd8994e13b6c26d244f356eaffd4979d5b8cab"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R16.jpg",
+        "sha256": "a4ef05bde761f7104ca41446e42da2212bcf6d04aafcbc2ab83e540ec5278fda"
+      },
+      "review": {
+        "path": "reviews/R16.json",
+        "sha256": "89eb0780839864b2904bce73e6bffa91b763515923d6302e9918e7ac3a6e70e4"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R16.json",
+        "sha256": "0ac28eb0f7ca162f4bb7ad2b44dbd2d8ab85d5177d671964b8fd85eaa502c401"
+      }
+    },
+    {
+      "id": "R21",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R21.png",
+        "sha256": "eb0f43ada84c038769fc37fc691987a68fd4214080c7eece970f24acbcd5cc26"
+      },
+      "master": {
+        "path": "cards/masters/R21.png",
+        "sha256": "ea9430e45ac95b0ffd163db9e0f84a029cfbb5b653cc4bfb15b52e1925bfa273"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R21.jpg",
+        "sha256": "cc3053486b9753585febf039858743a3e50c78a620e1d37494fb511e210243e2"
+      },
+      "review": {
+        "path": "reviews/R21.json",
+        "sha256": "204061c52e3f0361aba65e0af3c8148b4bacb2d03966e8ca2b9d4200fa1ca9cb"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R21.json",
+        "sha256": "7854d6e1cccd8131b353a59ad70c3d125bbc61e8306d050352f36e6105cb6ec0"
+      }
+    },
+    {
+      "id": "R25",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/R25.png",
+        "sha256": "341a9c4725f48d611cfced747725182841166a096d7aca83711bb8b1cf7c937e"
+      },
+      "master": {
+        "path": "cards/masters/R25.png",
+        "sha256": "be8dacc2f1ee368317a6c90a0bfb11b0c393f1ad14f3826422b3b10f4b1624dd"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R25.jpg",
+        "sha256": "cc364cbacda21e175ee8639e0a3c13f96018f6182173a719f929a6eae598b6ba"
+      },
+      "review": {
+        "path": "reviews/R25.json",
+        "sha256": "e2ca00bd16d04926e92f04f0f2ec1a3aa5309ed6a7c7ea3bac6bdc93b8efd2e8"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R25.json",
+        "sha256": "29d751f7c65a3653d9fa4b998eb6b46f9554fa4e3786c989fb72ef1b691a72f6"
+      }
+    },
+    {
+      "id": "R27",
+      "attempt": 4,
+      "raw": {
+        "path": "cards/source_v7/R27.png",
+        "sha256": "19bb8ed87ec6a2c6be131f13a9310022e1738b888566be10d26cd6ced068e3a2"
+      },
+      "master": {
+        "path": "cards/masters/R27.png",
+        "sha256": "249a697f3d8268b8928b84e2d5d8d1a7535df697cb8f0057bce76794495b7eb7"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R27.jpg",
+        "sha256": "8274b725d555fdfcf1ff67116f9c60ab001a04ae3fd2199d42fa0c8bd4e922f0"
+      },
+      "review": {
+        "path": "reviews/R27.json",
+        "sha256": "e1c7050a492e1cc977b1df9a24c82ed26438017a555a2550a5e5acc03980088a"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R27.json",
+        "sha256": "e2147e8a7ac0677477d85c40730aa0c528f6d07a1cf782ce1439f4b69950d88b"
+      }
+    },
+    {
+      "id": "R28",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/R28.png",
+        "sha256": "49ab83640a5cbc0c0590bae3638b5de77bb0f04f9c73738077314982d124f88e"
+      },
+      "master": {
+        "path": "cards/masters/R28.png",
+        "sha256": "6951772100b0077f37e1ac29bcb76b0f8788b2a55da84f101790f43fbeb5690f"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R28.jpg",
+        "sha256": "25a0237dd5c0340f8cdf14227c814697fa8388a02a202b4560da289e58b308e3"
+      },
+      "review": {
+        "path": "reviews/R28.json",
+        "sha256": "c3e2b3fabb2d25de68717bd861fde08e2b2f221a0d6bc85d5b7999f7f9d9839c"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R28.json",
+        "sha256": "0aa2304214a60078b81ead79e4feab1879800446394c431cc9e04480f108a69e"
+      }
+    },
+    {
+      "id": "R29",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/R29.png",
+        "sha256": "536d069affc5c0661d84df58acfc4e486308eb28ccaa420035962862e998edc3"
+      },
+      "master": {
+        "path": "cards/masters/R29.png",
+        "sha256": "169b51099b4f541750fb3b55832e4747e1e11828b6be720deea8b84634d40fb8"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R29.jpg",
+        "sha256": "a9ef49e0fad9a8beb58f04b6ecf8d489feb338aae50c6f17d590bd006aab817b"
+      },
+      "review": {
+        "path": "reviews/R29.json",
+        "sha256": "2ffafb4758f2ef12f1075f4f81932af7fada64b95384ca193805001682de5dfe"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R29.json",
+        "sha256": "870e6f9441a9823fcd353f78412f874d45c1cb2820e6edf712b23f195ba0050c"
+      }
+    },
+    {
+      "id": "R30",
+      "attempt": 2,
+      "raw": {
+        "path": "cards/source_v7/R30.png",
+        "sha256": "383a42c3858095b612a671b22362c1eb695f43fcc04754aa7cc59059b5ab73d8"
+      },
+      "master": {
+        "path": "cards/masters/R30.png",
+        "sha256": "03d4aece79bb4b537bcb916d969d85ba8ea686f09dafbaa6f7bb472f56b108ab"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/R30.jpg",
+        "sha256": "e97a0fb24181691a4374f13e8ee6f361678d68faf905a0424e7c62da724b8da0"
+      },
+      "review": {
+        "path": "reviews/R30.json",
+        "sha256": "9243f0b848962cf189146e5c7deeaa6b4ffc9dd51c496beaf355220d981fd0c2"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_R30.json",
+        "sha256": "cb82a9da6da759c5417609b240c209613172256e754c99172189b9f1cc65b38f"
+      }
+    },
+    {
+      "id": "T01",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/T01.png",
+        "sha256": "39aeee47f1e4715cc187028f59ca30221685a2c503a7733e6f2794e9cbdd2ea7"
+      },
+      "master": {
+        "path": "cards/masters/T01.png",
+        "sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/T01.jpg",
+        "sha256": "b92ce49f9aff00df6608d10cf762d93adbaf5f37396e279c2687e70fb63453b0"
+      },
+      "review": {
+        "path": "reviews/T01.json",
+        "sha256": "60bc0ca4af80fc925aaba7d2b39d3adc56c3bc65959058746cc1788ecb7017f0"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_T01.json",
+        "sha256": "6ac4c77cb06430d8a4727457984ad5fc7c9247a29a7505683d8629396280425d"
+      }
+    },
+    {
+      "id": "T02",
+      "attempt": 1,
+      "raw": {
+        "path": "cards/source_v7/T02.png",
+        "sha256": "02b5c2d1d6c6bddbf1effbcf53469eefa2c3b7348e3816228d1670d6bd8b801a"
+      },
+      "master": {
+        "path": "cards/masters/T02.png",
+        "sha256": "af81cdd82838a5ad5307bfdf7ce2dcd840dd8b85520216ad66ad8c86ce13a89d"
+      },
+      "comparison": {
+        "path": "reviews/v7/comparisons/T02.jpg",
+        "sha256": "bf1481efda55abc46536e3580ae5802600886c1ea52656904e59190d6a858162"
+      },
+      "review": {
+        "path": "reviews/T02.json",
+        "sha256": "d3b65a7cdc2e39544619051149bbd9f3197a2d46afe5d2105ea8843fe961ca1c"
+      },
+      "generation_record": {
+        "path": "reviews/v7/generation_T02.json",
+        "sha256": "4e2c33e5a43a0ea8398daa29c88d7f05bfe9d2b1cedc8deec8830d9491825f57"
+      }
+    }
+  ]
+}

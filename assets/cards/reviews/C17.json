@@ -1,0 +1,54 @@
+{
+  "id": "C17",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530",
+  "master_sha256": "af0d6bd4834a76c10c045a59df0e469875717b08af1404ea8da2379dcf8a348f",
+  "comparison_sha256": "f06c3158527e1441e048f9dd9468cc6bef5458d388762dc55ccd3ab748f19c7b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "肩背低伏、前足支撑与后足蹬地共同形成压缩重心，腹下负形连接清楚；远侧支点可辨，没有悬浮腿或爆光掩盖结构。前方留空表现尚未冲出。",
+  "baseline_comparison": "延续U03脚踏实地的重量，改变成侧向低伏；比C06更远景且安静，仍能在125像素区分蓄势与已发出的攻击。",
+  "paw_orientation_observation": "可见爪沿接地脚掌前缘，不倒置；支撑前臂和后腿各自连回肩与髋。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:59+00:00",
+  "master": "cards/masters/C17.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C17.jpg",
+  "anchors": [
+    "U03",
+    "C06"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

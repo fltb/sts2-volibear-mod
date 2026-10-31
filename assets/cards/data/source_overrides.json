@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "preserve_original_inputs": true,
+  "overrides": [
+    {
+      "topic": "领域压制的美术语义",
+      "priority": "用户较新的明确决定优先于上传HTML中的旧例外列表",
+      "meaning": "保留敌方普通攻击、格挡/获得格挡与力量；其他特殊机制禁用。",
+      "applies_to": ["art_direction", "animation_direction"],
+      "does_not_modify": ["original_html", "cards_source_verbatim", "balance_values", "game_engine"]
+    }
+  ]
+}

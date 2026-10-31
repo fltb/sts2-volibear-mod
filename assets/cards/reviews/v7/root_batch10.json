@@ -1,0 +1,42 @@
+[
+  {
+    "id": "R27",
+    "attempt": 4,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "19bb8ed87ec6a2c6be131f13a9310022e1738b888566be10d26cd6ced068e3a2",
+    "master_sha256": "249a697f3d8268b8928b84e2d5d8d1a7535df697cb8f0057bce76794495b7eb7",
+    "comparison_sha256": "8274b725d555fdfcf1ff67116f9c60ab001a04ae3fd2199d42fa0c8bd4e922f0",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "同一宽熊影扫过两件完整器物：左护片的旧赭面在明地、蓝白新面在暗影，右小刃已上移至同一影界，旧柄在亮侧、新刃向深影延伸。器物厚度遮住小段影线，但上下材质和同一阴影的对应连续。",
+    "baseline_comparison": "对照C18的整体显化与R12的白灰深蓝主色，这张以俯视熊影影响外部器物传达旧日力量回归。125像素仍见一大一小两器物和共同影界，留白与简洁度成立。",
+    "paw_orientation_observation": "这是完整防护片和攻击刃的器物变化，没有活体手臂、掌骨或游离肢体；远端熊只用一个连续影形。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 19,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "id": "U43",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "6a4556ae926ede53a6f86afac76a2efc35bdab92bc80cb25425636c92bc3573f",
+  "master_sha256": "bd5b05e7c578404d62c8109e079b130e1f0e21a201dd5bb3549a3a2712726cd8",
+  "comparison_sha256": "a0778d1bff2250c7c78f3a46f37aa91871f903b481fb38a1235debea46e1c47a",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "唯一被选中木骨片由青线提起，地面投影与本体分离；另外两件暗物仍落地。旧木面和深蓝爪形刃边属于同一有厚度物件，旧孔可追踪。",
+  "baseline_comparison": "与U17/U25集中目标的主次关系相符；没有额外熊头或伸手，三物中一亮二暗在125像素仍明确。不同于R29三件均已转化的平铺静物。",
+  "paw_orientation_observation": "爪形是完整木骨物件的连续刃边，既无掌根也无腕臂，不呈断肢。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:31:52+00:00",
+  "master": "cards/masters/U43.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U43.jpg",
+  "anchors": [
+    "U17",
+    "U25"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

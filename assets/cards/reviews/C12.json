@@ -1,0 +1,55 @@
+{
+  "id": "C12",
+  "attempt": 22,
+  "decision": "approve",
+  "reviewer": {
+    "name": "review-four",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "ecdb93e0006450dcb84cf9389776133e20b804fc723a1437a3c6387f75bb7295",
+  "master_sha256": "69abb8cf4823489ba840e6b03968304b320860697c9be1ed8e1bbb982707a641",
+  "comparison_sha256": "c8d2d1c8bd4360a31cd5cd3928082b88a855f0b44f5f24c4a00ce84f852616b2",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看attempt22原始图与stage22完整对照板。后侧肩颈构图保持连续，头部从颈根向右转出，肩峰与近臂暗形明确，背面没有胸辫。白肩被合并为大块亮面，背部灰面与近臂深蓝面形成三组主形，不再是叠瓦状毛片。背景只剩安静山形，旗帜、云层和碎岩已移除。箭尖抵住厚毛外轮廓，小火星说明接触而没有贯穿；125图中箭虽细但在清空背景后仍读得到方向，接点与肩缘分离。灰度图仍保留白肩受击、深臂支撑关系；两种遮罩保留头肩、箭和接点。厚重皮毛的局部承受力成立，不再依赖文字解释毛团是哪部分。",
+  "baseline_comparison": "毛体已改为U17/U23一致的连续亮面、灰影、深蓝暗形，少量毛尖集中在轮廓与大面转折处。用较大的背肩而非全身海报表达皮毛防御，背景低对比，不再争夺局部受力主读。",
+  "paw_orientation_observation": "近肩自然连到向右下出画的上臂，没有额外肢体；画面不显示掌爪，不存在反掌或爪根错误。原本背侧饰物错误未复发。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-29T21:29:30+00:00",
+  "master": "cards/masters/C12.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C12.jpg",
+  "anchors": [
+    "U17",
+    "U23"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

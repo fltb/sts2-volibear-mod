@@ -1,0 +1,23 @@
+{
+  "scope": "V7 context preview only; effect animation and timing unchanged, T01 art synchronized. Identical held frames are coalesced by encoders.",
+  "source_master_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff",
+  "source_copy_matches": true,
+  "source_timeline_frames": 52,
+  "fps": 24,
+  "decoded": [
+    {
+      "file": "vfx/examples/feral_transfer_demo.gif",
+      "encoded_frames": 40,
+      "duration_ms": 2170,
+      "fully_decoded": true
+    },
+    {
+      "file": "vfx/examples/feral_transfer_demo.webp",
+      "encoded_frames": 40,
+      "duration_ms": 2167,
+      "fully_decoded": true
+    }
+  ],
+  "storyboard_actually_viewed": true,
+  "visual_observation": "角色原立绘保持；效果施加到外部B01牌面，完成后显示本轮T01卡图。"
+}

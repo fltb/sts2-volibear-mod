@@ -1,0 +1,90 @@
+{
+  "id": "U14",
+  "artist": "artist_c",
+  "tool": "tools.image_gen__imagegen",
+  "attempt": 1,
+  "request": {
+    "prompt": "One newly composed 1250×950 card illustration, landscape25:19. Refined mature flat poster art: a handful of broad closed color shapes, 2–3 shades, restrained dark outline, large angular fur edges only. No texture, fine fur, 3D light, fragments or particles. References supply identity and simplified style, not pose.\n\n最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：U14《迎战准备》。创作一张新的独立插画，核心动词/关系为“架势”。\n\n镜头与抽象：偏俯视的侧向中景，站位入画。M1。\n画面：熊侧身对着一道唯一的来敌空隙，一足前置、一足横撑，形成稳定站位三角。前臂低收到胸廓下方，头沿空隙看向画外；身体尚未接触敌人。周围其余方向由暗地形合拢，来敌空隙明亮且安静。\n\n大形与负形：低位收臂的紧凑身体与地面站位三角一体，前方空隙决定姿势朝向。\n色彩：土黄底、深蓝主体、灰白肩面，极少冷青。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C06《进逼》用于主形清晰度、重量和气质；U03《屹立》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：与B02同机位只删武器；举爪招手；腕掌反折；U28/U35抬臂接爆点；上半身占满画幅。\n图像语义：这是准备迎接来击的收拢姿势，不能和B02的实际承击画成同一帧。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n\n\n审稿重点：前足与横撑足的站位要形成稳定重心，不能为了三角构图长出第三条腿。；低位前臂仍需能追踪到肩肘，避免腕掌反折或双手再次抓胸。；来敌空隙应安静且方向唯一；过多通道和地形会把准备架势改读成迷宫选择。\n侧上方俯看一个完整且正常比例的熊，角色约占画面中央偏左的一半，不让肩毛占满画幅。它侧身面对右上方唯一明亮平静的来敌空隙，短厚头向空隙观察。两只脚都清楚：前足朝空隙前置，后足在横向稳稳撑开，两足各自接地，身体重心落在两者之间。仅两条后腿，绝不加第三腿；不画三角形图标或线。两只前臂低收在胸廓以下近腰处，肘贴体，手自然松拢，绝不抬拳到脸边或抓胸。不与敌人、武器或任何光爆接触。四周暗赭地形只合拢出一条开口，不出现分叉通路或复杂迷宫。土黄地面、深蓝主体、灰白肩面；青色仅为小眼和短爪。张力来自静止站位和单一关注方向。无文字边框UI，无雷弧或爆光。",
+    "referenced_image_paths": [
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png"
+    ],
+    "transparent_background": false
+  },
+  "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-64219748-6a72-416f-9063-5fce7b195a57.png",
+  "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U14/attempt01.png",
+  "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U14.json",
+  "visual_approved": false,
+  "output_sha256": "139938f35f2a42cf88ef929cb820dfdece90ad100efdb289a1f4a2d20fab396b",
+  "dimensions": [
+    1438,
+    1093
+  ],
+  "reference_files": [
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png",
+      "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+      "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+    }
+  ],
+  "request_sha256": "f64e888986a56943988ab056cf08a007a78b3d186d757a46231accfeab5821d9",
+  "plan_card": {
+    "id": "U14",
+    "level": "M1",
+    "family": "准备动作",
+    "verb": "架势",
+    "anchors": [
+      "C06",
+      "U03"
+    ],
+    "camera": "偏俯视的侧向中景，站位入画",
+    "scene": "熊侧身对着一道唯一的来敌空隙，一足前置、一足横撑，形成稳定站位三角。前臂低收到胸廓下方，头沿空隙看向画外；身体尚未接触敌人。周围其余方向由暗地形合拢，来敌空隙明亮且安静。",
+    "shape": "低位收臂的紧凑身体与地面站位三角一体，前方空隙决定姿势朝向。",
+    "palette": "土黄底、深蓝主体、灰白肩面，极少冷青。",
+    "avoid": [
+      "与B02同机位只删武器",
+      "举爪招手",
+      "腕掌反折",
+      "U28/U35抬臂接爆点",
+      "上半身占满画幅"
+    ],
+    "semantic": "这是准备迎接来击的收拢姿势，不能和B02的实际承击画成同一帧。",
+    "name": "迎战准备",
+    "status": "ready_for_generation_not_image_approved",
+    "current_image": "assets/current/U14.png",
+    "current_image_sha256": "5e6a8cf2dff3faf582b1129688a357d7deb1b795ae22b95a7d76f619308b866e",
+    "reference_files": [
+      {
+        "role": "identity",
+        "file": "assets/identity/volibear_approved.png",
+        "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
+      },
+      {
+        "role": "primary_benchmark",
+        "id": "C06",
+        "file": "assets/benchmarks/C06.png",
+        "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+      },
+      {
+        "role": "secondary_benchmark",
+        "id": "U03",
+        "file": "assets/benchmarks/U03.png",
+        "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+      }
+    ],
+    "image_generated": false,
+    "image_visual_approved": false,
+    "final_text_review_file": "reviews/design_resolution_u.json",
+    "image_review_watchpoints": [
+      "前足与横撑足的站位要形成稳定重心，不能为了三角构图长出第三条腿。",
+      "低位前臂仍需能追踪到肩肘，避免腕掌反折或双手再次抓胸。",
+      "来敌空隙应安静且方向唯一；过多通道和地形会把准备架势改读成迷宫选择。"
+    ],
+    "prompt": "最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：U14《迎战准备》。创作一张新的独立插画，核心动词/关系为“架势”。\n\n镜头与抽象：偏俯视的侧向中景，站位入画。M1。\n画面：熊侧身对着一道唯一的来敌空隙，一足前置、一足横撑，形成稳定站位三角。前臂低收到胸廓下方，头沿空隙看向画外；身体尚未接触敌人。周围其余方向由暗地形合拢，来敌空隙明亮且安静。\n\n大形与负形：低位收臂的紧凑身体与地面站位三角一体，前方空隙决定姿势朝向。\n色彩：土黄底、深蓝主体、灰白肩面，极少冷青。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C06《进逼》用于主形清晰度、重量和气质；U03《屹立》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：与B02同机位只删武器；举爪招手；腕掌反折；U28/U35抬臂接爆点；上半身占满画幅。\n图像语义：这是准备迎接来击的收拢姿势，不能和B02的实际承击画成同一帧。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n",
+    "prompt_file": "prompts/v7/U14.txt",
+    "prompt_sha256": "e0e588a805a54c2cfd0818ab842435dd8709a3526a4ae110c5a9151a33413e3d"
+  }
+}

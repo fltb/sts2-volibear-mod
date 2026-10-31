@@ -1,0 +1,410 @@
+{
+  "id": "lifesteal",
+  "label_zh": "汲取回流",
+  "family": "status",
+  "fps": 24,
+  "frame_count": 30,
+  "duration_seconds": 1.25,
+  "loop": false,
+  "anchor": "damaged_target_to_owner",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    34,
+    91,
+    224,
+    160
+  ],
+  "atlas": {
+    "image": "atlases/lifesteal.png",
+    "json": "atlases/lifesteal.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "3cc762ec806a78ffbcb354f66c9d53b7367ff1125244123acc065f7d1e3f6f95"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/001.png",
+      "sha256": "3c6521265664f25422c457f40464dab73b579d17abfda0a0114d10b7a678a321"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/002.png",
+      "sha256": "800d1c2777393dc594d54959fbcb831be29b2f09150e3ab8135ffb70efdb6193"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/003.png",
+      "sha256": "08a7e7603432e16ea06a125e63244bc96cd02cbc7043df2cd2d8ce954698eb28"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/004.png",
+      "sha256": "88cb5cf5727cc460bbd55b8a4c53ac34571c2ee6c7e3e926e86741d73596beb8"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/005.png",
+      "sha256": "e362bb52e7a9925004dedbb08e54a79f7c09d6fcbc6ce62fbfb02e31a8e55c3b"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/006.png",
+      "sha256": "20e6ff96016e0d1e14f2992d87c7664cc8812ac4512f1005ae73ca95ce88a180"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/007.png",
+      "sha256": "5333f19a2b16607ef27cb73fa746c64f556c2cda6e058921ccb88b383f799fc0"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/008.png",
+      "sha256": "481eaf413329b4b1a93ab7b7a1293da0b768d402b7279531207a05b15c356fdb"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/009.png",
+      "sha256": "a58d15bfc36f15d569de49f5d7cbd8aa1df9364791adf60b949134e67cdfa4ab"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/010.png",
+      "sha256": "d1f3d496fc2f8cd877076eb747dd9303975455ae4fce12b93ff0b7c10ccb4d03"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/011.png",
+      "sha256": "2d563d0eac29c2d93a6a12b643ad7933da2d47a2d5c6b9ba51eb4b3876a26d48"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/012.png",
+      "sha256": "7b87671697510d48e68982c873634c20c4d15f589c6a07a6670ca31266bbcfbd"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/013.png",
+      "sha256": "ccd8756c7aaebfb6313e20038e10ef8c07012d2559e4848cc56c5e7510c8642f"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/014.png",
+      "sha256": "37deb541fde557ed100460d18cdb39604ec690d0353614a436512f466cd0ba61"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/015.png",
+      "sha256": "678853c5cb500618512670a9208aa0a3e4802ad2b004acfa624123a1867f8cd1"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/016.png",
+      "sha256": "3c32e3708423a2ab178bb12f3f94e8f9ae5b8ebbd8b31225bd93d67440a30683"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/017.png",
+      "sha256": "7fdb80af1bfe92a79a7461d688435525ce93890c0cc29bda624e6b9f802e5f07"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/018.png",
+      "sha256": "90c3e9eb6c623b5d1f2e8e7c08b15c8ddb54071e5fcb69e01337ee6d067e2b88"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/019.png",
+      "sha256": "e44cf85b5dda7050ad1e81c0d6b248cedc1361d3e3c4ac2c80d2238b988f3e4d"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/020.png",
+      "sha256": "ab14b47c6fd2e3021abef8806c7d130b69202197da108eef0cf5640f68f15c83"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/021.png",
+      "sha256": "9a0cd8d579ab94528fff22cd2dd58c65031fd7709cf1b613601e01c20603fd14"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/022.png",
+      "sha256": "2b00105a27a5dfe0524747a5a326f5e2dba9499ed38c31e54796a0495448d7b2"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/023.png",
+      "sha256": "98ded5bd0ccb707198d9d54b18f238c48782b5f4c99c1d530333e7c2a10c7b82"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/024.png",
+      "sha256": "536ba99fa73c84bab279a4e45b030da6fdbe1fe836c52676b3a69460ef1bd2bc"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/025.png",
+      "sha256": "631132fd0309d61071baa3cf62e9f036eabbd6d0fd88baa00adda5ed348d2247"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/026.png",
+      "sha256": "cb5ced0187781c93321f90eccd51584fce5306ab18ca77bdcefc486accca2154"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/027.png",
+      "sha256": "86e0f666519cffa61f91cd4a7ba7ac5c00b08ebae46a2fd3a239db6ded6ae0cb"
+    },
+    {
+      "index": 28,
+      "time_seconds": 1.1666667,
+      "rect": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/028.png",
+      "sha256": "445fe2df13108029d329d7dcfdb56e5a62479079b2fee5257e43ded65d3ff6c6"
+    },
+    {
+      "index": 29,
+      "time_seconds": 1.2083333,
+      "rect": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/lifesteal/029.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.lifesteal",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "segment_anchors_px": {
+    "source": [
+      216,
+      142
+    ],
+    "target": [
+      40,
+      142
+    ]
+  }
+}

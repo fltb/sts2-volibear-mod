@@ -1,0 +1,54 @@
+{
+  "id": "U29",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "68997e640314cf385adb2e041a301169a79d1f9a59709862890c35976170f043",
+  "master_sha256": "030bd482835202d7e290f98b27bbae7526031cdca55092035bbdcdef9a9b3b79",
+  "comparison_sha256": "477326f3b80950c0c7032b92a18e0abb751af89eec862ce49d815596d49936bc",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "云间只有一根横斜雷脊，几条短支在一处汇流后主干加厚；云是完整大带，没有地面、人物或第二种事件。",
+  "baseline_comparison": "沿用U21接续与C24青白雷色，镜头变为无地平线的云内增幅，区别U37中心汇核和R17落雷。圆形能力裁切保留主干与汇点。",
+  "paw_orientation_observation": "纯天气机制，无身体部件及不明爪形。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:57:45+00:00",
+  "master": "cards/masters/U29.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U29.jpg",
+  "anchors": [
+    "U21",
+    "C24"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

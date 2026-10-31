@@ -1,0 +1,54 @@
+{
+  "id": "U32",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "d369a545ae6d42b69f51b1c39faa24ae38181b2a8c485c896336c2190cdf40dc",
+  "master_sha256": "fc7164a2a4941ed3e8113716cfb6a8539fb06d7465da247c76404019108d4fd8",
+  "comparison_sha256": "c2e3431d64c07515de2dd1ba5372fe243a103e5291641cc8ed254421a31fe075",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "熊背朝观者稳站，双臂自然下垂；雷先落在前方地面再沿亮路接到脚边，未穿过头、胸或抓雷手。脚下与地面层次明确。",
+  "baseline_comparison": "与U35举臂承击不同，以背影主动站入落雷地面路径；与U19侧肩风弧也不同。紫天与暖地支撑清楚白色折路，缩图方向连贯。",
+  "paw_orientation_observation": "双掌放松向下且各连对应前臂，双足方向与站姿一致，无反向爪面。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:54+00:00",
+  "master": "cards/masters/U32.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U32.jpg",
+  "anchors": [
+    "U19",
+    "U35"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "U23",
+  "decision": "approve",
+  "master_sha256": "671d7f310e0666d034d1b04ec52225eb17278b57cf2881a7a320748da80ae912",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_a",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "张口咆哮的上下颌围绕同一口腔，牙位于口腔边缘，舌在口内；外部声浪从口前方放射，头颈关系清楚。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_a.json",
+      "id": "U23",
+      "source_sha256": "671d7f310e0666d034d1b04ec52225eb17278b57cf2881a7a320748da80ae912"
+    },
+    "prior_exact_candidate_review_sha256": "d56b4c0efffca55f9531093fa24189aa334cb88a9caca01ddf0b244247a69544",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

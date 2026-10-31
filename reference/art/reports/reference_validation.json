@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "version": "V5",
+  "status": "pass",
+  "checked_at": "2026-10-27T12:34:12.221431+00:00",
+  "media_count": 44,
+  "research_card_images": 30,
+  "motion_sources": 5,
+  "motion_contact_sheets": 5,
+  "identity": 1,
+  "positive_project_examples": 3,
+  "description": "All existing curated media byte-identical to V4. New support research/audio source indexes are additional documents. No new full image-review claim.",
+  "files": [
+    {
+      "file": "identity/volibear_approved.png",
+      "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+      "same_as_v4": true
+    },
+    {
+      "file": "project_examples/B01.png",
+      "sha256": "d79316db7219bec7ccda6f4f42056a0841b55d7d9c3aee76e492a4ecc8130b7c",
+      "same_as_v4": true
+    },
+    {
+      "file": "project_examples/U19.png",
+      "sha256": "ffc0f85752c2716d388438c1d68896d34621418269e42ffdd023ec0eb5b517df",
+      "same_as_v4": true
+    },
+    {
+      "file": "project_examples/U37.png",
+      "sha256": "836f00992169a8a28682fd5f47f73999dbe2ac904191cd9ea762d0ede3995e3b",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/defect/claw.webp",
+      "sha256": "7214b76bfbd100572253b66dfb5e3327e15344f80bcf85e4ede58065e84147a8",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/defect/coolant.webp",
+      "sha256": "c64dd019978c6468cb878d48dbe6f06cd12a036e7ac4ccff7210a93f84205714",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/defect/darkness.webp",
+      "sha256": "7fdb06528ed77ed12df26e7758855e41ceebdf30f779c61db67b82b2e8f4ec39",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/defect/echo_form.webp",
+      "sha256": "e6d84d5599bfa36345a4d7e34a3186caae137b09d2373f3f4b992d0648e86aeb",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/defect/storm.webp",
+      "sha256": "8b45d55f9435a7bdc0d328205cefe464be494e90a9aa8ad4fd23eb04357b3089",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/defect/zap.webp",
+      "sha256": "10e72112323a6b6e95515e49a46070d0d55cbf8ebf4bf8934e0ae0805d734a43",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/ironclad/aggression.webp",
+      "sha256": "b95824392bf60cb321b3880424d1d9c8b0fca376f09a54d555c797ec49a97a61",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/ironclad/body_slam.webp",
+      "sha256": "8f7ede3bfe11fae7d73f7fce4899bfcb1d8a36d33b4552cfecebe39cf81469a4",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/ironclad/inferno.webp",
+      "sha256": "5ee66ce5edc8b042030327d11ba1df72023c54fbfb9526a4aa0fa6918bc51c16",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/ironclad/molten_fist.webp",
+      "sha256": "14d9a9989da5231b7ac20b290e05eadc9b111ab2967fa11ff68caf1950d8b19e",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/ironclad/taunt.webp",
+      "sha256": "80b682bd0debeeb345422299e3f5a660e1a54c0c5d1399c04b18c69acf2d4372",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/ironclad/twin_strike.webp",
+      "sha256": "73e38843848be50f5a63721c8501aa416b52b491ecb7e1e8bbbd25e7a39e72a8",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/necrobinder/bodyguard.webp",
+      "sha256": "4b90f8f3f37c04b5c148d431b0eaa8df9b234d9c2f3a6fda2d79f461cd1dbe83",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/necrobinder/calcify.webp",
+      "sha256": "00a7ae8a8ec13dc4f49ead2d900448227d7acdb149b9684744b06b5d14b916e3",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/necrobinder/demesne.webp",
+      "sha256": "213095a2bbd9a8aee2633da7da0710c95e77bdaa433ab70995d324dcf75085a4",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/necrobinder/dredge.webp",
+      "sha256": "31136c90324f41b661a994577eed4b8db8c238ee6ba33bf643cb0792ba461505",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/necrobinder/oblivion.webp",
+      "sha256": "80792329207ace19092475439f8e725ecfb93329a4e9dac9d098383c298996b2",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/necrobinder/reanimate.webp",
+      "sha256": "164e23441eee899ad735343ada30caa1c4de4b1cb6553e76249b1ffe12ed38ce",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/regent/alignment.webp",
+      "sha256": "0fedaa962567d558ec86dd2418104b03ba28f071309e1acc9b3e25340d2efbec",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/regent/cloak_of_stars.webp",
+      "sha256": "41e9d70676b4ab63779f684a815dbb19242e4815b42b7ba70a614a7dba9ad443",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/regent/genesis.webp",
+      "sha256": "538f008cdf329c209b91f7dd2b7d2b8d838e8c40a14907f10256cbe4099c443a",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/regent/glow.webp",
+      "sha256": "6cef1e6932f9b90fe19a6912c80c29bc615a9cef42fbb450f5b3d566daaa346c",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/regent/reflect.webp",
+      "sha256": "101b5b0b847e8f2115e5d06012de57c052323b5abab6e4cbf8eb2ee730c9b16b",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/regent/void_form.webp",
+      "sha256": "84c65701c353816396473cb1712e2940382a980de191fe2485561f14ee167ae2",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/silent/adrenaline.webp",
+      "sha256": "3eaac2d31013053d8d4b39a153d2c33384b3eb752113f79a5311d322dfb08421",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/silent/blur.webp",
+      "sha256": "848a9f2250afe2870e75d1df42fe9ca781a47ad032c9c6f01e27171ea6bec887",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/silent/deflect.webp",
+      "sha256": "fb3c1055720600d71e6ef42cb749df245030a8dd4f413f037dc1beabafb32afa",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/silent/footwork.webp",
+      "sha256": "e34fa9418e7661a0adfd34a5998d2f0d07a0b8819cd045bf95c3327a6c296981",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/silent/murder.webp",
+      "sha256": "a36589e1daea9a7b941e1ddac5cf380f3f9ce87c02e95b98d9a61b5edf1bf51a",
+      "same_as_v4": true
+    },
+    {
+      "file": "style_examples/silent/tracking.webp",
+      "sha256": "de4de83be3d2c1b8581d72d40cd68b91b1eb6658b6de0e19d33c128a2c6f900e",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/megacrit_silent_2024_contact.jpg",
+      "sha256": "b1d236f570783b595b2649b5fc7ca40f2d41e56e0517899a805cba712c54dc9e",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/megacrit_silent_2024_preview.gif",
+      "sha256": "27bf1c450dd93a44b4bd3956369e89e32fb373a7ef3ece1f76ab546d4c571e35",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_E.mp4",
+      "sha256": "45026381e7e2e35c467dac1735336580c01058238426412a9a794b2cc62c1997",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_E_contact.jpg",
+      "sha256": "036834523200f0921a18bd051a6b9a6bb871300e5b3f582deb9f9c54b0956183",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_Q.mp4",
+      "sha256": "60c57569f4c78741fde0bced1e1810c86de1e28faef851cae9871826fc256528",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_Q_contact.jpg",
+      "sha256": "a4ce423cd814bb6ce8eb4187258be7e2fd41a71b86759b79ac74ffe41add5571",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_R.mp4",
+      "sha256": "7f0b5b477e5d5b3d317d47fe857efe6552a8ecc027acfcbf81001b6f408b1bbb",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_R_contact.jpg",
+      "sha256": "860ef301f7711f12a1feb0605631a5c70bdc9646e7b519f13a55c98bd374a044",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_W.mp4",
+      "sha256": "c7a6a1d3b6a38f7588d0a71f0eac93a699bb0c365f4549dd8d137a1990a4aaa9",
+      "same_as_v4": true
+    },
+    {
+      "file": "motion_examples/riot_volibear_W_contact.jpg",
+      "sha256": "7a4be13cfcbf497d74a98b14b0164054cebf43179620b74986bae0160bc44cb5",
+      "same_as_v4": true
+    }
+  ]
+}

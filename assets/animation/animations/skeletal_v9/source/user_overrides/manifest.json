@@ -1,0 +1,10 @@
+{
+  "origin": "User directly replaced parts PNGs; preserved byte-for-byte",
+  "sha256": {
+    "head": "3d1769177de853a0246f14942ae7d391c1648392b5795393010b5f9c250e1843",
+    "head_half": "bfce9cf4633d11adb698610f8d8fcbffefd03a3fdb36d661ed8e8eed31489a35",
+    "head_open": "b45b87268cb785cc47e5bf197a4b375fc07c1c4c28521c980ac6fd673b8d1100",
+    "upper_arm_near": "572bd0ede74241943ef1d817f672899a8833655c6b55fa716debe4fcea3a4ce8",
+    "torso": "f041b4fad501c42d5c5dc7aef62b955c0fd9650701adac96990c6c934d6e2e73"
+  }
+}

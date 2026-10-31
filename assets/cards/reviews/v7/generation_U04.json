@@ -1,0 +1,89 @@
+{
+  "id": "U04",
+  "artist": "artist_c",
+  "tool": "tools.image_gen__imagegen",
+  "attempt": 1,
+  "request": {
+    "prompt": "One new 1250×950 landscape card illustration, 25:19.\n最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：U04《战痕》。创作一张新的独立插画，核心动词/关系为“留痕”。\n\n镜头与抽象：侧后肩与颈部近景。M0。\n画面：厚重白肩的一处宽暗旧伤随肩颈曲面转折，新一次来击的断矛只在肩外缘滑过。肩线始终稳定，旧伤旁仅一小节蓝纹亮起；颈部、肩部与一段背脊连成完整大形，旧痕主、当下擦碰次。\n\n大形与负形：一条旧痕、一处当下擦碰与一块不退的肩面，三者分层。\n色彩：灰白肩、暗暖灰旧痕、深蓝背景、少量青纹。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C12《厚重皮毛》用于主形清晰度、重量和气质；R12《解放本能》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：细划线贴在平面毛上；中心星爆重复C12；新鲜血肉；旧痕新痕蓝纹都画成细密花纹。\n图像语义：旧战痕参与当下承受，体现越战越强的经验，而非仅展示伤疤。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n\n审稿关注：旧伤必须是有宽度和曲面转折的旧凹面，不能退化为细棕笔划。；颈、肩、背连为一个大体积；断矛只掠外缘，避免从毛面插出莫名支肢。；旧伤与小蓝纹的对比要足以在缩图留下主次，同时避免新鲜伤口抢夺语气。\nFrame the SIDE-BACK shoulder and neck of the same white-grey/navy bear; a small partial ear and short muzzle edge may orient the upper neck, but no giant face. Neck, broad shoulder and a short back ridge form ONE continuous stable mass. The main subject is ONE old healed WIDE DARK SCAR, not several fine lines. It is a broad warm-dark-grey shallow indentation bending naturally across the curved shoulder toward the neck. Use one clear shaded inner plane and a restrained healed edge to show width and old depth; no exposed flesh, blood, red cut, fresh wound or decorative scratches. Keep the large white-grey shoulder area very simple.\nAt the OUTERMOST right shoulder edge, one short BROKEN SPEAR shaft merely glances past in the present, its tip deflected outward away from the body, secondary and physically separate. It does not protrude from the bear and is not a new limb. No impact star or spark burst. The shoulder line stays unyielding and unchanged. Beside the old scar just ONE small blue rune-like body stripe segment quietly brightens; no invented glyph or text. The old scar dominates, current glancing weapon stays small, blue mark is smallest. Deep navy background, few broad clean flat shapes, 2–3 hard-edged tones, no fine fur, grain, mottled texture, tiny facets or 3D rendering. References are for mature weight and identity only, not their close-up composition.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C12.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/R12.png"
+    ],
+    "transparent_background": false
+  },
+  "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-ef64276b-cc7a-49cd-98fd-ae2795e1ee2d.png",
+  "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U04/attempt01.png",
+  "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U04.json",
+  "visual_approved": false,
+  "output_sha256": "e31179d85b084ffda5afe8a9a02f5991056f35163c5a73633b1d76970970ac30",
+  "dimensions": [
+    1438,
+    1094
+  ],
+  "reference_files": [
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C12.png",
+      "sha256": "75de6910939940fd2013b17d98dcc9d9c5a53b5cd819692d4e2ac5dc5f95d0ae"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/R12.png",
+      "sha256": "35610d79979d826e35fd0398e86144fe13517614b5d3b3a3d38a520f3817549e"
+    }
+  ],
+  "request_sha256": "284a8abb1544ab2c2571aca6ccdfece700fa62c2363872d07ccc578bd4ece998",
+  "plan_card": {
+    "id": "U04",
+    "level": "M0",
+    "family": "材料与受力记忆",
+    "verb": "留痕",
+    "anchors": [
+      "C12",
+      "R12"
+    ],
+    "camera": "侧后肩与颈部近景",
+    "scene": "厚重白肩的一处宽暗旧伤随肩颈曲面转折，新一次来击的断矛只在肩外缘滑过。肩线始终稳定，旧伤旁仅一小节蓝纹亮起；颈部、肩部与一段背脊连成完整大形，旧痕主、当下擦碰次。",
+    "shape": "一条旧痕、一处当下擦碰与一块不退的肩面，三者分层。",
+    "palette": "灰白肩、暗暖灰旧痕、深蓝背景、少量青纹。",
+    "avoid": [
+      "细划线贴在平面毛上",
+      "中心星爆重复C12",
+      "新鲜血肉",
+      "旧痕新痕蓝纹都画成细密花纹"
+    ],
+    "semantic": "旧战痕参与当下承受，体现越战越强的经验，而非仅展示伤疤。",
+    "name": "战痕",
+    "status": "ready_for_generation_not_image_approved",
+    "current_image": "assets/current/U04.png",
+    "current_image_sha256": "1e1350ccd474cfc2ec871578f6f80f56ce9af7400375397d5b2b1e7a9badfda3",
+    "reference_files": [
+      {
+        "role": "identity",
+        "file": "assets/identity/volibear_approved.png",
+        "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
+      },
+      {
+        "role": "primary_benchmark",
+        "id": "C12",
+        "file": "assets/benchmarks/C12.png",
+        "sha256": "75de6910939940fd2013b17d98dcc9d9c5a53b5cd819692d4e2ac5dc5f95d0ae"
+      },
+      {
+        "role": "secondary_benchmark",
+        "id": "R12",
+        "file": "assets/benchmarks/R12.png",
+        "sha256": "35610d79979d826e35fd0398e86144fe13517614b5d3b3a3d38a520f3817549e"
+      }
+    ],
+    "image_generated": false,
+    "image_visual_approved": false,
+    "final_text_review_file": "reviews/design_resolution_u.json",
+    "image_review_watchpoints": [
+      "旧伤必须是有宽度和曲面转折的旧凹面，不能退化为细棕笔划。",
+      "颈、肩、背连为一个大体积；断矛只掠外缘，避免从毛面插出莫名支肢。",
+      "旧伤与小蓝纹的对比要足以在缩图留下主次，同时避免新鲜伤口抢夺语气。"
+    ],
+    "prompt": "最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：U04《战痕》。创作一张新的独立插画，核心动词/关系为“留痕”。\n\n镜头与抽象：侧后肩与颈部近景。M0。\n画面：厚重白肩的一处宽暗旧伤随肩颈曲面转折，新一次来击的断矛只在肩外缘滑过。肩线始终稳定，旧伤旁仅一小节蓝纹亮起；颈部、肩部与一段背脊连成完整大形，旧痕主、当下擦碰次。\n\n大形与负形：一条旧痕、一处当下擦碰与一块不退的肩面，三者分层。\n色彩：灰白肩、暗暖灰旧痕、深蓝背景、少量青纹。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C12《厚重皮毛》用于主形清晰度、重量和气质；R12《解放本能》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：细划线贴在平面毛上；中心星爆重复C12；新鲜血肉；旧痕新痕蓝纹都画成细密花纹。\n图像语义：旧战痕参与当下承受，体现越战越强的经验，而非仅展示伤疤。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n",
+    "prompt_file": "prompts/v7/U04.txt",
+    "prompt_sha256": "c353c8d472916a174805f98c84bb6a174cc5cb58c2a622732c122d9b072cdd40"
+  }
+}

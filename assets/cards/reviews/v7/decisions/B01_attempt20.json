@@ -1,0 +1,46 @@
+{
+  "id": "B01",
+  "attempt": 20,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "186d1548303a45769ea02320889bf3215e5d52f5e7dfd0d1acf2ebb3b3cd455e",
+  "master_sha256": "84c9870f7183973be2bcdb1fbabdb1af474e4a03326080ed77f610952e1fffa8",
+  "comparison_sha256": "b73c36be88d483f0c4c018ead5107e095fe0ce813c3923ed8e72d8ae9937788e",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看原始图与含两基准、250/125、灰度及两种遮罩的对照板。头肩与近臂比例比旧版自然，熊吻严肃，腕掌连接成立。但全身连续小毛片和大量中间明暗面令画法偏精细概念插画；宽大米白弧线绕过主体并占据右下前景，缩图动作仍依赖弧线而非短促挥爪。此次初始卡的简洁、克制目标未达成。",
+  "baseline_comparison": "U17/U23使用连续大亮面和单块深影，新图头颈肩臂几乎全部被碎毛切面覆盖，明显不在同一简化层级。身份保留但画法漂移。",
+  "paw_orientation_observation": "近肩到上臂、前臂及掌背连续，三个可见爪从指端向前下弯；未见反向爪或额外关节。",
+  "quality_axes": {
+    "main_read": 16,
+    "large_shapes": 12,
+    "tone": 17,
+    "finish": 17,
+    "distinctiveness": 15
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [
+    "毛发与身体明暗切面过碎，明显偏离两张固定基准的连续大色块画法。",
+    "前景宽弧及背景长弧仍过于抢眼，未落实初始打击的短促朴素动作。"
+  ],
+  "revision_target": "保留自然头肩与臂掌结构，把每部位合并为两三块明暗；删去环绕长弧，只留爪端附近短小动作迹。",
+  "recorded_at": "2026-10-29T20:30:31+00:00"
+}

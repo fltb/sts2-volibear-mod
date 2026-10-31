@@ -1,0 +1,13 @@
+{
+  "id": "R30",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "7785a6e0fa657d0b2a2544707df14001c868ccc4f74b6fd85ec78d91b3790c78",
+  "observations": "地形关系成立，但崖壁/远地细碎切面过多，明显偏景观概念画，未达到固定卡的平面大形简洁度。",
+  "defects": [
+    "地形关系成立，但崖壁/远地细碎切面过多，明显偏景观概念画，未达到固定卡的平面大形简洁度。"
+  ],
+  "recorded_at": "2026-10-27T17:31:54+00:00"
+}

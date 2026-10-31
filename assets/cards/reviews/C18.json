@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "C18",
+  "decision": "approve",
+  "master_sha256": "af405b611df056db21695c555554584bf07527ce0eb517b96719418848f11a95",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_a",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "巨熊头肩是有意的神性概括剪影，头在中央肩线之上，小敌人位于另一尺度的地平线；没有假装补成扭曲全身。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_a.json",
+      "id": "C18",
+      "source_sha256": "b6101a6573779d2aec630f3819215333bdc1013404e90ac9e85bed8e7092b05e"
+    },
+    "prior_exact_candidate_review_sha256": "9397ff08532b176f78e0fc74c31f400f07b86f9823aa34a340f8349656559cd5",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

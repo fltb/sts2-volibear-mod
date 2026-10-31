@@ -1,0 +1,133 @@
+{
+  "id": "C17",
+  "artist": "artist_c",
+  "tool": "tools.image_gen__imagegen",
+  "attempt": 2,
+  "request": {
+    "prompt": "Edit reference image 1 into a new complete CARD FORMAT COMPOSITION. The required canvas is 1250 pixels WIDE by 950 pixels HIGH (landscape ratio 25:19, near 4:3). It must NOT be a panorama. Recompose the whole scene into this taller card frame; do not letterbox, do not stretch, do not simply crop off feet.\nKeep the same bear identity, grounded pre-launch crouch, side-back viewpoint and simple mature graphic flat-art style from reference images 2 and 3. Preserve the readable continuous shoulder-belly-hip wedge, short thick muzzle, white-grey broad shoulder mass and navy body. The bear is braced on one front paw and one rear paw visibly pressed into solid ochre gravel with a little short grass, both supports have clear contact shadows. The rear leg is folded and loaded, body has NOT sprung, no motion lines or flying dirt. Body stays long and strong, never a ball. Keep a narrow opening under the chest and leg spacing. Large quiet left-hand sky/ground area waits for release; solid horizon and distant cliff are straight and rigid. Redesign spacing so the bear fits in roughly the RIGHT TWO-THIRDS of the 1250×950 frame with head, both support points and back all readable.\nSimplify scene further: no dense gravel, no tiny rocky facets, no fur strands. Broad unbroken grey-purple sky, dark ochre ground, white-grey shoulder and two-shade navy body, tiny cyan eyes and short claws only. Hard-edged flat fills, 2–3 tones, restrained dark contour. No text, border, UI, symbols, glowing attack, visible enemy, dramatic 3D light, or watermark. This is the STATIC loaded moment before force is released.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/attempt01.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png"
+    ],
+    "transparent_background": false
+  },
+  "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-27d42ba2-2f26-4275-9a2e-41dd7dee0a02.png",
+  "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/attempt02.png",
+  "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C17.json",
+  "visual_approved": false,
+  "artist_observation": "Regenerated complete composition to repair aspect ratio, preserving original image as attempt01.",
+  "output_sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530",
+  "dimensions": [
+    1438,
+    1093
+  ],
+  "reference_files": [
+    {
+      "path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/attempt01.png",
+      "sha256": "d2989106840e752fa4db218753b752144cb8162bd36dac4f21e54dd43a3e4907"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+      "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png",
+      "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+    }
+  ],
+  "request_sha256": "7e919a225855d62c6c87a48deb36bffd7758ddcea76fbaab6dc2da8b5a98ef29",
+  "plan_card": {
+    "id": "C17",
+    "level": "M1",
+    "family": "静止前的张力",
+    "verb": "压蓄",
+    "anchors": [
+      "U03",
+      "C06"
+    ],
+    "camera": "侧后方中景，低地平线",
+    "scene": "熊低伏在坚实土砾与短草上，后足蹬紧地面，前足承担支撑，肩背向后压缩；两处接触旁只有小块被挤开的土砾。地面和远处硬直岩沿保持形状，胸前留一道狭窄空隙。身体尚未跃出，前方大片天空和空地保持留白。",
+    "shape": "两个清楚支点支撑一个压缩但连续的肩胯楔体，左侧留白等待释放；肩、腹、髋不收成一个球。",
+    "palette": "暗赭岩台、灰紫天空、灰白肩部，几乎不用发光。",
+    "avoid": [
+      "把薄石沿压弯",
+      "胸前双拳健美摆拍",
+      "身体缩成毛球",
+      "已经冲出的速度线",
+      "四肢悬空",
+      "用爆光代替蓄势重量"
+    ],
+    "semantic": "必须是发力之前的压缩时刻，与奔袭或普通打击分开。",
+    "name": "蓄力",
+    "status": "ready_for_generation_not_image_approved",
+    "current_image": "assets/current/C17.png",
+    "current_image_sha256": "8a8d9569db7bf80674796767a05ae1d0fcc4ae4da9fbc474763e6253cf86fe76",
+    "reference_files": [
+      {
+        "role": "identity",
+        "file": "assets/identity/volibear_approved.png",
+        "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
+      },
+      {
+        "role": "primary_benchmark",
+        "id": "U03",
+        "file": "assets/benchmarks/U03.png",
+        "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+      },
+      {
+        "role": "secondary_benchmark",
+        "id": "C06",
+        "file": "assets/benchmarks/C06.png",
+        "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+      }
+    ],
+    "image_generated": false,
+    "image_visual_approved": false,
+    "final_text_review_file": "reviews/design_resolution_bc.json",
+    "image_review_watchpoints": [
+      "肩腹髋需连续而不过度蜷缩，避免蓄势熊变成毛球或低伏猫形。",
+      "前后两个支点与土砾受压必须真实接地，硬直地面和远岩沿不能再次变软弯曲。",
+      "应保持发力前静止张力，不能用速度线、飞尘或爆光把它推进到已经跃出。"
+    ],
+    "prompt": "最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：C17《蓄力》。创作一张新的独立插画，核心动词/关系为“压蓄”。\n\n镜头与抽象：侧后方中景，低地平线。M1。\n画面：熊低伏在坚实土砾与短草上，后足蹬紧地面，前足承担支撑，肩背向后压缩；两处接触旁只有小块被挤开的土砾。地面和远处硬直岩沿保持形状，胸前留一道狭窄空隙。身体尚未跃出，前方大片天空和空地保持留白。\n\n大形与负形：两个清楚支点支撑一个压缩但连续的肩胯楔体，左侧留白等待释放；肩、腹、髋不收成一个球。\n色彩：暗赭岩台、灰紫天空、灰白肩部，几乎不用发光。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；U03《屹立》用于主形清晰度、重量和气质；C06《进逼》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：把薄石沿压弯；胸前双拳健美摆拍；身体缩成毛球；已经冲出的速度线；四肢悬空；用爆光代替蓄势重量。\n图像语义：必须是发力之前的压缩时刻，与奔袭或普通打击分开。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n",
+    "prompt_file": "prompts/v7/C17.txt",
+    "prompt_sha256": "cdba2c0bfeb39b5c54128069085a396c016bb73b7ad3754b9d9e2428ce683f59"
+  },
+  "attempt_history": [
+    {
+      "id": "C17",
+      "artist": "artist_c",
+      "tool": "tools.image_gen__imagegen",
+      "attempt": 1,
+      "request": {
+        "prompt": "Mature graphic flat poster illustration. Image 1 U03 and image 2 C06 show the precise target simplification: very large solid white/grey shoulder mass, navy body in only two shades, no detailed rendering. Each broad shape stays continuous. Only a handful of large fur-edge points, no fine texture or extra facets.\n\n最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：C17《蓄力》。创作一张新的独立插画，核心动词/关系为“压蓄”。\n\n镜头与抽象：侧后方中景，低地平线。M1。\n画面：熊低伏在坚实土砾与短草上，后足蹬紧地面，前足承担支撑，肩背向后压缩；两处接触旁只有小块被挤开的土砾。地面和远处硬直岩沿保持形状，胸前留一道狭窄空隙。身体尚未跃出，前方大片天空和空地保持留白。\n\n大形与负形：两个清楚支点支撑一个压缩但连续的肩胯楔体，左侧留白等待释放；肩、腹、髋不收成一个球。\n色彩：暗赭岩台、灰紫天空、灰白肩部，几乎不用发光。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；U03《屹立》用于主形清晰度、重量和气质；C06《进逼》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：把薄石沿压弯；胸前双拳健美摆拍；身体缩成毛球；已经冲出的速度线；四肢悬空；用爆光代替蓄势重量。\n图像语义：必须是发力之前的压缩时刻，与奔袭或普通打击分开。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n\n\n落实审稿关注：肩腹髋需连续而不过度蜷缩，避免蓄势熊变成毛球或低伏猫形。；前后两个支点与土砾受压必须真实接地，硬直地面和远岩沿不能再次变软弯曲。；应保持发力前静止张力，不能用速度线、飞尘或爆光把它推进到已经跃出。\n熊位于画面右部，侧后方中景看一条从肩经腹到髋的长而紧实的楔形轮廓。前足落地支撑，后足蹬牢，两个支点之间留明确空隙。它还没移动，没有飞尘、速度线、发光、电弧。左侧天空与空地留白等待释放；身体不低伏成普通四足动物，更不能变成圆球。No grain, no rock texture, no fur strands, no painterly shading or soft 3D lighting.",
+        "referenced_image_paths": [
+          "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+          "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png"
+        ],
+        "transparent_background": false
+      },
+      "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-3fdf9b6a-20e1-4c69-bdc2-246114ff763e.png",
+      "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/attempt01.png",
+      "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C17.json",
+      "visual_approved": false,
+      "output_sha256": "d2989106840e752fa4db218753b752144cb8162bd36dac4f21e54dd43a3e4907",
+      "dimensions": [
+        1983,
+        793
+      ],
+      "reference_files": [
+        {
+          "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+          "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+        },
+        {
+          "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png",
+          "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+        }
+      ],
+      "request_sha256": "a90790178daa382ed01efb4b7d9526bf808cf2adb82e4fd383d69c14f022760e"
+    }
+  ]
+}

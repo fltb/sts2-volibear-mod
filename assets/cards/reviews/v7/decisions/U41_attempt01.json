@@ -1,0 +1,13 @@
+{
+  "id": "U41",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "711d73fd0842bf7f7e19a4e7be8c78fbeed2391e2181e8bcd6a52b31be911b02",
+  "observations": "四个独立粗指根与长弯爪仍像断下来的活体掌，旧壳和地面有大量龟裂纹。需改成旧壳一角翻开，露出一体扁平深蓝硬刃板和短三角齿，清除指根、关节、弯指甲与碎纹。",
+  "defects": [
+    "四个独立粗指根与长弯爪仍像断下来的活体掌，旧壳和地面有大量龟裂纹。需改成旧壳一角翻开，露出一体扁平深蓝硬刃板和短三角齿，清除指根、关节、弯指甲与碎纹。"
+  ],
+  "recorded_at": "2026-10-27T18:03:00+00:00"
+}

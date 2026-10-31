@@ -1,0 +1,13 @@
+{
+  "id": "C25",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "65bdb8f85edcb9b9c59508ef07a1f35fb190bd688b166ba559d59ddb6d3ce23f",
+  "observations": "粗长前臂从左下斜贯到右爪并占据半幅，重新落入用户明确反对的重复巨爪构图。需让腕仅从下缘短入，右下竖向小收掌，保留掌前大暗隙。",
+  "defects": [
+    "粗长前臂从左下斜贯到右爪并占据半幅，重新落入用户明确反对的重复巨爪构图。需让腕仅从下缘短入，右下竖向小收掌，保留掌前大暗隙。"
+  ],
+  "recorded_at": "2026-10-27T17:55:07+00:00"
+}

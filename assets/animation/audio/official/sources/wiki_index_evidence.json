@@ -1,0 +1,715 @@
+{
+  "schema_version": 1,
+  "method": "Public search-index output only; no forbidden Wiki/Fandom HTML requests or proxy bypass",
+  "sources": [
+    {
+      "ref": "turn73search0",
+      "url": "https://leagueoflegends.fandom.com/wiki/Category%3AVolibear_voice-overs"
+    },
+    {
+      "ref": "turn73search1",
+      "url": "https://leagueoflegends.fandom.com/wiki/Category%3AVolibear"
+    },
+    {
+      "ref": "turn73search2",
+      "url": "https://wiki.leagueoflegends.com/en-us/League_of_Legends_Wiki%3ATodo/LoL_Audio"
+    },
+    {
+      "ref": "turn73search5",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AFiddlesticks"
+    },
+    {
+      "ref": "turn73search9",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AYasuo"
+    },
+    {
+      "ref": "turn73search10",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AKarma"
+    },
+    {
+      "ref": "turn73search11",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3ADarius"
+    },
+    {
+      "ref": "turn73search12",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AAshe"
+    },
+    {
+      "ref": "turn74search0",
+      "url": "https://wiki.leagueoflegends.com/en-us/League_of_Legends_Wiki%3ATodo/LoL_Audio"
+    },
+    {
+      "ref": "turn74search1",
+      "url": "https://leagueoflegends.fandom.com/wiki/Category%3AVolibear"
+    },
+    {
+      "ref": "turn74search2",
+      "url": "https://wiki.leagueoflegends.com/en-us/LoR%3ACosmetics"
+    },
+    {
+      "ref": "turn74search3",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AKarma"
+    },
+    {
+      "ref": "turn74search4",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Inkshadow_Move_7.ogg"
+    },
+    {
+      "ref": "turn74search5",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Inkshadow_FirstEncounterOrnn_2.ogg"
+    },
+    {
+      "ref": "turn74search6",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Inkshadow_Move_15.ogg"
+    },
+    {
+      "ref": "turn74search7",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Inkshadow_Dance.ogg"
+    },
+    {
+      "ref": "turn74search8",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Inkshadow_MoveLong_2.ogg"
+    },
+    {
+      "ref": "turn74search9",
+      "url": "https://wiki.leagueoflegends.com/en-us/Champion_skin"
+    },
+    {
+      "ref": "turn74search10",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Inkshadow_MoveLong_12.ogg"
+    },
+    {
+      "ref": "turn74search11",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AYasuo"
+    },
+    {
+      "ref": "turn74search12",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AFiddlesticks"
+    },
+    {
+      "ref": "turn74search13",
+      "url": "https://wiki.leagueoflegends.com/en-us/LoR%3AStore"
+    },
+    {
+      "ref": "turn74search14",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3AVi"
+    },
+    {
+      "ref": "turn74search15",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3ATrundle"
+    },
+    {
+      "ref": "turn74search16",
+      "url": "https://wiki.leagueoflegends.com/en-us/Category%3ADarius"
+    },
+    {
+      "ref": "turn74search17",
+      "url": "https://wiki.leagueoflegends.com/en-us/Sona/Cosmetics"
+    },
+    {
+      "ref": "turn74search31",
+      "url": "https://wiki.leagueoflegends.com/en-us/Module%3ASkinDataWR/data?mobileaction=toggle_view_desktop"
+    },
+    {
+      "ref": "turn74search33",
+      "url": "https://wiki.leagueoflegends.com/en-us/Dr._Mundo/Audio"
+    },
+    {
+      "ref": "turn78search0",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_FirstEncounter_1.ogg"
+    },
+    {
+      "ref": "turn78search1",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_MoveFirst_1.ogg"
+    },
+    {
+      "ref": "turn78search2",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Move_1.ogg"
+    },
+    {
+      "ref": "turn78search3",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Move_11.ogg"
+    },
+    {
+      "ref": "turn78search4",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Move_5_old.ogg"
+    },
+    {
+      "ref": "turn78search5",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Move_3_old.ogg"
+    },
+    {
+      "ref": "turn78search6",
+      "url": "https://leagueoflegends.fandom.com/wiki/Category%3AVolibear_voice-overs"
+    },
+    {
+      "ref": "turn79search0",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Respawn_2.ogg"
+    },
+    {
+      "ref": "turn79search1",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Recall_2.ogg"
+    },
+    {
+      "ref": "turn80search0",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Laugh_1.ogg"
+    },
+    {
+      "ref": "turn80search1",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_W_4.ogg"
+    },
+    {
+      "ref": "turn83search1",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_MoveLong_9.ogg"
+    },
+    {
+      "ref": "turn83search2",
+      "url": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio"
+    },
+    {
+      "ref": "turn95search0",
+      "url": "https://leagueoflegends.fandom.com/wiki/Category%3AVolibear_voice-overs"
+    },
+    {
+      "ref": "turn95search1",
+      "url": "https://wiki.leagueoflegends.com/en-us/V14.12"
+    },
+    {
+      "ref": "turn95search2",
+      "url": "https://wiki.leagueoflegends.com/en-us/Champion_skin"
+    },
+    {
+      "ref": "turn95search3",
+      "url": "https://wiki.leagueoflegends.com/en-us/V3.6"
+    },
+    {
+      "ref": "turn63search1",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Select.ogg"
+    },
+    {
+      "ref": "turn63search0",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_R_0.ogg"
+    },
+    {
+      "ref": "turn60search9",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_MoveLong_8.ogg"
+    },
+    {
+      "ref": "turn60search12",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Joke_1.ogg"
+    },
+    {
+      "ref": "turn60search11",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_Taunt_0.ogg"
+    },
+    {
+      "ref": "turn60search7",
+      "url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_KillTurret_2.ogg"
+    }
+  ],
+  "explicitly_observed_files": [
+    {
+      "filename": "Volibear_Ban.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_10.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_11.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_12.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_13.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_14.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_15.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_16.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_17.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_18.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_2.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_3.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_4.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_5.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_6.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_7.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_8.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Attack_9.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_2.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_3.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_4.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_BasicAttack_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_BasicAttack_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_BasicAttack_2.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Dance.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Death_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Death_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Death_2.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Death_3.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_E_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_E_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_E_2.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_2.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_3.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAnivia_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAnivia_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAshe_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAshe_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterBraum_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterBraum_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterHuman.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterLissandra.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterNunu_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterNunu_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterOrnn_0.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterOrnn_1.ogg",
+      "source_refs": [
+        "turn73search0",
+        "turn78search6",
+        "turn95search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Joke_1.ogg",
+      "source_refs": [
+        "turn60search12"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_KillTurret_2.ogg",
+      "source_refs": [
+        "turn60search7"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Laugh_1.ogg",
+      "source_refs": [
+        "turn80search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Move_1.ogg",
+      "source_refs": [
+        "turn78search2"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Move_11.ogg",
+      "source_refs": [
+        "turn78search3"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_1.ogg",
+      "source_refs": [
+        "turn78search1"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_8.ogg",
+      "source_refs": [
+        "turn60search9"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_9.ogg",
+      "source_refs": [
+        "turn83search1"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_R_0.ogg",
+      "source_refs": [
+        "turn63search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Recall_2.ogg",
+      "source_refs": [
+        "turn79search1"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Respawn_2.ogg",
+      "source_refs": [
+        "turn79search0"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_Taunt_0.ogg",
+      "source_refs": [
+        "turn60search11"
+      ]
+    },
+    {
+      "filename": "Volibear_Original_W_4.ogg",
+      "source_refs": [
+        "turn80search1"
+      ]
+    },
+    {
+      "filename": "Volibear_Select.ogg",
+      "source_refs": [
+        "turn63search1"
+      ]
+    }
+  ],
+  "complete_category_tail_obtained": false,
+  "select_sfx_filename_confirmed": false
+}

@@ -1,0 +1,131 @@
+{
+  "id": "C20",
+  "artist": "artist_c",
+  "tool": "tools.image_gen__imagegen",
+  "attempt": 2,
+  "request": {
+    "prompt": "Repair image 1 for C20, preserving its steep oblique TOP-DOWN viewpoint, single bear pursuing the SAME single enemy at upper-right, brick-red ground, and diagonal direction. Maintain 1250×950 landscape 25:19 frame. Images 2 and 3 show correct heavy bear proportions and flat graphic style.\n\nPRIORITY ANATOMY FIX: the near hind leg in image 1 is much too long. Rebuild both rear legs as SHORT THICK BEAR LEGS attached directly and plausibly beneath the hips. Move the near rear planted foot MUCH CLOSER TO THE HIP, roughly halfway toward the body from its current position. Shorten its entire shin/thigh proportion, not just hide it. Keep a small gap between the two legs and a short grounded forward stride; the body is strong and compact with a normal continuous shoulder-belly-hip connection, NOT a stretched airborne leap or sausage. Both arms belong to the shoulders and both rear legs belong to hips, no mixed limb origins, extra limb or detached paw. The near forearm remains compact and subordinate, never a giant swipe.\n\nMove the old ochre-white PUSH-OFF / IMPACT SCUFF directly underneath the newly repositioned planted rear foot. The old position must therefore come closer to the bear, not remain stranded in the distant lower-left. From this new old scuff one SIMPLE COMPLETE BROAD DARK SKID BAND leads toward the same upper-right enemy's feet, showing the enemy was displaced and the bear is closing in again. Simplify scuff to one large continuous matte shape and skid to one broad band, no streaky paint texture, no many parallel scratch lines. Remove almost all scattered rocks; no flying pebbles or dust. The enemy is still standing/recoiling, not dead. Bear's shoulder approaches enemy side-back, no claw arc or new flash.\n\nUse only broad closed hard-edged flat shapes and 2–3 shades per material. White-grey shoulders one major mass, navy body only two main tones. No dense fur detail, tiny facets, grain, 3D shading, speed trails, duplicated bears, footprint diagrams, text, frame or UI. The feeling of pursuit comes from SHORTER DISTANCE and the trace on the ground, not elongated limbs.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/attempt01.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png"
+    ],
+    "transparent_background": false
+  },
+  "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-45051cc0-a398-4701-a8ad-74eb9dc982e1.png",
+  "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/attempt02.png",
+  "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C20.json",
+  "visual_approved": false,
+  "design_override": "Root requested correcting overlong hind leg; move rear planted foot near hip, reestablish old scuff under it, simplify broad skid and ground.",
+  "output_sha256": "51eb996f64f25ee6f262f25f51b3822c19baf002a0a004be4bcaf011ea3ef1ae",
+  "dimensions": [
+    1439,
+    1093
+  ],
+  "reference_files": [
+    {
+      "path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/attempt01.png",
+      "sha256": "4f87ac80bedb3cbe8bf6f78a42566f35c21625c9d5138860923bea2b410c43b1"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+      "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png",
+      "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+    }
+  ],
+  "request_sha256": "07f2c27ae9c43ffad09d7350c54fc7d519ab96247d9d86bb7db2ed634e7da585",
+  "plan_card": {
+    "id": "C20",
+    "level": "M1",
+    "family": "连续动作的节奏",
+    "verb": "追上",
+    "anchors": [
+      "C09",
+      "C06"
+    ],
+    "camera": "斜俯视冲突的两段距离",
+    "scene": "明显斜俯视下，前景旧撞点有一条短粗滑痕连续接到画面上方同一敌影的脚下。熊以正常拉开的跨步横穿旧落点，肩线前倾，下一步已逼近敌人的侧后方；近侧足有支点，前后肢之间有清楚负形。身体不抱团，不展示巨大爪弧，只有接近敌人的肩边形成新压力点。",
+    "shape": "旧落点、跨步熊影、新敌位形成短折线，三者大小依次递减。",
+    "palette": "砖红地面、深蓝熊影、灰白肩块、单一赭白落点。",
+    "avoid": [
+      "又一张向右挥爪",
+      "复制多只熊当连击",
+      "两套速度线",
+      "没有地面的悬空抱团"
+    ],
+    "semantic": "同一冲突中继续追进，用前后位置而非更多爪子表达乘势。",
+    "name": "乘势追击",
+    "status": "ready_for_generation_not_image_approved",
+    "current_image": "assets/current/C20.png",
+    "current_image_sha256": "eb5fc7495fd5914ce936526212dd1c0526489ea4c6ff251a66b4256bed44fad9",
+    "reference_files": [
+      {
+        "role": "identity",
+        "file": "assets/identity/volibear_approved.png",
+        "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
+      },
+      {
+        "role": "primary_benchmark",
+        "id": "C09",
+        "file": "assets/benchmarks/C09.png",
+        "sha256": "e5c2c810b3ca63356a117a6bb47af26a5698b61da604f71904830bb96d8f5e5e"
+      },
+      {
+        "role": "secondary_benchmark",
+        "id": "C06",
+        "file": "assets/benchmarks/C06.png",
+        "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+      }
+    ],
+    "image_generated": false,
+    "image_visual_approved": false,
+    "final_text_review_file": "reviews/design_resolution_bc.json",
+    "image_review_watchpoints": [
+      "必须保持明显斜俯视，旧落点至同一敌人的滑痕应连续，不能退回平侧挥爪构图。",
+      "熊的正常跨步、落地支点与前后肢负形要存活，避免悬空抱团或复制多个实体当连续动作。",
+      "旧撞点、当前熊、敌人三层在125×95须依然可追踪，滑痕和新压力点不可抢成两个等亮主焦点。"
+    ],
+    "prompt": "最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：C20《乘势追击》。创作一张新的独立插画，核心动词/关系为“追上”。\n\n镜头与抽象：斜俯视冲突的两段距离。M1。\n画面：明显斜俯视下，前景旧撞点有一条短粗滑痕连续接到画面上方同一敌影的脚下。熊以正常拉开的跨步横穿旧落点，肩线前倾，下一步已逼近敌人的侧后方；近侧足有支点，前后肢之间有清楚负形。身体不抱团，不展示巨大爪弧，只有接近敌人的肩边形成新压力点。\n\n大形与负形：旧落点、跨步熊影、新敌位形成短折线，三者大小依次递减。\n色彩：砖红地面、深蓝熊影、灰白肩块、单一赭白落点。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C09《雷霆横扫》用于主形清晰度、重量和气质；C06《进逼》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：又一张向右挥爪；复制多只熊当连击；两套速度线；没有地面的悬空抱团。\n图像语义：同一冲突中继续追进，用前后位置而非更多爪子表达乘势。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n",
+    "prompt_file": "prompts/v7/C20.txt",
+    "prompt_sha256": "4801765598e5a7a1b125cbf26eb47a1e9ef3664231c10834bd14ecdd49a40882"
+  },
+  "attempt_history": [
+    {
+      "id": "C20",
+      "artist": "artist_c",
+      "tool": "tools.image_gen__imagegen",
+      "attempt": 1,
+      "request": {
+        "prompt": "Canvas 1250×950 pixels, 25:19 landscape. ONE complete new card-art scene. Mature graphic hard-edge flat illustration, only 2–3 shades per material, large clean contiguous shapes, no grain, detail texture, dense fur or 3D modelling. Reference images define identity and palette only; do NOT copy their side-view claw sweeps.\n\n最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：C20《乘势追击》。创作一张新的独立插画，核心动词/关系为“追上”。\n\n镜头与抽象：斜俯视冲突的两段距离。M1。\n画面：明显斜俯视下，前景旧撞点有一条短粗滑痕连续接到画面上方同一敌影的脚下。熊以正常拉开的跨步横穿旧落点，肩线前倾，下一步已逼近敌人的侧后方；近侧足有支点，前后肢之间有清楚负形。身体不抱团，不展示巨大爪弧，只有接近敌人的肩边形成新压力点。\n\n大形与负形：旧落点、跨步熊影、新敌位形成短折线，三者大小依次递减。\n色彩：砖红地面、深蓝熊影、灰白肩块、单一赭白落点。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C09《雷霆横扫》用于主形清晰度、重量和气质；C06《进逼》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：又一张向右挥爪；复制多只熊当连击；两套速度线；没有地面的悬空抱团。\n图像语义：同一冲突中继续追进，用前后位置而非更多爪子表达乘势。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n\n\n重点：必须保持明显斜俯视，旧落点至同一敌人的滑痕应连续，不能退回平侧挥爪构图。；熊的正常跨步、落地支点与前后肢负形要存活，避免悬空抱团或复制多个实体当连续动作。；旧撞点、当前熊、敌人三层在125×95须依然可追踪，滑痕和新压力点不可抢成两个等亮主焦点。\nComposition MUST be clearly seen FROM ABOVE at a steep oblique angle, ground fills the frame with NO horizon. One broad old ochre-white impact scuff lies in the lower-left foreground. A single short thick continuous dark skid on the brick-red ground leads from that old scuff up toward ONE same small dark enemy in the upper-right. The bear strides across the old position toward this enemy's side-back, body and shoulder inclined forward, two legs normally separated in a long grounded step, one near foot definitely planted, clear negative space between forward and rear limbs. Its white-grey shoulder presses closer to the enemy as the new pressure point. Arms are compact and secondary; no giant claw foreground, no glowing swipe arc, no floating body ball. There is exactly ONE bear and ONE enemy. Old impact, current bear, new enemy position form one short broken diagonal route with diminishing scale. The old impact is a ground abrasion, never an explosion. No multiple silhouettes, duplicate legs, arrows, panels, text, border or UI.",
+        "referenced_image_paths": [
+          "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C09.png",
+          "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png"
+        ],
+        "transparent_background": false
+      },
+      "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-10e9d9cd-5bc4-4308-b850-c0aee3ccb0e9.png",
+      "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/attempt01.png",
+      "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C20.json",
+      "visual_approved": false,
+      "output_sha256": "4f87ac80bedb3cbe8bf6f78a42566f35c21625c9d5138860923bea2b410c43b1",
+      "dimensions": [
+        1438,
+        1093
+      ],
+      "reference_files": [
+        {
+          "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C09.png",
+          "sha256": "e5c2c810b3ca63356a117a6bb47af26a5698b61da604f71904830bb96d8f5e5e"
+        },
+        {
+          "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C06.png",
+          "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+        }
+      ],
+      "request_sha256": "06a171a94d23cf5d337ffe8cfff9e57e13e9b1ab3972e303a5fde9da6acab686"
+    }
+  ]
+}

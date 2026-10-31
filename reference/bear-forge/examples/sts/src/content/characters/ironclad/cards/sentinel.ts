@@ -1,0 +1,24 @@
+import {concreteCard,cardBlock} from '../../../cards/shared/programs.ts';
+import {programMetadata,describeProgram,amountText} from '../../../cards/shared/program-facts.ts';
+import {cardEffects} from '../../../../rules/card-effects.ts';
+import { typedValue } from '../../../../rules/value.schemas.ts';
+import {z} from 'zod';
+import {rules} from '../../../../rules/execution.ts';
+import {cardPiles} from "../../../../rules/card-piles.ts";
+import {cardInstances} from "../../../../rules/card-instances.ts";
+import {resources} from "../../../../rules/resources.ts";
+import {attributes} from "../../../../rules/attributes.ts";
+import {battles} from "../../../../rules/battles.ts";
+import {actionQueue} from "../../../../rules/combat-actions.ts";
+import {cards} from "../../../../cards.ts";
+import type {CardUse} from "../../../../rules/card-instances.types.ts";
+import type {PileCard} from "../../../../rules/card-piles.types.ts";
+import {registerCardAbilities,standardUpgrade,upgradeOnce} from "../../../cards/shared/lifecycle.ts";
+const {defineRules,defineQuery,defineEntity,defineEffect,on,call,query,enqueue}=rules;
+export const ironcladPileCards=defineRules({requires:[cardEffects,cardPiles,attributes,battles],build(){
+  const self=defineQuery({input:typedValue<rules.ReactionContext<PileCard>>(),output:z.boolean(),base:(_r,c)=>c.event.card===c.source});
+  const exhaustEnergy=[2,3] as const;
+  const sentinelExhaust=describeProgram(on(cardPiles.exports.exhausting,{condition:self,order:cardPiles.exports.stages.card,effect:defineEffect<rules.ReactionContext<PileCard>,void>(b=>call(resources.exports.gainEnergy,{entity:b.read(v=>v.input.owner),amount:b.read(v=>exhaustEnergy[v.query(cardInstances.exports.current,v.input.source).upgraded?1:0])}))}),`本牌被消耗时获得${amountText(exhaustEnergy)}能量。`);
+  const sentinelUse=cardBlock([5,8]);
+  return{exports:{Sentinel:concreteCard('SENTINEL',sentinelUse,{created:registerCardAbilities(sentinelExhaust)})}};
+}});

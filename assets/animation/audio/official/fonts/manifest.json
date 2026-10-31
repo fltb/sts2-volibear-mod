@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "css_family": "OfficialAudioUI",
+  "derived_family": "Volibear Official Audio UI",
+  "source": {
+    "filename": "NotoSansCJKsc-Regular.otf",
+    "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+    "copyright": "© 2014-2021 Adobe (http://www.adobe.com/).",
+    "license": "SIL Open Font License 1.1",
+    "license_file": "fonts/OFL.txt"
+  },
+  "file": "fonts/official_audio_ui.woff",
+  "sha256": "a9cc7132942a0b802a1d934c4b8cf44a9df3f50be4b65d4c47a22a8c48957a44",
+  "bytes": 67436,
+  "license_sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+  "characters_file": "fonts/characters.txt",
+  "characters_sha256": "fa973a8ebfe10e2c9fbfb6ebb470d8b979861d70e5a65269a6c3ff5bf72fa39f",
+  "requested_unicode_count": 301,
+  "missing_codepoints": [],
+  "coverage": "All printable characters in index.html, ASCII, and catalog entry id/filename/category/language/skin fields.",
+  "input_sha256": {
+    "index.html": "05c41401142fb8740718f028ae9c54f414e3ac08428a9d55d5b30c29fb100455",
+    "catalog.json": "7a4c38966c336450c514c880fb201103940f5fafdf676621114b64bef4dbe487"
+  },
+  "fonttools_version": "4.61.1",
+  "builder_sha256": "800b26e73b9003d9b2944a39280b51d3907194ce47d1500fdc70d3e53c5ec58b",
+  "original_source_unchanged": true
+}

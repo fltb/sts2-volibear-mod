@@ -1,0 +1,266 @@
+[
+  {
+    "id": "U28",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "ebabd2fd2860f4f594d69376959444a803542299f4b61979f3fe0c6cdf6c78b4",
+    "master_sha256": "de9e7f6f91c2fe9ecd15f75f490752fdac8a9a2774114f1acf16cdefe7d294a4",
+    "comparison_sha256": "7891bd39e2f1e08d4dcae08d7be86d920eb31add819ea82bea2e8b77482401f8",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "后侧俯视完整宽背、三处接地支点及身前挡臂，敌斧接点小而可辨；雷从接点两侧分至两名敌人。左支短暂被前臂遮挡，出入方向连续。没有重复腿或随机肢体。",
+    "baseline_comparison": "与C12承受实击和U40明确电路关系相容。另直接比对固定U35：改为后侧俯视、两名可见敌人、V形回雷和紫色平面，不再是红底侧脸举臂及前景大波。",
+    "paw_orientation_observation": "挡臂手爪顺着腕朝内下收，另一前足朝地面；脚爪沿各自落脚方向。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U42",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "2208dea432b92857bbcfa37f43a1591d710001a2aa9efc40f4bbf0e9cf1399cc",
+    "master_sha256": "651dabda7c4c7fdcb3eee9a8bd11f965a4d9935bdad09e06bf3fc4f719535e44",
+    "comparison_sha256": "74a37c9809143da5c0a7135961027b03802be283116ad9f53fba8be905df8674",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "完整独立护片的中央平面、厚边与连成宽底的毛缘同属一物，板上纹理连续。无熊头、手腿或莫名颈部。落地影与暖底让护体材料的重量清楚。",
+    "baseline_comparison": "借C12厚毛和U03稳固落地的大形，主角退出画面，转化结果成为厚护片；与R28局部触压过程的镜头、颜色和完成状态区分。",
+    "paw_orientation_observation": "独立护具，没有实体肢体；毛边不构成残手或残腿。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 17
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U43",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "6a4556ae926ede53a6f86afac76a2efc35bdab92bc80cb25425636c92bc3573f",
+    "master_sha256": "bd5b05e7c578404d62c8109e079b130e1f0e21a201dd5bb3549a3a2712726cd8",
+    "comparison_sha256": "a0778d1bff2250c7c78f3a46f37aa91871f903b481fb38a1235debea46e1c47a",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "唯一被选中木骨片由青线提起，地面投影与本体分离；另外两件暗物仍落地。旧木面和深蓝爪形刃边属于同一有厚度物件，旧孔可追踪。",
+    "baseline_comparison": "与U17/U25集中目标的主次关系相符；没有额外熊头或伸手，三物中一亮二暗在125像素仍明确。不同于R29三件均已转化的平铺静物。",
+    "paw_orientation_observation": "爪形是完整木骨物件的连续刃边，既无掌根也无腕臂，不呈断肢。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C15",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "4f611926c22c49c7360010eb34c8d74e7d066bd0cc47e5addf24ce5872c0dd31",
+    "master_sha256": "a220214bd814c6eef72d427b412bca7493a2dc613ea6f52301ce143650350bba",
+    "comparison_sha256": "b59b74bddd4ebe79276376416ae8d8e12d8e269a12e059335389d4b96988b87b",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "旧盾破口一直张开，青白余光脱离破口向上缘小掌集中；手不触碰破口，未把伤口填平。掌腕从画外连续进入，暗盾与亮流分别清楚。",
+    "baseline_comparison": "与C08相比保留材料结果但移开实体手，加入回收路径；与U40的实地贯通不同，余光离开旧受体。125像素仍见破口、间隙、小手三者。",
+    "paw_orientation_observation": "短青爪同向自然内勾，光流经过爪间但不被画成多余手指；腕与前臂连续。",
+    "quality_axes": {
+      "main_read": 17,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U13",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "bb9e4ff00d502eae1830eb9a74b8ba87776c58aeb32b58cccf6341145a06e990",
+    "master_sha256": "a2326674164d92a7ab906062b5b674ad15407816207fdf6ea2257761aa0596b2",
+    "comparison_sha256": "af3b262266f1a6da792db11307c5eff1f1ee9153d7252a2611b7d0a505c2cd4b",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "同一连续腰背曲面上，短浅光尾与固定深蓝纹相接，变化贴附皮毛表面，身体轮廓没有额外突起。无甲壳、珠宝或身体外生成的器官。",
+    "baseline_comparison": "与C26沿实体表面的稳定雷纹对应，改为皮毛局部由虚到实；主体省去头手后仍由白灰毛与深蓝纹保持身份，缩图不会形成奇怪肢体。",
+    "paw_orientation_observation": "不出现手脚；所截身体表面连续，不用不明关节充当抽象。",
+    "quality_axes": {
+      "main_read": 17,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C04",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "7b520af92a01ddeb9610eb498f0d7f9ca07e1889f00777ae864cc4270808b2f1",
+    "master_sha256": "21d9ca3f3e51428bd9281c2c6c26c5a61efb19186e3dd0067cf14f248497b6d5",
+    "comparison_sha256": "54bde3f2113beb2fe28c9d1e4b1a87168dac1fe3115f79fcfdcd63e3ae2a441c",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "短前臂从上缘进入，以收拢掌根擂住盔顶，头盔偏斜并连回颈肩；小暖接点没有吞掉腕根。无抱头、穿颈或第二只手。",
+    "baseline_comparison": "与C06正面推进、R31破盾大场面不同，视点集中在上方擂击与下方盔肩；深蓝臂、灰盔与红底三大面使125像素仍认出受体。",
+    "paw_orientation_observation": "掌根接盔，短爪退在同一拳端并朝下收拢，未反画掌面或长出额外指尖。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 17
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R30",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "7785a6e0fa657d0b2a2544707df14001c868ccc4f74b6fd85ec78d91b3790c78",
+    "observations": "地形关系成立，但崖壁/远地细碎切面过多，明显偏景观概念画，未达到固定卡的平面大形简洁度。",
+    "defects": [
+      "地形关系成立，但崖壁/远地细碎切面过多，明显偏景观概念画，未达到固定卡的平面大形简洁度。"
+    ]
+  },
+  {
+    "id": "U38",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "84f9f3958ea8da80d6a31b31f76f443c0da9eaa80121f1ffb4f946bb2ca2175e",
+    "observations": "肩到髋拉长、伸出前臂过长且整体占幅过大，近似巨爪带着身体飞扑；云、地、雷碎纹竞争焦点。",
+    "defects": [
+      "肩到髋拉长、伸出前臂过长且整体占幅过大，近似巨爪带着身体飞扑；云、地、雷碎纹竞争焦点。"
+    ]
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "reviewer": "root_independent_visual_review",
+  "actual_contact_sheets_viewed": true,
+  "cards_covered": 89,
+  "files": [
+    {
+      "file": "previews/v7/U28_U35_comparison.jpg",
+      "sha256": "7ca24a80ef01c1acff8a3371bc75dcdc11642d864c2649e1df6924ed808ba24d"
+    },
+    {
+      "file": "previews/v7/all_cards_01.jpg",
+      "sha256": "56983c4bca1a48daf9120875defa80d3a170c2bad27aa86ceea0890b9f22885d"
+    },
+    {
+      "file": "previews/v7/all_cards_02.jpg",
+      "sha256": "11cb3a03587ab52f0f7cc007829ed75971d083db439575dcc514432c8b5377b9"
+    },
+    {
+      "file": "previews/v7/all_cards_03.jpg",
+      "sha256": "02dc18972f866b9f6d939c1febf3baabb6485e7b261b098385b4cbb0e2134954"
+    },
+    {
+      "file": "previews/v7/all_cards_04.jpg",
+      "sha256": "d99179066183bb67d9b60433c0fc37bfa9eff2484c97430ac2e7b3f6b13c425e"
+    }
+  ],
+  "scope": "Whole-deck composition and consistency pass; supplements the 61 individual full/thumbnail/mask reviews.",
+  "observations": [
+    "固定爪击仍集中在用户指定B01/B03/C05/C08/C09；新增卡以承力接点、身体远景、器物、环境路径和剪影分散构图。",
+    "U28后侧俯视两敌回雷，与固定U35红底侧臂和前景雷波明确不同。",
+    "纯环境雷卡在落点、积累、连接、回填与空间尺度上区分；风暴形态以连续云影/大轮廓呈现。",
+    "89张标题、固定/重绘标记、卡号与母图对应；没有缺卡或意外复制同一图。"
+  ],
+  "remaining_new_blockers": [],
+  "checked_at": "2026-10-27T18:19:26+00:00"
+}

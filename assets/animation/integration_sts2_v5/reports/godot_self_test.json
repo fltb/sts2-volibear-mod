@@ -1,0 +1,17 @@
+{
+  "animation_frames": 940,
+  "animations": 26,
+  "audio_cues_decoded": 54,
+  "effect_frames": 1070,
+  "effects": 40,
+  "engine_version": "4.5.1-stable (official)",
+  "failures": [],
+  "input_sha256": {
+    "/workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/animations/clean/manifest.json": "da8680ce0d2053a641f8e8e67133f7ad41dfb3159c22192427124345e92ce403",
+    "/workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/action_cues.json": "5ccc73d0638905c188996d540c1017821de582e0b72af6620502f9fa6e213505",
+    "/workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/manifest.json": "d22297d0713fa40042e5c3897ec191660f8876bf87e6032aa8ba2a3a27f54be6",
+    "/workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/vfx/manifest.json": "65eba1871f70793b79f971a38a97c8c5ba64370a7553214df9b795ca6e470b23"
+  },
+  "passed": true,
+  "scope": "standalone Godot asset loading, SpriteFrames, seeks, decode and owned-node cleanup; not STS2 runtime"
+}

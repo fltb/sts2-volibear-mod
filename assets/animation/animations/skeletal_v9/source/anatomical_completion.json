@@ -1,0 +1,50 @@
+{
+  "status": "candidate_not_approved",
+  "reference": "references/identity/volibear_approved.png",
+  "method": "built-in image_gen isolated anatomical completion from tight original crops; registered back to original coordinate frame",
+  "sources": [
+    {
+      "file": "near_leg_complete_candidate.png",
+      "sha256": "676933b551e85e4b6d24b2605ba7c759a845d62b2faa29bedbb2b25f5aebdeb9",
+      "original_crop_origin": [
+        100,
+        650
+      ],
+      "original_crop_size": [
+        600,
+        549
+      ],
+      "purpose": "Preserve visible limb and complete hidden proximal root; remove unrelated torso, braid, or other limb pixels"
+    },
+    {
+      "file": "far_leg_complete_candidate.png",
+      "sha256": "350850be2be95e6c61513b4ff2f63726daadf4ae9157042483e62dfca5323e17",
+      "original_crop_origin": [
+        660,
+        690
+      ],
+      "original_crop_size": [
+        470,
+        509
+      ],
+      "purpose": "Preserve visible limb and complete hidden proximal root; remove unrelated torso, braid, or other limb pixels"
+    },
+    {
+      "file": "near_arm_complete_candidate.png",
+      "sha256": "03833b03794b296f5909f516aa059d265a68cc466b0f0d61d6894c12dd4fe3a0",
+      "original_crop_origin": [
+        60,
+        240
+      ],
+      "original_crop_size": [
+        650,
+        710
+      ],
+      "purpose": "Preserve visible limb and complete hidden proximal root; remove unrelated torso, braid, or other limb pixels"
+    }
+  ],
+  "rejected": [
+    "rejected_elongated_near_leg.png: unbounded full-canvas generation lengthened leg and misplaced hip root"
+  ],
+  "part_review": "Viewed standalone contact sheet: near and far thighs retain full proximal mass; near upper arm has continuous deltoid/root instead of old circular shoulder cap. Motion review remains pending."
+}

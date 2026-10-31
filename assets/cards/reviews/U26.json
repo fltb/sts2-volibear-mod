@@ -1,0 +1,54 @@
+{
+  "id": "U26",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "c1b3d61b362b63aec95bc3be30711bc2e1261bb26ef4e7f171a29f592cf6cb7a",
+  "master_sha256": "915b1fcd557b65471e195a26f4d890e6f6c92a48784dbae6d4bcbbd11f975e66",
+  "comparison_sha256": "f486c5047ec9f27139a85bfa00982222113a77768aca2becbc353f2ffa74617e",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "盾背一根两端铆固的加强筋向前弯曲，盾面和旧折痕仍连续；右边窄隙只露熊肩，施力者在盾另一侧。金属弧厚度与固定关系清楚。",
+  "baseline_comparison": "与C08的材料受力同源，改看盾背并以弯曲代替爪裂；大暗盾托单根铜色弧，125像素无细纹干扰，不复制挥爪镜头。",
+  "paw_orientation_observation": "没有手形压痕或漂浮肢体，画缘熊肩为正常局部截取。",
+  "quality_axes": {
+    "main_read": 17,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:54+00:00",
+  "master": "cards/masters/U26.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U26.jpg",
+  "anchors": [
+    "C08",
+    "U21"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

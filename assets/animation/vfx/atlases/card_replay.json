@@ -1,0 +1,377 @@
+{
+  "id": "card_replay",
+  "label_zh": "重演回响",
+  "family": "card",
+  "fps": 24,
+  "frame_count": 28,
+  "duration_seconds": 1.1666666666666667,
+  "loop": false,
+  "anchor": "played_card",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    66,
+    45,
+    190,
+    216
+  ],
+  "atlas": {
+    "image": "atlases/card_replay.png",
+    "json": "atlases/card_replay.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "a840a5107e7b5d783aacd8d43efa17c0956edb6ad30674f0c8e802c8858b4628"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/001.png",
+      "sha256": "e62c614b56ce86934dd9405136049c577a84425d26b1476e20a0d050ad7a97fd"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/002.png",
+      "sha256": "d7be61c366c631982245874a698fde88a2e2c7eb8b9160dd13d446ca33208acc"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/003.png",
+      "sha256": "aaaec176b299ceb1bd3885bfad6cc156b2232bcee81c41481cbb49d97de9c48a"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/004.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/005.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/006.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/007.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/008.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/009.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/010.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/011.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/012.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/013.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/014.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/015.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/016.png",
+      "sha256": "897b2c03beab026f62021e1b263a8fbbb9bddcce9623b00ad7e602fac437e09d"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/017.png",
+      "sha256": "14b0e4015aff42e40e22f4d7dc38b5beb43e79a8535e4fc18d7dc17faf41dd63"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/018.png",
+      "sha256": "aaaec176b299ceb1bd3885bfad6cc156b2232bcee81c41481cbb49d97de9c48a"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/019.png",
+      "sha256": "941c13d267e9415d2d1ec96ebe98a87b57fcf3c725a34c311f020eab5e793eaa"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/020.png",
+      "sha256": "d69e5dacea017ebd7c1dee88dd365aa497c0f97bf9af0ac767e04ecc59d8ed55"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/021.png",
+      "sha256": "d7be61c366c631982245874a698fde88a2e2c7eb8b9160dd13d446ca33208acc"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/022.png",
+      "sha256": "54cefc31137a97c07722fec17fbf02d16dec0a74ef5cf96afe6bec92e2b3831d"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/023.png",
+      "sha256": "3368494203725b1e39f27a538ac4f4f02f11058a33201cb43d200cf9ea1d5db3"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/024.png",
+      "sha256": "e62c614b56ce86934dd9405136049c577a84425d26b1476e20a0d050ad7a97fd"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/025.png",
+      "sha256": "6ac72a4c06e943841c5e1b877cb7c123e4806724fc574a73e28093ad1c1994e7"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/026.png",
+      "sha256": "d6266611f90406b89cc89b4fa3f8dc55ae6d9f178a91f4538176bdbf59187435"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_replay/027.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.card_replay",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "actual_card_node_policy": "Retain the authoritative card image/node under this transparent overlay; animation never changes card state."
+}

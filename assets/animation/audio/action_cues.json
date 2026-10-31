@@ -1,0 +1,441 @@
+{
+  "schema_version": 1,
+  "animation_motion_sha256": "58bae5c7bfde4b5e7a19d4a4fc1ff293531511502455fc2416b62df8bb4003c3",
+  "purpose": "offline timing preview and adapter example; actual damage/VFX use resolved game events",
+  "clips": [
+    {
+      "clip": "idle_loop",
+      "events": [],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "relaxed_loop",
+      "events": [],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "weak_loop",
+      "events": [],
+      "state_entry_only": [
+        "voice.low_health"
+      ],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "attack",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.attack_01",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.54,
+          "cue": "sfx.claw_slash",
+          "reason": "impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "attack_heavy",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.heavy",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.8,
+          "cue": "sfx.heavy_impact",
+          "reason": "impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "bite",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.bite",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.53,
+          "cue": "sfx.bite_hit",
+          "reason": "impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "cast",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.cast",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.9,
+          "cue": "sfx.lightning_strike",
+          "reason": "cast_release"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "hurt",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.hurt_01",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.12,
+          "cue": "sfx.heavy_impact",
+          "reason": "hurt_recoil"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "block",
+      "events": [
+        {
+          "time_seconds": 0.28,
+          "cue": "sfx.guard_gain",
+          "reason": "guard_on"
+        },
+        {
+          "time_seconds": 0.48,
+          "cue": "sfx.guard_hit",
+          "reason": "blocked_impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "counter",
+      "events": [
+        {
+          "time_seconds": 0.35,
+          "cue": "sfx.guard_gain",
+          "reason": "guard_on"
+        },
+        {
+          "time_seconds": 0.52,
+          "cue": "sfx.absorb",
+          "reason": "absorbed_impact"
+        },
+        {
+          "time_seconds": 0.84,
+          "cue": "sfx.counter_release",
+          "reason": "counter_impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_enter",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.roar",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.88,
+          "cue": "sfx.domain_enter",
+          "reason": "domain_on"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_idle",
+      "events": [],
+      "state_entry_only": [
+        "sfx.domain_loop"
+      ],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_exit",
+      "events": [
+        {
+          "time_seconds": 0.9,
+          "cue": "sfx.domain_exit",
+          "reason": "domain_off"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "feral_enter",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.feral",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.92,
+          "cue": "sfx.feral_transfer",
+          "reason": "feral_on"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "feral_idle",
+      "events": [],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "die",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.death",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 1.22,
+          "cue": "sfx.heavy_impact",
+          "reason": "body_ground_impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_attack",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.attack_01",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.54,
+          "cue": "sfx.claw_slash",
+          "reason": "impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_cast",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.cast",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.9,
+          "cue": "sfx.lightning_strike",
+          "reason": "cast_release"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_hurt",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.hurt_01",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.12,
+          "cue": "sfx.heavy_impact",
+          "reason": "hurt_recoil"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_block",
+      "events": [
+        {
+          "time_seconds": 0.28,
+          "cue": "sfx.guard_gain",
+          "reason": "guard_on"
+        },
+        {
+          "time_seconds": 0.48,
+          "cue": "sfx.guard_hit",
+          "reason": "blocked_impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_weak_loop",
+      "events": [],
+      "state_entry_only": [
+        "voice.low_health",
+        "sfx.domain_loop"
+      ],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_die",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.death",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 1.12,
+          "cue": "sfx.domain_exit",
+          "reason": "domain_off"
+        },
+        {
+          "time_seconds": 1.22,
+          "cue": "sfx.heavy_impact",
+          "reason": "body_ground_impact"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "roar",
+      "events": [
+        {
+          "time_seconds": 0.36,
+          "cue": "voice.roar",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.52,
+          "cue": "sfx.roar_wave",
+          "reason": "roar_release"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "storm_leap",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.heavy",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.46,
+          "cue": "sfx.cast_charge",
+          "reason": "takeoff"
+        },
+        {
+          "time_seconds": 1.44,
+          "cue": "sfx.heavy_impact",
+          "reason": "landing_impact"
+        },
+        {
+          "time_seconds": 1.63,
+          "cue": "sfx.lightning_all",
+          "reason": "aftershock"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_roar",
+      "events": [
+        {
+          "time_seconds": 0.36,
+          "cue": "voice.roar",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.52,
+          "cue": "sfx.roar_wave",
+          "reason": "roar_release"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    },
+    {
+      "clip": "domain_storm_leap",
+      "events": [
+        {
+          "time_seconds": 0.08,
+          "cue": "voice.heavy",
+          "reason": "action-start cosmetic cue"
+        },
+        {
+          "time_seconds": 0.46,
+          "cue": "sfx.cast_charge",
+          "reason": "takeoff"
+        },
+        {
+          "time_seconds": 1.44,
+          "cue": "sfx.heavy_impact",
+          "reason": "landing_impact"
+        },
+        {
+          "time_seconds": 1.63,
+          "cue": "sfx.lightning_all",
+          "reason": "aftershock"
+        }
+      ],
+      "state_entry_only": [],
+      "replay_loop_behavior": "Never replay entry-only voice or start another loop on cycle wrap.",
+      "cancel_policy": "Cancel future scheduled cues on interrupted animation; stop state loops on state exit/death/room cleanup."
+    }
+  ]
+}

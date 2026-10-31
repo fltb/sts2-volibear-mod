@@ -1,0 +1,41 @@
+{
+  "id": "U08",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "18657eb5beb78d7d63fb4937c7df1f872ad1af9b5e5851ca6664ef4af4210583",
+  "master_sha256": "46e6c7b578800409d70f3d4c084cdeed730f93ad850ea756dd96a6ceb542b9ee",
+  "comparison_sha256": "98d7ff03d77a2d32cf576080c2455b6e61b96135f8f9cdc6805957d5871e2a1b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "上下颌侧面清楚，犬齿从两侧咬住外部护肩边缘，下颌连回颈部；不包含前爪，没有自咬或爪牙融合。灰紫受体与白脸分离。",
+  "baseline_comparison": "延续U23清楚的口颌和C08明确受体，改成侧向咬合；面颈折面多于基准，但250/125像素仍集中在眼、牙、接点三处。",
+  "paw_orientation_observation": "本卡没有手掌；犬齿分别来自上下颌，非指爪混入嘴部。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:58+00:00"
+}

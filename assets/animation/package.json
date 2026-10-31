@@ -1,0 +1,13 @@
+{
+  "name": "volibear-animation-repo",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Optional browser validation for the offline animation viewer",
+  "scripts": {
+    "verify:viewer": "node animations/scripts/validate_viewer.cjs",
+    "verify:delivery": "node scripts/validate_delivery_browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

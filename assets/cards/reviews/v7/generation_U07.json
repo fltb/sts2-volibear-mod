@@ -1,0 +1,90 @@
+{
+  "id": "U07",
+  "artist": "artist_c",
+  "tool": "tools.image_gen__imagegen",
+  "attempt": 1,
+  "request": {
+    "prompt": "Create one new monumental landscape card illustration, 1250×950 pixels, aspect25:19. Mature graphic flat shapes, broad areas, only 2–3 tonal planes. References supply gravity, impact scale and angular shape language only, not their lightning or claw content. No texture, tiny facets, dense cracks, dust or particles.\n\n最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：U07《崩山》。创作一张新的独立插画，核心动词/关系为“崩落”。\n\n镜头与抽象：仰视将断未断的峰脊。M2。\n画面：一座峰脊沿单一斜剪面断开，上半峰的重量正向外滑落，下部仅余一处窄承点。旧裂是深色钝痕，最后断面是宽灰白石面；山脚一枚极小白肩熊影提供尺度。两块峰体有明确重力关系，不漂浮。\n\n大形与负形：两块厚大峰体沿宽灰白断面错动，残余承点位于下方，主运动是重力导致的整体倾落；断面不画成夹着青光的窄缝。\n色彩：赭红岩体、深蓝天空、宽灰白断面，几乎不用发光雷线。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；R23《裂天》用于主形清晰度、重量和气质；C08《撕开伤口》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：U05式推墙；等大悬浮石块；粗青电沟替代物理断面；满屏碎石；R07的俯视大地断层。\n图像语义：此前攻击积累到承重点崩断，重点是结构终于失效。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n\n\n必须落实：上峰滑落与下部残余承点必须符合重力，不能画成两块悬空积木。；最后断面为宽而有厚度的石面，旧裂为暗钝痕，不能靠粗青电沟解释崩山。；极小熊仅作尺度；若角色太大或碎石太多，会失去该卡专有的大山体事件。\n核心只有一座山的两块巨大峰体：低机位从山脚仰视。上半峰沿一条向右下倾斜的剪切断面正向右下整体滑落，重量仍压在下部剩下的一个窄短承点上；这最后连接点在画面中下部可见，因此上峰绝不悬空漂浮。宽阔灰白的新断面暴露出有厚度的整片石质斜面，不能是细缝、发光裂缝或青光沟。旧裂最多两条钝暗伤痕，主岩体是大块赭红深浅面。蓝黑天空大块安静。山脚仅一枚极小白肩深蓝熊影提供尺度，占画面高度不到十分之一，不作任何推墙动作。全画几乎不用青色，不出现雷、电柱、激光。两块山体在单一斜断面上错动，整体重力崩落是唯一事件。不要满屏碎石，不画等大浮石、俯视大地裂缝。无字无框无UI。",
+    "referenced_image_paths": [
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/R23.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C08.png"
+    ],
+    "transparent_background": false
+  },
+  "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-f8266949-beeb-404f-a99b-e801882923ec.png",
+  "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U07/attempt01.png",
+  "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U07.json",
+  "visual_approved": false,
+  "output_sha256": "589d7e1ca7348fab183d49b21b93f05dc95ef6deb9ca2d41160204447bb6dee2",
+  "dimensions": [
+    1438,
+    1093
+  ],
+  "reference_files": [
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/R23.png",
+      "sha256": "0e4d748aa18aaf40b78fb09a418cfa53c90af602bb16170ee17ffd0e2f92c298"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C08.png",
+      "sha256": "5be8cef9d73dd85fa5c2c99b1d017c17df35a2883f7eff1c74f914581f86ae9d"
+    }
+  ],
+  "request_sha256": "0b8d355089dabe12e917c030a87e89fdd7f0165b56dd2967ccea23f95bab86d4",
+  "plan_card": {
+    "id": "U07",
+    "level": "M2",
+    "family": "地形冲击",
+    "verb": "崩落",
+    "anchors": [
+      "R23",
+      "C08"
+    ],
+    "camera": "仰视将断未断的峰脊",
+    "scene": "一座峰脊沿单一斜剪面断开，上半峰的重量正向外滑落，下部仅余一处窄承点。旧裂是深色钝痕，最后断面是宽灰白石面；山脚一枚极小白肩熊影提供尺度。两块峰体有明确重力关系，不漂浮。",
+    "shape": "两块厚大峰体沿宽灰白断面错动，残余承点位于下方，主运动是重力导致的整体倾落；断面不画成夹着青光的窄缝。",
+    "palette": "赭红岩体、深蓝天空、宽灰白断面，几乎不用发光雷线。",
+    "avoid": [
+      "U05式推墙",
+      "等大悬浮石块",
+      "粗青电沟替代物理断面",
+      "满屏碎石",
+      "R07的俯视大地断层"
+    ],
+    "semantic": "此前攻击积累到承重点崩断，重点是结构终于失效。",
+    "name": "崩山",
+    "status": "ready_for_generation_not_image_approved",
+    "current_image": "assets/current/U07.png",
+    "current_image_sha256": "8d2f892734851c8249f63638576bee022f446e579d9cf6b9385a2994f4109e93",
+    "reference_files": [
+      {
+        "role": "identity",
+        "file": "assets/identity/volibear_approved.png",
+        "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
+      },
+      {
+        "role": "primary_benchmark",
+        "id": "R23",
+        "file": "assets/benchmarks/R23.png",
+        "sha256": "0e4d748aa18aaf40b78fb09a418cfa53c90af602bb16170ee17ffd0e2f92c298"
+      },
+      {
+        "role": "secondary_benchmark",
+        "id": "C08",
+        "file": "assets/benchmarks/C08.png",
+        "sha256": "5be8cef9d73dd85fa5c2c99b1d017c17df35a2883f7eff1c74f914581f86ae9d"
+      }
+    ],
+    "image_generated": false,
+    "image_visual_approved": false,
+    "final_text_review_file": "reviews/design_resolution_u.json",
+    "image_review_watchpoints": [
+      "上峰滑落与下部残余承点必须符合重力，不能画成两块悬空积木。",
+      "最后断面为宽而有厚度的石面，旧裂为暗钝痕，不能靠粗青电沟解释崩山。",
+      "极小熊仅作尺度；若角色太大或碎石太多，会失去该卡专有的大山体事件。"
+    ],
+    "prompt": "最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：U07《崩山》。创作一张新的独立插画，核心动词/关系为“崩落”。\n\n镜头与抽象：仰视将断未断的峰脊。M2。\n画面：一座峰脊沿单一斜剪面断开，上半峰的重量正向外滑落，下部仅余一处窄承点。旧裂是深色钝痕，最后断面是宽灰白石面；山脚一枚极小白肩熊影提供尺度。两块峰体有明确重力关系，不漂浮。\n\n大形与负形：两块厚大峰体沿宽灰白断面错动，残余承点位于下方，主运动是重力导致的整体倾落；断面不画成夹着青光的窄缝。\n色彩：赭红岩体、深蓝天空、宽灰白断面，几乎不用发光雷线。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；R23《裂天》用于主形清晰度、重量和气质；C08《撕开伤口》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：U05式推墙；等大悬浮石块；粗青电沟替代物理断面；满屏碎石；R07的俯视大地断层。\n图像语义：此前攻击积累到承重点崩断，重点是结构终于失效。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n",
+    "prompt_file": "prompts/v7/U07.txt",
+    "prompt_sha256": "2fd62ebf007bea2238b91ace3fb88c40f47b805f39aacb94489538d2ed4565fb"
+  }
+}

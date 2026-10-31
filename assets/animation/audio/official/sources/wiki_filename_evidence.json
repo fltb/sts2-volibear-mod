@@ -1,0 +1,923 @@
+{
+  "schema_version": 1,
+  "status": "candidate_file_names_not_a_verified_complete_download",
+  "language": "English wiki recordings",
+  "scope": "Current/default Original candidate set; excludes Inkshadow files, old recordings, LoR and Wild Rift",
+  "source_category": {
+    "url": "https://leagueoflegends.fandom.com/wiki/Category:Volibear_voice-overs",
+    "search_ref": "turn73search0",
+    "indexed_total_items": 301,
+    "first_page_items_observed": 200,
+    "inkshadow_filenames_explicitly_seen": 148,
+    "original_filenames_explicitly_seen_in_first_page": 51
+  },
+  "warning": "The complete first page contains all Inkshadow names and 51 Original names. Remaining Original candidate names are derived by replacing the skin token, not yet confirmed individually. The category's final 101 items are not visible in this indexed page. Do not call this a complete collection before download and independent scope reconciliation.",
+  "files": [
+    {
+      "filename": "Volibear_Ban.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/43/Volibear_Ban.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/10/Volibear_Original_AttackHuman_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/14/Volibear_Original_AttackHuman_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/be/Volibear_Original_AttackHuman_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_3.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/7/77/Volibear_Original_AttackHuman_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_AttackHuman_4.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/fc/Volibear_Original_AttackHuman_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/67/Volibear_Original_Attack_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/37/Volibear_Original_Attack_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_10.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/ff/Volibear_Original_Attack_10.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_11.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/9a/Volibear_Original_Attack_11.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_12.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/07/Volibear_Original_Attack_12.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_13.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/e2/Volibear_Original_Attack_13.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_14.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/8f/Volibear_Original_Attack_14.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_15.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/ab/Volibear_Original_Attack_15.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_16.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a3/Volibear_Original_Attack_16.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_17.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d4/Volibear_Original_Attack_17.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_18.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/8d/Volibear_Original_Attack_18.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/aa/Volibear_Original_Attack_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_3.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/8f/Volibear_Original_Attack_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_4.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/0e/Volibear_Original_Attack_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_5.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/54/Volibear_Original_Attack_5.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_6.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/c/ce/Volibear_Original_Attack_6.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_7.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/28/Volibear_Original_Attack_7.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_8.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2f/Volibear_Original_Attack_8.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Attack_9.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/86/Volibear_Original_Attack_9.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_BasicAttack_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/52/Volibear_Original_BasicAttack_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_BasicAttack_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/94/Volibear_Original_BasicAttack_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_BasicAttack_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6d/Volibear_Original_BasicAttack_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Dance.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/55/Volibear_Original_Dance.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Death_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/05/Volibear_Original_Death_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Death_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/eb/Volibear_Original_Death_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Death_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/7/7a/Volibear_Original_Death_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Death_3.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f1/Volibear_Original_Death_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_E_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f6/Volibear_Original_E_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_E_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6d/Volibear_Original_E_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_E_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4f/Volibear_Original_E_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAnivia_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/57/Volibear_Original_FirstEncounterAnivia_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAnivia_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/b1/Volibear_Original_FirstEncounterAnivia_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAshe_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6b/Volibear_Original_FirstEncounterAshe_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterAshe_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2b/Volibear_Original_FirstEncounterAshe_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterBraum_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/ff/Volibear_Original_FirstEncounterBraum_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterBraum_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6e/Volibear_Original_FirstEncounterBraum_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterHuman.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/39/Volibear_Original_FirstEncounterHuman.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterLissandra.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/c/c3/Volibear_Original_FirstEncounterLissandra.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterNunu_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/90/Volibear_Original_FirstEncounterNunu_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterNunu_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a4/Volibear_Original_FirstEncounterNunu_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterOrnn_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/19/Volibear_Original_FirstEncounterOrnn_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterOrnn_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/98/Volibear_Original_FirstEncounterOrnn_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterOrnn_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6f/Volibear_Original_FirstEncounterOrnn_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterOrnn_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/21/Volibear_Original_FirstEncounterOrnn_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterRengar_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/52/Volibear_Original_FirstEncounterRengar_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterRengar_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/1a/Volibear_Original_FirstEncounterRengar_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterSejuani.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/12/Volibear_Original_FirstEncounterSejuani.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterTryndamere.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/1f/Volibear_Original_FirstEncounterTryndamere.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterYuumi.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4e/Volibear_Original_FirstEncounterYuumi.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounterZilean.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/dd/Volibear_Original_FirstEncounterZilean.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/c/cb/Volibear_Original_FirstEncounter_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d1/Volibear_Original_FirstEncounter_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/ba/Volibear_Original_FirstEncounter_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_FirstEncounter_3.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4e/Volibear_Original_FirstEncounter_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Idle.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/9e/Volibear_Original_Idle.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Joke_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/1a/Volibear_Original_Joke_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Joke_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/ab/Volibear_Original_Joke_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Joke_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a4/Volibear_Original_Joke_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillAnivia.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6a/Volibear_Original_KillAnivia.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillHuman_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/84/Volibear_Original_KillHuman_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillHuman_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/5b/Volibear_Original_KillHuman_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillOrnn_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f6/Volibear_Original_KillOrnn_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillOrnn_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f1/Volibear_Original_KillOrnn_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillTurret_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/91/Volibear_Original_KillTurret_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillTurret_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/35/Volibear_Original_KillTurret_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillTurret_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/87/Volibear_Original_KillTurret_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_KillTurret_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a9/Volibear_Original_KillTurret_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Kill_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/61/Volibear_Original_Kill_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Kill_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/33/Volibear_Original_Kill_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Kill_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/17/Volibear_Original_Kill_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Kill_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/96/Volibear_Original_Kill_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Kill_4.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d1/Volibear_Original_Kill_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Laugh_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/80/Volibear_Original_Laugh_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Laugh_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/24/Volibear_Original_Laugh_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Laugh_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f4/Volibear_Original_Laugh_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/82/Volibear_Original_MoveFirst_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a9/Volibear_Original_MoveFirst_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4a/Volibear_Original_MoveFirst_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/ff/Volibear_Original_MoveFirst_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_4.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/0c/Volibear_Original_MoveFirst_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveFirst_5.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/95/Volibear_Original_MoveFirst_5.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/e2/Volibear_Original_MoveLong_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/82/Volibear_Original_MoveLong_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_10.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/22/Volibear_Original_MoveLong_10.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_11.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/eb/Volibear_Original_MoveLong_11.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_12.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a7/Volibear_Original_MoveLong_12.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_13.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/fd/Volibear_Original_MoveLong_13.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_14.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/06/Volibear_Original_MoveLong_14.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_15.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/47/Volibear_Original_MoveLong_15.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_16.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/46/Volibear_Original_MoveLong_16.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_17.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f8/Volibear_Original_MoveLong_17.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/04/Volibear_Original_MoveLong_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/0c/Volibear_Original_MoveLong_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_4.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/9b/Volibear_Original_MoveLong_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_5.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/7/7b/Volibear_Original_MoveLong_5.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_6.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/96/Volibear_Original_MoveLong_6.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_7.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/7/78/Volibear_Original_MoveLong_7.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_8.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/30/Volibear_Original_MoveLong_8.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_MoveLong_9.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/95/Volibear_Original_MoveLong_9.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/00/Volibear_Original_Move_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_1.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/35/Volibear_Original_Move_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_10.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/65/Volibear_Original_Move_10.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_11.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/3d/Volibear_Original_Move_11.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_12.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/06/Volibear_Original_Move_12.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_13.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d0/Volibear_Original_Move_13.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_14.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/df/Volibear_Original_Move_14.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_15.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/14/Volibear_Original_Move_15.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_16.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d9/Volibear_Original_Move_16.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_17.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2a/Volibear_Original_Move_17.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_18.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/92/Volibear_Original_Move_18.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_19.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/e7/Volibear_Original_Move_19.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2d/Volibear_Original_Move_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_20.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/c/c0/Volibear_Original_Move_20.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_21.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/ee/Volibear_Original_Move_21.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_22.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d2/Volibear_Original_Move_22.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_23.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/3c/Volibear_Original_Move_23.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_24.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/14/Volibear_Original_Move_24.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d4/Volibear_Original_Move_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_4.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/07/Volibear_Original_Move_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_5.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a3/Volibear_Original_Move_5.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_6.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f8/Volibear_Original_Move_6.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_7.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/18/Volibear_Original_Move_7.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_8.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/a/a3/Volibear_Original_Move_8.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Move_9.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/65/Volibear_Original_Move_9.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Q.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f4/Volibear_Original_Q.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_R_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/1c/Volibear_Original_R_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_R_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/e8/Volibear_Original_R_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Recall_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/1d/Volibear_Original_Recall_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Recall_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/e1/Volibear_Original_Recall_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Recall_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/89/Volibear_Original_Recall_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Recall_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/82/Volibear_Original_Recall_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Respawn_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/63/Volibear_Original_Respawn_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Respawn_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d6/Volibear_Original_Respawn_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Respawn_2.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/fc/Volibear_Original_Respawn_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_TauntResponse.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4c/Volibear_Original_TauntResponse.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Taunt_0.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/37/Volibear_Original_Taunt_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_Taunt_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/93/Volibear_Original_Taunt_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_W_0.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/3/39/Volibear_Original_W_0.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_W_1.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/e/ef/Volibear_Original_W_1.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_W_2.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/b1/Volibear_Original_W_2.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_W_3.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/80/Volibear_Original_W_3.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_W_4.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2a/Volibear_Original_W_4.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Original_W_5.ogg",
+      "evidence": "inferred_original_sibling_of_explicit_inkshadow_file",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d1/Volibear_Original_W_5.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Select.ogg",
+      "evidence": "explicitly_seen_in_search_index",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/bb/Volibear_Select.ogg/revision/latest"
+    },
+    {
+      "filename": "Volibear_Select_SFX.ogg",
+      "evidence": "select_sfx_name_inferred_from_playback_label_not_explicit_file_title",
+      "download_status": "not_downloaded_by_this_agent",
+      "media_url": "https://static.wikia.nocookie.net/leagueoflegends/images/c/c3/Volibear_Select_SFX.ogg/revision/latest"
+    }
+  ]
+}

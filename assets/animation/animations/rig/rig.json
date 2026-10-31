@@ -1,0 +1,243 @@
+{
+  "schema_version": 5,
+  "technique": "original body core and legs; inner-joint fringe follows near arm behind chest; rounded shoulder support; braids behind foreground arm",
+  "source": "references/identity/volibear_approved.png",
+  "source_sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+  "source_size": [
+    1312,
+    1199
+  ],
+  "design_canvas": [
+    768,
+    768
+  ],
+  "source_to_design": {
+    "uniform_scale": 0.46,
+    "offset": [
+      70,
+      111
+    ]
+  },
+  "root": [
+    375,
+    480
+  ],
+  "ground_y": 663,
+  "body_anchor_source": [
+    650,
+    800
+  ],
+  "near_shoulder_source": [
+    510,
+    405
+  ],
+  "near_elbow_source": [
+    300,
+    605
+  ],
+  "near_hand_source": [
+    205,
+    835
+  ],
+  "far_shoulder_source": [
+    1000,
+    525
+  ],
+  "far_elbow_source": [
+    1095,
+    680
+  ],
+  "far_hand_source": [
+    1210,
+    835
+  ],
+  "head_source": [
+    910,
+    285
+  ],
+  "foot_anchors_source": {
+    "near": [
+      250,
+      1180
+    ],
+    "far": [
+      920,
+      1155
+    ]
+  },
+  "parts": {
+    "body": {
+      "file": "parts/reference/body.png",
+      "origin": [
+        0,
+        0
+      ],
+      "source_bbox": [
+        0,
+        0,
+        1309,
+        1199
+      ],
+      "pivot_source": [
+        650,
+        800
+      ],
+      "pivot_local": [
+        650,
+        800
+      ],
+      "sha256": "a996ea5f33af0a5c90fb986211e7a548722875559b4a40a4917d6ef628873473"
+    },
+    "body_half": {
+      "file": "parts/reference/body_half.png",
+      "origin": [
+        0,
+        0
+      ],
+      "source_bbox": [
+        0,
+        0,
+        1309,
+        1199
+      ],
+      "pivot_source": [
+        650,
+        800
+      ],
+      "pivot_local": [
+        650,
+        800
+      ],
+      "sha256": "8a193977a23fc5226ef3b4053b596d6a969ef9c0818fb58f2e20364ff2ae1fea"
+    },
+    "body_open": {
+      "file": "parts/reference/body_open.png",
+      "origin": [
+        0,
+        0
+      ],
+      "source_bbox": [
+        0,
+        0,
+        1309,
+        1199
+      ],
+      "pivot_source": [
+        650,
+        800
+      ],
+      "pivot_local": [
+        650,
+        800
+      ],
+      "sha256": "a062415d2fc131df2eb286a86c8563e40ce6e5a7c3882ee10a6d44ef833dbec1"
+    },
+    "arm_near": {
+      "file": "parts/reference/arm_near.png",
+      "origin": [
+        74,
+        280
+      ],
+      "source_bbox": [
+        74,
+        280,
+        651,
+        930
+      ],
+      "pivot_source": [
+        510,
+        405
+      ],
+      "pivot_local": [
+        436,
+        125
+      ],
+      "sha256": "1d998dd3932766b8a2038d64f3939546a8e10570a61730f69d06c0e77e2b47df"
+    },
+    "arm_far": {
+      "file": "parts/reference/arm_far.png",
+      "origin": [
+        755,
+        298
+      ],
+      "source_bbox": [
+        755,
+        298,
+        1312,
+        944
+      ],
+      "pivot_source": [
+        1000,
+        525
+      ],
+      "pivot_local": [
+        245,
+        227
+      ],
+      "sha256": "b7717db229469e32ba7465ef1c025292f459d6ed4a1f7cea9c061ce6227215cb"
+    },
+    "braids": {
+      "file": "parts/reference/braids.png",
+      "origin": [
+        696,
+        340
+      ],
+      "source_bbox": [
+        696,
+        340,
+        1024,
+        880
+      ],
+      "pivot_source": [
+        744,
+        353
+      ],
+      "pivot_local": [
+        48,
+        13
+      ],
+      "sha256": "754f6409cc26f419bc93a1dba907735412d2edfda8c435c9e8f9d1da3587d5e7"
+    },
+    "joint_inner_near": {
+      "file": "parts/reference/joint_inner_near.png",
+      "origin": [
+        399,
+        587
+      ],
+      "source_bbox": [
+        399,
+        587,
+        420,
+        644
+      ],
+      "pivot_source": [
+        510,
+        405
+      ],
+      "pivot_local": [
+        111,
+        -182
+      ],
+      "sha256": "0182b8f9e85571bce32d3e15796781e50227cf91d86c89452d49e6e4c36fc11f"
+    }
+  },
+  "shape_invariants": [
+    "approved visible body core, hips and legs retain source RGBA; small armpit fringe retains original RGBA in moving arm owner",
+    "painted body fill is limited to explicitly removed moving-arm ownership",
+    "all original lower-body negative space and outer silhouette are preserved",
+    "complete far-arm painted layer retained intact, without importing reference occlusion alpha",
+    "one continuous image per moving arm; original authored motions unchanged",
+    "normal and domain use the same anatomical layers",
+    "concealed shoulder underlay cannot protrude beyond the logical shoulder joint",
+    "small armpit fringe no longer projects behind the joint or over the front chest",
+    "braids are behind the foreground right forearm and hand in every crossing"
+  ],
+  "source_protection_manifest": "source/revision_v5/source_protection.json",
+  "render_order_back_to_front": [
+    "arm_far",
+    "joint_inner_near",
+    "body_or_mouth_cel",
+    "braids",
+    "arm_near"
+  ]
+}

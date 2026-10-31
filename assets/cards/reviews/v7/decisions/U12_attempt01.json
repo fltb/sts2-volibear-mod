@@ -1,0 +1,13 @@
+{
+  "id": "U12",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "fd07b3d1904da7c44ee10e2e980a5d65e64da059d46866096cb039ce45344d9d",
+  "observations": "巨大亮雷从画面右上外部接入背部，读成外部雷击而不是肉身力量进入雷；毛面与地面碎纹过多，需改为背部生出的画内短雷并简化表面。",
+  "defects": [
+    "巨大亮雷从画面右上外部接入背部，读成外部雷击而不是肉身力量进入雷；毛面与地面碎纹过多，需改为背部生出的画内短雷并简化表面。"
+  ],
+  "recorded_at": "2026-10-27T17:50:58+00:00"
+}

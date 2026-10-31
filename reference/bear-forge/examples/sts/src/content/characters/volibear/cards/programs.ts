@@ -1,0 +1,125 @@
+import {ruleModules} from '@bear-forge/card-engine';
+import {volibearDamageTraining} from '../mechanics/damage-training.ts';
+import {cardTargets} from '../../../../rules/card-targets.ts';
+import {cardEffects} from '../../../../rules/card-effects.ts';
+import {z} from 'zod';
+import {rules} from '../../../../rules/execution.ts';
+import {attributes} from '../../../../rules/attributes.ts';
+import {battles} from '../../../../rules/battles.ts';
+import {resources} from '../../../../rules/resources.ts';
+import {cardInstances} from '../../../../rules/card-instances.ts';
+import {cardPiles} from '../../../../rules/card-piles.ts';
+import {cardUseSchema} from '../../../../rules/card-instances.schemas.ts';
+import {actionQueue} from '../../../../rules/combat-actions.ts';
+import {damage} from '../../../../rules/damage.ts';
+import type {HitResult} from '../../../../rules/damage.types.ts';
+import type {CardUse,CardConfig} from '../../../../rules/card-instances.types.ts';
+import {standardUpgrade,upgradeOnce,registerCardAbilities} from '../../../cards/shared/lifecycle.ts';
+import {volibearTraining} from '../mechanics/training.ts';
+import {cardAmount,cardRuleText,describeAmounts,type CardAmount} from '../../../cards/shared/programs.ts';
+import {lightning} from '../mechanics/lightning.ts';
+import type {VolibearCardDescription} from './metadata.ts';
+import {damageTermsSchema,withDamageTerms,attackProgram,inheritPrograms,thunderProgram,hasNativeLightning,hasFixedAttack,programMetadata,programText,describeProgram} from '../../../cards/shared/program-facts.ts';
+
+const {defineRules,defineQuery,defineEffect,sequence,call,when,query,forEach,enqueue}=rules;
+
+/** Extension points are typed definition references using the existing L2 API.
+ * Fixed per-segment growth is separate from dynamic damage (e.g. current block).
+ * Single-target expansion never changes the original CardUse.target.
+ */
+export const volibearCardPrograms=defineRules({requires:[volibearDamageTraining,cardTargets,cardEffects,battles,attributes,resources,lightning,volibearTraining],build(){
+  const fixedBonus=defineQuery({input:cardUseSchema,output:z.int32(),dependencies:[volibearTraining.exports.permanentBonus],base:(r,use)=>r.query(volibearTraining.exports.permanentBonus,use.card)});
+  const singleTargets=cardTargets.exports.enemies;
+  const thunderSpell=defineQuery({input:z.int32(),output:z.boolean(),base:()=>false});
+  const declaresThunder=rules.modify(thunderSpell,{condition:defineQuery({input:z.custom<rules.ModifierContext<number,boolean>>(),output:z.boolean(),base:(_r,c)=>c.input===c.source}),transform:()=>true});
+  return {exports:{thunderSpell,declaresThunder,fixedBonus,singleTargets}};
+}});
+
+export function compose(...effects:rules.Effect<CardUse,void>[]):rules.Effect<CardUse,void>{
+  return inheritPrograms(defineEffect<CardUse,void>(b=>sequence(...effects.map(effect=>when(
+    b.read(v=>v.get(query(battles.exports.current,v.input.battle)).outcome===0),call(effect,b.input),
+  )))),...effects);
+}
+
+/** Keep the ordinary combat queue and lifetime; do not call an alternate executor. */
+export function cardConfig(description:VolibearCardDescription,use:rules.Effect<CardUse,void>,policies:Partial<Pick<CardConfig,'canUse'|'created'|'returned'|'removed'>>={}):CardConfig{
+  const fixed=hasFixedAttack(use),metadata=programMetadata(description.metadata,use);
+  const created=rules.defineEffect<rules.EntityLifecycle<import('../../../../rules/card-instances.types.ts').CardSetup>,void>(b=>sequence(
+    ...(policies.created?[call(policies.created,b.input)]:[]),
+    ...(description.metadata.type===1&&hasNativeLightning(use)?[call(registerCardAbilities(volibearCardPrograms.exports.declaresThunder),b.input)]:[]),
+    ...(fixed?[call(registerCardAbilities(volibearTraining.exports.fixedAttack),b.input)]:[]),
+  ));
+  const createdText=policies.created?programText(policies.created):'';
+  if(createdText!==undefined)describeProgram(created,createdText);
+  return {
+    id:description.id,metadata,text:cardRuleText(description.metadata,use,created,...[policies.canUse,policies.returned,policies.removed].filter((effect):effect is NonNullable<typeof effect>=>effect!==undefined)),use,
+    canUpgrade:upgradeOnce(metadata),upgrade:standardUpgrade(metadata),...policies,created,
+  };
+}
+export function card(description:VolibearCardDescription,use:rules.Effect<CardUse,void>,policies:Partial<Pick<CardConfig,'canUse'|'created'|'returned'|'removed'>>={}){
+  return rules.defineEntity(cardInstances.exports.kind,cardConfig(description,use,policies));
+}
+
+export function queued(effect:rules.Effect<CardUse,void>):rules.Effect<CardUse,void>{
+  return inheritPrograms(defineEffect<CardUse,void>(b=>enqueue(effect,b.input,{
+    queue:actionQueue,source:b.read(v=>v.input.card),
+    lifetime:b.read(v=>v.get(query(battles.exports.current,v.input.battle)).actionScope),eligible:'captured',
+  })),effect);
+}
+
+export type CardHitReceipt={use:CardUse;target:number;hpBefore:number;result:HitResult};
+export function attack(base:CardAmount,count:CardAmount=1,all=false,fixed=true,afterHit?:rules.Effect<CardHitReceipt,void>):rules.Effect<CardUse,void>{
+  const hitAmount=defineQuery({input:z.object({use:cardUseSchema,target:z.number()}),output:z.number(),dependencies:[attributes.exports.attackAmount,volibearCardPrograms.exports.fixedBonus],base:(r,i)=>r.query(attributes.exports.attackAmount,{source:i.use.owner,target:i.target,card:i.use.card,base:(typeof base==='number'?base:typeof base==='function'?0:base[i.use.state.upgraded?1:0])+(fixed?r.query(volibearCardPrograms.exports.fixedBonus,i.use):0)})});
+  const hit=defineEffect<{use:CardUse;target:number},void>(b=>{
+    const result=b.local<HitResult>(),hpBefore=b.local<number>();
+    const request={
+      battle:b.read(v=>v.input.use.battle),source:b.read(v=>v.input.use.owner),target:b.read(v=>v.input.target),
+      amount:typeof base==='function'?b.read(v=>v.query(attributes.exports.attackAmount,{source:v.input.use.owner,target:v.input.target,card:v.input.use.card,base:cardAmount(base,{input:v.input.use,get:v.get,query:v.query})+(fixed?v.query(volibearCardPrograms.exports.fixedBonus,v.input.use):0)})):query(hitAmount,b.input),attack:true,selfDamage:false,
+    };
+    return when(
+    b.read(v=>v.get(query(battles.exports.current,v.input.use.battle)).outcome===0&&v.get(query(attributes.exports.damageable,v.input.target))),
+    afterHit?sequence(
+      b.assign(hpBefore,b.read(v=>v.get(query(resources.exports.current,v.input.target)).hp)),
+      b.assign(result,call(cardEffects.exports.resolveHit,{use:b.read(v=>v.input.use),request,targeted:!all})),
+      call(afterHit,{use:b.read(v=>v.input.use),target:b.read(v=>v.input.target),hpBefore,result}),
+      call(battles.exports.checkOutcome,b.read(v=>v.input.use.battle)),
+    ):call(cardEffects.exports.hit,{use:b.read(v=>v.input.use),request,targeted:!all}),
+    );
+  });
+  // One event per attack segment, including one AoE segment across all targets.
+  // Drain each hit's reactions before proceeding, through the same combat queue.
+  const segment=defineEffect<CardUse,void>(b=>{const performed=b.local<boolean>();return sequence(
+    b.assign(performed,false),
+    forEach(all?query(battles.exports.targets,b.read(v=>v.input.battle)):query(volibearCardPrograms.exports.singleTargets,b.input),target=>when(b.read(v=>v.query(battles.exports.status,v.input.battle).outcome===0&&v.query(attributes.exports.damageable,v.get(target))),sequence(
+      b.assign(performed,true),ruleModules.runTaskGroup(actionQueue,hit,{use:b.input,target}),
+    ))),
+    when(performed,call(cardEffects.exports.finishAttackSegment,{use:b.input})),
+  );});
+  const effect=attackProgram(defineEffect<CardUse,void>(b=>forEach(b.read(v=>Array.from({length:cardAmount(count,v)},(_,i)=>i)),()=>
+    enqueue(segment,b.input,{queue:actionQueue,source:b.read(v=>v.input.card),lifetime:b.read(v=>v.query(battles.exports.status,v.input.battle).actionScope),eligible:'captured'}),
+  )),base,fixed);
+  if(typeof base!=='function'&&typeof count!=='function')withDamageTerms(effect,defineQuery({input:cardUseSchema,output:damageTermsSchema,dependencies:[hitAmount,battles.exports.targets,volibearCardPrograms.exports.singleTargets],base:(r,use)=>(all?r.query(battles.exports.targets,use.battle):r.query(volibearCardPrograms.exports.singleTargets,use)).map(target=>({label:'普通攻击',target,amount:r.query(hitAmount,{use,target}),hits:typeof count==='number'?count:count[use.state.upgraded?1:0]}))}));
+  const afterText=afterHit?programText(afterHit):'';
+  return afterText===undefined?effect:describeAmounts(effect,[base,count],(amount,hits)=>`对${all?'全体敌人':'目标'}造成${amount}攻击伤害${hits==='1'?'':`，重复${hits}次`}。${afterText}`);
+}
+
+export function block(base:CardAmount):rules.Effect<CardUse,void>{
+  return describeAmounts(queued(defineEffect<CardUse,void>(b=>call(cardEffects.exports.gainBlock,{
+    use:b.input,amount:b.read(v=>Math.max(0,v.get(query(attributes.exports.blockAmount,{actor:v.input.owner,base:cardAmount(base,v)})))),
+  }))),[base],amount=>`获得${amount}格挡。`);
+}
+
+export function thunder(base:CardAmount):rules.Effect<CardUse,void>{
+  const effect=thunderProgram(describeAmounts(queued(defineEffect<CardUse,void>(b=>call(lightning.exports.strike,{
+    battle:b.read(v=>v.input.battle),owner:b.read(v=>v.input.owner),base:b.read(v=>Math.max(0,cardAmount(base,v)+v.query(volibearDamageTraining.exports.permanentBonus,v.input.card))),exclude:null,
+  }))),[base],amount=>`对全体敌人造成${amount}雷伤。`));
+  if(typeof base!=='function')withDamageTerms(effect,defineQuery({input:cardUseSchema,output:damageTermsSchema,dependencies:[lightning.exports.amount,volibearDamageTraining.exports.permanentBonus],base:(r,use)=>[{label:'原生雷伤（全体）',target:null,amount:r.query(lightning.exports.amount,{battle:use.battle,owner:use.owner,base:Math.max(0,(typeof base==='number'?base:base[use.state.upgraded?1:0])+r.query(volibearDamageTraining.exports.permanentBonus,use.card)),exclude:null}),hits:1}]}));
+  return effect;
+}
+
+export function draw(count:CardAmount):rules.Effect<CardUse,void>{
+  return describeAmounts(queued(defineEffect<CardUse,void>(b=>call(cardPiles.exports.draw,{
+    piles:b.read(v=>v.get(query(battles.exports.current,v.input.battle)).piles),
+    count:b.read(v=>Math.max(0,cardAmount(count,v))),
+  }))),[count],amount=>`抽${amount}张牌。`);
+}

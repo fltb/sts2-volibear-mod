@@ -1,0 +1,11 @@
+{
+  "reviewer": "root",
+  "inspected_actual_screenshots": true,
+  "browser_report_sha256": "49f2ea1d8f441592d74e5a87bf7bb49571ac6eaa2cdf6dad2bc2511c23d55e2c",
+  "observations": {
+    "desktop": "89卡图库图片与中文字体正常；新增两类筛选及排序显示完整。",
+    "R28_detail": "大图、真实125彩色/灰度、规则、审核说明与文件链接可读。",
+    "mobile_390": "防御详情在窄屏无水平溢出，图像与链接保持可读。"
+  },
+  "scope": "Actual screenshots inspected after executing all 89 detail views; screenshots remain temporary, report binds checked repo files."
+}

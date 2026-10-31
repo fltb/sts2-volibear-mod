@@ -1,0 +1,41 @@
+{
+  "id": "U37",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "9d7535fa6488ccbfe7c8d6ba2c0729d1a37fa3a502ea9ca14a760f608b3ad9ca",
+  "master_sha256": "048074abdb3c0ba1540810d9c25fb67165810680b79459942fda70a2be46ead1",
+  "comparison_sha256": "5c2a28abcea509ad0393821a0842f968f0d97a59fb9769cff554d09567799299",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "三块宽厚云体从不同方向围住唯一小雷核，云内缘亮、外围沉暗；没有熊形、地平线或地面法阵。",
+  "baseline_comparison": "沿用U39聚集意图与C24硬边雷语言，改为近距离天气围合；125像素与灰阶仍读中心汇聚，未复制落雷姿态。",
+  "paw_orientation_observation": "纯天气画面，无肢体或拟人云脸。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:02+00:00"
+}

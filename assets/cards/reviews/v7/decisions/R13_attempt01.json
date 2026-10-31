@@ -1,0 +1,41 @@
+{
+  "id": "R13",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "13ac31acfb028d5d3079d51cd6f1b4c3b1d5672eaf951727bb212c7419abae76",
+  "master_sha256": "b39c2b6f797d7c7c1eff0dd7d2ebcca9cde4c2bb4ff07083a2b1eb0e928a3489",
+  "comparison_sha256": "5772f6f918843399350e0190c53fd64cc77992689c397c22828e5630a1de0a76",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "唯一完整熊背影跨过人造石路末端进入林地，双侧树影组织前方开口；远谷水道与山体提供纵深，没有熊分身或光尾。",
+  "baseline_comparison": "与U25猎意、C13安静呼吸共用灰绿与白灰基调，切为背向远行环境场景；125像素仍读人造路到野地的转换，不是另一张近脸。",
+  "paw_orientation_observation": "肩髋连续，后腿分开，一只后足抬起、另一足承重；远前肢被身体局部遮挡，四足行进逻辑成立。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T18:02:59+00:00"
+}

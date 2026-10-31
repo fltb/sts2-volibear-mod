@@ -1,0 +1,32 @@
+{
+  "artist": "artist_a",
+  "ids": [
+    "R01",
+    "R29",
+    "T02",
+    "C10",
+    "B04",
+    "C15",
+    "U38",
+    "U34",
+    "U20",
+    "R27",
+    "U15",
+    "U36",
+    "U31",
+    "R06",
+    "U06",
+    "C19",
+    "C03",
+    "U10",
+    "U41",
+    "R13"
+  ],
+  "pilot_ids": [
+    "R01",
+    "R29",
+    "T02"
+  ],
+  "assignment_status": "completed_historical_work_allocation",
+  "current_state_authority": "data/v7/state.json"
+}

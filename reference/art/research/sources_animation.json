@@ -1,0 +1,185 @@
+{
+  "sources": [
+    {
+      "id": "RITSU_TEMPLATE",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Characters/ModCharacterTemplate.cs",
+      "supports": "protected SetupCustomCombatAnimationStateMachine; CustomVisualsPath",
+      "source_file_sha256": "4ffcba067408cbb28d88c765b62d87e3367c6188c061cdb253330291869ea363",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "ModCharacterTemplate.cs"
+    },
+    {
+      "id": "RITSU_STANDARD",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Visuals/StateMachine/ModAnimStateMachines.cs",
+      "supports": "standard trigger mapping and terminal death behavior",
+      "source_file_sha256": "0a8048148f132dea76269c3007ae8204f23ff0fa30b29dd736512b2b752d58c4",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "ModAnimStateMachines.cs"
+    },
+    {
+      "id": "RITSU_BUILDER",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Visuals/StateMachine/ModAnimStateMachineBuilder.cs",
+      "supports": "Create, AddState, AddAnyState, Build and BuildForVisualsRoot signatures",
+      "source_file_sha256": "a67beb1ea04bf7ac4bb48a7dc88949c9c6e408ffb6f433bae51551be3e1a391b",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/ModAnimStateMachineBuilder.cs"
+    },
+    {
+      "id": "RITSU_SPRITE_BACKEND",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Visuals/StateMachine/Backends/AnimatedSprite2DBackend.cs",
+      "supports": "AnimatedSprite2D with SpriteFrames supported; per-state loops and completion signals",
+      "source_file_sha256": "7410f0f273566799e960a862f4259a8fd997ffd08c5785c21916f310b22449cc",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "AnimatedSprite2DBackend.cs"
+    },
+    {
+      "id": "RITSU_PLAYBACK_PATCH",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Characters/Patches/ModCreatureCombatAnimationPlaybackPatch.cs",
+      "supports": "NCreature.SetAnimationTrigger routed to opted-in custom state machine",
+      "source_file_sha256": "7e14e1a6f8443cb6474fa7246b9c8cbf7b0493c088d9d7428f2545ce3a39598f",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/ModCreatureCombatAnimationPlaybackPatch.cs"
+    },
+    {
+      "id": "RITSU_STATE",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Visuals/StateMachine/ModAnimState.cs",
+      "supports": "multiple guarded branches for same trigger choose first passing branch",
+      "source_file_sha256": "d8a04d492ffba4a3199115143ce52d59260ef25f1e4bafba993b6bf15fe01678",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/ModAnimState.cs"
+    },
+    {
+      "id": "RITSU_MACHINE",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Visuals/StateMachine/ModAnimStateMachine.cs",
+      "supports": "AnimationStarted/AnimationCompleted events and Current/Backend/SetTrigger",
+      "source_file_sha256": "cbaf988d1c43793770501db241aeb740d4b21b1153ab98d5911e7c6634b5cfd5",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/ModAnimStateMachine.cs"
+    },
+    {
+      "id": "BASELIB_NONSPINE",
+      "kind": "maintainer_source",
+      "url": "https://github.com/Alchyr/BaseLib-StS2/blob/c070755d11ec062f6c97c4dda1a205d975ed066a/Utils/CustomAnimation.cs",
+      "supports": "alternative BaseLib path supports Godot AnimationTree, AnimationPlayer and AnimatedSprite2D",
+      "source_file_sha256": "df383a10ac69e59d739bddb6b23dd63b1261a7c7b5d00263dcffa1beb8c025a6",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/CustomAnimation.cs"
+    },
+    {
+      "id": "BASELIB_FACTORY",
+      "kind": "maintainer_source",
+      "url": "https://github.com/Alchyr/BaseLib-StS2/blob/c070755d11ec062f6c97c4dda1a205d975ed066a/Utils/NodeFactories/NCreatureVisualsFactory.cs",
+      "supports": "visual scene named nodes; FormVfx control",
+      "source_file_sha256": "e892852fc96c6cef5f878c5d27cf72c6be999cf4106e89bd3cabeb5923b44804",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/NCreatureVisualsFactory.cs"
+    },
+    {
+      "id": "GAME_CODE_SNAPSHOT",
+      "kind": "public_extracted_game_code_not_official_documentation",
+      "url": "https://github.com/Zamiell/slay-the-spire-2-emulator/tree/04cfe6df800156e5339d565e03236302363c829c/decompiled",
+      "supports": "observed five character animator graphs and trigger call sites; original game build version not independently matched to the image API snapshot",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "SPIRE_CODEX",
+      "kind": "data_provider_documentation",
+      "url": "https://github.com/ptrlrd/spire-codex",
+      "web_ref": "turn22view3",
+      "supports": "animation renderer converts Spine to WebP/GIF/APNG; public API documents rendered media",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "GODOT_FRAMES",
+      "kind": "official_documentation",
+      "url": "https://docs.godotengine.org/en/stable/classes/class_spriteframes.html",
+      "web_ref": "turn22view0",
+      "supports": "SpriteFrames add_frame takes relative duration; FPS-based playback",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "GODOT_SPRITE",
+      "kind": "official_documentation",
+      "url": "https://docs.godotengine.org/en/stable/classes/class_animatedsprite2d.html",
+      "web_ref": "turn20view3",
+      "supports": "AnimatedSprite2D frame playback and loop/non-loop completion behavior",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "GODOT_FILES",
+      "kind": "official_documentation",
+      "url": "https://docs.godotengine.org/en/stable/classes/class_fileaccess.html",
+      "web_ref": "turn22view1",
+      "supports": "JSON nonresource files must be included in exported PCK; textures load through ResourceLoader/GD.Load",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "SPINE_GODOT",
+      "kind": "official_documentation",
+      "url": "https://en.esotericsoftware.com/spine-godot",
+      "web_ref": "turn22view2",
+      "supports": "native Spine skeleton .skel/.spine-json, .atlas, texture pages and version compatibility",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "RIOT_VOLIBEAR",
+      "kind": "official_champion_page",
+      "url": "https://www.leagueoflegends.com/en-us/champions/volibear/",
+      "web_ref": "turn19view2",
+      "supports": "official Q/W/E/R descriptions and embedded official videos",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "RITSU_ASSET_PROFILE",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Characters/CharacterAssetProfile.cs",
+      "source_file_sha256": "e067ede384b0fc59bbfec80ab51330096a31d36b70ff5fff66f67394f9861d26",
+      "supports": "optional character scene/UI/audio/multiplayer asset slots",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/CharacterAssetProfile.cs"
+    },
+    {
+      "id": "RITSU_ASSET_FALLBACK",
+      "kind": "maintainer_source",
+      "url": "https://github.com/BAKAOLC/STS2-RitsuLib/blob/772f280964f2efc7c7e2f29fc59844e68616dd57/src/Scaffolding/Characters/CharacterAssetProfiles.cs",
+      "source_file_sha256": "2bda45c0ba5cef24b9bd302ebef3e5297fa46212185a320a84396a9352097246",
+      "supports": "FromCharacterId gives actual base-game resource paths; Resolve merges optional overrides; default ironclad",
+      "retrieved_date_client": "2026-10-27",
+      "research_workspace_file_not_packaged": "code_evidence/CharacterAssetProfiles.cs"
+    },
+    {
+      "id": "GODOT_TIMER",
+      "kind": "official_documentation",
+      "url": "https://docs.godotengine.org/en/stable/classes/class_timer.html",
+      "web_ref": "turn25view0",
+      "supports": "one-shot Timer timeout, Start requires scene tree, respects engine time scale",
+      "retrieved_date_client": "2026-10-27"
+    },
+    {
+      "id": "MEGACRIT_SILENT_PREVIEW",
+      "kind": "official_development_newsletter_and_embedded_animation",
+      "url": "https://www.megacrit.com/news/2024-10-02-neowsletter-issue-3/",
+      "asset_url": "https://www.megacrit.com/images/silent_anim.gif",
+      "published_date": "2024-10-02",
+      "retrieved_date_client": "2026-10-27",
+      "supports": "actual early official Silent animation showing hit reaction, resting pose, attack and recovery; not a current-build complete animation inventory",
+      "asset_sha256": "27bf1c450dd93a44b4bd3956369e89e32fb373a7ef3ece1f76ab546d4c571e35"
+    }
+  ],
+  "api_snapshot_labels": {
+    "main": "v0.107.1",
+    "beta": "v0.110.0"
+  },
+  "integration_status": "integration_source_uncompiled",
+  "research_date_client": "2026-10-27",
+  "date_basis": "session client date supplied for this deliverable; not a host UTC timestamp",
+  "action_count": 24,
+  "sequence_count": 26
+}

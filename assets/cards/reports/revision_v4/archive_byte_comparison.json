@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "comparison": "exact recovered V3 ZIP bytes",
+  "same_files": 440,
+  "changed_files": [
+    "cards/masters/B02.png",
+    "production/sts1/VolibearResources/images/cards/b02.png",
+    "production/sts1/VolibearResources/images/cards/b02_p.png",
+    "production/sts2/Volibear/images/card_portraits/b02.png",
+    "production/sts2/Volibear/images/card_portraits/big/b02.png"
+  ],
+  "unchanged_masters": 88,
+  "unchanged_game_exports": 352,
+  "source_rules_unchanged": true
+}

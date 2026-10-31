@@ -1,0 +1,47 @@
+{
+  "id": "C12",
+  "attempt": 20,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "0d8e0aea7b196ec4e26da47153fa946169ee1072ec10d3475c30bbc6601ecfa0",
+  "master_sha256": "c292060a580d2a79e8f6a64f5479e295c510b812e4c0f0c90932ea50edf9ab3f",
+  "comparison_sha256": "1ecdeddc80e047021cd723ac93030bbe3721933c952873d29eb435afd5d2e3e3",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看原始图和完整对照板。侧后机位能辨认背峰、颈头、近肩与上臂，已不再是无部位毛团；但两条胸辫出现在后背及上臂后侧，位置与该机位矛盾。箭尖直接抵住肩外缘，没有可读偏转。125图中箭很细，第一主读变成披挂辫饰的熊背肖像，山石旗帜云层抢占局部受击叙事。",
+  "baseline_comparison": "相对U17/U23，毛层切面与多层山云过碎；保留了白肩深臂色关系，却把基准中的胸辫当作可随意贴到背面的标记。",
+  "paw_orientation_observation": "画面无完整掌爪；近侧上臂自然出画，未发现额外手或反向爪。问题在胸辫根部与后背遮挡关系，不在掌爪。",
+  "quality_axes": {
+    "main_read": 13,
+    "large_shapes": 13,
+    "tone": 16,
+    "finish": 16,
+    "distinctiveness": 16
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": false,
+    "action_causality": false,
+    "thumbnail_readability": false,
+    "series_identity": false,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [
+    "后侧机位下胸辫长在背面/上臂侧后，角色饰物位置错误。",
+    "箭为正向抵住而非斜擦偏转，小图受力动作弱。",
+    "毛片、山云及旗帜细节过多，偏离厚毛大形与安静背景目标。"
+  ],
+  "revision_target": "去掉此机位不可见的胸辫，保留肩颈轮廓；把箭改为沿肩外缘斜擦偏转，压简毛面与背景。",
+  "recorded_at": "2026-10-29T20:30:31+00:00"
+}

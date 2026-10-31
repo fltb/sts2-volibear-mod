@@ -1,0 +1,41 @@
+{
+  "id": "U28",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "ebabd2fd2860f4f594d69376959444a803542299f4b61979f3fe0c6cdf6c78b4",
+  "master_sha256": "de9e7f6f91c2fe9ecd15f75f490752fdac8a9a2774114f1acf16cdefe7d294a4",
+  "comparison_sha256": "7891bd39e2f1e08d4dcae08d7be86d920eb31add819ea82bea2e8b77482401f8",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "后侧俯视完整宽背、三处接地支点及身前挡臂，敌斧接点小而可辨；雷从接点两侧分至两名敌人。左支短暂被前臂遮挡，出入方向连续。没有重复腿或随机肢体。",
+  "baseline_comparison": "与C12承受实击和U40明确电路关系相容。另直接比对固定U35：改为后侧俯视、两名可见敌人、V形回雷和紫色平面，不再是红底侧脸举臂及前景大波。",
+  "paw_orientation_observation": "挡臂手爪顺着腕朝内下收，另一前足朝地面；脚爪沿各自落脚方向。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:31:51+00:00"
+}

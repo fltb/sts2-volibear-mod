@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-27T12:01:56.064755+00:00",
+  "recordings": [
+    {
+      "file": "source/monster_roar.wav",
+      "author": "trazzz123",
+      "source_page": "https://opengameart.org/content/cc0-deep-monster-roar",
+      "download_url": "https://opengameart.org/sites/default/files/monster_roar.wav",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 1273958,
+      "sha256": "040d2841619c732098c30a638731317d13d7647e5ce1a75a3246219ce4b162ff"
+    },
+    {
+      "file": "source/monster-snarls.ogg",
+      "author": "Darsycho",
+      "source_page": "https://opengameart.org/content/monster-snarls",
+      "download_url": "https://opengameart.org/sites/default/files/monster-snarls_0.ogg",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 195986,
+      "sha256": "7401193d0cc5eb193379cf326c8868d6823a284ebc32ffaa298c1a94d2e25994"
+    },
+    {
+      "file": "source/monster-snarls-2.ogg",
+      "author": "Darsycho",
+      "source_page": "https://opengameart.org/content/monster-snarls",
+      "download_url": "https://opengameart.org/sites/default/files/monster-snarls-2_0.ogg",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 75510,
+      "sha256": "dbc7b5e621892b5dbc27ee25230b57daaddbc83daadfb20131988b7367f967e1"
+    },
+    {
+      "file": "source/monsters-snarls-3.ogg",
+      "author": "Darsycho",
+      "source_page": "https://opengameart.org/content/monster-snarls",
+      "download_url": "https://opengameart.org/sites/default/files/monsters-snarls-3_0.ogg",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 203942,
+      "sha256": "5917d2697b8688b2c59e592d448d473ae0eeaed83802541ebd19bc87f97fe8a7"
+    },
+    {
+      "file": "source/monster-snarl-attack.ogg",
+      "author": "Darsycho",
+      "source_page": "https://opengameart.org/content/monster-snarls",
+      "download_url": "https://opengameart.org/sites/default/files/monster-snarl-attack.ogg",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 185872,
+      "sha256": "34bf1ceef265725abf00ab3263bbbb492792e126bb1619addd4a5d3ad123347f"
+    },
+    {
+      "file": "source/monster-snarl-5.ogg",
+      "author": "Darsycho",
+      "source_page": "https://opengameart.org/content/monster-snarls",
+      "download_url": "https://opengameart.org/sites/default/files/monster-snarl-5.ogg",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 201559,
+      "sha256": "aeaf9ab0f25cb8b035a3257913206afd8ba33d47876106291d38dfac7e5c07aa"
+    },
+    {
+      "file": "source/kenney_impact-sounds.zip",
+      "author": "Kenney",
+      "source_page": "https://kenney.nl/assets/impact-sounds",
+      "download_url": "https://kenney.nl/media/pages/assets/impact-sounds/87b4ddecda-1677589768/kenney_impact-sounds.zip",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "size_bytes": 800850,
+      "sha256": "029d734af1582474edf3a694d1b0cebc97c1c152f2f39fa34d4c2bafc5de77f8"
+    }
+  ],
+  "scope": "Recordings and derived audio only. No official Riot voice or performance is included."
+}

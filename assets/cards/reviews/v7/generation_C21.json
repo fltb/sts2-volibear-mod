@@ -1,0 +1,91 @@
+{
+  "id": "C21",
+  "artist": "artist_c",
+  "tool": "tools.image_gen__imagegen",
+  "attempt": 1,
+  "request": {
+    "prompt": "New card art, canvas1250 pixels wide×950 high, landscape25:19. Broad mature graphic flat illustration, 2–3 discrete tones, no grain, texture, tiny facets, dense cracks or 3D shading. Reference single-paw close-up is only STYLE and IDENTITY, do not copy its scale. This new image shows TWO SMALL actual feet at top and a LARGE STABLE GROUND plane.\n\n最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：C21《稳住阵脚》。创作一张新的独立插画，核心动词/关系为“稳住”。\n\n镜头与抽象：斜俯视实际站位与同一承力地面。M0。\n画面：熊的两只实际后足和短踝从画面上缘自然进入，稳稳压在同一块宽而完整的地面上；足部合计不超过四分之一画面。脚踝向画外延续为同一身体，足底压实点与接触影清楚。一条不闭合的浅青领域边界横过地面，界外两三块松石顺坡滑落，界内完整承力面保持平稳。\n\n大形与负形：稳定完整的大地面占主形，两处小承重点落在同一平面；外部滑石与边界只作对比。\n色彩：赭石与灰蓝，薄青边界不成为环形舞台。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C26《接地》用于主形清晰度、重量和气质；U03《屹立》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：用悬空脚印图标代替实际足部；放大单脚套圆电圈；两脚接到同一根小腿；足底未接地；把领域边界画成攻击震波；铺满碎裂地面。\n图像语义：实际双足仍在稳稳承重，领域内外的稳定差异可见；不以过去留下的足印冒充当下站姿。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n\n审稿重点：两只后足与短踝要有属于同一身体的自然间距与方向，不能连接到同一根小腿或成为独立脚印。；足底压实点及接触影需要清楚，实际足部虽小但必须仍可承担重量。；不闭合领域边界与界外滑石应保持从属，不能再次形成大电圈、攻击震波或满地裂纹。\nClear oblique view DOWN onto one broad intact ochre-grey ground surface. Exactly TWO bear hind feet with TWO separate short ankles naturally enter from the TOP edge, placed apart in a stable stance and both oriented plausibly as the same body. Each ankle continues out of frame upward to its own leg, never joined to one shin. Feet and visible ankles combined occupy less than ONE QUARTER of the image, not giant close-up paws. Both soles are firmly planted with small compact contact shadows and compression points, short cyan claw tips. The rest of the bear is offscreen; no extra hands or head.\nOne THIN pale-cyan field boundary crosses the lower half of the ground as a single OPEN curve with its ends leaving opposite image edges. It is NOT a circle, ring, aura platform or shockwave. Inside the field the whole thick support plane under both feet is perfectly continuous and steady. Outside on the lower-right sloping edge only TWO or THREE small loose stones slide downslope with small shadows, showing unstable exterior. Ground remains almost entirely unbroken and quiet, no cracks under the feet, no lightning branches. No footprints substituted for living feet, no text, icons, border or UI.",
+    "referenced_image_paths": [
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C26.png",
+      "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png"
+    ],
+    "transparent_background": false
+  },
+  "source_output_path": "/workspace/scratch/6d72a9858741/generated_images/exec-88e932bb-188e-4cfa-bb7f-b6f062b81801.png",
+  "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C21/attempt01.png",
+  "record_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C21.json",
+  "visual_approved": false,
+  "output_sha256": "468e57234efc2ecf56001b38df35b3ca8a42023192b24a0ef3ec80f0f6a9bd48",
+  "dimensions": [
+    1438,
+    1093
+  ],
+  "reference_files": [
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/C26.png",
+      "sha256": "5de257dd4487c098fb639199ff528483bd08b794ee39a49d52591e71d3b9a74f"
+    },
+    {
+      "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U03.png",
+      "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+    }
+  ],
+  "request_sha256": "3776cc6fe7c2ffe23640711fcea8ca272fc0c6c3bc0a7d9784e60607af24bbca",
+  "plan_card": {
+    "id": "C21",
+    "level": "M0",
+    "family": "地形稳定",
+    "verb": "稳住",
+    "anchors": [
+      "C26",
+      "U03"
+    ],
+    "camera": "斜俯视实际站位与同一承力地面",
+    "scene": "熊的两只实际后足和短踝从画面上缘自然进入，稳稳压在同一块宽而完整的地面上；足部合计不超过四分之一画面。脚踝向画外延续为同一身体，足底压实点与接触影清楚。一条不闭合的浅青领域边界横过地面，界外两三块松石顺坡滑落，界内完整承力面保持平稳。",
+    "shape": "稳定完整的大地面占主形，两处小承重点落在同一平面；外部滑石与边界只作对比。",
+    "palette": "赭石与灰蓝，薄青边界不成为环形舞台。",
+    "avoid": [
+      "用悬空脚印图标代替实际足部",
+      "放大单脚套圆电圈",
+      "两脚接到同一根小腿",
+      "足底未接地",
+      "把领域边界画成攻击震波",
+      "铺满碎裂地面"
+    ],
+    "semantic": "实际双足仍在稳稳承重，领域内外的稳定差异可见；不以过去留下的足印冒充当下站姿。",
+    "name": "稳住阵脚",
+    "status": "ready_for_generation_not_image_approved",
+    "current_image": "assets/current/C21.png",
+    "current_image_sha256": "8b7c4774c6f21e6f77ff38f8d680a37b620a72c6b4addb351f0e530eccb46c6f",
+    "reference_files": [
+      {
+        "role": "identity",
+        "file": "assets/identity/volibear_approved.png",
+        "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
+      },
+      {
+        "role": "primary_benchmark",
+        "id": "C26",
+        "file": "assets/benchmarks/C26.png",
+        "sha256": "5de257dd4487c098fb639199ff528483bd08b794ee39a49d52591e71d3b9a74f"
+      },
+      {
+        "role": "secondary_benchmark",
+        "id": "U03",
+        "file": "assets/benchmarks/U03.png",
+        "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+      }
+    ],
+    "image_generated": false,
+    "image_visual_approved": false,
+    "final_text_review_file": "reviews/design_resolution_bc.json",
+    "image_review_watchpoints": [
+      "两只后足与短踝要有属于同一身体的自然间距与方向，不能连接到同一根小腿或成为独立脚印。",
+      "足底压实点及接触影需要清楚，实际足部虽小但必须仍可承担重量。",
+      "不闭合领域边界与界外滑石应保持从属，不能再次形成大电圈、攻击震波或满地裂纹。"
+    ],
+    "prompt": "最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。\n\n卡片：C21《稳住阵脚》。创作一张新的独立插画，核心动词/关系为“稳住”。\n\n镜头与抽象：斜俯视实际站位与同一承力地面。M0。\n画面：熊的两只实际后足和短踝从画面上缘自然进入，稳稳压在同一块宽而完整的地面上；足部合计不超过四分之一画面。脚踝向画外延续为同一身体，足底压实点与接触影清楚。一条不闭合的浅青领域边界横过地面，界外两三块松石顺坡滑落，界内完整承力面保持平稳。\n\n大形与负形：稳定完整的大地面占主形，两处小承重点落在同一平面；外部滑石与边界只作对比。\n色彩：赭石与灰蓝，薄青边界不成为环形舞台。\n\n25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。实体角色出现时保持白灰宽肩、深蓝身体、短厚熊吻、青眼与青色短弯爪；只有场景确实露出胸部时才需要胸辫。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。\n\n参考用途：身份图用于确认实体角色；C26《接地》用于主形清晰度、重量和气质；U03《屹立》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。\n\n明确避免：用悬空脚印图标代替实际足部；放大单脚套圆电圈；两脚接到同一根小腿；足底未接地；把领域边界画成攻击震波；铺满碎裂地面。\n图像语义：实际双足仍在稳稳承重，领域内外的稳定差异可见；不以过去留下的足印冒充当下站姿。\n只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。\n",
+    "prompt_file": "prompts/v7/C21.txt",
+    "prompt_sha256": "de3c4aaacacb2a464f1e48a0d99d723a529d1cdccf1d7e2cee5e630300ed4a2d"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "file": "cards_source.json",
+      "sha256": "e74335e588b5b0b7be8a1f1ec08dff94091c1af158efa718e1cedbfff115c17c",
+      "size_bytes": 38241,
+      "original_project_path": "volibear_animation_repo/data/cards_source.json",
+      "role": "authoritative project source snapshot for independent VFX rebuild"
+    },
+    {
+      "file": "card_animation_bindings.json",
+      "sha256": "491050dba6aa791f4f67d6ec4cd6b740db575a6ef6b710abacf6c188c213df7b",
+      "size_bytes": 263607,
+      "original_project_path": "volibear_animation_repo/animations/card_animation_bindings.json",
+      "role": "authoritative project source snapshot for independent VFX rebuild"
+    },
+    {
+      "file": "volibear_approved.png",
+      "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+      "size_bytes": 1368425,
+      "original_project_path": "volibear_animation_repo/references/identity/volibear_approved.png",
+      "role": "authoritative project source snapshot for independent VFX rebuild"
+    },
+    {
+      "file": "B01.png",
+      "sha256": "7afe4de919ecdd2a92d7c4754ed6039ef961ecd9f14a933085876766aa8ab0c0",
+      "size_bytes": 1584862,
+      "original_project_path": "volibear_cards_repo/cards/masters/B01.png",
+      "role": "authoritative project source snapshot for independent VFX rebuild"
+    },
+    {
+      "file": "T01.png",
+      "sha256": "4cfdb6bde980581c1da44548db6d56450e15f64c08cbcbb13bd22223369b593c",
+      "size_bytes": 1369298,
+      "original_project_path": "volibear_cards_repo/cards/masters/T01.png",
+      "role": "authoritative project source snapshot for independent VFX rebuild"
+    },
+    {
+      "file": "audio_cues.json",
+      "sha256": "5329d351cd3fd1998443f5e53eabf1b33013e936bb4d83d30a1d6808a8a2d8b3",
+      "size_bytes": 1457,
+      "role": "portable audio cue interface; not audio asset files"
+    }
+  ],
+  "purpose": "Small necessary sources only, no research caches. B01/T01 are existing project illustrations used in context examples; not newly generated."
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "R31",
+  "decision": "approve",
+  "master_sha256": "82674fe59ac1bb889e6c187b669d4a4e46ebc12c34b99a8d28a570e158a40e61",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_b",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "低伏重臂落在独立盾牌，爪击点与盾碎片分开，张口上下颌和牙列正常。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_b.json",
+      "id": "R31",
+      "source_sha256": "82674fe59ac1bb889e6c187b669d4a4e46ebc12c34b99a8d28a570e158a40e61"
+    },
+    "prior_exact_candidate_review_sha256": "45a149e00c32453b4b04fdeae2d1550891adc2ace38b958378142600b03c4fdb",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

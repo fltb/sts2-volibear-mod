@@ -1,0 +1,54 @@
+{
+  "id": "R14",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "09202147bee0efeb6d1a0886ba0fea7021ed3d8659ab4b69ffebb25021e5a53f",
+  "master_sha256": "29ffa675e3c5aa158cfed202b411b162de7937459fa1ed2263dc143f1b82c4b3",
+  "comparison_sha256": "b755ca1f6c824bcfd72c018db962adda21e45f4ecb711419eb778455f10ba24a",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "中央障碍已变成画内完整的低短岩块，两侧普通土路在上方同一处汇合；熊靠近内侧转角，受伤敌人仍沿外弯跑，只有两个实体。",
+  "baseline_comparison": "与U25猎物关系、U17路径判断相承，以俯视截近路线代替侧脸。125像素能看到障碍前端与汇合口，圆形裁切未遮掉路径关键部位。",
+  "paw_orientation_observation": "熊近侧后腿收短并有接地影，肩髋前倾仍连续，另一侧肢体有自然遮挡；未生成残影或多爪。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:57:46+00:00",
+  "master": "cards/masters/R14.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/R14.jpg",
+  "anchors": [
+    "U25",
+    "U17"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

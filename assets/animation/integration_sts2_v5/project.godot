@@ -1,0 +1,21 @@
+; Offline V5 art player. This project is not a Slay the Spire 2 mod.
+config_version=5
+
+[application]
+config/name="Volibear Art V5 - Offline Godot Proof"
+run/main_scene="res://demo.tscn"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+
+[display]
+window/size/viewport_width=1120
+window/size/viewport_height=720
+window/size/window_width_override=1120
+window/size/window_height_override=720
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.035,0.055,0.08,1)
+
+[audio]
+general/default_playback_type=0

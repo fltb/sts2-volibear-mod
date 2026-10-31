@@ -1,0 +1,41 @@
+{
+  "id": "U27",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "52b063e41e06618f677bca7a0d6bcbbc5b764fa2b4d1910758ee8d943c376e35",
+  "master_sha256": "ce9194ae133d0b1202e0e1751fa1523c59cc50f42b3374907322323a4e2024b7",
+  "comparison_sha256": "a9a07fe66cfeed3d434db6617b50ebb0560110a7e198ac142af6c4855f91d150",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "右侧自然垂臂及短青爪，保护薄层贴在臂外；左侧旧裂盾保留持盾肩臂。两者由宽暗隙分开，保护对象关系明确。实际500像素蒙版中三个可见爪尖完整。",
+  "baseline_comparison": "改为局部侧身与旧盾对照，已摆脱B02举臂承击构图；与U11垂臂的差别是外部旧盾和新保护薄层的并置关系。",
+  "paw_orientation_observation": "下垂掌与前臂连续，爪内收向下；左盾持有臂没有被误当作熊的额外手。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:55+00:00"
+}

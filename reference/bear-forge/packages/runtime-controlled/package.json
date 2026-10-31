@@ -1,0 +1,29 @@
+{
+  "name": "@bear-forge/runtime-controlled",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./execution": "./src/execution.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run build && node --experimental-strip-types --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "test:test262:modules": "npm run build && node --experimental-strip-types --test tests/test262/module-execution.test.ts",
+    "build": "node build.mjs",
+    "test:benchmarks:extended": "npm run build && BEAR_BENCHMARK_EXTENDED=1 node --experimental-strip-types --test tests/differential.test.ts tests/oracles.test.ts"
+  },
+  "dependencies": {
+    "@bear-forge/contracts": "*",
+    "@bear-forge/boundary": "*",
+    "@bear-forge/runtime": "*",
+    "@bear-forge/effectful-continuations": "2.0.12",
+    "@effectful/serialization": "2.0.12"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "@bear-forge/compiler": "*",
+    "@bear-forge/runtime-native": "*"
+  }
+}

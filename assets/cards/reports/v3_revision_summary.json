@@ -1,0 +1,24 @@
+{
+  "complete": true,
+  "full_source_images_individually_reviewed": 89,
+  "retained": 79,
+  "revised": 10,
+  "new_real_imagegen_attempts": 11,
+  "selected": 10,
+  "rejected": 1,
+  "retained_exports_byte_identical_to_v2": 316,
+  "root_independent_final_proof_reviews": [
+    "B02",
+    "C14",
+    "C17",
+    "U12",
+    "U13",
+    "U28",
+    "R07",
+    "R28",
+    "U41",
+    "T02"
+  ],
+  "source_game_data_changed": false,
+  "technical_validation_passed": true
+}

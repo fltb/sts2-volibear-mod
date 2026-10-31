@@ -1,0 +1,352 @@
+{
+  "id": "thunder_armor",
+  "label_zh": "雷甲增益",
+  "family": "guard",
+  "fps": 24,
+  "frame_count": 26,
+  "duration_seconds": 1.0833333333333333,
+  "loop": false,
+  "anchor": "owner_front",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    61,
+    61,
+    195,
+    199
+  ],
+  "atlas": {
+    "image": "atlases/thunder_armor.png",
+    "json": "atlases/thunder_armor.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "3053ffc63c087f58efbc633a5d437edaa58cff447c292f3abc1923f832c63d8e"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/001.png",
+      "sha256": "eafb7d0e003bb9c5d47c4f1a2c40e4c1f26e783a048044125d5b11ad2871b81b"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/002.png",
+      "sha256": "eac0cab76b3074c5c09141f0402283fedaf367dc0e95ea371457ce34a5ac9f6f"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/003.png",
+      "sha256": "a8f7bc2d7d79f94618deb306ee2f79a73a0ab442af408b7e38248b74102f7456"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/004.png",
+      "sha256": "9fed89a6444d43532144ab4cd4d7388cf27c0e9aa7981420da38d4c355f40038"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/005.png",
+      "sha256": "8ff88c8b3a9509afa148fcbacc19f387b1a3b2a532a780395f6d713180a648fd"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/006.png",
+      "sha256": "5c2ed6bec4d136f1dc00c63e23c2f472691b3fa4d0ae5e10a474a8422a244c78"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/007.png",
+      "sha256": "297a9191cda77b6fcc067985a7bea996a06611cbd450ece327616bdd4db42527"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/008.png",
+      "sha256": "8ab1043198d84f581bef5e27c652608fb1aeb6ae0c7df875342c4e128da275eb"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/009.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/010.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/011.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/012.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/013.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/014.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/015.png",
+      "sha256": "f3a0a913699889221b4e43e548624c1e7552890c53ff325eedd175f52b652d0b"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/016.png",
+      "sha256": "717d3bd6be1e5ec0e1d722971dbb56d97521ce201cf375b8f59bfae0cff09c89"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/017.png",
+      "sha256": "72501a65a602e95a74c763e80f97078b743ee75df16308310931d4f05529dfe2"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/018.png",
+      "sha256": "588dc0b818cad9bd14648160b9f1903d0440e6e364e20036ed5cdef85b9b5dcb"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/019.png",
+      "sha256": "1b8dda637ffa26c93b5125d8a56b1b3ef4d425c7604fd5dec5a54f9a218e644a"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/020.png",
+      "sha256": "86d1982086ca2df0b836c53c258787929a2638af4914bd4e5b0fbde2584ebf64"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/021.png",
+      "sha256": "00a97b7ba5e40d530cd7c262f1cc44012e66e61646222bc8e9aeae44d41e557d"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/022.png",
+      "sha256": "f43e2cebf90b3dc7e187b4cc419c691a17c42408a08fcb2a267cfebe751e1ce2"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/023.png",
+      "sha256": "6ec7f276c733b6b49841310f217e774e7769446ebb1d6717f67f6467930fa077"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/024.png",
+      "sha256": "a47f3d8dc012bfd60bcf1df7141d92a1f3f853e02601f01033f966a67eb9243e"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/thunder_armor/025.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.thunder_armor",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

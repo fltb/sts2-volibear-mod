@@ -1,0 +1,54 @@
+{
+  "id": "C04",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "368d93a8524a6ad4bd158a776dbca1e7ee7d7d47f2a79e2368d51f2da5c56d11",
+  "master_sha256": "b3d3d40f83ee8cca445d9c4bc178426cb3c17c5c116ea28d785ec2884128560a",
+  "comparison_sha256": "ca4373bca625956a891acb70b3e3cca95561b297f60969b2f54386b50c57bc57",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "上中缘一只短腕紧凑掌向下压盔，敌盔、颈、肩组成下方主形；红底与大暗盔面明确，已删除横跨半幅的巨大斜臂。",
+  "baseline_comparison": "对照C06/R31，保留接触力与大形对比，改为受击者头盔主导。125像素与卡框蒙版仍读出顶部手掌、盔壳下压和肩部承接。",
+  "paw_orientation_observation": "短腕连掌，四爪沿盔侧同向收下，掌心朝受力对象，无反掌或独立浮指。",
+  "quality_axes": {
+    "main_read": 19,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T18:08:12+00:00",
+  "master": "cards/masters/C04.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C04.jpg",
+  "anchors": [
+    "C06",
+    "R31"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

@@ -1,0 +1,159 @@
+{
+  "api_snapshot": "Main v0.107.1",
+  "characters": [
+    {
+      "character": "ironclad",
+      "source_api": "https://spire-codex.com/api/images/game/v0.107.1/animations/browse?path=characters/ironclad&offset=0&limit=100",
+      "observed_clip_names": [
+        "attack",
+        "attack_heavy",
+        "cast",
+        "die",
+        "hurt",
+        "idle_loop",
+        "relaxed_loop",
+        "weak_loop"
+      ],
+      "observed_code_trigger_mapping": {
+        "Idle": "idle_loop",
+        "Attack": "attack",
+        "Cast": "cast",
+        "Hit": "hurt",
+        "Dead": "die",
+        "Relaxed": "relaxed_loop",
+        "heavyAttack": "attack_heavy"
+      },
+      "directory_only_unregistered_in_inspected_code": [
+        "weak_loop"
+      ],
+      "excluded_ignore_clips": [],
+      "native_low_health_threshold": "unverified",
+      "code_snapshot": "04cfe6df800156e5339d565e03236302363c829c",
+      "code_build_version_matches_api_snapshot": "not independently established"
+    },
+    {
+      "character": "silent",
+      "source_api": "https://spire-codex.com/api/images/game/v0.107.1/animations/browse?path=characters/silent&offset=0&limit=100",
+      "observed_clip_names": [
+        "attack",
+        "cast",
+        "die",
+        "hurt",
+        "idle_loop",
+        "relaxed_loop",
+        "shiv"
+      ],
+      "observed_code_trigger_mapping": {
+        "Idle": "idle_loop",
+        "Attack": "attack",
+        "Cast": "cast",
+        "Hit": "hurt",
+        "Dead": "die",
+        "Relaxed": "relaxed_loop",
+        "Shiv": "shiv"
+      },
+      "directory_only_unregistered_in_inspected_code": [],
+      "excluded_ignore_clips": [],
+      "native_low_health_threshold": "unverified",
+      "code_snapshot": "04cfe6df800156e5339d565e03236302363c829c",
+      "code_build_version_matches_api_snapshot": "not independently established"
+    },
+    {
+      "character": "defect",
+      "source_api": "https://spire-codex.com/api/images/game/v0.107.1/animations/browse?path=characters/defect&offset=0&limit=100",
+      "observed_clip_names": [
+        "attack",
+        "cast",
+        "die",
+        "hurt",
+        "idle_loop",
+        "process",
+        "relaxed_loop"
+      ],
+      "observed_code_trigger_mapping": {
+        "Idle": "idle_loop",
+        "Attack": "attack",
+        "Cast": "cast",
+        "Hit": "hurt",
+        "Dead": "die",
+        "Relaxed": "relaxed_loop"
+      },
+      "directory_only_unregistered_in_inspected_code": [
+        "process"
+      ],
+      "excluded_ignore_clips": [],
+      "native_low_health_threshold": "unverified",
+      "code_snapshot": "04cfe6df800156e5339d565e03236302363c829c",
+      "code_build_version_matches_api_snapshot": "not independently established"
+    },
+    {
+      "character": "necrobinder",
+      "source_api": "https://spire-codex.com/api/images/game/v0.107.1/animations/browse?path=characters/necrobinder&offset=0&limit=100",
+      "observed_clip_names": [
+        "_ignore-animation",
+        "_ignore-attack_w_settle",
+        "_ignore-extra_assets_pose",
+        "_ignore-sleeve_rigging_pose",
+        "attack",
+        "cast",
+        "cast_mighty",
+        "die",
+        "hurt",
+        "idle_loop",
+        "nervous_loop",
+        "relaxed_loop"
+      ],
+      "observed_code_trigger_mapping": {
+        "Idle": "idle_loop",
+        "Attack": "attack",
+        "Cast": "cast_mighty",
+        "Hit": "hurt",
+        "Dead": "die",
+        "Relaxed": "relaxed_loop",
+        "summonTrigger": "cast"
+      },
+      "directory_only_unregistered_in_inspected_code": [
+        "nervous_loop"
+      ],
+      "excluded_ignore_clips": [
+        "_ignore-animation",
+        "_ignore-attack_w_settle",
+        "_ignore-extra_assets_pose",
+        "_ignore-sleeve_rigging_pose"
+      ],
+      "native_low_health_threshold": "unverified",
+      "code_snapshot": "04cfe6df800156e5339d565e03236302363c829c",
+      "code_build_version_matches_api_snapshot": "not independently established"
+    },
+    {
+      "character": "regent",
+      "source_api": "https://spire-codex.com/api/images/game/v0.107.1/animations/browse?path=characters/regent&offset=0&limit=100",
+      "observed_clip_names": [
+        "attack",
+        "attack_sovereign",
+        "cast",
+        "die",
+        "hurt",
+        "idle_loop",
+        "relaxed_loop"
+      ],
+      "observed_code_trigger_mapping": {
+        "Idle": "idle_loop",
+        "Attack": "attack",
+        "Cast": "cast",
+        "Hit": "hurt",
+        "Dead": "die",
+        "Relaxed": "relaxed_loop",
+        "sovereignBladeTrigger": "attack_sovereign"
+      },
+      "directory_only_unregistered_in_inspected_code": [],
+      "excluded_ignore_clips": [],
+      "native_low_health_threshold": "unverified",
+      "code_snapshot": "04cfe6df800156e5339d565e03236302363c829c",
+      "code_build_version_matches_api_snapshot": "not independently established"
+    }
+  ],
+  "retrieved_date_client": "2026-10-27",
+  "research_date_client": "2026-10-27",
+  "date_basis": "session client date supplied for this deliverable; not a host UTC timestamp"
+}

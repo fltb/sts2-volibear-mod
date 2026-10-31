@@ -1,0 +1,13 @@
+{
+  "id": "U31",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "6f2b807197d837dde0aa77493bbcca13e7ed4d2f69dcf22adbb61a530045dc4b",
+  "observations": "踏坑与石道包含大量细碎岩面、散石和裂纹，灰阶缩图主路径被碎面吞没，明显偏离基准的完整大形。保持踏坑到唯一远熊的路线并合并地面与坑缘。",
+  "defects": [
+    "踏坑与石道包含大量细碎岩面、散石和裂纹，灰阶缩图主路径被碎面吞没，明显偏离基准的完整大形。保持踏坑到唯一远熊的路线并合并地面与坑缘。"
+  ],
+  "recorded_at": "2026-10-27T17:55:07+00:00"
+}

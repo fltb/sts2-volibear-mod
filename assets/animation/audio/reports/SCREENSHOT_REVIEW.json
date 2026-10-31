@@ -1,0 +1,21 @@
+{
+  "status": "reviewed",
+  "reviewer": "root",
+  "actually_viewed": [
+    {
+      "file": "audio_desktop.png",
+      "sha256": "4223278f6a70abfeb6a066f52364b9f585d65ddb4a366797460c385d75cdbc0b"
+    },
+    {
+      "file": "audio_mobile.png",
+      "sha256": "699568f1168a72d6153fe15d1e8c7d65bb54c02b21c1a0281bc7155bf69a77ec"
+    }
+  ],
+  "findings": [
+    "Chinese text rendered clearly with local subset font",
+    "Desktop three-column grid and mobile one-column controls do not overlap",
+    "Sub-second clips display 0:00 in native controls; precise duration is separately visible in text",
+    "Playback and decoding evidence is in browser_validation.json; no human listening claim"
+  ],
+  "browser_report_sha256": "75f1bdb56427085e308496509dcc851374a8b10e3a086be29882ca240b02c9c4"
+}

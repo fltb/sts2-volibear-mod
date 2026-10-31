@@ -1,0 +1,147 @@
+[
+  {
+    "id": "U10",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "2b66443a1c333cb86729bb06a9e299f90b4728367db5edf74cf145b631b94b65",
+    "master_sha256": "8d7e1d930985bd42b29a73dba84be5688e8a88245f5248e45125c2bb482fc501",
+    "comparison_sha256": "c07b2cb2c98669878e3766b5bc49fb9edca0416bb34fa60145ccd42f28430f0c",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "单枚短硬青爪从真实指端生出，指根自然由上缘进入，爪尖与厚石沿相切并挑出一片主薄屑及一小片。没有整只巨掌或多爪排列。",
+    "baseline_comparison": "与C08材料锋利、U40小接点的关系一致；微距只截一个真实指端，轮廓在125像素清楚，石面浅细纹未破坏大暗形。",
+    "paw_orientation_observation": "爪根嵌入指端，弧度沿同一指轴收尖，不是长在腕侧的骨钩。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R13",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "13ac31acfb028d5d3079d51cd6f1b4c3b1d5672eaf951727bb212c7419abae76",
+    "master_sha256": "b39c2b6f797d7c7c1eff0dd7d2ebcca9cde4c2bb4ff07083a2b1eb0e928a3489",
+    "comparison_sha256": "5772f6f918843399350e0190c53fd64cc77992689c397c22828e5630a1de0a76",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "唯一完整熊背影跨过人造石路末端进入林地，双侧树影组织前方开口；远谷水道与山体提供纵深，没有熊分身或光尾。",
+    "baseline_comparison": "与U25猎意、C13安静呼吸共用灰绿与白灰基调，切为背向远行环境场景；125像素仍读人造路到野地的转换，不是另一张近脸。",
+    "paw_orientation_observation": "肩髋连续，后腿分开，一只后足抬起、另一足承重；远前肢被身体局部遮挡，四足行进逻辑成立。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 17,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C03",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "b9fb8ecc2be6be9a399a1d22b8bb00df5bc76d23c089417d62f0722c5400dbd3",
+    "master_sha256": "ff2cdf1d7d9ddc7fb0e70c7747ba249b6e55112abc6cf6abdaba7572d93dd162",
+    "comparison_sha256": "d504f08bfa7f66b556aa8fdcebd7a01194d983785aa1a8e52e53cb9ceb56cb0a",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "厚石板上翻与盾缘下陷成为清楚上下反力，盾后握手、短臂、暗肩连续；上缘熊只留短承力块，飞石与多支雷已删除。",
+    "baseline_comparison": "达到C22/R17的完整大形倾向：暖地面、厚板、暗盾三块主形，雷仅沿坑底薄线离开。缩图和蒙版仍保留接点及敌握持关系。",
+    "paw_orientation_observation": "熊掌通过盾缘局部遮挡，腕掌连续；敌手实际握盾缘且连前臂，不是漂浮断手。",
+    "quality_axes": {
+      "main_read": 19,
+      "large_shapes": 19,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U41",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "711d73fd0842bf7f7e19a4e7be8c78fbeed2391e2181e8bcd6a52b31be911b02",
+    "observations": "四个独立粗指根与长弯爪仍像断下来的活体掌，旧壳和地面有大量龟裂纹。需改成旧壳一角翻开，露出一体扁平深蓝硬刃板和短三角齿，清除指根、关节、弯指甲与碎纹。",
+    "defects": [
+      "四个独立粗指根与长弯爪仍像断下来的活体掌，旧壳和地面有大量龟裂纹。需改成旧壳一角翻开，露出一体扁平深蓝硬刃板和短三角齿，清除指根、关节、弯指甲与碎纹。"
+    ]
+  },
+  {
+    "id": "C04",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "7b520af92a01ddeb9610eb498f0d7f9ca07e1889f00777ae864cc4270808b2f1",
+    "observations": "交叉复审后root重新打开全图及比较图：结构本身成立，但巨粗臂从左上斜贯到右侧掌占半幅，仍落入用户反对的长臂主形重复。撤回该构图的先前放行，改为敌盔/肩为主、上缘正中短小掌竖向下压。",
+    "defects": [
+      "交叉复审后root重新打开全图及比较图：结构本身成立，但巨粗臂从左上斜贯到右侧掌占半幅，仍落入用户反对的长臂主形重复。撤回该构图的先前放行，改为敌盔/肩为主、上缘正中短小掌竖向下压。"
+    ],
+    "supersedes_prior_decision": "reviews/v7/decisions/C04_attempt01_initial_approval.json"
+  }
+]

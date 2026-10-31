@@ -1,0 +1,25 @@
+{
+  "revision": 4,
+  "card_id": "B02",
+  "provider": "builtin image_gen",
+  "generation_calls": 1,
+  "attempts": [
+    {
+      "attempt": 1,
+      "decision": "selected",
+      "raw_path": "cards/source/revision_v4/B02_attempt1.png",
+      "raw_sha256": "b2727d8a8417ad141b16e3ee4026dbc6b25ded663af4e175ce03ae27d078e5bc",
+      "prompt_path": "cards/source/revision_v4/B02_attempt1_prompt.txt",
+      "prompt_sha256": "0847c8f39c613fa7ed108e7bea40a363964ea3293d99a3cf36b41ea9c48a32a9",
+      "input_path": "cards/source/revision_v4/B02_before_v3.png",
+      "input_sha256": "8a90bf2fef5e9af5f009ab09dcbced985a8735e5a1d0deb04534e538094306c9",
+      "transparent_background": false,
+      "actual_source_size": [
+        1438,
+        1093
+      ]
+    }
+  ],
+  "canonical_master": "cards/masters/B02.png",
+  "approval_record": "reviews/B02.json"
+}

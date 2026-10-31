@@ -1,0 +1,41 @@
+{
+  "id": "U04",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "e31179d85b084ffda5afe8a9a02f5991056f35163c5a73633b1d76970970ac30",
+  "master_sha256": "7c427eb6fe3cf41ae1990af3731686361fd5cdcfcd0012a673b241098268952c",
+  "comparison_sha256": "198d4a575162c59e172a53f5bb8f8a9a3c2d22fd140df50f018ed26592a51f7c",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "宽旧暗伤沿真实肩颈曲面转折，头颈背连续，外来断矛在肩外缘擦过。旧痕为主，小蓝纹与少量木屑为次。",
+  "baseline_comparison": "与C12同为肩承击，但取消中心撞星并以旧战痕和完整侧脸区分；圆形裁切仍保留旧痕与外矛。",
+  "paw_orientation_observation": "无爪特写，头、颈、厚肩相接，没有额外突出的关节块或断开躯干。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:05+00:00"
+}

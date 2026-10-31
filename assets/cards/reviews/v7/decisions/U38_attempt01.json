@@ -1,0 +1,13 @@
+{
+  "id": "U38",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "84f9f3958ea8da80d6a31b31f76f443c0da9eaa80121f1ffb4f946bb2ca2175e",
+  "observations": "肩到髋拉长、伸出前臂过长且整体占幅过大，近似巨爪带着身体飞扑；云、地、雷碎纹竞争焦点。",
+  "defects": [
+    "肩到髋拉长、伸出前臂过长且整体占幅过大，近似巨爪带着身体飞扑；云、地、雷碎纹竞争焦点。"
+  ],
+  "recorded_at": "2026-10-27T17:31:54+00:00"
+}

@@ -1,0 +1,631 @@
+{
+  "schema_version": 1,
+  "research_date_client": "2026-10-27",
+  "integration_status": "integration_source_uncompiled",
+  "action_count": 24,
+  "sequence_count": 26,
+  "fps": 24,
+  "canvas_size": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    250,
+    442
+  ],
+  "feet_ground_y": 442,
+  "facing": "right",
+  "clips": [
+    {
+      "clip": "idle_loop",
+      "classification": "native_behavior_coverage",
+      "trigger": "Idle",
+      "loop": true,
+      "skin": "normal",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "relaxed_loop",
+      "classification": "native_behavior_coverage",
+      "trigger": "Relaxed",
+      "loop": true,
+      "skin": "normal",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "weak_loop",
+      "classification": "project_extension",
+      "trigger": "LowHealth",
+      "loop": true,
+      "skin": "normal",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "attack",
+      "classification": "native_behavior_coverage",
+      "trigger": "Attack",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.54,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "attack_heavy",
+      "classification": "project_extension",
+      "trigger": "HeavyAttack",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.3333333333,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.8,
+          "event": "impact"
+        },
+        {
+          "time": 1.02,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "bite",
+      "classification": "project_extension",
+      "trigger": "Bite",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.53,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "cast",
+      "classification": "native_behavior_coverage",
+      "trigger": "Cast",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.5,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.9,
+          "event": "cast_release"
+        },
+        {
+          "time": 1.2,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "hurt",
+      "classification": "native_behavior_coverage",
+      "trigger": "Hit",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 0.6666666667,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.12,
+          "event": "hurt_recoil"
+        },
+        {
+          "time": 0.4,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "block",
+      "classification": "project_extension",
+      "trigger": "Block",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.28,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.48,
+          "event": "blocked_impact"
+        },
+        {
+          "time": 0.74,
+          "event": "guard_off"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "counter",
+      "classification": "project_extension",
+      "trigger": "Counter",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.3333333333,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.35,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.52,
+          "event": "absorbed_impact"
+        },
+        {
+          "time": 0.84,
+          "event": "counter_impact"
+        },
+        {
+          "time": 1.08,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_enter",
+      "classification": "project_extension",
+      "trigger": "DomainEnter",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.8333333333,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.88,
+          "event": "domain_on"
+        },
+        {
+          "time": 1.5,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_idle",
+      "classification": "project_extension",
+      "trigger": "Idle when domain active",
+      "loop": true,
+      "skin": "domain",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_exit",
+      "classification": "project_extension",
+      "trigger": "DomainExit",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 1.5,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.9,
+          "event": "domain_off"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "feral_enter",
+      "classification": "project_extension",
+      "trigger": "FeralEnter (one-shot presentation only)",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.5,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.92,
+          "event": "feral_on"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true,
+      "completion": "clear optional feral pose, return actual domain/weak/normal; hand-transform card effect does not create a character buff"
+    },
+    {
+      "clip": "feral_idle",
+      "classification": "project_extension",
+      "trigger": "FeralPose with explicit TTL",
+      "loop": true,
+      "skin": "normal",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [],
+      "required_for_delivery": true,
+      "presentation_only": true,
+      "ttl_default_seconds": 0.5,
+      "ttl_cap_seconds": 0.5,
+      "must_clear": true,
+      "max_display_frames": 12
+    },
+    {
+      "clip": "die",
+      "classification": "native_behavior_coverage",
+      "trigger": "Dead",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.6666666667,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 1.22,
+          "event": "body_ground_impact"
+        },
+        {
+          "time": 1.6,
+          "event": "dead"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_attack",
+      "classification": "project_extension",
+      "trigger": "Attack when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 1.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.54,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_cast",
+      "classification": "project_extension",
+      "trigger": "Cast when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 1.5,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.9,
+          "event": "cast_release"
+        },
+        {
+          "time": 1.2,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_hurt",
+      "classification": "project_extension",
+      "trigger": "Hit when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 0.6666666667,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.12,
+          "event": "hurt_recoil"
+        },
+        {
+          "time": 0.4,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_block",
+      "classification": "project_extension",
+      "trigger": "Block when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 1.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.28,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.48,
+          "event": "blocked_impact"
+        },
+        {
+          "time": 0.74,
+          "event": "guard_off"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_weak_loop",
+      "classification": "project_extension",
+      "trigger": "LowHealth or Idle when domain and low health",
+      "loop": true,
+      "skin": "domain",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "domain_die",
+      "classification": "project_extension",
+      "trigger": "Dead when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 1.6666666667,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 1.22,
+          "event": "body_ground_impact"
+        },
+        {
+          "time": 1.6,
+          "event": "dead"
+        },
+        {
+          "time": 1.12,
+          "event": "domain_off"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "roar",
+      "classification": "project_extension",
+      "trigger": "Roar",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 1.5,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.52,
+          "event": "roar_release"
+        },
+        {
+          "time": 0.98,
+          "event": "roar_peak"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    },
+    {
+      "clip": "storm_leap",
+      "classification": "project_extension",
+      "trigger": "StormLeap",
+      "loop": false,
+      "skin": "normal",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.46,
+          "event": "takeoff"
+        },
+        {
+          "time": 0.92,
+          "event": "apex"
+        },
+        {
+          "time": 1.44,
+          "event": "landing_impact"
+        },
+        {
+          "time": 1.63,
+          "event": "aftershock"
+        },
+        {
+          "time": 1.8,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true
+    }
+  ],
+  "variants": [
+    {
+      "clip": "domain_roar",
+      "classification": "project_extension",
+      "trigger": "Roar when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 1.5,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.52,
+          "event": "roar_release"
+        },
+        {
+          "time": 0.98,
+          "event": "roar_peak"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true,
+      "base_clip": "roar"
+    },
+    {
+      "clip": "domain_storm_leap",
+      "classification": "project_extension",
+      "trigger": "StormLeap when domain active",
+      "loop": false,
+      "skin": "domain",
+      "planned_duration_seconds": 2.0,
+      "timing_source": "animation_runtime/rig/motions.json; final manifest is authoritative",
+      "events_time_unit": "seconds",
+      "events": [
+        {
+          "time": 0.46,
+          "event": "takeoff"
+        },
+        {
+          "time": 0.92,
+          "event": "apex"
+        },
+        {
+          "time": 1.44,
+          "event": "landing_impact"
+        },
+        {
+          "time": 1.63,
+          "event": "aftershock"
+        },
+        {
+          "time": 1.8,
+          "event": "recover"
+        }
+      ],
+      "required_for_delivery": true,
+      "base_clip": "storm_leap"
+    }
+  ],
+  "rest_policy": "domain weak > domain > low health > TTL-limited feral pose > normal",
+  "low_health_visual_hysteresis": {
+    "enter_at_or_below": 0.3,
+    "exit_at_or_above": 0.35,
+    "configurable": true,
+    "vanilla_fact": false
+  },
+  "domain_damage_aliases": {
+    "HeavyAttack": "domain_attack",
+    "Bite": "domain_attack",
+    "Counter": "domain_attack"
+  },
+  "card_bindings": {
+    "C18": {
+      "rule_order": "apply actual domain rule first",
+      "body_trigger": "Roar",
+      "resolved_sequence": "domain_roar",
+      "domain_on_effect": "short VFX only; do not prepend full domain_enter"
+    },
+    "R31": {
+      "rule_order": "apply actual domain rule first",
+      "body_trigger": "StormLeap",
+      "resolved_sequence": "domain_storm_leap",
+      "domain_on_effect": "short VFX only; do not prepend full domain_enter"
+    },
+    "U23": {
+      "body_trigger": "Roar",
+      "resolved_sequence": "roar or domain_roar according to actual domain state"
+    }
+  },
+  "domain_transition_policy": "other entry only false->true; refresh duration uses VFX pulse, not a repeated full body entry",
+  "post_challenge_counter": {
+    "cards": [
+      "C10",
+      "U28",
+      "R09"
+    ],
+    "helper": "VolibearSpriteFrames.PlayPostChallengeCounter(sprite, machine, flags)",
+    "normal": {
+      "clip": "counter",
+      "frames_zero_based_inclusive": [
+        14,
+        31
+      ],
+      "event_time_offset_seconds": 0.5833333333333334
+    },
+    "domain": {
+      "domain_fallback_clip": "domain_attack",
+      "frames_zero_based_inclusive": [
+        0,
+        23
+      ],
+      "event_time_offset_seconds": 0,
+      "dedicated_variant": false
+    },
+    "event_policy": "read actual selected clip; skip events before offset; subtract offset for remaining presentation cues; no rule effects"
+  }
+}

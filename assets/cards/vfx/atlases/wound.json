@@ -1,0 +1,304 @@
+{
+  "id": "wound",
+  "label_zh": "易伤裂纹",
+  "family": "status",
+  "fps": 24,
+  "frame_count": 22,
+  "duration_seconds": 0.9166666666666666,
+  "loop": false,
+  "anchor": "target_status",
+  "layer_z": 30,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    70,
+    73,
+    185,
+    188
+  ],
+  "atlas": {
+    "image": "atlases/wound.png",
+    "json": "atlases/wound.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "cd39ee41a5940c6d83b9cccd6d679a658040835367959b766c49db846fea5f86"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/001.png",
+      "sha256": "c9f834bcde72afbc3ff64694f2c61884a68422f864e089157c32bb9cd1381e47"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/002.png",
+      "sha256": "33bc7e0d289d6802160230a62356515ad0b268b5b83a2cc16bf719f63da3e7dd"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/003.png",
+      "sha256": "1be8e1a811571db918ee66bdc5d65a761f027c71471a7ff6b68c1ff7e8a89885"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/004.png",
+      "sha256": "401ad04607fcf238c8024472cc3af94e5258835a3c411aac80abe41035e84f66"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/005.png",
+      "sha256": "c599ee177e72a219d16b2c9cf7575873788681860dadcb046608bce4bf6ef332"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/006.png",
+      "sha256": "3de8d13df639afd2a035e0e01c8cd6fc73e7964f64c2c2cec712ef65dd537c30"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/wound/007.png",
+      "sha256": "8cc046de3a68e5cf70e800e707c0aab0bc282e909cd8d196206fd1a9d02578e5"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/008.png",
+      "sha256": "808bf4e008081a84b1450447cbd1617cd185781774de1ac25e2fd89497e005d8"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/009.png",
+      "sha256": "afb8bb0723ef025451331948e2e80df1865c5be66ccbc6145a1a995d4682e8c6"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/010.png",
+      "sha256": "089fb4736b54de0673f1b2a7a04071984a21650358db8740ba2d205a750f4894"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/011.png",
+      "sha256": "bf8c651b508c4dc2c6ac2c29ea556dd3fa1d4a2bb0b3ccf2a3989fe3faf8165c"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/012.png",
+      "sha256": "c0cd503d27d45fac86efd11b9a32463f4cc2cd0860bbe3200ddf0ed5bc813881"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/013.png",
+      "sha256": "6ff6a4d8b2c7b3a79f9cb40dbc85a4e072d49d7919c1929d9eba420875c190cc"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/014.png",
+      "sha256": "7a48c81f86c2b286a1b09642500bb33f20a2089a4fc0e4d4759f7c9f0f6c48f8"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/wound/015.png",
+      "sha256": "04a2e11aa904a5caa8fb3ea71a11a77575b0fac4bd42890f404a68c2426237b2"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/wound/016.png",
+      "sha256": "ecec68c249053703f32337ffb0767a5c50995cd8146e96a6cdfacdf359b43616"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/wound/017.png",
+      "sha256": "5a7b4fabaf4a1dff8580e1e04736facc72f46e27a3d336ade9f800126239c5f1"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/wound/018.png",
+      "sha256": "f3ecce8cfc5c0299e8e4bfb8aaebc5ea021b6c37fd6458d6453a493ea00b4623"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/wound/019.png",
+      "sha256": "860481c811800295f95c5255093a0cb19eb8e6aea606d9935aa74086a569f93d"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/wound/020.png",
+      "sha256": "3b2a6ec31aa708d54d21bc8693e472e841f4bf3df2406e2a56d4e74cce4aa579"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/wound/021.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.wound",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

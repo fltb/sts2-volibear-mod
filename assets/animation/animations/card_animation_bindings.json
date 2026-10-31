@@ -1,0 +1,5359 @@
+{
+  "schema_version": "1.0",
+  "binding_kind": "portable_semantic_plan_not_game_api",
+  "fps": 24,
+  "card_count": 89,
+  "clip_source": "rig/motions.json",
+  "clip_source_sha256": "58bae5c7bfde4b5e7a19d4a4fc1ff293531511502455fc2416b62df8bb4003c3",
+  "main_clip_count": 24,
+  "domain_variant_count": 2,
+  "playable_sequence_count": 26,
+  "total_source_frames": 940,
+  "clips": [
+    {
+      "name": "idle_loop",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": true,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": []
+    },
+    {
+      "name": "relaxed_loop",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": true,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": []
+    },
+    {
+      "name": "weak_loop",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": true,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": []
+    },
+    {
+      "name": "attack",
+      "fps": 24,
+      "duration_seconds": 1.0,
+      "frame_count": 24,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.54,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "attack_heavy",
+      "fps": 24,
+      "duration_seconds": 1.3333333333,
+      "frame_count": 32,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.8,
+          "event": "impact"
+        },
+        {
+          "time": 1.02,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "bite",
+      "fps": 24,
+      "duration_seconds": 1.0,
+      "frame_count": 24,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.53,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "cast",
+      "fps": 24,
+      "duration_seconds": 1.5,
+      "frame_count": 36,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.9,
+          "event": "cast_release"
+        },
+        {
+          "time": 1.2,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "hurt",
+      "fps": 24,
+      "duration_seconds": 0.6666666667,
+      "frame_count": 16,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.12,
+          "event": "hurt_recoil"
+        },
+        {
+          "time": 0.4,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "block",
+      "fps": 24,
+      "duration_seconds": 1.0,
+      "frame_count": 24,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.28,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.48,
+          "event": "blocked_impact"
+        },
+        {
+          "time": 0.74,
+          "event": "guard_off"
+        }
+      ]
+    },
+    {
+      "name": "counter",
+      "fps": 24,
+      "duration_seconds": 1.3333333333,
+      "frame_count": 32,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.35,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.52,
+          "event": "absorbed_impact"
+        },
+        {
+          "time": 0.84,
+          "event": "counter_impact"
+        },
+        {
+          "time": 1.08,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_enter",
+      "fps": 24,
+      "duration_seconds": 1.8333333333,
+      "frame_count": 44,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.88,
+          "event": "domain_on"
+        },
+        {
+          "time": 1.5,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_idle",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": true,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": []
+    },
+    {
+      "name": "domain_exit",
+      "fps": 24,
+      "duration_seconds": 1.5,
+      "frame_count": 36,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.9,
+          "event": "domain_off"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "feral_enter",
+      "fps": 24,
+      "duration_seconds": 1.5,
+      "frame_count": 36,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.92,
+          "event": "feral_on"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "feral_idle",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": true,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": []
+    },
+    {
+      "name": "die",
+      "fps": 24,
+      "duration_seconds": 1.6666666667,
+      "frame_count": 40,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 1.22,
+          "event": "body_ground_impact"
+        },
+        {
+          "time": 1.6,
+          "event": "dead"
+        }
+      ]
+    },
+    {
+      "name": "domain_attack",
+      "fps": 24,
+      "duration_seconds": 1.0,
+      "frame_count": 24,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.54,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_cast",
+      "fps": 24,
+      "duration_seconds": 1.5,
+      "frame_count": 36,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.9,
+          "event": "cast_release"
+        },
+        {
+          "time": 1.2,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_hurt",
+      "fps": 24,
+      "duration_seconds": 0.6666666667,
+      "frame_count": 16,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.12,
+          "event": "hurt_recoil"
+        },
+        {
+          "time": 0.4,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_block",
+      "fps": 24,
+      "duration_seconds": 1.0,
+      "frame_count": 24,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.28,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.48,
+          "event": "blocked_impact"
+        },
+        {
+          "time": 0.74,
+          "event": "guard_off"
+        }
+      ]
+    },
+    {
+      "name": "domain_weak_loop",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": true,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": []
+    },
+    {
+      "name": "domain_die",
+      "fps": 24,
+      "duration_seconds": 1.6666666667,
+      "frame_count": 40,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 1.22,
+          "event": "body_ground_impact"
+        },
+        {
+          "time": 1.6,
+          "event": "dead"
+        },
+        {
+          "time": 1.12,
+          "event": "domain_off"
+        }
+      ]
+    },
+    {
+      "name": "roar",
+      "fps": 24,
+      "duration_seconds": 1.5,
+      "frame_count": 36,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.52,
+          "event": "roar_release"
+        },
+        {
+          "time": 0.98,
+          "event": "roar_peak"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "storm_leap",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": false,
+      "skin": "normal",
+      "base_clip": null,
+      "sequence_kind": "clip",
+      "visual_markers": [
+        {
+          "time": 0.46,
+          "event": "takeoff"
+        },
+        {
+          "time": 0.92,
+          "event": "apex"
+        },
+        {
+          "time": 1.44,
+          "event": "landing_impact"
+        },
+        {
+          "time": 1.63,
+          "event": "aftershock"
+        },
+        {
+          "time": 1.8,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_roar",
+      "fps": 24,
+      "duration_seconds": 1.5,
+      "frame_count": 36,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": "roar",
+      "sequence_kind": "domain_variant",
+      "visual_markers": [
+        {
+          "time": 0.52,
+          "event": "roar_release"
+        },
+        {
+          "time": 0.98,
+          "event": "roar_peak"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ]
+    },
+    {
+      "name": "domain_storm_leap",
+      "fps": 24,
+      "duration_seconds": 2.0,
+      "frame_count": 48,
+      "loop": false,
+      "skin": "domain",
+      "base_clip": "storm_leap",
+      "sequence_kind": "domain_variant",
+      "visual_markers": [
+        {
+          "time": 0.46,
+          "event": "takeoff"
+        },
+        {
+          "time": 0.92,
+          "event": "apex"
+        },
+        {
+          "time": 1.44,
+          "event": "landing_impact"
+        },
+        {
+          "time": 1.63,
+          "event": "aftershock"
+        },
+        {
+          "time": 1.8,
+          "event": "recover"
+        }
+      ]
+    }
+  ],
+  "scope_note": "这是89卡与已交付动画的视觉接线计划。字段是便携语义约定，不声称任何游戏SDK已存在同名API；接入者把真实游戏事件映射到这些语义。所有规则以原卡表及明确覆盖为准。",
+  "optional_vfx_status": "V5已交付独立RGBA特效图集与完整89卡绑定；新接入使用clean角色图集并独立叠加特效，避免与旧烘焙特效重复。原动作与机制语义不变。",
+  "global_policy": {
+    "domain_router": {
+      "dedupe_key": "owner_id + authoritative_state_revision（便携字段示例，接入者映射真实引擎信息）",
+      "false_to_true": "常规情况只触发一次domain_enter并占本卡主动作；C18/R31专用例外在真实进入后分别播domain_roar/domain_storm_leap，领域进入只短VFX一次，不再追加完整enter。",
+      "true_to_true": "时长增加/永久化等已有领域变化只发一次domain_pulse，不重播enter。",
+      "true_to_false": "存活时domain_exit一次，结束回当前真实normal/weak loop；死亡时直接die/domain_die，跳过exit。",
+      "on_interrupt": "enter被新动作打断不重播；领域身份与loop仍读取真实active。",
+      "normal_to_domain_clip_map": {
+        "attack": "domain_attack",
+        "cast": "domain_cast",
+        "hurt": "domain_hurt",
+        "block": "domain_block",
+        "weak_loop": "domain_weak_loop",
+        "die": "domain_die",
+        "roar": "domain_roar",
+        "storm_leap": "domain_storm_leap"
+      },
+      "heavy_policy": "领域内attack_heavy选择domain_attack并保留重击短VFX。",
+      "fallback_clip_map": {
+        "attack_heavy": "domain_attack",
+        "bite": "domain_attack",
+        "counter": "domain_attack",
+        "feral_enter": "domain_cast"
+      },
+      "unsupported_variants": "不臆造domain_attack_heavy/domain_bite/domain_counter/domain_feral_enter；按fallback_clip_map使用现有领域皮肤动作，保留原语义VFX。counter领域fallback全24帧，不套普通counter帧段。"
+    },
+    "incoming_reaction": {
+      "source": "实际攻击结算结果，不是卡牌on_play或护盾VFX",
+      "death": "最高优先级，按死亡前真实领域状态选择domain_die或die；清除所有待播counter/cast/feral/loop请求。",
+      "hp_loss_positive": "hurt或domain_hurt；若同包也吸收格挡，护边仅短VFX，不再串播完整block。",
+      "fully_blocked": "block或domain_block；密集多段仅短接触VFX/重用反应，不为每段阻塞一秒。",
+      "no_actual_attack": "不播hurt/block命中反应。"
+    },
+    "loop_selector": {
+      "priority": [
+        "dead终帧保持",
+        "active primary/reaction",
+        "真实领域且真实弱姿态→domain_weak_loop",
+        "真实领域→domain_idle",
+        "真实弱姿态→weak_loop",
+        "已确认非战斗放松展示→relaxed_loop",
+        "idle_loop"
+      ],
+      "weak_pose_source": "优先读取宿主已有弱姿态表现条件；宿主没有时可采用动画manifest.state_rules已定义的纯视觉滞回阈值（进入0.30、退出0.35）。只换姿态，不创建弱化/负面状态，不改游戏数值。",
+      "feral_idle": "仅短时表现窗口最多12帧，无领域/弱姿态/动作时可用；它不是常驻战斗状态。"
+    },
+    "event_priority": [
+      "death",
+      "actual incoming reaction or newer owner action",
+      "actual domain state transition",
+      "one per-card primary motion",
+      "short optional VFX",
+      "idle loop"
+    ],
+    "card_primary_budget": {
+      "max_starts_per_play": 1,
+      "state_transition_replacement": "普通领域入场替换本次主体动作；C18/R31实际开域后使用专用domain_roar/domain_storm_leap及短进入VFX。任何分支都不串播cast+attack+domain_enter。",
+      "reactive_exceptions": "真实敌方攻击的hurt/block及死亡是独立战斗反应，不伪造为第二次出牌；尽可能短且可打断。",
+      "no_animation_drives_rules": true,
+      "multi_hit": "主体clip一次，实际每段命中用短VFX；不能从X值重复等待整套动作。",
+      "domain_reservation": "本卡能实际开启领域且此前未激活时，on_play先保留主动作额度，等待真实false→true；普通进入选domain_enter，C18/R31分别选domain_roar/domain_storm_leap加短进入VFX；领域前伤害只显示真实VFX。"
+    },
+    "forced_action_guard": "后置counter只在本次至少一个敌行动真实开始并已结算、角色存活、战斗继续且后置效果实际呈现时播放；R09等待整个action_group结束。没有真实迎战时可展示真实后置伤害的普通接触VFX，但不声称发生了承击反扑。",
+    "post_counter_adapter": {
+      "supplied_file": "animations/integration/VolibearSpriteFrames.cs",
+      "supplied_method": "PlayPostChallengeCounter",
+      "scope": "提供的可选C#适配函数，不是宿主内建API；C10/U28/R09仅在上述真实迎战条件满足后调用。",
+      "return_contract": "返回实际Clip/StartFrame/EndFrameInclusive/TimeOffsetSeconds；被拒绝返回null，不伪造成功。",
+      "event_dispatch": "读取返回Clip对应的manifest事件，跳过早于TimeOffsetSeconds的事件，其余事件时间减TimeOffsetSeconds。普通counter使用counter_impact；领域domain_attack使用impact，名称和时刻不能混用。"
+    },
+    "animation_markers_are_visual_only": "impact/recover/domain_on/domain_off/feral_on/dead等clip标记仅用于声音、帧段和特效同步。它们不造成伤害、不调用敌行动、不授予/清除领域或兽化、不改变胜负。游戏权威事件优先于标记。",
+    "multiplayer_owner_policy": "迎战沿用游戏给出的原攻击目标。只有真实受击实体播放hurt/block；发起迎战者不自动假演受伤。吸收量、返能、格挡和领域归属全部读取游戏事件，不在表现层推算。",
+    "late_event_policy": "每条请求关联真实play_id/action_group/owner和状态修订。死亡、战斗结束或新行动替代后，过时的主体请求丢弃；实际伤害/牌变换记录仍按游戏事实处理，不因动画丢弃而回滚规则。"
+  },
+  "vfx_vocabulary": {
+    "contact": "短接触痕或受击亮点",
+    "guard_edge": "贴身护边",
+    "lightning_path": "单条或少数粗雷形",
+    "domain_pulse": "已有领域的短边界脉冲",
+    "hand_transform": "仅作用在实际转换的手牌上的爪/躯替换过渡",
+    "card_motion": "真实抽取/检索/回收/消耗牌的短轨迹",
+    "state_gain": "真实力量/敏捷/能量/生命/减费等收益的小亮点",
+    "tracking": "短追猎路径/目标痕迹",
+    "voice_wave": "宽声浪"
+  },
+  "counts_by_primary_clip": {
+    "attack": 15,
+    "block": 14,
+    "attack_heavy": 10,
+    "counter": 3,
+    "relaxed_loop": 3,
+    "cast": 34,
+    "roar": 2,
+    "bite": 1,
+    "feral_enter": 6,
+    "storm_leap": 1
+  },
+  "cards": [
+    {
+      "id": "B01",
+      "asset_key": "b01",
+      "name": "打击",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成6伤害。",
+      "upgraded_effect": "造成9伤害。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "右臂单次下挥，单目标接触",
+          "optional_vfx": {
+            "description": "短爪痕贴实际命中点",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "短爪痕贴实际命中点",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "B02",
+      "asset_key": "b02",
+      "name": "防御",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得5格挡。",
+      "upgraded_effect": "获得8格挡。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "右臂上架护住头胸",
+          "optional_vfx": {
+            "description": "贴前臂的短护边，格挡数值由游戏显示",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "贴前臂的短护边，格挡数值由游戏显示",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "B03",
+      "asset_key": "b03",
+      "name": "霆爪",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成7伤害。对全体造成2雷伤。",
+      "upgraded_effect": "造成10伤害。对全体造成3雷伤。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→全体雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "实体爪先出，雷波从爪端跟出",
+          "optional_vfx": {
+            "description": "爪击目标短痕；实际全体雷伤时一条横向薄雷带",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "爪击目标短痕；实际全体雷伤时一条横向薄雷带",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "B04",
+      "asset_key": "b04",
+      "name": "挺身迎战",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "获得5格挡。造成8伤害。迎战。",
+      "upgraded_effect": "获得8格挡。造成11伤害。迎战。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→普通攻击→迎战",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "前肩顶入并挥爪，随后接受来势",
+          "optional_vfx": {
+            "description": "先护边、再爪接触、再迎战反应；无事后counter",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "resume_current_state_without_counter",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "先护边、再爪接触、再迎战反应；无事后counter",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C01",
+      "asset_key": "c01",
+      "name": "逼近",
+      "type": "攻击",
+      "cost": "0",
+      "base_effect": "造成6伤害。",
+      "upgraded_effect": "造成9伤害。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短促向前抢位，不追加施法姿态",
+          "optional_vfx": {
+            "description": "地面一小段前移尘迹与单点爪痕",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "地面一小段前移尘迹与单点爪痕",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C02",
+      "asset_key": "c02",
+      "name": "双爪",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成5伤害，重复2次。",
+      "upgraded_effect": "造成7伤害，重复2次。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击第1段→普通攻击第2段",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "一次挥爪动作内表现两次斜切",
+          "optional_vfx": {
+            "description": "两段实际命中各一条短切痕，不重播两套全身动作",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": 2
+        }
+      },
+      "optional_vfx_note": "两段实际命中各一条短切痕，不重播两套全身动作",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C03",
+      "asset_key": "c03",
+      "name": "轰雷重击",
+      "type": "攻击",
+      "cost": "2",
+      "base_effect": "造成20伤害。对全体造成5雷伤。",
+      "upgraded_effect": "造成26伤害。对全体造成7雷伤。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→全体雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "沉肩重砸，电沿地面外走",
+          "optional_vfx": {
+            "description": "重接触小震屏可选；随后一圈低位雷带",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "重接触小震屏可选；随后一圈低位雷带",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C04",
+      "asset_key": "c04",
+      "name": "擂首一击",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成12伤害。施加1虚弱。迎战。",
+      "upgraded_effect": "造成16伤害。施加1虚弱。迎战。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→施加虚弱→迎战",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "爪根擂首后迎来敌方动作",
+          "optional_vfx": {
+            "description": "头部小压痕；虚弱标记只在游戏实际施加时出现；不追加counter",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "resume_current_state_without_counter",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "头部小压痕；虚弱标记只在游戏实际施加时出现；不追加counter",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C05",
+      "asset_key": "c05",
+      "name": "雷霆爪击",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "领域1。造成11伤害。",
+      "upgraded_effect": "领域1。造成15伤害。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "领域1→普通攻击",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "开域后爪击；首次开域由domain_enter接管主动作",
+          "optional_vfx": {
+            "description": "真实开域或续时提示；攻击命中时短青爪痕",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "真实开域或续时提示；攻击命中时短青爪痕",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C06",
+      "asset_key": "c06",
+      "name": "进逼",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
+      "upgraded_effect": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→攻击意图分支获得格挡或非攻击意图分支抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "贴身进逼，收益由实际目标意图分支决定",
+          "optional_vfx": {
+            "description": "只给真实发生的格挡护边或抽牌轨迹，不同时显示两个分支",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "只给真实发生的格挡护边或抽牌轨迹，不同时显示两个分支",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C07",
+      "asset_key": "c07",
+      "name": "追嗅",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成8伤害。检索1张攻击。",
+      "upgraded_effect": "造成11伤害。检索1张攻击。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→检索攻击",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "前爪试探并短暂追嗅目标",
+          "optional_vfx": {
+            "description": "爪痕后在实际被检索牌上亮一枚追猎标记",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "爪痕后在实际被检索牌上亮一枚追猎标记",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C08",
+      "asset_key": "c08",
+      "name": "撕开伤口",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成8伤害。施加1易伤。",
+      "upgraded_effect": "造成10伤害。施加2易伤。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→施加易伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短爪撕开一块防线",
+          "optional_vfx": {
+            "description": "命中处宽裂口；实际易伤生效时短暖边",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "命中处宽裂口；实际易伤生效时短暖边",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C09",
+      "asset_key": "c09",
+      "name": "雷霆横扫",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "对全体造成6伤害和3雷伤。",
+      "upgraded_effect": "对全体造成8伤害和4雷伤。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "全体普通攻击→全体雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "宽横扫，身体只挥一次",
+          "optional_vfx": {
+            "description": "普通群攻用一道弧，后续雷伤用贴弧青边；按真实目标落点",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "普通群攻用一道弧，后续雷伤用贴弧青边；按真实目标落点",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C10",
+      "asset_key": "c10",
+      "name": "以牙还牙",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "获得10格挡。迎战。造成8＋吸收的伤害。",
+      "upgraded_effect": "获得13格挡。迎战。造成12＋吸收的伤害。",
+      "primary_motion": {
+        "clip": "counter",
+        "trigger": "after_forced_enemy_action",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。",
+        "segment_applies_to_clip": "counter",
+        "segment_start_frame": 14,
+        "segment_end_frame_exclusive": 32,
+        "event_time_offset_seconds": 0.5833333333333334,
+        "visual_marker_event": "counter_impact",
+        "source_visual_marker_time_seconds": 0.84,
+        "segment_visual_marker_time_seconds": 0.2566666666666666,
+        "domain_segment": {
+          "clip": "domain_attack",
+          "start_frame": 0,
+          "end_frame_exclusive": 24,
+          "use_full_clip": true,
+          "event_time_offset_seconds": 0,
+          "visual_marker_event": "impact",
+          "visual_marker_time_seconds": 0.54,
+          "note": "领域fallback使用完整24帧domain_attack，禁止套普通counter的32帧范围；读取domain_attack自己的impact事件，不套counter_impact名称或时刻。"
+        },
+        "segment_basis": "counter原素材24fps；absorbed_impact位于0.52s，counter_impact位于0.84s。从第14帧（0基）开始，跳过已经发生的架挡/吸收段。",
+        "start_guard": "本次迎战至少一个敌行动真实开始；本次行动/动作组已结算；角色仍活着；战斗继续；后置反击效果实际进入视觉呈现。"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→迎战→造成8＋吸收的伤害（升级12＋吸收）",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_forced_enemy_action",
+          "visual_intent": "先承接再反击，只播counter的反击段",
+          "optional_vfx": {
+            "description": "迎战实际承伤才闪护边；真实后续攻击命中时短折返痕",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "request_counter_segment_once_for_actual_post_effect",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "迎战实际承伤才闪护边；真实后续攻击命中时短折返痕",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C11",
+      "asset_key": "c11",
+      "name": "正面迎敌",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得11格挡。迎战。",
+      "upgraded_effect": "获得14格挡。迎战。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→迎战",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "正面架住身体并接战",
+          "optional_vfx": {
+            "description": "护边只贴身体；迎战结束不假放反击波",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "resume_current_state_without_counter",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。"
+        }
+      },
+      "optional_vfx_note": "护边只贴身体；迎战结束不假放反击波",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C12",
+      "asset_key": "c12",
+      "name": "厚重皮毛",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得10＋力量的格挡。",
+      "upgraded_effect": "获得13＋力量的格挡。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得10＋力量的格挡（升级13＋力量）",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "肩胸毛块收紧形成厚重防线",
+          "optional_vfx": {
+            "description": "一层短厚毛边，不画独立圆盾",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "一层短厚毛边，不画独立圆盾",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C13",
+      "asset_key": "c13",
+      "name": "呼吸",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "抽3张牌。消耗1张手牌。",
+      "upgraded_effect": "抽4张牌。消耗1张手牌。",
+      "primary_motion": {
+        "clip": "relaxed_loop",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_idle",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "max_hold_frames": 12,
+        "play_as_timed_pose": true,
+        "weak_pose_override": "weak_loop或domain_weak_loop由真实弱姿态请求决定"
+      },
+      "resolution_order_verbatim_summary": "抽牌→消耗手牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短时吐纳放松，保持呼吸细动",
+          "optional_vfx": {
+            "description": "抽牌轨迹与实际消耗淡出分开；轻白气仅作视觉",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "抽牌轨迹与实际消耗淡出分开；轻白气仅作视觉",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C14",
+      "asset_key": "c14",
+      "name": "雷霆护身",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得8格挡。领域1。反雷3。消耗。",
+      "upgraded_effect": "获得11格挡。领域1。反雷5。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→领域1→反雷→基础版消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "护身壳贴身体，领域真实进入时主动作改为domain_enter",
+          "optional_vfx": {
+            "description": "护边与领域提示；后续反雷只在实际反雷伤害时短闪",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "护边与领域提示；后续反雷只在实际反雷伤害时短闪",
+      "passive_visual_policy": [
+        "反雷只有真实承受攻击后由游戏结算成功才显示；装饰护边接触不是触发条件。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C15",
+      "asset_key": "c15",
+      "name": "重整爪牙",
+      "type": "技能",
+      "cost": "1→0",
+      "base_effect": "回收1张攻击或雷法，减费1。",
+      "upgraded_effect": "回收1张攻击或雷法，减费1。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "回收攻击或雷法→该牌减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "双爪短暂收拢，重整可用攻势",
+          "optional_vfx": {
+            "description": "实际回收牌沿短轨迹入手；实际减费牌轻闪",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "实际回收牌沿短轨迹入手；实际减费牌轻闪",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C17",
+      "asset_key": "c17",
+      "name": "蓄力",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "本回合获得4力量。",
+      "upgraded_effect": "本回合获得6力量。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "本回合获得力量",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短时收紧胸臂表示蓄力",
+          "optional_vfx": {
+            "description": "力量实际增加时胸臂蓝纹短亮，结束时跟随真实状态消退",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "力量实际增加时胸臂蓝纹短亮，结束时跟随真实状态消退",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C18",
+      "asset_key": "c18",
+      "name": "显圣",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "领域1。对全体施加2虚弱。",
+      "upgraded_effect": "领域1。对全体施加3虚弱。",
+      "primary_motion": {
+        "clip": "roar",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_roar",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "dedicated_domain_action_replaces_full_domain_enter",
+        "selected_after_real_domain_entry": "domain_roar"
+      },
+      "resolution_order_verbatim_summary": "领域1→全体施加虚弱",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "显圣咆哮压住空间；真实开域后用domain_roar和短进入VFX",
+          "optional_vfx": {
+            "description": "领域边缘一圈压低形；真实受虚弱目标上短暗痕",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "保留主动作直到领域真实false→true；随后请求domain_roar，短domain_on视觉取代完整domain_enter",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_with_dedicated_action_once",
+          "false_to_true": "短domain_on视觉一次，并请求domain_roar作为本次唯一主体动作；标记该次入场表现已处理，禁止另排完整domain_enter。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。",
+          "dedicated_action_exception": true
+        }
+      },
+      "optional_vfx_note": "领域边缘一圈压低形；真实受虚弱目标上短暗痕",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C19",
+      "asset_key": "c19",
+      "name": "追猎准备",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "使1张手牌攻击获得保留与蓄势3。",
+      "upgraded_effect": "使1张手牌攻击获得保留与蓄势5。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "手牌攻击获得保留与蓄势",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "前爪收住待发，重点在被准备的手牌",
+          "optional_vfx": {
+            "description": "被实际选中牌出现一枚收拢爪势，不假演攻击命中",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "被实际选中牌出现一枚收拢爪势，不假演攻击命中",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C20",
+      "asset_key": "c20",
+      "name": "乘势追击",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
+      "upgraded_effect": "造成14伤害。本回合此前打出过攻击时，抽2张牌。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→条件满足时抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "接着上一股攻势继续挥爪",
+          "optional_vfx": {
+            "description": "一次延续爪弧；仅条件真实满足时有抽牌轨迹",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "一次延续爪弧；仅条件真实满足时有抽牌轨迹",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C21",
+      "asset_key": "c21",
+      "name": "稳住阵脚",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得8格挡。领域1。抽2张牌。",
+      "upgraded_effect": "获得11格挡。领域1。抽2张牌。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→领域1→抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "足下扎稳，护层与领域贴地",
+          "optional_vfx": {
+            "description": "护边、真实领域提示和抽牌轨迹均短促；初次开域只用domain_enter作主动作",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "护边、真实领域提示和抽牌轨迹均短促；初次开域只用domain_enter作主动作",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C22",
+      "asset_key": "c22",
+      "name": "雷震",
+      "type": "攻击",
+      "cost": "2",
+      "base_effect": "对全体造成5伤害和2雷伤，重复2次。",
+      "upgraded_effect": "对全体造成7伤害和3雷伤，重复2次。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "全体普通攻击与雷伤第1轮→第2轮",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "一次重落动作配两轮雷震",
+          "optional_vfx": {
+            "description": "每轮一条低平震带；不重播两次完整重击",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": 2
+        }
+      },
+      "optional_vfx_note": "每轮一条低平震带；不重播两次完整重击",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C24",
+      "asset_key": "c24",
+      "name": "霹雳",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "对全体造成6雷伤。抽1张牌。",
+      "upgraded_effect": "对全体造成9雷伤。抽1张牌。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "全体雷伤→抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短施法将一条粗雷分向全场",
+          "optional_vfx": {
+            "description": "一次分叉雷带落到真实目标，抽牌另用短轨迹",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "一次分叉雷带落到真实目标，抽牌另用短轨迹",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C25",
+      "asset_key": "c25",
+      "name": "雷引",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "本回合下一张攻击减费1。消耗。",
+      "upgraded_effect": "本回合下一张攻击减费2。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "下次攻击减费→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "将一小段电势引到下一次攻击",
+          "optional_vfx": {
+            "description": "只标记真实待用减费；当前卡不制造伤害落点",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "只标记真实待用减费；当前卡不制造伤害落点",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "C26",
+      "asset_key": "c26",
+      "name": "接地",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "本回合造成过雷伤时，获得2能量（每回合一次）。",
+      "upgraded_effect": "本回合造成过雷伤时，获得3能量（每回合一次）。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "条件满足时获得能量",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "足底回路试图回收余雷",
+          "optional_vfx": {
+            "description": "只有实际获得能量才亮足底回路；条件失败不显示获得能量的完成脉冲",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "只有实际获得能量才亮足底回路；条件失败不显示获得能量的完成脉冲",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U02",
+      "asset_key": "u02",
+      "name": "狂雷渐起",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "对全体造成6雷伤。每打出1张单体攻击后，对全体造成3雷伤。",
+      "upgraded_effect": "对全体造成9雷伤。每打出1张单体攻击后，对全体造成4雷伤。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "全体雷伤→部署单体攻击后全体雷伤能力",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "入场一次雷扇，随后作为被动短雷响应",
+          "optional_vfx": {
+            "description": "入场雷扇；后续触发仅短群雷，不重播cast",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "入场雷扇；后续触发仅短群雷，不重播cast",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U03",
+      "asset_key": "u03",
+      "name": "屹立",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "获得8格挡。留甲12。",
+      "upgraded_effect": "获得12格挡。留甲8。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→部署留甲",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "沉稳屹立，留甲交给真实回合状态",
+          "optional_vfx": {
+            "description": "当前格挡正变化时短护边；回合更新不凭动画保留数值",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "当前格挡正变化时短护边；回合更新不凭动画保留数值",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U04",
+      "asset_key": "u04",
+      "name": "战痕",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "获得8格挡。每回合首次迎战后，获得2力量。",
+      "upgraded_effect": "获得11格挡。每回合首次迎战后，获得3力量。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→部署每回合首次迎战后力量",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "让战痕在受战后短亮",
+          "optional_vfx": {
+            "description": "首次迎战后的力量实际增加才亮旧痕，不播counter",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "由其他真实迎战触发、本卡已部署能力实际兑现的效果",
+          "action": "optional_vfx_only_from_actual_passive_receipt",
+          "starts_card_primary": false,
+          "guard": "游戏已确认该能力本回合/本次触发成功；角色存活且相应视觉仍适用",
+          "note": "不由动画层判断首次、不生成新的敌行动、不播counter。"
+        }
+      },
+      "optional_vfx_note": "首次迎战后的力量实际增加才亮旧痕，不播counter",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U05",
+      "asset_key": "u05",
+      "name": "挟山",
+      "type": "攻击",
+      "cost": "1→0",
+      "base_effect": "造成等同当前格挡的伤害。",
+      "upgraded_effect": "造成等同当前格挡的伤害。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "造成等同当前格挡的攻击伤害",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "把现有防守重量整体推向目标",
+          "optional_vfx": {
+            "description": "厚护面推出后在目标处一闪；不消耗或改写格挡",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "厚护面推出后在目标处一闪；不消耗或改写格挡",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U06",
+      "asset_key": "u06",
+      "name": "三重撕裂",
+      "type": "攻击",
+      "cost": "2",
+      "base_effect": "造成8伤害，重复3次。",
+      "upgraded_effect": "造成11伤害，重复3次。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击第1段→第2段→第3段",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "一次身体挥动带出三段撕裂",
+          "optional_vfx": {
+            "description": "三次真实命中用错位短切痕，身体clip不重复三遍",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": 3
+        }
+      },
+      "optional_vfx_note": "三次真实命中用错位短切痕，身体clip不重复三遍",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U07",
+      "asset_key": "u07",
+      "name": "崩山",
+      "type": "攻击",
+      "cost": "3",
+      "base_effect": "造成28伤害。本回合每对该目标打出过1张单体攻击，本牌费用−1。",
+      "upgraded_effect": "造成36伤害。本回合每对该目标打出过1张单体攻击，本牌费用−1。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "普通攻击（费用由游戏按此前同目标攻击决定）",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "把前势压成一次崩山重击",
+          "optional_vfx": {
+            "description": "目标大裂面一闪；不在动画里计算减费",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "目标大裂面一闪；不在动画里计算减费",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U08",
+      "asset_key": "u08",
+      "name": "暴怒撕咬",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
+      "upgraded_effect": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。",
+      "primary_motion": {
+        "clip": "bite",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→普通攻击→已有咬痕时追加攻击→施加咬痕",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "前臂护身后厚吻前咬",
+          "optional_vfx": {
+            "description": "旧咬痕强化只在真实追加段出现；新标记按实际施加显示",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "1或2，按出牌前咬痕与真实效果"
+        }
+      },
+      "optional_vfx_note": "旧咬痕强化只在真实追加段出现；新标记按实际施加显示",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U10",
+      "asset_key": "u10",
+      "name": "磨砺爪牙",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "抽1张牌。下一张攻击强化3。",
+      "upgraded_effect": "抽2张牌。下一张攻击强化5。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "抽牌→下一张攻击强化",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "爪缘短促磨亮",
+          "optional_vfx": {
+            "description": "实际强化目标出现薄爪缘高光，不假打敌人",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "实际强化目标出现薄爪缘高光，不假打敌人",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U11",
+      "asset_key": "u11",
+      "name": "暴风再临",
+      "type": "技能",
+      "cost": "1→0",
+      "base_effect": "本回合下一张攻击获得重演。",
+      "upgraded_effect": "本回合下一张攻击获得重演。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "下一张攻击获得重演",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "收下一次出击的回响",
+          "optional_vfx": {
+            "description": "待用重演小回环；未来重演段只有附加接触VFX，不把出牌clip再算一次",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "待用重演小回环；未来重演段只有附加接触VFX，不把出牌clip再算一次",
+      "passive_visual_policy": [
+        "重演额外牌效沿用原play_id的动画预算；只播放额外接触VFX，不重新计一次出牌动作。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U12",
+      "asset_key": "u12",
+      "name": "原始力量",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "本轮雷伤增加当前力量。抽1张牌。消耗。",
+      "upgraded_effect": "本轮雷伤增加当前力量。抽2张牌。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "本轮雷伤增加当前力量→抽牌→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "力量沿臂纹导入雷路",
+          "optional_vfx": {
+            "description": "力量到雷纹的一条短流；实际伤害数值由游戏结算",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "力量到雷纹的一条短流；实际伤害数值由游戏结算",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U13",
+      "asset_key": "u13",
+      "name": "力量归身",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得2力量。将临时力量转为力量。",
+      "upgraded_effect": "获得3力量。将临时力量转为力量。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得力量→临时力量转为力量",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "将外散力量收回胸口",
+          "optional_vfx": {
+            "description": "胸坠与纹路内聚一次；不把视觉持续时间当力量持续时间",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "胸坠与纹路内聚一次；不把视觉持续时间当力量持续时间",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U14",
+      "asset_key": "u14",
+      "name": "迎战准备",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "获得5格挡。本回合下一张迎战牌减费1。消耗。",
+      "upgraded_effect": "获得8格挡。本回合下一张迎战牌减费1。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→下一张迎战牌减费→基础版消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "架臂准备迎战，不自动令敌人行动",
+          "optional_vfx": {
+            "description": "护边与真实待用减费提示；本卡没有迎战调用",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "护边与真实待用减费提示；本卡没有迎战调用",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U15",
+      "asset_key": "u15",
+      "name": "暴风换气",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "净化消耗1张手牌。抽2张牌。",
+      "upgraded_effect": "净化消耗1张手牌。抽3张牌。",
+      "primary_motion": {
+        "clip": "relaxed_loop",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_idle",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "max_hold_frames": 12,
+        "play_as_timed_pose": true,
+        "weak_pose_override": "weak_loop或domain_weak_loop由真实弱姿态请求决定"
+      },
+      "resolution_order_verbatim_summary": "净化消耗手牌成本→抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "换一口清气，先清理旧负担",
+          "optional_vfx": {
+            "description": "成本实际支付后旧牌净化淡出，再显示实际抽牌轨迹",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "成本实际支付后旧牌净化淡出，再显示实际抽牌轨迹",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U17",
+      "asset_key": "u17",
+      "name": "古老直觉",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "查看牌堆顶3张，任意弃置并排列余牌。抽1张牌。",
+      "upgraded_effect": "查看牌堆顶5张，任意弃置并排列余牌。抽1张牌。",
+      "primary_motion": {
+        "clip": "relaxed_loop",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_idle",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "max_hold_frames": 12,
+        "play_as_timed_pose": true,
+        "weak_pose_override": "weak_loop或domain_weak_loop由真实弱姿态请求决定"
+      },
+      "resolution_order_verbatim_summary": "查看牌顶→选择弃置与排列→抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短暂凝神看路，选择界面由游戏管理",
+          "optional_vfx": {
+            "description": "眼部小亮点与实际选择牌的细描边；不以循环阻塞玩家选择",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "眼部小亮点与实际选择牌的细描边；不以循环阻塞玩家选择",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U19",
+      "asset_key": "u19",
+      "name": "风暴不散",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "抽1张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+      "upgraded_effect": "抽2张牌。领域1。每次迎战后，抽2张牌并获得领域1。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "抽牌→领域1→部署迎战后抽牌与领域1",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "入场建立风暴；后续迎战仅续时短脉冲",
+          "optional_vfx": {
+            "description": "真实false→true进入；已有领域续时只pulse；后续抽牌真实发生才显示",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_forced_enemy_action": {
+          "scope": "由其他真实迎战触发、本卡已部署能力实际兑现的效果",
+          "action": "optional_vfx_only_from_actual_passive_receipt",
+          "starts_card_primary": false,
+          "guard": "游戏已确认该能力本回合/本次触发成功；角色存活且相应视觉仍适用",
+          "note": "不由动画层判断首次、不生成新的敌行动、不播counter。"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "真实false→true进入；已有领域续时只pulse；后续抽牌真实发生才显示",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U20",
+      "asset_key": "u20",
+      "name": "势不可挡",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成10伤害。本回合此前打出过至少2张攻击时，获得2能量。消耗。",
+      "upgraded_effect": "造成14伤害。本回合此前打出过至少2张攻击时，获得2能量。消耗。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→条件满足时获得能量→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "先势合成一次破阵",
+          "optional_vfx": {
+            "description": "重命中；真实返能才出现短能量回流",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "重命中；真实返能才出现短能量回流",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U21",
+      "asset_key": "u21",
+      "name": "雷霆余威",
+      "type": "能力",
+      "cost": "1→0",
+      "base_effect": "每回合雷伤累计达到2次，获得1能量。",
+      "upgraded_effect": "每回合雷伤累计达到2次，获得1能量。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "部署每回合雷伤累计达到2次返能能力",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "部署余雷汇成能量的细节",
+          "optional_vfx": {
+            "description": "入场小符纹；实际返能时短余辉，不按动画雷光次数计数",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "入场小符纹；实际返能时短余辉，不按动画雷光次数计数",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U23",
+      "asset_key": "u23",
+      "name": "迎风咆哮",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "对全体施加1虚弱。获得9格挡。",
+      "upgraded_effect": "对全体施加2虚弱。获得12格挡。",
+      "primary_motion": {
+        "clip": "roar",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_roar",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "全体施加虚弱→获得格挡",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短促凶猛咆哮以威压稳住身体",
+          "optional_vfx": {
+            "description": "声浪只一圈；实际虚弱与格挡各短亮；不添加兽化或变身",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "声浪只一圈；实际虚弱与格挡各短亮；不添加兽化或变身",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U24",
+      "asset_key": "u24",
+      "name": "饮血而战",
+      "type": "攻击",
+      "cost": "2",
+      "base_effect": "造成21伤害，再造成3汲取雷伤。消耗。",
+      "upgraded_effect": "造成28伤害，再造成3汲取雷伤。消耗。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→汲取雷伤→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "重爪外出，细雷带回流",
+          "optional_vfx": {
+            "description": "实际雷伤后仅对真实恢复生命给回流亮点，完全格挡不伪造治疗",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "实际雷伤后仅对真实恢复生命给回流亮点，完全格挡不伪造治疗",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U25",
+      "asset_key": "u25",
+      "name": "猎物未倒",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
+      "upgraded_effect": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "抽牌→部署同目标第2张单体攻击后抽牌减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "锁定同一猎物，后续收益留给手牌短提示",
+          "optional_vfx": {
+            "description": "锁定目光一瞬；真实抽牌和减费时提示，不每触发重播cast",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "锁定目光一瞬；真实抽牌和减费时提示，不每触发重播cast",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U26",
+      "asset_key": "u26",
+      "name": "愈战愈烈",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "获得1力量。每回合打出第2张攻击时，获得1力量。",
+      "upgraded_effect": "获得1力量。每回合打出第2张攻击时，获得2力量。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得力量→部署每回合第2张攻击前力量",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "肩臂战意逐层积起",
+          "optional_vfx": {
+            "description": "力量实际变化才亮一段纹；不按挥爪clip次数判定第2张",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "力量实际变化才亮一段纹；不按挥爪clip次数判定第2张",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U27",
+      "asset_key": "u27",
+      "name": "淬躯爪击",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成8伤害。获得本回合雷伤次数×2的格挡。",
+      "upgraded_effect": "造成11伤害。获得本回合雷伤次数×2的格挡。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→按本回合雷伤次数获得格挡",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "前爪出击，雷势在臂后凝护",
+          "optional_vfx": {
+            "description": "单爪命中后一次短护边；不重播block全身clip",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "单爪命中后一次短护边；不重播block全身clip",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U28",
+      "asset_key": "u28",
+      "name": "雷霆反扑",
+      "type": "技能",
+      "cost": "2",
+      "base_effect": "获得15格挡。迎战。对全体造成4＋吸收的雷伤。",
+      "upgraded_effect": "获得20格挡。迎战。对全体造成6＋吸收的雷伤。",
+      "primary_motion": {
+        "clip": "counter",
+        "trigger": "after_forced_enemy_action",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。",
+        "segment_applies_to_clip": "counter",
+        "segment_start_frame": 14,
+        "segment_end_frame_exclusive": 32,
+        "event_time_offset_seconds": 0.5833333333333334,
+        "visual_marker_event": "counter_impact",
+        "source_visual_marker_time_seconds": 0.84,
+        "segment_visual_marker_time_seconds": 0.2566666666666666,
+        "domain_segment": {
+          "clip": "domain_attack",
+          "start_frame": 0,
+          "end_frame_exclusive": 24,
+          "use_full_clip": true,
+          "event_time_offset_seconds": 0,
+          "visual_marker_event": "impact",
+          "visual_marker_time_seconds": 0.54,
+          "note": "领域fallback使用完整24帧domain_attack，禁止套普通counter的32帧范围；读取domain_attack自己的impact事件，不套counter_impact名称或时刻。"
+        },
+        "segment_basis": "counter原素材24fps；absorbed_impact位于0.52s，counter_impact位于0.84s。从第14帧（0基）开始，跳过已经发生的架挡/吸收段。",
+        "start_guard": "本次迎战至少一个敌行动真实开始；本次行动/动作组已结算；角色仍活着；战斗继续；后置反击效果实际进入视觉呈现。"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→迎战→全体造成4＋吸收的雷伤（升级6＋吸收）",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_forced_enemy_action",
+          "visual_intent": "完整熊躯承击后向外反推雷波",
+          "optional_vfx": {
+            "description": "真实迎战已发生且后续雷伤执行时向外短回波；不得提前喷雷",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "request_counter_segment_once_for_actual_post_effect",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "真实迎战已发生且后续雷伤执行时向外短回波；不得提前喷雷",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U29",
+      "asset_key": "u29",
+      "name": "雷霆渐盛",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "雷伤＋2。",
+      "upgraded_effect": "雷伤＋3。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "部署雷伤增加",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "背刺电形加粗一次",
+          "optional_vfx": {
+            "description": "背刺一条粗雷短亮，之后仅随真实雷伤增强表现",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "背刺一条粗雷短亮，之后仅随真实雷伤增强表现",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U31",
+      "asset_key": "u31",
+      "name": "万钧连踏",
+      "type": "攻击",
+      "cost": "X",
+      "base_effect": "造成5伤害和3全体雷伤，重复X次。",
+      "upgraded_effect": "造成7伤害和3全体雷伤，重复X次。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "按实际支付X重复普通攻击与全体雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "一套重踏身体动作承载X次实际命中",
+          "optional_vfx": {
+            "description": "每次真实重复一组低位接触波；X为0无伪造落点，身体动作可短收尾",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "实际支付X，可能0"
+        }
+      },
+      "optional_vfx_note": "每次真实重复一组低位接触波；X为0无伪造落点，身体动作可短收尾",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U32",
+      "asset_key": "u32",
+      "name": "迎雷",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "领域1。本回合下一张攻击减费1。每回合首次迎战后，下一张攻击减费1。",
+      "upgraded_effect": "领域1。本回合下一张攻击减费2。每回合首次迎战后，下一张攻击减费2。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "领域1→下次攻击减费→部署首次迎战后下次攻击减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "迎来雷势变成下一爪的准备",
+          "optional_vfx": {
+            "description": "首次进入领域或续时pulse；被动减费只标记真实待用状态",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_forced_enemy_action": {
+          "scope": "由其他真实迎战触发、本卡已部署能力实际兑现的效果",
+          "action": "optional_vfx_only_from_actual_passive_receipt",
+          "starts_card_primary": false,
+          "guard": "游戏已确认该能力本回合/本次触发成功；角色存活且相应视觉仍适用",
+          "note": "不由动画层判断首次、不生成新的敌行动、不播counter。"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "首次进入领域或续时pulse；被动减费只标记真实待用状态",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U34",
+      "asset_key": "u34",
+      "name": "雷甲",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "获得6格挡。每造成1次雷伤，获得3格挡。",
+      "upgraded_effect": "获得9格挡。每造成1次雷伤，获得4格挡。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→部署每次雷伤后格挡",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "肩毛雷甲先成形，后续增甲只轻闪",
+          "optional_vfx": {
+            "description": "初次护边；实际被动格挡增加仅局部短亮，不连播block",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "初次护边；实际被动格挡增加仅局部短亮，不连播block",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U35",
+      "asset_key": "u35",
+      "name": "霹天雳地",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得10格挡。对全体造成3雷伤。迎战。",
+      "upgraded_effect": "获得13格挡。对全体造成5雷伤。迎战。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→全体雷伤→迎战",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "护住身体后先放雷，再承接敌方动作",
+          "optional_vfx": {
+            "description": "先护边、再短雷、最后接招；本卡没有事后反雷阶段",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "resume_current_state_without_counter",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "先护边、再短雷、最后接招；本卡没有事后反雷阶段",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U36",
+      "asset_key": "u36",
+      "name": "奔雷",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+      "upgraded_effect": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得能量→条件满足时抽牌→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短雷贴地奔回身体",
+          "optional_vfx": {
+            "description": "真实能量收益与实际条件抽牌分别短提示",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "真实能量收益与实际条件抽牌分别短提示",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U37",
+      "asset_key": "u37",
+      "name": "风暴汇聚",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "对全体造成12雷伤。领域1。",
+      "upgraded_effect": "对全体造成16雷伤。领域1。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "全体雷伤→领域1",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "雷先汇向目标，再展开领域",
+          "optional_vfx": {
+            "description": "真实雷伤先显示；若首次开域，domain_enter占本卡唯一主动作",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "真实雷伤先显示；若首次开域，domain_enter占本卡唯一主动作",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U38",
+      "asset_key": "u38",
+      "name": "雷势奔袭",
+      "type": "攻击",
+      "cost": "3",
+      "base_effect": "造成18伤害。本回合每造成1次雷伤，本牌费用−1。",
+      "upgraded_effect": "造成24伤害。本回合每造成1次雷伤，本牌费用−1。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "普通攻击（费用由本回合真实雷伤次数决定）",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "借雷势低身奔袭",
+          "optional_vfx": {
+            "description": "身后短电痕与单重接触；不按VFX数量自行减费",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "身后短电痕与单重接触；不按VFX数量自行减费",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U39",
+      "asset_key": "u39",
+      "name": "雷暴先兆",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得8格挡。领域1。检索1张雷法。",
+      "upgraded_effect": "获得11格挡。领域1。检索1张雷法。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→领域1→检索雷法",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "护住掌中雷暴先兆",
+          "optional_vfx": {
+            "description": "护边、真实领域提示、被检索雷法的短描边",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "护边、真实领域提示、被检索雷法的短描边",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U40",
+      "asset_key": "u40",
+      "name": "雷路贯通",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量（每回合一次）。",
+      "upgraded_effect": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量（每回合一次）。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "单体雷伤→条件满足时返能",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "两段雷路贯通到目标",
+          "optional_vfx": {
+            "description": "单路径电击；实际返能时回端一点余光；不假造第三次雷伤计数",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "单路径电击；实际返能时回端一点余光；不假造第三次雷伤计数",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U41",
+      "asset_key": "u41",
+      "name": "破皮见骨",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成7伤害。兽化1张手牌攻击，减费1。",
+      "upgraded_effect": "造成10伤害。兽化1张手牌攻击，减费1。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击→兽化手牌攻击→减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "攻击撕开外层，手牌随后显爪",
+          "optional_vfx": {
+            "description": "真实命中爪痕；转换成功的那张手牌做爪形替换，不追加feral_enter主clip",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_only",
+          "primary_clip_if_budget_free": null,
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。"
+        }
+      },
+      "optional_vfx_note": "真实命中爪痕；转换成功的那张手牌做爪形替换，不追加feral_enter主clip",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U42",
+      "asset_key": "u42",
+      "name": "蛮荒护体",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得7格挡。兽化1张非攻击手牌，减费1。",
+      "upgraded_effect": "获得10格挡。兽化1张非攻击手牌，减费1。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→兽化非攻击手牌→减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "防护凝成厚熊躯，手牌随后兽化",
+          "optional_vfx": {
+            "description": "当前护边；成功转换手牌显躯形，不追加第二套全身动作",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_only",
+          "primary_clip_if_budget_free": null,
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。"
+        }
+      },
+      "optional_vfx_note": "当前护边；成功转换手牌显躯形，不追加第二套全身动作",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "U43",
+      "asset_key": "u43",
+      "name": "循着本能",
+      "type": "技能",
+      "cost": "1→0",
+      "base_effect": "检索1张牌并兽化，减费1。消耗。",
+      "upgraded_effect": "检索1张牌并兽化，减费1。消耗。",
+      "primary_motion": {
+        "clip": "feral_enter",
+        "trigger": "on_card_beastify",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_cast",
+        "domain_fallback_note": "未提供domain_feral_enter；使用现有domain_cast保持领域皮肤，仅为短时表现，不创建角色变身状态。"
+      },
+      "resolution_order_verbatim_summary": "检索指定牌→兽化→减费→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "on_card_beastify",
+          "visual_intent": "选中的牌在手中转回本能",
+          "optional_vfx": {
+            "description": "仅成功转换后短凶猛姿态与该牌变形；选择未完成不预播成功",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_and_optional_primary_once",
+          "primary_clip_if_budget_free": "feral_enter",
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。"
+        }
+      },
+      "optional_vfx_note": "仅成功转换后短凶猛姿态与该牌变形；选择未完成不预播成功",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R01",
+      "asset_key": "r01",
+      "name": "风暴形态",
+      "type": "能力",
+      "cost": "2",
+      "base_effect": "获得10格挡。永久领域。",
+      "upgraded_effect": "获得14格挡。永久领域。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→永久领域",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "永久领域第一次建立，状态由游戏维持",
+          "optional_vfx": {
+            "description": "首次false→true只进一次domain_enter；已在领域仅脉冲与护边",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。",
+          "permanent_policy": "永久领域存在与结束完全由游戏权威状态决定；domain_idle重复播放不加轮数；clip结束不解除。"
+        }
+      },
+      "optional_vfx_note": "首次false→true只进一次domain_enter；已在领域仅脉冲与护边",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R02",
+      "asset_key": "r02",
+      "name": "不动神躯",
+      "type": "能力",
+      "cost": "2",
+      "base_effect": "获得10格挡。坚甲。",
+      "upgraded_effect": "获得15格挡。坚甲。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→部署坚甲",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "神躯护住身体，坚甲不由动画修改",
+          "optional_vfx": {
+            "description": "厚护边一次；实际受击时仍按真实生命/格挡结果播反应",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "厚护边一次；实际受击时仍按真实生命/格挡结果播反应",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R05",
+      "asset_key": "r05",
+      "name": "全身之力",
+      "type": "技能",
+      "cost": "2→1",
+      "base_effect": "格挡变为3倍。",
+      "upgraded_effect": "格挡变为3倍。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "现有格挡乘3",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "把现有护层向外撑厚",
+          "optional_vfx": {
+            "description": "仅实际格挡正增量触发厚护边；当前格挡为0不假亮三倍收益",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "仅实际格挡正增量触发厚护边；当前格挡为0不假亮三倍收益",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R06",
+      "asset_key": "r06",
+      "name": "天人合一",
+      "type": "技能",
+      "cost": "2",
+      "base_effect": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
+      "upgraded_effect": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得力量→获得格挡→本战攻击与雷法强化→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "力量、护层与锋爪在身体汇合",
+          "optional_vfx": {
+            "description": "胸臂短流、护边、真实强化提示；只一套主体动作",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "胸臂短流、护边、真实强化提示；只一套主体动作",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R07",
+      "asset_key": "r07",
+      "name": "天崩地裂",
+      "type": "技能",
+      "cost": "2→1",
+      "base_effect": "对全体造成等同当前格挡的雷伤。",
+      "upgraded_effect": "对全体造成等同当前格挡的雷伤。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "全体造成等同当前格挡的雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "把格挡重量化成地面雷裂",
+          "optional_vfx": {
+            "description": "一条低位地裂雷带按真实目标显示；不扣格挡",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "一条低位地裂雷带按真实目标显示；不扣格挡",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R08",
+      "asset_key": "r08",
+      "name": "雷霆万钧",
+      "type": "攻击",
+      "cost": "3",
+      "base_effect": "随机攻击4次，每次造成10伤害和5雷伤。",
+      "upgraded_effect": "随机攻击4次，每次造成13伤害和8雷伤。",
+      "primary_motion": {
+        "clip": "attack_heavy",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。"
+      },
+      "resolution_order_verbatim_summary": "随机攻击第1至第4次，每次普通攻击与雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "一套重击动作带出四个实际随机落点",
+          "optional_vfx": {
+            "description": "按游戏已确定的目标顺序各短闪；不额外随机选敌或播四套重击",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": 4
+        }
+      },
+      "optional_vfx_note": "按游戏已确定的目标顺序各短闪；不额外随机选敌或播四套重击",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R09",
+      "asset_key": "r09",
+      "name": "众敌皆来",
+      "type": "技能",
+      "cost": "2",
+      "base_effect": "获得20格挡。迎战全体。对全体造成等同吸收的雷伤。",
+      "upgraded_effect": "获得28格挡。迎战全体。对全体造成等同吸收的雷伤。",
+      "primary_motion": {
+        "clip": "counter",
+        "trigger": "after_forced_enemy_action",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_attack",
+        "domain_fallback_note": "未提供此动作的专属领域变体；为保持领域皮肤使用现有domain_attack，原卡语义和短VFX保留，不更改牌效。",
+        "segment_applies_to_clip": "counter",
+        "segment_start_frame": 14,
+        "segment_end_frame_exclusive": 32,
+        "event_time_offset_seconds": 0.5833333333333334,
+        "visual_marker_event": "counter_impact",
+        "source_visual_marker_time_seconds": 0.84,
+        "segment_visual_marker_time_seconds": 0.2566666666666666,
+        "domain_segment": {
+          "clip": "domain_attack",
+          "start_frame": 0,
+          "end_frame_exclusive": 24,
+          "use_full_clip": true,
+          "event_time_offset_seconds": 0,
+          "visual_marker_event": "impact",
+          "visual_marker_time_seconds": 0.54,
+          "note": "领域fallback使用完整24帧domain_attack，禁止套普通counter的32帧范围；读取domain_attack自己的impact事件，不套counter_impact名称或时刻。"
+        },
+        "segment_basis": "counter原素材24fps；absorbed_impact位于0.52s，counter_impact位于0.84s。从第14帧（0基）开始，跳过已经发生的架挡/吸收段。",
+        "start_guard": "本次迎战至少一个敌行动真实开始；本次行动/动作组已结算；角色仍活着；战斗继续；后置反击效果实际进入视觉呈现。"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→全体迎战→全体造成等同吸收的雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_forced_enemy_action",
+          "visual_intent": "接完全体真实来势后一次群雷反扑",
+          "optional_vfx": {
+            "description": "所有已启动敌行动结算后仅一轮反雷；不在每个敌行动后各反一次",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "before_forced_enemy_action": {
+          "scope": "本卡请求且游戏允许实际开始的敌行动；R09逐敌进入同一action_group",
+          "action": "allow_actual_incoming_reaction; optional short brace cue",
+          "starts_card_primary": false,
+          "note": "只为实际开始的行动接招；已用掉行动、目标无行动或被取消时不伪造攻击。不要在这里执行敌方逻辑。"
+        },
+        "after_forced_enemy_action": {
+          "scope": "本卡本次迎战的真实结果",
+          "guard": "action_started && owner_alive && battle_continues；R09还需group_complete且至少一个行动开始",
+          "action": "request_counter_segment_once_for_actual_post_effect",
+          "note": "前置攻击/雷伤已经在迎战前显示；不得交换前后顺序。死亡立即取消排队的后置动作。",
+          "group_policy": "同一play_id/action_group_id只触发一次；先前没有行动机会的敌人不补演；按实际收齐的结果等待组结束。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "所有已启动敌行动结算后仅一轮反雷；不在每个敌行动后各反一次",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R10",
+      "asset_key": "r10",
+      "name": "这场战斗尚未结束",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "回收至多3张攻击，减费1。",
+      "upgraded_effect": "回收至多4张攻击，减费1。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "回收至多指定数量攻击→减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "拢回未尽攻势",
+          "optional_vfx": {
+            "description": "只对实际回收的牌显示短轨迹与减费提示；选0不假画三张",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "只对实际回收的牌显示短轨迹与减费提示；选0不假画三张",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R12",
+      "asset_key": "r12",
+      "name": "解放本能",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "抽牌至手牌达到7张。",
+      "upgraded_effect": "抽牌至手牌达到9张。",
+      "primary_motion": {
+        "clip": "feral_enter",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_cast",
+        "domain_fallback_note": "未提供domain_feral_enter；使用现有domain_cast保持领域皮肤，仅为短时表现，不创建角色变身状态。"
+      },
+      "resolution_order_verbatim_summary": "抽牌至手牌目标数量",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "短促放开本能以补足手牌",
+          "optional_vfx": {
+            "description": "实际抽到的牌有短轨迹；feral表演结束后回真实idle，不留永久兽化",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "实际抽到的牌有短轨迹；feral表演结束后回真实idle，不留永久兽化",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R13",
+      "asset_key": "r13",
+      "name": "重返蛮荒",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
+      "upgraded_effect": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "领域内恢复生命或领域外获得领域1→获得力量→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "回到荒野的力量贴地归身",
+          "optional_vfx": {
+            "description": "已有领域只对实际治疗显示回流；领域外真实进入才播domain_enter",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。",
+          "branch_policy": "已在领域分支是治疗，不是假续时；只有领域外分支实际获得领域才进入。"
+        }
+      },
+      "optional_vfx_note": "已有领域只对实际治疗显示回流；领域外真实进入才播domain_enter",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R14",
+      "asset_key": "r14",
+      "name": "不休之猎",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "每打出1张单体攻击后，本回合对同一目标的单体攻击费用−1。",
+      "upgraded_effect": "抽1张牌。每打出1张单体攻击后，本回合对同一目标的单体攻击费用−1。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "部署同目标单体攻击后连锁减费",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "锁住不休追猎的路径",
+          "optional_vfx": {
+            "description": "只在真实目标连锁减费产生时亮短追猎线，不按动画命中数减费",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "只在真实目标连锁减费产生时亮短追猎线，不按动画命中数减费",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R16",
+      "asset_key": "r16",
+      "name": "愈战神躯",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+      "upgraded_effect": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "升级入场获得格挡→部署攻击后力量及条件敏捷",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "每一击将进攻与防护刻入身体",
+          "optional_vfx": {
+            "description": "属性实际增加才分别亮锐线与钝弧；不重播角色施法",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "属性实际增加才分别亮锐线与钝弧；不重播角色施法",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R17",
+      "asset_key": "r17",
+      "name": "天雷决",
+      "type": "技能",
+      "cost": "2",
+      "base_effect": "造成38雷伤。",
+      "upgraded_effect": "造成50雷伤。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "单体雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "单点重雷裁决",
+          "optional_vfx": {
+            "description": "唯一粗落雷命中真实单体目标，不误播全体雷环",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "唯一粗落雷命中真实单体目标，不误播全体雷环",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R18",
+      "asset_key": "r18",
+      "name": "雷池",
+      "type": "能力",
+      "cost": "2",
+      "base_effect": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
+      "upgraded_effect": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "全体雷伤→部署回合结束及每回合首次迎战后全体雷伤",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "雷池先落地，后续只是池面短波",
+          "optional_vfx": {
+            "description": "入场一池；每次实际被动雷伤一条短波，不再次cast",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_forced_enemy_action": {
+          "scope": "由其他真实迎战触发、本卡已部署能力实际兑现的效果",
+          "action": "optional_vfx_only_from_actual_passive_receipt",
+          "starts_card_primary": false,
+          "guard": "游戏已确认该能力本回合/本次触发成功；角色存活且相应视觉仍适用",
+          "note": "不由动画层判断首次、不生成新的敌行动、不播counter。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "入场一池；每次实际被动雷伤一条短波，不再次cast",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R21",
+      "asset_key": "r21",
+      "name": "雷霆化身",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+      "upgraded_effect": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "按本回合真实雷伤次数获得格挡→抽牌→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "把已积雷势凝成护躯",
+          "optional_vfx": {
+            "description": "有实际格挡增量才护边；抽牌按真实发生展示",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        }
+      },
+      "optional_vfx_note": "有实际格挡增量才护边；抽牌按真实发生展示",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R23",
+      "asset_key": "r23",
+      "name": "裂天",
+      "type": "技能",
+      "cost": "2",
+      "base_effect": "造成8雷伤，重复3次。",
+      "upgraded_effect": "造成11雷伤，重复3次。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "雷伤第1段→第2段→第3段",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "一套施法对应同目标三次雷裂",
+          "optional_vfx": {
+            "description": "三段短雷按实际顺序打同一目标；不改成三次随机目标",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": 3
+        }
+      },
+      "optional_vfx_note": "三段短雷按实际顺序打同一目标；不改成三次随机目标",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R24",
+      "asset_key": "r24",
+      "name": "雷涌",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得等同本回合雷伤次数的能量。抽2张牌。消耗。",
+      "upgraded_effect": "获得等同本回合雷伤次数的能量。抽3张牌。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "按本回合真实雷伤次数获得能量→抽牌→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "余雷汇为能量涌潮",
+          "optional_vfx": {
+            "description": "真实返能时一股宽回流；抽牌短轨迹，不按闪电线数算能量",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        }
+      },
+      "optional_vfx_note": "真实返能时一股宽回流；抽牌短轨迹，不按闪电线数算能量",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R25",
+      "asset_key": "r25",
+      "name": "风暴重临",
+      "type": "技能",
+      "cost": "1→0",
+      "base_effect": "领域2。检索至多2张技能。消耗。",
+      "upgraded_effect": "领域2。检索至多2张技能。消耗。",
+      "primary_motion": {
+        "clip": "cast",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_cast",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "may_replace_primary_with_domain_enter_on_actual_false_to_true"
+      },
+      "resolution_order_verbatim_summary": "领域2→检索至多2张技能→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "风暴续回空间并择取技能",
+          "optional_vfx": {
+            "description": "首次领域进入或已有领域续时pulse；实际选中技能各短亮",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "reserve_primary_until_actual_domain_change；不先启动default clip，后续false→true用domain_enter消耗唯一主体额度",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_once",
+          "false_to_true": "首次状态边沿选择domain_enter，消耗/替换本次出牌唯一主要动作；其他牌效只保留短VFX。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。"
+        }
+      },
+      "optional_vfx_note": "首次领域进入或已有领域续时pulse；实际选中技能各短亮",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R27",
+      "asset_key": "r27",
+      "name": "旧日重临",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "兽化至多2张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
+      "upgraded_effect": "兽化至多3张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
+      "primary_motion": {
+        "clip": "feral_enter",
+        "trigger": "on_card_beastify",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_cast",
+        "domain_fallback_note": "未提供domain_feral_enter；使用现有domain_cast保持领域皮肤，仅为短时表现，不创建角色变身状态。"
+      },
+      "resolution_order_verbatim_summary": "兽化至多指定手牌→爪形减费或躯形获得格挡→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "on_card_beastify",
+          "visual_intent": "旧日爪与躯在手牌中重新显现",
+          "optional_vfx": {
+            "description": "成功转换逐牌显示，但主体feral_enter本次至多一次；选择0不播放成功",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_and_optional_primary_once",
+          "primary_clip_if_budget_free": "feral_enter",
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。",
+          "batch_policy": "同一批转换的每张牌均按真实结果显示；角色feral_enter本次至多一次。选择0或没有成功转换时不播放成功姿态。"
+        }
+      },
+      "optional_vfx_note": "成功转换逐牌显示，但主体feral_enter本次至多一次；选择0不播放成功",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R28",
+      "asset_key": "r28",
+      "name": "熊灵侵染",
+      "type": "能力",
+      "cost": "1",
+      "base_effect": "入场及每回合起手后，兽化至多1张手牌。每回合首次兽化后，抽1张牌。",
+      "upgraded_effect": "入场及每回合起手后，兽化至多1张手牌。每回合首次兽化后，抽2张牌。",
+      "primary_motion": {
+        "clip": "feral_enter",
+        "trigger": "on_card_beastify",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_cast",
+        "domain_fallback_note": "未提供domain_feral_enter；使用现有domain_cast保持领域皮肤，仅为短时表现，不创建角色变身状态。"
+      },
+      "resolution_order_verbatim_summary": "部署入场及起手后可选兽化→每回合首次成功兽化后抽牌",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "on_card_beastify",
+          "visual_intent": "熊灵先侵入牌，角色短时凶猛回应",
+          "optional_vfx": {
+            "description": "每张成功转换手牌短变形；被动后续只手牌VFX，可空闲时短feral_idle，不再全套enter",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_and_optional_primary_once",
+          "primary_clip_if_budget_free": "feral_enter",
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。",
+          "passive_policy": "后续回合被动转换只做手牌VFX；不重播入场主clip。可选短姿态不能阻塞出牌或覆盖领域/死亡。",
+          "primary_allowed_only_when": "此转换归属这张能力牌本次实际打出的入场处理；后续起手/其他卡触发的被动转换禁止request_primary。"
+        }
+      },
+      "optional_vfx_note": "每张成功转换手牌短变形；被动后续只手牌VFX，可空闲时短feral_idle，不再全套enter",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R29",
+      "asset_key": "r29",
+      "name": "不再为人",
+      "type": "技能",
+      "cost": "0",
+      "base_effect": "兽化所有手牌，所得形态减费1。消耗。",
+      "upgraded_effect": "回收至多1张基础牌。兽化所有手牌，所得形态减费1。消耗。",
+      "primary_motion": {
+        "clip": "feral_enter",
+        "trigger": "on_card_beastify",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_cast",
+        "domain_fallback_note": "未提供domain_feral_enter；使用现有domain_cast保持领域皮肤，仅为短时表现，不创建角色变身状态。"
+      },
+      "resolution_order_verbatim_summary": "升级可回收基础牌→固定当前手牌集合并兽化→所得形态减费→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "on_card_beastify",
+          "visual_intent": "整手材料统一回到爪形与躯形",
+          "optional_vfx": {
+            "description": "一批手牌各真实转换；角色只enter一次，VFX可合并但不造额外牌",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_and_optional_primary_once",
+          "primary_clip_if_budget_free": "feral_enter",
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。",
+          "batch_policy": "同一批转换的每张牌均按真实结果显示；角色feral_enter本次至多一次。选择0或没有成功转换时不播放成功姿态。"
+        }
+      },
+      "optional_vfx_note": "一批手牌各真实转换；角色只enter一次，VFX可合并但不造额外牌",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R30",
+      "asset_key": "r30",
+      "name": "我即荒野",
+      "type": "能力",
+      "cost": "2",
+      "base_effect": "兽化1张手牌，减费1。每回合首次打出爪形时，获得6格挡；首次打出躯形时，获得1能量。",
+      "upgraded_effect": "兽化1张手牌，减费1。每回合首次打出爪形时，获得9格挡；首次打出躯形时，获得1能量。",
+      "primary_motion": {
+        "clip": "feral_enter",
+        "trigger": "on_card_beastify",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": null,
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_fallback_clip": "domain_cast",
+        "domain_fallback_note": "未提供domain_feral_enter；使用现有domain_cast保持领域皮肤，仅为短时表现，不创建角色变身状态。"
+      },
+      "resolution_order_verbatim_summary": "入场兽化手牌并减费→每回合首次爪形格挡及首次躯形返能",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "on_card_beastify",
+          "visual_intent": "一次入场兽化后以真实形态牌联动",
+          "optional_vfx": {
+            "description": "入场转换一次短姿态；后续爪/躯收益只有真实格挡/能量提示",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_card_beastify": {
+          "scope": "本卡或其已部署效果实际转换成功的具体手牌实体",
+          "action": "hand_transform_vfx_and_optional_primary_once",
+          "primary_clip_if_budget_free": "feral_enter",
+          "guard": "successful_conversion && material_entity_id存在；已有形态保持不算再次成功转换",
+          "per_play_limit": 1,
+          "hand_policy": "显示真实材料实体向爪形/躯形的转换；继承升级/费用/保留等由游戏处理。",
+          "feral_pose_policy": "feral_enter/feral_idle只是短时凶猛表演；不创建角色永久变身buff。可选feral_idle最多12帧且只在非领域、非弱姿态、无其他动作时；新动作或真实状态变化立即退出。",
+          "passive_policy": "后续回合被动转换只做手牌VFX；不重播入场主clip。可选短姿态不能阻塞出牌或覆盖领域/死亡。",
+          "primary_allowed_only_when": "此转换归属这张能力牌本次实际打出的入场处理；后续起手/其他卡触发的被动转换禁止request_primary。"
+        }
+      },
+      "optional_vfx_note": "入场转换一次短姿态；后续爪/躯收益只有真实格挡/能量提示",
+      "passive_visual_policy": [
+        "部署后由游戏权威状态与效果回执驱动短VFX；之后的每次触发不重播本卡on_play主体clip。"
+      ],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "R31",
+      "asset_key": "r31",
+      "name": "天声震落",
+      "type": "攻击",
+      "cost": "2",
+      "base_effect": "获得8格挡。领域1。移除目标格挡。造成20伤害，对其他敌人造成6雷伤。消耗。",
+      "upgraded_effect": "获得12格挡。领域1。移除目标格挡。造成28伤害，对其他敌人造成9雷伤。消耗。",
+      "primary_motion": {
+        "clip": "storm_leap",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_storm_leap",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则",
+        "domain_entry_arbitration": "dedicated_domain_action_replaces_full_domain_enter",
+        "selected_after_real_domain_entry": "domain_storm_leap"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→领域1→移除目标格挡→普通攻击→其他敌人雷伤→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "护身开域后蹲蓄、跃起、落地震落盾与重爪",
+          "optional_vfx": {
+            "description": "先盾破短VFX再主目标命中，其他敌雷光随后；真实领域建立后用domain_storm_leap，进入仅短VFX不追加完整enter",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          },
+          "domain_not_active_override": "保留主动作直到领域真实false→true；随后请求domain_storm_leap，短domain_on视觉取代完整domain_enter",
+          "domain_already_active_override": "允许按原primary_hook请求已有领域变体；后续续时只pulse"
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "emit_short_guard_vfx_only",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        },
+        "on_domain_changed": {
+          "scope": "本卡或本卡已部署能力引发的真实领域状态/时长变化",
+          "action": "delegate_to_global_domain_router_with_dedicated_action_once",
+          "false_to_true": "短domain_on视觉一次，并请求domain_storm_leap作为本次唯一主体动作；标记该次入场表现已处理，禁止另排完整domain_enter。",
+          "true_to_true": "只发短domain_pulse；不重播enter；常规主体动作按领域变体选择。",
+          "true_to_false": "由全局领域路由处理；不得由本卡动画标记自行结束领域。",
+          "note": "on_play若领域未激活，先保留动作额度，等真实状态变化；若雷伤先于领域（U37），先显示实际伤害VFX，不倒置规则。",
+          "dedicated_action_exception": true
+        }
+      },
+      "optional_vfx_note": "先盾破短VFX再主目标命中，其他敌雷光随后；真实领域建立后用domain_storm_leap，进入仅短VFX不追加完整enter",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "T01",
+      "asset_key": "t01",
+      "name": "裂骨之爪",
+      "type": "攻击",
+      "cost": "1",
+      "base_effect": "造成10伤害，重复2次。消耗。",
+      "upgraded_effect": "造成15伤害，重复2次。消耗。",
+      "primary_motion": {
+        "clip": "attack",
+        "trigger": "on_play",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_attack",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "普通攻击第1段→第2段→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "request_primary_motion",
+          "primary_hook": "on_play",
+          "visual_intent": "兽爪形态一次挥动两段切割",
+          "optional_vfx": {
+            "description": "两个实际接触痕；打出形态不再次触发兽化转换事件",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": 2
+        }
+      },
+      "optional_vfx_note": "两个实际接触痕；打出形态不再次触发兽化转换事件",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    },
+    {
+      "id": "T02",
+      "asset_key": "t02",
+      "name": "风暴之躯",
+      "type": "技能",
+      "cost": "1",
+      "base_effect": "获得15格挡。对全体造成4雷伤。消耗。",
+      "upgraded_effect": "获得25格挡。对全体造成6雷伤。消耗。",
+      "primary_motion": {
+        "clip": "block",
+        "trigger": "after_block_gain",
+        "max_starts_per_play": 1,
+        "visual_only": true,
+        "blocks_gameplay": false,
+        "domain_variant": "domain_block",
+        "end_state": "select_loop_from_current_authoritative_state",
+        "interruptible_by": [
+          "death",
+          "battle_end",
+          "newer_owner_action",
+          "actual_incoming_reaction"
+        ],
+        "marker_policy": "clip中的impact/domain_on/feral_on等只给视觉同步，绝不执行战斗规则"
+      },
+      "resolution_order_verbatim_summary": "获得格挡→全体雷伤→消耗",
+      "hooks": {
+        "on_play": {
+          "scope": "本次真实出牌实体与唯一play_id",
+          "action": "reserve_primary_motion_until_actual_hook",
+          "primary_hook": "after_block_gain",
+          "visual_intent": "厚躯护身后外推短雷",
+          "optional_vfx": {
+            "description": "护边随后短雷带；牌名有风暴但本卡不授予领域",
+            "timing": "每一项仅绑定游戏已经确认的对应效果；没有该效果就不显示完成VFX。"
+          }
+        },
+        "after_block_gain": {
+          "scope": "本卡或本卡已部署效果实际引发的格挡正变化",
+          "guard": "actual_block_delta > 0（由游戏事实提供，不在动画层重算）",
+          "action": "request_primary_motion_once",
+          "note": "R05读取直接乘3后的真实正增量；其余按游戏实际结算。被动增甲不重播完整主体clip。"
+        },
+        "on_damage_hit": {
+          "scope": "本卡直接伤害或明确归属本卡能力的实际伤害结算；不含仅看起来像闪电的装饰VFX",
+          "action": "emit_optional_target_contact_vfx",
+          "replay_full_primary_clip": false,
+          "target_policy": "使用游戏给出的目标与顺序，不重新选目标",
+          "blocked_hit_policy": "全格挡时仍可显示接触/挡击；生命汲取只依据真实生命损失及实际治疗事件",
+          "segments": "按实际伤害包；不按动画帧或电分叉数推导"
+        }
+      },
+      "optional_vfx_note": "护边随后短雷带；牌名有风暴但本卡不授予领域",
+      "passive_visual_policy": [],
+      "end_policy": "所有短动作/表演结束后重新读取权威存活、领域与弱姿态状态选择loop；死亡终止且不返回idle。",
+      "upgraded_binding": "沿用相同主体clip及事件关系，仅展示游戏真实不同数值/数量；不用动画层实现升级规则。"
+    }
+  ],
+  "art_revision": "joint_occlusion_v5",
+  "death_art_revision": {
+    "clips": [
+      "die",
+      "domain_die"
+    ],
+    "painted_pose_count": 12,
+    "frame_count_each": 40,
+    "source": "source/revision_v2/death_keys.json",
+    "source_sha256": "31cce0d08a267f4329fa319c6fac2b36cfd9437ef0c8879a7643b3a5b4d623f0",
+    "semantic_bindings_and_event_times_unchanged": true
+  },
+  "clip_source_path_base": "animations/ (relative to repo root)",
+  "vfx_manifest": "../vfx/manifest.json",
+  "card_vfx_bindings": "../vfx/card_vfx_bindings.json",
+  "preferred_actor_manifest": "clean/manifest.json"
+}

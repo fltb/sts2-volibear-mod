@@ -1,0 +1,54 @@
+{
+  "id": "C19",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "639e6a6948b8d4ed0778a778b582efe761933fa526badfdfc8b8b5353b69531d",
+  "master_sha256": "e47e00d54f700097e500ea6a0eb8e9a5ad225cb95922747044cc954543ba59c4",
+  "comparison_sha256": "c4227951f00dc879d85d144ae2a3a0d775e6a67ae8a3ee404bce9198c02f369e",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "近处熊伏在真实前景岩后，眼、耳与白肩相连，鼻吻和爪被岩自然遮挡；远处唯一有角猎物横穿亮地。",
+  "baseline_comparison": "与U25外露近脸盯敌、U17看路区分为隐蔽伏候；岩面虽有分层但统一在暗部，125像素白肩与亮地目标关系仍清楚。",
+  "paw_orientation_observation": "前岩遮住熊下脸的前后关系清楚，没有凭空消失肢体；远处猎物四足和身体轮廓完整。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:57:45+00:00",
+  "master": "cards/masters/C19.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C19.jpg",
+  "anchors": [
+    "U25",
+    "U17"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

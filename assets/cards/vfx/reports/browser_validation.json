@@ -1,0 +1,882 @@
+{
+  "status": "pass",
+  "browser_version": "134.0.6998.165",
+  "protocol": "file://",
+  "effects_actually_rendered": 40,
+  "actual_canvas_pixel_comparison": {
+    "status": "pass",
+    "checked": 40,
+    "method": "actual canvas screenshot vs independent exported frame composited on known stage background; allows browser subpixel resampling",
+    "tolerance_mean_absolute_rgb": 2.5,
+    "rows": [
+      {
+        "id": "claw_slash",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.37109,
+        "visible_pixels": 13412,
+        "pass": true
+      },
+      {
+        "id": "heavy_impact",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.7706,
+        "visible_pixels": 16656,
+        "pass": true
+      },
+      {
+        "id": "bite_hit",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.41983,
+        "visible_pixels": 11717,
+        "pass": true
+      },
+      {
+        "id": "guard_gain",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.31465,
+        "visible_pixels": 7159,
+        "pass": true
+      },
+      {
+        "id": "guard_hit",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.33348,
+        "visible_pixels": 7943,
+        "pass": true
+      },
+      {
+        "id": "guard_break",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.3409,
+        "visible_pixels": 12082,
+        "pass": true
+      },
+      {
+        "id": "counter_release",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.27138,
+        "visible_pixels": 12292,
+        "pass": true
+      },
+      {
+        "id": "absorb",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.23862,
+        "visible_pixels": 4650,
+        "pass": true
+      },
+      {
+        "id": "lightning_strike",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.34598,
+        "visible_pixels": 10028,
+        "pass": true
+      },
+      {
+        "id": "lightning_chain",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.38298,
+        "visible_pixels": 7140,
+        "pass": true
+      },
+      {
+        "id": "lightning_all",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.67776,
+        "visible_pixels": 15966,
+        "pass": true
+      },
+      {
+        "id": "lightning_growth",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.18436,
+        "visible_pixels": 10434,
+        "pass": true
+      },
+      {
+        "id": "domain_enter",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.8617,
+        "visible_pixels": 11304,
+        "pass": true
+      },
+      {
+        "id": "domain_loop",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.27451,
+        "visible_pixels": 7635,
+        "pass": true
+      },
+      {
+        "id": "domain_exit",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.41,
+        "visible_pixels": 8172,
+        "pass": true
+      },
+      {
+        "id": "domain_suppress",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.23473,
+        "visible_pixels": 9255,
+        "pass": true
+      },
+      {
+        "id": "card_purify",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.22734,
+        "visible_pixels": 6689,
+        "pass": true
+      },
+      {
+        "id": "feral_transfer",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.11204,
+        "visible_pixels": 5836,
+        "pass": true
+      },
+      {
+        "id": "feral_claw",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.39123,
+        "visible_pixels": 10623,
+        "pass": true
+      },
+      {
+        "id": "feral_body",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.36624,
+        "visible_pixels": 7851,
+        "pass": true
+      },
+      {
+        "id": "feral_aura",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.31887,
+        "visible_pixels": 15319,
+        "pass": true
+      },
+      {
+        "id": "mark_bite",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.13043,
+        "visible_pixels": 5920,
+        "pass": true
+      },
+      {
+        "id": "wound",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.22218,
+        "visible_pixels": 7660,
+        "pass": true
+      },
+      {
+        "id": "weakness",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.14378,
+        "visible_pixels": 7080,
+        "pass": true
+      },
+      {
+        "id": "charge",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.273,
+        "visible_pixels": 8669,
+        "pass": true
+      },
+      {
+        "id": "strength",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.23074,
+        "visible_pixels": 14131,
+        "pass": true
+      },
+      {
+        "id": "armor_retain",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.40215,
+        "visible_pixels": 14111,
+        "pass": true
+      },
+      {
+        "id": "armor_iron",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.40943,
+        "visible_pixels": 14714,
+        "pass": true
+      },
+      {
+        "id": "card_draw",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.12628,
+        "visible_pixels": 1910,
+        "pass": true
+      },
+      {
+        "id": "card_retrieve",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.18613,
+        "visible_pixels": 3139,
+        "pass": true
+      },
+      {
+        "id": "card_discard",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.18708,
+        "visible_pixels": 1985,
+        "pass": true
+      },
+      {
+        "id": "card_exhaust",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.16457,
+        "visible_pixels": 5316,
+        "pass": true
+      },
+      {
+        "id": "energy_gain",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.11503,
+        "visible_pixels": 4392,
+        "pass": true
+      },
+      {
+        "id": "cost_reduce",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.24591,
+        "visible_pixels": 7031,
+        "pass": true
+      },
+      {
+        "id": "card_replay",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.36754,
+        "visible_pixels": 8517,
+        "pass": true
+      },
+      {
+        "id": "lifesteal",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.09994,
+        "visible_pixels": 2989,
+        "pass": true
+      },
+      {
+        "id": "heal",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.12997,
+        "visible_pixels": 7055,
+        "pass": true
+      },
+      {
+        "id": "roar_wave",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.24737,
+        "visible_pixels": 6013,
+        "pass": true
+      },
+      {
+        "id": "thunder_armor",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.39908,
+        "visible_pixels": 9964,
+        "pass": true
+      },
+      {
+        "id": "cast_charge",
+        "screenshot_size": [
+          420,
+          421
+        ],
+        "mean_absolute_rgb_difference": 0.15121,
+        "visible_pixels": 4140,
+        "pass": true
+      }
+    ]
+  },
+  "cards_in_selector": 89,
+  "icons_loaded": 16,
+  "desktop_and_mobile": true,
+  "search_and_filter": true,
+  "errors": [],
+  "failed_requests": [],
+  "external_requests": [],
+  "rendered": [
+    {
+      "id": "claw_slash",
+      "frame": 11,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "爪击划痕"
+    },
+    {
+      "id": "heavy_impact",
+      "frame": 10,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "重击碎震"
+    },
+    {
+      "id": "bite_hit",
+      "frame": 2,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "咬合接触"
+    },
+    {
+      "id": "guard_gain",
+      "frame": 8,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "架起格挡"
+    },
+    {
+      "id": "guard_hit",
+      "frame": 5,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "格挡受击"
+    },
+    {
+      "id": "guard_break",
+      "frame": 12,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "破除格挡"
+    },
+    {
+      "id": "counter_release",
+      "frame": 13,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "反击释出"
+    },
+    {
+      "id": "absorb",
+      "frame": 3,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "格挡吸收"
+    },
+    {
+      "id": "lightning_strike",
+      "frame": 6,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "单体落雷"
+    },
+    {
+      "id": "lightning_chain",
+      "frame": 7,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "横向雷路"
+    },
+    {
+      "id": "lightning_all",
+      "frame": 15,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "群体雷幕"
+    },
+    {
+      "id": "lightning_growth",
+      "frame": 3,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "雷电成长"
+    },
+    {
+      "id": "domain_enter",
+      "frame": 22,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "领域展开"
+    },
+    {
+      "id": "domain_loop",
+      "frame": 14,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "领域持续"
+    },
+    {
+      "id": "domain_exit",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "领域退散"
+    },
+    {
+      "id": "domain_suppress",
+      "frame": 3,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "领域压制"
+    },
+    {
+      "id": "card_purify",
+      "frame": 9,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "卡牌净化"
+    },
+    {
+      "id": "feral_transfer",
+      "frame": 29,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "熊灵传递与侵染"
+    },
+    {
+      "id": "feral_claw",
+      "frame": 17,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "兽化·爪形"
+    },
+    {
+      "id": "feral_body",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "兽化·躯形"
+    },
+    {
+      "id": "feral_aura",
+      "frame": 21,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "兽性显现"
+    },
+    {
+      "id": "mark_bite",
+      "frame": 7,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "咬痕标记"
+    },
+    {
+      "id": "wound",
+      "frame": 12,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "易伤裂纹"
+    },
+    {
+      "id": "weakness",
+      "frame": 5,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "虚弱落势"
+    },
+    {
+      "id": "charge",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "蓄势收拢"
+    },
+    {
+      "id": "strength",
+      "frame": 7,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "力量升腾"
+    },
+    {
+      "id": "armor_retain",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "留甲锁定"
+    },
+    {
+      "id": "armor_iron",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "坚甲固形"
+    },
+    {
+      "id": "card_draw",
+      "frame": 8,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "抽牌流光"
+    },
+    {
+      "id": "card_retrieve",
+      "frame": 12,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "检索回收"
+    },
+    {
+      "id": "card_discard",
+      "frame": 10,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "弃牌落迹"
+    },
+    {
+      "id": "card_exhaust",
+      "frame": 3,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "消耗散片"
+    },
+    {
+      "id": "energy_gain",
+      "frame": 13,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "能量返还"
+    },
+    {
+      "id": "cost_reduce",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "减费压印"
+    },
+    {
+      "id": "card_replay",
+      "frame": 4,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "重演回响"
+    },
+    {
+      "id": "lifesteal",
+      "frame": 13,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "汲取回流"
+    },
+    {
+      "id": "heal",
+      "frame": 18,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "生命回复"
+    },
+    {
+      "id": "roar_wave",
+      "frame": 15,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "咆哮波"
+    },
+    {
+      "id": "thunder_armor",
+      "frame": 8,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "雷甲增益"
+    },
+    {
+      "id": "cast_charge",
+      "frame": 16,
+      "playing": false,
+      "imageLoaded": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "title": "施法聚雷"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/tmp/volibear-vfx-gallery-iEvS6K/desktop_feral.png",
+      "sha256": "f48b917784a0a326c9ef6a74a8007cbd8a02b7ad30bd6821d111d489e2ff0ba2",
+      "scope": "actual_file_gallery_at_feral_frame_28"
+    },
+    {
+      "path": "/tmp/volibear-vfx-gallery-iEvS6K/mobile_guard.png",
+      "sha256": "48f14e1a63c5c79f74d2c1079066d4e81c4c9de6288d91613205525ec2f0889f",
+      "scope": "actual_file_gallery_mobile_guard_frame_6"
+    }
+  ],
+  "inputs": {
+    "index_sha256": "62376e7939917d549f97a8c7fc460528de0ba732bb4e872a9e3f1d3e75862369",
+    "manifest_sha256": "65eba1871f70793b79f971a38a97c8c5ba64370a7553214df9b795ca6e470b23",
+    "font_sha256": "dfb48c3a322632bdd985f50f99c0186a82373d5373d968c9943be903c581d08d",
+    "bindings_sha256": "62aa07d0bae59cc8afb77878256baac942bf64bc559a888f16a32f6d3c8c37b5",
+    "validator_sha256": "99506e05a4362f13c483d755d3474564dadd49ac34740a5aa9b2d29e250c1ec9"
+  }
+}

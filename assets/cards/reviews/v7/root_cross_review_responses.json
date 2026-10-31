@@ -1,0 +1,20 @@
+{
+  "reviewer": "root_independent_visual_review",
+  "scope": "Root reopened actual current master images after independent cross-review; these are semantic qualifications, not anatomical failures.",
+  "cards": [
+    {
+      "id": "U05",
+      "master_sha256": "c76bd7bac2e04253889cf28996e3f2427c7fde811d861c6b717f0ecd85b916ed",
+      "concern": "双掌上托比纯肩背翻顶更抢眼。",
+      "resolution": "保留。双足、近臂肩肘腕、远臂归属完整；石板左端仍以地为支点，右端撞盾，动作可读为借杠杆抬顶。画面不是只悬空举石。实际构图描述使用双掌协同翻顶，不宣称纯肩背动作。",
+      "decision": "retain_with_semantic_note"
+    },
+    {
+      "id": "R25",
+      "master_sha256": "be8dacc2f1ee368317a6c90a0bfb11b0c393f1ad14f3826422b3b10f4b1624dd",
+      "concern": "边界槽具人工石壁形，可能被读成修桥或水槽。",
+      "resolution": "保留。纯环境抽象允许以旧槽断面表达边界；同源雷从左云进入缺口并连接对应断端，恢复连接的主动作清楚。资料明确这是地面边界重接的视觉比喻，不宣称图像脱离卡名能唯一表达领域。",
+      "decision": "retain_with_semantic_note"
+    }
+  ]
+}

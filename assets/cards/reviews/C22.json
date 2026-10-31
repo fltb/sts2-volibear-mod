@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "C22",
+  "decision": "approve",
+  "master_sha256": "efeb82f196389b81ca923d468922b357eb28b202f6972f6006f04e040b91f997",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_a",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "一只脚掌接地，前后两道雷震弧属于外部地面效果；爪端与脚部未被效果挖空。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_a.json",
+      "id": "C22",
+      "source_sha256": "efeb82f196389b81ca923d468922b357eb28b202f6972f6006f04e040b91f997"
+    },
+    "prior_exact_candidate_review_sha256": "3b0bcacd2e791a0fb02fe87cc7a81cdd0d9adc534edc6d269e526ef8d9e32270",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

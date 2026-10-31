@@ -1,0 +1,29 @@
+{
+  "id": "C12",
+  "attempt": 22,
+  "raw_file": "cards/candidates_v7/C12/attempt22.png",
+  "raw_sha256": "ecdb93e0006450dcb84cf9389776133e20b804fc723a1437a3c6387f75bb7295",
+  "raw_size": [
+    1448,
+    1086
+  ],
+  "crop_box": [
+    11,
+    1,
+    1436,
+    1084
+  ],
+  "master_file": "cards/candidates_v7/C12/stage22/master.png",
+  "master_sha256": "69abb8cf4823489ba840e6b03968304b320860697c9be1ed8e1bbb982707a641",
+  "master_size": [
+    1425,
+    1083
+  ],
+  "comparison_file": "cards/candidates_v7/C12/stage22/comparison.jpg",
+  "comparison_sha256": "c8d2d1c8bd4360a31cd5cd3928082b88a855f0b44f5f24c4a00ce84f852616b2",
+  "anchors": [
+    "U17",
+    "U23"
+  ],
+  "visual_approval": false
+}

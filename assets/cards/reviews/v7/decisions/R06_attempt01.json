@@ -1,0 +1,41 @@
+{
+  "id": "R06",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "d77d554aa94741530531b7775e638a2ab41751c784bd3bc4909a1877096ef450",
+  "master_sha256": "be7bc0378b64fefcc4e75e182ce4743b665f127ae696861afd45c784a78def33",
+  "comparison_sha256": "2250653ea89ba7d3624522310be25e2a90cb15985fdadb5014f44bd538c0f77d",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "岸边稳定背影、天空云锋和宽平水面倒影共用远方地平线；一处雷接点在熊之外，水中没有第二个熊。",
+  "baseline_comparison": "承接C18尺度与U19背部身份，以共享天地和水面方向组织新构图；少数大面与125像素层次都清楚。",
+  "paw_orientation_observation": "双臂自然下垂，双腿各接髋并踩在岸上，近岸遮住局部足端属于明确前景遮挡。",
+  "quality_axes": {
+    "main_read": 19,
+    "large_shapes": 19,
+    "tone": 19,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:03+00:00"
+}

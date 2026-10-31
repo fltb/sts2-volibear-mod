@@ -1,0 +1,376 @@
+{
+  "id": "heal",
+  "label_zh": "生命回复",
+  "family": "status",
+  "fps": 24,
+  "frame_count": 28,
+  "duration_seconds": 1.1666666666666667,
+  "loop": false,
+  "anchor": "owner_status",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    68,
+    74,
+    189,
+    202
+  ],
+  "atlas": {
+    "image": "atlases/heal.png",
+    "json": "atlases/heal.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "ec9c34b72bd7b2256f032d0ac7c7b287bac93ef196689c4fab518b423c94bdbd"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/001.png",
+      "sha256": "45eb17701db5a5fb1920124ad13458045a8f1e2c5e074daec60b4c7c9c063ef5"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/002.png",
+      "sha256": "d759db5f23bf5278e2d5fb89ec517f3e24a21bbf9166f3102d8848c632c774c1"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/003.png",
+      "sha256": "29bfec0b5c8e853b77c569f585872287822940e7d621b4e3d45960f4b2db0927"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/004.png",
+      "sha256": "52373564db5e6743e6e14369544b3b21c7ac3f3a7e56447e039f9696a43aebef"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/005.png",
+      "sha256": "ae11a6e2213baac6a8687ee93513dde2059274ba824cf3a081fd831420d181f7"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/006.png",
+      "sha256": "4e586e4a4006f219ac424adcf82beb42dcad3b604280a6ea5f900fe142935110"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heal/007.png",
+      "sha256": "4f6f47d669894d0826f4d43a7f64210f66b5639ba8b9b982c34427ec0af19c35"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/008.png",
+      "sha256": "df7d5d0b65bbf201abfc8989224d0502ebd98ec9ed1e7aaee73f8945409038a0"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/009.png",
+      "sha256": "51173b52dd5432bb2f847a06775c3dfa361325f4f933db3ec72b33562e91f068"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/010.png",
+      "sha256": "aa3265e4aabc4061f3b82f880a069de01d08ddc478089b52182360d29d915e91"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/011.png",
+      "sha256": "38df78870be8dd5e2e31aac232d009217ff44291e81c3fa53750359438f37f28"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/012.png",
+      "sha256": "539d563e09b85dfbba10bb30121c40312b8876f3d6f7a20f164303e7d2ec78e0"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/013.png",
+      "sha256": "9bf8b00d388772717a49ec08da3c1d22f25a41407ed4bc199db868e24a2c29b2"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/014.png",
+      "sha256": "ed405ff5ee02a11615032effc71052cf40f23e8cd568dfe7bb38b488e268914e"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heal/015.png",
+      "sha256": "3a4d4439b04f7823722eb07bf5f574b921003c6468cf6c27da944a60a4b1499f"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/016.png",
+      "sha256": "aa1fc4971a91500508daa9c0e28983a2864303b1828e07e67ee0d2ff1050893a"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/017.png",
+      "sha256": "c036fa3e494343c742bbd090fb554d13e1586e54351f1d82997f4dc484bdc79b"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/018.png",
+      "sha256": "c9aa2029f016374c80b900e2157c8d07201ae828e83ad9ca53dd65ed4bc68566"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/019.png",
+      "sha256": "294030ded9184c6b558c693e6a16ed488bf5d968e1e05857cd847563e3c769d3"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/020.png",
+      "sha256": "808658872cbb851920c2f37e5bfbac62f86780f032b44a9defba7984c931927c"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/021.png",
+      "sha256": "5bb7f6f36ab89454916a7251e530545475e39bd999f0d1da1827bd3b3ea0fc5f"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/022.png",
+      "sha256": "5e48a698a93d4841b002b03b3ffbc97c666d4a5581dbdf126fe5eb85eb09c191"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heal/023.png",
+      "sha256": "22689748d75c8f3873f88587a3eb698151e2f3d12f570181b18ac5f46fbb52ca"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/heal/024.png",
+      "sha256": "d17534c08231e904afc11f57a590c51269b1c8a4363da333a931074231a131ca"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/heal/025.png",
+      "sha256": "da46adfe85c5935d89d21958b4e638e34f71342a85bb846b6341af9c44697c91"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/heal/026.png",
+      "sha256": "0151b8e967fad2bc65b63058c4cf48cd6e88fd1a92aee3ab04009d63bc9781f0"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/heal/027.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.heal",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

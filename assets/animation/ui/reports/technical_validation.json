@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-27T12:54:06+00:00",
+  "passed": true,
+  "validator_sha256": "1d701b9710b6852757a2ddda490f855013eb0fa2ce5dd09f1cd68cb38fdc95a6",
+  "scope": "Delivered UI technical integrity only: 14 PNGs, approved source identity, JSON/JS data equality, SVG XML parse, and two actual fontTools font parses with declared character coverage.",
+  "libraries": {
+    "pillow": "12.3.0",
+    "fonttools": "4.61.1"
+  },
+  "png_assets": [
+    {
+      "id": "char_select_volibear",
+      "file": "images/char_select_volibear.png",
+      "sha256": "bd5fa300405b285028278684abee5af112b2b58bbe1712307a6a66e68c2432a1",
+      "size": [
+        132,
+        195
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "char_select_volibear_locked",
+      "file": "images/char_select_volibear_locked.png",
+      "sha256": "aa2374b6799dde47f5a33330a2051c6d7d52359d51204082337ab9f193e69c1f",
+      "size": [
+        132,
+        195
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "char_select_volibear_master",
+      "file": "images/char_select_volibear_master.png",
+      "sha256": "849117322bf2e2b8b5b7b622b8d5ed4d5608c44b96b9486796be070ae04155bd",
+      "size": [
+        528,
+        780
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "char_select_volibear_locked_master",
+      "file": "images/char_select_volibear_locked_master.png",
+      "sha256": "214748aa12395faea270527a66b7b7d5c3c5f3fe0494f6c0faf719d32c00d751",
+      "size": [
+        528,
+        780
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "character_icon_volibear",
+      "file": "images/character_icon_volibear.png",
+      "sha256": "9b480b01df28cad8025ce2077b1302bd90aee6099e1ea3e8485c782b24f147cc",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "character_icon_volibear_outline",
+      "file": "images/character_icon_volibear_outline.png",
+      "sha256": "2f61ceae1f97d0dd5d09b43a93328c7d0c0165deb34221d55ea2b172beaa3f7f",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "map_marker_volibear",
+      "file": "images/map_marker_volibear.png",
+      "sha256": "fe297a7997b6d4e2f0a75f60e4a535780a363da6f371074883c5fcdb0a6ad135",
+      "size": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "big_energy",
+      "file": "images/big_energy.png",
+      "sha256": "8a46c6e7ed18d5bee00d0db0057fc5350612a838a2006a54d6f6aadd086dc86b",
+      "size": [
+        74,
+        74
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "text_energy",
+      "file": "images/text_energy.png",
+      "sha256": "382986989f777ed99c7cb5cda39a85eb2393987d3d8b7512d3f395aca4107b8f",
+      "size": [
+        24,
+        24
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "energy_master",
+      "file": "images/energy_master.png",
+      "sha256": "5adf52b339647bf46c7f5d6b779e628a6e8c627604d619ed0fdd54ca26905456",
+      "size": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "big_energy_empty",
+      "file": "images/big_energy_empty.png",
+      "sha256": "c22a87f7b39d92b79b6f9a3c60c50499202743f995264826f1875c1de2d15b37",
+      "size": [
+        74,
+        74
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "character_fallback",
+      "file": "images/character_fallback.png",
+      "sha256": "698b7b6b45eee42151ae93fb5e790fcfda05b7b2dba2c3f2f60458cf63b023dc",
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "character_select_background",
+      "file": "images/character_select_background.png",
+      "sha256": "ec932bae99bdecb6f5bc4b68a1151b3dbd05c7ac4621c0bc756349b2a45617b4",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    },
+    {
+      "id": "character_select_transition",
+      "file": "images/character_select_transition.png",
+      "sha256": "6dfb2144bd2b3a8a4fd48d8e517b8daccf981a053e7b25bcb10fef45ecd22d76",
+      "size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA",
+      "full_decode": true,
+      "matches_manifest": true
+    }
+  ],
+  "fonts": [
+    {
+      "file": "fonts/volibear_ui_v5.woff",
+      "sha256": "6a9bd48b616a2441b1032379234178625940db77f974f50754ac34792f81e2ff",
+      "bytes": 142708,
+      "provenance_file": "fonts/provenance.json",
+      "provenance_sha256": "9700d6669d41716040f88eac7435b39b979cc064c2ecfd1bd006bedc1f405107",
+      "provenance_output_hash_field": "subset_sha256",
+      "output_matches_provenance": true,
+      "source_url_declared": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+      "source_sha256_declared": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+      "upstream_source_font_rehashed": false,
+      "characters_file": "fonts/characters.txt",
+      "characters_file_sha256": "cf10831f578f95919fdd9ec34cd095012a227a6e7d639439c021516faf7851ca",
+      "declared_character_count": 476,
+      "actual_unique_character_count": 476,
+      "required_glyph_character_count": 475,
+      "covered_character_count": 475,
+      "missing_codepoints": [],
+      "ignored_layout_codepoints": [
+        "U+000A"
+      ],
+      "fonttools_full_decompile_passed": true,
+      "parsed_table_tags": [
+        "BASE",
+        "CFF ",
+        "GPOS",
+        "GSUB",
+        "OS/2",
+        "VORG",
+        "cmap",
+        "head",
+        "hhea",
+        "hmtx",
+        "maxp",
+        "name",
+        "post",
+        "vhea",
+        "vmtx"
+      ],
+      "glyph_count": 1124,
+      "units_per_em": 1000
+    },
+    {
+      "file": "fonts/production_caption.otf",
+      "sha256": "a93cfe77a54bd9c399e2c0c996df45fa2459cc7b12b566c33b45195f4e6ac362",
+      "bytes": 199936,
+      "provenance_file": "fonts/production_caption_provenance.json",
+      "provenance_sha256": "a5db6b89cba32ea3d25878b8a35aa574308d9981688f7a685849bb68fd4fee23",
+      "provenance_output_hash_field": "output_sha256",
+      "output_matches_provenance": true,
+      "source_url_declared": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+      "source_sha256_declared": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+      "upstream_source_font_rehashed": false,
+      "characters_file": "fonts/production_caption_characters.txt",
+      "characters_file_sha256": "a4b03aac887fd518d863889d3d0eab0d9fc599338261138ad3fbb10ee7e68620",
+      "declared_character_count": 453,
+      "actual_unique_character_count": 453,
+      "required_glyph_character_count": 452,
+      "covered_character_count": 452,
+      "missing_codepoints": [],
+      "ignored_layout_codepoints": [
+        "U+000A"
+      ],
+      "fonttools_full_decompile_passed": true,
+      "parsed_table_tags": [
+        "BASE",
+        "CFF ",
+        "GPOS",
+        "GSUB",
+        "OS/2",
+        "VORG",
+        "cmap",
+        "head",
+        "hhea",
+        "hmtx",
+        "maxp",
+        "name",
+        "post",
+        "vhea",
+        "vmtx"
+      ],
+      "glyph_count": 1093,
+      "units_per_em": 1000
+    }
+  ],
+  "limitations": "No visual judgment, browser rendering, or target-game integration approval. The independent visual review remains separate. Original upstream font hashes are provenance declarations; this validator hashes the two delivered font outputs.",
+  "manifest": {
+    "json_sha256": "2d24dfd2125910115adacd420b848da2798221a334695deb85e801c254b31ac3",
+    "javascript_sha256": "d171b05ca9a98c2f0ccf89efd1723b6c455e20ac9b0d51352ea21c58fab79787",
+    "javascript_data_equals_json": true
+  },
+  "approved_source": {
+    "file": "references/identity/volibear_approved.png",
+    "sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+    "matches_manifest_and_fixed_approved_source": true
+  },
+  "energy_svg": {
+    "file": "source/energy_emblem.svg",
+    "sha256": "cfe69e29b98ddab57d198bb83fc4581413fde25cce01099903583a4c283853a4",
+    "xml_parse_passed": true,
+    "root_tag": "{http://www.w3.org/2000/svg}svg",
+    "view_box": [
+      0.0,
+      0.0,
+      256.0,
+      256.0
+    ],
+    "path_count": 3,
+    "visual_approval_awarded": false
+  },
+  "png_count": 14,
+  "font_count": 2
+}

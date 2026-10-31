@@ -1,0 +1,13 @@
+{
+  "id": "U05",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "859e03228bef0445a64da8799614ceb9081a65d1e77691a070c76fd3c35533eb",
+  "observations": "肩顶岩石的熊缺少可追至掌的双臂，读成只有腿、肩与胸。必须补清近侧肩—上臂—肘—短前臂—掌和另一侧可追溯的手，同时保留岩石三处接触关系。",
+  "defects": [
+    "肩顶岩石的熊缺少可追至掌的双臂，读成只有腿、肩与胸。必须补清近侧肩—上臂—肘—短前臂—掌和另一侧可追溯的手，同时保留岩石三处接触关系。"
+  ],
+  "recorded_at": "2026-10-27T17:50:58+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "T02",
+  "attempt": 21,
+  "decision": "approve",
+  "reviewer": {
+    "name": "review-four",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "59df742a2bd3b3d1e1be17e88e5b86a0df584501cadeb29b1347012c068432ef",
+  "master_sha256": "c28e06da786238f5c085539de804626cf31ea03eb5ebea1febae2fbfc1148c3f",
+  "comparison_sha256": "260199ddb4a7b95673010e717f9874498e8d1fe30fd344ded4f3d249b416e860",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看attempt21原图与stage21完整对照板。白肩与头颈合为连续亮形，胸与臂收为大面积深蓝，原先遍布全身的细碎毛面已显著压掉。偏侧低头熊吻、颈肩和近臂关系清楚，非对称半身不再读毛山或毛球。雷沿两侧身体外缘向外分支，左上暖色来击止于青雷边界，下部用低细节暗形并入轮廓雷，足以建立整体风暴护体状态而非独立毛质护罩。125彩色及灰度先读头肩亮形与深色身体，胸辫虽亮但形状数量有限，没有碎面噪声；两种遮罩保留头、肩与受击交点。",
+  "baseline_comparison": "与U19相同地使用连续白肩、大片深蓝躯干和少量青雷，内面数量已回到可兼容的简化层级；比U19保留更多面部结构以避免无头圆团读法。雷线宽度及留白比attempt20克制，与U40的明确能量路径语汇一致。",
+  "paw_orientation_observation": "画中没有完整掌爪；肩部到两侧下行臂形自然连续并由画框裁切，未见多肢或倒爪。胸辫从颈胸前下垂，没有背面错位或穿臂。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-29T20:55:30+00:00",
+  "master": "cards/masters/T02.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/T02.jpg",
+  "anchors": [
+    "U19",
+    "U40"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

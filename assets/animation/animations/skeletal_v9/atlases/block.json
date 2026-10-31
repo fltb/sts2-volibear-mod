@@ -1,0 +1,422 @@
+{
+  "name": "block",
+  "duration": 1.0,
+  "loop": false,
+  "skin": "normal",
+  "fps": 24,
+  "frame_count": 24,
+  "frames": [
+    {
+      "frame": 0,
+      "rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.0,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "e5551860df6cb452a46f2563ead194b79927a7d8839e4e61c4b89d418fc233d9",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 1,
+      "rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.041666666666666664,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "6340870c64e61a0ca469e8faa64b5fad8a5cd53074e52487b36e05f050aba210",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 2,
+      "rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.08333333333333333,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "0f16db31ecb15b26631b9132ebf1ef3f6b89657f5df530aac2e68f62d4d8831b",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 3,
+      "rect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.125,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "c58ecbba1b45501a271e46cc95986709648290e13d49b917d811bcdefec79196",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 4,
+      "rect": [
+        2048,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.16666666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "f63bb2bcda1adb07dbfe5cf87bc0384e20c9ae693ac8408e6ba3026333abc2e5",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 5,
+      "rect": [
+        2560,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.20833333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "68f51cbb13911e550fd9ddcce70d27406d1e4ee5545dfd7baf4f02f43b030094",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 6,
+      "rect": [
+        3072,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.25,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "8213db5fc44faf34f9e628c6af4a9d78004c42d28886015ae34c5ce345ea26e3",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 7,
+      "rect": [
+        3584,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.2916666666666667,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "3e95e9bbc702668791ac0d2f0daa28d0c547a0e0ecf60ce5ced10549bb5e85df",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 8,
+      "rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.3333333333333333,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "c84bf71e4bcf40440d5d11d6f6f41a3f16feaedc93bcf364493202ee61c6b316",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 9,
+      "rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.375,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "50e8337c381d51340f70fb1c1161fd6ebff58ae3746129de604daf9ad6bd04c0",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 10,
+      "rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.4166666666666667,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "92d8a88b3c9f7008c8e8eb2fe406acd0cf6ffd129a0c433ec4c6095fff1d57c5",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 11,
+      "rect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.4583333333333333,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "5af97a312d638b83035c9cac079bb80152d8c5c835dc42e22e5a8b26b4c8e533",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 12,
+      "rect": [
+        2048,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.5,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "ebbeae0b77f76cfd31905bd2f3cf212cee5cf51ea3a4fadc4140cbbdeb3ccbdb",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 13,
+      "rect": [
+        2560,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.5416666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "6d27269f5589165d1bbab4ec8735a43ef8a1eece8dcb763fc7313c3eb0a29e23",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 14,
+      "rect": [
+        3072,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.5833333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "b4cd9df40f4cedc47f259e3d282a2b407908450c8bbf246fa736ab692e160933",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 15,
+      "rect": [
+        3584,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.625,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "8c1a986a5061361272449bac5b14a1f18a6be62bb2aaf90f356feb53fa90b24a",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 16,
+      "rect": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.6666666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "e777df2da3cb09a3721d33bf1a195ca3ad82f1a545bb1420f93fdf94b8cebc61",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 17,
+      "rect": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.7083333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "6c55b51f06cb46a7ae72744a457dcfd94c9f368e579af9aaa78238db0333f060",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 18,
+      "rect": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.75,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "8508abdda03b44e2eee679bb03ca168ffa84d203c85a1b46ef417a9958d3ef3d",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 19,
+      "rect": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.7916666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "27b4c61c80955ea5d9142d84957c43b2cd8eefff3898c39836f95db60319e0e2",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 20,
+      "rect": [
+        2048,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.8333333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "4ad7580d13351ee8c551527d5ea4e369c8bb9f18364a18cd6f447ed9b543292e",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 21,
+      "rect": [
+        2560,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.875,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "570b5a4e90a3874710a4bd0658d52bb611508980c92905fd670c0d0aa07900eb",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 22,
+      "rect": [
+        3072,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.9166666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "521d86a14e1f18b10f59d0afab17aadd99131698db5f4c3e81c5bde4879aa422",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 23,
+      "rect": [
+        3584,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.9583333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "965e48d8a1441919c4b4525338b918e2e84f86bfe52ef763af7e8368b12a1397",
+      "pivot_px": [
+        250,
+        442
+      ]
+    }
+  ],
+  "events": [
+    {
+      "time": 0.28,
+      "event": "guard_on"
+    },
+    {
+      "time": 0.48,
+      "event": "blocked_impact"
+    },
+    {
+      "time": 0.74,
+      "event": "guard_off"
+    }
+  ],
+  "atlas": {
+    "image": "atlases/block.png",
+    "json": "atlases/block.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      512,
+      512
+    ]
+  },
+  "input_fingerprint": "722a743ba058cdc4fe6d2208876220310590d5c0aac313fbcc4a6a284e57d7c6",
+  "technique": "overlapping_parts_weighted_skeleton",
+  "gif": "previews/block.gif",
+  "webp": "previews/block.webp"
+}

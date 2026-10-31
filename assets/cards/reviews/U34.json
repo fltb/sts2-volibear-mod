@@ -1,0 +1,54 @@
+{
+  "id": "U34",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "54aa9b7e696db203e93dc2cc7bf654e978ae071a08353b2b7b659c38c4625205",
+  "master_sha256": "7ec7cda2e12f379752d7d9a352205cf2415d3a9749aaabf6f05e218619cfd266",
+  "comparison_sha256": "7ad0149bb556961f6bb15788c2489d4e986892225d2d501f60284bd470623845",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "两片深蓝厚护片叠搭在同一完整毛肩外侧，甲与毛之间暗缝明确，雷尾接在外缘。护片没有扎进肩体，也没有生成第二个肩关节。",
+  "baseline_comparison": "与C12毛层防护和C26附着雷路同源，改为体外甲片；区别U13沉入皮毛的纹理与U42独立落地护具。圆形遮罩仍保留双片层次。",
+  "paw_orientation_observation": "无手脚；护片是外挂防护面，不能误读为多余肢体。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:38:04+00:00",
+  "master": "cards/masters/U34.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U34.jpg",
+  "anchors": [
+    "C12",
+    "C26"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

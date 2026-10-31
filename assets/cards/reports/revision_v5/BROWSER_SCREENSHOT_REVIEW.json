@@ -1,0 +1,70 @@
+{
+  "schema_version": 5,
+  "status": "pass_for_viewed_scope",
+  "reviewer": "assistant /root/v5_vfx_assets",
+  "delivery_revision": 5,
+  "browser_report_sha256": "29bad91618af0f95a39a2057929289c6ce21b7db5dc3748c445ae0ad5b86cef4",
+  "card_art_changed_by_this_task": false,
+  "review_scope": "Actual browser UI screenshots only. This report does not claim a new artistic reapproval of all unchanged 89 card masters.",
+  "screenshots": [
+    {
+      "name": "desktop.png",
+      "scope": "Desktop 89-card gallery entry, search/filter controls, Chinese names and added VFX link",
+      "observations": "Navigation fits, text renders, grid images align and card IDs are readable.",
+      "path": "/tmp/volibear-cards-browser-jT6O4m/desktop.png",
+      "sha256": "022eed0a016b908b1381eed7603fc6f3a18b3e2c607f0c7e5b1de1105f2e8b93",
+      "actual_viewed": true
+    },
+    {
+      "name": "r28_detail.png",
+      "scope": "R28 detail view reached through a direct hash route",
+      "observations": "Large portrait, base/upgrade effect area, actual-size previews, art intent and asset links have a readable layout.",
+      "path": "/tmp/volibear-cards-browser-jT6O4m/r28_detail.png",
+      "sha256": "e1f387c891fe893f007eb77b22ba01b3a60b688bd15f8e996ac6b210ad2970bc",
+      "actual_viewed": true
+    },
+    {
+      "name": "mobile_detail.png",
+      "scope": "390px B02 detail view",
+      "observations": "Chinese title and large image fit; the dialog does not overflow horizontally. Tiny previews are programmatically verified at 125x95 for all 89 cards.",
+      "path": "/tmp/volibear-cards-browser-jT6O4m/mobile_detail.png",
+      "sha256": "684ae9c5950596c5979571d7dc05c6dfc16eb1ee1d6420320f755ba2f89097a9",
+      "actual_viewed": true
+    }
+  ],
+  "browser_execution": {
+    "all_89_detail_views": 89,
+    "grid_images_loaded": 89,
+    "base_upgrade_source_match": true,
+    "tiny_dimensions_all_cards": [
+      125,
+      95
+    ],
+    "actual_asset_links_clicked": 12,
+    "mobile_cases": 6,
+    "vfx_navigation_round_trip": true,
+    "javascript_errors": [],
+    "failed_requests": [],
+    "external_requests": []
+  },
+  "source_bindings": {
+    "cards/index.html": "0616a2e5092f3a6cbd2dfbe3940155ac8952bbb3291811e42649d08013138e05",
+    "cards/gallery_data.js": "8c9accfa7aa19160b9269535221562f1efa5e28659ffd595fca912a9176652d2",
+    "cards/gallery_manifest.json": "9d55a49fee76bb53788f5347331a3a730e30a4fa9cfca22d19198b03d0242be8",
+    "cards/fonts/gallery_ui.woff": "e0e38d5b6e99dd5038811de0083c8b6f822eb089e8445177e47502bf88be2d05",
+    "data/cards_source.json": "e74335e588b5b0b7be8a1f1ec08dff94091c1af158efa718e1cedbfff115c17c",
+    "data/cards_art_briefs.json": "060dec2cdd12a1de9ba7ae1d8029e471745a3b4f4c55179972c48bc8196d3762",
+    "data/asset_manifest.json": "ec58bdc89dd81655ce079acfdbafeace3e533467861feff4813cff66809301d2",
+    "config/export_profiles.json": "ad262954d34a4f48f208078c88e39719bf52055669dbadb8c63ba9a0c66d6441",
+    "scripts/card_repo.py": "f3c6efefe03f8a850432df35efa39f8bbfdc507a5e24cc74fb5b8391272bc696",
+    "scripts/validate_card_repo_browser.cjs": "c6cc6696ce0337b26b5157d33a032c994723d0ee43c4401edebc8147e1e50c9e",
+    "START_HERE.html": "bac5657d757fbf4ada3079305e1374126a8827d97480f67b1bbc301c333bbc14",
+    "vfx/index.html": "62376e7939917d549f97a8c7fc460528de0ba732bb4e872a9e3f1d3e75862369",
+    "vfx/manifest.json": "65eba1871f70793b79f971a38a97c8c5ba64370a7553214df9b795ca6e470b23",
+    "vfx/card_vfx_bindings.json": "62aa07d0bae59cc8afb77878256baac942bf64bc559a888f16a32f6d3c8c37b5",
+    "vfx/fonts/vfx_ui.woff": "dfb48c3a322632bdd985f50f99c0186a82373d5373d968c9943be903c581d08d"
+  },
+  "screenshots_bundled": false,
+  "historical_v4_reports_preserved": true,
+  "unresolved_ui_findings_in_reviewed_scope": []
+}

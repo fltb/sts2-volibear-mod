@@ -1,0 +1,13 @@
+{
+  "id": "R27",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "976140e602b8464ecd214f688c95694a1bd83937fee8678e5c7d11e67aaf639d",
+  "observations": "旧物表面纹理过多，带青眼的熊影主要落在物件后方，影界没有明确穿过两物转化面；读不到影扫过物件造成改变的因果。",
+  "defects": [
+    "旧物表面纹理过多，带青眼的熊影主要落在物件后方，影界没有明确穿过两物转化面；读不到影扫过物件造成改变的因果。"
+  ],
+  "recorded_at": "2026-10-27T17:50:58+00:00"
+}

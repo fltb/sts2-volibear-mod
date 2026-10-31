@@ -1,0 +1,719 @@
+{
+  "schema_version": 1,
+  "reviewer": "card_anatomy_b",
+  "scope": "42 actual source IDs: U25+, R, T",
+  "standard": "docs/07_ANATOMY_AND_ACTION_V3.md",
+  "source_version": "V2 before replacements",
+  "cards": [
+    {
+      "id": "U25",
+      "name": "猎物未倒",
+      "decision": "retain",
+      "source_path": "cards/masters/U25.png",
+      "source_sha256": "344de0aceb6b15dd4c8691dcfa07dc53beeb8ad163e3a3024937116c6bfe87b7",
+      "observations": "近景熊头轮廓完整，口鼻/耳/眼位置正常；远处目标的两腿和持械臂可读，前景主体没有无来源肢体。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_01.jpg",
+        "cards/masters/U25.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U26",
+      "name": "愈战愈烈",
+      "decision": "retain",
+      "source_path": "cards/masters/U26.png",
+      "source_sha256": "2d6f8306907c19d91f125a0b67012338731a95f9fce0faa5fcc23ee6895ea2bf",
+      "observations": "局部肩-上臂-前臂沿同一体积自然衔接；末端爪只是被构图边缘截去部分，不是腕部残缺或新增爪。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_01.jpg",
+        "cards/masters/U26.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U27",
+      "name": "淬躯爪击",
+      "decision": "retain",
+      "source_path": "cards/masters/U27.png",
+      "source_sha256": "4f19da046f0e62947f3bab2bb26ea7ac288aa4a85675eeaf1d260943bc6eab01",
+      "observations": "单只前臂经可见腕部接宽掌，四枚可见爪各有指根，透视与出爪方向一致。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_01.jpg",
+        "cards/masters/U27.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U28",
+      "name": "雷霆反扑",
+      "decision": "revise",
+      "source_path": "cards/masters/U28.png",
+      "source_sha256": "47af41e47e31b970610750ac69aa146559f2d4368e79178003cd17fb151bb6cf",
+      "observations": "两臂同时反向外展，腕掌大部被爆闪遮住，圆筒状手掌易读成炮口，肘腕转向和承受来击的因果不清。",
+      "defects": [
+        "两臂同时反向外展，腕掌大部被爆闪遮住，圆筒状手掌易读成炮口，肘腕转向和承受来击的因果不清。"
+      ],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_01.jpg",
+        "cards/masters/U28.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": "cards/revision_v3/U28/attempt_01.png",
+      "selected_candidate_sha256": "417774aeaa41527035cadb841a0602efa717978295a5451cfe7de9f327d72ec9",
+      "selection_status": "root_visual_approved_pending_export_review",
+      "generator_small_preview_review": {
+        "evidence": "reports/card_anatomy_v3/b_selected_tiny.jpg",
+        "evidence_sha256": "1f0d47cc0a303da640eb852d95445ac7a5253e7769c15bc4c34082ef296776a5",
+        "sizes": [
+          250,
+          125
+        ],
+        "grayscale_125": true,
+        "observations": "腕掌/接触/作用方向在250及125px彩色、125px灰度预览仍可辨。该预览不是最终STS1遮罩证明，遮罩由root统一导出复核。"
+      }
+    },
+    {
+      "id": "U29",
+      "name": "雷霆渐盛",
+      "decision": "retain",
+      "source_path": "cards/masters/U29.png",
+      "source_sha256": "a7b56b4bfa9c92bc47e4d60c7c6f19f1a5cd2d7d9660222590b0283bd6fdaa74",
+      "observations": "局部背脊/皮毛符号图，三块背刺由同一背部生出；连线属于闪电，没有需要假设的断肢。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_01.jpg",
+        "cards/masters/U29.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U31",
+      "name": "万钧连踏",
+      "decision": "retain",
+      "source_path": "cards/masters/U31.png",
+      "source_sha256": "a9aaa2b318be528be7cc534541930aad6defb77eefbabf7f5154ebe82e4077e0",
+      "observations": "近景承重足与后方支撑足清楚分层；爪尖接地和震圈合理，未出现反折腕/趾。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_01.jpg",
+        "cards/masters/U31.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U32",
+      "name": "迎雷",
+      "decision": "retain",
+      "source_path": "cards/masters/U32.png",
+      "source_sha256": "b78b03c80bac035b86b1134e84ddebcab4d573bb0380dd8f1a2cbbfd301f41b0",
+      "observations": "高举手与胸前另一手通过各自臂链连接躯干；掌心电光不破坏指端爪，属于抓取雷能姿态。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_02.jpg",
+        "cards/masters/U32.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U34",
+      "name": "雷甲",
+      "decision": "retain",
+      "source_path": "cards/masters/U34.png",
+      "source_sha256": "0b192a39a13740aee360737c3cab8ac0e4cca7ce051ba3e5baf793b17a487b93",
+      "observations": "肩/上臂特写，连续体积外包一层薄能量边；没有将护甲当额外肢体。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_02.jpg",
+        "cards/masters/U34.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U35",
+      "name": "霹天雳地",
+      "decision": "retain",
+      "source_path": "cards/masters/U35.png",
+      "source_sha256": "d96da21bdc6d7141b99999d06f7c15fbbca1e57f6cfa5c8137e4d135a2193469",
+      "observations": "侧面屈肘防御：肩-肘-前臂上举路径可追踪，前掌朝来击，地面雷波与防御动作分开。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_02.jpg",
+        "cards/masters/U35.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U36",
+      "name": "奔雷",
+      "decision": "retain",
+      "source_path": "cards/masters/U36.png",
+      "source_sha256": "a882978d0c2210f7958c001e8459ba9a2015fbbe540875cd21e3b18480bf3c4a",
+      "observations": "局部前足踏过地面雷路，腿-足连续，方向符号为电流而非多余爪。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_02.jpg",
+        "cards/masters/U36.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U37",
+      "name": "风暴汇聚",
+      "decision": "retain",
+      "source_path": "cards/masters/U37.png",
+      "source_sha256": "c5e84a9ce064e2316ac2abb9ee813c4e1a9c23a8ded8f0338e5b8e6d31ef61a9",
+      "observations": "熊处于左下且与汇聚点分开；伸出的手臂连续，三束雷汇于场地，控制者与效果方向直观。用户肯定例保留。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_02.jpg",
+        "cards/masters/U37.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U38",
+      "name": "雷势奔袭",
+      "decision": "retain",
+      "source_path": "cards/masters/U38.png",
+      "source_sha256": "b26a3e17b8d9f48bf56ad96d74979c7bef579ecc9a74cc4edd7b538a1a2e6394",
+      "observations": "前扑时两条前臂各自连接肩，短后腿蹬地，第二后腿自然隐藏；重心/进攻方向一致。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_02.jpg",
+        "cards/masters/U38.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U39",
+      "name": "雷暴先兆",
+      "decision": "retain",
+      "source_path": "cards/masters/U39.png",
+      "source_sha256": "fdc2c4d064df45cec59d5f62faffa4f35692f8cbea49b03c4525b8bf6eaf27bc",
+      "observations": "仰掌托云，指列与对侧单指呈合理相对位置，腕掌保持同一连续体积；云离手有清晰空隙。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_03.jpg",
+        "cards/masters/U39.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U40",
+      "name": "雷路贯通",
+      "decision": "retain",
+      "source_path": "cards/masters/U40.png",
+      "source_sha256": "3379d25ba83f475199b10da832470520d341806573596570c69e4f6b9b9c8581",
+      "observations": "单一爪尖触及独立雷路，短指列与腕相连；接触星芒局部，不掩盖整体结构。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_03.jpg",
+        "cards/masters/U40.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U41",
+      "name": "破皮见骨",
+      "decision": "revise",
+      "source_path": "cards/masters/U41.png",
+      "source_sha256": "d7b662c4bf3d809b54958c78c47c94ca5dc87de40e6dbd7d8b2feb0ea76af7d6",
+      "observations": "掌周两侧巨大的米白骨钩没有独立受体边缘，读成腕部长出的多余硬质肢体；需把剥裂发生在外部对象。",
+      "defects": [
+        "掌周两侧巨大的米白骨钩没有独立受体边缘，读成腕部长出的多余硬质肢体；需把剥裂发生在外部对象。"
+      ],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_03.jpg",
+        "cards/masters/U41.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": "cards/revision_v3/U41/attempt_01.png",
+      "selected_candidate_sha256": "ebb06709f1899e1df4426d415a349568cb4991825a11036927a4625b71ef41b9",
+      "selection_status": "root_visual_approved_pending_export_review",
+      "generator_small_preview_review": {
+        "evidence": "reports/card_anatomy_v3/b_selected_tiny.jpg",
+        "evidence_sha256": "1f0d47cc0a303da640eb852d95445ac7a5253e7769c15bc4c34082ef296776a5",
+        "sizes": [
+          250,
+          125
+        ],
+        "grayscale_125": true,
+        "observations": "腕掌/接触/作用方向在250及125px彩色、125px灰度预览仍可辨。该预览不是最终STS1遮罩证明，遮罩由root统一导出复核。"
+      }
+    },
+    {
+      "id": "U42",
+      "name": "蛮荒护体",
+      "decision": "retain",
+      "source_path": "cards/masters/U42.png",
+      "source_sha256": "3f78d4dc57c40cc3c4e4396411bd9e8ea5db55563bb56ead92b6d336939a6521",
+      "observations": "半身握拳护体，两个拳各连独立前臂，能量仅沿肩缘；头顶裁切是构图而非断裂。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_03.jpg",
+        "cards/masters/U42.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "U43",
+      "name": "循着本能",
+      "decision": "retain",
+      "source_path": "cards/masters/U43.png",
+      "source_sha256": "b9b1e6f70b5f948c4e61ff29dfb360046813ef51bd9c9adbb6efb649f2b4c360",
+      "observations": "熊爪沿地上独立足迹选择一条路径；发光爪形属于足迹标识，与活体手掌没有融合。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_03.jpg",
+        "cards/masters/U43.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R01",
+      "name": "风暴形态",
+      "decision": "retain",
+      "source_path": "cards/masters/R01.png",
+      "source_sha256": "ec69eac27233211d000934a543a21cfe7ea7164c1661836906c737d9b11b1a84",
+      "observations": "半身前压，左右肩臂各自连接，双掌在前下方承重；护体轮廓在身体外侧，不替代手。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_03.jpg",
+        "cards/masters/R01.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R02",
+      "name": "不动神躯",
+      "decision": "retain",
+      "source_path": "cards/masters/R02.png",
+      "source_sha256": "312696c0a6a0dd7bc2001c918366be7b936aeef67fb945d46081267dd6756769",
+      "observations": "四肢姿势低稳，两个前臂支撑位置清楚，后足在内侧自然可见；承受肩击未扭转肢体。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_04.jpg",
+        "cards/masters/R02.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R05",
+      "name": "全身之力",
+      "decision": "retain",
+      "source_path": "cards/masters/R05.png",
+      "source_sha256": "67098adf6c4bfcdc98f89bd1b88028d35ae5d11a9cb5dd68675f279069de19dd",
+      "observations": "双掌扣住独立三层石质屏障，前臂与掌各连续，爪在屏障上缘有明确遮挡；石墙不被当身体。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_04.jpg",
+        "cards/masters/R05.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R06",
+      "name": "天人合一",
+      "decision": "retain",
+      "source_path": "cards/masters/R06.png",
+      "source_sha256": "4c577e71b0a0d86ac21e4ba77c24612c2a37b3989469740a8a4f2b135a7ae57d",
+      "observations": "两前臂自然垂下支撑，短后腿位于其后，贯通雷光是外部能量，未切断身体。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_04.jpg",
+        "cards/masters/R06.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R07",
+      "name": "天崩地裂",
+      "decision": "revise",
+      "source_path": "cards/masters/R07.png",
+      "source_sha256": "dbeaff0a03debb9eb6fce22fba09e9930e3dcc4922c0504187ecacd6ae13a7f0",
+      "observations": "整个前臂/掌被压成一块矩形石板，缺失可辨腕/掌/指根，无法看出是完整熊掌在发力。",
+      "defects": [
+        "整个前臂/掌被压成一块矩形石板，缺失可辨腕/掌/指根，无法看出是完整熊掌在发力。"
+      ],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_04.jpg",
+        "cards/masters/R07.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": "cards/revision_v3/R07/attempt_02.png",
+      "selected_candidate_sha256": "11450ca971cb3241db1ec7c2c86e521be7714729bfa24d899d4a95fbd7b1beff",
+      "selection_status": "root_visual_approved_pending_export_review",
+      "generator_small_preview_review": {
+        "evidence": "reports/card_anatomy_v3/b_selected_tiny.jpg",
+        "evidence_sha256": "1f0d47cc0a303da640eb852d95445ac7a5253e7769c15bc4c34082ef296776a5",
+        "sizes": [
+          250,
+          125
+        ],
+        "grayscale_125": true,
+        "observations": "腕掌/接触/作用方向在250及125px彩色、125px灰度预览仍可辨。该预览不是最终STS1遮罩证明，遮罩由root统一导出复核。"
+      }
+    },
+    {
+      "id": "R08",
+      "name": "雷霆万钧",
+      "decision": "retain",
+      "source_path": "cards/masters/R08.png",
+      "source_sha256": "c58528af8c9ef29a0e7601f446dc408ff99d09fee48007a7cb2ac702e3158b83",
+      "observations": "一只完整前爪在近处打击，另三处是抽象雷压而非复制手掌；指根和末端爪清楚。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_04.jpg",
+        "cards/masters/R08.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R09",
+      "name": "众敌皆来",
+      "decision": "retain",
+      "source_path": "cards/masters/R09.png",
+      "source_sha256": "ab3e4e5f111905c0701eeedae83f1ec716339f1383264dfc8e42ec01594dd02f",
+      "observations": "双臂向外邀战，各自肩肘腕连续，手指朝上呈张掌，周围三敌与雷环分层合理。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_04.jpg",
+        "cards/masters/R09.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R10",
+      "name": "这场战斗尚未结束",
+      "decision": "retain",
+      "source_path": "cards/masters/R10.png",
+      "source_sha256": "6677751b7a90e9c2f12e61493c1e8320465d8848d04e2e7e3ddbb461178f608f",
+      "observations": "近掌承地、远手收拢能量，双臂路径分开；三条青色轨迹是回收效果，无额外实体手。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_05.jpg",
+        "cards/masters/R10.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R12",
+      "name": "解放本能",
+      "decision": "retain",
+      "source_path": "cards/masters/R12.png",
+      "source_sha256": "ad81a53b15987a1fa9ccca46706b25144af8faf2fd94cb560f154394fcf8d353",
+      "observations": "头肩特写，吻部/下颌完整，外部枷锁碎裂与头皮之间有空隙，未形成多重下颌。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_05.jpg",
+        "cards/masters/R12.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R13",
+      "name": "重返蛮荒",
+      "decision": "retain",
+      "source_path": "cards/masters/R13.png",
+      "source_sha256": "e02d04bb92de78f346cb4781cfcd3c48ee553fd5097e972f19415f7d6469965e",
+      "observations": "背向站姿的肩臀和四肢遮挡可解释，光线沿身体外侧回转，未呈多出手臂。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_05.jpg",
+        "cards/masters/R13.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R14",
+      "name": "不休之猎",
+      "decision": "retain",
+      "source_path": "cards/masters/R14.png",
+      "source_sha256": "d9420f904f71a5c6bd7cf847561233c63ec13c53a0ff21e97d50062f7dcebb75",
+      "observations": "单只爪与远方猎物通过弯曲刮痕相连，前臂/掌完整；路径是地面痕迹而非拉长的爪。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_05.jpg",
+        "cards/masters/R14.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R16",
+      "name": "愈战神躯",
+      "decision": "retain",
+      "source_path": "cards/masters/R16.png",
+      "source_sha256": "33162da1a3e9b4e3f95ca14959f87d64ae5a5f3719346cb0f069ac64cdbbb08f",
+      "observations": "一拳前伸另一拳回收，肘部朝向和腕部连续，短爪从合拢指端伸出；夸张力量仍符合拳击关节链。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_05.jpg",
+        "cards/masters/R16.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R17",
+      "name": "天雷决",
+      "decision": "retain",
+      "source_path": "cards/masters/R17.png",
+      "source_sha256": "9a5b06069d80f536d5e02c994a26e5e7cf53530328bd506b5bdbf80bd9eef363",
+      "observations": "雷击单一敌影的场景符号图；人体细节不适用，但受体独立且方向清楚。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_05.jpg",
+        "cards/masters/R17.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R18",
+      "name": "雷池",
+      "decision": "retain",
+      "source_path": "cards/masters/R18.png",
+      "source_sha256": "29c6fbfde3f4d96b565dc62fe0821c6702a9ee104ac3b1732fc34c20220cca37",
+      "observations": "单一完整前足触发独立雷池，足/腕相接，两名远方敌影在池内；作用对象清楚。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_06.jpg",
+        "cards/masters/R18.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R21",
+      "name": "雷霆化身",
+      "decision": "retain",
+      "source_path": "cards/masters/R21.png",
+      "source_sha256": "bbdc17dab04f8ff526234842176719cda7f9cba8a3c386e412aaf300803623b5",
+      "observations": "完整正面稳站熊，两肩臂/手、两腿/足独立清楚；外部雷缘不藏手。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_06.jpg",
+        "cards/masters/R21.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R23",
+      "name": "裂天",
+      "decision": "retain",
+      "source_path": "cards/masters/R23.png",
+      "source_sha256": "e6723538e137e31c6937b1361154230357efe0b607f4ba0714d7c364c880f817",
+      "observations": "三雷击中独立目标影，三束方向与击中点可读；敌影有一致躯干四肢，不是三头或多臂拼合。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_06.jpg",
+        "cards/masters/R23.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R24",
+      "name": "雷涌",
+      "decision": "retain",
+      "source_path": "cards/masters/R24.png",
+      "source_sha256": "6e27636c36f49a91a10f3161feb83275647ab626c699bd857c1bd3a9ede202a4",
+      "observations": "侧仰掌收拢雷能，拇指与另外可见手指位于掌两侧，腕从右上接入；电流在掌前，不替代腕。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_06.jpg",
+        "cards/masters/R24.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R25",
+      "name": "风暴重临",
+      "decision": "retain",
+      "source_path": "cards/masters/R25.png",
+      "source_sha256": "ba591572056878c8923c0f8ce7c82adc51cdbde622dab00c724fd006fc5d4e01",
+      "observations": "肩背与转头姿态连贯，返回风弧在身外承载两个菱形技能符号；不含实体断肢。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_06.jpg",
+        "cards/masters/R25.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R27",
+      "name": "旧日重临",
+      "decision": "retain",
+      "source_path": "cards/masters/R27.png",
+      "source_sha256": "962a8daa8cd2784e56e0d8be902768696a9806fee117dd3931d6dd768db65b0f",
+      "observations": "独立爪形/躯形从石质壳中显现，是两个衍生形态的符号对象；两者并非同一活体断开的部件，蓝线为能量关系。保留象征语法。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_06.jpg",
+        "cards/masters/R27.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R28",
+      "name": "熊灵侵染",
+      "decision": "revise",
+      "source_path": "cards/masters/R28.png",
+      "source_sha256": "1831e97e3399b7dd0836383e1992ac1a682a3607df9d41c8179209ea1e8ae004",
+      "observations": "熊头直接融进石片并延伸成巨爪，混淆主体/受体，画成自我变化而非主动触碰外部物体施加侵染。",
+      "defects": [
+        "熊头直接融进石片并延伸成巨爪，混淆主体/受体，画成自我变化而非主动触碰外部物体施加侵染。"
+      ],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_07.jpg",
+        "cards/masters/R28.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": "cards/revision_v3/R28/attempt_01.png",
+      "selected_candidate_sha256": "897bffd03863cd021c089e3a39c57219e46ea10a7c667fd9c467362d853f3dbd",
+      "selection_status": "root_visual_approved_pending_export_review",
+      "generator_small_preview_review": {
+        "evidence": "reports/card_anatomy_v3/b_selected_tiny.jpg",
+        "evidence_sha256": "1f0d47cc0a303da640eb852d95445ac7a5253e7769c15bc4c34082ef296776a5",
+        "sizes": [
+          250,
+          125
+        ],
+        "grayscale_125": true,
+        "observations": "腕掌/接触/作用方向在250及125px彩色、125px灰度预览仍可辨。该预览不是最终STS1遮罩证明，遮罩由root统一导出复核。"
+      }
+    },
+    {
+      "id": "R29",
+      "name": "不再为人",
+      "decision": "retain",
+      "source_path": "cards/masters/R29.png",
+      "source_sha256": "94e1706b9372215beff171042d948b9b481e035970cad88310d693cd2aceeeac",
+      "observations": "熊保持正常完整四肢，周围四片旧壳符号分离，兽化作用与主身体不融合；非新增肢体。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_07.jpg",
+        "cards/masters/R29.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R30",
+      "name": "我即荒野",
+      "decision": "retain",
+      "source_path": "cards/masters/R30.png",
+      "source_sha256": "7f19a2ebba03aa505eefd3e816e0952cc4563405bfa7b38ebffd14ac3686b5be",
+      "observations": "抬爪和另一只收胸爪的肩-肘-腕可追踪，双短腿有承重关系；夸张但不反折。root独立同意保留。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_07.jpg",
+        "cards/masters/R30.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "R31",
+      "name": "天声震落",
+      "decision": "retain",
+      "source_path": "cards/masters/R31.png",
+      "source_sha256": "82674fe59ac1bb889e6c187b669d4a4e46ebc12c34b99a8d28a570e158a40e61",
+      "observations": "低伏重臂落在独立盾牌，爪击点与盾碎片分开，张口上下颌和牙列正常。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_07.jpg",
+        "cards/masters/R31.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "T01",
+      "name": "裂骨之爪",
+      "decision": "retain",
+      "source_path": "cards/masters/T01.png",
+      "source_sha256": "7a90c1636280e3a074f5d9d748f8c7fd6da5120d4f47bc2e5b957b4623d2d921",
+      "observations": "局部前臂/掌连续，三枚可见爪从指端伸出，双次刮痕为效果而非多手。",
+      "defects": [],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_07.jpg",
+        "cards/masters/T01.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": null
+    },
+    {
+      "id": "T02",
+      "name": "风暴之躯",
+      "decision": "revise",
+      "source_path": "cards/masters/T02.png",
+      "source_sha256": "684e7bb3cb0d4b0cfb8e96191d4531730f215fe2880ea283ced98b95f7e93a39",
+      "observations": "两个巨大的对称前臂末端封闭且无可见手，腹前相碰却没有合理交叉/遮挡，容易读成两个残缺球体。",
+      "defects": [
+        "两个巨大的对称前臂末端封闭且无可见手，腹前相碰却没有合理交叉/遮挡，容易读成两个残缺球体。"
+      ],
+      "viewed_evidence": [
+        "reports/card_anatomy_v3/b_contact/page_07.jpg",
+        "cards/masters/T02.png"
+      ],
+      "inspection_scope": "Original full-size image opened and visually inspected individually; also viewed at 500px in contact sheet.",
+      "selected_candidate": "cards/revision_v3/T02/attempt_01.png",
+      "selected_candidate_sha256": "e139cf1599e3d4ede7557e0c372c454ab3c2d17ce443af6572020c37431bf548",
+      "selection_status": "root_visual_approved_pending_export_review",
+      "generator_small_preview_review": {
+        "evidence": "reports/card_anatomy_v3/b_selected_tiny.jpg",
+        "evidence_sha256": "1f0d47cc0a303da640eb852d95445ac7a5253e7769c15bc4c34082ef296776a5",
+        "sizes": [
+          250,
+          125
+        ],
+        "grayscale_125": true,
+        "observations": "腕掌/接触/作用方向在250及125px彩色、125px灰度预览仍可辨。该预览不是最终STS1遮罩证明，遮罩由root统一导出复核。"
+      }
+    }
+  ],
+  "summary": {
+    "reviewed": 42,
+    "retain": 37,
+    "revise": 5,
+    "originals_viewed_individually_at_full_size": 42,
+    "new_selected_images_viewed_by_generator": 5,
+    "actual_generations": 6,
+    "rejected_attempts": 1
+  },
+  "note": "These are actual visual findings, not inherited V2 scores. Proposed retained artworks remain subject to root final batch audit."
+}

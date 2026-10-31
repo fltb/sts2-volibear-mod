@@ -1,0 +1,38 @@
+[
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/vo/choose/106.ogg",
+    "status": 200,
+    "content_type": "application/octet-stream",
+    "bytes": 82071,
+    "magic": "OggS",
+    "sha256": "abb37c1a492ef5596c61ee3b80d5a266b17958ca30afa5aa9a90e2b4c62bf961",
+    "file": "/tmp/volibear_audio_source_probe/zh_cn_choose.ogg",
+    "probe": {
+      "codec": "vorbis",
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration_seconds": 9.719002
+    },
+    "head_last_modified": "Wed, 16 Jul 2025 02:56:35 GMT",
+    "language_basis": "Tencent Chinese-service source metadata; not acoustically transcribed by this agent",
+    "recording_generation_verified": false
+  },
+  {
+    "url": "https://game.gtimg.cn/images/lol/act/img/vo/ban/106.ogg",
+    "status": 200,
+    "content_type": "application/octet-stream",
+    "bytes": 56866,
+    "magic": "OggS",
+    "sha256": "274ed0fcff72057b36d253057a444c0826de32fa56aa3cc91926a26bc31f8d0f",
+    "file": "/tmp/volibear_audio_source_probe/zh_cn_ban.ogg",
+    "probe": {
+      "codec": "vorbis",
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration_seconds": 6.594467
+    },
+    "head_last_modified": "Wed, 16 Jul 2025 03:02:15 GMT",
+    "language_basis": "Tencent Chinese-service source metadata; not acoustically transcribed by this agent",
+    "recording_generation_verified": false
+  }
+]

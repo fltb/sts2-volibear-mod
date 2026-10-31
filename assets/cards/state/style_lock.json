@@ -1,0 +1,140 @@
+{
+  "version": "volibear-v7-complete",
+  "positive_anchors": [
+    {
+      "id": "B03",
+      "path": "cards/masters/B03.png",
+      "sha256": "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc"
+    },
+    {
+      "id": "C05",
+      "path": "cards/masters/C05.png",
+      "sha256": "777290499e3cb81863058f5728fa225c0ded9878d056027a8f3e0adcae808b6f"
+    },
+    {
+      "id": "C06",
+      "path": "cards/masters/C06.png",
+      "sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47"
+    },
+    {
+      "id": "C08",
+      "path": "cards/masters/C08.png",
+      "sha256": "5be8cef9d73dd85fa5c2c99b1d017c17df35a2883f7eff1c74f914581f86ae9d"
+    },
+    {
+      "id": "C09",
+      "path": "cards/masters/C09.png",
+      "sha256": "e5c2c810b3ca63356a117a6bb47af26a5698b61da604f71904830bb96d8f5e5e"
+    },
+    {
+      "id": "C13",
+      "path": "cards/masters/C13.png",
+      "sha256": "b4d0180fa8014c8f04967b1b6b1b15ae9ab80dc01c04da6d00dc9b35b2f0dcbb"
+    },
+    {
+      "id": "C18",
+      "path": "cards/masters/C18.png",
+      "sha256": "af405b611df056db21695c555554584bf07527ce0eb517b96719418848f11a95"
+    },
+    {
+      "id": "C22",
+      "path": "cards/masters/C22.png",
+      "sha256": "efeb82f196389b81ca923d468922b357eb28b202f6972f6006f04e040b91f997"
+    },
+    {
+      "id": "C24",
+      "path": "cards/masters/C24.png",
+      "sha256": "dd8877dd9c4c547c3c1ac26e8b52ad33386fcb9436b6dcfe32bcedd01af9abde"
+    },
+    {
+      "id": "C26",
+      "path": "cards/masters/C26.png",
+      "sha256": "5de257dd4487c098fb639199ff528483bd08b794ee39a49d52591e71d3b9a74f"
+    },
+    {
+      "id": "U03",
+      "path": "cards/masters/U03.png",
+      "sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d"
+    },
+    {
+      "id": "U17",
+      "path": "cards/masters/U17.png",
+      "sha256": "cf29af66573c945eb08005c0a607771f6511e6f4ded815aa7fbcca4d0946c65c"
+    },
+    {
+      "id": "U19",
+      "path": "cards/masters/U19.png",
+      "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546"
+    },
+    {
+      "id": "U21",
+      "path": "cards/masters/U21.png",
+      "sha256": "7d2eea090cd8d20adc561d6f5dcb7d3c765cf47ac8de84c4d6d790da54ce6623"
+    },
+    {
+      "id": "U23",
+      "path": "cards/masters/U23.png",
+      "sha256": "671d7f310e0666d034d1b04ec52225eb17278b57cf2881a7a320748da80ae912"
+    },
+    {
+      "id": "U25",
+      "path": "cards/masters/U25.png",
+      "sha256": "85f67c38309a99eee889fa76d564bb8c4031208320c650e245ce9a50a7a26441"
+    },
+    {
+      "id": "U35",
+      "path": "cards/masters/U35.png",
+      "sha256": "d96da21bdc6d7141b99999d06f7c15fbbca1e57f6cfa5c8137e4d135a2193469"
+    },
+    {
+      "id": "U39",
+      "path": "cards/masters/U39.png",
+      "sha256": "fdc2c4d064df45cec59d5f62faffa4f35692f8cbea49b03c4525b8bf6eaf27bc"
+    },
+    {
+      "id": "U40",
+      "path": "cards/masters/U40.png",
+      "sha256": "3379d25ba83f475199b10da832470520d341806573596570c69e4f6b9b9c8581"
+    },
+    {
+      "id": "R09",
+      "path": "cards/masters/R09.png",
+      "sha256": "c5fbb9517840a49632f1d43b2f991bd7c06789ec90987ae7d23da3b25aec3333"
+    },
+    {
+      "id": "R12",
+      "path": "cards/masters/R12.png",
+      "sha256": "35610d79979d826e35fd0398e86144fe13517614b5d3b3a3d38a520f3817549e"
+    },
+    {
+      "id": "R17",
+      "path": "cards/masters/R17.png",
+      "sha256": "9a5b06069d80f536d5e02c994a26e5e7cf53530328bd506b5bdbf80bd9eef363"
+    },
+    {
+      "id": "R18",
+      "path": "cards/masters/R18.png",
+      "sha256": "29c6fbfde3f4d96b565dc62fe0821c6702a9ee104ac3b1732fc34c20220cca37"
+    },
+    {
+      "id": "R23",
+      "path": "cards/masters/R23.png",
+      "sha256": "0e4d748aa18aaf40b78fb09a418cfa53c90af602bb16170ee17ffd0e2f92c298"
+    },
+    {
+      "id": "R24",
+      "path": "cards/masters/R24.png",
+      "sha256": "6e27636c36f49a91a10f3161feb83275647ab626c699bd857c1bd3a9ede202a4"
+    },
+    {
+      "id": "R31",
+      "path": "cards/masters/R31.png",
+      "sha256": "82674fe59ac1bb889e6c187b669d4a4e46ebc12c34b99a8d28a570e158a40e61"
+    }
+  ],
+  "identity": "references/identity/volibear_approved.png",
+  "body_logic_standard": "docs/ART_REVIEW_V7.md",
+  "source_of_lock": "2026-10-30: user authorized B01 C12 U36 T02 redraw after detailed design approval; other locked originals unchanged",
+  "U28": "Redrawn; must differ from fixed U35",
+  "scope": "Current approved images only; historical approval does not approve a new image."
+}

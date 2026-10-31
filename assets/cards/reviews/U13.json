@@ -1,0 +1,54 @@
+{
+  "id": "U13",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "bb9e4ff00d502eae1830eb9a74b8ba87776c58aeb32b58cccf6341145a06e990",
+  "master_sha256": "a2326674164d92a7ab906062b5b674ad15407816207fdf6ea2257761aa0596b2",
+  "comparison_sha256": "af3b262266f1a6da792db11307c5eff1f1ee9153d7252a2611b7d0a505c2cd4b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "同一连续腰背曲面上，短浅光尾与固定深蓝纹相接，变化贴附皮毛表面，身体轮廓没有额外突起。无甲壳、珠宝或身体外生成的器官。",
+  "baseline_comparison": "与C26沿实体表面的稳定雷纹对应，改为皮毛局部由虚到实；主体省去头手后仍由白灰毛与深蓝纹保持身份，缩图不会形成奇怪肢体。",
+  "paw_orientation_observation": "不出现手脚；所截身体表面连续，不用不明关节充当抽象。",
+  "quality_axes": {
+    "main_read": 17,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:31:53+00:00",
+  "master": "cards/masters/U13.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U13.jpg",
+  "anchors": [
+    "C26",
+    "U40"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

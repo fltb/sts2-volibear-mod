@@ -1,0 +1,1099 @@
+{
+  "revision": "V7",
+  "status": "complete",
+  "locked": 28,
+  "to_redraw": 61,
+  "generated": 61,
+  "visually_approved": 61,
+  "cards": {
+    "R01": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "07492af2405de04a813c19f9838dbdfd9477eb41d906a96997d17d098216e50a",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R01_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "b5f3273ed33093c55a62e54a1a434b2fd9cbc007facf96492505c4768d0925e7",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R01.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R01_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "e2a5dd9588b2f7f0d5d3b597479fcbee4e22cb9e40e6dcd6cefdb02bec292373"
+    },
+    "B02": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "b6f8361db82c6238be8b00e46519e01dcba855c0031b65110aef7d4343f64ecb",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/B02.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/B02_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb"
+    },
+    "U08": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "271b7d5b545ef6d41fbaf59ea27f5780feff9837ce87ce6aaabcaa05142d4eb4",
+          "source_artifact_state": "historical_generation_record",
+          "status": "superseded_by_later_attempt"
+        },
+        {
+          "attempt": 2,
+          "sha256": "18657eb5beb78d7d63fb4937c7df1f872ad1af9b5e5851ca6664ef4af4210583",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U08.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U08_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "46e6c7b578800409d70f3d4c084cdeed730f93ad850ea756dd96a6ceb542b9ee"
+    },
+    "R28": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "a3ddd48dcdfeaa61716b6e3c977a985ab294e2047ff3dad2a35e06ae4fa0a4f8",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R28_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "49ab83640a5cbc0c0590bae3638b5de77bb0f04f9c73738077314982d124f88e",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R28.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R28_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "6951772100b0077f37e1ac29bcb76b0f8788b2a55da84f101790f43fbeb5690f"
+    },
+    "R29": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "f52b624f1012bbe41698a620aca11d2a7901599a7d463e7f325f56dc1694952f",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R29_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "536d069affc5c0661d84df58acfc4e486308eb28ccaa420035962862e998edc3",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R29.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R29_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "169b51099b4f541750fb3b55832e4747e1e11828b6be720deea8b84634d40fb8"
+    },
+    "U11": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "67b9cd1dc40e5afdb584b8b5181ae3f3c2b5b87f742e3d737939e1ab31577d5b",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U11.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U11_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "f98bd73f63501d315d81b4226fd5ecb52598cc82bcff43fdc7527b4ed5a74904"
+    },
+    "T01": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "39aeee47f1e4715cc187028f59ca30221685a2c503a7733e6f2794e9cbdd2ea7",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/T01.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/T01_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff"
+    },
+    "T02": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "02b5c2d1d6c6bddbf1effbcf53469eefa2c3b7348e3816228d1670d6bd8b801a",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/T02.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/T02_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "af81cdd82838a5ad5307bfdf7ce2dcd840dd8b85520216ad66ad8c86ce13a89d"
+    },
+    "C17": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "d2989106840e752fa4db218753b752144cb8162bd36dac4f21e54dd43a3e4907",
+          "source_artifact_state": "historical_generation_record",
+          "status": "superseded_by_later_attempt"
+        },
+        {
+          "attempt": 2,
+          "sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C17.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C17_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "af0d6bd4834a76c10c045a59df0e469875717b08af1404ea8da2379dcf8a348f"
+    },
+    "C10": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "09a67afa4a743a9f0bbc128c4d702c87dde8f629629a30f97a04b426ba49b771",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/C10_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "9c89f3e0cf8e25dfea059abbc5d3e55ef92b69280b05747f17269fb7dc76073d",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C10.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C10_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "e48b9666cf53016e5d5cd96d7d31a3a3c2d2fd050e246e588f770192d831229d"
+    },
+    "R30": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "7785a6e0fa657d0b2a2544707df14001c868ccc4f74b6fd85ec78d91b3790c78",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R30_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "383a42c3858095b612a671b22362c1eb695f43fcc04754aa7cc59059b5ab73d8",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R30.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R30_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "03d4aece79bb4b537bcb916d969d85ba8ea686f09dafbaa6f7bb472f56b108ab"
+    },
+    "U43": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "6a4556ae926ede53a6f86afac76a2efc35bdab92bc80cb25425636c92bc3573f",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U43.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U43_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "bd5b05e7c578404d62c8109e079b130e1f0e21a201dd5bb3549a3a2712726cd8"
+    },
+    "B04": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "a622985339492e7cc6c613b7da6f7f861898e40d15e9428bff987a42abaecddd",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/B04_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "22b7e8781e3cc8c38f4938d5cab9f4d9101a65f4f9db894ccdc2b9c0e60274fe",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/B04_attempt02.json"
+        },
+        {
+          "attempt": 3,
+          "sha256": "6ad5c812aa559bf3fb32a79bff0345a53b21a33033b3d3fab0a492c81820683a",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/B04.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/B04_attempt03.json"
+        }
+      ],
+      "selected_attempt": 3,
+      "master_sha256": "67833ea2a6671df81d07a938d708f488baf757fb5299e3d7edd68f8b1369c01b"
+    },
+    "U42": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "2208dea432b92857bbcfa37f43a1591d710001a2aa9efc40f4bbf0e9cf1399cc",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U42.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U42_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "651dabda7c4c7fdcb3eee9a8bd11f965a4d9935bdad09e06bf3fc4f719535e44"
+    },
+    "C04": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "7b520af92a01ddeb9610eb498f0d7f9ca07e1889f00777ae864cc4270808b2f1",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/C04_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "368d93a8524a6ad4bd158a776dbca1e7ee7d7d47f2a79e2368d51f2da5c56d11",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C04.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C04_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "b3d3d40f83ee8cca445d9c4bc178426cb3c17c5c116ea28d785ec2884128560a"
+    },
+    "C15": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "4f611926c22c49c7360010eb34c8d74e7d066bd0cc47e5addf24ce5872c0dd31",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C15.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C15_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "a220214bd814c6eef72d427b412bca7493a2dc613ea6f52301ce143650350bba"
+    },
+    "U13": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "bb9e4ff00d502eae1830eb9a74b8ba87776c58aeb32b58cccf6341145a06e990",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U13.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U13_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "a2326674164d92a7ab906062b5b674ad15407816207fdf6ea2257761aa0596b2"
+    },
+    "R21": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "eb0f43ada84c038769fc37fc691987a68fd4214080c7eece970f24acbcd5cc26",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R21.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R21_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "ea9430e45ac95b0ffd163db9e0f84a029cfbb5b653cc4bfb15b52e1925bfa273"
+    },
+    "U38": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "84f9f3958ea8da80d6a31b31f76f443c0da9eaa80121f1ffb4f946bb2ca2175e",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U38_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "8b05bd13453793d3e378b69f5d7b2661ee92644b82eaf0506c74bccb849a3d6f",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U38.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U38_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "7af5df8a72c33b1e6c3e3906046a0691996f920ea76cc2c6bfb016109ecae7ca"
+    },
+    "C02": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "8182cb1c2d496e7289da621127d2e5716989733c5480a7fd5eb5a4140b3f4c51",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C02.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C02_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "a33016e5dcef904795291285382fbb4014f2d2b6c4a02f7fcf62a73a2a29c43b"
+    },
+    "U27": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "3892f425e9ceeaa0f772e36c2ba8431847ea637376a748cd61b4a20b3eb7a538",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U27_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "52b063e41e06618f677bca7a0d6bcbbc5b764fa2b4d1910758ee8d943c376e35",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U27.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U27_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "ce9194ae133d0b1202e0e1751fa1523c59cc50f42b3374907322323a4e2024b7"
+    },
+    "U34": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "54aa9b7e696db203e93dc2cc7bf654e978ae071a08353b2b7b659c38c4625205",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U34.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U34_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "7ec7cda2e12f379752d7d9a352205cf2415d3a9749aaabf6f05e218619cfd266"
+    },
+    "U24": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "58580485e4298cfe65a276aba210695c120fbd017c02cc21e5e9737a2b88d00a",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U24.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U24_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "f6256153b50ff691ef1d600927b5089af4294fe263208fc00b1e1f1633dae10d"
+    },
+    "U02": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "844e6061d6b504abc17df60c860622f048d964b023d45debc1fee645b2e93b05",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U02.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U02_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "8e15ea0450985a34b00423e64c73ad8f2830677559f3208973ddceb0b207e240"
+    },
+    "U20": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "49cdaf568587f4f924ecd53fabe1e8f925dea5505077407b26698e20a57d82b7",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U20.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U20_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "6955d0f4126e933beed92228d0640e9236c20631d5b68687d37b109201d17d63"
+    },
+    "R10": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "1490a768ffce830cc851a439b7a28d590e3039be259e026e23737df86c832439",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R10.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R10_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "11ee39e9b1e337706bd387f0688b4ac440d6442309b6b1d6e5ba1f041ae8a05e"
+    },
+    "C20": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "4f87ac80bedb3cbe8bf6f78a42566f35c21625c9d5138860923bea2b410c43b1",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/C20_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "51eb996f64f25ee6f262f25f51b3822c19baf002a0a004be4bcaf011ea3ef1ae",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C20.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C20_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "507f76d2ea8ef0695dec4c1eb95091bc4ddf4f1326a05644a656b7057257193e"
+    },
+    "R27": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "976140e602b8464ecd214f688c95694a1bd83937fee8678e5c7d11e67aaf639d",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R27_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "809a765daed8bb79d20f0b11d997ce8a39d852518d3e2002f1e1aec63c2eef0d",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R27_attempt02.json"
+        },
+        {
+          "attempt": 3,
+          "sha256": "90992343a9dc91505aec6e121b225b0fcf08c051061dcc539153a94df27e02a4",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R27_attempt03.json"
+        },
+        {
+          "attempt": 4,
+          "sha256": "19bb8ed87ec6a2c6be131f13a9310022e1738b888566be10d26cd6ced068e3a2",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R27.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R27_attempt04.json"
+        }
+      ],
+      "selected_attempt": 4,
+      "master_sha256": "249a697f3d8268b8928b84e2d5d8d1a7535df697cb8f0057bce76794495b7eb7"
+    },
+    "U32": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "d369a545ae6d42b69f51b1c39faa24ae38181b2a8c485c896336c2190cdf40dc",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U32.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U32_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "fc7164a2a4941ed3e8113716cfb6a8539fb06d7465da247c76404019108d4fd8"
+    },
+    "R16": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "35bbf6b00fe71e8db261919e82a29ef2bbd43d8a994744150cbe5c59f5d08e77",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R16.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R16_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "0509c69b53e708f60b06722a13dd8994e13b6c26d244f356eaffd4979d5b8cab"
+    },
+    "U15": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "e114aba2dab5423582bbc2c701c505d01d7983c7f9e194090c83326e5250bf4c",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U15.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U15_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "18bc85eed02af43db9edaf8abf3191488ea10100517f84d34913ddedb59a06eb"
+    },
+    "U26": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "c1b3d61b362b63aec95bc3be30711bc2e1261bb26ef4e7f171a29f592cf6cb7a",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U26.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U26_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "915b1fcd557b65471e195a26f4d890e6f6c92a48784dbae6d4bcbbd11f975e66"
+    },
+    "U14": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "139938f35f2a42cf88ef929cb820dfdece90ad100efdb289a1f4a2d20fab396b",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U14.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U14_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "3d83e57a8f1af1ced6cefad7dd2ac9c2e36bf856ea0841cca08955968a7ee8ff"
+    },
+    "U36": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "1be5fd7e284549f9b499087e5bd107c6e0a10fb5b3401ab4eba4d8813098b473",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U36.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U36_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "24d1fdcee8d2f81b65e3463346d2427145a01748fab4dd881f194ce17305f452"
+    },
+    "C11": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "10b44ea22272678fbd083673721baf054d06eca1a899d1b1faaabef621afb6aa",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C11.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C11_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "96c14c3cb9ce86c56c856e79c41bd72b5875081a37cfdc57be347a198319a9e9"
+    },
+    "U07": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "589d7e1ca7348fab183d49b21b93f05dc95ef6deb9ca2d41160204447bb6dee2",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U07.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U07_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "22cec0fa090674175e136a819b7e86a2b566a8cff0591d01c3a103d7cd312245"
+    },
+    "U31": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "6f2b807197d837dde0aa77493bbcca13e7ed4d2f69dcf22adbb61a530045dc4b",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U31_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "bfeedb62a20ed39ff482fbb72a986bb4517c2c52040f1b0d05aa829f62e9cfb6",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U31.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U31_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "650e48177accb01833bd4d323b96bc4f858fcce3aa144e4a9dc99e724cf45eb6"
+    },
+    "R25": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "341a9c4725f48d611cfced747725182841166a096d7aca83711bb8b1cf7c937e",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R25.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R25_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "be8dacc2f1ee368317a6c90a0bfb11b0c393f1ad14f3826422b3b10f4b1624dd"
+    },
+    "U12": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "fd07b3d1904da7c44ee10e2e980a5d65e64da059d46866096cb039ce45344d9d",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U12_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "c44ca7e2d91067c3cfd1050d833811c17d4e37094dfba58a66541668727d9cfc",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U12.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U12_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "38adf3df032bff39965e4abd45e56acf124ede15d8857d4534a0c23bd98aa98a"
+    },
+    "R06": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "d77d554aa94741530531b7775e638a2ab41751c784bd3bc4909a1877096ef450",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R06.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R06_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "be7bc0378b64fefcc4e75e182ce4743b665f127ae696861afd45c784a78def33"
+    },
+    "U05": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "859e03228bef0445a64da8799614ceb9081a65d1e77691a070c76fd3c35533eb",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U05_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "5b4b6079e8ceebb2756017cc77fb1eaae219f121609f966f8e9df34a44fa5b67",
+          "source_artifact_state": "historical_generation_record",
+          "status": "superseded_by_later_attempt"
+        },
+        {
+          "attempt": 3,
+          "sha256": "b3e7282875f417e9764879a24ee55d902fe0b6ead06abb230db19c10427b8287",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U05.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U05_attempt03.json"
+        }
+      ],
+      "selected_attempt": 3,
+      "master_sha256": "c76bd7bac2e04253889cf28996e3f2427c7fde811d861c6b717f0ecd85b916ed"
+    },
+    "C21": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "468e57234efc2ecf56001b38df35b3ca8a42023192b24a0ef3ec80f0f6a9bd48",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C21.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C21_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "e17f161a46f8dc6fe0db3b82ad1ac5a5a5bc51d2f9b52478b695292281277fb6"
+    },
+    "U06": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "77185bb2812af1a621c47304dd852baffe6b45095f4daac1692446096269c800",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U06.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U06_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "86f835aeb8fdbb9ff39dd1ac38feb43c63e923234d59ea922cef4cbe71cd194b"
+    },
+    "R07": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "90b8956e23ecbf35b105a85aaba48a49265a1cfd958420a823fc2b872e390732",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R07.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R07_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "627197b948fb0308e1e7a346c1a7fb703ff615a5a884a010a5e26563fe83846a"
+    },
+    "C01": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "176d31ac76ddd16bbe2971e09df4ab21b6cba64fcabc6210eb8e8c0dd72c9e87",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C01.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C01_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "c944e222cbae408181942b760b3dd65cf90009a6993546a1faca94d0949324c8"
+    },
+    "C19": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "639e6a6948b8d4ed0778a778b582efe761933fa526badfdfc8b8b5353b69531d",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C19.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C19_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "e47e00d54f700097e500ea6a0eb8e9a5ad225cb95922747044cc954543ba59c4"
+    },
+    "R02": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "f0ada163faf663830dcb3775e8cdc6dee625b2ea0f53cf87c63d1957d7856eab",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R02.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R02_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "b8d410b9167ad6e8dccba8fee80baa6156cc65481d9d2edd22e23fcd8be9ed03"
+    },
+    "R05": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "5a469ab6862ea8d1a7c5057515319b19b493fa9784c2e9ffe76fe06f7a010dd5",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R05.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R05_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "fc83883250a5ee151725c433044587e0ec519f058c5eb4d35c489d18f4a9079b"
+    },
+    "C03": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "c4389c6258b0724fdee24f546e954633247bb5ee4e32e313d71fe081119580a5",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/C03_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "b9fb8ecc2be6be9a399a1d22b8bb00df5bc76d23c089417d62f0722c5400dbd3",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C03.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C03_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "ff2cdf1d7d9ddc7fb0e70c7747ba249b6e55112abc6cf6abdaba7572d93dd162"
+    },
+    "C07": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "09473bf5ba4ea65806a4fac12ac8df69a27fb73c3cf9027ed9443b9751633f6f",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C07.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C07_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "db1de136aa9bcf4dd574a1897cc4a3f01f8b32e02e933b99c9372240fd32ac64"
+    },
+    "U04": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "e31179d85b084ffda5afe8a9a02f5991056f35163c5a73633b1d76970970ac30",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U04.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U04_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "7c427eb6fe3cf41ae1990af3731686361fd5cdcfcd0012a673b241098268952c"
+    },
+    "U10": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "2b66443a1c333cb86729bb06a9e299f90b4728367db5edf74cf145b631b94b65",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U10.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U10_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "8d7e1d930985bd42b29a73dba84be5688e8a88245f5248e45125c2bb482fc501"
+    },
+    "R08": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "ebcdd2b971b7b56a99109f18e76054bb42e909d6e00a6cc7bf4357858596f6ae",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R08.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R08_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "5e66349875927c309ee498e9cccbbdd719f1b14e9543e30c4ad4b5afcc481edc"
+    },
+    "C14": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "c95e34e8254267e60547ed72f4c45c9552958de065394bfcf70916eaa21ff56f",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C14.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C14_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "7e3b1aaaed7dc38dd731178d3ac9a065a180a8dfbd16d712a83315b41f165675"
+    },
+    "U41": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "711d73fd0842bf7f7e19a4e7be8c78fbeed2391e2181e8bcd6a52b31be911b02",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U41_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "ec44388f7224fc6b1d1c0dfe54a31a7232eebde02c0fbc042ad71fdb3a2d41b2",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U41.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U41_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "b8533bfb259455a4a6dd866a61b88eaf164c2b29bc04a60365897e95e34a1fa3"
+    },
+    "C25": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "65bdb8f85edcb9b9c59508ef07a1f35fb190bd688b166ba559d59ddb6d3ce23f",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/C25_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "ca3d92727e28c65192400f5907dc68c344b05a685457121fef95c20dada334ad",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/C25.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/C25_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "2b48a2dbe26e86280b86ec2b3a0e80e080d80519da6bd0d05957f554e1fe5fe2"
+    },
+    "R14": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "fbd6e38c36af8557f7b63c554a9c4c90e1cac81a7b95457c6102b765c3dc0291",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/R14_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "09202147bee0efeb6d1a0886ba0fea7021ed3d8659ab4b69ffebb25021e5a53f",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R14.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R14_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "29ffa675e3c5aa158cfed202b411b162de7937459fa1ed2263dc143f1b82c4b3"
+    },
+    "R13": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "13ac31acfb028d5d3079d51cd6f1b4c3b1d5672eaf951727bb212c7419abae76",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/R13.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/R13_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "b39c2b6f797d7c7c1eff0dd7d2ebcca9cde4c2bb4ff07083a2b1eb0e928a3489"
+    },
+    "U37": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "9d7535fa6488ccbfe7c8d6ba2c0729d1a37fa3a502ea9ca14a760f608b3ad9ca",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U37.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U37_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "048074abdb3c0ba1540810d9c25fb67165810680b79459942fda70a2be46ead1"
+    },
+    "U29": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "68997e640314cf385adb2e041a301169a79d1f9a59709862890c35976170f043",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U29.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U29_attempt01.json"
+        }
+      ],
+      "selected_attempt": 1,
+      "master_sha256": "030bd482835202d7e290f98b27bbae7526031cdca55092035bbdcdef9a9b3b79"
+    },
+    "U28": {
+      "status": "approved_exported",
+      "attempts": [
+        {
+          "attempt": 1,
+          "sha256": "ce3e825ec619f9f1c89db6d32900714713af1782adc499915a7815f817f7a1bd",
+          "source_artifact_state": "historical_generation_record",
+          "status": "reject",
+          "decision_file": "reviews/v7/decisions/U28_attempt01.json"
+        },
+        {
+          "attempt": 2,
+          "sha256": "ebabd2fd2860f4f594d69376959444a803542299f4b61979f3fe0c6cdf6c78b4",
+          "source_artifact_state": "delivered_selected_raw",
+          "raw_path": "cards/source_v7/U28.png",
+          "status": "approve",
+          "decision_file": "reviews/v7/decisions/U28_attempt02.json"
+        }
+      ],
+      "selected_attempt": 2,
+      "master_sha256": "de9e7f6f91c2fe9ecd15f75f490752fdac8a9a2774114f1acf16cdefe7d294a4"
+    }
+  },
+  "remaining": 0,
+  "updated_at": "2026-10-27T18:22:59+00:00"
+}

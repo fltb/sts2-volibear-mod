@@ -1,0 +1,472 @@
+{
+  "id": "mark_bite",
+  "label_zh": "咬痕标记",
+  "family": "status",
+  "fps": 24,
+  "frame_count": 36,
+  "duration_seconds": 1.5,
+  "loop": true,
+  "anchor": "target_status",
+  "layer_z": 30,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    82,
+    95,
+    174,
+    169
+  ],
+  "atlas": {
+    "image": "atlases/mark_bite.png",
+    "json": "atlases/mark_bite.json",
+    "columns": 8,
+    "rows": 5,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "4c002d8dad0acfdb8a449fe86a9cd04f953ca2ed49317c5e88e8c03ff431204c"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/000.png",
+      "sha256": "36e45e64364516440d184d316edc1f7cdde17a4a14a14701b893c3dcbce25a2b"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/001.png",
+      "sha256": "af55d9d0e1cc88166cb198363a870469f6e203d238d64bbab3bd9947ecd43d89"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/002.png",
+      "sha256": "3c9769c28365a31e23284898428810bed522ed1a04290e53559a3afbfe27bd5d"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/003.png",
+      "sha256": "78441186aa23f53c5e3025d96764b076cfa63a1b00f3e4ca0e335a13d6ac5b5f"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/004.png",
+      "sha256": "b631593624696845130dd0bac63ce25644bba1923f3c8cba08a52ea4584faf2d"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/005.png",
+      "sha256": "3a009cbc8d28525c6daa125923e28a8a9d3cfb102e8e58a6ce87ff967541ac85"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/006.png",
+      "sha256": "a0acd7f46aff840a1b4a0b6d8dd5aa52cac830ddbefc3724a95228c05013c9d0"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/007.png",
+      "sha256": "080d2eb1d1afeeed13c7703ed5796da24c0cbf96041f73db8575a4e019188847"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/008.png",
+      "sha256": "9db8becddb6bacd3178470ee96b35a9faf5fde7502ecba850a219b95e1a421d3"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/009.png",
+      "sha256": "1f279bd23413ea84b24b48b0efdd85b89270422859ceb854eb1a098e0861c902"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/010.png",
+      "sha256": "9db8becddb6bacd3178470ee96b35a9faf5fde7502ecba850a219b95e1a421d3"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/011.png",
+      "sha256": "080d2eb1d1afeeed13c7703ed5796da24c0cbf96041f73db8575a4e019188847"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/012.png",
+      "sha256": "a0acd7f46aff840a1b4a0b6d8dd5aa52cac830ddbefc3724a95228c05013c9d0"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/013.png",
+      "sha256": "3a009cbc8d28525c6daa125923e28a8a9d3cfb102e8e58a6ce87ff967541ac85"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/014.png",
+      "sha256": "b631593624696845130dd0bac63ce25644bba1923f3c8cba08a52ea4584faf2d"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/015.png",
+      "sha256": "78441186aa23f53c5e3025d96764b076cfa63a1b00f3e4ca0e335a13d6ac5b5f"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/016.png",
+      "sha256": "3c9769c28365a31e23284898428810bed522ed1a04290e53559a3afbfe27bd5d"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/017.png",
+      "sha256": "af55d9d0e1cc88166cb198363a870469f6e203d238d64bbab3bd9947ecd43d89"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/018.png",
+      "sha256": "36e45e64364516440d184d316edc1f7cdde17a4a14a14701b893c3dcbce25a2b"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/019.png",
+      "sha256": "5b4ec4b009fb98bb1b512d0c09b6b8d699dea0bd34fe9f9356d4b14d7fcc9657"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/020.png",
+      "sha256": "ccbdc77b4f665da4f3b755ca4b6a74d9dd49d333f1d629b6bac326a87fde5d89"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/021.png",
+      "sha256": "864ad0d8ba1ee6d7b5c8def915d217b43de5c8209f3c63fc1ac8da981cec4a59"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/022.png",
+      "sha256": "39ff575f9e56b78ac12a4a2fe3be0d5d4de0852edbe8b8c32b90882a3c984180"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/023.png",
+      "sha256": "13bbd9321e5c71efacf8a11a1c8f7a7ce07865eb2217512be4b590a638a20be1"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/024.png",
+      "sha256": "16e98f33e599c0f5b3fce27d78eb5f4a1c3693771c7c79f7053f8a5953680541"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/025.png",
+      "sha256": "5b49fb82e0931e30e184dbef190a45d66b90ba364ab77162626e0561bd4f1ee4"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/026.png",
+      "sha256": "260b204bc3a9a19078824e862d59e352410615caface42686407d50219ae9f51"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/027.png",
+      "sha256": "6f23b9ff94bcdf7c975ce18774340fc16636f3882c7fdc6bd6bacff4a50d53c5"
+    },
+    {
+      "index": 28,
+      "time_seconds": 1.1666667,
+      "rect": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/028.png",
+      "sha256": "260b204bc3a9a19078824e862d59e352410615caface42686407d50219ae9f51"
+    },
+    {
+      "index": 29,
+      "time_seconds": 1.2083333,
+      "rect": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/029.png",
+      "sha256": "5b49fb82e0931e30e184dbef190a45d66b90ba364ab77162626e0561bd4f1ee4"
+    },
+    {
+      "index": 30,
+      "time_seconds": 1.25,
+      "rect": [
+        1536,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/030.png",
+      "sha256": "16e98f33e599c0f5b3fce27d78eb5f4a1c3693771c7c79f7053f8a5953680541"
+    },
+    {
+      "index": 31,
+      "time_seconds": 1.2916667,
+      "rect": [
+        1792,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/031.png",
+      "sha256": "13bbd9321e5c71efacf8a11a1c8f7a7ce07865eb2217512be4b590a638a20be1"
+    },
+    {
+      "index": 32,
+      "time_seconds": 1.3333333,
+      "rect": [
+        0,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/032.png",
+      "sha256": "39ff575f9e56b78ac12a4a2fe3be0d5d4de0852edbe8b8c32b90882a3c984180"
+    },
+    {
+      "index": 33,
+      "time_seconds": 1.375,
+      "rect": [
+        256,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/033.png",
+      "sha256": "864ad0d8ba1ee6d7b5c8def915d217b43de5c8209f3c63fc1ac8da981cec4a59"
+    },
+    {
+      "index": 34,
+      "time_seconds": 1.4166667,
+      "rect": [
+        512,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/034.png",
+      "sha256": "ccbdc77b4f665da4f3b755ca4b6a74d9dd49d333f1d629b6bac326a87fde5d89"
+    },
+    {
+      "index": 35,
+      "time_seconds": 1.4583333,
+      "rect": [
+        768,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/mark_bite/035.png",
+      "sha256": "5b4ec4b009fb98bb1b512d0c09b6b8d699dea0bd34fe9f9356d4b14d7fcc9657"
+    }
+  ],
+  "audio_cue": "sfx.mark_bite",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "state_owner",
+  "source_geometry": "scripts/effects.py"
+}

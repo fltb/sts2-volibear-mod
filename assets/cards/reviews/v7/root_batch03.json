@@ -1,0 +1,346 @@
+[
+  {
+    "id": "U34",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "54aa9b7e696db203e93dc2cc7bf654e978ae071a08353b2b7b659c38c4625205",
+    "master_sha256": "7ec7cda2e12f379752d7d9a352205cf2415d3a9749aaabf6f05e218619cfd266",
+    "comparison_sha256": "7ad0149bb556961f6bb15788c2489d4e986892225d2d501f60284bd470623845",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "两片深蓝厚护片叠搭在同一完整毛肩外侧，甲与毛之间暗缝明确，雷尾接在外缘。护片没有扎进肩体，也没有生成第二个肩关节。",
+    "baseline_comparison": "与C12毛层防护和C26附着雷路同源，改为体外甲片；区别U13沉入皮毛的纹理与U42独立落地护具。圆形遮罩仍保留双片层次。",
+    "paw_orientation_observation": "无手脚；护片是外挂防护面，不能误读为多余肢体。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C02",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "8182cb1c2d496e7289da621127d2e5716989733c5480a7fd5eb5a4140b3f4c51",
+    "master_sha256": "a33016e5dcef904795291285382fbb4014f2d2b6c4a02f7fcf62a73a2a29c43b",
+    "comparison_sha256": "538d2517ce6484e3bf5ea508eb3f089b7f3e5cc5a16cfd55b2cbcbd7953e294b",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "一面有握持臂的厚盾承受两处错位切口，上旧下新，短青余弧留在第二口；切口互不交成X，盾的完整厚边和受击关系可追踪。",
+    "baseline_comparison": "借C08清楚的材料开裂，改成不展示熊爪的两处连续打击结果；与C09横扫大弧及C15单口回收路径均可区分。125像素两口分离。",
+    "paw_orientation_observation": "熊爪退出画面，敌握持手连回前臂；没有悬空额外掌或断手。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U24",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "58580485e4298cfe65a276aba210695c120fbd017c02cc21e5e9737a2b88d00a",
+    "master_sha256": "f6256153b50ff691ef1d600927b5089af4294fe263208fc00b1e1f1633dae10d",
+    "comparison_sha256": "487620fc454f8ad7d63cd42400412c6acaf8d604e25997aa077915cc865fe552",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "左侧敌甲破口与右侧熊胸毛面分离，一条细青回流跨过中间负形，将受击处和自身吸收点连接。裂口保留未闭合，熊身无新缺口。",
+    "baseline_comparison": "与C08的外部受击结果和R24的回流方向相容；改为两种材料与一条桥接流，无手掌托光或向右挥爪。灰阶仍辨两端。",
+    "paw_orientation_observation": "不出现手掌；敌甲与熊胸是两套独立表面，没有身体互相穿插。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R21",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "eb0f43ada84c038769fc37fc691987a68fd4214080c7eece970f24acbcd5cc26",
+    "master_sha256": "ea9430e45ac95b0ffd163db9e0f84a029cfbb5b653cc4bfb15b52e1925bfa273",
+    "comparison_sha256": "cc3053486b9753585febf039858743a3e50c78a620e1d37494fb511e210243e2",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "纵向厚壳围出大块深暗空腔，小熊位于壳内深处；外来矛停在厚边，短雷逐渐接成实体壳，层次没有被亮光吞掉。",
+    "baseline_comparison": "沿用U19受控电形和C12厚护面，改成中空竖壳。与T02低宽实心防护、U34身体贴甲区别清楚，125像素仍读外壳保护内者。",
+    "paw_orientation_observation": "壳不生成掌、腿或双袖，内侧熊为连贯半身；未把残肢当作壳边。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C10",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "9c89f3e0cf8e25dfea059abbc5d3e55ef92b69280b05747f17269fb7dc76073d",
+    "master_sha256": "e48b9666cf53016e5d5cd96d7d31a3a3c2d2fd050e246e588f770192d831229d",
+    "comparison_sha256": "f9054292b6c066c2539097db11a72de50a80edf826577917696d6cd0e061c537",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "俯视局部中，熊短臂抵住连续杆身，杆连向敌人握持手与胸侧，暖色反力结果落在敌端。没有前臂绕成环或熊脸挤接点。",
+    "baseline_comparison": "从C08借清楚接触，从R12借完整体块；相较首稿和B02，已换成武器连接两端的俯视构图。缩图保留抵杆端、握手端和受力胸侧。",
+    "paw_orientation_observation": "熊手端收在杆后，没有外翻爪；敌人握杆四指与腕/前臂相连，不悬浮。",
+    "quality_axes": {
+      "main_read": 17,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R10",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "1490a768ffce830cc851a439b7a28d590e3039be259e026e23737df86c832439",
+    "master_sha256": "11ee39e9b1e337706bd387f0688b4ac440d6442309b6b1d6e5ba1f041ae8a05e",
+    "comparison_sha256": "8df5f008ed6281db09b4a72757f1e7d56ee74c0b12fd26a34288898c9b1ae7ed",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "前景旧破盾形成开放缺口，熊在中景转头望向唯一远敌；手自然低垂，肩背与下半身连接稳定。盾没有修复，画中没有疗伤光路。",
+    "baseline_comparison": "与R12的坚决神情同调，改为破盾前景、熊中景、敌后景三层对峙。细节较多集中于边缘，125像素仍首先读两者再次对峙。",
+    "paw_orientation_observation": "放松爪朝下，指爪与同一掌根对应；没有额外手或反向关节。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 17,
+      "tone": 19,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U38",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "8b05bd13453793d3e378b69f5d7b2661ee92644b82eaf0506c74bccb849a3d6f",
+    "master_sha256": "7af5df8a72c33b1e6c3e3906046a0691996f920ea76cc2c6bfb016109ecae7ca",
+    "comparison_sha256": "29af00a3f59126f3ac929fa6b721efda3a52e3b563d7da086c681e372ac851ca",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "紧凑熊体以侧向步态前进，近后足明确蹬地，前足向前跨而肩髋无异常延长；实体与前方小敌之间留出大片空地。雷留在经过的地面。",
+    "baseline_comparison": "保留C06重量和U25前后距离，改为完整侧身奔袭；相较首稿已去掉巨爪占幅和碎雷，125像素身体比例、蹬地与跨步仍可认。",
+    "paw_orientation_observation": "前足短爪跟随跨步方向，后足接地，远侧支点退为暗形；未增加多余腿。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R30",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "383a42c3858095b612a671b22362c1eb695f43fcc04754aa7cc59059b5ab73d8",
+    "master_sha256": "03d4aece79bb4b537bcb916d969d85ba8ea686f09dafbaa6f7bb472f56b108ab",
+    "comparison_sha256": "e97a0fb24181691a4374f13e8ee6f361678d68faf905a0424e7c62da724b8da0",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "连续岩背向内护住一块暖地，向外分成深槽；近处粗白毛缘接到同一地形，山体未生眼鼻。远景与天空收成少数整面。",
+    "baseline_comparison": "与U19/C18的整体抽象一致，角色意志转入地形而非完整身体；相比首稿细碎崖纹已显著合并，125像素内护/外分仍清楚。",
+    "paw_orientation_observation": "纯环境形变无实体爪手腿，不存在断肢或额外关节。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U27",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "3892f425e9ceeaa0f772e36c2ba8431847ea637376a748cd61b4a20b3eb7a538",
+    "observations": "又出现侧背抬前臂/小拳收胸的构图，与新B02近似；应改为攻击结束后自然垂臂与分开的旧受体。",
+    "defects": [
+      "又出现侧背抬前臂/小拳收胸的构图，与新B02近似；应改为攻击结束后自然垂臂与分开的旧受体。"
+    ]
+  },
+  {
+    "id": "B04",
+    "attempt": 2,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "22b7e8781e3cc8c38f4938d5cab9f4d9101a65f4f9db894ccdc2b9c0e60274fe",
+    "observations": "鼻尖仍紧贴肩盾亮点，容易读作用脸撞盾；头应收至肩后，接点移至真正外肩/外上臂。",
+    "defects": [
+      "鼻尖仍紧贴肩盾亮点，容易读作用脸撞盾；头应收至肩后，接点移至真正外肩/外上臂。"
+    ]
+  }
+]

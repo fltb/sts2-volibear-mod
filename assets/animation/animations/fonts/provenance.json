@@ -1,0 +1,20 @@
+{
+  "font": "Noto Sans CJK SC Regular",
+  "source_url": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+  "license_url": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/LICENSE",
+  "source_sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+  "subset_sha256": "4695cd8532f1455b84a41312939bd456921b02d15521de3dd27f8c3d65addd87",
+  "license_sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+  "file": "volibear_ui.woff",
+  "bytes": 81868,
+  "subset_inputs": [
+    "START_HERE.html",
+    "animations/index.html",
+    "animations/viewer_data.js",
+    "animations/rig/motions.json",
+    "animations/manifest.json"
+  ],
+  "modification": "Subset current navigation, viewer and dynamic motion labels; convert to WOFF. Glyph artwork unchanged.",
+  "uncovered_source_characters": [],
+  "created_at": "2026-10-27T15:58:39.774984+08:00"
+}

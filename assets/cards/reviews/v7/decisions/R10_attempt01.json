@@ -1,0 +1,41 @@
+{
+  "id": "R10",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "1490a768ffce830cc851a439b7a28d590e3039be259e026e23737df86c832439",
+  "master_sha256": "11ee39e9b1e337706bd387f0688b4ac440d6442309b6b1d6e5ba1f041ae8a05e",
+  "comparison_sha256": "8df5f008ed6281db09b4a72757f1e7d56ee74c0b12fd26a34288898c9b1ae7ed",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "前景旧破盾形成开放缺口，熊在中景转头望向唯一远敌；手自然低垂，肩背与下半身连接稳定。盾没有修复，画中没有疗伤光路。",
+  "baseline_comparison": "与R12的坚决神情同调，改为破盾前景、熊中景、敌后景三层对峙。细节较多集中于边缘，125像素仍首先读两者再次对峙。",
+  "paw_orientation_observation": "放松爪朝下，指爪与同一掌根对应；没有额外手或反向关节。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 19,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:38:07+00:00"
+}

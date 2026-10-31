@@ -1,0 +1,55 @@
+{
+  "schema_version": 2,
+  "revision": "V5.1",
+  "checked_date": "2026-10-27",
+  "official_volibear_audio_downloaded": true,
+  "downloaded_original_files": 153,
+  "default_english_voice_files": 150,
+  "selection_sfx_files": 1,
+  "tencent_official_country_client_files": 2,
+  "catalog": "audio/official/catalog.json",
+  "download_report": "audio/official/reports/download_report.json",
+  "runtime_profile_changed": false,
+  "complete_current_wiki_site_inventory_verified": false,
+  "previous_v5_status": {
+    "schema_version": 1,
+    "checked_date_utc": "2026-10-27",
+    "official_volibear_audio_downloaded": false,
+    "download_attempts": [
+      {
+        "id": "choose_default",
+        "url": "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-choose-vo/106.ogg",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "id": "ban_default",
+        "url": "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-ban-vo/106.ogg",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "id": "global_index",
+        "url": "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "id": "champion_metadata",
+        "url": "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champions/106.json",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "id": "character_index",
+        "url": "https://raw.communitydragon.org/latest/game/data/characters/volibear/",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "id": "sound_index",
+        "url": "https://raw.communitydragon.org/latest/game/assets/sounds/wwise2016/sfx/characters/volibear/",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    ],
+    "access_control_bypassed": false,
+    "rights_source": "https://www.riotgames.com/en/legal",
+    "rights_conclusion": "Public availability does not establish authorization to distribute Riot IP in an unrelated game. No official Volibear voice is included in this delivery.",
+    "delivery_audio": "Licensed CC0 source processing and original sound design; exact sources and file hashes are in the animation repository audio documentation."
+  }
+}

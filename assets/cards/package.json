@@ -1,0 +1,12 @@
+{
+  "name": "volibear-cards-repo",
+  "version": "7.0.0",
+  "private": true,
+  "description": "Offline browser checks for the completed Volibear V7 card art repository",
+  "scripts": {
+    "test:browser": "node scripts/validate_card_repo_browser.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

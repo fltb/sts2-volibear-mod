@@ -1,0 +1,8 @@
+{
+  "source_url": "https://raw.githubusercontent.com/notofonts/noto-cjk/main/Sans/OTF/SimplifiedChinese/NotoSansCJKsc-Regular.otf",
+  "source_sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+  "license": "SIL OFL 1.1",
+  "output_sha256": "e7707b48555b19789a1729c3d9ee7134d33815ec4ed45dd5b56b2ef361b242b4",
+  "character_count": 391,
+  "method": "fontTools pyftsubset; original glyphs retained"
+}

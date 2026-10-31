@@ -1,0 +1,428 @@
+{
+  "status": "pass",
+  "scope": "actual Chromium local-file metadata decode and playback clock; no human listening review",
+  "browser": "134.0.6998.165",
+  "playwright": "1.62.1",
+  "decoded": [
+    {
+      "id": "claw_slash",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8093197278911565,
+      "media_url_duration": 0.789042,
+      "peak": 0.7511204481124878
+    },
+    {
+      "id": "heavy_impact",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8013151927437642,
+      "media_url_duration": 0.8,
+      "peak": 0.7417761087417603
+    },
+    {
+      "id": "bite_hit",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.6573242630385487,
+      "media_url_duration": 0.649042,
+      "peak": 0.7411704063415527
+    },
+    {
+      "id": "guard_gain",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.6386621315192744,
+      "media_url_duration": 0.63,
+      "peak": 0.695445716381073
+    },
+    {
+      "id": "guard_hit",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.42532879818594105,
+      "media_url_duration": 0.42,
+      "peak": 0.7520365118980408
+    },
+    {
+      "id": "guard_break",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.3506575963718821,
+      "media_url_duration": 0.34,
+      "peak": 0.4917506277561188
+    },
+    {
+      "id": "counter_release",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8626530612244898,
+      "media_url_duration": 0.85,
+      "peak": 0.7256700992584229
+    },
+    {
+      "id": "absorb",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.7159863945578231,
+      "media_url_duration": 0.7,
+      "peak": 0.486050009727478
+    },
+    {
+      "id": "lightning_strike",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.105328798185941,
+      "media_url_duration": 1.1,
+      "peak": 0.7360951900482178
+    },
+    {
+      "id": "lightning_chain",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.9026530612244898,
+      "media_url_duration": 0.9,
+      "peak": 0.7265509366989136
+    },
+    {
+      "id": "lightning_all",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.470657596371882,
+      "media_url_duration": 1.452,
+      "peak": 0.7333222031593323
+    },
+    {
+      "id": "lightning_growth",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.4279818594104308,
+      "media_url_duration": 0.42,
+      "peak": 0.4158221483230591
+    },
+    {
+      "id": "domain_enter",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.825328798185941,
+      "media_url_duration": 1.82,
+      "peak": 0.6887999773025513
+    },
+    {
+      "id": "domain_exit",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8226530612244898,
+      "media_url_duration": 0.81,
+      "peak": 0.36551323533058167
+    },
+    {
+      "id": "domain_suppress",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.5026530612244898,
+      "media_url_duration": 0.5,
+      "peak": 0.38310542702674866
+    },
+    {
+      "id": "card_purify",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.7159863945578231,
+      "media_url_duration": 0.7,
+      "peak": 0.3266814351081848
+    },
+    {
+      "id": "feral_transfer",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.6999773242630386,
+      "media_url_duration": 0.7,
+      "peak": 0.43230387568473816
+    },
+    {
+      "id": "feral_claw",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.7639909297052154,
+      "media_url_duration": 0.749042,
+      "peak": 0.7441377639770508
+    },
+    {
+      "id": "feral_body",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.7026530612244898,
+      "media_url_duration": 0.7,
+      "peak": 0.46457386016845703
+    },
+    {
+      "id": "mark_bite",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.2919954648526077,
+      "media_url_duration": 0.28,
+      "peak": 0.49796152114868164
+    },
+    {
+      "id": "charge",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.0039909297052154,
+      "media_url_duration": 1,
+      "peak": 0.6409199237823486
+    },
+    {
+      "id": "card_draw",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.2466439909297052,
+      "media_url_duration": 0.23,
+      "peak": 0.413846492767334
+    },
+    {
+      "id": "card_retrieve",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.4359863945578231,
+      "media_url_duration": 0.43,
+      "peak": 0.39613568782806396
+    },
+    {
+      "id": "card_discard",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.31065759637188206,
+      "media_url_duration": 0.3,
+      "peak": 0.49034613370895386
+    },
+    {
+      "id": "card_exhaust",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.550657596371882,
+      "media_url_duration": 0.55,
+      "peak": 0.4654688835144043
+    },
+    {
+      "id": "energy_gain",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.5826530612244898,
+      "media_url_duration": 0.58,
+      "peak": 0.33404794335365295
+    },
+    {
+      "id": "card_replay",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.5559863945578232,
+      "media_url_duration": 0.55,
+      "peak": 0.5361701250076294
+    },
+    {
+      "id": "lifesteal",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.78,
+      "media_url_duration": 0.78,
+      "peak": 0.5724350214004517
+    },
+    {
+      "id": "heal",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8173242630385488,
+      "media_url_duration": 0.8,
+      "peak": 0.39796045422554016
+    },
+    {
+      "id": "roar_wave",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.9,
+      "media_url_duration": 0.9,
+      "peak": 0.4301072359085083
+    },
+    {
+      "id": "cast_charge",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8013151927437642,
+      "media_url_duration": 0.8,
+      "peak": 0.45861315727233887
+    },
+    {
+      "id": "footstep",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.3719954648526077,
+      "media_url_duration": 0.371333,
+      "peak": 0.47193607687950134
+    },
+    {
+      "id": "domain_loop",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 4.001315192743764,
+      "media_url_duration": 4,
+      "peak": 0.15007667243480682
+    },
+    {
+      "id": "feral_aura",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 4.001315192743764,
+      "media_url_duration": 4,
+      "peak": 0.11828421801328659
+    },
+    {
+      "id": "voice_select",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.3239909297052155,
+      "media_url_duration": 1.319167,
+      "peak": 0.5766115188598633
+    },
+    {
+      "id": "voice_attack_01",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.5799773242630385,
+      "media_url_duration": 0.576104,
+      "peak": 0.4977969825267792
+    },
+    {
+      "id": "voice_attack_02",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.7773242630385487,
+      "media_url_duration": 0.765958,
+      "peak": 0.7201476693153381
+    },
+    {
+      "id": "voice_heavy",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.2279818594104308,
+      "media_url_duration": 1.222229,
+      "peak": 0.39746999740600586
+    },
+    {
+      "id": "voice_bite",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.6093197278911565,
+      "media_url_duration": 0.6,
+      "peak": 0.3425508737564087
+    },
+    {
+      "id": "voice_cast",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.7639909297052154,
+      "media_url_duration": 0.755333,
+      "peak": 0.596280574798584
+    },
+    {
+      "id": "voice_hurt_01",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.6279818594104308,
+      "media_url_duration": 0.617667,
+      "peak": 0.5526723861694336
+    },
+    {
+      "id": "voice_hurt_02",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.6199773242630385,
+      "media_url_duration": 0.611667,
+      "peak": 0.44193628430366516
+    },
+    {
+      "id": "voice_low_health",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 0.8279818594104308,
+      "media_url_duration": 0.825583,
+      "peak": 0.4048633873462677
+    },
+    {
+      "id": "voice_roar",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.9106575963718821,
+      "media_url_duration": 1.892,
+      "peak": 0.4439123272895813
+    },
+    {
+      "id": "voice_feral",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.790657596371882,
+      "media_url_duration": 1.788896,
+      "peak": 0.3712504804134369
+    },
+    {
+      "id": "voice_death",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 2.4839909297052154,
+      "media_url_duration": 2.464292,
+      "peak": 0.6485349535942078
+    },
+    {
+      "id": "voice_victory",
+      "sample_rate": 44100,
+      "channels": 1,
+      "duration": 1.2279818594104308,
+      "media_url_duration": 1.21875,
+      "peak": 0.4511568248271942
+    }
+  ],
+  "played": [
+    {
+      "id": "voice_roar",
+      "paused": false,
+      "currentTime": 0.148962,
+      "readyState": 4,
+      "error": null,
+      "loop": false
+    },
+    {
+      "id": "lightning_strike",
+      "paused": false,
+      "currentTime": 0.110064,
+      "readyState": 4,
+      "error": null,
+      "loop": false
+    },
+    {
+      "id": "domain_loop",
+      "paused": false,
+      "currentTime": 0.126823,
+      "readyState": 4,
+      "error": null,
+      "loop": true
+    }
+  ],
+  "filters_checked": [
+    "all47",
+    "voice13",
+    "loop2",
+    "lightning4"
+  ],
+  "stop_all_checked": true,
+  "mobile_no_overflow": true,
+  "errors": [],
+  "failed_requests": [],
+  "input_sha256": {
+    "manifest": "d22297d0713fa40042e5c3897ec191660f8876bf87e6032aa8ba2a3a27f54be6",
+    "index": "adbd5060fc2e377979aefdc1c6cd42ff8be1e1f066c3b5b5ca48bea5b8ce9310",
+    "manifest_js": "98eeb796f0c43e4de2769e4deea61db7039c7ccdc381a2b14cda7ba33a8ea1e0",
+    "font": "6a9bd48b616a2441b1032379234178625940db77f974f50754ac34792f81e2ff",
+    "test": "f96059cd38077df50eba81af63f23a719ec3a377e60f8a42ca5eed5a49ec010b"
+  },
+  "screenshot_directory": "/tmp/volibear-v5-audio-browser-lksmHt"
+}

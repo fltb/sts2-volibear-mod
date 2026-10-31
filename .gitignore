@@ -1,0 +1,21 @@
+# Local environments and build output
+**/node_modules/
+**/__pycache__/
+**/.venv/
+**/.local_python/
+**/.cache/
+**/.DS_Store
+**/.env
+**/.env.*
+/src/**/bin/
+/src/**/obj/
+# Migration-only local tools/reports (contain machine paths; not repository entrypoints)
+/assemble.py
+/MIGRATION_SCOPE.md
+/tools/package_workspace.py
+/tools/workspace.py
+/docs/migration/
+# Official Riot recordings were collected privately, not licensed as CC assets.
+/assets/animation/audio/official/**/*.ogg
+/assets/animation/audio/official/**/*.wav
+/assets/animation/audio/official/**/*.mp3

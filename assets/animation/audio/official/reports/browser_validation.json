@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "scope": "Actual Chromium file:// catalog rendering, local file/SHA references, search/filter counts, representative media playback clocks, switching/stopping, original-file download and responsive layout. Complete codec decoding and human listening are separate checks.",
+  "input_sha256": {
+    "index.html": "05c41401142fb8740718f028ae9c54f414e3ac08428a9d55d5b30c29fb100455",
+    "catalog.js": "7c3496b495b05b0454aaecb52e2933ec52aa5a9234e487715593b50c73cca954",
+    "scripts/validate_browser.cjs": "eac89ee9e848cdf52b39aeefed3f37e2a795ae687df42a646016dbe6ebc95537",
+    "catalog.json": "7a4c38966c336450c514c880fb201103940f5fafdf676621114b64bef4dbe487",
+    "fonts/manifest.json": "6138159c6ca0566dbc5666249aa2c34ad48263a4d0a93b16570918132bda0207",
+    "fonts/official_audio_ui.woff": "a9cc7132942a0b802a1d934c4b8cf44a9df3f50be4b65d4c47a22a8c48957a44",
+    "fonts/OFL.txt": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+    "fonts/characters.txt": "fa973a8ebfe10e2c9fbfb6ebb470d8b979861d70e5a65269a6c3ff5bf72fa39f",
+    "fonts/build_subset.py": "800b26e73b9003d9b2944a39280b51d3907194ce47d1500fdc70d3e53c5ec58b"
+  },
+  "errors": [],
+  "failed_requests": [],
+  "media_request_cancellations": [],
+  "external_requests": [],
+  "filter_checks": [
+    {
+      "case": "initial_all",
+      "expected_count": 153,
+      "passed": true
+    },
+    {
+      "case": "category:角色禁用",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "category:攻击人类互动",
+      "expected_count": 5,
+      "passed": true
+    },
+    {
+      "case": "category:攻击对白",
+      "expected_count": 19,
+      "passed": true
+    },
+    {
+      "case": "category:普攻发力",
+      "expected_count": 3,
+      "passed": true
+    },
+    {
+      "case": "category:表情与闲置",
+      "expected_count": 11,
+      "passed": true
+    },
+    {
+      "case": "category:死亡",
+      "expected_count": 4,
+      "passed": true
+    },
+    {
+      "case": "category:技能发声",
+      "expected_count": 12,
+      "passed": true
+    },
+    {
+      "case": "category:首次遭遇与英雄互动",
+      "expected_count": 24,
+      "passed": true
+    },
+    {
+      "case": "category:击杀与摧毁互动",
+      "expected_count": 14,
+      "passed": true
+    },
+    {
+      "case": "category:开场移动",
+      "expected_count": 6,
+      "passed": true
+    },
+    {
+      "case": "category:长距离移动",
+      "expected_count": 18,
+      "passed": true
+    },
+    {
+      "case": "category:移动对白",
+      "expected_count": 25,
+      "passed": true
+    },
+    {
+      "case": "category:回城",
+      "expected_count": 4,
+      "passed": true
+    },
+    {
+      "case": "category:复活",
+      "expected_count": 3,
+      "passed": true
+    },
+    {
+      "case": "category:角色选择",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "category:选择音效",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "category:国服角色选择",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "category:国服角色禁用",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "language:en_US",
+      "expected_count": 150,
+      "passed": true
+    },
+    {
+      "case": "language:nonverbal",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "language:zh_CN",
+      "expected_count": 2,
+      "passed": true
+    },
+    {
+      "case": "category_and_language",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "trimmed_case_insensitive_id_search",
+      "expected_count": 1,
+      "passed": true
+    },
+    {
+      "case": "no_results",
+      "expected_count": 0,
+      "passed": true
+    },
+    {
+      "case": "reset_all",
+      "expected_count": 153,
+      "passed": true
+    }
+  ],
+  "played": [
+    {
+      "id": "en_us_volibear_original_movelong_11",
+      "current_src": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/official/files/en_us/default/Volibear_Original_MoveLong_11.ogg",
+      "paused": false,
+      "current_time": 0.007426,
+      "duration": 14.9522,
+      "ready_state": 4,
+      "error": null,
+      "loop": false,
+      "source_file": "files/en_us/default/Volibear_Original_MoveLong_11.ogg",
+      "source_sha256": "fcb48227e2f2219063143e3ca93cd27a11e241637eb2d2b58655706ac7eef608",
+      "switch_from": null,
+      "before_switch": null,
+      "clock_after_120ms": {
+        "current_time": 0.124387,
+        "paused": false,
+        "error": null
+      }
+    },
+    {
+      "id": "en_us_volibear_select_sfx",
+      "current_src": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/official/files/en_us/default/Volibear_Select_SFX.ogg",
+      "paused": false,
+      "current_time": 0.014837,
+      "duration": 3.126122,
+      "ready_state": 4,
+      "error": null,
+      "loop": false,
+      "source_file": "files/en_us/default/Volibear_Select_SFX.ogg",
+      "source_sha256": "258ed9525a7b4fea2554ecb9fe8737ca9321a5ccec12b5a364e6930363341f1d",
+      "switch_from": "en_us_volibear_original_movelong_11",
+      "before_switch": {
+        "id": "en_us_volibear_original_movelong_11",
+        "paused": false,
+        "current_src": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/official/files/en_us/default/Volibear_Original_MoveLong_11.ogg",
+        "current_time": 0.155212
+      },
+      "clock_after_120ms": {
+        "current_time": 0.083418,
+        "paused": false,
+        "error": null
+      }
+    },
+    {
+      "id": "zh_cn_volibear_choose",
+      "current_src": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/official/files/zh_cn/tencent/choose/106.ogg",
+      "paused": false,
+      "current_time": 0.005783,
+      "duration": 9.719002,
+      "ready_state": 4,
+      "error": null,
+      "loop": false,
+      "source_file": "files/zh_cn/tencent/choose/106.ogg",
+      "source_sha256": "abb37c1a492ef5596c61ee3b80d5a266b17958ca30afa5aa9a90e2b4c62bf961",
+      "switch_from": "en_us_volibear_select_sfx",
+      "before_switch": {
+        "id": "en_us_volibear_select_sfx",
+        "paused": false,
+        "current_src": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_animation_repo/audio/official/files/en_us/default/Volibear_Select_SFX.ogg",
+        "current_time": 0.107779
+      },
+      "clock_after_120ms": {
+        "current_time": 0.11,
+        "paused": false,
+        "error": null
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "/tmp/volibear-official-audio-browser-U0P19R/official_audio_desktop.png",
+      "sha256": "e06aa2fd91ceca1919176ec36c36fabb9c125e40492c5c841e7798db4f2183bc",
+      "viewport": [
+        1280,
+        1000
+      ]
+    },
+    {
+      "file": "/tmp/volibear-official-audio-browser-U0P19R/official_audio_mobile.png",
+      "sha256": "ec7fed42c87b37b2f51328e05095512090c83388154b369b5e1fa8c81624e454",
+      "viewport": [
+        390,
+        844
+      ]
+    }
+  ],
+  "browser": "134.0.6998.165",
+  "playwright": "1.62.1",
+  "font_rendering": {
+    "font_file": "fonts/official_audio_ui.woff",
+    "font_sha256": "a9cc7132942a0b802a1d934c4b8cf44a9df3f50be4b65d4c47a22a8c48957a44",
+    "requested_unicode_count": 301,
+    "missing_codepoints": [],
+    "title_platform_fonts": [
+      {
+        "familyName": "Volibear Official Audio UI (Fontations)",
+        "postScriptName": "VolibearOfficialAudioUI-Regular",
+        "isCustomFont": true,
+        "glyphCount": 14
+      }
+    ]
+  },
+  "catalog_count": 153,
+  "category_count": 18,
+  "language_count": 3,
+  "local_file_integrity": {
+    "paths_checked": 153,
+    "total_bytes": 11873857,
+    "unique_sha256_count": 153,
+    "all_sha256_matched": true
+  },
+  "no_autoplay_on_load": true,
+  "all_original_download_links_checked": 153,
+  "single_player_switch_checked": true,
+  "stop_checked": true,
+  "row_pause_toggle_checked": true,
+  "pending_play_pause_regression": {
+    "passed": true,
+    "routes": [
+      "entry_button",
+      "native_pause"
+    ],
+    "method": "Temporarily delayed play-promise wrapper over actual native playback; no fabricated file decoding."
+  },
+  "original_download_probe": {
+    "id": "zh_cn_volibear_choose",
+    "suggested_filename": "106.ogg",
+    "bytes": 82071,
+    "sha256": "abb37c1a492ef5596c61ee3b80d5a266b17958ca30afa5aa9a90e2b4c62bf961",
+    "byte_identical": true
+  },
+  "mobile_no_overflow": true,
+  "visual_review": "Screenshots captured; this script does not assert human visual or listening approval."
+}

@@ -1,0 +1,41 @@
+{
+  "id": "U31",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "bfeedb62a20ed39ff482fbb72a986bb4517c2c52040f1b0d05aa829f62e9cfb6",
+  "master_sha256": "650e48177accb01833bd4d323b96bc4f858fcce3aa144e4a9dc99e724cf45eb6",
+  "comparison_sha256": "68bc3502954a3d18c998a540639e4e71de68a3bc19c975130a39c51a0252b095",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "同一宽石路上五个冲击坑沿透视收小，坑底窄雷线连续通向远端唯一熊的落足；坑壁压成大面，已去除密集碎岩和浮空坑列。",
+  "baseline_comparison": "对照C22/U40保留落足到地面雷迹的因果，采用远景连续路段而非另一张脚爪近景。125像素五处节奏、远端承重足和通路仍能识别。",
+  "paw_orientation_observation": "熊作为远景整体剪影，肩髋腿连续，最后一脚与终端坑相接；未单独拼入漂浮爪足。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T18:08:13+00:00"
+}

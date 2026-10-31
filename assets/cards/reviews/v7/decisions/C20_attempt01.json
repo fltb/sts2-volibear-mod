@@ -1,0 +1,13 @@
+{
+  "id": "C20",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "4f87ac80bedb3cbe8bf6f78a42566f35c21625c9d5138860923bea2b410c43b1",
+  "observations": "近侧后腿从髋到足明显拉长，整体又呈细长跨跃形；需恢复粗短后腿并重设旧蹬点，旧擦痕与碎石也过多。",
+  "defects": [
+    "近侧后腿从髋到足明显拉长，整体又呈细长跨跃形；需恢复粗短后腿并重设旧蹬点，旧擦痕与碎石也过多。"
+  ],
+  "recorded_at": "2026-10-27T17:42:58+00:00"
+}

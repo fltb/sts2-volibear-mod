@@ -1,0 +1,46 @@
+{
+  "id": "T02",
+  "attempt": 20,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "f00d7e1789934b087715e7eeac6b0e7b8026fd9eaa98e6b6ce1072c066c30831",
+  "master_sha256": "e3a8f060b9e16b53245c2b0a664cf5ba40bdeb7845071c8e73b45866fa704363",
+  "comparison_sha256": "0b8b69c65c35d267aad0b67291bfdf1c3ab4e45bfe797faf52815a102ef3042c",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看原始图和完整对照板。低头宽肩与厚胸关系清楚，已消除旧毛山误读，胸辫位于胸前且两臂自然出画。暖色来袭与青雷交会可读。然而毛面仍由大量小切面塑造，胸辫和毛束比风暴状态更突出，下部保持实体碎毛而非合入风暴整体；总体是精细熊半身外贴两条雷带，不是本轮要求的整体风暴剪影。125灰度中毛面、辫子和雷光成为多处竞争亮点。",
+  "baseline_comparison": "U19以一块肩背亮面、一块连续深色躯干和少量雷形表达状态，U40同样经济；本图色面数和内部毛层远多于两基准，系列简化程度漂移明显。",
+  "paw_orientation_observation": "画面没有完整手掌，双上臂从肩向下出画自然，未见多肢或倒爪；不能因无掌可检便忽略整体风暴状态没有建立。",
+  "quality_axes": {
+    "main_read": 16,
+    "large_shapes": 12,
+    "tone": 17,
+    "finish": 17,
+    "distinctiveness": 14
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [
+    "半身毛面过碎，与U19/U40连续大色块画法显著不一致。",
+    "实体身体加外围雷带，未落实半身整体风暴剪影和下部融入风暴的状态表达。"
+  ],
+  "revision_target": "保持当前低头肩颈关系，将白肩合为一块、胸臂并为连续深影，下缘自然并入两侧风暴；只保留少量胸饰轮廓和关键身份纹，雷从躯体轮廓延续而非另贴亮带。",
+  "recorded_at": "2026-10-29T20:30:31+00:00"
+}

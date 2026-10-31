@@ -1,0 +1,22 @@
+{
+  "status": "pass_for_viewed_screenshots",
+  "browser_report_sha256": "c217855ae161698ca52ae87fce9a74bdd142982cc404d2467e22a1008c3eadf9",
+  "viewed": [
+    {
+      "path": "/tmp/volibear-vfx-gallery-iEvS6K/desktop_feral.png",
+      "sha256": "f48b917784a0a326c9ef6a74a8007cbd8a02b7ad30bd6821d111d489e2ff0ba2",
+      "scope": "actual_file_gallery_at_feral_frame_28",
+      "actual_viewed": true,
+      "notes": "Chinese glyphs rendered; no horizontal clipping; effect remains clear on the chosen background."
+    },
+    {
+      "path": "/tmp/volibear-vfx-gallery-iEvS6K/mobile_guard.png",
+      "sha256": "48f14e1a63c5c79f74d2c1079066d4e81c4c9de6288d91613205525ec2f0889f",
+      "scope": "actual_file_gallery_mobile_guard_frame_6",
+      "actual_viewed": true,
+      "notes": "Chinese glyphs rendered; no horizontal clipping; effect remains clear on the chosen background."
+    }
+  ],
+  "screenshots_delivered": false,
+  "note": "Browser screenshots stay in temporary inspection storage. This report records the actual viewing; the screenshots are not bundled."
+}

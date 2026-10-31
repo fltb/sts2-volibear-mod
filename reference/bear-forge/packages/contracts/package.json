@@ -1,0 +1,27 @@
+{
+  "name": "@bear-forge/contracts",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./instance": "./src/instance/index.ts",
+    "./game": "./src/game/index.ts",
+    "./authoring": "./src/game/authoring.types.ts",
+    "./persistence": "./src/instance/persistence.ts",
+    "./branching": "./src/instance/branching.types.ts",
+    "./capture": "./src/instance/capture.ts",
+    "./loading": "./src/loading.ts",
+    "./session": "./src/game/session.types.ts",
+    "./tests/support/source-boundaries": "./tests/support/source-boundaries.ts",
+    "./tests/support/schema-admission": "./tests/support/schema-admission.ts"
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test tests/*.test.ts tests/*/*.test.ts",
+    "check": "npm run typecheck && npm test"
+  }
+}

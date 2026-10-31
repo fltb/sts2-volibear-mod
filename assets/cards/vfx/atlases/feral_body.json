@@ -1,0 +1,401 @@
+{
+  "id": "feral_body",
+  "label_zh": "兽化·躯形",
+  "family": "feral",
+  "fps": 24,
+  "frame_count": 30,
+  "duration_seconds": 1.25,
+  "loop": false,
+  "anchor": "converted_other_card",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    70,
+    44,
+    184,
+    220
+  ],
+  "atlas": {
+    "image": "atlases/feral_body.png",
+    "json": "atlases/feral_body.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "bbfc5e648a4581ddbcd589ec634360cf8cc73318bdd37123f990a5ef4ba8870a"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/001.png",
+      "sha256": "6a4697a6e67ee137c0ba09d796c0d7c7813262285ebf8cecbadc8dac09d14013"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/002.png",
+      "sha256": "f6c76f2c609b4f87b7f624ccd773332dbb619db94ab3ed5a29715b97546fea2d"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/003.png",
+      "sha256": "ecd4be32bd305376f17c60f09ecdceec6e0f3d1ed7b378d274d89b40e8e38ba1"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/004.png",
+      "sha256": "a95e9eb375cedcc9f9deef9135cf156bceabccda8f4d86815abf44f682032536"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/005.png",
+      "sha256": "b63068fc2f71d8095346b4e7d201e10ef95af0e422b0dc928ea1bcfa361afbdb"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/006.png",
+      "sha256": "1b5c92c647f0cc7c34e4693647e5035395942c542a2b3171b4583190a58bd8a7"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/007.png",
+      "sha256": "9487d2f83f634aeb7e41d98adae4e8632be36f7b0e09b802741d54cae64a7d3e"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/008.png",
+      "sha256": "4be3460631ce8487f599d46a3e482cce42129c122310d9db98c59d17d40ba292"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/009.png",
+      "sha256": "8d665d6bd5a328e828e7a1336fa6d91fcabad747f180dd58e9af9bf1534689d1"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/010.png",
+      "sha256": "9d654f4530f8e00c52bc371c779d46fb245880f237a87eedce819300fcf9f4ed"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/011.png",
+      "sha256": "1aba8fc6f4cac496557d7663358b17d3fdc286508a196dcb035664d70f1ad97e"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/012.png",
+      "sha256": "23021db2ab1206764d8122825e0bfaea8d6c9434b6c129ed9b1c7c546c8264fc"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/013.png",
+      "sha256": "126c8a9959c02bea8c8aea63e5e861b74b119c1acfc99af2b3d0fcc978930ea3"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/014.png",
+      "sha256": "875315c8607538618b7fa104b7b444707fe2f519785f0780c9bcf2a0113a34a0"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/015.png",
+      "sha256": "2fc538e42532fece1ea596a97b1414b27a284e157302ea4f6592a41751f78cef"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/016.png",
+      "sha256": "11263cc6030cdb67e0b3250204d8f5b053c75046a140747006959b603c836aae"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/017.png",
+      "sha256": "07796a5edff33f2ca5b54d89138b1b4a9d873aafc801d70dd03762f35d34a7b7"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/018.png",
+      "sha256": "1e03af783e09f2fe5e7724f3fd94ca2620eddba007a3d4e23207db8d23abee81"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/019.png",
+      "sha256": "e3b42cc62755f701dc3b946dfbddf9cc84c82e22a7aa7f175b8892334197e64d"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/020.png",
+      "sha256": "cdfb56e9185898415365c0d29f617e6ca1141d4aa80b2acedd977c3446691582"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/021.png",
+      "sha256": "fecd9204161b0bad1ca5f35f89066d0a5ca307e3d6aa4c3053d7e8b6068adff7"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/022.png",
+      "sha256": "8c54a14a609748fbcc2ac865757c0fdf7c0d13e15ebcc51709f84572422b3afd"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/023.png",
+      "sha256": "def1d73dbd9abadc19b840d8f504f796a216be0783f972793967009191579786"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/024.png",
+      "sha256": "4e663e1c3295e33a9cface2a1392f417f4224ae9f8e04d06375b389f90bebe17"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/025.png",
+      "sha256": "fc81c33c0c269fb0f9f9b987e1ad18ac88ad3ca3d3aadd4e62da1034cfe9d864"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/026.png",
+      "sha256": "fdd6145ffb7571a5480d6253d13388bf4c8d5182ec0f892edf3e0caee27f65a4"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/027.png",
+      "sha256": "4c5ddc0cdf20f25007bb0c4ca708b4d56e26599aff95f2900a4b6bf258dc1e8b"
+    },
+    {
+      "index": 28,
+      "time_seconds": 1.1666667,
+      "rect": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/028.png",
+      "sha256": "72f4d14f3b9db72c201acca2a038e5e8820a6d50c92fb58ce203bfd0f95e0a68"
+    },
+    {
+      "index": 29,
+      "time_seconds": 1.2083333,
+      "rect": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_body/029.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.feral_body",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "actual_card_node_policy": "Retain the authoritative card image/node under this transparent overlay; animation never changes card state."
+}

@@ -1,0 +1,54 @@
+{
+  "id": "U12",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "c44ca7e2d91067c3cfd1050d833811c17d4e37094dfba58a66541668727d9cfc",
+  "master_sha256": "38adf3df032bff39965e4abd45e56acf124ede15d8857d4534a0c23bd98aa98a",
+  "comparison_sha256": "17eb9386aa4158c3665491d831b5c619347f2da1f91f98317f3130c73114dc10",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "背部蓝纹沿完整宽背收束，单束短雷从背刺旁离开并向外尖收，整束都留在画内。支撑前臂与肩腰相连，地面已合成宽块。",
+  "baseline_comparison": "与C12实体重量、U21能量接续相容；没有再把外部雷灌进身体。灰阶缩图仍读身体主形，短雷只作力量转化的结果。",
+  "paw_orientation_observation": "近掌向地，粗前臂追溯至肩；背腰髋保持正常连续，画缘为局部镜头裁切。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:57:44+00:00",
+  "master": "cards/masters/U12.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U12.jpg",
+  "anchors": [
+    "C12",
+    "U21"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@bear-forge/card-engine",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./probability": "./src/probability.ts",
+    "./probability-mass": "./src/probability-mass.ts",
+    "./probability-cursor": "./src/probability-cursor.ts",
+    "./probability-image": "./src/probability-image.ts",
+    "./rules-probability": "./src/rules-probability.ts",
+    "./rules-inspection": "./src/rules-inspection.ts",
+    "./rules-internal": "./src/rules-internal.ts",
+    "./rules-module-internal": "./src/rules-module-internal.ts",
+    "./rules-module.types": "./src/rules-module.types.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "test:probability": "node --experimental-strip-types --test tests/probability.test.ts tests/probability-cursor.test.ts tests/rules-layout.test.ts tests/rules-modules.test.ts tests/architecture.test.ts tests/rules-schema.test.ts"
+  },
+  "dependencies": {
+    "@bear-forge/contracts": "*",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@bear-forge/compiler": "*",
+    "@bear-forge/runtime-controlled": "*"
+  }
+}

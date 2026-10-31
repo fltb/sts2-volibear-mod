@@ -1,0 +1,13 @@
+{
+  "id": "U27",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "3892f425e9ceeaa0f772e36c2ba8431847ea637376a748cd61b4a20b3eb7a538",
+  "observations": "又出现侧背抬前臂/小拳收胸的构图，与新B02近似；应改为攻击结束后自然垂臂与分开的旧受体。",
+  "defects": [
+    "又出现侧背抬前臂/小拳收胸的构图，与新B02近似；应改为攻击结束后自然垂臂与分开的旧受体。"
+  ],
+  "recorded_at": "2026-10-27T17:38:09+00:00"
+}

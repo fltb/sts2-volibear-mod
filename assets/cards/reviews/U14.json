@@ -1,0 +1,54 @@
+{
+  "id": "U14",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "139938f35f2a42cf88ef929cb820dfdece90ad100efdb289a1f4a2d20fab396b",
+  "master_sha256": "3d83e57a8f1af1ced6cefad7dd2ac9c2e36bf856ea0841cca08955968a7ee8ff",
+  "comparison_sha256": "226343380c3b3f640fccf4c73b02abfff8c1595531d00a73bbfc01522e0867c9",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "熊低伏朝唯一亮通道准备，近侧承重前肢与后足形成稳定支点，另一低前臂位于胸前；暗地形合拢其余方向，没有接触爆点。",
+  "baseline_comparison": "与U03的宽站及C06的推进重量同源，区别为高处看向安静空隙的备战，尚未承击。125像素亮通道与侧身朝向保持。",
+  "paw_orientation_observation": "可见前掌朝地面、另一掌下收，后足朝稳定支撑方向，遮挡遵守前后关系。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:56+00:00",
+  "master": "cards/masters/U14.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U14.jpg",
+  "anchors": [
+    "C06",
+    "U03"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

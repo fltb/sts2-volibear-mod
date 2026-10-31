@@ -1,0 +1,41 @@
+{
+  "id": "B02",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "b6f8361db82c6238be8b00e46519e01dcba855c0031b65110aef7d4343f64ecb",
+  "master_sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb",
+  "comparison_sha256": "e8ecdd825562e62d933a520d5c98ab54b79308abdb0e23ebd80015d57955fc40",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "来刃与竖前臂相抵，肘回收至厚肩，熊头低伏且与手分离；内收爪尖朝向自身，与掌内侧一致。赭黄负形使承重轮廓在125像素仍清楚。",
+  "baseline_comparison": "与C12同样依靠厚毛承力，补足可读的肘腕；与C06的进攻双臂不同，单根竖臂是静止撑杆。",
+  "paw_orientation_observation": "可见短爪向内收，手背朝来刃，没有掌面和指尖相反。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:55+00:00"
+}

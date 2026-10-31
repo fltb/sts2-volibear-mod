@@ -1,0 +1,237 @@
+[
+  {
+    "asset": "claw_slash",
+    "start_seconds": 0,
+    "end_seconds": 0.789
+  },
+  {
+    "asset": "heavy_impact",
+    "start_seconds": 0.969,
+    "end_seconds": 1.769
+  },
+  {
+    "asset": "bite_hit",
+    "start_seconds": 1.949,
+    "end_seconds": 2.5981
+  },
+  {
+    "asset": "guard_gain",
+    "start_seconds": 2.7781,
+    "end_seconds": 3.4081
+  },
+  {
+    "asset": "guard_hit",
+    "start_seconds": 3.5881,
+    "end_seconds": 4.0081
+  },
+  {
+    "asset": "guard_break",
+    "start_seconds": 4.1881,
+    "end_seconds": 4.5281
+  },
+  {
+    "asset": "counter_release",
+    "start_seconds": 4.7081,
+    "end_seconds": 5.5581
+  },
+  {
+    "asset": "absorb",
+    "start_seconds": 5.7381,
+    "end_seconds": 6.4381
+  },
+  {
+    "asset": "lightning_strike",
+    "start_seconds": 6.6181,
+    "end_seconds": 7.7181
+  },
+  {
+    "asset": "lightning_chain",
+    "start_seconds": 7.8981,
+    "end_seconds": 8.7981
+  },
+  {
+    "asset": "lightning_all",
+    "start_seconds": 8.9781,
+    "end_seconds": 10.4281
+  },
+  {
+    "asset": "lightning_growth",
+    "start_seconds": 10.6081,
+    "end_seconds": 11.0281
+  },
+  {
+    "asset": "domain_enter",
+    "start_seconds": 11.2081,
+    "end_seconds": 13.0281
+  },
+  {
+    "asset": "domain_exit",
+    "start_seconds": 13.2081,
+    "end_seconds": 14.0181
+  },
+  {
+    "asset": "domain_suppress",
+    "start_seconds": 14.1981,
+    "end_seconds": 14.6981
+  },
+  {
+    "asset": "card_purify",
+    "start_seconds": 14.8781,
+    "end_seconds": 15.5781
+  },
+  {
+    "asset": "feral_transfer",
+    "start_seconds": 15.7581,
+    "end_seconds": 16.4581
+  },
+  {
+    "asset": "feral_claw",
+    "start_seconds": 16.6381,
+    "end_seconds": 17.3871
+  },
+  {
+    "asset": "feral_body",
+    "start_seconds": 17.5671,
+    "end_seconds": 18.2671
+  },
+  {
+    "asset": "mark_bite",
+    "start_seconds": 18.4471,
+    "end_seconds": 18.7271
+  },
+  {
+    "asset": "charge",
+    "start_seconds": 18.9071,
+    "end_seconds": 19.9071
+  },
+  {
+    "asset": "card_draw",
+    "start_seconds": 20.0871,
+    "end_seconds": 20.3171
+  },
+  {
+    "asset": "card_retrieve",
+    "start_seconds": 20.4971,
+    "end_seconds": 20.9271
+  },
+  {
+    "asset": "card_discard",
+    "start_seconds": 21.1071,
+    "end_seconds": 21.4071
+  },
+  {
+    "asset": "card_exhaust",
+    "start_seconds": 21.5871,
+    "end_seconds": 22.1371
+  },
+  {
+    "asset": "energy_gain",
+    "start_seconds": 22.3171,
+    "end_seconds": 22.8971
+  },
+  {
+    "asset": "card_replay",
+    "start_seconds": 23.0771,
+    "end_seconds": 23.6271
+  },
+  {
+    "asset": "lifesteal",
+    "start_seconds": 23.8071,
+    "end_seconds": 24.5871
+  },
+  {
+    "asset": "heal",
+    "start_seconds": 24.7671,
+    "end_seconds": 25.5671
+  },
+  {
+    "asset": "roar_wave",
+    "start_seconds": 25.7471,
+    "end_seconds": 26.6471
+  },
+  {
+    "asset": "cast_charge",
+    "start_seconds": 26.8271,
+    "end_seconds": 27.6271
+  },
+  {
+    "asset": "footstep",
+    "start_seconds": 27.8071,
+    "end_seconds": 28.1785
+  },
+  {
+    "asset": "domain_loop",
+    "start_seconds": 28.3585,
+    "end_seconds": 32.3585
+  },
+  {
+    "asset": "feral_aura",
+    "start_seconds": 32.5385,
+    "end_seconds": 36.5385
+  },
+  {
+    "asset": "voice_select",
+    "start_seconds": 36.7185,
+    "end_seconds": 38.0376
+  },
+  {
+    "asset": "voice_attack_01",
+    "start_seconds": 38.2176,
+    "end_seconds": 38.7937
+  },
+  {
+    "asset": "voice_attack_02",
+    "start_seconds": 38.9737,
+    "end_seconds": 39.7397
+  },
+  {
+    "asset": "voice_heavy",
+    "start_seconds": 39.9197,
+    "end_seconds": 41.1419
+  },
+  {
+    "asset": "voice_bite",
+    "start_seconds": 41.3219,
+    "end_seconds": 41.9219
+  },
+  {
+    "asset": "voice_cast",
+    "start_seconds": 42.1019,
+    "end_seconds": 42.8573
+  },
+  {
+    "asset": "voice_hurt_01",
+    "start_seconds": 43.0373,
+    "end_seconds": 43.6549
+  },
+  {
+    "asset": "voice_hurt_02",
+    "start_seconds": 43.8349,
+    "end_seconds": 44.4466
+  },
+  {
+    "asset": "voice_low_health",
+    "start_seconds": 44.6266,
+    "end_seconds": 45.4522
+  },
+  {
+    "asset": "voice_roar",
+    "start_seconds": 45.6322,
+    "end_seconds": 47.5222
+  },
+  {
+    "asset": "voice_feral",
+    "start_seconds": 47.7022,
+    "end_seconds": 49.4911
+  },
+  {
+    "asset": "voice_death",
+    "start_seconds": 49.6711,
+    "end_seconds": 52.1354
+  },
+  {
+    "asset": "voice_victory",
+    "start_seconds": 52.3154,
+    "end_seconds": 53.5341
+  }
+]

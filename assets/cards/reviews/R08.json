@@ -1,0 +1,54 @@
+{
+  "id": "R08",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "ebcdd2b971b7b56a99109f18e76054bb42e909d6e00a6cc7bf4357858596f6ae",
+  "master_sha256": "5e66349875927c309ee498e9cccbbdd719f1b14e9543e30c4ad4b5afcc481edc",
+  "comparison_sha256": "ccfde5ff810ec826f83369f45e0d21bb3327d7c943e257d157179bf40ce48201",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "近处完整盾牌上的旧暗灼口与新一次亮命中分开，远处只一处小余击；近敌身体在盾后、左臂连续，没有重复等亮雷束。",
+  "baseline_comparison": "以近盾旧痕和当前受击解释连击，区别C24分支地雷与R23正面多雷；大小明暗层次在缩图仍成立。",
+  "paw_orientation_observation": "敌人左臂连肩，盾遮挡持盾臂合理；身体剪影没有与闪电混成额外手。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:02+00:00",
+  "master": "cards/masters/R08.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/R08.jpg",
+  "anchors": [
+    "C24",
+    "R23"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

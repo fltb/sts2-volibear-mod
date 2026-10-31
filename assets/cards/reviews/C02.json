@@ -1,0 +1,54 @@
+{
+  "id": "C02",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "8182cb1c2d496e7289da621127d2e5716989733c5480a7fd5eb5a4140b3f4c51",
+  "master_sha256": "a33016e5dcef904795291285382fbb4014f2d2b6c4a02f7fcf62a73a2a29c43b",
+  "comparison_sha256": "538d2517ce6484e3bf5ea508eb3f089b7f3e5cc5a16cfd55b2cbcbd7953e294b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "一面有握持臂的厚盾承受两处错位切口，上旧下新，短青余弧留在第二口；切口互不交成X，盾的完整厚边和受击关系可追踪。",
+  "baseline_comparison": "借C08清楚的材料开裂，改成不展示熊爪的两处连续打击结果；与C09横扫大弧及C15单口回收路径均可区分。125像素两口分离。",
+  "paw_orientation_observation": "熊爪退出画面，敌握持手连回前臂；没有悬空额外掌或断手。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:38:05+00:00",
+  "master": "cards/masters/C02.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C02.jpg",
+  "anchors": [
+    "C08",
+    "C09"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

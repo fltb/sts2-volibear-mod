@@ -1,0 +1,304 @@
+{
+  "id": "lightning_strike",
+  "label_zh": "单体落雷",
+  "family": "lightning",
+  "fps": 24,
+  "frame_count": 22,
+  "duration_seconds": 0.9166666666666666,
+  "loop": false,
+  "anchor": "target_contact",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    75,
+    22,
+    188,
+    229
+  ],
+  "atlas": {
+    "image": "atlases/lightning_strike.png",
+    "json": "atlases/lightning_strike.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "15e4f38cd4d942154c226be9b4ba06f4724fd9e7ff3861017d4ba420a6395746"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/001.png",
+      "sha256": "800b63550d2c8d13d1f87cdde8d395e3f95637afdcb7490a05ad945795ddc412"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/002.png",
+      "sha256": "a453dcec9c6b9253758818736664318de88627055038f625b6a560da3975d93c"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/003.png",
+      "sha256": "e595137c2bcae41198cd3b23ffce160ea494e146530a79522847e28223ac11fd"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/004.png",
+      "sha256": "aea50094779418208a54468247e9d780046c42221927f150599d0bde63f18ba1"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/005.png",
+      "sha256": "6a9c02bd153c963c6ad879d67c900d7944782b0f0ffc3555a9ab3fd0ca1c6ca7"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/006.png",
+      "sha256": "85311eb4f73aca7bf85f7fcdb5b5a0e38bc217a317cb00361113b7feda257f7a"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/007.png",
+      "sha256": "6d47d0b5882f2216b7421e75c478a0768d97241a0f5b417ca16c2212b10c8c6f"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/008.png",
+      "sha256": "d2520c471ae58d962fca3302a4cd4ab7fea335f8b493061ade8f4356d341614e"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/009.png",
+      "sha256": "fba93e9742c29d1f23ba162cd9e37b5c58f41efaaad06f886d95b1d1fd2ce199"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/010.png",
+      "sha256": "4c330eb34a9021bb35e003df5905f49b308874f35d869b226f9ada680bfd9344"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/011.png",
+      "sha256": "3fc5e4ec438557b1555c8eff8f9764c8771ba9b6cb7db29b06c161992528e1a9"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/012.png",
+      "sha256": "e2a4c80c0b2f033a6c2cab4771781889cc1b749062a9aa53edad80cd6f954aa2"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/013.png",
+      "sha256": "9f91b65f36e916c44a9a28a27140e8eb9e270cd6af5bc2dfc77e54820e583109"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/014.png",
+      "sha256": "36a8cf7690dd1f9b0c8c30edd9e2a4c068b4a2ac1f3c9e44ce6d7a64ef096e51"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/015.png",
+      "sha256": "707f1a73b4240d8be6c56187cab8484a6ea66c38798ed4af8dfd6521a5c97cd5"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/016.png",
+      "sha256": "0c5ac21515354d0d4e5c53e68a3190864163ca49c71b398b2926d5dd1912024e"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/017.png",
+      "sha256": "8d6ea27bd95bd926beed9e66555d3f01c5a1c658b53f042f582a534fa2bdf9a5"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/018.png",
+      "sha256": "0834b1f4816f0577bdc2ccb1ac290f758d0eacfc7474d0aa22a3154aebaa98d0"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/019.png",
+      "sha256": "e653401dd6afa33ea680080187fa00a3046a3452b825cbb9ef666d365615165b"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/020.png",
+      "sha256": "28ecf042584058e24a1a4eebdf4be395daacab1ec6ff9e96c4996e65a7a60e41"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_strike/021.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.lightning_strike",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

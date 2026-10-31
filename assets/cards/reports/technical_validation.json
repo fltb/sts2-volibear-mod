@@ -1,0 +1,552 @@
+{
+  "passed": true,
+  "card_count": 89,
+  "export_count": 356,
+  "unique_artwork": 89,
+  "source_sha256": "e74335e588b5b0b7be8a1f1ec08dff94091c1af158efa718e1cedbfff115c17c",
+  "manifest_sha256": "4f6c1d72f22710f97f011c95dea06dc4f722563c52f3446c101aa19761e02a25",
+  "checks": [
+    "source IDs and original rule text",
+    "current-image independent approval, eight anatomy/action gates and V7 claw orientation",
+    "89 unique decoded artwork images",
+    "356 exact export pixels, masks, dimensions and SHA256 bindings",
+    "all gallery files and original card text"
+  ],
+  "scope": "Technical validation binds actual visual reviews. It does not automatically judge anatomy or claim in-game execution.",
+  "cards": [
+    {
+      "id": "B01",
+      "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "B02",
+      "master_sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "B03",
+      "master_sha256": "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "B04",
+      "master_sha256": "67833ea2a6671df81d07a938d708f488baf757fb5299e3d7edd68f8b1369c01b",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C01",
+      "master_sha256": "c944e222cbae408181942b760b3dd65cf90009a6993546a1faca94d0949324c8",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C02",
+      "master_sha256": "a33016e5dcef904795291285382fbb4014f2d2b6c4a02f7fcf62a73a2a29c43b",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C03",
+      "master_sha256": "ff2cdf1d7d9ddc7fb0e70c7747ba249b6e55112abc6cf6abdaba7572d93dd162",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C04",
+      "master_sha256": "b3d3d40f83ee8cca445d9c4bc178426cb3c17c5c116ea28d785ec2884128560a",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C05",
+      "master_sha256": "777290499e3cb81863058f5728fa225c0ded9878d056027a8f3e0adcae808b6f",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C06",
+      "master_sha256": "b7ea508861c5976a9c49ec3272f80f1fe0100637edf43c06e136080bacce6a47",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C07",
+      "master_sha256": "db1de136aa9bcf4dd574a1897cc4a3f01f8b32e02e933b99c9372240fd32ac64",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C08",
+      "master_sha256": "5be8cef9d73dd85fa5c2c99b1d017c17df35a2883f7eff1c74f914581f86ae9d",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C09",
+      "master_sha256": "e5c2c810b3ca63356a117a6bb47af26a5698b61da604f71904830bb96d8f5e5e",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C10",
+      "master_sha256": "e48b9666cf53016e5d5cd96d7d31a3a3c2d2fd050e246e588f770192d831229d",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C11",
+      "master_sha256": "96c14c3cb9ce86c56c856e79c41bd72b5875081a37cfdc57be347a198319a9e9",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C12",
+      "master_sha256": "69abb8cf4823489ba840e6b03968304b320860697c9be1ed8e1bbb982707a641",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C13",
+      "master_sha256": "b4d0180fa8014c8f04967b1b6b1b15ae9ab80dc01c04da6d00dc9b35b2f0dcbb",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C14",
+      "master_sha256": "7e3b1aaaed7dc38dd731178d3ac9a065a180a8dfbd16d712a83315b41f165675",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C15",
+      "master_sha256": "a220214bd814c6eef72d427b412bca7493a2dc613ea6f52301ce143650350bba",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C17",
+      "master_sha256": "af0d6bd4834a76c10c045a59df0e469875717b08af1404ea8da2379dcf8a348f",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C18",
+      "master_sha256": "af405b611df056db21695c555554584bf07527ce0eb517b96719418848f11a95",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C19",
+      "master_sha256": "e47e00d54f700097e500ea6a0eb8e9a5ad225cb95922747044cc954543ba59c4",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C20",
+      "master_sha256": "507f76d2ea8ef0695dec4c1eb95091bc4ddf4f1326a05644a656b7057257193e",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C21",
+      "master_sha256": "e17f161a46f8dc6fe0db3b82ad1ac5a5a5bc51d2f9b52478b695292281277fb6",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C22",
+      "master_sha256": "efeb82f196389b81ca923d468922b357eb28b202f6972f6006f04e040b91f997",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C24",
+      "master_sha256": "dd8877dd9c4c547c3c1ac26e8b52ad33386fcb9436b6dcfe32bcedd01af9abde",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C25",
+      "master_sha256": "2b48a2dbe26e86280b86ec2b3a0e80e080d80519da6bd0d05957f554e1fe5fe2",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "C26",
+      "master_sha256": "5de257dd4487c098fb639199ff528483bd08b794ee39a49d52591e71d3b9a74f",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U02",
+      "master_sha256": "8e15ea0450985a34b00423e64c73ad8f2830677559f3208973ddceb0b207e240",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U03",
+      "master_sha256": "e277bb04cb73e38bb1f2c41523f3ba6498b9a1637a8320a99e51e642eeca765d",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U04",
+      "master_sha256": "7c427eb6fe3cf41ae1990af3731686361fd5cdcfcd0012a673b241098268952c",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U05",
+      "master_sha256": "c76bd7bac2e04253889cf28996e3f2427c7fde811d861c6b717f0ecd85b916ed",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U06",
+      "master_sha256": "86f835aeb8fdbb9ff39dd1ac38feb43c63e923234d59ea922cef4cbe71cd194b",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U07",
+      "master_sha256": "22cec0fa090674175e136a819b7e86a2b566a8cff0591d01c3a103d7cd312245",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U08",
+      "master_sha256": "46e6c7b578800409d70f3d4c084cdeed730f93ad850ea756dd96a6ceb542b9ee",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U10",
+      "master_sha256": "8d7e1d930985bd42b29a73dba84be5688e8a88245f5248e45125c2bb482fc501",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U11",
+      "master_sha256": "f98bd73f63501d315d81b4226fd5ecb52598cc82bcff43fdc7527b4ed5a74904",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U12",
+      "master_sha256": "38adf3df032bff39965e4abd45e56acf124ede15d8857d4534a0c23bd98aa98a",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U13",
+      "master_sha256": "a2326674164d92a7ab906062b5b674ad15407816207fdf6ea2257761aa0596b2",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U14",
+      "master_sha256": "3d83e57a8f1af1ced6cefad7dd2ac9c2e36bf856ea0841cca08955968a7ee8ff",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U15",
+      "master_sha256": "18bc85eed02af43db9edaf8abf3191488ea10100517f84d34913ddedb59a06eb",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U17",
+      "master_sha256": "cf29af66573c945eb08005c0a607771f6511e6f4ded815aa7fbcca4d0946c65c",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U19",
+      "master_sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U20",
+      "master_sha256": "6955d0f4126e933beed92228d0640e9236c20631d5b68687d37b109201d17d63",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U21",
+      "master_sha256": "7d2eea090cd8d20adc561d6f5dcb7d3c765cf47ac8de84c4d6d790da54ce6623",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U23",
+      "master_sha256": "671d7f310e0666d034d1b04ec52225eb17278b57cf2881a7a320748da80ae912",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U24",
+      "master_sha256": "f6256153b50ff691ef1d600927b5089af4294fe263208fc00b1e1f1633dae10d",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U25",
+      "master_sha256": "85f67c38309a99eee889fa76d564bb8c4031208320c650e245ce9a50a7a26441",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U26",
+      "master_sha256": "915b1fcd557b65471e195a26f4d890e6f6c92a48784dbae6d4bcbbd11f975e66",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U27",
+      "master_sha256": "ce9194ae133d0b1202e0e1751fa1523c59cc50f42b3374907322323a4e2024b7",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U28",
+      "master_sha256": "de9e7f6f91c2fe9ecd15f75f490752fdac8a9a2774114f1acf16cdefe7d294a4",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U29",
+      "master_sha256": "030bd482835202d7e290f98b27bbae7526031cdca55092035bbdcdef9a9b3b79",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U31",
+      "master_sha256": "650e48177accb01833bd4d323b96bc4f858fcce3aa144e4a9dc99e724cf45eb6",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U32",
+      "master_sha256": "fc7164a2a4941ed3e8113716cfb6a8539fb06d7465da247c76404019108d4fd8",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U34",
+      "master_sha256": "7ec7cda2e12f379752d7d9a352205cf2415d3a9749aaabf6f05e218619cfd266",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U35",
+      "master_sha256": "d96da21bdc6d7141b99999d06f7c15fbbca1e57f6cfa5c8137e4d135a2193469",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U36",
+      "master_sha256": "4f3ad09c0ff62a205b9453f41cf7af24f7bbea6406db18e8dc11d6bcd9cebf61",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U37",
+      "master_sha256": "048074abdb3c0ba1540810d9c25fb67165810680b79459942fda70a2be46ead1",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U38",
+      "master_sha256": "7af5df8a72c33b1e6c3e3906046a0691996f920ea76cc2c6bfb016109ecae7ca",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U39",
+      "master_sha256": "fdc2c4d064df45cec59d5f62faffa4f35692f8cbea49b03c4525b8bf6eaf27bc",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U40",
+      "master_sha256": "3379d25ba83f475199b10da832470520d341806573596570c69e4f6b9b9c8581",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U41",
+      "master_sha256": "b8533bfb259455a4a6dd866a61b88eaf164c2b29bc04a60365897e95e34a1fa3",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U42",
+      "master_sha256": "651dabda7c4c7fdcb3eee9a8bd11f965a4d9935bdad09e06bf3fc4f719535e44",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "U43",
+      "master_sha256": "bd5b05e7c578404d62c8109e079b130e1f0e21a201dd5bb3549a3a2712726cd8",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R01",
+      "master_sha256": "e2a5dd9588b2f7f0d5d3b597479fcbee4e22cb9e40e6dcd6cefdb02bec292373",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R02",
+      "master_sha256": "b8d410b9167ad6e8dccba8fee80baa6156cc65481d9d2edd22e23fcd8be9ed03",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R05",
+      "master_sha256": "fc83883250a5ee151725c433044587e0ec519f058c5eb4d35c489d18f4a9079b",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R06",
+      "master_sha256": "be7bc0378b64fefcc4e75e182ce4743b665f127ae696861afd45c784a78def33",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R07",
+      "master_sha256": "627197b948fb0308e1e7a346c1a7fb703ff615a5a884a010a5e26563fe83846a",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R08",
+      "master_sha256": "5e66349875927c309ee498e9cccbbdd719f1b14e9543e30c4ad4b5afcc481edc",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R09",
+      "master_sha256": "c5fbb9517840a49632f1d43b2f991bd7c06789ec90987ae7d23da3b25aec3333",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R10",
+      "master_sha256": "11ee39e9b1e337706bd387f0688b4ac440d6442309b6b1d6e5ba1f041ae8a05e",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R12",
+      "master_sha256": "35610d79979d826e35fd0398e86144fe13517614b5d3b3a3d38a520f3817549e",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R13",
+      "master_sha256": "b39c2b6f797d7c7c1eff0dd7d2ebcca9cde4c2bb4ff07083a2b1eb0e928a3489",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R14",
+      "master_sha256": "29ffa675e3c5aa158cfed202b411b162de7937459fa1ed2263dc143f1b82c4b3",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R16",
+      "master_sha256": "0509c69b53e708f60b06722a13dd8994e13b6c26d244f356eaffd4979d5b8cab",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R17",
+      "master_sha256": "9a5b06069d80f536d5e02c994a26e5e7cf53530328bd506b5bdbf80bd9eef363",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R18",
+      "master_sha256": "29c6fbfde3f4d96b565dc62fe0821c6702a9ee104ac3b1732fc34c20220cca37",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R21",
+      "master_sha256": "ea9430e45ac95b0ffd163db9e0f84a029cfbb5b653cc4bfb15b52e1925bfa273",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R23",
+      "master_sha256": "0e4d748aa18aaf40b78fb09a418cfa53c90af602bb16170ee17ffd0e2f92c298",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R24",
+      "master_sha256": "6e27636c36f49a91a10f3161feb83275647ab626c699bd857c1bd3a9ede202a4",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R25",
+      "master_sha256": "be8dacc2f1ee368317a6c90a0bfb11b0c393f1ad14f3826422b3b10f4b1624dd",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R27",
+      "master_sha256": "249a697f3d8268b8928b84e2d5d8d1a7535df697cb8f0057bce76794495b7eb7",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R28",
+      "master_sha256": "6951772100b0077f37e1ac29bcb76b0f8788b2a55da84f101790f43fbeb5690f",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R29",
+      "master_sha256": "169b51099b4f541750fb3b55832e4747e1e11828b6be720deea8b84634d40fb8",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R30",
+      "master_sha256": "03d4aece79bb4b537bcb916d969d85ba8ea686f09dafbaa6f7bb472f56b108ab",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "R31",
+      "master_sha256": "82674fe59ac1bb889e6c187b669d4a4e46ebc12c34b99a8d28a570e158a40e61",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "T01",
+      "master_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff",
+      "anatomy_review_bound": true,
+      "exports": 4
+    },
+    {
+      "id": "T02",
+      "master_sha256": "c28e06da786238f5c085539de804626cf31ea03eb5ebea1febae2fbfc1148c3f",
+      "anatomy_review_bound": true,
+      "exports": 4
+    }
+  ]
+}

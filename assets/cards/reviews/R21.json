@@ -1,0 +1,54 @@
+{
+  "id": "R21",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "eb0f43ada84c038769fc37fc691987a68fd4214080c7eece970f24acbcd5cc26",
+  "master_sha256": "ea9430e45ac95b0ffd163db9e0f84a029cfbb5b653cc4bfb15b52e1925bfa273",
+  "comparison_sha256": "cc3053486b9753585febf039858743a3e50c78a620e1d37494fb511e210243e2",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "纵向厚壳围出大块深暗空腔，小熊位于壳内深处；外来矛停在厚边，短雷逐渐接成实体壳，层次没有被亮光吞掉。",
+  "baseline_comparison": "沿用U19受控电形和C12厚护面，改成中空竖壳。与T02低宽实心防护、U34身体贴甲区别清楚，125像素仍读外壳保护内者。",
+  "paw_orientation_observation": "壳不生成掌、腿或双袖，内侧熊为连贯半身；未把残肢当作壳边。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:38:06+00:00",
+  "master": "cards/masters/R21.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/R21.jpg",
+  "anchors": [
+    "U19",
+    "C12"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

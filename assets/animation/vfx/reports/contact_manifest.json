@@ -1,0 +1,440 @@
+{
+  "pages": [
+    {
+      "path": "reports/contact_01.jpg",
+      "sha256": "8fa446f9e5930e349e52ff6c6cc014cf6493afc49fa308592e158841108037d4",
+      "samples": [
+        {
+          "id": "claw_slash",
+          "frames": [
+            2,
+            5,
+            7,
+            10,
+            13
+          ]
+        },
+        {
+          "id": "heavy_impact",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "bite_hit",
+          "frames": [
+            2,
+            5,
+            7,
+            10,
+            13
+          ]
+        },
+        {
+          "id": "guard_gain",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "guard_hit",
+          "frames": [
+            2,
+            4,
+            6,
+            9,
+            12
+          ]
+        },
+        {
+          "id": "guard_break",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "counter_release",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "absorb",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      ],
+      "actual_viewed": false
+    },
+    {
+      "path": "reports/contact_02.jpg",
+      "sha256": "d3add804a8ebcad9397a49bc7e46ea720eae4aebe6d95e62a12cf4aa2eb76d16",
+      "samples": [
+        {
+          "id": "lightning_strike",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "lightning_chain",
+          "frames": [
+            2,
+            5,
+            8,
+            11,
+            15
+          ]
+        },
+        {
+          "id": "lightning_all",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "lightning_growth",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "domain_enter",
+          "frames": [
+            4,
+            9,
+            15,
+            21,
+            27
+          ]
+        },
+        {
+          "id": "domain_loop",
+          "frames": [
+            6,
+            13,
+            20,
+            28,
+            37
+          ]
+        },
+        {
+          "id": "domain_exit",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "domain_suppress",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      ],
+      "actual_viewed": false
+    },
+    {
+      "path": "reports/contact_03.jpg",
+      "sha256": "096053df84c618f9b259f25109d37975241bd306aadaf5ae19f4d0b99fcc028e",
+      "samples": [
+        {
+          "id": "card_purify",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "feral_transfer",
+          "frames": [
+            5,
+            11,
+            17,
+            23,
+            30
+          ]
+        },
+        {
+          "id": "feral_claw",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "feral_body",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "feral_aura",
+          "frames": [
+            4,
+            9,
+            15,
+            21,
+            27
+          ]
+        },
+        {
+          "id": "mark_bite",
+          "frames": [
+            4,
+            9,
+            15,
+            21,
+            27
+          ]
+        },
+        {
+          "id": "wound",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "weakness",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      ],
+      "actual_viewed": false
+    },
+    {
+      "path": "reports/contact_04.jpg",
+      "sha256": "8c8a745beba80647608a4b9d7a72c4d5fefe6695da1f3cf3ef314c4606aed176",
+      "samples": [
+        {
+          "id": "charge",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "strength",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "armor_retain",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "armor_iron",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "card_draw",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "card_retrieve",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "card_discard",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "card_exhaust",
+          "frames": [
+            3,
+            7,
+            11,
+            15,
+            20
+          ]
+        }
+      ],
+      "actual_viewed": false
+    },
+    {
+      "path": "reports/contact_05.jpg",
+      "sha256": "6b4dcc02db3b315de8079211d55036c371f1bc41496dc9caa6d9923ad9ad5def",
+      "samples": [
+        {
+          "id": "energy_gain",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "cost_reduce",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "card_replay",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "lifesteal",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "heal",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "roar_wave",
+          "frames": [
+            3,
+            7,
+            11,
+            15,
+            20
+          ]
+        },
+        {
+          "id": "thunder_armor",
+          "frames": [
+            3,
+            7,
+            11,
+            15,
+            20
+          ]
+        },
+        {
+          "id": "cast_charge",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        }
+      ],
+      "actual_viewed": false
+    }
+  ],
+  "note": "Generated samples are not automatic visual approval; operator records actual review separately."
+}

@@ -1,0 +1,54 @@
+{
+  "id": "C07",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "09473bf5ba4ea65806a4fac12ac8df69a27fb73c3cf9027ed9443b9751633f6f",
+  "master_sha256": "db1de136aa9bcf4dd574a1897cc4a3f01f8b32e02e933b99c9372240fd32ac64",
+  "comparison_sha256": "1c753de76631c6314f493548ed5eeec50e04058d26a8334a11caba1eaf4469a2",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "右上近看熊侧眼和短鼻吻，左下布片挂在真实断枝上，一条金色气流把气味来源接到鼻端。没有无来源光带或多余手爪。",
+  "baseline_comparison": "与U17看路、U25盯猎物区分为闻线索；灰绿留白托住一条金流，125像素鼻与布片关系清楚。",
+  "paw_orientation_observation": "只有局部面部，鼻吻、眼和脸颊连续，未出现额外器官。",
+  "quality_axes": {
+    "main_read": 19,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:01+00:00",
+  "master": "cards/masters/C07.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C07.jpg",
+  "anchors": [
+    "U17",
+    "U25"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

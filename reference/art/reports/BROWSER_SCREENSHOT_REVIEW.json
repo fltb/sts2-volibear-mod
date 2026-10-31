@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "status": "accepted_for_observed_scope",
+  "reviewer": "root",
+  "checked_at": "2026-10-27T12:53:17.607658+00:00",
+  "browser_report_sha256": "0bf04d8517b29e66a8b5028a6e2ad14dc7ebd3ce1e6825831af6f2d4927cc38d",
+  "input_sha256": {
+    "START_HERE.html": "88383dbd91622a5d06b0bd6d4451d341b85cf0820ee01f426eb5a4027ce62de7",
+    "reference_manifest.json": "7e3ffb97065d8135ada6ce3db1b77110a238aab58f381c3a44dd48797403d02c",
+    "fonts/reference_ui.woff": "e7707b48555b19789a1729c3d9ee7134d33815ec4ed45dd5b56b2ef361b242b4"
+  },
+  "screenshots_actually_viewed": [
+    {
+      "file": "reference_cards.png",
+      "sha256": "8d6800b2b1022108ba7c750d6eff52d3e33a982f829465754c539f08d62c2ea6",
+      "observation": "已实际打开查看最终卡图网格：八张上部参考的主体与中文分析分开排布，来源链接可辨，没有文字遮图；其余文件完整性由独立44项媒体检查覆盖。"
+    },
+    {
+      "file": "reference_desktop.png",
+      "sha256": "92a294a8d3ed8023d98bd2ff98db5bda13e0f185f5289474001cc3be4c9c23cf",
+      "observation": "已实际打开查看：中文标题、资料链接、身份原图和三张项目正例清楚，四列卡图不挤压、不拉伸。"
+    },
+    {
+      "file": "reference_mobile.png",
+      "sha256": "9679c6ecbf928959b4814ea1b219f1141f49303b7337c2a82c2af6f12dd8fbe9",
+      "observation": "已实际打开查看390px宽页面：标题保持一行，原始角色全身比例与两足完整，研究链接和单列卡图没有水平溢出。"
+    }
+  ],
+  "screenshot_storage": "Temporary browser screenshots are not distributed; SHA and written observations bind this review.",
+  "unresolved_findings": []
+}

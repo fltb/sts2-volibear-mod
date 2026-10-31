@@ -1,0 +1,41 @@
+{
+  "id": "R16",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "35bbf6b00fe71e8db261919e82a29ef2bbd43d8a994744150cbe5c59f5d08e77",
+  "master_sha256": "0509c69b53e708f60b06722a13dd8994e13b6c26d244f356eaffd4979d5b8cab",
+  "comparison_sha256": "a4ef05bde761f7104ca41446e42da2212bcf6d04aafcbc2ab83e540ec5278fda",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "一次攻击后的熊已落稳，肩髋与两腿连续，前臂自然下收；侧面断盾保留新破口，背上的旧战痕与腰侧短蓝纹分离。未把躯干膨胀成盾壳。",
+  "baseline_comparison": "延续C12重量，镜头拉开为侧后全身及攻击结果；与R10远处再战对峙、U14未接敌准备区分。圆形裁切后受力链与破盾仍可读。",
+  "paw_orientation_observation": "收回掌爪同向内下弯，双足明确接地，无随机额外爪或关节。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:55+00:00"
+}

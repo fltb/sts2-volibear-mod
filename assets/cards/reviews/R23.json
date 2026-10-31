@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "R23",
+  "decision": "approve",
+  "master_sha256": "0e4d748aa18aaf40b78fb09a418cfa53c90af602bb16170ee17ffd0e2f92c298",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_b",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "三雷击中独立目标影，三束方向与击中点可读；敌影有一致躯干四肢，不是三头或多臂拼合。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_b.json",
+      "id": "R23",
+      "source_sha256": "e6723538e137e31c6937b1361154230357efe0b607f4ba0714d7c364c880f817"
+    },
+    "prior_exact_candidate_review_sha256": "d25e54eee153b26ded4371bc9ceb6fdef602f2823b5beda09e8cb033c31f1633",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

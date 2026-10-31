@@ -1,0 +1,256 @@
+{
+  "id": "bite_hit",
+  "label_zh": "咬合接触",
+  "family": "physical",
+  "fps": 24,
+  "frame_count": 18,
+  "duration_seconds": 0.75,
+  "loop": false,
+  "anchor": "target_contact",
+  "layer_z": 30,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    53,
+    43,
+    209,
+    213
+  ],
+  "atlas": {
+    "image": "atlases/bite_hit.png",
+    "json": "atlases/bite_hit.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "00daff660f227f99b6e5983140658bb8ed364a667343989bd5036842c843fa43"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/001.png",
+      "sha256": "f650ea741ee3afb31af794e2107abd3c225392b5a6ca638c52da454e37d49148"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/002.png",
+      "sha256": "4d0ffeaa10cd6cdcd7d25ad7a7015561430012c54099e9dbbe3c6529be12d6fc"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/003.png",
+      "sha256": "767ffe7e51b6536283d02c5db0d4930c9e269742fd1d6a7571fac545458cf5da"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/004.png",
+      "sha256": "25a948bf3d8d25b98c4354ff608bcf9663544aa2fb5a5ad9375224136adce616"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/005.png",
+      "sha256": "48eed71b91cb62063c6a97f6125f61062ecb21c7ca29ea9dec24f41eef9a3a49"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/006.png",
+      "sha256": "5fc1744b5bd7e9a8af81d5591cb4dbbe9ae1d79699d16a7fc521e8bf4bd670d9"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/007.png",
+      "sha256": "b983256767a93f024456f5a66763c55d8b5fa06d7756c4408ee40542f018ec41"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/008.png",
+      "sha256": "5aa8e7dfdfe8ae69782a4fe394d4b5a96e4221cafea151b098c3b40a80fa19aa"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/009.png",
+      "sha256": "e7d1b996f1f236d9aed98c3ea42087a5ce70e76c2ff5c15a55d5759c563c4072"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/010.png",
+      "sha256": "befc94d785535efb013e8821ffe4aa0050e3394e9bc109376166f6a9b277374a"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/011.png",
+      "sha256": "a1d831f28e60918543b1a2db5543a42b27ca3b042da20dc31ed84b6612e61cce"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/012.png",
+      "sha256": "08bdd6fe5bef8df5d2b5cc916263d38c5ed48d5763eba690e191082a7c8045e9"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/013.png",
+      "sha256": "f979636f4db93c3b0c0739a660ebab0e17d92ad1df32c2e52279703be4c44e32"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/014.png",
+      "sha256": "bbb4da8bcc9d0ade4ceac687e9ebf7e2be0071b811a0c4934579e3b9eb2e5aa3"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/015.png",
+      "sha256": "e5f1621c6afa7a3bc36c4191c7e1319f2c2f6674c6b59166a4f47869366c851b"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/016.png",
+      "sha256": "dc020af20762aee0e7306de08b9fde6f5948e7092a3b2947038510fe2b782085"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/bite_hit/017.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.bite_hit",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

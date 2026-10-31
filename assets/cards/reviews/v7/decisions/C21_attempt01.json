@@ -1,0 +1,41 @@
+{
+  "id": "C21",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "468e57234efc2ecf56001b38df35b3ca8a42023192b24a0ef3ec80f0f6a9bd48",
+  "master_sha256": "e17f161a46f8dc6fe0db3b82ad1ac5a5a5bc51d2f9b52478b695292281277fb6",
+  "comparison_sha256": "53acbd0eb88eb164af649baeafecb1035adc6d4950fb2f835d8388413b6237c1",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "两个有实际短踝的足部从上边缘进入，落在同一完整暖色地面。浅青开放边界之外少量石块坠落，界内支撑面稳定。",
+  "baseline_comparison": "与C26单足接点不同，以完整地面和两处小承重点为主；U03的站稳重量用局部空间表达，缩图内外边界清楚。",
+  "paw_orientation_observation": "两足各有独立踝部及接地影，爪从趾端向前下弯，没有共用小腿或悬浮脚印。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:04+00:00"
+}

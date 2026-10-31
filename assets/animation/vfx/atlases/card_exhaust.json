@@ -1,0 +1,353 @@
+{
+  "id": "card_exhaust",
+  "label_zh": "消耗散片",
+  "family": "card",
+  "fps": 24,
+  "frame_count": 26,
+  "duration_seconds": 1.0833333333333333,
+  "loop": false,
+  "anchor": "exhausted_card",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    60,
+    10,
+    182,
+    211
+  ],
+  "atlas": {
+    "image": "atlases/card_exhaust.png",
+    "json": "atlases/card_exhaust.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "3cc1ea4c89e4fd3e23f96d5f8a038461867c627c0a402a3ed507553cf4b6bfd9"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/001.png",
+      "sha256": "750b227f8f5e9b6006dcb93b0f483f3a5cb42bd746c8750a8438d472cf7bd60b"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/002.png",
+      "sha256": "69f5fad1a2e060398abe780f772b10a3c6da3817b975dba460a69034aa4dd5ba"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/003.png",
+      "sha256": "178c188574618d96e00a5696aabc1babcf300fa090c448faad1760d884d2f45f"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/004.png",
+      "sha256": "b142bb5bb9009631fb7eb397c846f9b25e31ab8a8fc8922ee3fca31ca2051a71"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/005.png",
+      "sha256": "b143e2774ed7dbef65d311e9ee7a35ac0c287449f1ae51f0ac7cdf7b7ee93018"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/006.png",
+      "sha256": "f6cb2387b49a6449366c154986475aa3314e328d59eb2c6e1edaf0a9806cd608"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/007.png",
+      "sha256": "a1a92c36c6ca4599d3f5aead4847f2827f9b843c7a1af6141809b7b47bf010d0"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/008.png",
+      "sha256": "7c4b81f016a105ce8d9f60ab24b613c5b89386e90b881342cf2e9a087103d3ed"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/009.png",
+      "sha256": "c391d6432b605b127fceed8b89f93f3e5db4f9ec595d5b3b413c14e3538ac529"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/010.png",
+      "sha256": "d8dfd2d33c1352c1a658264ec1e1c32d1cf875d4479ec9d24dfe84419783489c"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/011.png",
+      "sha256": "34efff2e8ec9d3b99e84ab66f02306fe0015e26fa158cad0220db98076a7a185"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/012.png",
+      "sha256": "82f149cf43bf143b3dbb4deeb7c5357547af548ad3326cd8e601d860ff4f8b93"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/013.png",
+      "sha256": "3a221beaeddfd77ac2504d4435cef56a8999ed87e193ebbeb8d6daf22d6b3054"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/014.png",
+      "sha256": "6617e67280903feed9dc0b6d92899106408938ca2f10a7e5be18957edfa0433b"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/015.png",
+      "sha256": "36a9e38a71d979f7f99fb4604d995a297e157c0a538cfb80e1eaff4bcf9ee2e4"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/016.png",
+      "sha256": "612ead7ccb242bb69a2c9c2eb07d1075ef461f8865463809a5439dcb26962e67"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/017.png",
+      "sha256": "3f40105bbab5347a6851305bb3fc6de46c7884d975969244e43210b8e9dafb77"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/018.png",
+      "sha256": "8771212b68d163ca882e698ac8557998a4086c4f59c723575b6c64de5b9fcc2a"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/019.png",
+      "sha256": "ceb57b42db9b0188878ca7d09a98648b5e0613a79103a29858a1a5d9b3c1f722"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/020.png",
+      "sha256": "2405b4a7cc6dc3d17825909c15863f371aa5ceaf2aeb2beba8cd97f00bbc43c0"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/021.png",
+      "sha256": "b6e495cfe61b32dfc7042a1f4faa8de5074d0e71c3a0baaea201aa0be1577529"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/022.png",
+      "sha256": "7bb2238dd55df78056298fe045a3e8e160d03af7d9e3bef1da37bc6dac699835"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/023.png",
+      "sha256": "ed921b4d8ad4b4d303c52323572f9f84483d33727c26639e8e47a3f5bde155e4"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/024.png",
+      "sha256": "ed44fa456d4e2d514c8f5a69ebcc49342fc1084f282abe61f869d8761f2b2dd0"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_exhaust/025.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.card_exhaust",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "actual_card_node_policy": "Retain the authoritative card image/node under this transparent overlay; animation never changes card state."
+}

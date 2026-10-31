@@ -1,0 +1,41 @@
+{
+  "id": "C15",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "4f611926c22c49c7360010eb34c8d74e7d066bd0cc47e5addf24ce5872c0dd31",
+  "master_sha256": "a220214bd814c6eef72d427b412bca7493a2dc613ea6f52301ce143650350bba",
+  "comparison_sha256": "b59b74bddd4ebe79276376416ae8d8e12d8e269a12e059335389d4b96988b87b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "旧盾破口一直张开，青白余光脱离破口向上缘小掌集中；手不触碰破口，未把伤口填平。掌腕从画外连续进入，暗盾与亮流分别清楚。",
+  "baseline_comparison": "与C08相比保留材料结果但移开实体手，加入回收路径；与U40的实地贯通不同，余光离开旧受体。125像素仍见破口、间隙、小手三者。",
+  "paw_orientation_observation": "短青爪同向自然内勾，光流经过爪间但不被画成多余手指；腕与前臂连续。",
+  "quality_axes": {
+    "main_read": 17,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:31:52+00:00"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "T02",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "02b5c2d1d6c6bddbf1effbcf53469eefa2c3b7348e3816228d1670d6bd8b801a",
+  "master_sha256": "af81cdd82838a5ad5307bfdf7ce2dcd840dd8b85520216ad66ad8c86ce13a89d",
+  "comparison_sha256": "bf1481efda55abc46536e3580ae5802600886c1ea52656904e59190d6a858162",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "低宽肩背护面承受两侧细线，暗面连续下沉，两条地面短雷向外释放；没有小头、耳朵或多余四肢。缩图先读稳定护层，后读释放。",
+  "baseline_comparison": "保留C12的毛层大形和U19受控雷形，改为纯护面符号；与竖直裂骨T01轴线和功能均区分。",
+  "paw_orientation_observation": "纯护层符号，不包含手掌或脚掌；没有将残肢伪装为抽象。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:56+00:00",
+  "master": "cards/masters/T02.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/T02.jpg",
+  "anchors": [
+    "C12",
+    "U19"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

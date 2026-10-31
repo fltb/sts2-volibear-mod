@@ -1,0 +1,34 @@
+{
+  "name": "@bear-forge/runtime-card",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./graph": "./src/graph.ts",
+    "./probability": "./src/probability.ts",
+    "./probability-expansion": "./src/probability-expansion.ts",
+    "./store": "./src/store.ts",
+    "./tests/process-support": "./tests/process-support.ts",
+    "./tests/benchmark-support": "./tests/benchmark-support.ts",
+    "./tests/game-benchmark": "./tests/game-benchmark.ts",
+    "./tests/run-support": "./tests/run-support.ts",
+    "./tests/game-support": "./tests/game-support.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "check": "npm run typecheck && npm test",
+    "test:probability": "node --experimental-strip-types --test tests/probability.test.ts tests/probability-expansion.test.ts tests/current-loader.test.ts tests/scheduling.test.ts tests/architecture.test.ts tests/execution-blocks.test.ts tests/persistence.test.ts tests/boundary.test.ts tests/immutable-blocks.test.ts tests/typed-entities.test.ts"
+  },
+  "dependencies": {
+    "@bear-forge/card-engine": "*",
+    "@bear-forge/runtime": "*",
+    "@bear-forge/boundary": "*",
+    "@bear-forge/contracts": "*"
+  },
+  "devDependencies": {
+    "zod": "4.6.5",
+    "@bear-forge/runtime-native": "*",
+    "@bear-forge/game-host": "*"
+  }
+}

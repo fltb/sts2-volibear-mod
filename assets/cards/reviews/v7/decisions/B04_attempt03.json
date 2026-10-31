@@ -1,0 +1,41 @@
+{
+  "id": "B04",
+  "attempt": 3,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "6ad5c812aa559bf3fb32a79bff0345a53b21a33033b3d3fab0a492c81820683a",
+  "master_sha256": "67833ea2a6671df81d07a938d708f488baf757fb5299e3d7edd68f8b1369c01b",
+  "comparison_sha256": "529b387e83726172331031d2ac208a510c5614c4a75b15aa7dd5c80ea0ad2100",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "头收在厚肩后，肩与盾发生接触，两脚稳定、背手连回躯干。两颗相邻小撞星属于同一接触区，未再出现用鼻子撞盾或腹部额外爪的错误。",
+  "baseline_comparison": "与C06的推进重量一致，靠完整身体肩撞而非U35举臂承击；大肩与竖盾形成清楚反力。",
+  "paw_orientation_observation": "背手收拢，双足向前承重，未出现独立漂浮的爪。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:54+00:00"
+}

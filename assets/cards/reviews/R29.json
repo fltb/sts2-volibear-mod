@@ -1,0 +1,54 @@
+{
+  "id": "R29",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "536d069affc5c0661d84df58acfc4e486308eb28ccaa420035962862e998edc3",
+  "master_sha256": "169b51099b4f541750fb3b55832e4747e1e11828b6be720deea8b84634d40fb8",
+  "comparison_sha256": "a9ef49e0fad9a8beb58f04b6ecf8d489feb338aae50c6f17d590bd006aab817b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "三件厚板状旧器物大小与朝向不同，各有旧木角、完整侧面和落地接触影；兽性刻面与毛缘在原物内延续。上方短件保持扁平木板厚度，不呈现肉质腕臂。",
+  "baseline_comparison": "借R12的旧形破除与C18的大轮廓，改成三件共同兽化的静物；与R28单物局部侵染明显不同。125像素三件仍分离。",
+  "paw_orientation_observation": "对象边缘有爪形刻面，旧木截面和扁平板体可见；不存在脱离角色的活体手脚。",
+  "quality_axes": {
+    "main_read": 17,
+    "large_shapes": 18,
+    "tone": 17,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:58+00:00",
+  "master": "cards/masters/R29.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/R29.jpg",
+  "anchors": [
+    "R12",
+    "C18"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

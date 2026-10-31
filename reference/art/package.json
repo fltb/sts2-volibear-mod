@@ -1,0 +1,11 @@
+{
+  "name": "volibear-reference-repo",
+  "version": "5.0.0",
+  "private": true,
+  "devDependencies": {
+    "playwright": "1.51.1"
+  },
+  "scripts": {
+    "verify:browser": "node scripts/validate_reference_browser.cjs"
+  }
+}

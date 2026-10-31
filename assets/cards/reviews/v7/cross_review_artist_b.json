@@ -1,0 +1,1763 @@
+{
+  "schema_version": 1,
+  "reviewer": "artist_b",
+  "review_type": "independent_cross_visual_review_not_formal_approval",
+  "created_at_utc": "2026-10-27T18:07:29.761421+00:00",
+  "source_plan": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/data/v7/redesign_plan.json",
+  "source_plan_sha256": "be8c78aea84b3cd3dfe168034866fd5cc0a45cdf107fc3847f6196fd59964b8d",
+  "state_snapshot_sha256": "1c3f16ac36810755e965e0d786803c2e8b3027e383a889a1b64f3ff19838dc31",
+  "scope": {
+    "artist_a_and_artist_c_cards": 41,
+    "own_cards_excluded": [
+      "B02",
+      "U08",
+      "T01",
+      "R30",
+      "U42",
+      "U13",
+      "C02",
+      "U24",
+      "R10",
+      "U32",
+      "U26",
+      "C11",
+      "R25",
+      "U05",
+      "R07",
+      "R02",
+      "C07",
+      "R08",
+      "C25",
+      "U37"
+    ],
+    "unique_cards_full_viewed": 41,
+    "raw_attempts_full_viewed": 46,
+    "matching_stage_comparisons_viewed": 46,
+    "additional_fixed_reference_full_viewed": "U35",
+    "all_available_current_candidates_reviewed_at_start": true,
+    "method": "Read each V7 scene/semantic/watchpoints and actual generation prompt; open all 41 raw full images and their matching comparisons containing fixed benchmarks, 250x190/125x95, grayscale and export masks. Material blockers are based on full images. Updated candidates receive targeted follow-up, with scope and prior SHA-specific findings recorded per attempt."
+  },
+  "summary": {
+    "current_reviewed_blockers": [],
+    "resolved_during_review": [
+      "U31a01 density blocker resolved by U31a02",
+      "C04a01 long diagonal arm risk resolved by C04a02",
+      "U41 prior finding resolved by attempt02",
+      "R27 prior finding resolved by attempt04"
+    ],
+    "nonblocking_cards": 41,
+    "root_has_been_messaged_about_all_blockers": true,
+    "formal_approval_or_master_or_shared_state_modified": false,
+    "recommendation": "Root retains final approval authority. All 41 current candidates have no blocking cross-review finding. The recorded low-severity observations do not justify another redraw."
+  },
+  "strongest_nonblocking": [
+    {
+      "id": "R06",
+      "reason": "云水反射、落地背影和远雷统一，留白完整。"
+    },
+    {
+      "id": "C21",
+      "reason": "真实双足、稳定内场与外侧落石直接可辨。"
+    },
+    {
+      "id": "U15",
+      "reason": "同一窄口的风带疏通关系在缩图最直接。"
+    },
+    {
+      "id": "U11",
+      "reason": "实体收臂与墙影挥击的时间差清楚，图形简洁。"
+    },
+    {
+      "id": "U28",
+      "reason": "与固定U35有充分构图差异，接触和双受体回雷成立。"
+    },
+    {
+      "id": "C03",
+      "reason": "a02把重击/上翻反力/两侧细雷压成清楚大形。"
+    }
+  ],
+  "weaker_but_nonblocking": [
+    {
+      "id": "C15",
+      "reason": "回收方向较依赖余光弯线，仍有一定方向歧义；未见明确反向。"
+    },
+    {
+      "id": "U14",
+      "reason": "低伏侧撑强于计划的双足直立低收臂，但准备语义和肢体连续成立。"
+    },
+    {
+      "id": "R01",
+      "reason": "云带边缘毛状细齿偏多，尚未破坏缩图主形。"
+    },
+    {
+      "id": "R13",
+      "reason": "远浅青线更像河道；归林和人工道路终点关系仍成立。"
+    },
+    {
+      "id": "C20",
+      "reason": "近后腿推蹬斜线偏长，但有真实支点和连续肩胯。"
+    }
+  ],
+  "cards": [
+    {
+      "id": "U28",
+      "attempt": 2,
+      "sha256": "ebabd2fd2860f4f594d69376959444a803542299f4b61979f3fe0c6cdf6c78b4",
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "extra_reference_viewed": {
+        "id": "U35",
+        "path": "/workspace/scratch/6d72a9858741/card_revision_v6_review/assets/benchmarks/U35.png",
+        "sha256": "d96da21bdc6d7141b99999d06f7c15fbbca1e57f6cfa5c8137e4d135a2193469",
+        "comparison_result": "No composition reuse: U28 is high-oblique rear low bracing with two enemy receivers and low V return; U35 is side raised forearm with massive top/bottom lightning and red field."
+      },
+      "blocking": false,
+      "severity": "none",
+      "notes": "与固定U35的取景、主体位置、敌方受体、雷形和色块分布明显不同。低伏背影由四肢支撑，上右持斧敌与接点同一关系成立，V形两端通向两敌；125缩图仍保留主力链。未见需推翻批准的具体阻断。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U28/attempt02.png",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U28/stage02/comparison.jpg",
+      "comparison_sha256": "7891bd39e2f1e08d4dcae08d7be86d920eb31add819ea82bea2e8b77482401f8",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "雷霆反扑",
+      "core_verb": "承住并反扑",
+      "intended_scene": "熊在画面下中部以宽肩侧背低伏站稳，后足落地，身体和肩胯连续。近侧前臂保持低位，远侧前臂在身前挡住由上方敌影斜压而来的长柄斧侧面；不抬拳到脸旁，掌爪不作特写。一个小而实的暖白接点说明来击已被承住。一条短厚青白雷从同一接点沿地面向前分为宽V形，两端指向前方两名小敌影，雷的主面积在角色前方，不绕角色画成圆环。熊背是单一灰白重块，斧与雷的方向清楚分开。",
+      "intended_semantic": "同一接点先承接敌方实体来击，再向前方敌群返送雷；画面通过接触和方向区分防御与反扑，不图解吸收伤害数值。",
+      "watchpoints_read": [
+        "低位承击前臂与肩肘连接必须清楚，不能靠光爆遮挡。",
+        "V形雷须由同一实体接点指向来敌，不读成普通地面装饰。",
+        "与U35逐张并排看，主角取景、承击位置、雷形和色块分布都须明显不同。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "U40"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U28.json",
+      "reviewed_generation_prompt_sha256": "2cf61e3c02443b5aabd528582228093de5495217b5fa10f0b05e7f858ee13bb2",
+      "source_plan_entry_id": "U28",
+      "generation_record_sha256_at_report": "3299ed7313ec23016dd035a5d7c266559a5ca886a0fc141f170c719b4e9c18c0",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "ebabd2fd2860f4f594d69376959444a803542299f4b61979f3fe0c6cdf6c78b4",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U28/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "B04",
+      "attempt": 3,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "头收进肩线，暖白接触位于外肩中段；后足—胯—肩—盾力链连续。内收短臂和肘折可读，未再以脸撞盾；两个邻近小亮点同属一处接触，非阻断。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/B04/attempt03.png",
+      "sha256": "6ad5c812aa559bf3fb32a79bff0345a53b21a33033b3d3fab0a492c81820683a",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/B04/stage03/comparison.jpg",
+      "comparison_sha256": "529b387e83726172331031d2ac208a510c5614c4a75b15aa7dd5c80ea0ad2100",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "挺身迎战",
+      "core_verb": "迎上",
+      "intended_scene": "熊的躯干作为前倾宽楔迎向一名仅保留盾与上身的敌影，肩部先接触盾面，后足仍踩实地面。头嵌在肩线内，双臂各自自然收在躯干轮廓以内，只保留一处清楚肘折；不把两臂焊成一个实体。整幅只有一个肩盾接触点。",
+      "intended_semantic": "用身体主动进入来击表现迎战；熊、盾、地面三者关系必须闭合。",
+      "watchpoints_read": [
+        "肩、盾与后足必须同属一条可追溯力链，后足接地不能被裁掉或悬空。",
+        "两臂可以在轮廓内简化，但不能真的焊为一个额外实体。",
+        "唯一肩盾接触不应被前景巨爪或第二雷点抢走；敌盾背后的暗躯仍需提供被推回的一方。"
+      ],
+      "benchmark_ids": [
+        "C06",
+        "U35"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_B04.json",
+      "reviewed_generation_prompt_sha256": "20e8159b94a9b22eaa81073a70fa5dfc1cb04332ed05466505bd40a9c2384928",
+      "source_plan_entry_id": "B04",
+      "generation_record_sha256_at_report": "5fd340a5f4cbae88880899ec74c7dc7566d26b0bfb246f33cb79125fed2e99d2",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 3,
+        "sha256": "6ad5c812aa559bf3fb32a79bff0345a53b21a33033b3d3fab0a492c81820683a",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/B04/attempt03.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U27",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "独立完整伤盾与下垂掌之间留空，保护青边贴附原臂外侧，手腕没有反折，攻击已结束的读法成立。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U27/attempt02.png",
+      "sha256": "52b063e41e06618f677bca7a0d6bcbbc5b764fa2b4d1910758ee8d943c376e35",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U27/stage02/comparison.jpg",
+      "comparison_sha256": "a9a07fe66cfeed3d434db6617b50ebb0560110a7e198ac142af6c4855f91d150",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "淬躯爪击",
+      "core_verb": "覆定",
+      "intended_scene": "右缘只露侧身与向下放松的短前臂，掌爪朝下；薄冷青护面沿前臂外侧形成。左中完整独立盾与相连的持盾暗肩留着旧裂口，和熊臂之间有清楚间隔，一道很淡的回收余波说明动作已完成。",
+      "intended_semantic": "一次攻击后形成保护，护面必须附着外侧而不是凭空另一只手。",
+      "watchpoints_read": [
+        "从肩到肘、腕、自然弯指必须连续；背侧回臂不得通过180度反腕实现。",
+        "薄护面贴合已有手臂外侧但边缘独立，不能生成为第二条长臂或扇形多指。",
+        "背景盾伤为从属既成结果；主臂不能仍伸向盾，避免同时画出收回和前击两个相冲动作。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "C08"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U27.json",
+      "reviewed_generation_prompt_sha256": "45cf16db2c6d7228d29f8e568100e1d1034dc4bfe92f9aac0d0687a04cbe8b22",
+      "source_plan_entry_id": "U27",
+      "generation_record_sha256_at_report": "abe2b8e4c2f5c77deb42a03dce2a1a42bf2a7a1e29d187e8e24f641b3f39b214",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "52b063e41e06618f677bca7a0d6bcbbc5b764fa2b4d1910758ee8d943c376e35",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U27/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C20",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "近侧后腿仍是偏长的推蹬斜线，但有真实脚底支点、肩胯连续，125缩图可串起旧落点—熊—同一敌人。没有足够明确的解剖断裂或因果反向，不建议再作可选比例微调。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/attempt02.png",
+      "sha256": "51eb996f64f25ee6f262f25f51b3822c19baf002a0a004be4bcaf011ea3ef1ae",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/stage02/comparison.jpg",
+      "comparison_sha256": "57d4e95b80afcb0896b9cab13c006a38567e8961ff147eb68c42e22e18a8e077",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "乘势追击",
+      "core_verb": "追上",
+      "intended_scene": "明显斜俯视下，前景旧撞点有一条短粗滑痕连续接到画面上方同一敌影的脚下。熊以正常拉开的跨步横穿旧落点，肩线前倾，下一步已逼近敌人的侧后方；近侧足有支点，前后肢之间有清楚负形。身体不抱团，不展示巨大爪弧，只有接近敌人的肩边形成新压力点。",
+      "intended_semantic": "同一冲突中继续追进，用前后位置而非更多爪子表达乘势。",
+      "watchpoints_read": [
+        "必须保持明显斜俯视，旧落点至同一敌人的滑痕应连续，不能退回平侧挥爪构图。",
+        "熊的正常跨步、落地支点与前后肢负形要存活，避免悬空抱团或复制多个实体当连续动作。",
+        "旧撞点、当前熊、敌人三层在125×95须依然可追踪，滑痕和新压力点不可抢成两个等亮主焦点。"
+      ],
+      "benchmark_ids": [
+        "C09",
+        "C06"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C20.json",
+      "reviewed_generation_prompt_sha256": "a353680d51003c3795a716ee0c634a03a317268fbdb57f6e55490b4b53802047",
+      "source_plan_entry_id": "C20",
+      "generation_record_sha256_at_report": "69055b2b6fb3138d627d6b05cd273d86491d61995e6931c9bef8d1c3ec1f69ae",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "51eb996f64f25ee6f262f25f51b3822c19baf002a0a004be4bcaf011ea3ef1ae",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C20/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U15",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "宽风带穿过同一窄口并把轻薄暗片带向展开亮区，缩图疏通方向清楚；没有熊口、白色直射激光或过多垃圾。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U15/attempt01.png",
+      "sha256": "e114aba2dab5423582bbc2c701c505d01d7983c7f9e194090c83326e5250bf4c",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U15/stage01/comparison.jpg",
+      "comparison_sha256": "de509bcb336691cacfe45b1a3e6cd521d0edb704073dfc08a209414b18eb6814",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "暴风换气",
+      "core_verb": "涤开",
+      "intended_scene": "一条宽而平的浅色风带穿过暗石隙，将堵在出口的一块黑色碎屑整体带离；出口后气流自然展开成一片干净亮面。图中不画熊脸或嘴，风的来向由连续的宽带说明，碎屑仅一块。",
+      "intended_semantic": "阻碍离开通道，空间和气息变通畅；不要求出口亮带数等于抽牌数。",
+      "watchpoints_read": [
+        "黑色碎屑需要呈现足够轻薄或明确随风带离的材质与位置，不能像大石块被无力薄雾吹起。",
+        "连续风带应穿过同一石隙、绕到被带走阻碍，形成可追踪疏通关系；不能只是横穿风景的白色激光。",
+        "出口展开成一片干净亮面，整体仅一块阻碍；不要自行补脸、嘴、双分流或大量垃圾颗粒。"
+      ],
+      "benchmark_ids": [
+        "C13",
+        "U19"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U15.json",
+      "reviewed_generation_prompt_sha256": "2feb998330a541d4fa5cdb6f0dec1aa5b84ec7550058b109ad663bee3a487eb3",
+      "source_plan_entry_id": "U15",
+      "generation_record_sha256_at_report": "824650c9c6d4bfaa8d278ad07d38d179eff322b76a0918c05de36faff83deceb",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "e114aba2dab5423582bbc2c701c505d01d7983c7f9e194090c83326e5250bf4c",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U15/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U07",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "上峰厚块沿宽石质断面向外错动，中央下侧残余窄支点可见；白肩熊只作尺度，主形在125缩图稳定，没有青光裂谷替代崩山。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U07/attempt01.png",
+      "sha256": "589d7e1ca7348fab183d49b21b93f05dc95ef6deb9ca2d41160204447bb6dee2",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U07/stage01/comparison.jpg",
+      "comparison_sha256": "8d45c68d721ee77d6dbced6007ced4942f7fa8c8deb8337860c08693f853f41e",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "崩山",
+      "core_verb": "崩落",
+      "intended_scene": "一座峰脊沿单一斜剪面断开，上半峰的重量正向外滑落，下部仅余一处窄承点。旧裂是深色钝痕，最后断面是宽灰白石面；山脚一枚极小白肩熊影提供尺度。两块峰体有明确重力关系，不漂浮。",
+      "intended_semantic": "此前攻击积累到承重点崩断，重点是结构终于失效。",
+      "watchpoints_read": [
+        "上峰滑落与下部残余承点必须符合重力，不能画成两块悬空积木。",
+        "最后断面为宽而有厚度的石面，旧裂为暗钝痕，不能靠粗青电沟解释崩山。",
+        "极小熊仅作尺度；若角色太大或碎石太多，会失去该卡专有的大山体事件。"
+      ],
+      "benchmark_ids": [
+        "R23",
+        "C08"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U07.json",
+      "reviewed_generation_prompt_sha256": "468d709a936d22ccc0ccae5cf81b36a37c2a393e01b2b301d32291de17ab6b2e",
+      "source_plan_entry_id": "U07",
+      "generation_record_sha256_at_report": "7f003b5a5e12e60e55254b488dab0a91a9b9772181e04b38707820399a5f02b1",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "589d7e1ca7348fab183d49b21b93f05dc95ef6deb9ca2d41160204447bb6dee2",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U07/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U36",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "后足前掌接地、后跟上提，前足悬起向前；髋腿裁切连续，右侧空地保留，短雷仅是蹬地支点。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U36/attempt01.png",
+      "sha256": "1be5fd7e284549f9b499087e5bd107c6e0a10fb5b3401ab4eba4d8813098b473",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U36/stage01/comparison.jpg",
+      "comparison_sha256": "fdf4df7213c030c5c852234f7681e72c125853127389e1c3e53788202f0bdd18",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "奔雷",
+      "core_verb": "起步",
+      "intended_scene": "横向短雷从左侧贴地接到熊后足的蹬地点，后跟已抬起，近侧前足正向右迈出，尚未落地。躯体自然延伸到画面上缘，髋腿接续不被遮盖；前方没有敌人和爆点，雷只为起步提供一处亮支点。",
+      "intended_semantic": "看见开始行动的支点与方向；它不是已经命中敌人的奔袭。",
+      "watchpoints_read": [
+        "后跟抬起时仍需前掌/趾接地承重，不能让蹬地点与脚底脱开。",
+        "髋、腿与自然画框裁切必须连续；近侧前后足、远侧肢体的数量和职责要稳定。",
+        "雷是小支点，不得恢复成单大爪加电圈、巨大Z电路或击中熊胸的束流。"
+      ],
+      "benchmark_ids": [
+        "U19",
+        "U40"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U36.json",
+      "reviewed_generation_prompt_sha256": "f6cc75801b1247fd663de170bb7c49e23dd980f6f69e9b5d77dbe1d0e7eb7f6d",
+      "source_plan_entry_id": "U36",
+      "generation_record_sha256_at_report": "9c899d2a36a9692ae70b294ced55e1bb82374c11b3d6ed4d77b6cd80236ed5c1",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "1be5fd7e284549f9b499087e5bd107c6e0a10fb5b3401ab4eba4d8813098b473",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U36/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U31",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "坑壁、完整路面与道外侧壁已压成连续大面，碎石和裂网删除；125缩图保持坑深递进、连地雷和远端真实末足接点。前版密度阻断解除。",
+      "prior_reviews": [
+        {
+          "id": "U31",
+          "attempt": 1,
+          "full_viewed": true,
+          "comparison_viewed": true,
+          "blocking": true,
+          "severity": "medium",
+          "category": "style_density",
+          "notes": "连踏坑底—连地雷—末足接点的动作关系成立。全图的坑壁、路面与两侧峡壁分成大量碎小面和小石，125缩图仍形成碎灰噪声；与C22/U40的整块硬边平涂有明显密度差距。",
+          "recommendation": "一次定点简化：保留坑的递进/连线/远端熊；每坑壁最多2–3个整面，删除路面细裂纹及小石，两侧合并为少量大暗面。",
+          "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U31/attempt01.png",
+          "sha256": "6f2b807197d837dde0aa77493bbcca13e7ed4d2f69dcf22adbb61a530045dc4b",
+          "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U31/stage01/comparison.jpg",
+          "comparison_sha256": "4be23ba60b0f4dcf7559e992e9a7b4973ae2bb22cfb36a22d8e2188834204a16",
+          "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks"
+        }
+      ],
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U31/attempt02.png",
+      "sha256": "bfeedb62a20ed39ff482fbb72a986bb4517c2c52040f1b0d05aa829f62e9cfb6",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U31/stage02/comparison.jpg",
+      "comparison_sha256": "68bc3502954a3d18c998a540639e4e71de68a3bc19c975130a39c51a0252b095",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "万钧连踏",
+      "core_verb": "连踏",
+      "intended_scene": "几枚深浅、间距不同的踏坑沿石道向远处推进，雷线从坑底沿同一条简洁地缝接续。最远处唯一小熊侧影的一只实际足正压在最后踏坑边缘，足踝与身体连续，那里石板被压开。其余坑是留下的结果，不把任何单脚放大成前景主角。",
+      "intended_semantic": "连续踏步与雷伤属于同一推进路径，最后落足提供当前动作；坑的示例数量不承担X次攻击的精确图解。",
+      "watchpoints_read": [
+        "最远足与身体的连续关系必须在实际图中成立，足虽小仍要有压接位置，不能退为旁观剪影。",
+        "坑的深浅、大小和间距需符合透视与行走，不能像三格升级刻度；完整路面应占主要面积。",
+        "雷线只沿同一路径接续，不可铺成电网，也不能放大前景单足回到固定C22/C26模板。"
+      ],
+      "benchmark_ids": [
+        "C22",
+        "U40"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U31.json",
+      "reviewed_generation_prompt_sha256": "0ea0997742be8dad348b5542f71e9738e12eb394cd3658225d3bb75eee5dee51",
+      "source_plan_entry_id": "U31",
+      "generation_record_sha256_at_report": "8c71345cf4df425aeba190ca84e848b190453651f4c1dd55802a0a00782fa993",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "bfeedb62a20ed39ff482fbb72a986bb4517c2c52040f1b0d05aa829f62e9cfb6",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U31/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R06",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "小幅岸边背影真正落地，云锋/水面反射同向且远雷落在水平线上；反射没有形成第二发光熊。大色带完整，125缩图仍见静定统一的空间关系。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R06/attempt01.png",
+      "sha256": "d77d554aa94741530531b7775e638a2ab41751c784bd3bc4909a1877096ef450",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R06/stage01/comparison.jpg",
+      "comparison_sha256": "2250653ea89ba7d3624522310be25e2a90cb15985fdadb5014f44bd538c0f77d",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "天人合一",
+      "core_verb": "相合",
+      "intended_scene": "熊稳立在浅水岸边，连贯背影不超过画幅三分之一；双足着地、肩背朝向远方。天空只有一块宽云锋，水面以压平的大色块倒映其轮廓，两者在远方地平线相合。一段短雷在远侧接入水面，亮痕自然延续到倒影，避开熊的头胸。熊的站位、岸线和云锋共享一个方向，水中不另画完整发光熊分身。",
+      "intended_semantic": "实体角色与天地力量处在同一个连续空间，统一来自方向和倒影关系；不靠身体膨胀或被雷击中表达力量。",
+      "watchpoints_read": [
+        "云锋与水面倒影必须属于同一透视空间；不能读成上下两幅拼贴或两道无关能量带。",
+        "短雷接点在身外，生成后仍需排除劈穿头胸、复制水中发光熊的读法。",
+        "熊不能缩成无关白点，三分之一以内的实体背影仍应有清楚支撑与朝向；水纹须克制。"
+      ],
+      "benchmark_ids": [
+        "C18",
+        "U19"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R06.json",
+      "reviewed_generation_prompt_sha256": "4004ed7ecb6344d0698c3c68c3bed5067690045e24cda45488535fdecc0b8a98",
+      "source_plan_entry_id": "R06",
+      "generation_record_sha256_at_report": "0225dfa9c4c2db30b2cb97a02d7bb30b41c362ec88ba4b5da9dd29ada4cd1f37",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "d77d554aa94741530531b7775e638a2ab41751c784bd3bc4909a1877096ef450",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R06/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C21",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "两真实后足和短踝从上边连续进入，同落完整承重地面；内侧地面稳定，开放青界之外的碎块下落，因果与空间分区明确。250/125缩图和基准风格接近。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C21/attempt01.png",
+      "sha256": "468e57234efc2ecf56001b38df35b3ca8a42023192b24a0ef3ec80f0f6a9bd48",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C21/stage01/comparison.jpg",
+      "comparison_sha256": "53acbd0eb88eb164af649baeafecb1035adc6d4950fb2f835d8388413b6237c1",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "稳住阵脚",
+      "core_verb": "稳住",
+      "intended_scene": "熊的两只实际后足和短踝从画面上缘自然进入，稳稳压在同一块宽而完整的地面上；足部合计不超过四分之一画面。脚踝向画外延续为同一身体，足底压实点与接触影清楚。一条不闭合的浅青领域边界横过地面，界外两三块松石顺坡滑落，界内完整承力面保持平稳。",
+      "intended_semantic": "实际双足仍在稳稳承重，领域内外的稳定差异可见；不以过去留下的足印冒充当下站姿。",
+      "watchpoints_read": [
+        "两只后足与短踝要有属于同一身体的自然间距与方向，不能连接到同一根小腿或成为独立脚印。",
+        "足底压实点及接触影需要清楚，实际足部虽小但必须仍可承担重量。",
+        "不闭合领域边界与界外滑石应保持从属，不能再次形成大电圈、攻击震波或满地裂纹。"
+      ],
+      "benchmark_ids": [
+        "C26",
+        "U03"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C21.json",
+      "reviewed_generation_prompt_sha256": "ab705091f7bee36e064c7ae9f4253f708cdb70b3f3ba606bd62cb862ea4cb8dd",
+      "source_plan_entry_id": "C21",
+      "generation_record_sha256_at_report": "9f1accd7b4841ce5e17e69121ca2a3cd7fb4ba88f54c631b0486c3759d16e54d",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "468e57234efc2ecf56001b38df35b3ca8a42023192b24a0ef3ec80f0f6a9bd48",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C21/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C01",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "宽暗影从远端熊落足连续延至敌前，右下暖边敌影的头身和撤腿在125缩图可辨；亮地被压缩而双方未接触。构图中心是地面距离，与U25脸部近景有区别。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C01/attempt01.png",
+      "sha256": "176d31ac76ddd16bbe2971e09df4ab21b6cba64fcabc6210eb8e8c0dd72c9e87",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C01/stage01/comparison.jpg",
+      "comparison_sha256": "2d0e3a57bf54df25aa02771b711f9fc65f198bd227cbde9d23d260432b7f10c4",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "逼近",
+      "core_verb": "逼近",
+      "intended_scene": "一块连续宽阔的熊影横跨地面，影根清楚连接到远端唯一熊的落足处，光源方向统一。真正的熊只露较小白肩与暗躯，敌影在右下后撤，头身与一只后撤脚可辨；熊影边缘已压到其脚前，可退亮地只剩一个窄楔。",
+      "intended_semantic": "威胁来自距离被压缩，不能看成已经打击或单纯站立。",
+      "watchpoints_read": [
+        "熊影须连续连接远端唯一熊的落足处，方向与单一光源一致，不能生成第二只实体或额外影肢。",
+        "敌影头身与后撤脚在125×95必须存活，否则会只剩抽象地面色块。",
+        "影缘应压缩敌人脚前可退亮地，不能跨越遮挡后成为不合物理的装饰长条。"
+      ],
+      "benchmark_ids": [
+        "C18",
+        "U25"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C01.json",
+      "reviewed_generation_prompt_sha256": "82e99d37321ac84c354aa68312a3fa22c8567479b6d9ea61421ab83b6268d7ad",
+      "source_plan_entry_id": "C01",
+      "generation_record_sha256_at_report": "8eac309464dee1ee3b4b6a5e914b898468f422d18fb678fb56e870576707210d",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "176d31ac76ddd16bbe2971e09df4ab21b6cba64fcabc6210eb8e8c0dd72c9e87",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C01/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R05",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "一条可追踪深蓝外皮包住两层有实际厚度的截面，读作一个厚护体，没有三独立盾墙。材质色块虽有少量细切面，但主厚截面在缩图完整。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R05/attempt01.png",
+      "sha256": "5a469ab6862ea8d1a7c5057515319b19b493fa9784c2e9ffe76fe06f7a010dd5",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R05/stage01/comparison.jpg",
+      "comparison_sha256": "38165efd69e17d099bd89d80c7bcac9f45c8fd8c59526f7f6056e070f682f72b",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "全身之力",
+      "core_verb": "加厚",
+      "intended_scene": "一整块宽重护体的外侧受击面保持完整位置，侧缘能看见两层厚材料从内侧贴合，使原有面变得更厚；连续外皮把几层包成一个实心整体。一个浅旧受击口和一条克制蓝纹留在外表，主形是一块有重量的厚截面。熊不出镜，没有探头、搭手或扶墙。",
+      "intended_semantic": "已有防护变得更厚，以一个整体的截面增加表现；不强求通过数量精确图解倍率。",
+      "watchpoints_read": [
+        "必须是一个连续外皮包住的实心护体，不能重新生成三套前缘、三面墙或三张盾牌。",
+        "侧缘层次要有真实厚度，不能用三条细线代替；缩图仍须先读一块厚体。",
+        "没有熊出镜时，材料应保持本套深蓝/厚面语言，避免退化成普通建筑截面。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "U03"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R05.json",
+      "reviewed_generation_prompt_sha256": "1677089fd5cf34b23ac14f66159bb74fa44921a525341589b3c88280b02ec991",
+      "source_plan_entry_id": "R05",
+      "generation_record_sha256_at_report": "94fc2003db41a56c4e3fe13a6d1b25da7e4301488c87a5c051f7271e7ddd54f2",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "5a469ab6862ea8d1a7c5057515319b19b493fa9784c2e9ffe76fe06f7a010dd5",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R05/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U04",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "旧伤有可见宽度和下凹暗面，沿肩颈转折；矛尖只触及最外侧，肩面稳定。旧痕/青纹/当下擦碰主次明确，没有额外肢体或新鲜伤口读法。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U04/attempt01.png",
+      "sha256": "e31179d85b084ffda5afe8a9a02f5991056f35163c5a73633b1d76970970ac30",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U04/stage01/comparison.jpg",
+      "comparison_sha256": "198d4a575162c59e172a53f5bb8f8a9a3c2d22fd140df50f018ed26592a51f7c",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "战痕",
+      "core_verb": "留痕",
+      "intended_scene": "厚重白肩的一处宽暗旧伤随肩颈曲面转折，新一次来击的断矛只在肩外缘滑过。肩线始终稳定，旧伤旁仅一小节蓝纹亮起；颈部、肩部与一段背脊连成完整大形，旧痕主、当下擦碰次。",
+      "intended_semantic": "旧战痕参与当下承受，体现越战越强的经验，而非仅展示伤疤。",
+      "watchpoints_read": [
+        "旧伤必须是有宽度和曲面转折的旧凹面，不能退化为细棕笔划。",
+        "颈、肩、背连为一个大体积；断矛只掠外缘，避免从毛面插出莫名支肢。",
+        "旧伤与小蓝纹的对比要足以在缩图留下主次，同时避免新鲜伤口抢夺语气。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "R12"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U04.json",
+      "reviewed_generation_prompt_sha256": "1855a61fcd1e03243fe62f59b5c798ea921a79e15bfb8aba9632b1bbb7ef59a4",
+      "source_plan_entry_id": "U04",
+      "generation_record_sha256_at_report": "09911c7fc1c36aecf7f7015e9f8f53f663b6f1bef3f77b4f833a50add757d555",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "e31179d85b084ffda5afe8a9a02f5991056f35163c5a73633b1d76970970ac30",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U04/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C14",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "暗部熊头、宽暗隙、厚青护面和外矛在125缩图分离，来矛停在护面接点，护界与毛面不粘。返雷有上下分叉，后段偏离矛轴，但均从同一接点向外展开；不构成因果反向或关系消失，建议保留。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C14/attempt01.png",
+      "sha256": "c95e34e8254267e60547ed72f4c45c9552958de065394bfcf70916eaa21ff56f",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C14/stage01/comparison.jpg",
+      "comparison_sha256": "b407f5861c4b4caa69b04da39c8dcbcfaef9756e41a0dea048f41abcd6fe5093",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "雷霆护身",
+      "core_verb": "弹开",
+      "intended_scene": "角色藏在护界内侧暗部，只露小片白毛和一只眼；一道有短厚侧缘的青色护面与身体之间留着宽暗隙。外来矛尖停在护面之外，一段粗短反雷沿连续矛身折回画边，身体内侧保持平静。白肩不占据主面积，护面与返送方向形成唯一主关系。",
+      "intended_semantic": "来击停在界外，雷沿来袭方向返回；护身与反击都发生在同一可辨边界上。",
+      "watchpoints_read": [
+        "内侧角色、宽暗隙、短厚护面和外矛需在125×95分离，四层不可挤为一条贴毛青边。",
+        "返雷必须沿同一连续矛身向外折回，不能只画断矛或另一个独立雷点。",
+        "局部眼与白毛应保持属于暗部角色的关系，不能成为浮眼；护面仍应有厚边而非纯描线。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "U21"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C14.json",
+      "reviewed_generation_prompt_sha256": "54db870d5bc361c980c54f6b9c13e46547940facb8341e751913aa09060e2549",
+      "source_plan_entry_id": "C14",
+      "generation_record_sha256_at_report": "f33344107926d4e0fddf6b8517ae60b7cc4712768e1c6d660041790cfbd37240",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "c95e34e8254267e60547ed72f4c45c9552958de065394bfcf70916eaa21ff56f",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C14/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R27",
+      "attempt": 4,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "右完整刃片已上移跨越与左护片同一熊影边界；旧暖灰端在亮地，新蓝刃在影内。局部影线因器物厚度和遮挡略有偏移，但全图及125缩图的共同跨界转化主读成立，前版因果阻断解除，无需继续返工。",
+      "prior_reviews": [
+        {
+          "id": "R27",
+          "attempt": 3,
+          "sha256": "90992343a9dc91505aec6e121b225b0fcf08c051061dcc539153a94df27e02a4",
+          "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/attempt03.png",
+          "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/stage03/comparison.jpg",
+          "comparison_sha256": "fca7f370e22776eafdacd60f7b97547ca9fc55ffa8286aa3896f49da03053b2b",
+          "full_viewed": true,
+          "comparison_viewed": true,
+          "blocking": true,
+          "severity": "medium",
+          "notes": "左护片的材质转化线已对齐斜向熊影界；但右刃片整件（含暖灰未转化旧端）都在深蓝影内，旧/新分界在影内另起，影界未穿过右受体。仍缺同一熊影扫过两物、影内改造/影外未变的完整因果。",
+          "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+          "prior_reviews": [
+            {
+              "id": "R27",
+              "attempt": 2,
+              "full_viewed": true,
+              "comparison_viewed": true,
+              "blocking": true,
+              "severity": "medium",
+              "category": "causal_relation",
+              "notes": "熊影仍主要躺在器物后方，影界未连续跨过两件受体的转化分界。图面读成已完成兽化道具前置、背景有熊影，无法清楚读出影内改造/影外普通的当下因果。",
+              "recommendation": "root已退回并安排高俯视a03；无需另开返工。",
+              "known_root_return": true,
+              "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/attempt02.png",
+              "sha256": "809a765daed8bb79d20f0b11d997ce8a39d852518d3e2002f1e1aec63c2eef0d",
+              "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/stage02/comparison.jpg",
+              "comparison_sha256": "1e11540747c76dd7d7072ccfbcf5dda5f9541a2e7105d4a712577e0964d4f785",
+              "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks"
+            }
+          ]
+        }
+      ],
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/attempt04.png",
+      "sha256": "19bb8ed87ec6a2c6be131f13a9310022e1738b888566be10d26cd6ced068e3a2",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/stage04/comparison.jpg",
+      "comparison_sha256": "8274b725d555fdfcf1ff67116f9c60ab001a04ae3fd2199d42fa0c8bd4e922f0",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "旧日重临",
+      "core_verb": "唤回原始形态",
+      "intended_scene": "一块原先平整的旧护片和一件短厚攻击器物并置在暗地面，各有完整外缘与接触影。一个连续宽熊影从画外掠过两者的表面；影内攻击器物的原边缘正改为短硬爪切锋缘，护片则形成宽厚灰白毛护面，影外各留一段未变的普通平面。对象不是早已刻好兽形的浮雕，不浮起真实手爪、断腕或带头胸躯。",
+      "intended_semantic": "同一股原始力量当下改造两类普通对象，爪的进攻与厚面的防护同源；对象数只提示作用范围，不添加未要求的额外部件。",
+      "watchpoints_read": [
+        "熊影必须是统一作用来源，影内的改造与影外普通面需在每件器物上连贯对应，不能只把旧兽形点亮。",
+        "两件物体保留完整外缘和接触影；爪形只形成工具锋缘，不生成断腕、真实手爪、熊头或胸像。",
+        "熊影的暗色与转化厚面不能互相吞没，缩图应看到受体用途和当下改造。",
+        "与 R29 的区分不能只靠二件和三件计数；本张由清楚的熊影覆盖和普通前态组织，R29 以整批同向变化后的紧凑整体组织。"
+      ],
+      "benchmark_ids": [
+        "C18",
+        "R12"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R27.json",
+      "reviewed_generation_prompt_sha256": "c3dbbc4e6d6a50c4495e4f3729e845835375a131dec6cc4a1b49dd44cdda281a",
+      "source_plan_entry_id": "R27",
+      "generation_record_sha256_at_report": "e2147e8a7ac0677477d85c40730aa0c528f6d07a1cf782ce1439f4b69950d88b",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 4,
+        "sha256": "19bb8ed87ec6a2c6be131f13a9310022e1738b888566be10d26cd6ced068e3a2",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R27/attempt04.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R01",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "巨熊意志与云锋肩背共用连续大面，低地平线保持天气尺度；并非完整实体熊贴云。云带边缘仍有较多毛状小齿，但缩图没有切碎主形，不建议因此追加返工。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R01/attempt02.png",
+      "sha256": "b5f3273ed33093c55a62e54a1a434b2fd9cbc007facf96492505c4768d0925e7",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R01/stage02/comparison.jpg",
+      "comparison_sha256": "e063c91c8985a88262e4ddc2c98b64f87c1c129c091fa26b17520326c582e632",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "风暴形态",
+      "core_verb": "成为风暴",
+      "intended_scene": "一整块白灰风暴锋面压过深蓝天空，云与负形共同显出一个面朝左下的巨熊侧影：只保留低额、短吻和连续肩背的大轮廓，一点青眼嵌在暗处。躯体的下沿自然接续为横贯天地的云带，地面极小，风暴已经覆盖整片场域。",
+      "intended_semantic": "第一眼读成有熊意志的整片风暴，而不是身体漂浮的普通熊。",
+      "watchpoints_read": [
+        "天气与熊意志必须共享连续云面；不能将完整熊剪影贴在云上或给普通熊描电光。",
+        "低额、短吻与青眼只能作为次级识别，不得生成可爱云脸、两条撑起的手臂或随机融化四肢。",
+        "125×95 时要先读风暴覆盖场域，仍需确认三大色面没有被细雷、毛刺或云纹切碎。"
+      ],
+      "benchmark_ids": [
+        "C18",
+        "U19"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R01.json",
+      "reviewed_generation_prompt_sha256": "1c338e9d6ae74c0fdf12bac34527f8f378ded935fe8bd4b66ba53260e3a7b532",
+      "source_plan_entry_id": "R01",
+      "generation_record_sha256_at_report": "faecb1ae7a4a51cb66672016f9066d5bfcb2f3709f532f1213717ab624883609",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "b5f3273ed33093c55a62e54a1a434b2fd9cbc007facf96492505c4768d0925e7",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R01/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R29",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "三件器物各有完整独立外缘和落地影；旧边角仍可追溯，兽化朝同方向包覆大面。短刃虽有爪形锋缘，仍依附完整平板，未生成真实断腕或掌指。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R29/attempt02.png",
+      "sha256": "536d069affc5c0661d84df58acfc4e486308eb28ccaa420035962862e998edc3",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R29/stage02/comparison.jpg",
+      "comparison_sha256": "a9ef49e0fad9a8beb58f04b6ecf8d489feb338aae50c6f17d590bd006aab817b",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "不再为人",
+      "core_verb": "褪尽旧形",
+      "intended_scene": "三件大小和朝向不同的旧器物落在同一暗地面上：一块宽护片、一块短木骨片、一枚厚旧牌。它们互不相连，各有完整外轮廓和接触影。一个宽而低的变化前沿刚刚扫过这组对象：每件旧平面都在同一方向转为深蓝兽性刻面、短爪缘或白灰厚毛护面，少量旧纹仍留在边角，让原对象可追溯。画面没有完整熊，也没有漂浮的手脚。",
+      "intended_semantic": "一批外物共同转入原始形态，体现全面兽化；R28只表现一个外物的局部侵染，二者范围和场面清楚不同。",
+      "watchpoints_read": [
+        "三件器物必须彼此分离、各有完整外缘及接触影，不能连成布面、地毯或同尺寸卡牌图标。",
+        "共同变化前沿只统一材质方向，不能把三个实体熔成一个怪块或各配一个独立光爆。",
+        "兽化形态始终依附原物重量与外缘，不生成真实手脚、熊头、漂浮附肢或中央熊自我蜕壳。",
+        "与 R27 应靠整体构图和转化阶段区分，而不能仅用物件数量；旧边角仅供追溯，不应让全批兽化读成只变一件。"
+      ],
+      "benchmark_ids": [
+        "R12",
+        "C18"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R29.json",
+      "reviewed_generation_prompt_sha256": "7123b3248db8d7c0d25a36cc1f53d5ac78ce408bfa6f2b12539025a2c715295d",
+      "source_plan_entry_id": "R29",
+      "generation_record_sha256_at_report": "870e6f9441a9823fcd353f78412f874d45c1cb2820e6edf712b23f195ba0050c",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "536d069affc5c0661d84df58acfc4e486308eb28ccaa420035962862e998edc3",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R29/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "T02",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "低宽实心护体无脸耳四肢；两上侧暖来击折开与底部青雷方向分离。白灰/深蓝大面在125缩图完整，未变玩偶姿态。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/T02/attempt01.png",
+      "sha256": "02b5c2d1d6c6bddbf1effbcf53469eefa2c3b7348e3816228d1670d6bd8b801a",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/T02/stage01/comparison.jpg",
+      "comparison_sha256": "bf1481efda55abc46536e3580ae5802600886c1ea52656904e59190d6a858162",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "风暴之躯",
+      "core_verb": "护持并震开",
+      "intended_scene": "白灰厚毛构成低而宽的肩背护面，底部是一整块深蓝暗面；两道来袭细线碰到外缘后被折向两侧，一条短青雷沿地面向外释放。画面没有熊脸、抱拳或可爱小耳朵。",
+      "intended_semantic": "躯形先读成稳定防护，再读到向外释放的雷；与T01形成进攻/防护的同源配对。",
+      "watchpoints_read": [
+        "先读低而宽的实心防护体，不能补脸、圆耳、拳头或圆肚造成玩偶姿态。",
+        "两侧来击与底部外放雷要有清楚不同起点和方向，不能在一团爆点中混成谁攻谁不明。",
+        "白灰毛面保持厚重连续，不能被同亮毛刺、雷线和多层圆环切碎。",
+        "与 R21 的竖向空壳和 U34 的实体肩上加甲必须在 125×95 仍能区分。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "U19"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_T02.json",
+      "reviewed_generation_prompt_sha256": "947d167d8025c22e3169385e792c0a05daca776b674f8763973d9e2558404e91",
+      "source_plan_entry_id": "T02",
+      "generation_record_sha256_at_report": "4e2c33e5a43a0ea8398daa29c88d7f05bfe9d2b1cedc8deec8830d9491825f57",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "02b5c2d1d6c6bddbf1effbcf53469eefa2c3b7348e3816228d1670d6bd8b801a",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/T02/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C10",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "短熊臂顶住连续弯杆，右上握杆手连前臂并被顶到胸侧；施力接点和受力胸面可同时指出。无熊脸/嘴手同点歧义，125缩图仍保持反力路径。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C10/attempt02.png",
+      "sha256": "9c89f3e0cf8e25dfea059abbc5d3e55ef92b69280b05747f17269fb7dc76073d",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C10/stage02/comparison.jpg",
+      "comparison_sha256": "f9054292b6c066c2539097db11a72de50a80edf826577917696d6cd0e061c537",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "以牙还牙",
+      "core_verb": "顶回",
+      "intended_scene": "熊的短前臂由画面下缘进入并抵住连续武器杆，武器受力回顶向右上敌人的握持手和胸侧。敌人握持手连回前臂，熊不露头、不抬大拳，不把肩臂围成环。接点小，敌胸暖面表现反力到达。",
+      "intended_semantic": "接触处的反力沿同一武器回到来袭者，观众能同时指出施力端与被顶回的接收端。",
+      "watchpoints_read": [
+        "熊臂接点到敌方握持端的杆身必须连续；受力弯曲不可断开或卷成装饰弧。",
+        "近景敌手应确实连到前臂和胸侧，握持手被顶回的受体关系不能只靠缩短透视暗示。",
+        "熊的一眼、短前臂、杆端与主亮点需要留出间隔，不能再次形成嘴手武器同点的歧义。"
+      ],
+      "benchmark_ids": [
+        "C08",
+        "R12"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C10.json",
+      "reviewed_generation_prompt_sha256": "de122991f69587aac9678049a5a41d8c6adb2f019bd503a64c065f205441f6ba",
+      "source_plan_entry_id": "C10",
+      "generation_record_sha256_at_report": "85c195957ce3c055e15ce6a7b047455041a7fc67dcf1663e73ac78f1df802111",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "9c89f3e0cf8e25dfea059abbc5d3e55ef92b69280b05747f17269fb7dc76073d",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C10/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C15",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "暗盾旧破口始终张开，弯曲余光与裂口脱离后接回小爪，三个对象在125缩图可辨。回收方向比其他动作更依赖弯线和脱离关系、单看尖细光尾可能稍有歧义，但没有明确修补盾或反向命中的证据，不建议再返工。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C15/attempt01.png",
+      "sha256": "4f611926c22c49c7360010eb34c8d74e7d066bd0cc47e5addf24ce5872c0dd31",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C15/stage01/comparison.jpg",
+      "comparison_sha256": "b59b74bddd4ebe79276376416ae8d8e12d8e269a12e059335389d4b96988b87b",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "重整爪牙",
+      "core_verb": "收回余势",
+      "intended_scene": "一块受击后的暗盾占画面中央，弧形切口已经变暗，物理破口始终张开。一段短而薄的青白攻击余光正从破口上方脱离，沿一条内弯路径回到画面上缘的小型回勾掌；掌和腕根从画外自然进入，只占小角，既不拿实体爪子也不拿闪电道具。旧伤口、离开的余光与接回它的小掌构成一个清楚关系。",
+      "intended_semantic": "已使用的攻击余势从旧受体回到施加者；受体伤口保持，不能读成治疗敌人或修补石头。",
+      "watchpoints_read": [
+        "旧盾切口必须保持张开与暗色，回弯余光不可封闭伤口或读成修补盾牌。",
+        "余光应与物理破口脱开，确实接向小回勾掌，不能变成水带、完整箭头或双手握持的实体道具。",
+        "125×95需辨认旧受体、脱离余光和接收掌三者，掌过小或亮流过大都会抹掉回收方向。"
+      ],
+      "benchmark_ids": [
+        "C08",
+        "U40"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C15.json",
+      "reviewed_generation_prompt_sha256": "24d9ecef38725c9e432b8291c659f55ae1497da20f0bda6225abc51d57c04edb",
+      "source_plan_entry_id": "C15",
+      "generation_record_sha256_at_report": "b75f47ff406c51ff82c9e3abf0fb7d85da36bd838adfe52ea492722657d06d40",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "4f611926c22c49c7360010eb34c8d74e7d066bd0cc47e5addf24ce5872c0dd31",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C15/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U38",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "全身低姿粗短，近后足承重蹬地、近前足前跨，肩髋连续；目标在右边可辨，地面短雷退到已行进的一侧。空间和四肢遮挡未见异常。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U38/attempt02.png",
+      "sha256": "8b05bd13453793d3e378b69f5d7b2661ee92644b82eaf0506c74bccb849a3d6f",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U38/stage02/comparison.jpg",
+      "comparison_sha256": "29af00a3f59126f3ac929fa6b721efda3a52e3b563d7da086c681e372ac851ca",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "雷势奔袭",
+      "core_verb": "奔袭",
+      "intended_scene": "熊以正常比例的低侧影跨过两段带电石地，近侧前足向前跨出，近侧后足仍有明确蹬地点，远侧两肢以较暗短形退后。肩到髋连续且不异常拉长，白肩和深蓝躯干形成一条前倾斜线；小敌影位于前方画边，地面旧雷痕退为次层。",
+      "intended_semantic": "清楚指出蹬地足、跨出的足和身体前进方向；雷是积累的路迹。",
+      "watchpoints_read": [
+        "肩到髋保持正常连续，不可为增加速度拉成鼬形长身或压成小头圆肚。",
+        "近前足前跨与近后足蹬地应一眼可分，远侧两肢为较暗短形，禁止额外长肢和四足同排。",
+        "小敌影仍需能辨为目标；地面旧雷只作路径，不能把熊和目标淹在电光里。",
+        "与U36保持镜头差异：这里是完整身形、向目标奔袭；U36是腰以下起步且前方空白。"
+      ],
+      "benchmark_ids": [
+        "C06",
+        "U25"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U38.json",
+      "reviewed_generation_prompt_sha256": "5d2b5afde7dd2710ceb5da63044a8b05b878a315e103578902eab4fe7e9d0866",
+      "source_plan_entry_id": "U38",
+      "generation_record_sha256_at_report": "a2faff440331b4cf9e4c7bc5b83c4aa843f04674cfb75ab39df23e54218771ff",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "8b05bd13453793d3e378b69f5d7b2661ee92644b82eaf0506c74bccb849a3d6f",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U38/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U34",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "同一完整毛肩上叠着两片可见厚度的实心甲片，窄暗缝分开材料；没有第二肩、身体分离或真实爪指。短青尾留在外缘，125缩图仍辨附加护甲。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U34/attempt01.png",
+      "sha256": "54aa9b7e696db203e93dc2cc7bf654e978ae071a08353b2b7b659c38c4625205",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U34/stage01/comparison.jpg",
+      "comparison_sha256": "7ad0149bb556961f6bb15788c2489d4e986892225d2d501f60284bd470623845",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "雷甲",
+      "core_verb": "叠护",
+      "intended_scene": "完整白灰毛肩外侧叠搭两片短而厚的深蓝能量护片，护片与毛面之间有一条窄暗缝，最后一片边缘仍拖着短雷尾。雷从画面侧上方进入，护片的外角钝而平整，不刺入肉体，也不长成另一个肩膀。",
+      "intended_semantic": "这是附着在既有身体外侧的额外防护，底下真实毛肩仍然完整可见。",
+      "watchpoints_read": [
+        "两片护面必须附着同一完整肩体，不能把暗缝扩成悬浮身体或第二个肩。",
+        "护片外角钝平、叠搭有厚度，不能长成鳞刺、角或爪指。",
+        "最后短雷尾只是未凝完的输入痕迹；不允许全肩霓虹描边掩盖材质。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "C26"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U34.json",
+      "reviewed_generation_prompt_sha256": "e4bd9ee26e167fc289cd7a2ac3afe80a00390ecfba680854d6ee421c2a05a88c",
+      "source_plan_entry_id": "U34",
+      "generation_record_sha256_at_report": "6910f8d426c9fff1889975030cebbcb49f834bf9dc61f648e2eacf6f8a00c76c",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "54aa9b7e696db203e93dc2cc7bf654e978ae071a08353b2b7b659c38c4625205",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U34/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U20",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "熊前半与承重前足已越过木栅，后腿跨出缺口，碎木主要留在身后；连续肩胯没有被V口切断。远地和木断面略繁，但突破后继续前进的关系在125缩图稳定，不构成明显质量阻断。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U20/attempt01.png",
+      "sha256": "49cdaf568587f4f924ecd53fabe1e8f925dea5505077407b26698e20a57d82b7",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U20/stage01/comparison.jpg",
+      "comparison_sha256": "0418edcf17211deb759236971b35a90bba0a49011081f87c6df51d4f6998f0b5",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "势不可挡",
+      "core_verb": "破开",
+      "intended_scene": "一道厚木栅已经裂出宽V形缺口，熊的侧后肩与迈出的后足正穿出缺口，身体前半已进入亮地。木断片留在身后，肩胯腿连续，前方宽而安静；观者与破障处同在熊的侧后方，视线沿前进方向。",
+      "intended_semantic": "读到已经突破并继续前进，不能只读到在墙前用力。",
+      "watchpoints_read": [
+        "熊前半在亮地、后足正在过缺口的顺序必须成立，不能像从木栅里倒退或头撞障碍停住。",
+        "木断片留在身后并支持已突破的方向；不要替换成与U05/U07相似的岩墙。",
+        "侧后肩、肩胯腿和前半身体的体积需连续，禁止圆球身体加胸前收爪；V形缺口不能把熊切成不连通片段。"
+      ],
+      "benchmark_ids": [
+        "R31",
+        "C06"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U20.json",
+      "reviewed_generation_prompt_sha256": "8d5e1ced78de08aa7fa57b3f903b6b2dec96c23bcee9abfa538d806a9a3cf7bd",
+      "source_plan_entry_id": "U20",
+      "generation_record_sha256_at_report": "d61a15f7781a0a96c4ac24bdf2c4743ef8bd09f5fb4ccf6b84a68a3413cb887f",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "49cdaf568587f4f924ecd53fabe1e8f925dea5505077407b26698e20a57d82b7",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U20/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U06",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "宽护带仍系于同一腰廓，上翻口/中央暗旧口/下方当前拉点状态不同；爪根由右边自然进入，真实拉住下片。125缩图保留同一受体与三裂节奏，没有漂浮布片或三格图表感。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U06/attempt01.png",
+      "sha256": "77185bb2812af1a621c47304dd852baffe6b45095f4daac1692446096269c800",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U06/stage01/comparison.jpg",
+      "comparison_sha256": "e639eb34de6c644ac5155b3e832d9cf6c5b2017c22685b2d508ad93efb19eaa8",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "三重撕裂",
+      "core_verb": "三裂",
+      "intended_scene": "一条仍连在敌人腰侧的宽暗色护带被连续撕开：上段已翻起，中央有一处较暗旧破口，下段正被一小段短厚熊爪向外扯开。护带始终连在同一个暗色腰廓上，三个破口不等宽、不等状态，主爪不超过画幅六分之一。",
+      "intended_semantic": "连续撕扯由同一受体和明确拉力成立；无需把每一击当独立分镜。",
+      "watchpoints_read": [
+        "护带必须持续连接到一个敌方腰廓，不能成为三段无来源的漂浮布片。",
+        "小熊爪仍需有自然裁切或短指根，不可缩成游离牙齿；作用是向外拉扯而非整齐劈砍。",
+        "三个破口的状态、宽度和亮度应不等，主次围绕当前拉点，不能重新形成三格进度图。"
+      ],
+      "benchmark_ids": [
+        "C08",
+        "R23"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U06.json",
+      "reviewed_generation_prompt_sha256": "063d0ee8ee67aeb65731815ac38c7aac66005f366f19105a9d06618ec3182d33",
+      "source_plan_entry_id": "U06",
+      "generation_record_sha256_at_report": "5cf51f2f12356b70a5c3a76f36a31696666e0791a81af9543255261d7bc2f36b",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "77185bb2812af1a621c47304dd852baffe6b45095f4daac1692446096269c800",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U06/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R28",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "小掌与独立大护片顶角有接点，手毛与下方转化缘之间保留旧金属，转化属于护片表面且外缘厚度连续。无自变形/断肢读法，125缩图区分旧面与局部兽面。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R28/attempt02.png",
+      "sha256": "49ab83640a5cbc0c0590bae3638b5de77bb0f04f9c73738077314982d124f88e",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R28/stage02/comparison.jpg",
+      "comparison_sha256": "25a0237dd5c0340f8cdf14227c814697fa8388a02a202b4560da289e58b308e3",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "熊灵侵染",
+      "core_verb": "按入并侵染",
+      "intended_scene": "一块带旧铆孔的平整护片斜靠在地面，完整外边缘和薄厚侧面都可见。熊的短前臂从右上缘进入，掌根轻压护片上角，指节自然松拢，掌面朝向护片；手只占小角。变化从掌根下方进入护片内部，沿其侧缘向下推进：一侧仍是旧平面，另一侧已变为连续深蓝刻面与少量白灰毛缘，原外轮廓保持连贯。",
+      "intended_semantic": "先读到手对独立外物施加作用，再读到外物内部和边缘的局部变化；不是角色自身变形，也不依赖额外仪式道具。",
+      "watchpoints_read": [
+        "掌根与护片接触必须清楚，手指放松、短臂占小角；不能退回一只巨爪平拍石头。",
+        "护片外轮廓、侧面厚度和地面接触影保持连贯，转化必须属于物体本体。",
+        "手毛与受体毛不能粘成同一张覆盖物；需要局部暗隙和足够宽的未转化平面。",
+        "局部兽性刻面不能脱离护片成为独立肢体，也不能用爆光掩盖接触和材质分界。"
+      ],
+      "benchmark_ids": [
+        "U39",
+        "C08"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R28.json",
+      "reviewed_generation_prompt_sha256": "4c7e4c9346e00db0d6a493f0afe55e3c2c6e5c6dfafa0a937ddc46b8dc43b394",
+      "source_plan_entry_id": "R28",
+      "generation_record_sha256_at_report": "0aa2304214a60078b81ead79e4feab1879800446394c431cc9e04480f108a69e",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "49ab83640a5cbc0c0590bae3638b5de77bb0f04f9c73738077314982d124f88e",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R28/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U11",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "实体右缘前臂自然下收，墙影仍向左挥击，两者姿态清楚不同；墙地接缝与单色平影确认投影性质。影子无独立体积和多头，青弧只在影爪侧。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U11/attempt01.png",
+      "sha256": "67b9cd1dc40e5afdb584b8b5181ae3f3c2b5b87f742e3d737939e1ab31577d5b",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U11/stage01/comparison.jpg",
+      "comparison_sha256": "4960204532c2edd1e072cc28b95d3a470135379ad94f9157f09cc3453d1541e1",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "暴风再临",
+      "core_verb": "再挥一次",
+      "intended_scene": "画面右缘只露熊的白肩与已经自然收回、向下放松的前臂，实体动作明显结束。投在左侧墙面上的宽厚熊影却仍在向外挥击，一道短青弧只沿影子的爪侧出现。地面与墙的接缝清楚，影子是一整块平面，不是第二只实体熊。",
+      "intended_semantic": "现实动作已收回，影子仍重复上一击；两者姿态不同但身份与动作来源可辨。",
+      "watchpoints_read": [
+        "实体必须明显处于低收静止姿态，影子处于展开攻击姿态；若两者动作相同，将再次退化为普通投影或拖尾。",
+        "墙上影子需保留可与实体对应的熊头、背部、单前臂轮廓，并保持平面无体积；不能成为第二只实体熊或无归属幽灵伙伴。",
+        "影子仅有一次完整挥击轮廓和一小段爪侧青弧；不得增生多手、多头、透明叠肢。",
+        "右缘实体裁切必须足以指认影子的来源；实际图若只读成怪物影独立攻击而非同一动作回声，应重做构图。"
+      ],
+      "benchmark_ids": [
+        "U19",
+        "C09"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U11.json",
+      "reviewed_generation_prompt_sha256": "cf4412bc127f16ab4be3f6d79c8ecf8fb4b15bb90bbf0d2310f3e77961873a4f",
+      "source_plan_entry_id": "U11",
+      "generation_record_sha256_at_report": "a520be4ce1bbb4dd88d7a505034c1bd2ff8830cc77f4569fe0bf6c2a0384c9fc",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "67b9cd1dc40e5afdb584b8b5181ae3f3c2b5b87f742e3d737939e1ab31577d5b",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U11/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C17",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "前足和折叠后足均真实压地，肩腹髋连续，前方留空且无飞尘速度线，静态蓄势成立。地面/远岩沿保持硬直，不像弹性地板。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/attempt02.png",
+      "sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/stage02/comparison.jpg",
+      "comparison_sha256": "f06c3158527e1441e048f9dd9468cc6bef5458d388762dc55ccd3ab748f19c7b",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "蓄力",
+      "core_verb": "压蓄",
+      "intended_scene": "熊低伏在坚实土砾与短草上，后足蹬紧地面，前足承担支撑，肩背向后压缩；两处接触旁只有小块被挤开的土砾。地面和远处硬直岩沿保持形状，胸前留一道狭窄空隙。身体尚未跃出，前方大片天空和空地保持留白。",
+      "intended_semantic": "必须是发力之前的压缩时刻，与奔袭或普通打击分开。",
+      "watchpoints_read": [
+        "肩腹髋需连续而不过度蜷缩，避免蓄势熊变成毛球或低伏猫形。",
+        "前后两个支点与土砾受压必须真实接地，硬直地面和远岩沿不能再次变软弯曲。",
+        "应保持发力前静止张力，不能用速度线、飞尘或爆光把它推进到已经跃出。"
+      ],
+      "benchmark_ids": [
+        "U03",
+        "C06"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C17.json",
+      "reviewed_generation_prompt_sha256": "807fd705c4e2fa64bdf73a1eb60e26bfb45c4e60c680701bc2538a07bc2ea8b8",
+      "source_plan_entry_id": "C17",
+      "generation_record_sha256_at_report": "05d772623f6bf4ae424b501f6d05b2ab7f4b35363d0766072d7110d5ae52dd55",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C17/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U43",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "唯一选中片由短青线牵起并与下方影子分开，两件旧物低对比着地；新爪锋与旧面共用闭合板材外轮廓，没有附加手腕或实体肢体。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U43/attempt01.png",
+      "sha256": "6a4556ae926ede53a6f86afac76a2efc35bdab92bc80cb25425636c92bc3573f",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U43/stage01/comparison.jpg",
+      "comparison_sha256": "a0778d1bff2250c7c78f3a46f37aa91871f903b481fb38a1235debea46e1c47a",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "循着本能",
+      "core_verb": "择出",
+      "intended_scene": "两枚暗色旧物留在背景，近处唯一选中的木骨护片被一条短青牵引线提离地面，下面保留清楚投影。它一半仍是平整旧面，另一半已连续转成深蓝厚爪形刃边；整个物件外缘仍可追踪，不生出手臂。",
+      "intended_semantic": "能明确指出哪件被取出，以及同一件物体的旧面和兽化结果。",
+      "watchpoints_read": [
+        "牵引线应有明确提起方向且不连接幽灵断手；投影需与实际离地高度一致。",
+        "选中物的旧面与新刃边必须同属封闭外轮廓，不能长出手腕或完整肢体。",
+        "两件背景旧物要足够不同且低对比，不能变成三个等亮卡牌格。"
+      ],
+      "benchmark_ids": [
+        "U17",
+        "U25"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U43.json",
+      "reviewed_generation_prompt_sha256": "883eb8061c225fcb7cd4799c1f14c5ad6144e4de1abeb87353846dea523f2db4",
+      "source_plan_entry_id": "U43",
+      "generation_record_sha256_at_report": "777749fa76a9b848af31f9686548f91127131631a52194339dbe9f4d675d6eb9",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "6a4556ae926ede53a6f86afac76a2efc35bdab92bc80cb25425636c92bc3573f",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U43/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C04",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "主形改为下沉的完整头盔/颈肩，顶部只留短竖腕与紧凑掌根；两侧红留白足，接点清楚，125缩图保留短行程擂首。前版长粗臂重复风险解除。",
+      "prior_reviews": [
+        {
+          "id": "C04",
+          "attempt": 1,
+          "full_viewed": true,
+          "comparison_viewed": true,
+          "blocking": false,
+          "severity": "medium",
+          "category": "composition_repetition_risk",
+          "notes": "腕根、掌根擂盔接点和敌颈肩下沉成立；但粗臂从左上斜贯右中，占了明显大块面积，比计划的上缘短前臂更长，接近既有长粗臂主形。已提醒root按整套重复率复核；此处不是解剖或因果硬伤，暂不据此单独阻断。",
+          "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C04/attempt01.png",
+          "sha256": "7b520af92a01ddeb9610eb498f0d7f9ca07e1889f00777ae864cc4270808b2f1",
+          "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C04/stage01/comparison.jpg",
+          "comparison_sha256": "54bde3f2113beb2fe28c9d1e4b1a87168dac1fe3115f79fcfdcd63e3ae2a441c",
+          "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks"
+        }
+      ],
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C04/attempt02.png",
+      "sha256": "368d93a8524a6ad4bd158a776dbca1e7ee7d7d47f2a79e2368d51f2da5c56d11",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C04/stage02/comparison.jpg",
+      "comparison_sha256": "ca4373bca625956a891acb70b3e3cca95561b297f60969b2f54386b50c57bc57",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "擂首一击",
+      "core_verb": "擂下",
+      "intended_scene": "敌方头盔位于画面下中部，一段从上缘进入的短厚熊前臂以收拢的掌根外缘擂在盔顶侧面。腕根转折可辨，指端退到接触点后方，不环抱头盔；头盔向一侧被压低，敌人颈肩同向下沉。只在接触处留一小块压缩亮形，熊白肩仅露边角。",
+      "intended_semantic": "目标必须读成头盔与肩，明确是擂首而非推墙。",
+      "watchpoints_read": [
+        "短腕转折和掌根外缘必须可辨，指端退后不能回绕盔顶形成抓头。",
+        "头盔、颈与肩应同向压低，接触的小压缩亮形不能掩盖冲击结果。",
+        "前臂从上缘进入仍须有自然比例，不能像独立扣盖、拳套道具或被截断的肢体。"
+      ],
+      "benchmark_ids": [
+        "C06",
+        "R31"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C04.json",
+      "reviewed_generation_prompt_sha256": "98287a56842f98689fad56adcb17abb405922eeb507b9f3719708350ab8e6769",
+      "source_plan_entry_id": "C04",
+      "generation_record_sha256_at_report": "93d4656cc565ccad5ff690820f42d7fccbee2c4ed7b7dab5a080e9db5908b41c",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "368d93a8524a6ad4bd158a776dbca1e7ee7d7d47f2a79e2368d51f2da5c56d11",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C04/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R21",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "纵向中空护壳有宽厚灰白面与完整暗腔，小熊在内、外矛止于壳外，两段雷与同一壳缘相接。与U34叠肩甲及T02低宽实心形在125缩图清楚区分。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R21/attempt01.png",
+      "sha256": "eb0f43ada84c038769fc37fc691987a68fd4214080c7eece970f24acbcd5cc26",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R21/stage01/comparison.jpg",
+      "comparison_sha256": "cc3053486b9753585febf039858743a3e50c78a620e1d37494fb511e210243e2",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "雷霆化身",
+      "core_verb": "凝身",
+      "intended_scene": "暗空间里，一块纵向半围合雷凝护壳围住中央一大片深暗负形。外壳一侧已经成为厚白灰防护面，底部两段短残雷沿不同入口接入厚边；另一段边缘仍是同向雷折，线到厚面的转换清楚可见。小熊只在壳内深处保留沉稳暗形，一根外来细矛停在壳外。外壳只借用一次连续背脊式转折，不生头、掌、腿或双袖。",
+      "intended_semantic": "雷本身构成可承受外来来击的厚壳；U34在实体角色肩上叠甲，T02是低宽实心护形，这里由纵向中空关系区别。",
+      "watchpoints_read": [
+        "纵向中空厚壳必须有可见厚度和内部负形，不能只剩霓虹描边或普通熊外罩电光。",
+        "壳的一次背脊转折不能扩展成两臂拱桥、熊脸、大嘴、断肢或随机袖子。",
+        "未凝雷与成壳面应在同一连续边上相接；小熊与外矛不能被暗部或亮边吞没。",
+        "缩图需与 U34 实体肩上叠甲、T02 低宽实心护形明显分开。"
+      ],
+      "benchmark_ids": [
+        "U19",
+        "C12"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R21.json",
+      "reviewed_generation_prompt_sha256": "731a4dffd6d42b6cdb6c04ba3389275f99bc925140046ad1e3cef8bb1266df11",
+      "source_plan_entry_id": "R21",
+      "generation_record_sha256_at_report": "7854d6e1cccd8131b353a59ad70c3d125bbc61e8306d050352f36e6105cb6ec0",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "eb0f43ada84c038769fc37fc691987a68fd4214080c7eece970f24acbcd5cc26",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R21/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U02",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "右下实体掌侧与盾缘压凹接点明确，同一细雷向上进入一整块低云，再沿云横展；没有多枚爪尖发射光楔，也不是U28/U35抬臂反雷构图。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U02/attempt01.png",
+      "sha256": "844e6061d6b504abc17df60c860622f048d964b023d45debc1fee645b2e93b05",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U02/stage01/comparison.jpg",
+      "comparison_sha256": "bfe5f8ef3579c7566b7c78bdf8c433725508fedc99744360d93111ed5e5ec325",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "狂雷渐起",
+      "core_verb": "渐起",
+      "intended_scene": "画面右下，一段短厚熊前臂的掌侧正在压凹敌方盾缘，白肩只占小角。接点产生一根细雷，沿敌盾边向上接入同一块宽低云；云内短雷沿横向接续展开。近处只有一个主接点，远处共用一个天气体。",
+      "intended_semantic": "单次实体攻击与持续雷暴属于同一个触发关系；不要求画出每一次后续触发。",
+      "watchpoints_read": [
+        "压凹盾缘必须仍是掌侧与敌盾的实体接触，不能变成爪尖发射两枚光楔。",
+        "远云需保留一整块天气体，细雷只是联系，不能再次拆成三层雷线刻度。",
+        "近处手臂不应超过局部尺度，避免又回到左熊右爆点；与U28/U35的抬臂反雷关系需明显不同。"
+      ],
+      "benchmark_ids": [
+        "C24",
+        "U21"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U02.json",
+      "reviewed_generation_prompt_sha256": "e1b798befa6e3b3545fbd701d794a956b9becf329e2cd438ea91cadb70ebe60e",
+      "source_plan_entry_id": "U02",
+      "generation_record_sha256_at_report": "3b2368b48ef17575adf7a396b378367248a6dfcb5c2d8f37d6eb872c6c77ff32",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "844e6061d6b504abc17df60c860622f048d964b023d45debc1fee645b2e93b05",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U02/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R16",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "熊自身攻击已结束，前臂下收、新断盾在前，肩髋与两足形成完整稳定身体；旧背痕和短青纹不割裂身体，也无外叠甲或治疗语气。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R16/attempt01.png",
+      "sha256": "35bbf6b00fe71e8db261919e82a29ef2bbd43d8a994744150cbe5c59f5d08e77",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R16/stage01/comparison.jpg",
+      "comparison_sha256": "a4ef05bde761f7104ca41446e42da2212bcf6d04aafcbc2ab83e540ec5278fda",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "愈战神躯",
+      "core_verb": "愈立愈强",
+      "intended_scene": "熊的一次攻击刚完成，前臂沿自然方向收回，画面边缘的敌盾留着清楚新断口。肩、胯与两条支撑腿组成同一条斜向受力链，躯干沉稳而不膨胀。背部保留浅旧战痕，新的短蓝纹只在受力链的一个转折处点亮；身体已经落稳，地面接触影明确。",
+      "intended_semantic": "先有主角自己的攻击及其明确结果，再看到身体稳固的反馈；不把触发行为画成被打或治疗。",
+      "watchpoints_read": [
+        "敌盾新断口须能与己方攻击结束关系相接；不能生成正在承受攻击的熊或受伤复原。",
+        "肩、胯、两腿和收回前臂须保持同一身体，蓝纹不能把躯体切成独立肩甲模块。",
+        "必须用站稳和受力链表达积累，不能膨胀肌肉、复制旧小影或把拳抬到脸侧。",
+        "与 U27 的区别应落在中景完整身体承重，不生成外层护甲。"
+      ],
+      "benchmark_ids": [
+        "U03",
+        "C12"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R16.json",
+      "reviewed_generation_prompt_sha256": "968437cbf6be462bb08816f9d70ce0e7ba51721b14faeefc59716a16fbdeefc2",
+      "source_plan_entry_id": "R16",
+      "generation_record_sha256_at_report": "0ac28eb0f7ca162f4bb7ad2b44dbd2d8ab85d5177d671964b8fd85eaa502c401",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "35bbf6b00fe71e8db261919e82a29ef2bbd43d8a994744150cbe5c59f5d08e77",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R16/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U14",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "实际姿态更接近低伏侧撑：近侧大掌落地，另一前臂低收，后侧一足横撑；未见额外腿或腕反折。唯一来敌亮隙、静止张力和准备姿态仍清楚，但没有完全落成计划的双足直立低收双臂；不据此追加返工。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U14/attempt01.png",
+      "sha256": "139938f35f2a42cf88ef929cb820dfdece90ad100efdb289a1f4a2d20fab396b",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U14/stage01/comparison.jpg",
+      "comparison_sha256": "226343380c3b3f640fccf4c73b02abfff8c1595531d00a73bbfc01522e0867c9",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "迎战准备",
+      "core_verb": "架势",
+      "intended_scene": "熊侧身对着一道唯一的来敌空隙，一足前置、一足横撑，形成稳定站位三角。前臂低收到胸廓下方，头沿空隙看向画外；身体尚未接触敌人。周围其余方向由暗地形合拢，来敌空隙明亮且安静。",
+      "intended_semantic": "这是准备迎接来击的收拢姿势，不能和B02的实际承击画成同一帧。",
+      "watchpoints_read": [
+        "前足与横撑足的站位要形成稳定重心，不能为了三角构图长出第三条腿。",
+        "低位前臂仍需能追踪到肩肘，避免腕掌反折或双手再次抓胸。",
+        "来敌空隙应安静且方向唯一；过多通道和地形会把准备架势改读成迷宫选择。"
+      ],
+      "benchmark_ids": [
+        "C06",
+        "U03"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U14.json",
+      "reviewed_generation_prompt_sha256": "986a01713a0eb4ada447897010278568a53e443966f33faf51da99b5ad47a74f",
+      "source_plan_entry_id": "U14",
+      "generation_record_sha256_at_report": "5d12084fadab46a5538883c7e141b2e97a81887b83c6f7dbf31a0bfca49b9526",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "139938f35f2a42cf88ef929cb820dfdece90ad100efdb289a1f4a2d20fab396b",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U14/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C19",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "宽低白肩与青眼共同从岩脊后露出，眼依附实体暗头，鼻吻爪隐藏；右侧猎物头身和横向步态在125可辨。唯一观察口和安静伏候关系成立，与大侧脸U25有尺度/遮挡区别。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C19/attempt01.png",
+      "sha256": "639e6a6948b8d4ed0778a778b582efe761933fa526badfdfc8b8b5353b69531d",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C19/stage01/comparison.jpg",
+      "comparison_sha256": "c4227951f00dc879d85d144ae2a3a0d775e6a67ae8a3ee404bce9198c02f369e",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "追猎准备",
+      "core_verb": "伏候",
+      "intended_scene": "前景岩脊后露出一条低伏而足够宽的白肩峰与一只青眼，暗躯连续藏在地形后；白肩不细成山顶积雪。远处唯一猎物影横过亮地，头身与移动方向可辨。熊尚未露爪，岩脊间的一道空隙让视线对准猎物，一小片压草仅作辅助。",
+      "intended_semantic": "表现等待出手的储备，而不是正在追赶。",
+      "watchpoints_read": [
+        "白肩与青眼需共同读成藏伏观察者，肩不能细成雪线，眼也不能悬浮于岩面。",
+        "远处唯一猎物的头身方向在125×95仍需可辨，不能缩成无意义亮地小点。",
+        "观察空隙应真实对准猎物，岩脊遮挡不能切断熊暗躯的连续性。"
+      ],
+      "benchmark_ids": [
+        "U25",
+        "U17"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C19.json",
+      "reviewed_generation_prompt_sha256": "4ed4c5b45aeb05411ca91dd341346b6d36d6939a99d115cf4e17fb26a22a4ac2",
+      "source_plan_entry_id": "C19",
+      "generation_record_sha256_at_report": "a7c67ba126f6fcd511bde2d6c4d6400f3aedd10fc2b3799cdee4c0d5f72d85c6",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "639e6a6948b8d4ed0778a778b582efe761933fa526badfdfc8b8b5353b69531d",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C19/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "C03",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "小熊前臂自上缘自然进入压盾，盾后敌手—短臂—肩连续；左侧单厚石板上翻的灰白断面与铁盾分离。坑底细雷分向两侧，未喧宾夺主；大面简化充分且唯一重击关系成立。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C03/attempt02.png",
+      "sha256": "b9fb8ecc2be6be9a399a1d22b8bb00df5bc76d23c089417d62f0722c5400dbd3",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C03/stage02/comparison.jpg",
+      "comparison_sha256": "d504f08bfa7f66b556aa8fdcebd7a01194d983785aa1a8e52e53cb9ceb56cb0a",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "轰雷重击",
+      "core_verb": "重砸",
+      "intended_scene": "从冲击坑边低看，一块厚石板被重击向上掀起；敌方盾缘与连接其后的握盾短臂被压低到坑沿，仍能辨出盾、臂和敌人暗肩的连续关系。上缘只露一小段熊的短前臂承力块向下压住盾面，爪不做特写。唯一接触点建立重砸，细雷从坑底沿地缝向两侧离开。",
+      "intended_semantic": "物理重击先发生，雷伤沿接触地面扩散。",
+      "watchpoints_read": [
+        "短熊前臂、敌盾、握盾臂与敌肩需有连续且互不混淆的连接，避免漂浮断手或上下肢体焊接。",
+        "坑沿与上翻石板不能压成两块等大石体夹亮缝，低机位应保留唯一重击点和上下反力。",
+        "细雷须服从坑底主落点，缩图不能转为多个独立爆点或纯地形自行塌陷。"
+      ],
+      "benchmark_ids": [
+        "C22",
+        "R17"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_C03.json",
+      "reviewed_generation_prompt_sha256": "4da0e5f682385d87dcb1d278d9d35c31777785f56619d3fe481ee335b378b814",
+      "source_plan_entry_id": "C03",
+      "generation_record_sha256_at_report": "6a114dfd81dec0f9bb07c0b61e0b6ede7b303b08837ef43f9dbd61ffdfdb6719",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "b9fb8ecc2be6be9a399a1d22b8bb00df5bc76d23c089417d62f0722c5400dbd3",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/C03/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U12",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "整束短雷全留在画内，由背刺旁厚根向外收尖，起止方向可辨；支撑近臂真实接地、肩腰背完整，没有外雷灌体或附加护甲。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U12/attempt02.png",
+      "sha256": "c44ca7e2d91067c3cfd1050d833811c17d4e37094dfba58a66541668727d9cfc",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U12/stage02/comparison.jpg",
+      "comparison_sha256": "17eb9386aa4158c3665491d831b5c619347f2da1f91f98317f3130c73114dc10",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "原始力量",
+      "core_verb": "贯入",
+      "intended_scene": "熊压低身体承重，宽蓝纹沿稳定腰背的受力轴向上收束，在背刺旁离开体表成为一束更粗的短雷。真实肩背保持完整，毛面不出现石槽、孔洞或额外护甲；近侧支撑前臂只用短厚暗块交代力源。",
+      "intended_semantic": "已有肉身力量进入雷电，不是雷电反过来把身体变成电人。",
+      "watchpoints_read": [
+        "蓝纹应先附着于完整身体，再从背刺旁成为体外短雷，不能反读成雷灌入身体。",
+        "支撑前臂需有可追踪连接和受力，不可成为边缘漂浮大臂。",
+        "背刺只提供短输出位置，不得把全部毛峰点亮成U29式递增背刺，也不新增U34护片。"
+      ],
+      "benchmark_ids": [
+        "C12",
+        "U21"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U12.json",
+      "reviewed_generation_prompt_sha256": "61f16808b1526584587c65192fc495c798bb7bbad48a4a3a998d19809a54d599",
+      "source_plan_entry_id": "U12",
+      "generation_record_sha256_at_report": "97c82cfb3554e70bdcffb68e97277fdf89ff3e49472678836707c991d7ef3f2a",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "c44ca7e2d91067c3cfd1050d833811c17d4e37094dfba58a66541668727d9cfc",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U12/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "R14",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "单块完整低障碍两侧地路在可见前端汇合，熊切近侧、受伤未倒敌走外侧；一个熊一个敌及各自自然影，没有迷宫/分身或发光道路。熊的肩髋短后腿与支点连续。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R14/attempt02.png",
+      "sha256": "09202147bee0efeb6d1a0886ba0fea7021ed3d8659ab4b69ffebb25021e5a53f",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R14/stage02/comparison.jpg",
+      "comparison_sha256": "b755ca1f6c824bcfd72c018db962adda21e45f4ecb711419eb778455f10ba24a",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "不休之猎",
+      "core_verb": "缩距",
+      "intended_scene": "唯一受伤猎物沿一块朴素宽障碍的外弯逃走，唯一完整熊从内侧切入下一转角；熊肩胯前倾但正常连接，眼和颈指向同一个猎物，后足仍有支点。猎物身后只留一段旧擦痕，熊只投一条连续影。道路不发光，前方正在缩小的空隙是唯一可通行处。",
+      "intended_semantic": "已经受伤的同一目标仍未脱离，猎手正在通过更短路径再次截住它；持续性来自目标状态与空间关系。",
+      "watchpoints_read": [
+        "必须只有一个熊、一个猎物和一条物理投影，不能因运动效果生成分身或一串爪印。",
+        "障碍内外两侧及唯一可通行空隙应清楚，缩图不能变成无法理解的迷宫。",
+        "完整熊的肩胯、后足支点与朝向必须成立，不能为了冲刺变成悬空圆球。",
+        "猎物受伤但未倒，旧擦痕仅作辅助，不能抢成新的攻击特效。"
+      ],
+      "benchmark_ids": [
+        "U25",
+        "U17"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R14.json",
+      "reviewed_generation_prompt_sha256": "99043ec7a85aa2e8f72c2bb02fc24f5461ac7f5742e03d37620085a1956818bc",
+      "source_plan_entry_id": "R14",
+      "generation_record_sha256_at_report": "8cb7668bc293158968b1562130666b1a50c2f55b3b80b738501473ec32aaeb65",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "09202147bee0efeb6d1a0886ba0fea7021ed3d8659ab4b69ffebb25021e5a53f",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R14/attempt02.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U10",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "单枚刚硬弯爪根连着自然出框的指端，爪刃与斜石沿相切，少量薄暖屑留在接点。没有悬浮尖牙、整掌落地或多指并排。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U10/attempt01.png",
+      "sha256": "2b66443a1c333cb86729bb06a9e299f90b4728367db5edf74cf145b631b94b65",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U10/stage01/comparison.jpg",
+      "comparison_sha256": "c07b2cb2c98669878e3766b5bc49fb9edca0416bb34fa60145ccd42f28430f0c",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "磨砺爪牙",
+      "core_verb": "磨锐",
+      "intended_scene": "一枚短而厚的青色弯爪沿粗石边缘向下擦过，爪根明确连在深蓝指端上，指端从画面上缘自然进入。接触处只剥下一片薄亮屑，爪弧保持硬度，背景安静。其余指掌位于画框之外，不在画内突然断开。",
+      "intended_semantic": "能看出刃口与磨石相擦，不是普通落地抓地。",
+      "watchpoints_read": [
+        "可见的深蓝指端必须连着爪根，不能画成独立悬浮尖牙。",
+        "爪刃保持硬度，不能为了显示摩擦弯成软丝；唯一亮屑应贴着相切点。",
+        "其他手指必须真正被画框裁去，不能在画内断裂或多出第二只整掌。"
+      ],
+      "benchmark_ids": [
+        "C08",
+        "U40"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U10.json",
+      "reviewed_generation_prompt_sha256": "7545a21d0e125763419273418da8aefca02c4cb697eb07619b39eddeab07d212",
+      "source_plan_entry_id": "U10",
+      "generation_record_sha256_at_report": "42e4ebc3bec3928b0bc0f97d198f42124786e6f5a613e2caf8f3056ec0ffe5f4",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "2b66443a1c333cb86729bb06a9e299f90b4728367db5edf74cf145b631b94b65",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U10/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U41",
+      "attempt": 2,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "最终全图中旧壳裂纹、颗粒及地面碎纹已删除；单一连续深蓝平板刃核和窄连续青刃替代四个独立指节/长弯爪，单翻角、灰白断面、铆孔和完整旧外缘可追踪。前版风格与对象误读两个阻断均解除。 已补看stage02；125缩图仍能分清单翻角旧壳与连续深蓝刃核，未出现新的阻断。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U41/attempt02.png",
+      "sha256": "ec44388f7224fc6b1d1c0dfe54a31a7232eebde02c0fbc042ad71fdb3a2d41b2",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U41/stage02/comparison.jpg",
+      "comparison_sha256": "1ef13f11565573c24d3c3114d30c08a0aa2846955ce95cc4ac4485462084738f",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "破皮见骨",
+      "core_verb": "剥开",
+      "intended_scene": "一枚带旧铆接孔的暗色攻击护片只有一角被从内侧顶翻，薄旧壳下面显出同一整块深蓝爪形刃面。几个厚短钩尖连在共同基面上，转换前外缘和转换后内层可同时追踪；对象与背景完全分开，不出现活体手臂。",
+      "intended_semantic": "同一件独立攻击对象从旧表面显露原始刃形，外缘与连续内核同时可读。",
+      "watchpoints_read": [
+        "旧壳翻起只在一角，余下外缘保持封闭可追踪；不能裂成蛋壳包住新怪物。",
+        "短厚钩尖必须连在同一刃基面上，不得漂浮成多枚牙或长出指节手臂。",
+        "铆孔、旧平面和新深蓝刃面需在缩图保留材质差，不能整件变成已有完整巨爪。"
+      ],
+      "benchmark_ids": [
+        "C08",
+        "R12"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U41.json",
+      "reviewed_generation_prompt_sha256": "254f10467d2607688c590b9a36fe68a03c47648fa910ce0f76cc6e1441bf840e",
+      "source_plan_entry_id": "U41",
+      "generation_record_sha256_at_report": "2ac8c82d7a7fa7b3f34af7bd7edc9a677a26dba4b3b27e06eeb9b19733fd17f7",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 2,
+        "sha256": "ec44388f7224fc6b1d1c0dfe54a31a7232eebde02c0fbc042ad71fdb3a2d41b2",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U41/attempt02.png"
+      },
+      "newer_candidate_available": false,
+      "prior_reviews": [
+        {
+          "id": "U41",
+          "attempt": 1,
+          "sha256": "711d73fd0842bf7f7e19a4e7be8c78fbeed2391e2181e8bcd6a52b31be911b02",
+          "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U41/attempt01.png",
+          "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U41/stage01/comparison.jpg",
+          "comparison_sha256": "c28ed2850ebcdfdec40e9ee84578a6c5176aa2620cb6b0054b4c61849a62825a",
+          "full_viewed": true,
+          "comparison_viewed": true,
+          "blocking": true,
+          "severity": "medium",
+          "notes": "旧壳表面布满细裂网与斑驳颗粒、地面也有明显纹理，与C08/R12简练硬边大面差距明显。内核四钩齿根部各自鼓成指节样蓝块，使壳下物更接近真实巨掌，弱化共同平板刃基。",
+          "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks"
+        }
+      ]
+    },
+    {
+      "id": "R13",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "low",
+      "notes": "熊的完整背影在人工石路终点迈入林间自然地面，肩髋四肢连续且无光尾；两侧林影以大层面围合。远处浅青线更像地面河道而不是林口风线，但归林的主体语义清楚，不建议单为此返工。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R13/attempt01.png",
+      "sha256": "13ac31acfb028d5d3079d51cd6f1b4c3b1d5672eaf951727bb212c7419abae76",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R13/stage01/comparison.jpg",
+      "comparison_sha256": "5772f6f918843399350e0190c53fd64cc77992689c397c22828e5630a1de0a76",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "重返蛮荒",
+      "core_verb": "归林",
+      "intended_scene": "熊的完整背影跨过人工石路的尽头，进入两块宽厚深林剪影之间。身后的石路冷硬平直，身前地面柔和起伏，一条浅青风线在林口收拢；白肩与短腿自然连接，不额外长出长尾。",
+      "intended_semantic": "离开人工约束并回到荒野，恢复与领域来自环境关系。",
+      "watchpoints_read": [
+        "人工石路的终点与熊跨越的位置要相邻，不能只剩普通背行风景。",
+        "完整背影的肩、胯与腿必须自然相连，不能缩成胖毛球。",
+        "浅青风线须留在林口并与臀部、尾根和后腿分开，防止再次出现光尾；林影保持少量大面。"
+      ],
+      "benchmark_ids": [
+        "U25",
+        "C13"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_R13.json",
+      "reviewed_generation_prompt_sha256": "f6a4a412d3122cce845bc8d23200a3d1a1981fefd30a6aef8f4da2a127d0d744",
+      "source_plan_entry_id": "R13",
+      "generation_record_sha256_at_report": "58f56a7bd210aeb5598a2b1930233d0512433c64c84b56199a06b7e78a33fc9a",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "13ac31acfb028d5d3079d51cd6f1b4c3b1d5672eaf951727bb212c7419abae76",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/R13/attempt01.png"
+      },
+      "newer_candidate_available": false
+    },
+    {
+      "id": "U29",
+      "attempt": 1,
+      "full_viewed": true,
+      "comparison_viewed": true,
+      "blocking": false,
+      "severity": "none",
+      "notes": "两块大云之间是一条横斜长雷脊，短细支在同一结点汇入后主干变厚。没有地面、目标或并列等亮雷柱，125缩图仍读狭长蓄厚而不是中央云洞。",
+      "image_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U29/attempt01.png",
+      "sha256": "68997e640314cf385adb2e041a301169a79d1f9a59709862890c35976170f043",
+      "comparison_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U29/stage01/comparison.jpg",
+      "comparison_sha256": "477326f3b80950c0c7032b92a18e0abb751af89eec862ce49d815596d49936bc",
+      "scope_of_observation": "full_raw_image_and_matching_stage_comparison_250x190_125x95_grayscale_export_masks",
+      "name": "雷霆渐盛",
+      "core_verb": "加深",
+      "intended_scene": "上下两块厚暗云夹住一条横斜雷脊，几根极短细支在同一接点并入更厚的青白主干，主干把云间负形撑开。没有山体、地面或被击中目标，主形是云内一股蓄厚的雷势。",
+      "intended_semantic": "力量集中到同一雷脊变得更厚，画面不另讲一次对地命中。",
+      "watchpoints_read": [
+        "上下云是大体积边界，细支只在同一接点进入主干，不能重新成为多根等亮雷柱。",
+        "粗主干与短支应形成收束关系，不能读成对地落雷或横向激光打目标。",
+        "与U37要保留区别：U29是狭长雷脊占据负形，U37是三块宽云围住单小核，不能统一成灰云加中央青洞。"
+      ],
+      "benchmark_ids": [
+        "U21",
+        "C24"
+      ],
+      "generation_record": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/reviews/v7/generation_U29.json",
+      "reviewed_generation_prompt_sha256": "069dbb3a3c7a29e39d566fc4e9cfc42f5b87c1c0442237429a52b0aca2cba62b",
+      "source_plan_entry_id": "U29",
+      "generation_record_sha256_at_report": "c51960371e6c2aeec23d26fe063aaef0696bc49a5ec880ac0dfc8371395ed7e4",
+      "root_status_at_report": "approved_exported",
+      "current_generation_at_report": {
+        "attempt": 1,
+        "sha256": "68997e640314cf385adb2e041a301169a79d1f9a59709862890c35976170f043",
+        "output_path": "/workspace/scratch/6d72a9858741/revision_v7/volibear_cards_repo/cards/candidates_v7/U29/attempt01.png"
+      },
+      "newer_candidate_available": false
+    }
+  ],
+  "updated_at_utc": "2026-10-27T18:11:45.197918+00:00"
+}

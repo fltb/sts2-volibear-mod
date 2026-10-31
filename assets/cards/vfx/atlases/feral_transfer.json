@@ -1,0 +1,535 @@
+{
+  "id": "feral_transfer",
+  "label_zh": "熊灵传递与侵染",
+  "family": "feral",
+  "fps": 24,
+  "frame_count": 40,
+  "duration_seconds": 1.6666666666666667,
+  "loop": false,
+  "anchor": "owner_to_selected_card",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    27,
+    44,
+    184,
+    211
+  ],
+  "atlas": {
+    "image": "atlases/feral_transfer.png",
+    "json": "atlases/feral_transfer.json",
+    "columns": 8,
+    "rows": 5,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "2c116a81c9f6eb99bb72d5fa8a898a1fe565b45107bb8bb00396415b9e0e9404"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/001.png",
+      "sha256": "2771ca15029688f2ab9bff1c221b302123ce2bd70fb47cbc77cca5d9affcbc76"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/002.png",
+      "sha256": "23f91d598d9a2558a9dcfac7bdbe108aa709f58a7e1029b1acaf9af6330d245b"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/003.png",
+      "sha256": "602ca0076da072ec48735c75d251f8ebbc30a5f679d47d56ed6fd7a00258e937"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/004.png",
+      "sha256": "4a396c0fec9221b65d982df5860d53b6cd411f060bce5bb6c3a70d142fcaa239"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/005.png",
+      "sha256": "d65b30a0c05e73fecdc83d02e1d0dfa139e9a3c658395d9b4993abd89483c1c7"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/006.png",
+      "sha256": "6287c09173b9e3f8c5710c07e7fedf05e2f987d0ab47225c96df5f0f287a0f88"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/007.png",
+      "sha256": "66643a2596f4d9dec0c9e8d165eaf8345de1d1df1af1d983c4f5c063705c9bdf"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/008.png",
+      "sha256": "58c52e582042f4a658a99bc7eeba88d5e3f1f7dbf9ca2bc794b4deb0af6d4208"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/009.png",
+      "sha256": "fb580a338cefb7bcaf6272824be8552753f9d69d9795f4708cf6e2f3c253c070"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/010.png",
+      "sha256": "3e36cd0b3f59190c98fee69b3592914095302df6d2a549538e2c1b5eb818f13d"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/011.png",
+      "sha256": "206fc2a3185b5e8b5c299bb94b739958e24a77656c8b955f9f0422de40f65cb2"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/012.png",
+      "sha256": "2fef1d637b06eab687aa9b7724278f6f2ff38da65e8822d15dc97dd7d16c99df"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/013.png",
+      "sha256": "05f4b356b65627da9fe31c9ffa7b618d06235e52dbfcfa6395fe4f2af0211619"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/014.png",
+      "sha256": "35285a21a1ea3d0d464876175d9ed14a8b69fa5cf8ca758ee7d34cc33c431e73"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/015.png",
+      "sha256": "f28b170ce1a411baeea4c61972aded10ad6715ab165043fbe2a0754db718b891"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/016.png",
+      "sha256": "bb9f233076a007fe6bdac2e66a8ab6456c928e28762cbf81bc8543e48ae633b7"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/017.png",
+      "sha256": "2316d1ef93bd4274395a7cd9ed52cf29240d8a09a3461875f197f7e4f7db1c59"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/018.png",
+      "sha256": "f8b2e2e2a3b7eec20c4863a61a80fb661b6abb67a922ad097842d3e8dd699cf0"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/019.png",
+      "sha256": "3d3c907a620c2b66b869377b1241c4eb65662d3b5795230a153f29019c5491a2"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/020.png",
+      "sha256": "c62877fa559fddb931b5bffd2adbe00ff80f6801873013ac5a7cc9e11e03d755"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/021.png",
+      "sha256": "ff8056103db16beb9372b5ae939bd59527e75b92b6b06d694d8895827111c4a3"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/022.png",
+      "sha256": "207adaa376269ae51c5b5963a119a1d4eb7923466e8e83b4284e03ee77bd84c6"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/023.png",
+      "sha256": "a892110517abb2e102a9af2d5826dc9b04de687f327c58e7555c57fccf640fcc"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/024.png",
+      "sha256": "3b84b3830eac777ac824f2711e686ef18056a4ed65095c41aed229ef459d42b1"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/025.png",
+      "sha256": "ed67b3f751c02e686ba18262b2f78fec23f1eb91a40450acb5524b4ef227e993"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/026.png",
+      "sha256": "cfc835e4d1870b83555e747cd86ff7ca961401bc941f15c5bb7b995a4d3eb6cb"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/027.png",
+      "sha256": "3a7a0a0e25dfea1afe2421449a3570250d134189f3aa5a2fbd420c11971c2a07"
+    },
+    {
+      "index": 28,
+      "time_seconds": 1.1666667,
+      "rect": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/028.png",
+      "sha256": "ffef5e5e4014548cc84c38a3ccbc3bb7d5b24a7f7c78615285236a3953a95bac"
+    },
+    {
+      "index": 29,
+      "time_seconds": 1.2083333,
+      "rect": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/029.png",
+      "sha256": "9967a46511180b499dd14f3cb5ea7d6a625bb608b50832a703c8922c82190403"
+    },
+    {
+      "index": 30,
+      "time_seconds": 1.25,
+      "rect": [
+        1536,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/030.png",
+      "sha256": "99a1c82751c9ddd1eab3982cd8fd4d1cd86e85312a76704b1d309c39618f6193"
+    },
+    {
+      "index": 31,
+      "time_seconds": 1.2916667,
+      "rect": [
+        1792,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/031.png",
+      "sha256": "5ca816aa03ee19bfb7b3eeca019a35d4f6ab0f53ee511e0a3f1456134a5f5b04"
+    },
+    {
+      "index": 32,
+      "time_seconds": 1.3333333,
+      "rect": [
+        0,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/032.png",
+      "sha256": "6e77f83fed8246fe117e7ad53991dac6cc27b2a0356c1781920ab678d1ab42a6"
+    },
+    {
+      "index": 33,
+      "time_seconds": 1.375,
+      "rect": [
+        256,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/033.png",
+      "sha256": "9028b3e14b4afce413901b4bc352dcade5eb66ffb232e80ad8c478ff26b4fe73"
+    },
+    {
+      "index": 34,
+      "time_seconds": 1.4166667,
+      "rect": [
+        512,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/034.png",
+      "sha256": "3dab4972d3438957d75dc812efa55b63482d3473b94c1ebde78cbe4335ab4544"
+    },
+    {
+      "index": 35,
+      "time_seconds": 1.4583333,
+      "rect": [
+        768,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/035.png",
+      "sha256": "50f955dd7fe7eed196670f85dee0c4b6b3f52dae9efa292428528c5e787553a5"
+    },
+    {
+      "index": 36,
+      "time_seconds": 1.5,
+      "rect": [
+        1024,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/036.png",
+      "sha256": "c2701c798504287c7367369551f328482f844cf21ebef8f31adf733528b02aa2"
+    },
+    {
+      "index": 37,
+      "time_seconds": 1.5416667,
+      "rect": [
+        1280,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/037.png",
+      "sha256": "1899ed0272402931293ada6e2cccfa823353ed82c6479a931c66dfebf60b5bb6"
+    },
+    {
+      "index": 38,
+      "time_seconds": 1.5833333,
+      "rect": [
+        1536,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/038.png",
+      "sha256": "35853ff1424a72d0c2bd12f1b423f77afa0a16fa19450f72a6482fa031b0dd47"
+    },
+    {
+      "index": 39,
+      "time_seconds": 1.625,
+      "rect": [
+        1792,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_transfer/039.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.feral_transfer",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "source_anchor_px": [
+    38,
+    181
+  ],
+  "target_card_rect_px": [
+    86,
+    48,
+    92,
+    159
+  ],
+  "target_anchor_px": [
+    170,
+    125
+  ],
+  "presentation_note": "External spirit reaches selected card, then stains a local patch near the right side of its portrait; not a body transformation."
+}

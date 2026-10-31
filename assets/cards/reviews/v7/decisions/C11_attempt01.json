@@ -1,0 +1,41 @@
+{
+  "id": "C11",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "10b44ea22272678fbd083673721baf054d06eca1a899d1b1faaabef621afb6aa",
+  "master_sha256": "96c14c3cb9ce86c56c856e79c41bd72b5875081a37cfdc57be347a198319a9e9",
+  "comparison_sha256": "bac59ecd59248ad751bfc30120218ac8dd2d8709d0f581a2b082c5ee2f64a70e",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "熊以低宽姿态堵住门口，两脚着地、双臂下垂，前景唯一矛尖停在熊前；背后亮通路与门框交代阻挡关系，肩臂腿连接完整。",
+  "baseline_comparison": "借U03扎实站姿和C18压迫尺度，将敌人视点放到门外；门洞和来矛提供新的对象关系，区别单纯站姿立绘。缩图仍读到拦路。",
+  "paw_orientation_observation": "两只手掌自然内向，爪向下收，脚爪在地面前缘，没有左右翻面矛盾。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:55+00:00"
+}

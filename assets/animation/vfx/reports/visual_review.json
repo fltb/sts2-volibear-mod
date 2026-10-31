@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "status": "pass_for_reviewed_scope",
+  "reviewer": "assistant /root/v5_vfx_assets, maker review",
+  "review_kind": "actual_visual_inspection_separate_from_technical_tests",
+  "manifest_sha256": "65eba1871f70793b79f971a38a97c8c5ba64370a7553214df9b795ca6e470b23",
+  "geometry_source_sha256": "b851d7c91644d9d99ac9b9946f0f11ab56c1ff23e19bd17347fdef19f6c75fd7",
+  "card_bindings_sha256": "62aa07d0bae59cc8afb77878256baac942bf64bc559a888f16a32f6d3c8c37b5",
+  "contact_pages": [
+    {
+      "path": "reports/contact_01.jpg",
+      "sha256": "8fa446f9e5930e349e52ff6c6cc014cf6493afc49fa308592e158841108037d4",
+      "samples": [
+        {
+          "id": "claw_slash",
+          "frames": [
+            2,
+            5,
+            7,
+            10,
+            13
+          ]
+        },
+        {
+          "id": "heavy_impact",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "bite_hit",
+          "frames": [
+            2,
+            5,
+            7,
+            10,
+            13
+          ]
+        },
+        {
+          "id": "guard_gain",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "guard_hit",
+          "frames": [
+            2,
+            4,
+            6,
+            9,
+            12
+          ]
+        },
+        {
+          "id": "guard_break",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "counter_release",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "absorb",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      ],
+      "actual_viewed": true,
+      "review_scope": "Five actual exported keyframes per effect, 8 effects per page; maker visually inspected this full page."
+    },
+    {
+      "path": "reports/contact_02.jpg",
+      "sha256": "d3add804a8ebcad9397a49bc7e46ea720eae4aebe6d95e62a12cf4aa2eb76d16",
+      "samples": [
+        {
+          "id": "lightning_strike",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "lightning_chain",
+          "frames": [
+            2,
+            5,
+            8,
+            11,
+            15
+          ]
+        },
+        {
+          "id": "lightning_all",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "lightning_growth",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "domain_enter",
+          "frames": [
+            4,
+            9,
+            15,
+            21,
+            27
+          ]
+        },
+        {
+          "id": "domain_loop",
+          "frames": [
+            6,
+            13,
+            20,
+            28,
+            37
+          ]
+        },
+        {
+          "id": "domain_exit",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "domain_suppress",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      ],
+      "actual_viewed": true,
+      "review_scope": "Five actual exported keyframes per effect, 8 effects per page; maker visually inspected this full page."
+    },
+    {
+      "path": "reports/contact_03.jpg",
+      "sha256": "096053df84c618f9b259f25109d37975241bd306aadaf5ae19f4d0b99fcc028e",
+      "samples": [
+        {
+          "id": "card_purify",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "feral_transfer",
+          "frames": [
+            5,
+            11,
+            17,
+            23,
+            30
+          ]
+        },
+        {
+          "id": "feral_claw",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "feral_body",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "feral_aura",
+          "frames": [
+            4,
+            9,
+            15,
+            21,
+            27
+          ]
+        },
+        {
+          "id": "mark_bite",
+          "frames": [
+            4,
+            9,
+            15,
+            21,
+            27
+          ]
+        },
+        {
+          "id": "wound",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "weakness",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        }
+      ],
+      "actual_viewed": true,
+      "review_scope": "Five actual exported keyframes per effect, 8 effects per page; maker visually inspected this full page."
+    },
+    {
+      "path": "reports/contact_04.jpg",
+      "sha256": "8c8a745beba80647608a4b9d7a72c4d5fefe6695da1f3cf3ef314c4606aed176",
+      "samples": [
+        {
+          "id": "charge",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "strength",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "armor_retain",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "armor_iron",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "card_draw",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "card_retrieve",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "card_discard",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "card_exhaust",
+          "frames": [
+            3,
+            7,
+            11,
+            15,
+            20
+          ]
+        }
+      ],
+      "actual_viewed": true,
+      "review_scope": "Five actual exported keyframes per effect, 8 effects per page; maker visually inspected this full page."
+    },
+    {
+      "path": "reports/contact_05.jpg",
+      "sha256": "6b4dcc02db3b315de8079211d55036c371f1bc41496dc9caa6d9923ad9ad5def",
+      "samples": [
+        {
+          "id": "energy_gain",
+          "frames": [
+            3,
+            6,
+            10,
+            14,
+            18
+          ]
+        },
+        {
+          "id": "cost_reduce",
+          "frames": [
+            3,
+            6,
+            9,
+            13,
+            16
+          ]
+        },
+        {
+          "id": "card_replay",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "lifesteal",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        },
+        {
+          "id": "heal",
+          "frames": [
+            3,
+            7,
+            12,
+            16,
+            21
+          ]
+        },
+        {
+          "id": "roar_wave",
+          "frames": [
+            3,
+            7,
+            11,
+            15,
+            20
+          ]
+        },
+        {
+          "id": "thunder_armor",
+          "frames": [
+            3,
+            7,
+            11,
+            15,
+            20
+          ]
+        },
+        {
+          "id": "cast_charge",
+          "frames": [
+            3,
+            8,
+            12,
+            17,
+            23
+          ]
+        }
+      ],
+      "actual_viewed": true,
+      "review_scope": "Five actual exported keyframes per effect, 8 effects per page; maker visually inspected this full page."
+    }
+  ],
+  "actual_effect_keyframes_seen": 200,
+  "effect_families_seen": 40,
+  "icons": {
+    "file": "reports/icons_contact.png",
+    "sha256": "75ff8190139ed20a1d6f20048630bc4afebac06b4e63befdaf50e9d0536bca7f",
+    "actual_viewed": true,
+    "icon_count": 16,
+    "sizes_actually_compared": [
+      128,
+      64,
+      32
+    ],
+    "note": "256 px exports verified by technical checks; not separately claimed as a 16-image visual viewing set."
+  },
+  "context_storyboard": {
+    "file": "examples/feral_transfer_storyboard.png",
+    "sha256": "94bc4d0391622639220ee18c594a2acc695bbf36a3f1758aff1ee069efde8a5f",
+    "actual_viewed": true,
+    "frames": [
+      0,
+      10,
+      20,
+      28,
+      35,
+      44
+    ],
+    "finding": "Fixed approved reference silhouette; external source travels to selected card, stains local portrait area, then card form changes. It is a mechanism storyboard, not a demonstration of the revised character animation rig."
+  },
+  "actual_browser_screenshots_reviewed": [
+    {
+      "path": "/tmp/volibear-vfx-gallery-iEvS6K/desktop_feral.png",
+      "sha256": "f48b917784a0a326c9ef6a74a8007cbd8a02b7ad30bd6821d111d489e2ff0ba2",
+      "scope": "actual_file_gallery_at_feral_frame_28",
+      "actual_viewed": true,
+      "notes": "Chinese glyphs rendered; no horizontal clipping; effect remains clear on the chosen background."
+    },
+    {
+      "path": "/tmp/volibear-vfx-gallery-iEvS6K/mobile_guard.png",
+      "sha256": "48f14e1a63c5c79f74d2c1079066d4e81c4c9de6288d91613205525ec2f0889f",
+      "scope": "actual_file_gallery_mobile_guard_frame_6",
+      "actual_viewed": true,
+      "notes": "Chinese glyphs rendered; no horizontal clipping; effect remains clear on the chosen background."
+    }
+  ],
+  "fixed_findings": [
+    {
+      "issue": "counter-release tail and purify motes initially reached outside the square",
+      "resolution": "moved tail origin inward and bounded motes; all 1070 final frames have zero nontransparent border pixels."
+    },
+    {
+      "issue": "first transfer context stained the card text area more than the portrait",
+      "resolution": "moved local stain to the spirit arrival area on the portrait right side; final context visually re-inspected."
+    },
+    {
+      "issue": "lifesteal initial segment metadata reversed its right-to-left art direction",
+      "resolution": "source=[216,142], target=[40,142]; ground pivots also aligned to actual ring/impact centres; pixels unchanged."
+    }
+  ],
+  "design_observations": [
+    "Physical slash, heavy impact and bite have different directional silhouettes.",
+    "Warm impact accents are restrained; lightning has a principal line and few branches.",
+    "Guard centre remains mostly open, so it can sit near a forearm without hiding the body.",
+    "Domain is a low-brightness ground/rear effect; it is not a replacement body layer.",
+    "Card effects retain an external recipient and do not paint new hands or limbs.",
+    "16 status icons remain distinguishable at 32 pixels without relying on tiny text."
+  ],
+  "unresolved_visual_findings_in_reviewed_scope": [],
+  "limits": [
+    "The maker saw 200 selected effect frames, not each of 1070 runtime frames individually.",
+    "All 1070 PNG frames and their atlases/WebP timing/alpha were technically checked; that is not counted as actual visual inspection.",
+    "Actual STS2 in-game combat integration is outside this VFX art review."
+  ]
+}

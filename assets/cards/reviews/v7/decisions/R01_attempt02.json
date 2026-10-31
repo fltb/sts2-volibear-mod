@@ -1,0 +1,41 @@
+{
+  "id": "R01",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "b5f3273ed33093c55a62e54a1a434b2fd9cbc007facf96492505c4768d0925e7",
+  "master_sha256": "e2a5dd9588b2f7f0d5d3b597479fcbee4e22cb9e40e6dcd6cefdb02bec292373",
+  "comparison_sha256": "e063c91c8985a88262e4ddc2c98b64f87c1c129c091fa26b17520326c582e632",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "低额短吻由同一连续云层构成，侧向熊意志贯通横跨场域的风暴；下方地景只为窄带。没有悬空实体躯干或随机融化四肢。",
+  "baseline_comparison": "与C18的正面神性压迫不同，采用侧向天气横贯；大块白灰、蓝紫负形达到同组清楚程度，125像素仍先读天气。",
+  "paw_orientation_observation": "环境抽象没有实体爪掌，不以断裂四肢表达变化。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 19,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:56+00:00"
+}

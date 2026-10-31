@@ -1,0 +1,4734 @@
+{
+  "schema_version": 2,
+  "fps": 24,
+  "interpolation": "smoothstep; bounded rigid limb angles, source-preserving torso mesh, stationary feet unless airborne/collapsing",
+  "clips": [
+    {
+      "name": "idle_loop",
+      "duration": 2.0,
+      "loop": true,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {},
+      "events": [],
+      "procedural": {
+        "breath": 0.65,
+        "sway": 0.35
+      },
+      "effect": null,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "relaxed_loop",
+      "duration": 2.0,
+      "loop": true,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            -2
+          ],
+          [
+            1,
+            -2
+          ]
+        ]
+      },
+      "events": [],
+      "procedural": {
+        "breath": 0.85,
+        "sway": 0.3
+      },
+      "effect": null,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "weak_loop",
+      "duration": 2.0,
+      "loop": true,
+      "skin": "normal",
+      "head": "weak",
+      "channels": {
+        "root_y": [
+          [
+            0,
+            23
+          ],
+          [
+            1,
+            23
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "head_y": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            -4
+          ],
+          [
+            1,
+            -4
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            -6
+          ],
+          [
+            1,
+            -6
+          ]
+        ]
+      },
+      "events": [],
+      "procedural": {
+        "breath": 1.35,
+        "sway": 0.5,
+        "tremor": 0.5
+      },
+      "effect": null,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "attack",
+      "duration": 1.0,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            26
+          ],
+          [
+            0.75,
+            12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            6
+          ],
+          [
+            0.5,
+            14
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            6
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -3
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            16
+          ],
+          [
+            0.5,
+            -95
+          ],
+          [
+            0.75,
+            -66
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            30
+          ],
+          [
+            0.75,
+            10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_push": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -5
+          ],
+          [
+            0.5,
+            48
+          ],
+          [
+            0.75,
+            28
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -7
+          ],
+          [
+            0.5,
+            10
+          ],
+          [
+            0.75,
+            4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            4
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1.0,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.54,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "claw_slash",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "attack_heavy",
+      "duration": 1.3333333333,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -12
+          ],
+          [
+            0.4,
+            7
+          ],
+          [
+            0.6,
+            30
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            14
+          ],
+          [
+            0.4,
+            -9
+          ],
+          [
+            0.6,
+            27
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -6
+          ],
+          [
+            0.4,
+            -4
+          ],
+          [
+            0.6,
+            8
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -5
+          ],
+          [
+            0.4,
+            -6
+          ],
+          [
+            0.6,
+            3
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -50
+          ],
+          [
+            0.4,
+            -65
+          ],
+          [
+            0.6,
+            -42
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -45
+          ],
+          [
+            0.4,
+            -50
+          ],
+          [
+            0.6,
+            -10
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -25
+          ],
+          [
+            0.4,
+            -40
+          ],
+          [
+            0.6,
+            20
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -40
+          ],
+          [
+            0.4,
+            -25
+          ],
+          [
+            0.6,
+            12
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.8,
+          "event": "impact"
+        },
+        {
+          "time": 1.02,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "ground_slam",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "bite",
+      "duration": 1.0,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            28
+          ],
+          [
+            0.75,
+            18
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            5
+          ],
+          [
+            0.5,
+            13
+          ],
+          [
+            0.75,
+            8
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            7
+          ],
+          [
+            0.75,
+            5
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -5
+          ],
+          [
+            0.5,
+            7
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            16
+          ],
+          [
+            0.75,
+            7
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -1
+          ],
+          [
+            0.5,
+            9
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            -16
+          ],
+          [
+            0.75,
+            -8
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -10
+          ],
+          [
+            0.5,
+            -15
+          ],
+          [
+            0.75,
+            -5
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            8
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -15
+          ],
+          [
+            0.5,
+            -7
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "roar": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            0
+          ],
+          [
+            0.23,
+            1
+          ],
+          [
+            0.46,
+            1
+          ],
+          [
+            0.55,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.53,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "bite_impact",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "cast",
+      "duration": 1.5,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            8
+          ],
+          [
+            0.5,
+            -5
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            0.75,
+            -1
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -6
+          ],
+          [
+            0.75,
+            -3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -34
+          ],
+          [
+            0.5,
+            -42
+          ],
+          [
+            0.75,
+            -36
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -45
+          ],
+          [
+            0.5,
+            -50
+          ],
+          [
+            0.75,
+            -40
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -28
+          ],
+          [
+            0.75,
+            -16
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -42
+          ],
+          [
+            0.5,
+            -48
+          ],
+          [
+            0.75,
+            -30
+          ],
+          [
+            1.0,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.9,
+          "event": "cast_release"
+        },
+        {
+          "time": 1.2,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "cast_orb",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "hurt",
+      "duration": 0.6666666667,
+      "loop": false,
+      "skin": "normal",
+      "head": "hurt",
+      "channels": {
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.15,
+            -20
+          ],
+          [
+            0.4,
+            -13
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.18,
+            14
+          ],
+          [
+            0.5,
+            7
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.18,
+            -6
+          ],
+          [
+            0.5,
+            -3
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.15,
+            -8
+          ],
+          [
+            0.4,
+            -3
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            7
+          ],
+          [
+            0.5,
+            4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            -18
+          ],
+          [
+            0.5,
+            -7
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            -12
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.12,
+          "event": "hurt_recoil"
+        },
+        {
+          "time": 0.4,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "hit_sparks",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "block",
+      "duration": 1.0,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            -4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            10
+          ],
+          [
+            0.5,
+            18
+          ],
+          [
+            0.75,
+            10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            0.75,
+            -2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.5,
+            5
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -78
+          ],
+          [
+            0.5,
+            -88
+          ],
+          [
+            0.75,
+            -60
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -45
+          ],
+          [
+            0.5,
+            -50
+          ],
+          [
+            0.75,
+            -35
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            -12
+          ],
+          [
+            0.75,
+            -6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -15
+          ],
+          [
+            0.5,
+            -15
+          ],
+          [
+            0.75,
+            -8
+          ],
+          [
+            1.0,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.28,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.48,
+          "event": "blocked_impact"
+        },
+        {
+          "time": 0.74,
+          "event": "guard_off"
+        }
+      ],
+      "procedural": {},
+      "effect": "guard",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "counter",
+      "duration": 1.3333333333,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            -9
+          ],
+          [
+            0.4,
+            -13
+          ],
+          [
+            0.63,
+            28
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            15
+          ],
+          [
+            0.4,
+            20
+          ],
+          [
+            0.63,
+            12
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            -4
+          ],
+          [
+            0.4,
+            -3
+          ],
+          [
+            0.63,
+            6
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            4
+          ],
+          [
+            0.4,
+            5
+          ],
+          [
+            0.63,
+            -4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            -82
+          ],
+          [
+            0.4,
+            -87
+          ],
+          [
+            0.63,
+            -92
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            -48
+          ],
+          [
+            0.4,
+            -50
+          ],
+          [
+            0.63,
+            28
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_push": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            0
+          ],
+          [
+            0.4,
+            0
+          ],
+          [
+            0.63,
+            45
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            -10
+          ],
+          [
+            0.4,
+            -12
+          ],
+          [
+            0.63,
+            12
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.24,
+            -16
+          ],
+          [
+            0.4,
+            -18
+          ],
+          [
+            0.63,
+            5
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.35,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.52,
+          "event": "absorbed_impact"
+        },
+        {
+          "time": 0.84,
+          "event": "counter_impact"
+        },
+        {
+          "time": 1.08,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "counter_wave",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_enter",
+      "duration": 1.8333333333,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "domain_mix": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            0
+          ],
+          [
+            0.65,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            12
+          ],
+          [
+            0.5,
+            -9
+          ],
+          [
+            0.75,
+            -3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            3
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            0.75,
+            -2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.5,
+            -7
+          ],
+          [
+            0.75,
+            -3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -35
+          ],
+          [
+            0.75,
+            -20
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -50
+          ],
+          [
+            0.75,
+            -30
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            -25
+          ],
+          [
+            0.75,
+            -10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -40
+          ],
+          [
+            0.75,
+            -15
+          ],
+          [
+            1.0,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.88,
+          "event": "domain_on"
+        },
+        {
+          "time": 1.5,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "domain_enter",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_idle",
+      "duration": 2.0,
+      "loop": true,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [],
+      "procedural": {
+        "breath": 0.75,
+        "sway": 0.45
+      },
+      "effect": "domain_aura",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_exit",
+      "duration": 1.5,
+      "loop": false,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            0.3,
+            1
+          ],
+          [
+            0.72,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            10
+          ],
+          [
+            0.5,
+            14
+          ],
+          [
+            0.75,
+            5
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            2
+          ],
+          [
+            0.5,
+            4
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.5,
+            6
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            -4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -15
+          ],
+          [
+            0.5,
+            -10
+          ],
+          [
+            0.75,
+            -4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1.0,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.9,
+          "event": "domain_off"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "domain_exit",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "feral_enter",
+      "duration": 1.5,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            16
+          ],
+          [
+            0.75,
+            6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            8
+          ],
+          [
+            0.5,
+            20
+          ],
+          [
+            0.75,
+            15
+          ],
+          [
+            1.0,
+            8
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -2
+          ],
+          [
+            0.5,
+            5
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            2
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            7
+          ],
+          [
+            0.75,
+            5
+          ],
+          [
+            1.0,
+            3
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -18
+          ],
+          [
+            0.5,
+            -24
+          ],
+          [
+            0.75,
+            -15
+          ],
+          [
+            1.0,
+            -8
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -28
+          ],
+          [
+            0.75,
+            -15
+          ],
+          [
+            1.0,
+            -10
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            12
+          ],
+          [
+            0.75,
+            8
+          ],
+          [
+            1.0,
+            4
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -10
+          ],
+          [
+            0.5,
+            -18
+          ],
+          [
+            0.75,
+            -6
+          ],
+          [
+            1.0,
+            -4
+          ]
+        ],
+        "roar": [
+          [
+            0,
+            0
+          ],
+          [
+            0.32,
+            0
+          ],
+          [
+            0.42,
+            1
+          ],
+          [
+            0.65,
+            1
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.92,
+          "event": "feral_on"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "feral",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "feral_idle",
+      "duration": 2.0,
+      "loop": true,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "root_x": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            -8
+          ],
+          [
+            1,
+            -8
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            -10
+          ],
+          [
+            1,
+            -10
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            -4
+          ],
+          [
+            1,
+            -4
+          ]
+        ]
+      },
+      "events": [],
+      "procedural": {
+        "breath": 1.1,
+        "sway": 0.6
+      },
+      "effect": "feral",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "die",
+      "duration": 1.6666666667,
+      "loop": false,
+      "skin": "normal",
+      "head": "dead",
+      "channels": {
+        "death": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            0
+          ],
+          [
+            0.65,
+            0.7
+          ],
+          [
+            0.88,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "root_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.65,
+            48
+          ],
+          [
+            0.9,
+            70
+          ],
+          [
+            1,
+            70
+          ]
+        ],
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            24
+          ],
+          [
+            0.65,
+            16
+          ],
+          [
+            1,
+            18
+          ]
+        ],
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            -6
+          ],
+          [
+            0.65,
+            -12
+          ],
+          [
+            1,
+            -12
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            6
+          ],
+          [
+            0.65,
+            5
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            8
+          ],
+          [
+            0.65,
+            12
+          ],
+          [
+            1,
+            12
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            -15
+          ],
+          [
+            0.7,
+            -25
+          ],
+          [
+            1,
+            -25
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            -35
+          ],
+          [
+            0.7,
+            -50
+          ],
+          [
+            1,
+            -50
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            12
+          ],
+          [
+            0.7,
+            20
+          ],
+          [
+            1,
+            20
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            -20
+          ],
+          [
+            0.7,
+            -35
+          ],
+          [
+            1,
+            -35
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 1.22,
+          "event": "body_ground_impact"
+        },
+        {
+          "time": 1.6,
+          "event": "dead"
+        }
+      ],
+      "procedural": {},
+      "effect": "death_dust",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_attack",
+      "duration": 1.0,
+      "loop": false,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            26
+          ],
+          [
+            0.75,
+            12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            6
+          ],
+          [
+            0.5,
+            14
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            6
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -3
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            16
+          ],
+          [
+            0.5,
+            -95
+          ],
+          [
+            0.75,
+            -66
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            30
+          ],
+          [
+            0.75,
+            10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_push": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -5
+          ],
+          [
+            0.5,
+            48
+          ],
+          [
+            0.75,
+            28
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -7
+          ],
+          [
+            0.5,
+            10
+          ],
+          [
+            0.75,
+            4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            4
+          ],
+          [
+            0.75,
+            0
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.54,
+          "event": "impact"
+        },
+        {
+          "time": 0.72,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "claw_slash",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_cast",
+      "duration": 1.5,
+      "loop": false,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            8
+          ],
+          [
+            0.5,
+            -5
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            0.75,
+            -1
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -6
+          ],
+          [
+            0.75,
+            -3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -34
+          ],
+          [
+            0.5,
+            -42
+          ],
+          [
+            0.75,
+            -36
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -45
+          ],
+          [
+            0.5,
+            -50
+          ],
+          [
+            0.75,
+            -40
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -28
+          ],
+          [
+            0.75,
+            -16
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -42
+          ],
+          [
+            0.5,
+            -48
+          ],
+          [
+            0.75,
+            -30
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.9,
+          "event": "cast_release"
+        },
+        {
+          "time": 1.2,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "cast_orb",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_hurt",
+      "duration": 0.6666666667,
+      "loop": false,
+      "skin": "domain",
+      "head": "hurt",
+      "channels": {
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.15,
+            -20
+          ],
+          [
+            0.4,
+            -13
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.18,
+            14
+          ],
+          [
+            0.5,
+            7
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.18,
+            -6
+          ],
+          [
+            0.5,
+            -3
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.15,
+            -8
+          ],
+          [
+            0.4,
+            -3
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            7
+          ],
+          [
+            0.5,
+            4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            -18
+          ],
+          [
+            0.5,
+            -7
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.16,
+            -12
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.12,
+          "event": "hurt_recoil"
+        },
+        {
+          "time": 0.4,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "hit_sparks",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_block",
+      "duration": 1.0,
+      "loop": false,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "root_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -4
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            -4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            10
+          ],
+          [
+            0.5,
+            18
+          ],
+          [
+            0.75,
+            10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            -4
+          ],
+          [
+            0.75,
+            -2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.5,
+            5
+          ],
+          [
+            0.75,
+            2
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -78
+          ],
+          [
+            0.5,
+            -88
+          ],
+          [
+            0.75,
+            -60
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -45
+          ],
+          [
+            0.5,
+            -50
+          ],
+          [
+            0.75,
+            -35
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -8
+          ],
+          [
+            0.5,
+            -12
+          ],
+          [
+            0.75,
+            -6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -15
+          ],
+          [
+            0.5,
+            -15
+          ],
+          [
+            0.75,
+            -8
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.28,
+          "event": "guard_on"
+        },
+        {
+          "time": 0.48,
+          "event": "blocked_impact"
+        },
+        {
+          "time": 0.74,
+          "event": "guard_off"
+        }
+      ],
+      "procedural": {},
+      "effect": "guard",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_weak_loop",
+      "duration": 2.0,
+      "loop": true,
+      "skin": "domain",
+      "head": "weak",
+      "channels": {
+        "root_y": [
+          [
+            0,
+            23
+          ],
+          [
+            1,
+            23
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "head_y": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            -4
+          ],
+          [
+            1,
+            -4
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            8
+          ],
+          [
+            1,
+            8
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            7
+          ],
+          [
+            1,
+            7
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            -6
+          ],
+          [
+            1,
+            -6
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [],
+      "procedural": {
+        "breath": 1.35,
+        "sway": 0.5,
+        "tremor": 0.5
+      },
+      "effect": null,
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_die",
+      "duration": 1.6666666667,
+      "loop": false,
+      "skin": "domain",
+      "head": "dead",
+      "channels": {
+        "death": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            0
+          ],
+          [
+            0.65,
+            0.7
+          ],
+          [
+            0.88,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "root_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.65,
+            48
+          ],
+          [
+            0.9,
+            70
+          ],
+          [
+            1,
+            70
+          ]
+        ],
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            24
+          ],
+          [
+            0.65,
+            16
+          ],
+          [
+            1,
+            18
+          ]
+        ],
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            -6
+          ],
+          [
+            0.65,
+            -12
+          ],
+          [
+            1,
+            -12
+          ]
+        ],
+        "torso_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            6
+          ],
+          [
+            0.65,
+            5
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "head_rot": [
+          [
+            0,
+            0
+          ],
+          [
+            0.25,
+            8
+          ],
+          [
+            0.65,
+            12
+          ],
+          [
+            1,
+            12
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            -15
+          ],
+          [
+            0.7,
+            -25
+          ],
+          [
+            1,
+            -25
+          ]
+        ],
+        "near_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            -35
+          ],
+          [
+            0.7,
+            -50
+          ],
+          [
+            1,
+            -50
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            12
+          ],
+          [
+            0.7,
+            20
+          ],
+          [
+            1,
+            20
+          ]
+        ],
+        "far_elbow": [
+          [
+            0,
+            0
+          ],
+          [
+            0.3,
+            -20
+          ],
+          [
+            0.7,
+            -35
+          ],
+          [
+            1,
+            -35
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            0.5,
+            1
+          ],
+          [
+            0.9,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 1.22,
+          "event": "body_ground_impact"
+        },
+        {
+          "time": 1.6,
+          "event": "dead"
+        },
+        {
+          "time": 1.12,
+          "event": "domain_off"
+        }
+      ],
+      "procedural": {},
+      "effect": "death_dust",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "roar",
+      "duration": 1.5,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            13
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            -6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.5,
+            -6
+          ],
+          [
+            0.75,
+            -4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            6
+          ],
+          [
+            0.5,
+            -10
+          ],
+          [
+            0.75,
+            -7
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            5
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -10
+          ],
+          [
+            0.5,
+            10
+          ],
+          [
+            0.75,
+            6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -12
+          ],
+          [
+            0.75,
+            -8
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -20
+          ],
+          [
+            0.75,
+            -12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -25
+          ],
+          [
+            0.75,
+            -12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "roar": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.28,
+            1
+          ],
+          [
+            0.72,
+            1
+          ],
+          [
+            0.83,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.52,
+          "event": "roar_release"
+        },
+        {
+          "time": 0.98,
+          "event": "roar_peak"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "roar_wave",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "storm_leap",
+      "duration": 2.0,
+      "loop": false,
+      "skin": "normal",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.15,
+            25
+          ],
+          [
+            0.3,
+            7
+          ],
+          [
+            0.55,
+            3
+          ],
+          [
+            0.69,
+            0
+          ],
+          [
+            0.77,
+            29
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -8
+          ],
+          [
+            0.55,
+            7
+          ],
+          [
+            0.75,
+            16
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "air": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.34,
+            1
+          ],
+          [
+            0.58,
+            1
+          ],
+          [
+            0.7,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "air_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.36,
+            -58
+          ],
+          [
+            0.5,
+            -72
+          ],
+          [
+            0.7,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "air_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.5,
+            18
+          ],
+          [
+            0.7,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            5
+          ],
+          [
+            0.5,
+            -5
+          ],
+          [
+            0.75,
+            7
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            5
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -55
+          ],
+          [
+            0.75,
+            -38
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -48
+          ],
+          [
+            0.75,
+            -10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -10
+          ],
+          [
+            0.5,
+            -35
+          ],
+          [
+            0.75,
+            12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -15
+          ],
+          [
+            0.5,
+            -40
+          ],
+          [
+            0.75,
+            10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.46,
+          "event": "takeoff"
+        },
+        {
+          "time": 0.92,
+          "event": "apex"
+        },
+        {
+          "time": 1.44,
+          "event": "landing_impact"
+        },
+        {
+          "time": 1.63,
+          "event": "aftershock"
+        },
+        {
+          "time": 1.8,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "leap_slam",
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    }
+  ],
+  "variants": [
+    {
+      "name": "domain_roar",
+      "duration": 1.5,
+      "loop": false,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            13
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            -6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            4
+          ],
+          [
+            0.5,
+            -6
+          ],
+          [
+            0.75,
+            -4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            6
+          ],
+          [
+            0.5,
+            -10
+          ],
+          [
+            0.75,
+            -7
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_x": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -3
+          ],
+          [
+            0.5,
+            5
+          ],
+          [
+            0.75,
+            3
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -10
+          ],
+          [
+            0.5,
+            10
+          ],
+          [
+            0.75,
+            6
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -12
+          ],
+          [
+            0.75,
+            -8
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -12
+          ],
+          [
+            0.5,
+            -20
+          ],
+          [
+            0.75,
+            -12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -25
+          ],
+          [
+            0.75,
+            -12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "roar": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.28,
+            1
+          ],
+          [
+            0.72,
+            1
+          ],
+          [
+            0.83,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.52,
+          "event": "roar_release"
+        },
+        {
+          "time": 0.98,
+          "event": "roar_peak"
+        },
+        {
+          "time": 1.25,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "roar_wave",
+      "base_clip": "roar",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    },
+    {
+      "name": "domain_storm_leap",
+      "duration": 2.0,
+      "loop": false,
+      "skin": "domain",
+      "head": "idle",
+      "channels": {
+        "root_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.15,
+            25
+          ],
+          [
+            0.3,
+            7
+          ],
+          [
+            0.55,
+            3
+          ],
+          [
+            0.69,
+            0
+          ],
+          [
+            0.77,
+            29
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "root_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            -8
+          ],
+          [
+            0.55,
+            7
+          ],
+          [
+            0.75,
+            16
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "air": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.34,
+            1
+          ],
+          [
+            0.58,
+            1
+          ],
+          [
+            0.7,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "air_y": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.36,
+            -58
+          ],
+          [
+            0.5,
+            -72
+          ],
+          [
+            0.7,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "air_x": [
+          [
+            0,
+            0
+          ],
+          [
+            0.2,
+            0
+          ],
+          [
+            0.5,
+            18
+          ],
+          [
+            0.7,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "torso_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            5
+          ],
+          [
+            0.5,
+            -5
+          ],
+          [
+            0.75,
+            7
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "head_rot": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            5
+          ],
+          [
+            0.5,
+            -8
+          ],
+          [
+            0.75,
+            4
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -55
+          ],
+          [
+            0.75,
+            -38
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "near_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -20
+          ],
+          [
+            0.5,
+            -48
+          ],
+          [
+            0.75,
+            -10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_shoulder": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -10
+          ],
+          [
+            0.5,
+            -35
+          ],
+          [
+            0.75,
+            12
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "far_elbow": [
+          [
+            0.0,
+            0
+          ],
+          [
+            0.25,
+            -15
+          ],
+          [
+            0.5,
+            -40
+          ],
+          [
+            0.75,
+            10
+          ],
+          [
+            1.0,
+            0
+          ]
+        ],
+        "domain_mix": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ]
+      },
+      "events": [
+        {
+          "time": 0.46,
+          "event": "takeoff"
+        },
+        {
+          "time": 0.92,
+          "event": "apex"
+        },
+        {
+          "time": 1.44,
+          "event": "landing_impact"
+        },
+        {
+          "time": 1.63,
+          "event": "aftershock"
+        },
+        {
+          "time": 1.8,
+          "event": "recover"
+        }
+      ],
+      "procedural": {},
+      "effect": "leap_slam",
+      "base_clip": "storm_leap",
+      "domain_overlay": true,
+      "revision": "v2 original proportions; unchanged timing and gameplay-independent presentation events"
+    }
+  ]
+}

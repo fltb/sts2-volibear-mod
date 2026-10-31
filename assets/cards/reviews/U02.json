@@ -1,0 +1,54 @@
+{
+  "id": "U02",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "844e6061d6b504abc17df60c860622f048d964b023d45debc1fee645b2e93b05",
+  "master_sha256": "8e15ea0450985a34b00423e64c73ad8f2830677559f3208973ddceb0b207e240",
+  "comparison_sha256": "bfe5f8ef3579c7566b7c78bdf8c433725508fedc99744360d93111ed5e5ec325",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "近掌压凹独立盾缘，单根细雷由此连接上方横向共同云体。前臂与受体分离，青电不形成从爪射出的巨大楔块；云、盾、掌三层清楚。",
+  "baseline_comparison": "与C24天地连接和U21接续路径同调，改为一次实体接点引起持续天气；125像素仍分近接点与远云，不复制单发落雷。",
+  "paw_orientation_observation": "掌面朝盾，短爪从同一掌前缘向下，与压凹方向一致。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:42:53+00:00",
+  "master": "cards/masters/U02.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U02.jpg",
+  "anchors": [
+    "C24",
+    "U21"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

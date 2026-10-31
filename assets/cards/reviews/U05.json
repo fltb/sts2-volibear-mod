@@ -1,0 +1,54 @@
+{
+  "id": "U05",
+  "attempt": 3,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "b3e7282875f417e9764879a24ee55d902fe0b6ead06abb230db19c10427b8287",
+  "master_sha256": "c76bd7bac2e04253889cf28996e3f2427c7fde811d861c6b717f0ecd85b916ed",
+  "comparison_sha256": "41d5435237bd70088fe410a2206ab41446930c8e822c3706d995f40904ac4054",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "双臂已补为清楚承力结构：近侧肩—上臂—弯肘—前臂—掌托岩边，远臂从头后抬至另一侧岩缘。岩左下支点、肩背顶点和右上撞盾保持。",
+  "baseline_comparison": "与U03宽低站稳、R31破盾重量相容，使用翻顶岩块的杠杆关系形成独立动作；125像素三处接触方向仍成立。",
+  "paw_orientation_observation": "双掌向岩内侧、四指同向承托；双脚落地、两腿连髋，未再出现缺臂。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:07+00:00",
+  "master": "cards/masters/U05.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U05.jpg",
+  "anchors": [
+    "U03",
+    "R31"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

@@ -1,0 +1,1507 @@
+{
+  "schema_version": 7,
+  "review_method": "Actual full image + fixed benchmarks + 250/125/gray + export-mask inspection. Five subjective axes, each 0–20. Scores organize review priority; they are not an objective guarantee of taste.",
+  "fixed_originals_unscored": [
+    "B01",
+    "B03",
+    "C05",
+    "C06",
+    "C08",
+    "C09",
+    "C12",
+    "C13",
+    "C18",
+    "C22",
+    "C24",
+    "C26",
+    "R09",
+    "R12",
+    "R17",
+    "R18",
+    "R23",
+    "R24",
+    "R31",
+    "U03",
+    "U17",
+    "U19",
+    "U21",
+    "U23",
+    "U25",
+    "U35",
+    "U39",
+    "U40"
+  ],
+  "axes": {
+    "main_read": "动作/语义第一读法",
+    "large_shapes": "完整大形与留白",
+    "tone": "厚重气质与身份",
+    "finish": "结构、遮挡与成品细节",
+    "distinctiveness": "相邻卡的构图差异"
+  },
+  "cards": [
+    {
+      "id": "R06",
+      "name": "天人合一",
+      "source_order": 67,
+      "score": 94,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 19,
+        "tone": 19,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C18",
+        "U19"
+      ],
+      "attempt": 1,
+      "master_sha256": "be7bc0378b64fefcc4e75e182ce4743b665f127ae696861afd45c784a78def33",
+      "review": "reviews/R06.json",
+      "comparison": "reviews/v7/comparisons/R06.jpg",
+      "observations": "岸边稳定背影、天空云锋和宽平水面倒影共用远方地平线；一处雷接点在熊之外，水中没有第二个熊。",
+      "baseline_comparison": "承接C18尺度与U19背部身份，以共享天地和水面方向组织新构图；少数大面与125像素层次都清楚。",
+      "rank": 1
+    },
+    {
+      "id": "C03",
+      "name": "轰雷重击",
+      "source_order": 6,
+      "score": 93,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C22",
+        "R17"
+      ],
+      "attempt": 2,
+      "master_sha256": "ff2cdf1d7d9ddc7fb0e70c7747ba249b6e55112abc6cf6abdaba7572d93dd162",
+      "review": "reviews/C03.json",
+      "comparison": "reviews/v7/comparisons/C03.jpg",
+      "observations": "厚石板上翻与盾缘下陷成为清楚上下反力，盾后握手、短臂、暗肩连续；上缘熊只留短承力块，飞石与多支雷已删除。",
+      "baseline_comparison": "达到C22/R17的完整大形倾向：暖地面、厚板、暗盾三块主形，雷仅沿坑底薄线离开。缩图和蒙版仍保留接点及敌握持关系。",
+      "rank": 2
+    },
+    {
+      "id": "U15",
+      "name": "暴风换气",
+      "source_order": 40,
+      "score": 93,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C13",
+        "U19"
+      ],
+      "attempt": 1,
+      "master_sha256": "18bc85eed02af43db9edaf8abf3191488ea10100517f84d34913ddedb59a06eb",
+      "review": "reviews/U15.json",
+      "comparison": "reviews/v7/comparisons/U15.jpg",
+      "observations": "岩隙中的宽风流形成单一漏斗，暗布片为主运动物，另外两枚细小碎物不争焦点。浅风、深岩、暖背景分块完整，缩图与灰阶仍读得清。",
+      "baseline_comparison": "呼应C13的留白和U19风势，采用纯环境的穿隙吸流，彻底避开巨爪和熊形重复。",
+      "rank": 3
+    },
+    {
+      "id": "C01",
+      "name": "逼近",
+      "source_order": 4,
+      "score": 92,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C18",
+        "U25"
+      ],
+      "attempt": 1,
+      "master_sha256": "c944e222cbae408181942b760b3dd65cf90009a6993546a1faca94d0949324c8",
+      "review": "reviews/C01.json",
+      "comparison": "reviews/v7/comparisons/C01.jpg",
+      "observations": "唯一远熊的落足接出连续大暗影，暗影侵入前景敌人的退路，敌人身前只余窄亮楔。光源在熊后，方向与投影一致。",
+      "baseline_comparison": "呼应C18尺度压迫、U25猎物关系，主角改为地面负形；125像素能读远熊到近敌距离，STS1蒙版保留敌人头身及退势。",
+      "rank": 4
+    },
+    {
+      "id": "C04",
+      "name": "擂首一击",
+      "source_order": 7,
+      "score": 92,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C06",
+        "R31"
+      ],
+      "attempt": 2,
+      "master_sha256": "b3d3d40f83ee8cca445d9c4bc178426cb3c17c5c116ea28d785ec2884128560a",
+      "review": "reviews/C04.json",
+      "comparison": "reviews/v7/comparisons/C04.jpg",
+      "observations": "上中缘一只短腕紧凑掌向下压盔，敌盔、颈、肩组成下方主形；红底与大暗盔面明确，已删除横跨半幅的巨大斜臂。",
+      "baseline_comparison": "对照C06/R31，保留接触力与大形对比，改为受击者头盔主导。125像素与卡框蒙版仍读出顶部手掌、盔壳下压和肩部承接。",
+      "rank": 5
+    },
+    {
+      "id": "C14",
+      "name": "雷霆护身",
+      "source_order": 17,
+      "score": 92,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C12",
+        "U21"
+      ],
+      "attempt": 1,
+      "master_sha256": "7e3b1aaaed7dc38dd731178d3ac9a065a180a8dfbd16d712a83315b41f165675",
+      "review": "reviews/C14.json",
+      "comparison": "reviews/v7/comparisons/C14.jpg",
+      "observations": "熊眼留在内侧暗部，宽暗隙把身体与厚青护面分开；完整矛尖停在外侧，同一接点的返雷沿矛轴向外。",
+      "baseline_comparison": "与C12肉身肩承击、U21接续地雷不同，护界内外四层明确；返雷两小分支属于同一个接点，不改变唯一因果。",
+      "rank": 6
+    },
+    {
+      "id": "U07",
+      "name": "崩山",
+      "source_order": 33,
+      "score": 92,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "R23",
+        "C08"
+      ],
+      "attempt": 1,
+      "master_sha256": "22cec0fa090674175e136a819b7e86a2b566a8cff0591d01c3a103d7cd312245",
+      "review": "reviews/U07.json",
+      "comparison": "reviews/v7/comparisons/U07.jpg",
+      "observations": "上方山体沿单一灰白剪切面错落，下部接触与崩移方向明确。左下小熊提供尺度，山形使用宽实色面，没有巨大闪电遮住破坏关系。",
+      "baseline_comparison": "与C18的尺度及R31的破坏重量相容，以地形错动替代拳爪动作；灰阶与125像素剪切面仍成立。",
+      "rank": 7
+    },
+    {
+      "id": "U41",
+      "name": "破皮见骨",
+      "source_order": 61,
+      "score": 92,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C08",
+        "R12"
+      ],
+      "attempt": 2,
+      "master_sha256": "b8533bfb259455a4a6dd866a61b88eaf164c2b29bc04a60365897e95e34a1fa3",
+      "review": "reviews/U41.json",
+      "comparison": "reviews/v7/comparisons/U41.jpg",
+      "observations": "一块带铆孔的完整外护片仅掀开一角，露出连续深蓝内刃板，刃口为单条细青光及三处浅阶齿；旧壳以少数平面表示，独立指根、长弯爪和岩纹已去掉。",
+      "baseline_comparison": "与C08的青色锋缘、R12的白灰深蓝色块相容；这里把兽化力量压成器物内层变化，不再添加一只断掌。125像素及蒙版均保留翻角、旧壳、内刃三层。",
+      "rank": 8
+    },
+    {
+      "id": "C07",
+      "name": "追嗅",
+      "source_order": 10,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U17",
+        "U25"
+      ],
+      "attempt": 1,
+      "master_sha256": "db1de136aa9bcf4dd574a1897cc4a3f01f8b32e02e933b99c9372240fd32ac64",
+      "review": "reviews/C07.json",
+      "comparison": "reviews/v7/comparisons/C07.jpg",
+      "observations": "右上近看熊侧眼和短鼻吻，左下布片挂在真实断枝上，一条金色气流把气味来源接到鼻端。没有无来源光带或多余手爪。",
+      "baseline_comparison": "与U17看路、U25盯猎物区分为闻线索；灰绿留白托住一条金流，125像素鼻与布片关系清楚。",
+      "rank": 9
+    },
+    {
+      "id": "C21",
+      "name": "稳住阵脚",
+      "source_order": 23,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C26",
+        "U03"
+      ],
+      "attempt": 1,
+      "master_sha256": "e17f161a46f8dc6fe0db3b82ad1ac5a5a5bc51d2f9b52478b695292281277fb6",
+      "review": "reviews/C21.json",
+      "comparison": "reviews/v7/comparisons/C21.jpg",
+      "observations": "两个有实际短踝的足部从上边缘进入，落在同一完整暖色地面。浅青开放边界之外少量石块坠落，界内支撑面稳定。",
+      "baseline_comparison": "与C26单足接点不同，以完整地面和两处小承重点为主；U03的站稳重量用局部空间表达，缩图内外边界清楚。",
+      "rank": 10
+    },
+    {
+      "id": "C25",
+      "name": "雷引",
+      "source_order": 26,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 19,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U40",
+        "R24"
+      ],
+      "attempt": 2,
+      "master_sha256": "2b48a2dbe26e86280b86ec2b3a0e80e080d80519da6bd0d05957f554e1fe5fe2",
+      "review": "reviews/C25.json",
+      "comparison": "reviews/v7/comparisons/C25.jpg",
+      "observations": "右下竖向收掌由下缘短腕进入，大片灰紫空地保留；唯一细雷从左上接到腕根的小亮点，四个短爪一致内收。",
+      "baseline_comparison": "已经移除贯穿半幅的长前臂，与U40地面接续及R24开掌放雷区分为安静蓄力。缩图读到细入线和小收掌，留白明确。",
+      "rank": 11
+    },
+    {
+      "id": "U10",
+      "name": "磨砺爪牙",
+      "source_order": 35,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C08",
+        "U40"
+      ],
+      "attempt": 1,
+      "master_sha256": "8d7e1d930985bd42b29a73dba84be5688e8a88245f5248e45125c2bb482fc501",
+      "review": "reviews/U10.json",
+      "comparison": "reviews/v7/comparisons/U10.jpg",
+      "observations": "单枚短硬青爪从真实指端生出，指根自然由上缘进入，爪尖与厚石沿相切并挑出一片主薄屑及一小片。没有整只巨掌或多爪排列。",
+      "baseline_comparison": "与C08材料锋利、U40小接点的关系一致；微距只截一个真实指端，轮廓在125像素清楚，石面浅细纹未破坏大暗形。",
+      "rank": 12
+    },
+    {
+      "id": "U11",
+      "name": "暴风再临",
+      "source_order": 36,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U19",
+        "C09"
+      ],
+      "attempt": 1,
+      "master_sha256": "f98bd73f63501d315d81b4226fd5ecb52598cc82bcff43fdc7527b4ed5a74904",
+      "review": "reviews/U11.json",
+      "comparison": "reviews/v7/comparisons/U11.jpg",
+      "observations": "右侧真实前臂自然下垂，左侧挥击是墙上的一块暗影，墙地接缝与影子平面读法明确。实体和影子各自无多余关节，短青弧只沿影子爪侧。",
+      "baseline_comparison": "承接U19整块剪影和C09挥击方向，改变为实体动作结束、影子仍挥的关系；125像素能区分静与动。",
+      "rank": 13
+    },
+    {
+      "id": "U29",
+      "name": "雷霆渐盛",
+      "source_order": 51,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U21",
+        "C24"
+      ],
+      "attempt": 1,
+      "master_sha256": "030bd482835202d7e290f98b27bbae7526031cdca55092035bbdcdef9a9b3b79",
+      "review": "reviews/U29.json",
+      "comparison": "reviews/v7/comparisons/U29.jpg",
+      "observations": "云间只有一根横斜雷脊，几条短支在一处汇流后主干加厚；云是完整大带，没有地面、人物或第二种事件。",
+      "baseline_comparison": "沿用U21接续与C24青白雷色，镜头变为无地平线的云内增幅，区别U37中心汇核和R17落雷。圆形能力裁切保留主干与汇点。",
+      "rank": 14
+    },
+    {
+      "id": "U31",
+      "name": "万钧连踏",
+      "source_order": 52,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C22",
+        "U40"
+      ],
+      "attempt": 2,
+      "master_sha256": "650e48177accb01833bd4d323b96bc4f858fcce3aa144e4a9dc99e724cf45eb6",
+      "review": "reviews/U31.json",
+      "comparison": "reviews/v7/comparisons/U31.jpg",
+      "observations": "同一宽石路上五个冲击坑沿透视收小，坑底窄雷线连续通向远端唯一熊的落足；坑壁压成大面，已去除密集碎岩和浮空坑列。",
+      "baseline_comparison": "对照C22/U40保留落足到地面雷迹的因果，采用远景连续路段而非另一张脚爪近景。125像素五处节奏、远端承重足和通路仍能识别。",
+      "rank": 15
+    },
+    {
+      "id": "U37",
+      "name": "风暴汇聚",
+      "source_order": 57,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U39",
+        "C24"
+      ],
+      "attempt": 1,
+      "master_sha256": "048074abdb3c0ba1540810d9c25fb67165810680b79459942fda70a2be46ead1",
+      "review": "reviews/U37.json",
+      "comparison": "reviews/v7/comparisons/U37.jpg",
+      "observations": "三块宽厚云体从不同方向围住唯一小雷核，云内缘亮、外围沉暗；没有熊形、地平线或地面法阵。",
+      "baseline_comparison": "沿用U39聚集意图与C24硬边雷语言，改为近距离天气围合；125像素与灰阶仍读中心汇聚，未复制落雷姿态。",
+      "rank": 16
+    },
+    {
+      "id": "R01",
+      "name": "风暴形态",
+      "source_order": 64,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 19,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C18",
+        "U19"
+      ],
+      "attempt": 2,
+      "master_sha256": "e2a5dd9588b2f7f0d5d3b597479fcbee4e22cb9e40e6dcd6cefdb02bec292373",
+      "review": "reviews/R01.json",
+      "comparison": "reviews/v7/comparisons/R01.jpg",
+      "observations": "低额短吻由同一连续云层构成，侧向熊意志贯通横跨场域的风暴；下方地景只为窄带。没有悬空实体躯干或随机融化四肢。",
+      "baseline_comparison": "与C18的正面神性压迫不同，采用侧向天气横贯；大块白灰、蓝紫负形达到同组清楚程度，125像素仍先读天气。",
+      "rank": 17
+    },
+    {
+      "id": "R07",
+      "name": "天崩地裂",
+      "source_order": 68,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C24",
+        "R23"
+      ],
+      "attempt": 1,
+      "master_sha256": "627197b948fb0308e1e7a346c1a7fb703ff615a5a884a010a5e26563fe83846a",
+      "review": "reviews/R07.json",
+      "comparison": "reviews/v7/comparisons/R07.jpg",
+      "observations": "小熊留在完整后方平台，唯一宽横向雷震前缘掀起前方地面并推开两名小敌人；飞石服从同一波面，云底随波打开。",
+      "baseline_comparison": "与C24天地雷连接、R23范围压迫同调，主形是横向震面，避免再做多条竖雷；125像素仍读稳定内场与外推前缘。",
+      "rank": 18
+    },
+    {
+      "id": "R27",
+      "name": "旧日重临",
+      "source_order": 82,
+      "score": 91,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 19,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C18",
+        "R12"
+      ],
+      "attempt": 4,
+      "master_sha256": "249a697f3d8268b8928b84e2d5d8d1a7535df697cb8f0057bce76794495b7eb7",
+      "review": "reviews/R27.json",
+      "comparison": "reviews/v7/comparisons/R27.jpg",
+      "observations": "同一宽熊影扫过两件完整器物：左护片的旧赭面在明地、蓝白新面在暗影，右小刃已上移至同一影界，旧柄在亮侧、新刃向深影延伸。器物厚度遮住小段影线，但上下材质和同一阴影的对应连续。",
+      "baseline_comparison": "对照C18的整体显化与R12的白灰深蓝主色，这张以俯视熊影影响外部器物传达旧日力量回归。125像素仍见一大一小两器物和共同影界，留白与简洁度成立。",
+      "rank": 19
+    },
+    {
+      "id": "C10",
+      "name": "以牙还牙",
+      "source_order": 13,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 17,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C08",
+        "R12"
+      ],
+      "attempt": 2,
+      "master_sha256": "e48b9666cf53016e5d5cd96d7d31a3a3c2d2fd050e246e588f770192d831229d",
+      "review": "reviews/C10.json",
+      "comparison": "reviews/v7/comparisons/C10.jpg",
+      "observations": "俯视局部中，熊短臂抵住连续杆身，杆连向敌人握持手与胸侧，暖色反力结果落在敌端。没有前臂绕成环或熊脸挤接点。",
+      "baseline_comparison": "从C08借清楚接触，从R12借完整体块；相较首稿和B02，已换成武器连接两端的俯视构图。缩图保留抵杆端、握手端和受力胸侧。",
+      "rank": 20
+    },
+    {
+      "id": "U12",
+      "name": "原始力量",
+      "source_order": 37,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C12",
+        "U21"
+      ],
+      "attempt": 2,
+      "master_sha256": "38adf3df032bff39965e4abd45e56acf124ede15d8857d4534a0c23bd98aa98a",
+      "review": "reviews/U12.json",
+      "comparison": "reviews/v7/comparisons/U12.jpg",
+      "observations": "背部蓝纹沿完整宽背收束，单束短雷从背刺旁离开并向外尖收，整束都留在画内。支撑前臂与肩腰相连，地面已合成宽块。",
+      "baseline_comparison": "与C12实体重量、U21能量接续相容；没有再把外部雷灌进身体。灰阶缩图仍读身体主形，短雷只作力量转化的结果。",
+      "rank": 21
+    },
+    {
+      "id": "U26",
+      "name": "愈战愈烈",
+      "source_order": 48,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 17,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C08",
+        "U21"
+      ],
+      "attempt": 1,
+      "master_sha256": "915b1fcd557b65471e195a26f4d890e6f6c92a48784dbae6d4bcbbd11f975e66",
+      "review": "reviews/U26.json",
+      "comparison": "reviews/v7/comparisons/U26.jpg",
+      "observations": "盾背一根两端铆固的加强筋向前弯曲，盾面和旧折痕仍连续；右边窄隙只露熊肩，施力者在盾另一侧。金属弧厚度与固定关系清楚。",
+      "baseline_comparison": "与C08的材料受力同源，改看盾背并以弯曲代替爪裂；大暗盾托单根铜色弧，125像素无细纹干扰，不复制挥爪镜头。",
+      "rank": 22
+    },
+    {
+      "id": "U28",
+      "name": "雷霆反扑",
+      "source_order": 50,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C12",
+        "U40"
+      ],
+      "attempt": 2,
+      "master_sha256": "de9e7f6f91c2fe9ecd15f75f490752fdac8a9a2774114f1acf16cdefe7d294a4",
+      "review": "reviews/U28.json",
+      "comparison": "reviews/v7/comparisons/U28.jpg",
+      "observations": "后侧俯视完整宽背、三处接地支点及身前挡臂，敌斧接点小而可辨；雷从接点两侧分至两名敌人。左支短暂被前臂遮挡，出入方向连续。没有重复腿或随机肢体。",
+      "baseline_comparison": "与C12承受实击和U40明确电路关系相容。另直接比对固定U35：改为后侧俯视、两名可见敌人、V形回雷和紫色平面，不再是红底侧脸举臂及前景大波。",
+      "rank": 23
+    },
+    {
+      "id": "U34",
+      "name": "雷甲",
+      "source_order": 54,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C12",
+        "C26"
+      ],
+      "attempt": 1,
+      "master_sha256": "7ec7cda2e12f379752d7d9a352205cf2415d3a9749aaabf6f05e218619cfd266",
+      "review": "reviews/U34.json",
+      "comparison": "reviews/v7/comparisons/U34.jpg",
+      "observations": "两片深蓝厚护片叠搭在同一完整毛肩外侧，甲与毛之间暗缝明确，雷尾接在外缘。护片没有扎进肩体，也没有生成第二个肩关节。",
+      "baseline_comparison": "与C12毛层防护和C26附着雷路同源，改为体外甲片；区别U13沉入皮毛的纹理与U42独立落地护具。圆形遮罩仍保留双片层次。",
+      "rank": 24
+    },
+    {
+      "id": "U36",
+      "name": "奔雷",
+      "source_order": 56,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U19",
+        "U40"
+      ],
+      "attempt": 1,
+      "master_sha256": "24d1fdcee8d2f81b65e3463346d2427145a01748fab4dd881f194ce17305f452",
+      "review": "reviews/U36.json",
+      "comparison": "reviews/v7/comparisons/U36.jpg",
+      "observations": "腰以下完整相连的两腿形成后足蹬地、前足抬起的起步。细雷只在后足落点发亮，右方大空地没有敌人与爆点。",
+      "baseline_comparison": "与U40的接点语言一致，动作换成起步支点；不同于U38冲撞和固定C22落地震波，缩图仍读一实一虚两足。",
+      "rank": 25
+    },
+    {
+      "id": "U38",
+      "name": "雷势奔袭",
+      "source_order": 58,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C06",
+        "U25"
+      ],
+      "attempt": 2,
+      "master_sha256": "7af5df8a72c33b1e6c3e3906046a0691996f920ea76cc2c6bfb016109ecae7ca",
+      "review": "reviews/U38.json",
+      "comparison": "reviews/v7/comparisons/U38.jpg",
+      "observations": "紧凑熊体以侧向步态前进，近后足明确蹬地，前足向前跨而肩髋无异常延长；实体与前方小敌之间留出大片空地。雷留在经过的地面。",
+      "baseline_comparison": "保留C06重量和U25前后距离，改为完整侧身奔袭；相较首稿已去掉巨爪占幅和碎雷，125像素身体比例、蹬地与跨步仍可认。",
+      "rank": 26
+    },
+    {
+      "id": "U43",
+      "name": "循着本能",
+      "source_order": 63,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U17",
+        "U25"
+      ],
+      "attempt": 1,
+      "master_sha256": "bd5b05e7c578404d62c8109e079b130e1f0e21a201dd5bb3549a3a2712726cd8",
+      "review": "reviews/U43.json",
+      "comparison": "reviews/v7/comparisons/U43.jpg",
+      "observations": "唯一被选中木骨片由青线提起，地面投影与本体分离；另外两件暗物仍落地。旧木面和深蓝爪形刃边属于同一有厚度物件，旧孔可追踪。",
+      "baseline_comparison": "与U17/U25集中目标的主次关系相符；没有额外熊头或伸手，三物中一亮二暗在125像素仍明确。不同于R29三件均已转化的平铺静物。",
+      "rank": 27
+    },
+    {
+      "id": "R05",
+      "name": "全身之力",
+      "source_order": 66,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "C12",
+        "U03"
+      ],
+      "attempt": 1,
+      "master_sha256": "fc83883250a5ee151725c433044587e0ec519f058c5eb4d35c489d18f4a9079b",
+      "review": "reviews/R05.json",
+      "comparison": "reviews/v7/comparisons/R05.jpg",
+      "observations": "单一厚护体的深蓝外皮包住两块厚暖灰内层，暗金层缝集中在右侧截面；左侧浅旧伤与短蓝纹仍在同一完整受击面。",
+      "baseline_comparison": "将C12承受与U03厚重转为材料截面，没有再摆熊或盾墙；大暗面与宽亮侧缘在小图和灰阶中稳定。",
+      "rank": 28
+    },
+    {
+      "id": "R08",
+      "name": "雷霆万钧",
+      "source_order": 69,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C24",
+        "R23"
+      ],
+      "attempt": 1,
+      "master_sha256": "5e66349875927c309ee498e9cccbbdd719f1b14e9543e30c4ad4b5afcc481edc",
+      "review": "reviews/R08.json",
+      "comparison": "reviews/v7/comparisons/R08.jpg",
+      "observations": "近处完整盾牌上的旧暗灼口与新一次亮命中分开，远处只一处小余击；近敌身体在盾后、左臂连续，没有重复等亮雷束。",
+      "baseline_comparison": "以近盾旧痕和当前受击解释连击，区别C24分支地雷与R23正面多雷；大小明暗层次在缩图仍成立。",
+      "rank": 29
+    },
+    {
+      "id": "R10",
+      "name": "这场战斗尚未结束",
+      "source_order": 71,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 19,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "R12",
+        "C08"
+      ],
+      "attempt": 1,
+      "master_sha256": "11ee39e9b1e337706bd387f0688b4ac440d6442309b6b1d6e5ba1f041ae8a05e",
+      "review": "reviews/R10.json",
+      "comparison": "reviews/v7/comparisons/R10.jpg",
+      "observations": "前景旧破盾形成开放缺口，熊在中景转头望向唯一远敌；手自然低垂，肩背与下半身连接稳定。盾没有修复，画中没有疗伤光路。",
+      "baseline_comparison": "与R12的坚决神情同调，改为破盾前景、熊中景、敌后景三层对峙。细节较多集中于边缘，125像素仍首先读两者再次对峙。",
+      "rank": 30
+    },
+    {
+      "id": "R13",
+      "name": "重返蛮荒",
+      "source_order": 73,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U25",
+        "C13"
+      ],
+      "attempt": 1,
+      "master_sha256": "b39c2b6f797d7c7c1eff0dd7d2ebcca9cde4c2bb4ff07083a2b1eb0e928a3489",
+      "review": "reviews/R13.json",
+      "comparison": "reviews/v7/comparisons/R13.jpg",
+      "observations": "唯一完整熊背影跨过人造石路末端进入林地，双侧树影组织前方开口；远谷水道与山体提供纵深，没有熊分身或光尾。",
+      "baseline_comparison": "与U25猎意、C13安静呼吸共用灰绿与白灰基调，切为背向远行环境场景；125像素仍读人造路到野地的转换，不是另一张近脸。",
+      "rank": 31
+    },
+    {
+      "id": "R14",
+      "name": "不休之猎",
+      "source_order": 74,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U25",
+        "U17"
+      ],
+      "attempt": 2,
+      "master_sha256": "29ffa675e3c5aa158cfed202b411b162de7937459fa1ed2263dc143f1b82c4b3",
+      "review": "reviews/R14.json",
+      "comparison": "reviews/v7/comparisons/R14.jpg",
+      "observations": "中央障碍已变成画内完整的低短岩块，两侧普通土路在上方同一处汇合；熊靠近内侧转角，受伤敌人仍沿外弯跑，只有两个实体。",
+      "baseline_comparison": "与U25猎物关系、U17路径判断相承，以俯视截近路线代替侧脸。125像素能看到障碍前端与汇合口，圆形裁切未遮掉路径关键部位。",
+      "rank": 32
+    },
+    {
+      "id": "R21",
+      "name": "雷霆化身",
+      "source_order": 78,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U19",
+        "C12"
+      ],
+      "attempt": 1,
+      "master_sha256": "ea9430e45ac95b0ffd163db9e0f84a029cfbb5b653cc4bfb15b52e1925bfa273",
+      "review": "reviews/R21.json",
+      "comparison": "reviews/v7/comparisons/R21.jpg",
+      "observations": "纵向厚壳围出大块深暗空腔，小熊位于壳内深处；外来矛停在厚边，短雷逐渐接成实体壳，层次没有被亮光吞掉。",
+      "baseline_comparison": "沿用U19受控电形和C12厚护面，改成中空竖壳。与T02低宽实心防护、U34身体贴甲区别清楚，125像素仍读外壳保护内者。",
+      "rank": 33
+    },
+    {
+      "id": "R25",
+      "name": "风暴重临",
+      "source_order": 81,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U19",
+        "C24"
+      ],
+      "attempt": 1,
+      "master_sha256": "be8dacc2f1ee368317a6c90a0bfb11b0c393f1ad14f3826422b3b10f4b1624dd",
+      "review": "reviews/R25.json",
+      "comparison": "reviews/v7/comparisons/R25.jpg",
+      "observations": "粗旧边界槽的两端断面对应，侧风暴进入缺口形成短青白连接；暗旧槽与明亮恢复段同属一个连续方向，空缺没有被碎光淹没。",
+      "baseline_comparison": "与C24雷路径及U19同源风暴语言相容；改为地面边界的重连，不再天空大圆环或另一张落雷图。缩图缺口两端与连接区仍清楚。",
+      "rank": 34
+    },
+    {
+      "id": "R30",
+      "name": "我即荒野",
+      "source_order": 85,
+      "score": 90,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U19",
+        "C18"
+      ],
+      "attempt": 2,
+      "master_sha256": "03d4aece79bb4b537bcb916d969d85ba8ea686f09dafbaa6f7bb472f56b108ab",
+      "review": "reviews/R30.json",
+      "comparison": "reviews/v7/comparisons/R30.jpg",
+      "observations": "连续岩背向内护住一块暖地，向外分成深槽；近处粗白毛缘接到同一地形，山体未生眼鼻。远景与天空收成少数整面。",
+      "baseline_comparison": "与U19/C18的整体抽象一致，角色意志转入地形而非完整身体；相比首稿细碎崖纹已显著合并，125像素内护/外分仍清楚。",
+      "rank": 35
+    },
+    {
+      "id": "B02",
+      "name": "防御",
+      "source_order": 1,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 17
+      },
+      "anchors": [
+        "C12",
+        "C06"
+      ],
+      "attempt": 1,
+      "master_sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb",
+      "review": "reviews/B02.json",
+      "comparison": "reviews/v7/comparisons/B02.jpg",
+      "observations": "来刃与竖前臂相抵，肘回收至厚肩，熊头低伏且与手分离；内收爪尖朝向自身，与掌内侧一致。赭黄负形使承重轮廓在125像素仍清楚。",
+      "baseline_comparison": "与C12同样依靠厚毛承力，补足可读的肘腕；与C06的进攻双臂不同，单根竖臂是静止撑杆。",
+      "rank": 36
+    },
+    {
+      "id": "B04",
+      "name": "挺身迎战",
+      "source_order": 3,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C06",
+        "U35"
+      ],
+      "attempt": 3,
+      "master_sha256": "67833ea2a6671df81d07a938d708f488baf757fb5299e3d7edd68f8b1369c01b",
+      "review": "reviews/B04.json",
+      "comparison": "reviews/v7/comparisons/B04.jpg",
+      "observations": "头收在厚肩后，肩与盾发生接触，两脚稳定、背手连回躯干。两颗相邻小撞星属于同一接触区，未再出现用鼻子撞盾或腹部额外爪的错误。",
+      "baseline_comparison": "与C06的推进重量一致，靠完整身体肩撞而非U35举臂承击；大肩与竖盾形成清楚反力。",
+      "rank": 37
+    },
+    {
+      "id": "C02",
+      "name": "双爪",
+      "source_order": 5,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C08",
+        "C09"
+      ],
+      "attempt": 1,
+      "master_sha256": "a33016e5dcef904795291285382fbb4014f2d2b6c4a02f7fcf62a73a2a29c43b",
+      "review": "reviews/C02.json",
+      "comparison": "reviews/v7/comparisons/C02.jpg",
+      "observations": "一面有握持臂的厚盾承受两处错位切口，上旧下新，短青余弧留在第二口；切口互不交成X，盾的完整厚边和受击关系可追踪。",
+      "baseline_comparison": "借C08清楚的材料开裂，改成不展示熊爪的两处连续打击结果；与C09横扫大弧及C15单口回收路径均可区分。125像素两口分离。",
+      "rank": 38
+    },
+    {
+      "id": "C11",
+      "name": "正面迎敌",
+      "source_order": 14,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U03",
+        "C18"
+      ],
+      "attempt": 1,
+      "master_sha256": "96c14c3cb9ce86c56c856e79c41bd72b5875081a37cfdc57be347a198319a9e9",
+      "review": "reviews/C11.json",
+      "comparison": "reviews/v7/comparisons/C11.jpg",
+      "observations": "熊以低宽姿态堵住门口，两脚着地、双臂下垂，前景唯一矛尖停在熊前；背后亮通路与门框交代阻挡关系，肩臂腿连接完整。",
+      "baseline_comparison": "借U03扎实站姿和C18压迫尺度，将敌人视点放到门外；门洞和来矛提供新的对象关系，区别单纯站姿立绘。缩图仍读到拦路。",
+      "rank": 39
+    },
+    {
+      "id": "C17",
+      "name": "蓄力",
+      "source_order": 19,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U03",
+        "C06"
+      ],
+      "attempt": 2,
+      "master_sha256": "af0d6bd4834a76c10c045a59df0e469875717b08af1404ea8da2379dcf8a348f",
+      "review": "reviews/C17.json",
+      "comparison": "reviews/v7/comparisons/C17.jpg",
+      "observations": "肩背低伏、前足支撑与后足蹬地共同形成压缩重心，腹下负形连接清楚；远侧支点可辨，没有悬浮腿或爆光掩盖结构。前方留空表现尚未冲出。",
+      "baseline_comparison": "延续U03脚踏实地的重量，改变成侧向低伏；比C06更远景且安静，仍能在125像素区分蓄势与已发出的攻击。",
+      "rank": 40
+    },
+    {
+      "id": "C19",
+      "name": "追猎准备",
+      "source_order": 21,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U25",
+        "U17"
+      ],
+      "attempt": 1,
+      "master_sha256": "e47e00d54f700097e500ea6a0eb8e9a5ad225cb95922747044cc954543ba59c4",
+      "review": "reviews/C19.json",
+      "comparison": "reviews/v7/comparisons/C19.jpg",
+      "observations": "近处熊伏在真实前景岩后，眼、耳与白肩相连，鼻吻和爪被岩自然遮挡；远处唯一有角猎物横穿亮地。",
+      "baseline_comparison": "与U25外露近脸盯敌、U17看路区分为隐蔽伏候；岩面虽有分层但统一在暗部，125像素白肩与亮地目标关系仍清楚。",
+      "rank": 41
+    },
+    {
+      "id": "C20",
+      "name": "乘势追击",
+      "source_order": 22,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C09",
+        "C06"
+      ],
+      "attempt": 2,
+      "master_sha256": "507f76d2ea8ef0695dec4c1eb95091bc4ddf4f1326a05644a656b7057257193e",
+      "review": "reviews/C20.json",
+      "comparison": "reviews/v7/comparisons/C20.jpg",
+      "observations": "高斜后视点表现追击同一前方敌人；后腿缩短粗实，脚收近髋，蹬点与新的足位置相符。地面旧滑痕已合为宽面，前臂短收。",
+      "baseline_comparison": "与U38侧面推进区分为俯视追击；125像素读到旧蹬点、追击身体与前方对象的连续方向。",
+      "rank": 42
+    },
+    {
+      "id": "U02",
+      "name": "狂雷渐起",
+      "source_order": 28,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C24",
+        "U21"
+      ],
+      "attempt": 1,
+      "master_sha256": "8e15ea0450985a34b00423e64c73ad8f2830677559f3208973ddceb0b207e240",
+      "review": "reviews/U02.json",
+      "comparison": "reviews/v7/comparisons/U02.jpg",
+      "observations": "近掌压凹独立盾缘，单根细雷由此连接上方横向共同云体。前臂与受体分离，青电不形成从爪射出的巨大楔块；云、盾、掌三层清楚。",
+      "baseline_comparison": "与C24天地连接和U21接续路径同调，改为一次实体接点引起持续天气；125像素仍分近接点与远云，不复制单发落雷。",
+      "rank": 43
+    },
+    {
+      "id": "U04",
+      "name": "战痕",
+      "source_order": 30,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 17
+      },
+      "anchors": [
+        "C12",
+        "R12"
+      ],
+      "attempt": 1,
+      "master_sha256": "7c427eb6fe3cf41ae1990af3731686361fd5cdcfcd0012a673b241098268952c",
+      "review": "reviews/U04.json",
+      "comparison": "reviews/v7/comparisons/U04.jpg",
+      "observations": "宽旧暗伤沿真实肩颈曲面转折，头颈背连续，外来断矛在肩外缘擦过。旧痕为主，小蓝纹与少量木屑为次。",
+      "baseline_comparison": "与C12同为肩承击，但取消中心撞星并以旧战痕和完整侧脸区分；圆形裁切仍保留旧痕与外矛。",
+      "rank": 44
+    },
+    {
+      "id": "U05",
+      "name": "挟山",
+      "source_order": 31,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "U03",
+        "R31"
+      ],
+      "attempt": 3,
+      "master_sha256": "c76bd7bac2e04253889cf28996e3f2427c7fde811d861c6b717f0ecd85b916ed",
+      "review": "reviews/U05.json",
+      "comparison": "reviews/v7/comparisons/U05.jpg",
+      "observations": "双臂已补为清楚承力结构：近侧肩—上臂—弯肘—前臂—掌托岩边，远臂从头后抬至另一侧岩缘。岩左下支点、肩背顶点和右上撞盾保持。",
+      "baseline_comparison": "与U03宽低站稳、R31破盾重量相容，使用翻顶岩块的杠杆关系形成独立动作；125像素三处接触方向仍成立。",
+      "rank": 45
+    },
+    {
+      "id": "U06",
+      "name": "三重撕裂",
+      "source_order": 32,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C08",
+        "R23"
+      ],
+      "attempt": 1,
+      "master_sha256": "86f835aeb8fdbb9ff39dd1ac38feb43c63e923234d59ea922cef4cbe71cd194b",
+      "review": "reviews/U06.json",
+      "comparison": "reviews/v7/comparisons/U06.jpg",
+      "observations": "宽红护带连在敌方暗腰廓上，上段翻口、中段旧暗破处、下段当前拉扯分出时间层次；小爪从右边自然进入抓住同一条带。",
+      "baseline_comparison": "与C08三道切痕不同，以有厚度的材料拉离呈现连续撕扯，破口不等状态；缩图仍读受体与向外拉力。",
+      "rank": 46
+    },
+    {
+      "id": "U13",
+      "name": "力量归身",
+      "source_order": 38,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 17,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C26",
+        "U40"
+      ],
+      "attempt": 1,
+      "master_sha256": "a2326674164d92a7ab906062b5b674ad15407816207fdf6ea2257761aa0596b2",
+      "review": "reviews/U13.json",
+      "comparison": "reviews/v7/comparisons/U13.jpg",
+      "observations": "同一连续腰背曲面上，短浅光尾与固定深蓝纹相接，变化贴附皮毛表面，身体轮廓没有额外突起。无甲壳、珠宝或身体外生成的器官。",
+      "baseline_comparison": "与C26沿实体表面的稳定雷纹对应，改为皮毛局部由虚到实；主体省去头手后仍由白灰毛与深蓝纹保持身份，缩图不会形成奇怪肢体。",
+      "rank": 47
+    },
+    {
+      "id": "U20",
+      "name": "势不可挡",
+      "source_order": 43,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "R31",
+        "C06"
+      ],
+      "attempt": 1,
+      "master_sha256": "6955d0f4126e933beed92228d0640e9236c20631d5b68687d37b109201d17d63",
+      "review": "reviews/U20.json",
+      "comparison": "reviews/v7/comparisons/U20.jpg",
+      "observations": "破木栅位于身后与前景，熊前半已经跨入亮地，肩髋相连且前足落地。部分后足被真实前景断木遮住，木块边缘与其后肢连续可追。",
+      "baseline_comparison": "与R31的破坏力和C06推进感对应，改为破障之后继续向前的侧后视点。125像素先读暗障到亮地的过渡，无巨爪主导。",
+      "rank": 48
+    },
+    {
+      "id": "U24",
+      "name": "饮血而战",
+      "source_order": 46,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C08",
+        "R24"
+      ],
+      "attempt": 1,
+      "master_sha256": "f6256153b50ff691ef1d600927b5089af4294fe263208fc00b1e1f1633dae10d",
+      "review": "reviews/U24.json",
+      "comparison": "reviews/v7/comparisons/U24.jpg",
+      "observations": "左侧敌甲破口与右侧熊胸毛面分离，一条细青回流跨过中间负形，将受击处和自身吸收点连接。裂口保留未闭合，熊身无新缺口。",
+      "baseline_comparison": "与C08的外部受击结果和R24的回流方向相容；改为两种材料与一条桥接流，无手掌托光或向右挥爪。灰阶仍辨两端。",
+      "rank": 49
+    },
+    {
+      "id": "U27",
+      "name": "淬躯爪击",
+      "source_order": 49,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C12",
+        "C08"
+      ],
+      "attempt": 2,
+      "master_sha256": "ce9194ae133d0b1202e0e1751fa1523c59cc50f42b3374907322323a4e2024b7",
+      "review": "reviews/U27.json",
+      "comparison": "reviews/v7/comparisons/U27.jpg",
+      "observations": "右侧自然垂臂及短青爪，保护薄层贴在臂外；左侧旧裂盾保留持盾肩臂。两者由宽暗隙分开，保护对象关系明确。实际500像素蒙版中三个可见爪尖完整。",
+      "baseline_comparison": "改为局部侧身与旧盾对照，已摆脱B02举臂承击构图；与U11垂臂的差别是外部旧盾和新保护薄层的并置关系。",
+      "rank": 50
+    },
+    {
+      "id": "U42",
+      "name": "蛮荒护体",
+      "source_order": 62,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 18,
+        "distinctiveness": 17
+      },
+      "anchors": [
+        "C12",
+        "U03"
+      ],
+      "attempt": 1,
+      "master_sha256": "651dabda7c4c7fdcb3eee9a8bd11f965a4d9935bdad09e06bf3fc4f719535e44",
+      "review": "reviews/U42.json",
+      "comparison": "reviews/v7/comparisons/U42.jpg",
+      "observations": "完整独立护片的中央平面、厚边与连成宽底的毛缘同属一物，板上纹理连续。无熊头、手腿或莫名颈部。落地影与暖底让护体材料的重量清楚。",
+      "baseline_comparison": "借C12厚毛和U03稳固落地的大形，主角退出画面，转化结果成为厚护片；与R28局部触压过程的镜头、颜色和完成状态区分。",
+      "rank": 51
+    },
+    {
+      "id": "R02",
+      "name": "不动神躯",
+      "source_order": 65,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U03",
+        "C12"
+      ],
+      "attempt": 1,
+      "master_sha256": "b8d410b9167ad6e8dccba8fee80baa6156cc65481d9d2edd22e23fcd8be9ed03",
+      "review": "reviews/R02.json",
+      "comparison": "reviews/v7/comparisons/R02.jpg",
+      "observations": "厚重熊以四分之三低宽站姿承受细矛，矛在胸侧弯曲失效，两件旧断兵器留在地面。近臂自然下垂，远臂在远腿旁接地，轮廓可分。",
+      "baseline_comparison": "与U03站姿和C12承重语言一致，折矛提供明确行为结果；圆形能力蒙版略切边缘脚部，但主体支撑关系和折矛清楚。",
+      "rank": 52
+    },
+    {
+      "id": "R16",
+      "name": "愈战神躯",
+      "source_order": 75,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U03",
+        "C12"
+      ],
+      "attempt": 1,
+      "master_sha256": "0509c69b53e708f60b06722a13dd8994e13b6c26d244f356eaffd4979d5b8cab",
+      "review": "reviews/R16.json",
+      "comparison": "reviews/v7/comparisons/R16.jpg",
+      "observations": "一次攻击后的熊已落稳，肩髋与两腿连续，前臂自然下收；侧面断盾保留新破口，背上的旧战痕与腰侧短蓝纹分离。未把躯干膨胀成盾壳。",
+      "baseline_comparison": "延续C12重量，镜头拉开为侧后全身及攻击结果；与R10远处再战对峙、U14未接敌准备区分。圆形裁切后受力链与破盾仍可读。",
+      "rank": 53
+    },
+    {
+      "id": "R28",
+      "name": "熊灵侵染",
+      "source_order": 83,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 17,
+        "finish": 18,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U39",
+        "C08"
+      ],
+      "attempt": 2,
+      "master_sha256": "6951772100b0077f37e1ac29bcb76b0f8788b2a55da84f101790f43fbeb5690f",
+      "review": "reviews/R28.json",
+      "comparison": "reviews/v7/comparisons/R28.jpg",
+      "observations": "小手接触独立护片上缘，旧金属面、铆钉与薄厚边界连续；青边向下引出附属于护片的蓝白兽性区域，没有把手臂毛发铺成外物。",
+      "baseline_comparison": "保持U39施加者与外物分离、C08局部材料变化的可读性；主体变为安静护片大平面，接点和变区在圆形遮罩内仍完整。",
+      "rank": 54
+    },
+    {
+      "id": "R29",
+      "name": "不再为人",
+      "source_order": 84,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 17,
+        "large_shapes": 18,
+        "tone": 17,
+        "finish": 18,
+        "distinctiveness": 19
+      },
+      "anchors": [
+        "R12",
+        "C18"
+      ],
+      "attempt": 2,
+      "master_sha256": "169b51099b4f541750fb3b55832e4747e1e11828b6be720deea8b84634d40fb8",
+      "review": "reviews/R29.json",
+      "comparison": "reviews/v7/comparisons/R29.jpg",
+      "observations": "三件厚板状旧器物大小与朝向不同，各有旧木角、完整侧面和落地接触影；兽性刻面与毛缘在原物内延续。上方短件保持扁平木板厚度，不呈现肉质腕臂。",
+      "baseline_comparison": "借R12的旧形破除与C18的大轮廓，改成三件共同兽化的静物；与R28单物局部侵染明显不同。125像素三件仍分离。",
+      "rank": 55
+    },
+    {
+      "id": "T01",
+      "name": "裂骨之爪",
+      "source_order": 87,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C08",
+        "B03"
+      ],
+      "attempt": 1,
+      "master_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff",
+      "review": "reviews/T01.json",
+      "comparison": "reviews/v7/comparisons/T01.jpg",
+      "observations": "同一深蓝掌面下接四枚短青钩，从上方切开抽象骨梁；中央断面分离而无血肉。前臂从上缘自然裁入，不再沿横向挥爪。",
+      "baseline_comparison": "与B03的前向射出和C08斜向材料抓裂区别明确；竖直深蓝掌、横向骨梁形成两大形，缩图裂口和爪根仍可读。",
+      "rank": 56
+    },
+    {
+      "id": "T02",
+      "name": "风暴之躯",
+      "source_order": 88,
+      "score": 89,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C12",
+        "U19"
+      ],
+      "attempt": 1,
+      "master_sha256": "af81cdd82838a5ad5307bfdf7ce2dcd840dd8b85520216ad66ad8c86ce13a89d",
+      "review": "reviews/T02.json",
+      "comparison": "reviews/v7/comparisons/T02.jpg",
+      "observations": "低宽肩背护面承受两侧细线，暗面连续下沉，两条地面短雷向外释放；没有小头、耳朵或多余四肢。缩图先读稳定护层，后读释放。",
+      "baseline_comparison": "保留C12的毛层大形和U19受控雷形，改为纯护面符号；与竖直裂骨T01轴线和功能均区分。",
+      "rank": 57
+    },
+    {
+      "id": "C15",
+      "name": "重整爪牙",
+      "source_order": 18,
+      "score": 88,
+      "quality_axes": {
+        "main_read": 17,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "C08",
+        "U40"
+      ],
+      "attempt": 1,
+      "master_sha256": "a220214bd814c6eef72d427b412bca7493a2dc613ea6f52301ce143650350bba",
+      "review": "reviews/C15.json",
+      "comparison": "reviews/v7/comparisons/C15.jpg",
+      "observations": "旧盾破口一直张开，青白余光脱离破口向上缘小掌集中；手不触碰破口，未把伤口填平。掌腕从画外连续进入，暗盾与亮流分别清楚。",
+      "baseline_comparison": "与C08相比保留材料结果但移开实体手，加入回收路径；与U40的实地贯通不同，余光离开旧受体。125像素仍见破口、间隙、小手三者。",
+      "rank": 58
+    },
+    {
+      "id": "U08",
+      "name": "暴怒撕咬",
+      "source_order": 34,
+      "score": 88,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U23",
+        "C08"
+      ],
+      "attempt": 2,
+      "master_sha256": "46e6c7b578800409d70f3d4c084cdeed730f93ad850ea756dd96a6ceb542b9ee",
+      "review": "reviews/U08.json",
+      "comparison": "reviews/v7/comparisons/U08.jpg",
+      "observations": "上下颌侧面清楚，犬齿从两侧咬住外部护肩边缘，下颌连回颈部；不包含前爪，没有自咬或爪牙融合。灰紫受体与白脸分离。",
+      "baseline_comparison": "延续U23清楚的口颌和C08明确受体，改成侧向咬合；面颈折面多于基准，但250/125像素仍集中在眼、牙、接点三处。",
+      "rank": 59
+    },
+    {
+      "id": "U14",
+      "name": "迎战准备",
+      "source_order": 39,
+      "score": 88,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 18,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 17
+      },
+      "anchors": [
+        "C06",
+        "U03"
+      ],
+      "attempt": 1,
+      "master_sha256": "3d83e57a8f1af1ced6cefad7dd2ac9c2e36bf856ea0841cca08955968a7ee8ff",
+      "review": "reviews/U14.json",
+      "comparison": "reviews/v7/comparisons/U14.jpg",
+      "observations": "熊低伏朝唯一亮通道准备，近侧承重前肢与后足形成稳定支点，另一低前臂位于胸前；暗地形合拢其余方向，没有接触爆点。",
+      "baseline_comparison": "与U03的宽站及C06的推进重量同源，区别为高处看向安静空隙的备战，尚未承击。125像素亮通道与侧身朝向保持。",
+      "rank": 60
+    },
+    {
+      "id": "U32",
+      "name": "迎雷",
+      "source_order": 53,
+      "score": 88,
+      "quality_axes": {
+        "main_read": 18,
+        "large_shapes": 17,
+        "tone": 18,
+        "finish": 17,
+        "distinctiveness": 18
+      },
+      "anchors": [
+        "U19",
+        "U35"
+      ],
+      "attempt": 1,
+      "master_sha256": "fc7164a2a4941ed3e8113716cfb6a8539fb06d7465da247c76404019108d4fd8",
+      "review": "reviews/U32.json",
+      "comparison": "reviews/v7/comparisons/U32.jpg",
+      "observations": "熊背朝观者稳站，双臂自然下垂；雷先落在前方地面再沿亮路接到脚边，未穿过头、胸或抓雷手。脚下与地面层次明确。",
+      "baseline_comparison": "与U35举臂承击不同，以背影主动站入落雷地面路径；与U19侧肩风弧也不同。紫天与暖地支撑清楚白色折路，缩图方向连贯。",
+      "rank": 61
+    }
+  ]
+}

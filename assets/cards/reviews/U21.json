@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "U21",
+  "decision": "approve",
+  "master_sha256": "7d2eea090cd8d20adc561d6f5dcb7d3c765cf47ac8de84c4d6d790da54ce6623",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_a",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "主体是地面两段余电和画边一只连贯前掌；电光的分叉属于地面回流而非从手腕长出的额外爪。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_a.json",
+      "id": "U21",
+      "source_sha256": "7d2eea090cd8d20adc561d6f5dcb7d3c765cf47ac8de84c4d6d790da54ce6623"
+    },
+    "prior_exact_candidate_review_sha256": "f698740e925018b8099863b6edde9e82a8856a68fd95bd176165c4425a27a84c",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

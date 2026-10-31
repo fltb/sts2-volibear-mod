@@ -1,0 +1,34 @@
+{
+  "source_url": "https://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js",
+  "top_level_metadata": {
+    "version": "16.21",
+    "fileName": "hero_list.js",
+    "fileTime": "2026-10-21 15:57:56"
+  },
+  "hero": {
+    "heroId": "106",
+    "name": "不灭狂雷",
+    "alias": "Volibear",
+    "title": "沃利贝尔",
+    "roles": [
+      "fighter",
+      "tank"
+    ],
+    "isWeekFree": "0",
+    "attack": "7",
+    "defense": "7",
+    "magic": "4",
+    "difficulty": "3",
+    "selectAudio": "https://game.gtimg.cn/images/lol/act/img/vo/choose/106.ogg",
+    "banAudio": "https://game.gtimg.cn/images/lol/act/img/vo/ban/106.ogg",
+    "isARAMweekfree": "0",
+    "ispermanentweekfree": "0",
+    "changeLabel": "无改动",
+    "goldPrice": "0",
+    "couponPrice": "0",
+    "camp": "",
+    "campId": "",
+    "keywords": "不灭狂雷,沃利贝尔,Volibear,狗熊,gx,wlbe,bmkl,bumiekuanglei,wolibeier,gouxiong",
+    "instance_id": "5abeea1b-2e1e-4753-8b38-f1d96624a42d"
+  }
+}

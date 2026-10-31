@@ -1,0 +1,1170 @@
+{
+  "schema_version": 7,
+  "passed": true,
+  "checked_at": "2026-10-27T18:18:10.770Z",
+  "origin": "local file://",
+  "repo": "volibear_cards_repo",
+  "operator": "v7_final_card_delivery",
+  "delivery_revision": 7,
+  "inherited_browser_result": false,
+  "playwright_version": "1.62.1",
+  "browser_selection": "explicit VOLIBEAR_CHROMIUM override",
+  "browser": "134.0.6998.165",
+  "card_count": 89,
+  "all_detail_views_checked": 89,
+  "grid_images_loaded": 89,
+  "checks": [
+    "Standalone START_HERE links exist; gallery opens through its link; all 89 actual 250x190 images decode in source order.",
+    "Actually followed the new VFX navigation, decoded its live atlas, verified 40 effects / 89 bindings, then returned through the standalone START_HERE entry to the card gallery.",
+    "V7 locked/redrawn filters return 28/61; both subjective-score orders execute and keep unscored locked originals last.",
+    "Case-insensitive ID, Chinese name, all actual type/rarity/abstraction filters, combined four-field search, empty state and reset.",
+    "All 89 real detail dialogs execute, base/upgraded text matches source, actual 125x95 color/gray previews decode, and all master/export/proof/mask images linked by the manifest decode.",
+    "Actually clicked 15 asset links on B02/R28/T02: full art, proof, benchmark comparison, STS1 mask and JSON review open as local new tabs.",
+    "Previous/next arrows, Escape close and direct #R28 hash navigation execute.",
+    "390px and 360px grids plus B02/R28/long-title R10 detail dialogs have no horizontal overflow."
+  ],
+  "filter_cases": [
+    {
+      "field": "type",
+      "value": "攻击",
+      "count": 28
+    },
+    {
+      "field": "type",
+      "value": "技能",
+      "count": 44
+    },
+    {
+      "field": "type",
+      "value": "能力",
+      "count": 17
+    },
+    {
+      "field": "rarity",
+      "value": "basic",
+      "count": 4
+    },
+    {
+      "field": "rarity",
+      "value": "common",
+      "count": 24
+    },
+    {
+      "field": "rarity",
+      "value": "uncommon",
+      "count": 36
+    },
+    {
+      "field": "rarity",
+      "value": "rare",
+      "count": 23
+    },
+    {
+      "field": "rarity",
+      "value": "token",
+      "count": 2
+    },
+    {
+      "field": "abstraction",
+      "value": "M0",
+      "count": 28
+    },
+    {
+      "field": "abstraction",
+      "value": "M1",
+      "count": 24
+    },
+    {
+      "field": "abstraction",
+      "value": "M2",
+      "count": 37
+    },
+    {
+      "field": "scope",
+      "value": "redrawn",
+      "count": 61
+    },
+    {
+      "field": "scope",
+      "value": "locked",
+      "count": 28
+    },
+    {
+      "field": "sort",
+      "value": "quality_desc",
+      "count": 89
+    },
+    {
+      "field": "sort",
+      "value": "quality_asc",
+      "count": 89
+    }
+  ],
+  "detail_records": [
+    {
+      "id": "B01",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "B02",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "B03",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "B04",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C01",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C02",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C03",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C04",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C05",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C06",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C07",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C08",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C09",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C10",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C11",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C12",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C13",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C14",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C15",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C17",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C18",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C19",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C20",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C21",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C22",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C24",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C25",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "C26",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U02",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U03",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U04",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U05",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U06",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U07",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U08",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U10",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U11",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U12",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U13",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U14",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U15",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U17",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U19",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U20",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U21",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U23",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U24",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U25",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U26",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U27",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U28",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U29",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U31",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U32",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U34",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U35",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U36",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U37",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U38",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U39",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U40",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U41",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U42",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "U43",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R01",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R02",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R05",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R06",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R07",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R08",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R09",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R10",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R12",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R13",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R14",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R16",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R17",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R18",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R21",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R23",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R24",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R25",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R27",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R28",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R29",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R30",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "R31",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 8,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "T01",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    },
+    {
+      "id": "T02",
+      "base_and_upgrade_match": true,
+      "actual_tiny_dimensions": [
+        125,
+        95
+      ],
+      "linked_images_decoded": 9,
+      "review_id_and_hash_bound": true
+    }
+  ],
+  "opened_asset_links": [
+    {
+      "id": "B02",
+      "key": "large",
+      "opened": true
+    },
+    {
+      "id": "B02",
+      "key": "proof",
+      "opened": true
+    },
+    {
+      "id": "B02",
+      "key": "sts1",
+      "opened": true
+    },
+    {
+      "id": "B02",
+      "key": "review",
+      "opened": true
+    },
+    {
+      "id": "B02",
+      "key": "comparison",
+      "opened": true
+    },
+    {
+      "id": "R28",
+      "key": "large",
+      "opened": true
+    },
+    {
+      "id": "R28",
+      "key": "proof",
+      "opened": true
+    },
+    {
+      "id": "R28",
+      "key": "sts1",
+      "opened": true
+    },
+    {
+      "id": "R28",
+      "key": "review",
+      "opened": true
+    },
+    {
+      "id": "R28",
+      "key": "comparison",
+      "opened": true
+    },
+    {
+      "id": "T02",
+      "key": "large",
+      "opened": true
+    },
+    {
+      "id": "T02",
+      "key": "proof",
+      "opened": true
+    },
+    {
+      "id": "T02",
+      "key": "sts1",
+      "opened": true
+    },
+    {
+      "id": "T02",
+      "key": "review",
+      "opened": true
+    },
+    {
+      "id": "T02",
+      "key": "comparison",
+      "opened": true
+    }
+  ],
+  "mobile_cases": [
+    {
+      "width": 390,
+      "id": "B02",
+      "scroll": 354,
+      "client": 354
+    },
+    {
+      "width": 390,
+      "id": "R28",
+      "scroll": 354,
+      "client": 354
+    },
+    {
+      "width": 390,
+      "id": "R10",
+      "scroll": 354,
+      "client": 354
+    },
+    {
+      "width": 360,
+      "id": "B02",
+      "scroll": 324,
+      "client": 324
+    },
+    {
+      "width": 360,
+      "id": "R28",
+      "scroll": 324,
+      "client": 324
+    },
+    {
+      "width": 360,
+      "id": "R10",
+      "scroll": 324,
+      "client": 324
+    }
+  ],
+  "start_links": [
+    {
+      "label": "打开全部卡图",
+      "href": "cards/index.html"
+    },
+    {
+      "label": "播放现有VFX",
+      "href": "vfx/index.html"
+    },
+    {
+      "label": "",
+      "href": "previews/v7/U28_U35_comparison.jpg"
+    },
+    {
+      "label": "使用说明、目录与交付范围",
+      "href": "README.md"
+    },
+    {
+      "label": "Codex Goal执行计划与恢复检查点",
+      "href": "00_GOAL.md"
+    },
+    {
+      "label": "本轮审稿标准与取舍",
+      "href": "docs/ART_REVIEW_V7.md"
+    },
+    {
+      "label": "61张重绘质量排序",
+      "href": "reports/revision_v7/QUALITY_RANKING.md"
+    },
+    {
+      "label": "全部成品与导出映射",
+      "href": "data/asset_manifest.json"
+    },
+    {
+      "label": "28张固定原图及112个导出字节核对",
+      "href": "reports/revision_v7/locked_preservation.json"
+    }
+  ],
+  "javascript_errors": [],
+  "failed_requests": [],
+  "external_network_requests": [],
+  "output_sha256": {
+    "cards/index.html": "b8f04f2b45114fc75b32f9da43156e3203e0aef744a1dbf929f8552cf8b0930f",
+    "cards/gallery_data.js": "194c2aea685f2a9929a2038453b0df6d9dcd4d72b1943ff0964248c8b314d914",
+    "cards/gallery_manifest.json": "e701d343e790a7a13d8d8d3e963a3c307ed72c6db50f6ea57b4e7bd8b59245a0",
+    "cards/fonts/gallery_ui.woff": "a4c5f18c02303eb721dea55548baac4b110cdb3b0e265287be338dc88ce877d9",
+    "data/cards_source.json": "e74335e588b5b0b7be8a1f1ec08dff94091c1af158efa718e1cedbfff115c17c",
+    "data/cards_art_briefs.json": "97ec64e6c8116c245a2a1ca00a05655faa64a82294c664e936d5e29cf1543a12",
+    "data/asset_manifest.json": "854537ec9e25d918984b4f9c25667361504429e4d906ad50cb1d38471c86fb11",
+    "config/export_profiles.json": "ad262954d34a4f48f208078c88e39719bf52055669dbadb8c63ba9a0c66d6441",
+    "scripts/card_repo.py": "23e5d8d07f0f043e45f6b8bc38e696d3e94ddaa33f482f8f232af500c96ff10d",
+    "scripts/validate_card_repo_browser.cjs": "712bec473bffd5f085e0e6af92c72b970310d45d3b79664ea0ea983a3c62330a",
+    "START_HERE.html": "b6bf2835a673f2a5797505b9b13990c776aa0bd38858aed09c97cd65c60f9396",
+    "vfx/index.html": "62376e7939917d549f97a8c7fc460528de0ba732bb4e872a9e3f1d3e75862369",
+    "vfx/manifest.json": "65eba1871f70793b79f971a38a97c8c5ba64370a7553214df9b795ca6e470b23",
+    "vfx/card_vfx_bindings.json": "62aa07d0bae59cc8afb77878256baac942bf64bc559a888f16a32f6d3c8c37b5",
+    "vfx/fonts/vfx_ui.woff": "dfb48c3a322632bdd985f50f99c0186a82373d5373d968c9943be903c581d08d"
+  },
+  "screenshots": "Temporary images in the operating-system temp directory for visual inspection; not part of user deliverables.",
+  "limitations": "This validates the local standalone card gallery and links, not target-game integration or automatic art quality."
+}

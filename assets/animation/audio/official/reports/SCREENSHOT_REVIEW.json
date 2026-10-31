@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "status": "accepted_for_observed_scope",
+  "passed": true,
+  "reviewer": "/root/v5_vfx_assets",
+  "scope": "Actual visual inspection of the two final desktop/mobile screenshots after bundling the dedicated CJK font; not a human audio-listening review or a claim of current Wiki full-site completeness.",
+  "browser_report_sha256": "b046aa7d00191dbcfe1a2f0eadcec1094345c5dff75d09d3a45460158a298b78",
+  "input_sha256": {
+    "index.html": "05c41401142fb8740718f028ae9c54f414e3ac08428a9d55d5b30c29fb100455",
+    "catalog.js": "7c3496b495b05b0454aaecb52e2933ec52aa5a9234e487715593b50c73cca954",
+    "scripts/validate_browser.cjs": "eac89ee9e848cdf52b39aeefed3f37e2a795ae687df42a646016dbe6ebc95537",
+    "catalog.json": "7a4c38966c336450c514c880fb201103940f5fafdf676621114b64bef4dbe487",
+    "fonts/manifest.json": "6138159c6ca0566dbc5666249aa2c34ad48263a4d0a93b16570918132bda0207",
+    "fonts/official_audio_ui.woff": "a9cc7132942a0b802a1d934c4b8cf44a9df3f50be4b65d4c47a22a8c48957a44",
+    "fonts/OFL.txt": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+    "fonts/characters.txt": "fa973a8ebfe10e2c9fbfb6ebb470d8b979861d70e5a65269a6c3ff5bf72fa39f",
+    "fonts/build_subset.py": "800b26e73b9003d9b2944a39280b51d3907194ce47d1500fdc70d3e53c5ec58b"
+  },
+  "screenshots_actually_viewed": [
+    {
+      "file": "/tmp/volibear-official-audio-browser-U0P19R/official_audio_desktop.png",
+      "sha256": "e06aa2fd91ceca1919176ec36c36fabb9c125e40492c5c841e7798db4f2183bc",
+      "viewport": [
+        1280,
+        1000
+      ],
+      "actual_viewed": true,
+      "observations": [
+        "已实际查看1280×1000截图：标题、说明、分类、停止按钮与状态文字均显示为正常中文，没有方框。",
+        "显示153个原始文件、18分类、3个语言/发声标签；明确写有“当前未替换运行音频”和“独立试听 · 未激活”，没有全站全部音效的声明。",
+        "单一播放器与所选文件“106.ogg · 国服角色选择”清楚可读；搜索、筛选和每行试听/下载按钮布局完整，首屏未见重叠或截字。"
+      ]
+    },
+    {
+      "file": "/tmp/volibear-official-audio-browser-U0P19R/official_audio_mobile.png",
+      "sha256": "ec7fed42c87b37b2f51328e05095512090c83388154b369b5e1fa8c81624e454",
+      "viewport": [
+        390,
+        844
+      ],
+      "actual_viewed": true,
+      "observations": [
+        "已实际查看390×844截图：标题与说明正常换行，中文可读；单播放器、停止、下载、搜索和筛选均位于可视宽度内。",
+        "分类与语言/发声类型筛选并排，清除筛选按钮独占一行；条目采用文字与按钮双列，首屏未见横向裁切。",
+        "文件详情可继续向下滚动；程序另行验证展开SHA/来源详情后没有横向溢出。截图审查仅覆盖实际显示的区域。"
+      ]
+    }
+  ],
+  "screenshot_count": 2,
+  "screenshots_stored_outside_repository": true,
+  "font": {
+    "file": "fonts/official_audio_ui.woff",
+    "sha256": "a9cc7132942a0b802a1d934c4b8cf44a9df3f50be4b65d4c47a22a8c48957a44",
+    "bytes": 67436,
+    "covered_unicode_count": 301,
+    "missing_codepoints": [],
+    "actual_cjk_rendering_seen": true
+  },
+  "functional_evidence": {
+    "catalog_entries": 153,
+    "categories": 18,
+    "language_or_nonverbal_labels": 3,
+    "all_original_file_sha_checked": 153,
+    "representative_files_played": 3,
+    "continuous_clock_checked": true,
+    "single_player_switch_checked": true,
+    "stop_checked": true,
+    "row_pause_toggle_checked": true,
+    "pending_play_pause_regression": true,
+    "original_download_byte_identical": true,
+    "external_requests": 0,
+    "browser_errors": 0,
+    "failed_requests": 0
+  },
+  "runtime_profile_activated": false,
+  "human_listening_approval": false,
+  "fixed_during_review": [
+    "Added a 67436-byte licensed local font subset after the first test environment showed missing CJK glyphs; existing repository fonts unchanged.",
+    "Invalidated stale pending play requests on row-pause and handled native pause cancellation without reporting a corrupt file."
+  ],
+  "remaining_visual_issues_observed": []
+}

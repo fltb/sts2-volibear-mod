@@ -1,0 +1,29 @@
+{
+  "id": "T02",
+  "attempt": 21,
+  "raw_file": "cards/candidates_v7/T02/attempt21.png",
+  "raw_sha256": "59df742a2bd3b3d1e1be17e88e5b86a0df584501cadeb29b1347012c068432ef",
+  "raw_size": [
+    1448,
+    1086
+  ],
+  "crop_box": [
+    11,
+    1,
+    1436,
+    1084
+  ],
+  "master_file": "cards/candidates_v7/T02/stage21/master.png",
+  "master_sha256": "c28e06da786238f5c085539de804626cf31ea03eb5ebea1febae2fbfc1148c3f",
+  "master_size": [
+    1425,
+    1083
+  ],
+  "comparison_file": "cards/candidates_v7/T02/stage21/comparison.jpg",
+  "comparison_sha256": "260199ddb4a7b95673010e717f9874498e8d1fe30fd344ded4f3d249b416e860",
+  "anchors": [
+    "U19",
+    "U40"
+  ],
+  "visual_approval": false
+}

@@ -1,0 +1,46 @@
+{
+  "id": "C12",
+  "attempt": 21,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "dc73113d85c9126eae8cfa63b64cf209037680637858afec6e99954851cd1ba0",
+  "master_sha256": "3d30370ce3f694d7ecc125ddfa61940039f340bbbc0f2e16ab5764d9a10019e1",
+  "comparison_sha256": "9dfe9fb4da64fc3d322b3d723eae98e7ce560b3aeb38d6ef5b27ce026cb8ec0e",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看attempt21原图及stage21完整对照板。错误背辫已完全去除，肩峰、颈根、背部与近臂连续，不再有身份饰物错位；箭尖止于毛皮轮廓，接点有小火星，未贯入，可以表达厚毛挡住来击，不把必须斜擦偏转当作拒收条件。仍退回的理由是画法：肩背从上到下布满许多小毛片和中间明暗切面，远景仍有多层云山、旗帜和碎岩。在125彩色及灰度里，第一读法仍是毛绒熊背肖像，箭及接点相对细弱；皮毛主形可以辨认，但连续大色面和局部抗击的简洁图形表达未达到基准。两种遮罩均保留肩与接点，裁切无新问题。",
+  "baseline_comparison": "U17和U23以少数连续白色亮面、灰影、深蓝暗面组织毛体，毛尖主要服务外缘。此图内部仍依靠大量叠瓦状小毛面塑造体积，背景也比基准更具场景细节，明显偏向精细角色概念插画。去辫修正了结构硬伤，但未解决上轮记录的系列画法漂移。",
+  "paw_orientation_observation": "近侧肩到上臂自然相连并出画，没有画出手掌或爪；不存在反向爪和多余掌。上轮后背胸辫的遮挡错误已消除。",
+  "quality_axes": {
+    "main_read": 15,
+    "large_shapes": 13,
+    "tone": 17,
+    "finish": 17,
+    "distinctiveness": 16
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [
+    "肩背内部仍布满小毛面与多级中间阴影，和固定基准的连续大色块画法差异显著。",
+    "云山旗帜碎岩背景仍偏繁，125缩图中抗击接点较弱，画面更接近角色肖像而非厚毛防御局部。"
+  ],
+  "revision_target": "保留已修正的无背辫肩颈构图与箭止于毛缘的因果；将肩背并成两三块连续明暗，毛尖主要留在外轮廓；背景压为少数安静色面，去旗帜与碎岩，让接点附近负形更清楚。不要再增加身体零件或放大特效。",
+  "recorded_at": "2026-10-29T20:55:31+00:00"
+}

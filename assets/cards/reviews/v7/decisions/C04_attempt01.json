@@ -1,0 +1,14 @@
+{
+  "id": "C04",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "7b520af92a01ddeb9610eb498f0d7f9ca07e1889f00777ae864cc4270808b2f1",
+  "observations": "交叉复审后root重新打开全图及比较图：结构本身成立，但巨粗臂从左上斜贯到右侧掌占半幅，仍落入用户反对的长臂主形重复。撤回该构图的先前放行，改为敌盔/肩为主、上缘正中短小掌竖向下压。",
+  "defects": [
+    "交叉复审后root重新打开全图及比较图：结构本身成立，但巨粗臂从左上斜贯到右侧掌占半幅，仍落入用户反对的长臂主形重复。撤回该构图的先前放行，改为敌盔/肩为主、上缘正中短小掌竖向下压。"
+  ],
+  "supersedes_prior_decision": "reviews/v7/decisions/C04_attempt01_initial_approval.json",
+  "recorded_at": "2026-10-27T18:03:00+00:00"
+}

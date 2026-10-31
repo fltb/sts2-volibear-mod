@@ -1,0 +1,13 @@
+{
+  "id": "B04",
+  "attempt": 2,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "22b7e8781e3cc8c38f4938d5cab9f4d9101a65f4f9db894ccdc2b9c0e60274fe",
+  "observations": "鼻尖仍紧贴肩盾亮点，容易读作用脸撞盾；头应收至肩后，接点移至真正外肩/外上臂。",
+  "defects": [
+    "鼻尖仍紧贴肩盾亮点，容易读作用脸撞盾；头应收至肩后，接点移至真正外肩/外上臂。"
+  ],
+  "recorded_at": "2026-10-27T17:38:09+00:00"
+}

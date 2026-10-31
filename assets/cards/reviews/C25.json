@@ -1,0 +1,54 @@
+{
+  "id": "C25",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "ca3d92727e28c65192400f5907dc68c344b05a685457121fef95c20dada334ad",
+  "master_sha256": "2b48a2dbe26e86280b86ec2b3a0e80e080d80519da6bd0d05957f554e1fe5fe2",
+  "comparison_sha256": "71741341aa32ca4fefb180363c0e33bf0b4cabbc1735bd44da924923463c0ecf",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "右下竖向收掌由下缘短腕进入，大片灰紫空地保留；唯一细雷从左上接到腕根的小亮点，四个短爪一致内收。",
+  "baseline_comparison": "已经移除贯穿半幅的长前臂，与U40地面接续及R24开掌放雷区分为安静蓄力。缩图读到细入线和小收掌，留白明确。",
+  "paw_orientation_observation": "同一掌的四指和指甲自然向掌内弯，腕与掌轴一致，没有反向外翻。",
+  "quality_axes": {
+    "main_read": 19,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:57:44+00:00",
+  "master": "cards/masters/C25.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/C25.jpg",
+  "anchors": [
+    "U40",
+    "R24"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

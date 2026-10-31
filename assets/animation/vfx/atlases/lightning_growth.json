@@ -1,0 +1,328 @@
+{
+  "id": "lightning_growth",
+  "label_zh": "雷电成长",
+  "family": "lightning",
+  "fps": 24,
+  "frame_count": 24,
+  "duration_seconds": 1.0,
+  "loop": false,
+  "anchor": "owner_status",
+  "layer_z": 30,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    66,
+    65,
+    190,
+    204
+  ],
+  "atlas": {
+    "image": "atlases/lightning_growth.png",
+    "json": "atlases/lightning_growth.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "5765803fe9794a39c786a94d5bac2b044978af450414ea384e67c25352129ce2"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/001.png",
+      "sha256": "aca1fd91f48600531664f0203a0043bc989debc64da1d4316b2b43a024caaa8f"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/002.png",
+      "sha256": "881c1eee9a58ea7c3806ce21f58d30f0c62dd300351e286b875c240de185ec53"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/003.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/004.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/005.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/006.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/007.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/008.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/009.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/010.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/011.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/012.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/013.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/014.png",
+      "sha256": "21572fe2b734fd6f74f8477be35a19fb3a28283dbfab44aee43935f7060c04d7"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/015.png",
+      "sha256": "72c1aca01ef308b574a12d752c83a5c3f2a94ac2eeea412330d774847e0101a9"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/016.png",
+      "sha256": "d746b7d3dac21445e2e04f71daccf21687119e8fbcbb9d4c06546231a902ea61"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/017.png",
+      "sha256": "881c1eee9a58ea7c3806ce21f58d30f0c62dd300351e286b875c240de185ec53"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/018.png",
+      "sha256": "825cf42aa02390e9b38846acad86d14dd14effc196bf270a5888936158cadd72"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/019.png",
+      "sha256": "e3408717c05708506feb9675082d338d4b7f02a52008dd54126ba1c780ae8180"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/020.png",
+      "sha256": "aca1fd91f48600531664f0203a0043bc989debc64da1d4316b2b43a024caaa8f"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/021.png",
+      "sha256": "a5caac19b310db55488d97154b9707527782205a0f266160ed8dfb6c433df538"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/022.png",
+      "sha256": "cd806d17a51d6791031294f7666b358423bdc2aef78a532bb868f984006d1666"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/lightning_growth/023.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.lightning_growth",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

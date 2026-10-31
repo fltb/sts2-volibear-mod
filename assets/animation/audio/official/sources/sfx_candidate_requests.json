@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "scope": "Eight inferred Original Volibear SFX filenames, not a category enumeration.",
+  "method": "One ordinary GET per candidate to public static.wikia.nocookie.net only; no UA override, retries, or automatic redirects.",
+  "maximum_authorized_requests": 8,
+  "request_count": 8,
+  "success_count": 0,
+  "complete_sfx_directory_proven": false,
+  "stopped_reason": null,
+  "elapsed_seconds": 1.448,
+  "results": [
+    {
+      "filename": "Volibear_Original_SFX_Q_Cast.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/0/01/Volibear_Original_SFX_Q_Cast.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_Q_Cast_0.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/8/89/Volibear_Original_SFX_Q_Cast_0.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_E_Cast.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/13/Volibear_Original_SFX_E_Cast.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_R_Cast_0.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2d/Volibear_Original_SFX_R_Cast_0.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_Attack_Cast_0.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/44/Volibear_Original_SFX_Attack_Cast_0.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_BasicAttack_Cast_0.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d2/Volibear_Original_SFX_BasicAttack_Cast_0.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_Taunt.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/b1/Volibear_Original_SFX_Taunt.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "filename": "Volibear_Original_SFX_Taunt_0.ogg",
+      "url": "https://static.wikia.nocookie.net/leagueoflegends/images/1/18/Volibear_Original_SFX_Taunt_0.ogg/revision/latest",
+      "filename_basis": "inferred_candidate_from_observed_Wiki_naming_convention",
+      "attempts": 1,
+      "http_status": 404,
+      "downloaded": false,
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

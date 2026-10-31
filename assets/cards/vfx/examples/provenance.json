@@ -1,0 +1,38 @@
+{
+  "previews": [
+    {
+      "preview": "preview_character.png",
+      "source_path_at_build": "source/volibear_approved.png",
+      "source_sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+      "preview_sha256": "be4914f35ffc382ce5b081286da67e070f1d94a015ee8161df4708e0a9dfe9e9",
+      "purpose": "context inspection only; original proportions retained"
+    },
+    {
+      "preview": "preview_B01.png",
+      "source_path_at_build": "source/B01.png",
+      "source_sha256": "7afe4de919ecdd2a92d7c4754ed6039ef961ecd9f14a933085876766aa8ab0c0",
+      "preview_sha256": "56f7d3868bca20e0e8f6365d2937dd7e46aee8add0d4661f5b1e1b7c0d88b671",
+      "purpose": "context inspection only; original proportions retained"
+    },
+    {
+      "preview": "preview_T01.png",
+      "source_path_at_build": "source/T01.png",
+      "source_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff",
+      "preview_sha256": "d88a8ce254cb30fe2afa8b05c96db4d7c4a7773fb56405c32784443111290952",
+      "purpose": "context inspection only; original proportions retained"
+    }
+  ],
+  "picked_demo_frames": [
+    0,
+    10,
+    20,
+    28,
+    35,
+    44
+  ],
+  "demo_frame_count": 52,
+  "fps": 24,
+  "storyboard_sha256": "dbe4027dac01e7a1fd90692638f7df071cb7e0a8805333d000013f4a8b7a859e",
+  "source_bear_unchanged_by_effect": true,
+  "rules_implemented": false
+}

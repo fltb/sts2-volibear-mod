@@ -1,0 +1,232 @@
+{
+  "id": "guard_hit",
+  "label_zh": "格挡受击",
+  "family": "guard",
+  "fps": 24,
+  "frame_count": 16,
+  "duration_seconds": 0.6666666666666666,
+  "loop": false,
+  "anchor": "owner_contact",
+  "layer_z": 30,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    80,
+    61,
+    221,
+    199
+  ],
+  "atlas": {
+    "image": "atlases/guard_hit.png",
+    "json": "atlases/guard_hit.json",
+    "columns": 8,
+    "rows": 2,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "6e4009267534acb332ac0b1863e1b3d8e4c082ce6f18ce78d141f028cda2039a"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/001.png",
+      "sha256": "9eda2e7daee8b561e56ee81896cd5b4230f53f563ec6ee6b25ef1756134b15ff"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/002.png",
+      "sha256": "fd75dd83a5832f2fd1078ddbb4f4b408d5b67f1726a5d17bf8d7b37f3cda0967"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/003.png",
+      "sha256": "c40b2e1a6ce5516800f037dec3ac95c289b8266c6240ef7499c4288ab42390f4"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/004.png",
+      "sha256": "8874ff1e9c960003bf6482df28bcf3a248fdebd1e0ded07771e172e30947a47d"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/005.png",
+      "sha256": "7e94d1205d2686cb0e19c674db918204e1abcc3b9aa35791ff31dfe10696a3d2"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/006.png",
+      "sha256": "8562e3ce07a793290a788a7ddaa3e717475b675b6a9c5d7c31ccef4e1c272ddc"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/007.png",
+      "sha256": "a3a4aa84b50843cf2ae11b2640b0efecb04fcd24c76e35087f337e7f0b186c6e"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/008.png",
+      "sha256": "15771062540cf0195ea2008ac0ecafe5895d6b7ff0dc909f5f3b1e289a91a035"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/009.png",
+      "sha256": "e6fcff1f528cef4397e71622aea946c2fe076cf2121045e6f46bb11ca7c7896e"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/010.png",
+      "sha256": "66da66141ec41952bd1c8be6b5bac76a129ee7a80faf46dd69a66fbacdfaa3d0"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/011.png",
+      "sha256": "71af53ad19145a302045d014997ea1418a72f9b714e0dcdb982336de4fa90fb6"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/012.png",
+      "sha256": "6ec5e4924d8e333526574a4659e9ba9c646165dcc65ca996d4a7cb88f435ab77"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/013.png",
+      "sha256": "5d69b7a228e3fa1ade74fef1443df14e4a586316a8d9162e4594d4f928cade9f"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/014.png",
+      "sha256": "4627d5df52e49e1857f77a3733c553798af752534afeae921576be764f3016f5"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/guard_hit/015.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.guard_hit",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

@@ -1,0 +1,400 @@
+{
+  "id": "armor_iron",
+  "label_zh": "坚甲固形",
+  "family": "guard",
+  "fps": 24,
+  "frame_count": 30,
+  "duration_seconds": 1.25,
+  "loop": false,
+  "anchor": "owner_status",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    79,
+    61,
+    178,
+    203
+  ],
+  "atlas": {
+    "image": "atlases/armor_iron.png",
+    "json": "atlases/armor_iron.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "d3b3aa5e81705f7714e1248e485dae004a76916bcdd04c2d2d5c1deb6473087b"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/001.png",
+      "sha256": "85b42a32274246097fb60e1ba7993d42cb2fd193b7b1fc9d3d1619a32145ba3e"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/002.png",
+      "sha256": "89842d9ba2aaf4e4367d05cc6adf90965c6470731e4c5a668938bdef8bf41fc2"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/003.png",
+      "sha256": "169ca3b2fd62bb2777dab504ef0d375aa0b1a15e753f349cbc4d791382378495"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/004.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/005.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/006.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/007.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/008.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/009.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/010.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/011.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/012.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/013.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/014.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/015.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/016.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/017.png",
+      "sha256": "ad30283bb7d2bd864cb8a8b1d5f1c2274035fd3f8803711da1a23d7b7df51b12"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/018.png",
+      "sha256": "4b8b2f161d7adf2e1e7dfa6b5d8728460ebba47e4ed11d0054c25ae3f3d25203"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/019.png",
+      "sha256": "7f60343fd8b69077988d7a04085ad6b094d5ae810025eb51cb0b74e8bfe93f29"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/020.png",
+      "sha256": "169ca3b2fd62bb2777dab504ef0d375aa0b1a15e753f349cbc4d791382378495"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/021.png",
+      "sha256": "448d7d6798bddc8b2995472af0747bbcba4dc87f7d60c447da334e49f64b0e00"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/022.png",
+      "sha256": "128aab6853fd630ac009387e9f2a8eb3ac9124208435cf09462eee23ba6062c6"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/023.png",
+      "sha256": "89842d9ba2aaf4e4367d05cc6adf90965c6470731e4c5a668938bdef8bf41fc2"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/024.png",
+      "sha256": "12dee0e3b41b5b9b75f0b85093fec9afd5c5c9758113549adbb82180cf397d9d"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/025.png",
+      "sha256": "b0e1a9b0aca17b8c60b5a532bb8d9b0984a8481f245ce0320ddd9c6c38e9d7f5"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/026.png",
+      "sha256": "85b42a32274246097fb60e1ba7993d42cb2fd193b7b1fc9d3d1619a32145ba3e"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/027.png",
+      "sha256": "f2a5b9ef958c7a09427114a2295e194fc5f0466f825345e4b9f07738cae98943"
+    },
+    {
+      "index": 28,
+      "time_seconds": 1.1666667,
+      "rect": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/028.png",
+      "sha256": "2bca0e06547092d356255d999d03b1521db5c0b42a16de94fc60b6a33e88abf6"
+    },
+    {
+      "index": 29,
+      "time_seconds": 1.2083333,
+      "rect": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/armor_iron/029.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.armor_iron",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

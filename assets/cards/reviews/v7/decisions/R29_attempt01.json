@@ -1,0 +1,13 @@
+{
+  "id": "R29",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "f52b624f1012bbe41698a620aca11d2a7901599a7d463e7f325f56dc1694952f",
+  "observations": "右侧器物形似脱体前臂/爪，画幅错误且旧面纹理过密。",
+  "defects": [
+    "右侧器物形似脱体前臂/爪，画幅错误且旧面纹理过密。"
+  ],
+  "recorded_at": "2026-10-27T17:29:00+00:00"
+}

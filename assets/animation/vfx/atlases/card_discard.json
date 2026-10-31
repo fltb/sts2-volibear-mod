@@ -1,0 +1,305 @@
+{
+  "id": "card_discard",
+  "label_zh": "弃牌落迹",
+  "family": "card",
+  "fps": 24,
+  "frame_count": 22,
+  "duration_seconds": 0.9166666666666666,
+  "loop": false,
+  "anchor": "card_to_discard_pile",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    29,
+    65,
+    210,
+    214
+  ],
+  "atlas": {
+    "image": "atlases/card_discard.png",
+    "json": "atlases/card_discard.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "ab0ca12df2ab59c65ca333a9e7fe9fe38aae4b7a94450c7fe913edfec6b41fe9"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/001.png",
+      "sha256": "de885c57ddb9a4b0c8eef53c875543d882b5df94a9cd3243959c1f3bd3c8f8c0"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/002.png",
+      "sha256": "fb2ab720067bd7c5ac21119fcec362ad8f75ffcae355f4b641e3957f1c873d77"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/003.png",
+      "sha256": "390ef3f5fc1fae9d63a29d271dbf70c544c203554dcd40eff8078a03ec54ca60"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/004.png",
+      "sha256": "6feaf840fc2c533716a7e48bea06290ea65d8431e3b1e82fedf589f545aa99dc"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/005.png",
+      "sha256": "00a5707c1ef68c59bc16f59f798125442c3d7a3cb6bd8d58873ae223de1028a3"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/006.png",
+      "sha256": "fe021a58a8fd47d78155793758cc48b6b0c4ed67629ff2844487c4bc4bfe58a8"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/007.png",
+      "sha256": "557f9b9f2f33780c1643789f78d852cb7a7774ffa12e5b19079119da0a2ff790"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/008.png",
+      "sha256": "d44eca3253fbacd77172285e19e65a3a147994286cfbd4fc4891c0478639698b"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/009.png",
+      "sha256": "9e09f7996d18a8670091dcc2cc0f5bc3116cf32b8b053cb085be0209c8222a91"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/010.png",
+      "sha256": "4683c8b2791edb78e835aab082753d0dedc3f671c1f04d9bd8fb9ca9c8c136ce"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/011.png",
+      "sha256": "570ebd890d35d04194398e1621bdf85963ec8a31a9c62eaa4b2f06083eb0481b"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/012.png",
+      "sha256": "03026876111617cd69eb085e8d418c6dc0de3087ce7b8186e71d642f8e8e359f"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/013.png",
+      "sha256": "f59911a3daa127e3bc4dd2a3c28f26bbdfb386c3b8bd6216868cc0755e1a84b2"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/014.png",
+      "sha256": "499877984d29fb816a137a63876d78a4c12560bd16cc93ab4d9df10ee982753a"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/015.png",
+      "sha256": "4f4b9ec94f2797856e34cd6c32459a0161079cc8d9282a1dba2b71f06b3a4a23"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/016.png",
+      "sha256": "cdfafc574f6ea483c19da9b37afdae540a819a2bdbefe644e989d950a9226a20"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/017.png",
+      "sha256": "9fb33308f45d5751aebac7f1a46ba74551f3b66d0a10f9c6b627d1686c0f7979"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/018.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/019.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/020.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_discard/021.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.card_discard",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "actual_card_node_policy": "Retain the authoritative card image/node under this transparent overlay; animation never changes card state."
+}

@@ -1,0 +1,41 @@
+{
+  "id": "R02",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "f0ada163faf663830dcb3775e8cdc6dee625b2ea0f53cf87c63d1957d7856eab",
+  "master_sha256": "b8d410b9167ad6e8dccba8fee80baa6156cc65481d9d2edd22e23fcd8be9ed03",
+  "comparison_sha256": "12ad729934998ea770e915cac1a59895ebd9513470c5d2deee485f338120949d",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "厚重熊以四分之三低宽站姿承受细矛，矛在胸侧弯曲失效，两件旧断兵器留在地面。近臂自然下垂，远臂在远腿旁接地，轮廓可分。",
+  "baseline_comparison": "与U03站姿和C12承重语言一致，折矛提供明确行为结果；圆形能力蒙版略切边缘脚部，但主体支撑关系和折矛清楚。",
+  "paw_orientation_observation": "近掌向内下收，远臂能追至肩，未把远臂误作第三条腿；双腿与髋连续。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:57+00:00"
+}

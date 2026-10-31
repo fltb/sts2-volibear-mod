@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "active": false,
+  "activation_status": "reference_only",
+  "runtime_manifest_modified": false,
+  "catalog_sha256": "7a4c38966c336450c514c880fb201103940f5fafdf676621114b64bef4dbe487",
+  "runtime_manifest_sha256": "d22297d0713fa40042e5c3897ec191660f8876bf87e6032aa8ba2a3a27f54be6",
+  "action_cues_sha256": "5ccc73d0638905c188996d540c1017821de582e0b72af6620502f9fa6e213505",
+  "policy": [
+    "Original clips remain untouched.",
+    "Do not select arbitrary hero-interaction or movement dialogue for generic combat.",
+    "Choose one language for a runtime profile.",
+    "Evaluate active vocal onset/tail against the actual animation mouth window.",
+    "Use one voice-channel owner; different cue IDs must not overlap as simultaneous speech.",
+    "Do not assign a roar to domain_enter solely from the old cue; that clip has no mouth-open cel."
+  ],
+  "language_alternatives": {
+    "voice.select": {
+      "en_US": "en_us_volibear_select",
+      "zh_CN": "zh_cn_volibear_choose"
+    }
+  },
+  "mappings": [
+    {
+      "existing_cue": "voice.select",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_select",
+          "file": "files/en_us/default/Volibear_Select.ogg",
+          "original_duration_seconds": 5.79805
+        }
+      ],
+      "selection_basis": "Wiki champion selection; Chinese selection is an alternative language entry, not mixed into this English list.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.attack_01",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_basicattack_0",
+          "file": "files/en_us/default/Volibear_Original_BasicAttack_0.ogg",
+          "original_duration_seconds": 3.467029
+        }
+      ],
+      "selection_basis": "Wiki basic attack vocal exertion.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.attack_02",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_basicattack_1",
+          "file": "files/en_us/default/Volibear_Original_BasicAttack_1.ogg",
+          "original_duration_seconds": 3.205805
+        }
+      ],
+      "selection_basis": "Wiki basic attack vocal exertion.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.heavy",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_basicattack_2",
+          "file": "files/en_us/default/Volibear_Original_BasicAttack_2.ogg",
+          "original_duration_seconds": 3.110023
+        }
+      ],
+      "selection_basis": "Basic attack vocal family; requires timing and intensity selection.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.bite",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_w_0",
+          "file": "files/en_us/default/Volibear_Original_W_0.ogg",
+          "original_duration_seconds": 3.365442
+        },
+        {
+          "asset_id": "en_us_volibear_original_w_1",
+          "file": "files/en_us/default/Volibear_Original_W_1.ogg",
+          "original_duration_seconds": 3.040363
+        },
+        {
+          "asset_id": "en_us_volibear_original_w_2",
+          "file": "files/en_us/default/Volibear_Original_W_2.ogg",
+          "original_duration_seconds": 4.889252
+        },
+        {
+          "asset_id": "en_us_volibear_original_w_3",
+          "file": "files/en_us/default/Volibear_Original_W_3.ogg",
+          "original_duration_seconds": 3.066485
+        },
+        {
+          "asset_id": "en_us_volibear_original_w_4",
+          "file": "files/en_us/default/Volibear_Original_W_4.ogg",
+          "original_duration_seconds": 2.964898
+        },
+        {
+          "asset_id": "en_us_volibear_original_w_5",
+          "file": "files/en_us/default/Volibear_Original_W_5.ogg",
+          "original_duration_seconds": 3.687619
+        }
+      ],
+      "selection_basis": "Frenzied Maul vocal family; spoken lines and grunts must be distinguished by listening before selection.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": [
+        0.208,
+        0.542
+      ]
+    },
+    {
+      "existing_cue": "voice.cast",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_e_0",
+          "file": "files/en_us/default/Volibear_Original_E_0.ogg",
+          "original_duration_seconds": 3.757279
+        },
+        {
+          "asset_id": "en_us_volibear_original_e_1",
+          "file": "files/en_us/default/Volibear_Original_E_1.ogg",
+          "original_duration_seconds": 4.67737
+        },
+        {
+          "asset_id": "en_us_volibear_original_e_2",
+          "file": "files/en_us/default/Volibear_Original_E_2.ogg",
+          "original_duration_seconds": 4.355193
+        }
+      ],
+      "selection_basis": "Sky Splitter vocal family; candidates only.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.hurt_01",
+      "selected_asset_id": null,
+      "candidate_assets": [],
+      "selection_basis": "No dedicated hurt family in this confirmed default collection; retain existing runtime audio.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.hurt_02",
+      "selected_asset_id": null,
+      "candidate_assets": [],
+      "selection_basis": "No dedicated hurt family in this confirmed default collection; do not relabel death vocals as hurt.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.low_health",
+      "selected_asset_id": null,
+      "candidate_assets": [],
+      "selection_basis": "No dedicated low-health family in this confirmed default collection.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.roar",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_q",
+          "file": "files/en_us/default/Volibear_Original_Q.ogg",
+          "original_duration_seconds": 5.786122
+        }
+      ],
+      "selection_basis": "Thundering Smash vocal family; original file is longer than the current opening window and has not been automatically trimmed.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": [
+        0.333,
+        1.25
+      ]
+    },
+    {
+      "existing_cue": "voice.feral",
+      "selected_asset_id": null,
+      "candidate_assets": [],
+      "selection_basis": "The project external-card conversion has no directly equivalent official LoL event.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": [
+        0.542,
+        1.125
+      ]
+    },
+    {
+      "existing_cue": "voice.death",
+      "selected_asset_id": null,
+      "candidate_assets": [
+        {
+          "asset_id": "en_us_volibear_original_death_0",
+          "file": "files/en_us/default/Volibear_Original_Death_0.ogg",
+          "original_duration_seconds": 8.09941
+        },
+        {
+          "asset_id": "en_us_volibear_original_death_1",
+          "file": "files/en_us/default/Volibear_Original_Death_1.ogg",
+          "original_duration_seconds": 6.581406
+        },
+        {
+          "asset_id": "en_us_volibear_original_death_2",
+          "file": "files/en_us/default/Volibear_Original_Death_2.ogg",
+          "original_duration_seconds": 6.697506
+        },
+        {
+          "asset_id": "en_us_volibear_original_death_3",
+          "file": "files/en_us/default/Volibear_Original_Death_3.ogg",
+          "original_duration_seconds": 6.836825
+        }
+      ],
+      "selection_basis": "Official death family; keep spoken lines and nonverbal versions available for explicit selection.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    },
+    {
+      "existing_cue": "voice.victory",
+      "selected_asset_id": null,
+      "candidate_assets": [],
+      "selection_basis": "Kill, respawn, recall and taunt recordings are not automatically treated as battle victory.",
+      "automatic_replacement": false,
+      "auditory_selection_completed": false,
+      "mouth_window_seconds": null
+    }
+  ]
+}

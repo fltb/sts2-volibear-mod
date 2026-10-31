@@ -1,0 +1,47 @@
+{
+  "repository": "https://github.com/JohnnyBazooka89/StSModdingToolCardImagesCreator",
+  "commit": "a74df1034d637ad325f50f3e0a77a74416726a3f",
+  "license": "MIT",
+  "files": [
+    {
+      "file": "AttackMask.png",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/resources/masks/AttackMask.png",
+      "sha256": "b03fc305f19c3b3f9069a4332ff85e373c413da83d447497c00c4d1aa4e249c0"
+    },
+    {
+      "file": "AttackMask_p.png",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/resources/masks/AttackMask_p.png",
+      "sha256": "97c9d840fec6cd9935f9193eb781f205098fbd5c2c0bde3e34eb98288421b051"
+    },
+    {
+      "file": "SkillMask.png",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/resources/masks/SkillMask.png",
+      "sha256": "dde89cff61c1616b452b721503d8059864c9b4e17208ea3c8fd811c83c716511"
+    },
+    {
+      "file": "SkillMask_p.png",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/resources/masks/SkillMask_p.png",
+      "sha256": "a05efba6ad2491aa899e7f398bb59e3e4d0e271208b5de558395cdf06bd37ee2"
+    },
+    {
+      "file": "PowerMask.png",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/resources/masks/PowerMask.png",
+      "sha256": "f5d3e48a9cf5bda22b3f217bec5fd64d0c1f0b88c921cef93d6ea89adf28a195"
+    },
+    {
+      "file": "PowerMask_p.png",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/resources/masks/PowerMask_p.png",
+      "sha256": "727abce105126a197b9c98bd5173e6b6d65bfda298671efe98402315c22fb869"
+    },
+    {
+      "file": "LICENSE",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/LICENSE",
+      "sha256": "aebdd218c268b5192e4cacd1ddd15f8c85bb13e5ddb33621de7ce91ac45b0602"
+    },
+    {
+      "file": "CardImagesCreator.java",
+      "url": "https://raw.githubusercontent.com/JohnnyBazooka89/StSModdingToolCardImagesCreator/a74df1034d637ad325f50f3e0a77a74416726a3f/src/main/java/stsutil/cardimagescreator/CardImagesCreator.java",
+      "sha256": "bd9c7e91daf17d3d3a288fe1923b7b063d0845a6eae493f2593f4d6ecf48adb8"
+    }
+  ]
+}

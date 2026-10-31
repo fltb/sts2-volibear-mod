@@ -1,0 +1,13 @@
+{
+  "id": "B04",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "a622985339492e7cc6c613b7da6f7f861898e40d15e9428bff987a42abaecddd",
+  "observations": "脸、拳与盾挤于同一点，肩撞变成抱盾；腹下小爪归属模糊，碎屑过多。",
+  "defects": [
+    "脸、拳与盾挤于同一点，肩撞变成抱盾；腹下小爪归属模糊，碎屑过多。"
+  ],
+  "recorded_at": "2026-10-27T17:29:00+00:00"
+}

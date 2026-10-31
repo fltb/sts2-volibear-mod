@@ -1,0 +1,41 @@
+{
+  "schema_version": 3,
+  "id": "B02",
+  "decision": "approve",
+  "master_sha256": "8a90bf2fef5e9af5f009ab09dcbced985a8735e5a1d0deb04534e538094306c9",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "root",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "近臂横护胸、远臂竖起护面；两条肩—肘—腕链条独立，掌端和受击点清楚。",
+  "crop_and_mask_observation": "本轮实际查看真导出证明：掌腕、主要爪尖与接触点保留；出画的身体延伸和背景效果有明确构图依据。",
+  "evidence": {
+    "actual_candidate_inspected": true,
+    "actual_final_proof": "cards/proofs/B02.jpg",
+    "proof_sha256": "554f000d8d3410f7fd84e7734bda5571beec9efc16ced0cec0d336e6074bad8f",
+    "views": [
+      "original generated candidate",
+      "final aspect-cropped master at 700px",
+      "250px",
+      "125px color",
+      "125px gray",
+      "STS1 500x380 type mask",
+      "STS1 250x190 type mask"
+    ],
+    "scope": "Root visually inspected the actual original and the actual final export proof. Crop preserves both wrists/paws and essential contact; no stretching."
+  },
+  "unresolved_defects": []
+}

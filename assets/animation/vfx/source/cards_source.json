@@ -1,0 +1,1091 @@
+{
+  "schema_version": "1.0",
+  "source_file": "inputs/cards_v4_1_original.html",
+  "source_sha256": "80e971a818f35728eb05b08c5824e664063a901c1b8cb1936c3338cef0bdae29",
+  "source_version": "v4.1",
+  "card_count": 89,
+  "main_card_count": 87,
+  "token_count": 2,
+  "counts_by_rarity": {
+    "basic": 4,
+    "common": 24,
+    "uncommon": 36,
+    "rare": 23,
+    "token": 2
+  },
+  "keyword_definitions": [
+    {
+      "keyword": "雷伤",
+      "definition": "造成雷电伤害，数值增加当前雷电成长。每次完整结算计1次雷伤，全体雷伤同样计1次。"
+    },
+    {
+      "keyword": "雷法",
+      "definition": "卡面直接造成雷伤的技能牌。"
+    },
+    {
+      "keyword": "领域N",
+      "definition": "展开或延长领域N轮。领域提供攻击附雷、敌方压制和抽牌净化。"
+    },
+    {
+      "keyword": "迎战",
+      "definition": "令目标立即执行本轮尚余行动。沿用出牌目标，结算时自动执行。"
+    },
+    {
+      "keyword": "吸收",
+      "definition": "本牌迎战期间，你以格挡吸收的伤害总量。"
+    },
+    {
+      "keyword": "兽化",
+      "definition": "将攻击变为裂骨之爪（爪形），其他牌变为风暴之躯（躯形）。形态继承材料升级。"
+    },
+    {
+      "keyword": "检索／回收",
+      "definition": "分别从抽牌堆／弃牌堆选择指定牌加入手牌。"
+    },
+    {
+      "keyword": "减费N",
+      "definition": "指定牌本回合下次打出费用降低N。"
+    },
+    {
+      "keyword": "咬痕",
+      "definition": "你的暴怒撕咬留下的敌人标记，持续本战。强化撕咬读取出牌前的咬痕。"
+    },
+    {
+      "keyword": "反雷N",
+      "definition": "本轮每承受一段敌人攻击后，对攻击者造成N雷伤。"
+    },
+    {
+      "keyword": "蓄势N",
+      "definition": "该牌下次打出的每段固定攻击伤害＋N。该次完整结算后清除蓄势。"
+    },
+    {
+      "keyword": "强化N",
+      "definition": "该牌本战每段自身攻击伤害与原生雷伤＋N。"
+    },
+    {
+      "keyword": "重演",
+      "definition": "额外结算一次完整牌效。"
+    },
+    {
+      "keyword": "汲取",
+      "definition": "按该段伤害实际造成的生命损失恢复生命。"
+    },
+    {
+      "keyword": "留甲N",
+      "definition": "回合开始时，格挡更新为max（0，当前格挡−N）。"
+    },
+    {
+      "keyword": "坚甲",
+      "definition": "承受攻击后，格挡保持原值。"
+    },
+    {
+      "keyword": "净化消耗",
+      "definition": "先清除所选状态或诅咒的自身效果，再将所选牌消耗。"
+    }
+  ],
+  "rules_verbatim": [
+    "雷电成长：每实际打出1张攻击或雷法，先使雷电成长＋1。成长持续本战。雷伤使用通常格挡、减伤和限伤管线。",
+    "领域附雷：每段普通攻击后，对全体造成2雷伤。群体攻击按攻击段触发。",
+    "领域压制：保留攻击、现有格挡、直接获得格挡或力量、阶段、复活、目标资格、行动次数、限伤、限牌与胜负事实。普通被动、异常和塞牌依来源表暂停；未知来源维持原行为。",
+    "领域净化：实际抽到状态或诅咒时，净化消耗该牌并补抽1张。",
+    "领域时长：1轮覆盖当前玩家回合及下次正常起手抽牌；起手结束后扣除1轮。永久领域持续本战。",
+    "迎战行动：7张迎战牌均自动执行。每个敌人每轮共享1次行动机会；正常敌方阶段跳过已用动作。迎战完成以动作实际开始、玩家存活且战斗继续为准。",
+    "兽化实体：沿用原牌实体、升级、临时减费和保留状态，使用新形态数值。成功转换后触发兽化事件。已有形态保持；打出形态后消耗，战后恢复原牌。",
+    "批量兽化：先完成取牌，再固定本次手牌集合，逐张转换。R29覆盖该集合全部材料。兽化触发抽到的新牌进入后续手牌。",
+    "手牌与选择：手牌上限10。检索和回收先占手牌位，再结算后续效果。带“至多”的选择范围从0开始，其余效果按合法目标数量执行。U15以消耗另一张手牌为出牌成本。",
+    "次数与时点：“此前”读取本次出牌开始时的记录。雷伤次数逐段更新。“打出后”在整张牌结算完触发；U26第2张攻击的力量在该牌伤害前取得。",
+    "效果重演：每次实际出牌计1次打出和成长；重演沿用目标、已支付X值与出牌前条件。普通攻击段、雷伤段及其联动按实际结算执行。",
+    "费用：固定减费作用于数字费用，最低0。减费取同类待用值的最大值，打出后清除，回合结束到期。R14的目标连锁减费累加。X使用实际支付能量及X增幅。",
+    "持续时间：能力持续本战。C17临时力量在玩家回合结束回收；U12的本轮雷伤增幅覆盖随后敌方阶段。U10等待下一张攻击的强化可跨回合。",
+    "返能限次：C26和U40各按玩家、回合、卡名共享一次返能。U21按已部署实例各触发一次，入场时已达标即触发。",
+    "咬痕归属：标记按玩家与敌人实体记录。实际攻击命中即登记，完整格挡及致死攻击均成立。同实体复活保留咬痕。",
+    "格挡与力量：普通格挡受敏捷、脆弱影响。R05直接将现有格挡乘3。坚甲保留受击后的格挡，溢出攻击扣生命；回合开始按默认清除或留甲规则处理。以力量计算额外效果时读取正力量。",
+    "多人范围：成长、领域时长、附雷、净化、雷甲和返能归各玩家。敌方压制由存活领域聚合生效；迎战保持原攻击目标，吸收量与遗物收益归发起者。死亡结束自身领域，复活后重新展开。"
+  ],
+  "paragraphs_verbatim": [
+    "最大生命80。初始卡组：打击×4、防御×4、霆爪、挺身迎战。",
+    "猎者之心：每回合首次迎战前，获得6格挡，抽1张牌。\n不灭之心：替换初始遗物。每回合首次迎战前，获得8格挡，抽2张牌。",
+    "衍生形态由兽化产生。卡表按ID保留既有编号。"
+  ],
+  "cards": [
+    {
+      "id": "B01",
+      "asset_key": "b01",
+      "name": "打击",
+      "type": "攻击",
+      "rarity": "basic",
+      "source_section": "基础牌 · 4张",
+      "cost": "1",
+      "base_effect": "造成6伤害。",
+      "upgraded_effect": "造成9伤害。"
+    },
+    {
+      "id": "B02",
+      "asset_key": "b02",
+      "name": "防御",
+      "type": "技能",
+      "rarity": "basic",
+      "source_section": "基础牌 · 4张",
+      "cost": "1",
+      "base_effect": "获得5格挡。",
+      "upgraded_effect": "获得8格挡。"
+    },
+    {
+      "id": "B03",
+      "asset_key": "b03",
+      "name": "霆爪",
+      "type": "攻击",
+      "rarity": "basic",
+      "source_section": "基础牌 · 4张",
+      "cost": "1",
+      "base_effect": "造成7伤害。对全体造成2雷伤。",
+      "upgraded_effect": "造成10伤害。对全体造成3雷伤。"
+    },
+    {
+      "id": "B04",
+      "asset_key": "b04",
+      "name": "挺身迎战",
+      "type": "攻击",
+      "rarity": "basic",
+      "source_section": "基础牌 · 4张",
+      "cost": "1",
+      "base_effect": "获得5格挡。造成8伤害。迎战。",
+      "upgraded_effect": "获得8格挡。造成11伤害。迎战。"
+    },
+    {
+      "id": "C01",
+      "asset_key": "c01",
+      "name": "逼近",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "0",
+      "base_effect": "造成6伤害。",
+      "upgraded_effect": "造成9伤害。"
+    },
+    {
+      "id": "C02",
+      "asset_key": "c02",
+      "name": "双爪",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "造成5伤害，重复2次。",
+      "upgraded_effect": "造成7伤害，重复2次。"
+    },
+    {
+      "id": "C03",
+      "asset_key": "c03",
+      "name": "轰雷重击",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "2",
+      "base_effect": "造成20伤害。对全体造成5雷伤。",
+      "upgraded_effect": "造成26伤害。对全体造成7雷伤。"
+    },
+    {
+      "id": "C04",
+      "asset_key": "c04",
+      "name": "擂首一击",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "造成12伤害。施加1虚弱。迎战。",
+      "upgraded_effect": "造成16伤害。施加1虚弱。迎战。"
+    },
+    {
+      "id": "C05",
+      "asset_key": "c05",
+      "name": "雷霆爪击",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "领域1。造成11伤害。",
+      "upgraded_effect": "领域1。造成15伤害。"
+    },
+    {
+      "id": "C06",
+      "asset_key": "c06",
+      "name": "进逼",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
+      "upgraded_effect": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。"
+    },
+    {
+      "id": "C07",
+      "asset_key": "c07",
+      "name": "追嗅",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "造成8伤害。检索1张攻击。",
+      "upgraded_effect": "造成11伤害。检索1张攻击。"
+    },
+    {
+      "id": "C08",
+      "asset_key": "c08",
+      "name": "撕开伤口",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "造成8伤害。施加1易伤。",
+      "upgraded_effect": "造成10伤害。施加2易伤。"
+    },
+    {
+      "id": "C09",
+      "asset_key": "c09",
+      "name": "雷霆横扫",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "对全体造成6伤害和3雷伤。",
+      "upgraded_effect": "对全体造成8伤害和4雷伤。"
+    },
+    {
+      "id": "C10",
+      "asset_key": "c10",
+      "name": "以牙还牙",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "获得10格挡。迎战。造成8＋吸收的伤害。",
+      "upgraded_effect": "获得13格挡。迎战。造成12＋吸收的伤害。"
+    },
+    {
+      "id": "C11",
+      "asset_key": "c11",
+      "name": "正面迎敌",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "获得11格挡。迎战。",
+      "upgraded_effect": "获得14格挡。迎战。"
+    },
+    {
+      "id": "C12",
+      "asset_key": "c12",
+      "name": "厚重皮毛",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "获得10＋力量的格挡。",
+      "upgraded_effect": "获得13＋力量的格挡。"
+    },
+    {
+      "id": "C13",
+      "asset_key": "c13",
+      "name": "呼吸",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "抽3张牌。消耗1张手牌。",
+      "upgraded_effect": "抽4张牌。消耗1张手牌。"
+    },
+    {
+      "id": "C14",
+      "asset_key": "c14",
+      "name": "雷霆护身",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "获得8格挡。领域1。反雷3。消耗。",
+      "upgraded_effect": "获得11格挡。领域1。反雷5。"
+    },
+    {
+      "id": "C15",
+      "asset_key": "c15",
+      "name": "重整爪牙",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1→0",
+      "base_effect": "回收1张攻击或雷法，减费1。",
+      "upgraded_effect": "回收1张攻击或雷法，减费1。"
+    },
+    {
+      "id": "C17",
+      "asset_key": "c17",
+      "name": "蓄力",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "0",
+      "base_effect": "本回合获得4力量。",
+      "upgraded_effect": "本回合获得6力量。"
+    },
+    {
+      "id": "C18",
+      "asset_key": "c18",
+      "name": "显圣",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "领域1。对全体施加2虚弱。",
+      "upgraded_effect": "领域1。对全体施加3虚弱。"
+    },
+    {
+      "id": "C19",
+      "asset_key": "c19",
+      "name": "追猎准备",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "0",
+      "base_effect": "使1张手牌攻击获得保留与蓄势3。",
+      "upgraded_effect": "使1张手牌攻击获得保留与蓄势5。"
+    },
+    {
+      "id": "C20",
+      "asset_key": "c20",
+      "name": "乘势追击",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
+      "upgraded_effect": "造成14伤害。本回合此前打出过攻击时，抽2张牌。"
+    },
+    {
+      "id": "C21",
+      "asset_key": "c21",
+      "name": "稳住阵脚",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "获得8格挡。领域1。抽2张牌。",
+      "upgraded_effect": "获得11格挡。领域1。抽2张牌。"
+    },
+    {
+      "id": "C22",
+      "asset_key": "c22",
+      "name": "雷震",
+      "type": "攻击",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "2",
+      "base_effect": "对全体造成5伤害和2雷伤，重复2次。",
+      "upgraded_effect": "对全体造成7伤害和3雷伤，重复2次。"
+    },
+    {
+      "id": "C24",
+      "asset_key": "c24",
+      "name": "霹雳",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "1",
+      "base_effect": "对全体造成6雷伤。抽1张牌。",
+      "upgraded_effect": "对全体造成9雷伤。抽1张牌。"
+    },
+    {
+      "id": "C25",
+      "asset_key": "c25",
+      "name": "雷引",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "0",
+      "base_effect": "本回合下一张攻击减费1。消耗。",
+      "upgraded_effect": "本回合下一张攻击减费2。消耗。"
+    },
+    {
+      "id": "C26",
+      "asset_key": "c26",
+      "name": "接地",
+      "type": "技能",
+      "rarity": "common",
+      "source_section": "普通牌 · 24张",
+      "cost": "0",
+      "base_effect": "本回合造成过雷伤时，获得2能量（每回合一次）。",
+      "upgraded_effect": "本回合造成过雷伤时，获得3能量（每回合一次）。"
+    },
+    {
+      "id": "U02",
+      "asset_key": "u02",
+      "name": "狂雷渐起",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "对全体造成6雷伤。每打出1张单体攻击后，对全体造成3雷伤。",
+      "upgraded_effect": "对全体造成9雷伤。每打出1张单体攻击后，对全体造成4雷伤。"
+    },
+    {
+      "id": "U03",
+      "asset_key": "u03",
+      "name": "屹立",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得8格挡。留甲12。",
+      "upgraded_effect": "获得12格挡。留甲8。"
+    },
+    {
+      "id": "U04",
+      "asset_key": "u04",
+      "name": "战痕",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得8格挡。每回合首次迎战后，获得2力量。",
+      "upgraded_effect": "获得11格挡。每回合首次迎战后，获得3力量。"
+    },
+    {
+      "id": "U05",
+      "asset_key": "u05",
+      "name": "挟山",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1→0",
+      "base_effect": "造成等同当前格挡的伤害。",
+      "upgraded_effect": "造成等同当前格挡的伤害。"
+    },
+    {
+      "id": "U06",
+      "asset_key": "u06",
+      "name": "三重撕裂",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "2",
+      "base_effect": "造成8伤害，重复3次。",
+      "upgraded_effect": "造成11伤害，重复3次。"
+    },
+    {
+      "id": "U07",
+      "asset_key": "u07",
+      "name": "崩山",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "3",
+      "base_effect": "造成28伤害。本回合每对该目标打出过1张单体攻击，本牌费用−1。",
+      "upgraded_effect": "造成36伤害。本回合每对该目标打出过1张单体攻击，本牌费用−1。"
+    },
+    {
+      "id": "U08",
+      "asset_key": "u08",
+      "name": "暴怒撕咬",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
+      "upgraded_effect": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。"
+    },
+    {
+      "id": "U10",
+      "asset_key": "u10",
+      "name": "磨砺爪牙",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "抽1张牌。下一张攻击强化3。",
+      "upgraded_effect": "抽2张牌。下一张攻击强化5。"
+    },
+    {
+      "id": "U11",
+      "asset_key": "u11",
+      "name": "暴风再临",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1→0",
+      "base_effect": "本回合下一张攻击获得重演。",
+      "upgraded_effect": "本回合下一张攻击获得重演。"
+    },
+    {
+      "id": "U12",
+      "asset_key": "u12",
+      "name": "原始力量",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "本轮雷伤增加当前力量。抽1张牌。消耗。",
+      "upgraded_effect": "本轮雷伤增加当前力量。抽2张牌。消耗。"
+    },
+    {
+      "id": "U13",
+      "asset_key": "u13",
+      "name": "力量归身",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得2力量。将临时力量转为力量。",
+      "upgraded_effect": "获得3力量。将临时力量转为力量。"
+    },
+    {
+      "id": "U14",
+      "asset_key": "u14",
+      "name": "迎战准备",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "0",
+      "base_effect": "获得5格挡。本回合下一张迎战牌减费1。消耗。",
+      "upgraded_effect": "获得8格挡。本回合下一张迎战牌减费1。"
+    },
+    {
+      "id": "U15",
+      "asset_key": "u15",
+      "name": "暴风换气",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "0",
+      "base_effect": "净化消耗1张手牌。抽2张牌。",
+      "upgraded_effect": "净化消耗1张手牌。抽3张牌。"
+    },
+    {
+      "id": "U17",
+      "asset_key": "u17",
+      "name": "古老直觉",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "0",
+      "base_effect": "查看牌堆顶3张，任意弃置并排列余牌。抽1张牌。",
+      "upgraded_effect": "查看牌堆顶5张，任意弃置并排列余牌。抽1张牌。"
+    },
+    {
+      "id": "U19",
+      "asset_key": "u19",
+      "name": "风暴不散",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "抽1张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+      "upgraded_effect": "抽2张牌。领域1。每次迎战后，抽2张牌并获得领域1。"
+    },
+    {
+      "id": "U20",
+      "asset_key": "u20",
+      "name": "势不可挡",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "造成10伤害。本回合此前打出过至少2张攻击时，获得2能量。消耗。",
+      "upgraded_effect": "造成14伤害。本回合此前打出过至少2张攻击时，获得2能量。消耗。"
+    },
+    {
+      "id": "U21",
+      "asset_key": "u21",
+      "name": "雷霆余威",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1→0",
+      "base_effect": "每回合雷伤累计达到2次，获得1能量。",
+      "upgraded_effect": "每回合雷伤累计达到2次，获得1能量。"
+    },
+    {
+      "id": "U23",
+      "asset_key": "u23",
+      "name": "迎风咆哮",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "对全体施加1虚弱。获得9格挡。",
+      "upgraded_effect": "对全体施加2虚弱。获得12格挡。"
+    },
+    {
+      "id": "U24",
+      "asset_key": "u24",
+      "name": "饮血而战",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "2",
+      "base_effect": "造成21伤害，再造成3汲取雷伤。消耗。",
+      "upgraded_effect": "造成28伤害，再造成3汲取雷伤。消耗。"
+    },
+    {
+      "id": "U25",
+      "asset_key": "u25",
+      "name": "猎物未倒",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
+      "upgraded_effect": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。"
+    },
+    {
+      "id": "U26",
+      "asset_key": "u26",
+      "name": "愈战愈烈",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得1力量。每回合打出第2张攻击时，获得1力量。",
+      "upgraded_effect": "获得1力量。每回合打出第2张攻击时，获得2力量。"
+    },
+    {
+      "id": "U27",
+      "asset_key": "u27",
+      "name": "淬躯爪击",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "造成8伤害。获得本回合雷伤次数×2的格挡。",
+      "upgraded_effect": "造成11伤害。获得本回合雷伤次数×2的格挡。"
+    },
+    {
+      "id": "U28",
+      "asset_key": "u28",
+      "name": "雷霆反扑",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "2",
+      "base_effect": "获得15格挡。迎战。对全体造成4＋吸收的雷伤。",
+      "upgraded_effect": "获得20格挡。迎战。对全体造成6＋吸收的雷伤。"
+    },
+    {
+      "id": "U29",
+      "asset_key": "u29",
+      "name": "雷霆渐盛",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "雷伤＋2。",
+      "upgraded_effect": "雷伤＋3。"
+    },
+    {
+      "id": "U31",
+      "asset_key": "u31",
+      "name": "万钧连踏",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "X",
+      "base_effect": "造成5伤害和3全体雷伤，重复X次。",
+      "upgraded_effect": "造成7伤害和3全体雷伤，重复X次。"
+    },
+    {
+      "id": "U32",
+      "asset_key": "u32",
+      "name": "迎雷",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "领域1。本回合下一张攻击减费1。每回合首次迎战后，下一张攻击减费1。",
+      "upgraded_effect": "领域1。本回合下一张攻击减费2。每回合首次迎战后，下一张攻击减费2。"
+    },
+    {
+      "id": "U34",
+      "asset_key": "u34",
+      "name": "雷甲",
+      "type": "能力",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得6格挡。每造成1次雷伤，获得3格挡。",
+      "upgraded_effect": "获得9格挡。每造成1次雷伤，获得4格挡。"
+    },
+    {
+      "id": "U35",
+      "asset_key": "u35",
+      "name": "霹天雳地",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得10格挡。对全体造成3雷伤。迎战。",
+      "upgraded_effect": "获得13格挡。对全体造成5雷伤。迎战。"
+    },
+    {
+      "id": "U36",
+      "asset_key": "u36",
+      "name": "奔雷",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "0",
+      "base_effect": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+      "upgraded_effect": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。"
+    },
+    {
+      "id": "U37",
+      "asset_key": "u37",
+      "name": "风暴汇聚",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "对全体造成12雷伤。领域1。",
+      "upgraded_effect": "对全体造成16雷伤。领域1。"
+    },
+    {
+      "id": "U38",
+      "asset_key": "u38",
+      "name": "雷势奔袭",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "3",
+      "base_effect": "造成18伤害。本回合每造成1次雷伤，本牌费用−1。",
+      "upgraded_effect": "造成24伤害。本回合每造成1次雷伤，本牌费用−1。"
+    },
+    {
+      "id": "U39",
+      "asset_key": "u39",
+      "name": "雷暴先兆",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得8格挡。领域1。检索1张雷法。",
+      "upgraded_effect": "获得11格挡。领域1。检索1张雷法。"
+    },
+    {
+      "id": "U40",
+      "asset_key": "u40",
+      "name": "雷路贯通",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量（每回合一次）。",
+      "upgraded_effect": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量（每回合一次）。"
+    },
+    {
+      "id": "U41",
+      "asset_key": "u41",
+      "name": "破皮见骨",
+      "type": "攻击",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "造成7伤害。兽化1张手牌攻击，减费1。",
+      "upgraded_effect": "造成10伤害。兽化1张手牌攻击，减费1。"
+    },
+    {
+      "id": "U42",
+      "asset_key": "u42",
+      "name": "蛮荒护体",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1",
+      "base_effect": "获得7格挡。兽化1张非攻击手牌，减费1。",
+      "upgraded_effect": "获得10格挡。兽化1张非攻击手牌，减费1。"
+    },
+    {
+      "id": "U43",
+      "asset_key": "u43",
+      "name": "循着本能",
+      "type": "技能",
+      "rarity": "uncommon",
+      "source_section": "罕见牌 · 36张",
+      "cost": "1→0",
+      "base_effect": "检索1张牌并兽化，减费1。消耗。",
+      "upgraded_effect": "检索1张牌并兽化，减费1。消耗。"
+    },
+    {
+      "id": "R01",
+      "asset_key": "r01",
+      "name": "风暴形态",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "获得10格挡。永久领域。",
+      "upgraded_effect": "获得14格挡。永久领域。"
+    },
+    {
+      "id": "R02",
+      "asset_key": "r02",
+      "name": "不动神躯",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "获得10格挡。坚甲。",
+      "upgraded_effect": "获得15格挡。坚甲。"
+    },
+    {
+      "id": "R05",
+      "asset_key": "r05",
+      "name": "全身之力",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2→1",
+      "base_effect": "格挡变为3倍。",
+      "upgraded_effect": "格挡变为3倍。"
+    },
+    {
+      "id": "R06",
+      "asset_key": "r06",
+      "name": "天人合一",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
+      "upgraded_effect": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。"
+    },
+    {
+      "id": "R07",
+      "asset_key": "r07",
+      "name": "天崩地裂",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2→1",
+      "base_effect": "对全体造成等同当前格挡的雷伤。",
+      "upgraded_effect": "对全体造成等同当前格挡的雷伤。"
+    },
+    {
+      "id": "R08",
+      "asset_key": "r08",
+      "name": "雷霆万钧",
+      "type": "攻击",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "3",
+      "base_effect": "随机攻击4次，每次造成10伤害和5雷伤。",
+      "upgraded_effect": "随机攻击4次，每次造成13伤害和8雷伤。"
+    },
+    {
+      "id": "R09",
+      "asset_key": "r09",
+      "name": "众敌皆来",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "获得20格挡。迎战全体。对全体造成等同吸收的雷伤。",
+      "upgraded_effect": "获得28格挡。迎战全体。对全体造成等同吸收的雷伤。"
+    },
+    {
+      "id": "R10",
+      "asset_key": "r10",
+      "name": "这场战斗尚未结束",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "回收至多3张攻击，减费1。",
+      "upgraded_effect": "回收至多4张攻击，减费1。"
+    },
+    {
+      "id": "R12",
+      "asset_key": "r12",
+      "name": "解放本能",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "抽牌至手牌达到7张。",
+      "upgraded_effect": "抽牌至手牌达到9张。"
+    },
+    {
+      "id": "R13",
+      "asset_key": "r13",
+      "name": "重返蛮荒",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
+      "upgraded_effect": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。"
+    },
+    {
+      "id": "R14",
+      "asset_key": "r14",
+      "name": "不休之猎",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "每打出1张单体攻击后，本回合对同一目标的单体攻击费用−1。",
+      "upgraded_effect": "抽1张牌。每打出1张单体攻击后，本回合对同一目标的单体攻击费用−1。"
+    },
+    {
+      "id": "R16",
+      "asset_key": "r16",
+      "name": "愈战神躯",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+      "upgraded_effect": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。"
+    },
+    {
+      "id": "R17",
+      "asset_key": "r17",
+      "name": "天雷决",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "造成38雷伤。",
+      "upgraded_effect": "造成50雷伤。"
+    },
+    {
+      "id": "R18",
+      "asset_key": "r18",
+      "name": "雷池",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
+      "upgraded_effect": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。"
+    },
+    {
+      "id": "R21",
+      "asset_key": "r21",
+      "name": "雷霆化身",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+      "upgraded_effect": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。"
+    },
+    {
+      "id": "R23",
+      "asset_key": "r23",
+      "name": "裂天",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "造成8雷伤，重复3次。",
+      "upgraded_effect": "造成11雷伤，重复3次。"
+    },
+    {
+      "id": "R24",
+      "asset_key": "r24",
+      "name": "雷涌",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "获得等同本回合雷伤次数的能量。抽2张牌。消耗。",
+      "upgraded_effect": "获得等同本回合雷伤次数的能量。抽3张牌。消耗。"
+    },
+    {
+      "id": "R25",
+      "asset_key": "r25",
+      "name": "风暴重临",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1→0",
+      "base_effect": "领域2。检索至多2张技能。消耗。",
+      "upgraded_effect": "领域2。检索至多2张技能。消耗。"
+    },
+    {
+      "id": "R27",
+      "asset_key": "r27",
+      "name": "旧日重临",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "兽化至多2张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
+      "upgraded_effect": "兽化至多3张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。"
+    },
+    {
+      "id": "R28",
+      "asset_key": "r28",
+      "name": "熊灵侵染",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "1",
+      "base_effect": "入场及每回合起手后，兽化至多1张手牌。每回合首次兽化后，抽1张牌。",
+      "upgraded_effect": "入场及每回合起手后，兽化至多1张手牌。每回合首次兽化后，抽2张牌。"
+    },
+    {
+      "id": "R29",
+      "asset_key": "r29",
+      "name": "不再为人",
+      "type": "技能",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "0",
+      "base_effect": "兽化所有手牌，所得形态减费1。消耗。",
+      "upgraded_effect": "回收至多1张基础牌。兽化所有手牌，所得形态减费1。消耗。"
+    },
+    {
+      "id": "R30",
+      "asset_key": "r30",
+      "name": "我即荒野",
+      "type": "能力",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "兽化1张手牌，减费1。每回合首次打出爪形时，获得6格挡；首次打出躯形时，获得1能量。",
+      "upgraded_effect": "兽化1张手牌，减费1。每回合首次打出爪形时，获得9格挡；首次打出躯形时，获得1能量。"
+    },
+    {
+      "id": "R31",
+      "asset_key": "r31",
+      "name": "天声震落",
+      "type": "攻击",
+      "rarity": "rare",
+      "source_section": "稀有牌 · 23张",
+      "cost": "2",
+      "base_effect": "获得8格挡。领域1。移除目标格挡。造成20伤害，对其他敌人造成6雷伤。消耗。",
+      "upgraded_effect": "获得12格挡。领域1。移除目标格挡。造成28伤害，对其他敌人造成9雷伤。消耗。"
+    },
+    {
+      "id": "T01",
+      "asset_key": "t01",
+      "name": "裂骨之爪",
+      "type": "攻击",
+      "rarity": "token",
+      "source_section": "衍生牌 · 2张",
+      "cost": "1",
+      "base_effect": "造成10伤害，重复2次。消耗。",
+      "upgraded_effect": "造成15伤害，重复2次。消耗。"
+    },
+    {
+      "id": "T02",
+      "asset_key": "t02",
+      "name": "风暴之躯",
+      "type": "技能",
+      "rarity": "token",
+      "source_section": "衍生牌 · 2张",
+      "cost": "1",
+      "base_effect": "获得15格挡。对全体造成4雷伤。消耗。",
+      "upgraded_effect": "获得25格挡。对全体造成6雷伤。消耗。"
+    }
+  ]
+}

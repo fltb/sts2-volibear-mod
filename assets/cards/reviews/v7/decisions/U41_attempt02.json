@@ -1,0 +1,41 @@
+{
+  "id": "U41",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "ec44388f7224fc6b1d1c0dfe54a31a7232eebde02c0fbc042ad71fdb3a2d41b2",
+  "master_sha256": "b8533bfb259455a4a6dd866a61b88eaf164c2b29bc04a60365897e95e34a1fa3",
+  "comparison_sha256": "1ef13f11565573c24d3c3114d30c08a0aa2846955ce95cc4ac4485462084738f",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "一块带铆孔的完整外护片仅掀开一角，露出连续深蓝内刃板，刃口为单条细青光及三处浅阶齿；旧壳以少数平面表示，独立指根、长弯爪和岩纹已去掉。",
+  "baseline_comparison": "与C08的青色锋缘、R12的白灰深蓝色块相容；这里把兽化力量压成器物内层变化，不再添加一只断掌。125像素及蒙版均保留翻角、旧壳、内刃三层。",
+  "paw_orientation_observation": "纯器物结构：蓝色是一体刃板，阶齿共用同一硬刃边，无掌根、指关节或活体断面。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T18:08:13+00:00"
+}

@@ -1,0 +1,4232 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Slay the Spire 2 Volibear mod content matrix. Authoritative fields from bear-forge simulator implementation (metadata.ts/cards_s2.json) at S2-3.0 / S2_BUFF_D4 (2026-10-28).",
+  "sources": {
+    "text_and_cost": "bear-forge/docs/volibear/cards_s2.json (== CARDS.md 2026-10-28)",
+    "type_rarity_target_exhaust": "bear-forge/examples/sts/src/content/characters/volibear/cards/metadata.ts",
+    "runtime_id_target_after_use_lightning_spell": "bear-forge/docs/volibear/implementation_spec.json",
+    "implementation": "bear-forge/examples/sts/src/content/characters/volibear/{cards,mechanics,powers}"
+  },
+  "character": {
+    "id": "VOLIBEAR",
+    "color_id": 6,
+    "starting_hp": 80,
+    "max_hp": 80,
+    "ascension_max_hp_loss": 5,
+    "ascension_a20": {
+      "max_hp": 75,
+      "starting_hp": 68
+    },
+    "starting_deck": {
+      "VOLIBEAR_B01": 4,
+      "VOLIBEAR_B02": 4,
+      "VOLIBEAR_B03": 1,
+      "VOLIBEAR_B04": 1
+    },
+    "starting_deck_size": 10,
+    "starting_relic": "VOLIBEAR_HUNTERS_HEART (不灭狂雷)",
+    "boss_relic_swap": "VOLIBEAR_IMMORTAL_HEART (万古不灭) replaces VOLIBEAR_HUNTERS_HEART in boss relic pool (replaces BLACK_BLOOD slot)",
+    "relic_draw_on_first_engage": {
+      "base": 1,
+      "boss": 2
+    },
+    "card_pool": {
+      "reward_total": 83,
+      "common": 24,
+      "uncommon": 36,
+      "rare": 23,
+      "basic_excluded": 4,
+      "token_excluded": 2,
+      "total": 89
+    }
+  },
+  "counts": {
+    "total": 89,
+    "types": {
+      "攻击": 28,
+      "技能": 44,
+      "能力": 17
+    },
+    "rarities": {
+      "basic": 4,
+      "common": 24,
+      "uncommon": 36,
+      "rare": 23,
+      "token": 2
+    },
+    "reward_pool": 83
+  },
+  "cards": [
+    {
+      "code": "B01",
+      "runtime_id": "VOLIBEAR_B01",
+      "name": "打击",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "基础",
+      "rarity_code": 3,
+      "rarity_slug": "basic",
+      "pool": "basic",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": true,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成6伤害。",
+        "upgraded": "造成9伤害。"
+      },
+      "keywords": [],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体普通攻击，走 attackAmount（力量/虚弱/易伤/训练加成）→ 命中结算 → 攻击段事件。"
+    },
+    {
+      "code": "B02",
+      "runtime_id": "VOLIBEAR_B02",
+      "name": "防御",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "基础",
+      "rarity_code": 3,
+      "rarity_slug": "basic",
+      "pool": "basic",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得5格挡。",
+        "upgraded": "获得8格挡。"
+      },
+      "keywords": [
+        "格挡"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体格挡，先经 blockAmount（敏捷/脆弱）再捕获，获得量为 0 时不发格挡事件。"
+    },
+    {
+      "code": "B03",
+      "runtime_id": "VOLIBEAR_B03",
+      "name": "霆爪",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "基础",
+      "rarity_code": 3,
+      "rarity_slug": "basic",
+      "pool": "basic",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成8伤害。对全体造成3雷伤。",
+        "upgraded": "造成11伤害。对全体造成5雷伤。"
+      },
+      "keywords": [
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体攻击 8/11 后接一笔全体雷伤 3/5（非攻击、可格挡、不吃力量/易伤/虚弱）。"
+    },
+    {
+      "code": "B04",
+      "runtime_id": "VOLIBEAR_B04",
+      "name": "挺身迎战",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "基础",
+      "rarity_code": 3,
+      "rarity_slug": "basic",
+      "pool": "basic",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得8格挡。造成6伤害。迎战。",
+        "upgraded": "获得11格挡。造成9伤害。迎战。"
+      },
+      "keywords": [
+        "格挡",
+        "迎战"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "先格挡 8/11，再单体攻击 6/9，最后登记迎战声明并调用敌人 takeTurn 立即执行本轮剩余行动。"
+    },
+    {
+      "code": "C01",
+      "runtime_id": "VOLIBEAR_C01",
+      "name": "逼近",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成6伤害。",
+        "upgraded": "造成9伤害。"
+      },
+      "keywords": [],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "0 费单体攻击 6/9，无附加效果。"
+    },
+    {
+      "code": "C02",
+      "runtime_id": "VOLIBEAR_C02",
+      "name": "双爪",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成5伤害，重复2次。",
+        "upgraded": "造成7伤害，重复2次。"
+      },
+      "keywords": [
+        "多段"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体攻击 5/7，count=2；每段独立 push 队列并各自发攻击段事件。"
+    },
+    {
+      "code": "C03",
+      "runtime_id": "VOLIBEAR_C03",
+      "name": "轰雷重击",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成20伤害。对全体造成5雷伤。",
+        "upgraded": "造成26伤害。对全体造成7雷伤。"
+      },
+      "keywords": [
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "单体攻击 20/26 后接全体雷伤 5/7。"
+    },
+    {
+      "code": "C04",
+      "runtime_id": "VOLIBEAR_C04",
+      "name": "擂首一击",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成9伤害。施加1虚弱。迎战。",
+        "upgraded": "造成12伤害。施加1虚弱。迎战。"
+      },
+      "keywords": [
+        "虚弱",
+        "迎战"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "攻击 9/12 → 对目标施加 1 虚弱 → 自动迎战目标（虚弱先于迎战生效）。"
+    },
+    {
+      "code": "C05",
+      "runtime_id": "VOLIBEAR_C05",
+      "name": "雷霆爪击",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "领域1。造成6伤害。",
+        "upgraded": "领域1。造成9伤害。"
+      },
+      "keywords": [
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "先 openDomain(1)（同牌后续攻击立即享受领域），再单体攻击 6/9，最后附雷机会在同牌首段兑现。"
+    },
+    {
+      "code": "C06",
+      "runtime_id": "VOLIBEAR_C06",
+      "name": "进逼",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
+        "upgraded": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。"
+      },
+      "keywords": [
+        "意图读取",
+        "抽牌",
+        "格挡"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "效果开始时读取目标当前意图是否含攻击：是则格挡 6/8，否则抽 1；之后照常攻击 8/11。"
+    },
+    {
+      "code": "C07",
+      "runtime_id": "VOLIBEAR_C07",
+      "name": "追嗅",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成8伤害。检索1张攻击。",
+        "upgraded": "造成11伤害。检索1张攻击。"
+      },
+      "keywords": [
+        "检索"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "攻击 8/11 → 从抽牌堆按类型筛攻击牌，先占手牌位再选择加入手牌。"
+    },
+    {
+      "code": "C08",
+      "runtime_id": "VOLIBEAR_C08",
+      "name": "撕开伤口",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成8伤害。施加1易伤。",
+        "upgraded": "造成10伤害。施加2易伤。"
+      },
+      "keywords": [
+        "易伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "攻击 8/10 → 对目标施加 1/2 易伤（一个幂级状态）。"
+    },
+    {
+      "code": "C09",
+      "runtime_id": "VOLIBEAR_C09",
+      "name": "雷霆横扫",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "对全体造成6伤害和3雷伤。",
+        "upgraded": "对全体造成8伤害和4雷伤。"
+      },
+      "keywords": [
+        "全体攻击",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "一段全体普通攻击 6/8（一段跨全体，只发 1 次攻击段事件）→ 一笔全体雷伤 3/4。"
+    },
+    {
+      "code": "C10",
+      "runtime_id": "VOLIBEAR_C10",
+      "name": "以牙还牙",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得8格挡。迎战。造成6＋吸收的伤害。",
+        "upgraded": "获得11格挡。迎战。造成9＋吸收的伤害。"
+      },
+      "keywords": [
+        "吸收",
+        "格挡",
+        "迎战"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "格挡 8/11 → 对目标 takeTurn 迎战并记录 absorbed → 按 6/9+该目标吸收量造成一次普通攻击（吸收为 0 时按 6/9）。"
+    },
+    {
+      "code": "C11",
+      "runtime_id": "VOLIBEAR_C11",
+      "name": "正面迎敌",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得8格挡。迎战。",
+        "upgraded": "获得11格挡。迎战。"
+      },
+      "keywords": [
+        "格挡",
+        "迎战"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "技能版迎战：格挡 8/11 → 自动 takeTurn 迎战（无后续伤害）。"
+    },
+    {
+      "code": "C12",
+      "runtime_id": "VOLIBEAR_C12",
+      "name": "厚重皮毛",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得10＋力量的格挡。",
+        "upgraded": "获得13＋力量的格挡。"
+      },
+      "keywords": [
+        "力量",
+        "格挡"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 10/13 + max(0, 当前力量)，力量在捕获时读取。"
+    },
+    {
+      "code": "C13",
+      "runtime_id": "VOLIBEAR_C13",
+      "name": "呼吸",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "消耗1张手牌，抽3张牌。",
+        "upgraded": "消耗1张手牌，抽4张牌。"
+      },
+      "keywords": [
+        "抽牌",
+        "消耗手牌"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "先选并消耗另一张手牌（无合法手牌则跳过），再抽 3/4；消耗是牌效不是成本。"
+    },
+    {
+      "code": "C14",
+      "runtime_id": "VOLIBEAR_C14",
+      "name": "雷霆护身",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得8格挡。领域1。反雷3。消耗。",
+        "upgraded": "获得11格挡。领域1。反雷5。"
+      },
+      "keywords": [
+        "反雷",
+        "格挡",
+        "消耗",
+        "领域"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "格挡 8/11 → openDomain(1) → 挂反雷 3/5（持续到下一玩家回合开始）；基础牌消耗、升级牌不消耗。"
+    },
+    {
+      "code": "C15",
+      "runtime_id": "VOLIBEAR_C15",
+      "name": "重整爪牙",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "回收1张攻击或雷法，减费1。",
+        "upgraded": "回收1张攻击或雷法，减费1。"
+      },
+      "keywords": [
+        "减费",
+        "回收"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        0
+      ],
+      "implementation": "从弃牌堆选 1 张攻击或雷法回手并给该牌本回合减费 1（同类取最大、不叠加）。"
+    },
+    {
+      "code": "C17",
+      "runtime_id": "VOLIBEAR_C17",
+      "name": "蓄力",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "本回合获得4力量。",
+        "upgraded": "本回合获得6力量。"
+      },
+      "keywords": [
+        "临时力量",
+        "力量"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "施加 4/6 力量并同时施加等量「回合末失去力量」状态，回合结束回收临时力量。"
+    },
+    {
+      "code": "C18",
+      "runtime_id": "VOLIBEAR_C18",
+      "name": "显圣",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "领域1。对全体施加2虚弱。",
+        "upgraded": "领域1。对全体施加3虚弱。"
+      },
+      "keywords": [
+        "虚弱",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "openDomain(1) → 对全体施加 2/3 虚弱。"
+    },
+    {
+      "code": "C19",
+      "runtime_id": "VOLIBEAR_C19",
+      "name": "追猎准备",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "使1张手牌攻击获得保留与蓄势3。",
+        "upgraded": "使1张手牌攻击获得保留与蓄势5。"
+      },
+      "keywords": [
+        "保留",
+        "蓄势"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "选手牌中 1 张攻击：本战获得保留 + 蓄势 3/5（下次实际打出时每段固定攻击伤害与原生雷伤 +N，随后清除）。"
+    },
+    {
+      "code": "C20",
+      "runtime_id": "VOLIBEAR_C20",
+      "name": "乘势追击",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
+        "upgraded": "造成14伤害。本回合此前打出过攻击时，抽2张牌。"
+      },
+      "keywords": [
+        "抽牌",
+        "条件"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "攻击 10/14；伤害前读「本次出牌」快照，若此前本回合已实际打出过攻击则抽 2。"
+    },
+    {
+      "code": "C21",
+      "runtime_id": "VOLIBEAR_C21",
+      "name": "稳住阵脚",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得5格挡。领域1。抽2张牌。",
+        "upgraded": "获得8格挡。领域1。抽2张牌。"
+      },
+      "keywords": [
+        "抽牌",
+        "格挡",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 5/8 → openDomain(1) → 抽 2。"
+    },
+    {
+      "code": "C22",
+      "runtime_id": "VOLIBEAR_C22",
+      "name": "雷震",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "对全体造成5伤害和2雷伤，重复2次。",
+        "upgraded": "对全体造成7伤害和3雷伤，重复2次。"
+      },
+      "keywords": [
+        "全体攻击",
+        "多段",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "两次「全体普通攻击 5/7 + 全体雷伤 2/3」；每段一次攻击段事件、每笔雷伤 1 次计数；附雷每牌仅一次。"
+    },
+    {
+      "code": "C24",
+      "runtime_id": "VOLIBEAR_C24",
+      "name": "霹雳",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "对全体造成6雷伤。抽1张牌。",
+        "upgraded": "对全体造成9雷伤。抽1张牌。"
+      },
+      "keywords": [
+        "抽牌",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "一笔全体雷伤 6/9 → 抽 1；属于雷法（可被检索/强化）。"
+    },
+    {
+      "code": "C25",
+      "runtime_id": "VOLIBEAR_C25",
+      "name": "雷引",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得1雷势。本回合下一张攻击减费1。消耗。",
+        "upgraded": "获得2雷势。本回合下一张攻击减费1。消耗。"
+      },
+      "keywords": [
+        "减费",
+        "消耗",
+        "雷势"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "获得雷势 1/2 → 给本回合下一张攻击挂减费 1 优惠；消耗。"
+    },
+    {
+      "code": "C26",
+      "runtime_id": "VOLIBEAR_C26",
+      "name": "接地",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "普通",
+      "rarity_code": 0,
+      "rarity_slug": "common",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "若本回合造成过雷伤，获得2能量。消耗。",
+        "upgraded": "若本回合造成过雷伤，获得3能量。消耗。"
+      },
+      "keywords": [
+        "消耗",
+        "返能",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "读本次出牌前雷伤次数快照，≥1 则返 2/3 能量；消耗；每份牌效独立不共享额度。"
+    },
+    {
+      "code": "U02",
+      "runtime_id": "VOLIBEAR_U02",
+      "name": "狂雷渐起",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "对全体造成6雷伤。每段普通攻击结算后，对全体造成3雷伤。",
+        "upgraded": "对全体造成9雷伤。每段普通攻击结算后，对全体造成4雷伤。"
+      },
+      "keywords": [
+        "攻击段联动",
+        "能力",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "部署能力：入场全体雷伤 6/9；此后每段普通攻击结算后对全体造成 3/4 雷伤（全体一段只 1 次，零段不触发，雷伤/重演不递归）。"
+    },
+    {
+      "code": "U03",
+      "runtime_id": "VOLIBEAR_U03",
+      "name": "屹立",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得8格挡。留甲6。",
+        "upgraded": "获得12格挡。留甲3。"
+      },
+      "keywords": [
+        "格挡",
+        "留甲",
+        "能力"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 8/12 → 部署留甲 N=6/3：从下一回合起，回合开始格挡重置改为 block-=min(N,block)；重复获得取较低层。"
+    },
+    {
+      "code": "U04",
+      "runtime_id": "VOLIBEAR_U04",
+      "name": "战痕",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得6格挡。每回合首次迎战后，获得1力量和1雷势。",
+        "upgraded": "获得9格挡。每回合首次迎战后，获得2力量和1雷势。"
+      },
+      "keywords": [
+        "力量",
+        "格挡",
+        "能力",
+        "迎战",
+        "雷势"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 6/9 → 部署：每实例每回合首次完成迎战后获得力量 1/2 与雷势 1。"
+    },
+    {
+      "code": "U05",
+      "runtime_id": "VOLIBEAR_U05",
+      "name": "挟山",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成等同当前格挡的伤害。",
+        "upgraded": "造成等同当前格挡的伤害。"
+      },
+      "keywords": [
+        "格挡",
+        "格挡转伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        0
+      ],
+      "implementation": "单体攻击，伤害=捕获时当前格挡（不消耗格挡）；非固定攻击，吃力量/虚弱/易伤。"
+    },
+    {
+      "code": "U06",
+      "runtime_id": "VOLIBEAR_U06",
+      "name": "三重撕裂",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成8伤害，重复3次。",
+        "upgraded": "造成11伤害，重复3次。"
+      },
+      "keywords": [
+        "多段"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "单体攻击 8/11，重复 3 段。"
+    },
+    {
+      "code": "U07",
+      "runtime_id": "VOLIBEAR_U07",
+      "name": "崩山",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "3",
+        "upgraded": "3",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成28伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+        "upgraded": "造成36伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。"
+      },
+      "keywords": [
+        "减费",
+        "目标连锁"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        3,
+        3
+      ],
+      "implementation": "单体攻击 28/36；费用动态减「本回合此前对该目标打出的攻击次数」，最低 0。"
+    },
+    {
+      "code": "U08",
+      "runtime_id": "VOLIBEAR_U08",
+      "name": "暴怒撕咬",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
+        "upgraded": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。"
+      },
+      "keywords": [
+        "咬痕",
+        "格挡"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 6/9 → 普通攻击 10/14，若出牌前该目标已有咬痕则 +6/9 → 命中后登记咬痕（完全格挡/致死也登记，重演读旧标记）。"
+    },
+    {
+      "code": "U10",
+      "runtime_id": "VOLIBEAR_U10",
+      "name": "磨砺爪牙",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "抽1张牌。下一张攻击强化3。",
+        "upgraded": "抽2张牌。下一张攻击强化5。"
+      },
+      "keywords": [
+        "强化",
+        "抽牌"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "抽 1/2 → 部署一次性强化 3/5：下一张实际打出的攻击本战每段伤害（含动态攻击与原生雷伤）+N，可跨回合。"
+    },
+    {
+      "code": "U11",
+      "runtime_id": "VOLIBEAR_U11",
+      "name": "暴风再临",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "本回合下一张攻击获得重演。",
+        "upgraded": "本回合下一张攻击获得重演。"
+      },
+      "keywords": [
+        "重演"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        0
+      ],
+      "implementation": "给本回合下一张实际打出的攻击 +1 次完整效果重演（不算重新打出，共用目标/已付 X/条件）。"
+    },
+    {
+      "code": "U12",
+      "runtime_id": "VOLIBEAR_U12",
+      "name": "原始力量",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "本轮雷伤增加当前力量。抽1张牌。消耗。",
+        "upgraded": "本轮雷伤增加当前力量。抽2张牌。消耗。"
+      },
+      "keywords": [
+        "力量",
+        "抽牌",
+        "消耗",
+        "雷伤",
+        "雷伤增幅"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "部署本轮增幅：其层数=捕获时正力量，使自身每笔雷伤 +层数；抽 1/2；消耗；效果覆盖随后敌方阶段。"
+    },
+    {
+      "code": "U13",
+      "runtime_id": "VOLIBEAR_U13",
+      "name": "力量归身",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得2力量。将临时力量转为力量。",
+        "upgraded": "获得3力量。将临时力量转为力量。"
+      },
+      "keywords": [
+        "临时力量转正",
+        "力量"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "获得 2/3 力量 → 停用当前「回合末失去力量」状态，把已登记临时力量转正。"
+    },
+    {
+      "code": "U14",
+      "runtime_id": "VOLIBEAR_U14",
+      "name": "迎战准备",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得5格挡。本回合下一张迎战牌减费1。消耗。",
+        "upgraded": "获得8格挡。本回合下一张迎战牌减费1。"
+      },
+      "keywords": [
+        "减费",
+        "格挡",
+        "消耗",
+        "迎战",
+        "迎战预备"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "格挡 5/8 → 挂迎战预备：本回合下一张声明迎战的牌减费 1，不叠加、实际打出即消费；基础消耗、升级不消耗。"
+    },
+    {
+      "code": "U15",
+      "runtime_id": "VOLIBEAR_U15",
+      "name": "暴风换气",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "消耗1张手牌，抽2张牌。",
+        "upgraded": "消耗1张手牌，抽3张牌。"
+      },
+      "keywords": [
+        "抽牌",
+        "消耗手牌"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "先选并消耗另一张手牌（无合法手牌则跳过），再抽 2/3；不要求有材料即可打出。"
+    },
+    {
+      "code": "U17",
+      "runtime_id": "VOLIBEAR_U17",
+      "name": "古老直觉",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "预见3。抽1张牌。",
+        "upgraded": "预见5。抽1张牌。"
+      },
+      "keywords": [
+        "抽牌",
+        "预见"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "预见 3/5（看抽牌堆顶，可弃入弃牌堆，保持其余相对顺序）→ 抽 1。"
+    },
+    {
+      "code": "U19",
+      "runtime_id": "VOLIBEAR_U19",
+      "name": "风暴不散",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "抽1张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+        "upgraded": "抽2张牌。领域1。每次迎战后，抽1张牌并获得领域1。"
+      },
+      "keywords": [
+        "抽牌",
+        "能力",
+        "迎战",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "抽 1/2 → 领域 1 → 部署：每次完成迎战后抽 1 并延长领域 1（不限每回合次数，但每次迎战触发）。"
+    },
+    {
+      "code": "U20",
+      "runtime_id": "VOLIBEAR_U20",
+      "name": "势不可挡",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成10伤害。若上一张打出的是攻击牌，获得2能量。消耗。",
+        "upgraded": "造成14伤害。若上一张打出的是攻击牌，获得3能量。消耗。"
+      },
+      "keywords": [
+        "消耗",
+        "返能"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "攻击 10/14；读本次出牌前快照，若上一张实际打出的是攻击则返 2/3 能量；消耗。"
+    },
+    {
+      "code": "U21",
+      "runtime_id": "VOLIBEAR_U21",
+      "name": "雷霆余威",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+        "upgraded": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。"
+      },
+      "keywords": [
+        "能力",
+        "返能",
+        "雷伤",
+        "雷伤计数"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        0
+      ],
+      "implementation": "部署：本回合第 2/4/6…次雷伤批次后各返 1 能量；部署时若已达 ≥2 次立即返 1，不补发历史。"
+    },
+    {
+      "code": "U23",
+      "runtime_id": "VOLIBEAR_U23",
+      "name": "迎风咆哮",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "对全体施加1虚弱。获得9格挡。",
+        "upgraded": "对全体施加2虚弱。获得12格挡。"
+      },
+      "keywords": [
+        "格挡",
+        "虚弱"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "对全体施加 1/2 虚弱 → 格挡 9/12。"
+    },
+    {
+      "code": "U24",
+      "runtime_id": "VOLIBEAR_U24",
+      "name": "饮血而战",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成21伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+        "upgraded": "造成28伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。"
+      },
+      "keywords": [
+        "汲取",
+        "消耗",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "单体攻击 21/28 → 单体雷伤 3 → 按该段雷伤实际生命损失回复生命；消耗。"
+    },
+    {
+      "code": "U25",
+      "runtime_id": "VOLIBEAR_U25",
+      "name": "猎物未倒",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
+        "upgraded": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。"
+      },
+      "keywords": [
+        "减费",
+        "抽牌",
+        "能力"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "抽 1 → 部署：每实例每回合首次对同一目标打出第 2 张单体攻击后抽 1/2，并使抽到的攻击本回合减费 1。"
+    },
+    {
+      "code": "U26",
+      "runtime_id": "VOLIBEAR_U26",
+      "name": "愈战愈烈",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得1力量。每回合打出第2张攻击时，获得1力量和1雷势。",
+        "upgraded": "获得1力量。每回合打出第2张攻击时，获得2力量和2雷势。"
+      },
+      "keywords": [
+        "力量",
+        "能力",
+        "雷势"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "部署：获得 1 力量；每实例每回合第 2 张实际攻击在支付后、牌效前获得力量 1/2 与雷势 1/2。"
+    },
+    {
+      "code": "U27",
+      "runtime_id": "VOLIBEAR_U27",
+      "name": "淬躯爪击",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成8伤害。获得本回合雷伤次数×2的格挡。",
+        "upgraded": "造成11伤害。获得本回合雷伤次数×2的格挡。"
+      },
+      "keywords": [
+        "格挡",
+        "雷伤",
+        "雷伤计数"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体攻击 8/11 → 格挡=本回合雷伤次数×2。"
+    },
+    {
+      "code": "U28",
+      "runtime_id": "VOLIBEAR_U28",
+      "name": "雷霆反扑",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "获得12格挡。迎战。对全体造成4＋吸收的雷伤。",
+        "upgraded": "获得17格挡。迎战。对全体造成6＋吸收的雷伤。"
+      },
+      "keywords": [
+        "吸收",
+        "格挡",
+        "迎战",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "格挡 12/17 → 依次迎战并累计 absorbed → 一笔全体雷伤 4/6+总吸收；雷法。"
+    },
+    {
+      "code": "U29",
+      "runtime_id": "VOLIBEAR_U29",
+      "name": "雷霆渐盛",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得2雷势。",
+        "upgraded": "获得3雷势。"
+      },
+      "keywords": [
+        "雷势"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "获得雷势 2/3。"
+    },
+    {
+      "code": "U31",
+      "runtime_id": "VOLIBEAR_U31",
+      "name": "万钧连踏",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "X",
+        "upgraded": "X",
+        "is_x": true
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成5伤害和3全体雷伤，重复X次。",
+        "upgraded": "造成7伤害和3全体雷伤，重复X次。"
+      },
+      "keywords": [
+        "X费",
+        "多段",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        -1,
+        -1
+      ],
+      "implementation": "X 费：支付全能量后重复 X 次「单体攻击 5/7 + 全体雷伤 3」；X=0 不产生段，重演沿用已付 X。"
+    },
+    {
+      "code": "U32",
+      "runtime_id": "VOLIBEAR_U32",
+      "name": "迎雷",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "领域1。本回合下一张攻击减费1。每回合首次迎战后，下一张攻击减费1。",
+        "upgraded": "领域1。本回合下一张攻击减费2。每回合首次迎战后，下一张攻击减费2。"
+      },
+      "keywords": [
+        "减费",
+        "能力",
+        "迎战",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        2,
+        1
+      ],
+      "implementation": "领域 1 → 本回合下一张攻击减费 1/2 → 部署：每实例每回合首次迎战后给下一张攻击减费 1/2。"
+    },
+    {
+      "code": "U34",
+      "runtime_id": "VOLIBEAR_U34",
+      "name": "雷甲",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得4格挡。每造成1次雷伤，获得3格挡。",
+        "upgraded": "获得7格挡。每造成1次雷伤，获得4格挡。"
+      },
+      "keywords": [
+        "格挡",
+        "能力",
+        "雷伤",
+        "雷伤计数"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 4/7 → 部署：每笔雷伤批次后获得 3/4 格挡（+敏捷，按批次不是按目标）。"
+    },
+    {
+      "code": "U35",
+      "runtime_id": "VOLIBEAR_U35",
+      "name": "霹天雳地",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "获得8格挡。对全体造成3雷伤。迎战。",
+        "upgraded": "获得11格挡。对全体造成5雷伤。迎战。"
+      },
+      "keywords": [
+        "格挡",
+        "迎战",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 8/11 → 全体雷伤 3/5 → 自动迎战目标；雷法（先雷后迎战）。"
+    },
+    {
+      "code": "U36",
+      "runtime_id": "VOLIBEAR_U36",
+      "name": "奔雷",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "0",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+        "upgraded": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。"
+      },
+      "keywords": [
+        "抽牌",
+        "消耗",
+        "返能",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        0,
+        0
+      ],
+      "implementation": "返 1/2 能量；读本次出牌前快照，若此前造成过雷伤则抽 1；消耗。"
+    },
+    {
+      "code": "U37",
+      "runtime_id": "VOLIBEAR_U37",
+      "name": "风暴汇聚",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "对全体造成12雷伤。领域1。",
+        "upgraded": "对全体造成16雷伤。领域1。"
+      },
+      "keywords": [
+        "雷伤",
+        "雷法",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "全体雷伤 12/16 → openDomain(1)；雷法。"
+    },
+    {
+      "code": "U38",
+      "runtime_id": "VOLIBEAR_U38",
+      "name": "雷势奔袭",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "3",
+        "upgraded": "3",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成18伤害。本回合每造成1次雷伤，本牌费用−1。",
+        "upgraded": "造成24伤害。本回合每造成1次雷伤，本牌费用−1。"
+      },
+      "keywords": [
+        "减费",
+        "雷伤",
+        "雷伤计数"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        3,
+        3
+      ],
+      "implementation": "单体攻击 18/24；费用动态减「本回合当前雷伤次数」，最低 0。"
+    },
+    {
+      "code": "U39",
+      "runtime_id": "VOLIBEAR_U39",
+      "name": "雷暴先兆",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得4格挡。领域1。检索1张雷法。",
+        "upgraded": "获得7格挡。领域1。检索1张雷法。"
+      },
+      "keywords": [
+        "格挡",
+        "检索",
+        "雷法",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 4/7 → 领域 1 → 从抽牌堆检索 1 张雷法。"
+    },
+    {
+      "code": "U40",
+      "runtime_id": "VOLIBEAR_U40",
+      "name": "雷路贯通",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+        "upgraded": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量。"
+      },
+      "keywords": [
+        "返能",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体雷伤 8/12 → 读出牌前快照，若此前雷伤 ≥2 次则返 2 能量；雷法。"
+    },
+    {
+      "code": "U41",
+      "runtime_id": "VOLIBEAR_U41",
+      "name": "破皮见骨",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成3伤害。兽化1张攻击手牌，减费1。",
+        "upgraded": "造成6伤害。兽化1张攻击手牌，减费1。"
+      },
+      "keywords": [
+        "兽化",
+        "减费"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "单体攻击 3/6 → 兽化 1 张手牌攻击（攻击→爪形），所得形态本回合减费 1。"
+    },
+    {
+      "code": "U42",
+      "runtime_id": "VOLIBEAR_U42",
+      "name": "蛮荒护体",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得3格挡。兽化1张非攻击手牌，减费1。",
+        "upgraded": "获得6格挡。兽化1张非攻击手牌，减费1。"
+      },
+      "keywords": [
+        "兽化",
+        "减费",
+        "格挡"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡 3/6 → 兽化 1 张非攻击手牌（→躯形），所得形态本回合减费 1。"
+    },
+    {
+      "code": "U43",
+      "runtime_id": "VOLIBEAR_U43",
+      "name": "循着本能",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "罕见",
+      "rarity_code": 1,
+      "rarity_slug": "uncommon",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "0",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "检索1张牌，兽化1张手牌，减费1。消耗。",
+        "upgraded": "检索1张牌，兽化1张手牌，减费1。消耗。"
+      },
+      "keywords": [
+        "兽化",
+        "减费",
+        "检索",
+        "消耗"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        0
+      ],
+      "implementation": "检索 1 张牌 → 兽化 1 张手牌（减费 1）；消耗。"
+    },
+    {
+      "code": "R01",
+      "runtime_id": "VOLIBEAR_R01",
+      "name": "风暴形态",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "3",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得10格挡。永久领域。",
+        "upgraded": "获得14格挡。永久领域。"
+      },
+      "keywords": [
+        "格挡",
+        "永久领域",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        3,
+        2
+      ],
+      "implementation": "格挡 10/14 → openDomain(null) 永久领域（本战内不降级）。"
+    },
+    {
+      "code": "R02",
+      "runtime_id": "VOLIBEAR_R02",
+      "name": "不动神躯",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得10格挡。坚甲。",
+        "upgraded": "获得15格挡。坚甲。"
+      },
+      "keywords": [
+        "坚甲",
+        "格挡"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "格挡 10/15 → 部署坚甲：自身被攻击时实际格挡消耗=0（吸收仍结算，溢出正常扣血）。"
+    },
+    {
+      "code": "R05",
+      "runtime_id": "VOLIBEAR_R05",
+      "name": "全身之力",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "格挡变为3倍。",
+        "upgraded": "格挡变为3倍。"
+      },
+      "keywords": [
+        "格挡",
+        "格挡倍化"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        1
+      ],
+      "implementation": "额外获得当前格挡×2 的格挡（合计 3 倍），该额外量不再吃敏捷/脆弱。"
+    },
+    {
+      "code": "R06",
+      "runtime_id": "VOLIBEAR_R06",
+      "name": "天人合一",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
+        "upgraded": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。"
+      },
+      "keywords": [
+        "力量",
+        "强化",
+        "格挡",
+        "消耗"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "获得 3/4 力量 → 格挡 10/14 → 部署本战强化 3：全部攻击牌自身攻击伤害与原生雷伤 +3；消耗。"
+    },
+    {
+      "code": "R07",
+      "runtime_id": "VOLIBEAR_R07",
+      "name": "天崩地裂",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "对全体造成等同当前格挡的雷伤。",
+        "upgraded": "对全体造成等同当前格挡的雷伤。"
+      },
+      "keywords": [
+        "格挡",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        1
+      ],
+      "implementation": "一笔全体雷伤，基础值=捕获时当前格挡；雷法。"
+    },
+    {
+      "code": "R08",
+      "runtime_id": "VOLIBEAR_R08",
+      "name": "雷霆万钧",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "3",
+        "upgraded": "3",
+        "is_x": false
+      },
+      "target": "随机敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "随机攻击4次，每次造成10伤害和5雷伤。",
+        "upgraded": "随机攻击4次，每次造成13伤害和8雷伤。"
+      },
+      "keywords": [
+        "多段",
+        "随机",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        3,
+        3
+      ],
+      "implementation": "随机选存活敌人重复 4 次「单体攻击 10/13 + 该敌雷伤 5/8」；每段独立触发段联动。"
+    },
+    {
+      "code": "R09",
+      "runtime_id": "VOLIBEAR_R09",
+      "name": "众敌皆来",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "获得15格挡。迎战全体。对全体造成等同吸收的雷伤。",
+        "upgraded": "获得21格挡。迎战全体。对全体造成等同吸收的雷伤。"
+      },
+      "keywords": [
+        "吸收",
+        "格挡",
+        "迎战",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "格挡 15/21 → 依次迎战全体并累计 absorbed → 一笔全体雷伤=总吸收；雷法。"
+    },
+    {
+      "code": "R10",
+      "runtime_id": "VOLIBEAR_R10",
+      "name": "这场战斗尚未结束",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "回收至多3张攻击，减费1。",
+        "upgraded": "回收至多4张攻击，减费1。"
+      },
+      "keywords": [
+        "减费",
+        "回收"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "从弃牌堆回收至多 3/4 张攻击（可 0 张），每张减费 1；先占手牌位。"
+    },
+    {
+      "code": "R12",
+      "runtime_id": "VOLIBEAR_R12",
+      "name": "解放本能",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "抽牌至手牌达到7张。",
+        "upgraded": "抽牌至手牌达到9张。"
+      },
+      "keywords": [
+        "抽牌"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "抽牌至手牌达到 7/9 张（手牌已满则不抽）。"
+    },
+    {
+      "code": "R13",
+      "runtime_id": "VOLIBEAR_R13",
+      "name": "重返蛮荒",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
+        "upgraded": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。"
+      },
+      "keywords": [
+        "力量",
+        "治疗",
+        "消耗",
+        "领域"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "结算时若已有领域则回复 4/6 生命，否则 openDomain(1)；然后获得 2/3 力量；消耗。"
+    },
+    {
+      "code": "R14",
+      "runtime_id": "VOLIBEAR_R14",
+      "name": "不休之猎",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+        "upgraded": "抽1张牌。每打出1张攻击后，本回合对同一目标的攻击费用−1。"
+      },
+      "keywords": [
+        "减费",
+        "能力"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "部署：每实际打出 1 张攻击后，本回合对该目标的攻击费用 -1（按目标累加、自身不吃本次新增）；升级入场抽 1。"
+    },
+    {
+      "code": "R16",
+      "runtime_id": "VOLIBEAR_R16",
+      "name": "愈战神躯",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+        "upgraded": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。"
+      },
+      "keywords": [
+        "力量",
+        "敏捷",
+        "格挡",
+        "能力"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "部署：每实际打出 1 张攻击后力量 +1，该牌本次提供过正格挡再 +1 敏捷；升级入场先格挡 8。"
+    },
+    {
+      "code": "R17",
+      "runtime_id": "VOLIBEAR_R17",
+      "name": "天雷决",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "X",
+        "upgraded": "X",
+        "is_x": true
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "获得X雷势。造成6雷伤，重复X次。消耗。",
+        "upgraded": "获得X＋1雷势。造成6雷伤，重复X＋1次。消耗。"
+      },
+      "keywords": [
+        "X费",
+        "消耗",
+        "雷伤",
+        "雷势",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        -1,
+        -1
+      ],
+      "implementation": "X 费：支付当前全部能量，先获得 X/X+1 雷势，再重复 X/X+1 次单体雷伤 6；消耗；重演沿用已付 X。"
+    },
+    {
+      "code": "R18",
+      "runtime_id": "VOLIBEAR_R18",
+      "name": "雷池",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
+        "upgraded": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。"
+      },
+      "keywords": [
+        "能力",
+        "迎战",
+        "雷伤",
+        "领域"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "全体雷伤 6/9 → 部署：回合结束与每实例每回合首次迎战后各造成 4/6 全体雷伤。"
+    },
+    {
+      "code": "R21",
+      "runtime_id": "VOLIBEAR_R21",
+      "name": "雷霆化身",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+        "upgraded": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。"
+      },
+      "keywords": [
+        "抽牌",
+        "格挡",
+        "消耗",
+        "雷伤",
+        "雷伤计数"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "格挡=本回合雷伤次数×4/5 → 抽 2；消耗。"
+    },
+    {
+      "code": "R23",
+      "runtime_id": "VOLIBEAR_R23",
+      "name": "裂天",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "造成8雷伤，重复3次。",
+        "upgraded": "造成11雷伤，重复3次。"
+      },
+      "keywords": [
+        "多段",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "discard",
+        "upgraded": "discard"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "单体雷伤 8/11，重复 3 次（3 个批次，3 次雷伤计数）；雷法。"
+    },
+    {
+      "code": "R24",
+      "runtime_id": "VOLIBEAR_R24",
+      "name": "雷涌",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得等同本回合雷伤次数的能量。抽2张牌。消耗。",
+        "upgraded": "获得等同本回合雷伤次数的能量。抽3张牌。消耗。"
+      },
+      "keywords": [
+        "抽牌",
+        "消耗",
+        "返能",
+        "雷伤"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "返能量=本回合雷伤次数 → 抽 2/3；消耗。"
+    },
+    {
+      "code": "R25",
+      "runtime_id": "VOLIBEAR_R25",
+      "name": "风暴重临",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "领域2。检索至多2张技能。消耗。",
+        "upgraded": "领域2。检索至多2张技能。消耗。"
+      },
+      "keywords": [
+        "检索",
+        "消耗",
+        "领域"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        2,
+        1
+      ],
+      "implementation": "openDomain(2) → 从抽牌堆检索至多 2 张技能；消耗。"
+    },
+    {
+      "code": "R27",
+      "runtime_id": "VOLIBEAR_R27",
+      "name": "旧日重临",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "兽化至多2张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
+        "upgraded": "兽化至多3张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。"
+      },
+      "keywords": [
+        "兽化",
+        "减费",
+        "格挡",
+        "消耗",
+        "爪形",
+        "躯形"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "兽化至多 2/3 张手牌：每张爪形减费 1；每张躯形获得 4 格挡；消耗。"
+    },
+    {
+      "code": "R28",
+      "runtime_id": "VOLIBEAR_R28",
+      "name": "熊灵侵染",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽1张牌。每回合首次打出兽形时，获得1雷势。",
+        "upgraded": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽2张牌。每回合首次打出兽形时，获得1雷势。"
+      },
+      "keywords": [
+        "兽化",
+        "兽形",
+        "抽牌",
+        "能力",
+        "雷势"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "部署：打出时及每回合起手抽牌后可选兽化 1 张；每回合首次兽化后抽 1/2；每回合首次打出兽形在支付后、牌效前获得 1 雷势。"
+    },
+    {
+      "code": "R29",
+      "runtime_id": "VOLIBEAR_R29",
+      "name": "不再为人",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "3",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "兽化所有手牌并减费1。消耗。",
+        "upgraded": "兽化所有手牌并减费1。消耗。"
+      },
+      "keywords": [
+        "兽化",
+        "减费",
+        "消耗"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        3,
+        2
+      ],
+      "implementation": "先固定当前手牌集合，兽化全部（上限 10）并各减费 1；转换响应抽到的新牌不进本批；消耗。"
+    },
+    {
+      "code": "R30",
+      "runtime_id": "VOLIBEAR_R30",
+      "name": "我即荒野",
+      "type": "能力",
+      "type_code": 2,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "自身/无目标",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "兽化1张手牌，减费1。每回合首次打出爪形时，获得6格挡；每次打出躯形时，获得1能量。",
+        "upgraded": "兽化1张手牌，减费1。每回合首次打出爪形时，获得9格挡；每次打出躯形时，获得1能量。"
+      },
+      "keywords": [
+        "兽化",
+        "减费",
+        "格挡",
+        "爪形",
+        "能力",
+        "躯形",
+        "返能"
+      ],
+      "exhaust": {
+        "base": false,
+        "upgraded": false
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "deployed_power",
+        "upgraded": "deployed_power"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "兽化 1 张手牌并减费 1 → 部署：每回合首次爪形获 6/9 格挡、每次实际打出躯形返 1 能量。"
+    },
+    {
+      "code": "R31",
+      "runtime_id": "VOLIBEAR_R31",
+      "name": "天声震落",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "稀有",
+      "rarity_code": 2,
+      "rarity_slug": "rare",
+      "pool": "reward",
+      "cost": {
+        "base": "2",
+        "upgraded": "2",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "获得8格挡。领域1。移除目标格挡。造成20伤害，对所有敌人造成6雷伤。消耗。",
+        "upgraded": "获得12格挡。领域2。移除目标格挡。造成28伤害，对所有敌人造成9雷伤。消耗。"
+      },
+      "keywords": [
+        "格挡",
+        "消耗",
+        "移除格挡",
+        "雷伤",
+        "领域"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        2,
+        2
+      ],
+      "implementation": "格挡 8/12 → 领域 1/2 → 移除目标全部格挡 → 攻击 20/28 → 全体雷伤 6/9；消耗。"
+    },
+    {
+      "code": "T01",
+      "runtime_id": "VOLIBEAR_T01",
+      "name": "裂骨之爪",
+      "type": "攻击",
+      "type_code": 0,
+      "rarity": "衍生",
+      "rarity_code": 4,
+      "rarity_slug": "token",
+      "pool": "token",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "单敌（选择）",
+      "needs_selected_enemy": true,
+      "single_target_attack": true,
+      "strike_tag": false,
+      "lightning_spell": false,
+      "text": {
+        "base": "造成7伤害2次。消耗。",
+        "upgraded": "造成11伤害2次。消耗。"
+      },
+      "keywords": [
+        "兽形",
+        "多段",
+        "消耗",
+        "爪形"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": true,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "爪形：单体攻击 7/11 重复 2 段；打出后消耗并恢复原牌（永久牌组不变）。"
+    },
+    {
+      "code": "T02",
+      "runtime_id": "VOLIBEAR_T02",
+      "name": "风暴之躯",
+      "type": "技能",
+      "type_code": 1,
+      "rarity": "衍生",
+      "rarity_code": 4,
+      "rarity_slug": "token",
+      "pool": "token",
+      "cost": {
+        "base": "1",
+        "upgraded": "1",
+        "is_x": false
+      },
+      "target": "全体敌人",
+      "needs_selected_enemy": false,
+      "single_target_attack": false,
+      "strike_tag": false,
+      "lightning_spell": true,
+      "text": {
+        "base": "获得9格挡。对全体造成2雷伤。消耗。",
+        "upgraded": "获得12格挡。对全体造成3雷伤。消耗。"
+      },
+      "keywords": [
+        "兽形",
+        "格挡",
+        "消耗",
+        "躯形",
+        "雷伤",
+        "雷法"
+      ],
+      "exhaust": {
+        "base": true,
+        "upgraded": true
+      },
+      "retain": false,
+      "ethereal": false,
+      "innate": false,
+      "replay_grantable": false,
+      "after_use": {
+        "base": "exhaust",
+        "upgraded": "exhaust"
+      },
+      "internal_cost_check": [
+        1,
+        1
+      ],
+      "implementation": "躯形：格挡 9/12 → 全体雷伤 2/3；打出后消耗并恢复原牌；雷法。"
+    }
+  ]
+}

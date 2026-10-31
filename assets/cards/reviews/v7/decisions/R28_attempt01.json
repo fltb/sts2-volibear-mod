@@ -1,0 +1,13 @@
+{
+  "id": "R28",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "a3ddd48dcdfeaa61716b6e3c977a985ab294e2047ff3dad2a35e06ae4fa0a4f8",
+  "observations": "石面纹理过多，转化区域容易读成手臂毛发铺到受体上。",
+  "defects": [
+    "石面纹理过多，转化区域容易读成手臂毛发铺到受体上。"
+  ],
+  "recorded_at": "2026-10-27T17:29:00+00:00"
+}

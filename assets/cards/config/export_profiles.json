@@ -1,0 +1,57 @@
+{
+  "profiles": [
+    {
+      "name": "sts2_big",
+      "enabled": true,
+      "size": [
+        1000,
+        760
+      ],
+      "path": "production/sts2/Volibear/images/card_portraits/big/{asset_key}.png",
+      "source": "https://github.com/Alchyr/ModTemplate-StS2/wiki/Adding-Cards"
+    },
+    {
+      "name": "sts2_small",
+      "enabled": true,
+      "size": [
+        250,
+        190
+      ],
+      "path": "production/sts2/Volibear/images/card_portraits/{asset_key}.png",
+      "source": "https://github.com/Alchyr/ModTemplate-StS2/wiki/Adding-Cards"
+    },
+    {
+      "name": "sts1_large",
+      "enabled": true,
+      "size": [
+        500,
+        380
+      ],
+      "path": "production/sts1/VolibearResources/images/cards/{asset_key}_p.png",
+      "requires_mask": true,
+      "mask_mode": "luminance_nonzero",
+      "mask_by_type": {
+        "攻击": "references/sts1_masks/AttackMask_p.png",
+        "技能": "references/sts1_masks/SkillMask_p.png",
+        "能力": "references/sts1_masks/PowerMask_p.png"
+      },
+      "note": "MIT masks included. RGB black is removed; alpha in the original mask is opaque and is not its mask signal."
+    },
+    {
+      "name": "sts1_small",
+      "enabled": true,
+      "size": [
+        250,
+        190
+      ],
+      "path": "production/sts1/VolibearResources/images/cards/{asset_key}.png",
+      "requires_mask": true,
+      "mask_mode": "luminance_nonzero",
+      "mask_by_type": {
+        "攻击": "references/sts1_masks/AttackMask.png",
+        "技能": "references/sts1_masks/SkillMask.png",
+        "能力": "references/sts1_masks/PowerMask.png"
+      }
+    }
+  ]
+}

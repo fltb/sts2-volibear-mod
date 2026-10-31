@@ -1,0 +1,54 @@
+{
+  "id": "U36",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "1be5fd7e284549f9b499087e5bd107c6e0a10fb5b3401ab4eba4d8813098b473",
+  "master_sha256": "24d1fdcee8d2f81b65e3463346d2427145a01748fab4dd881f194ce17305f452",
+  "comparison_sha256": "fdf4df7213c030c5c852234f7681e72c125853127389e1c3e53788202f0bdd18",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "腰以下完整相连的两腿形成后足蹬地、前足抬起的起步。细雷只在后足落点发亮，右方大空地没有敌人与爆点。",
+  "baseline_comparison": "与U40的接点语言一致，动作换成起步支点；不同于U38冲撞和固定C22落地震波，缩图仍读一实一虚两足。",
+  "paw_orientation_observation": "髋、两腿、各自踝足连续；后足趾着地而跟抬起，前足自然向前下垂。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:03+00:00",
+  "master": "cards/masters/U36.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U36.jpg",
+  "anchors": [
+    "U19",
+    "U40"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

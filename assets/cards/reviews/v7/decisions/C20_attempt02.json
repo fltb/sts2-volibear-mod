@@ -1,0 +1,41 @@
+{
+  "id": "C20",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "51eb996f64f25ee6f262f25f51b3822c19baf002a0a004be4bcaf011ea3ef1ae",
+  "master_sha256": "507f76d2ea8ef0695dec4c1eb95091bc4ddf4f1326a05644a656b7057257193e",
+  "comparison_sha256": "57d4e95b80afcb0896b9cab13c006a38567e8961ff147eb68c42e22e18a8e077",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "高斜后视点表现追击同一前方敌人；后腿缩短粗实，脚收近髋，蹬点与新的足位置相符。地面旧滑痕已合为宽面，前臂短收。",
+  "baseline_comparison": "与U38侧面推进区分为俯视追击；125像素读到旧蹬点、追击身体与前方对象的连续方向。",
+  "paw_orientation_observation": "后足从同侧髋膝连续落下，前掌收在身体前方，未出现拉长细腿。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:55+00:00"
+}

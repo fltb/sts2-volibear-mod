@@ -1,0 +1,328 @@
+{
+  "id": "heavy_impact",
+  "label_zh": "重击碎震",
+  "family": "physical",
+  "fps": 24,
+  "frame_count": 24,
+  "duration_seconds": 1.0,
+  "loop": false,
+  "anchor": "target_ground",
+  "layer_z": 10,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    181
+  ],
+  "content_bbox": [
+    21,
+    36,
+    235,
+    212
+  ],
+  "atlas": {
+    "image": "atlases/heavy_impact.png",
+    "json": "atlases/heavy_impact.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "5c203b2da1ea7334805c76744c71df3dbea9a3ca59886441d3d78c56abae7c16"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/001.png",
+      "sha256": "ef654caa148a5764a5a841ff603a2c02c6257b2a4dfc9c6b70f40655f87df784"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/002.png",
+      "sha256": "e0ff74d250dc15f143685b0b1628ae5a28ecfc85d187b1b685235d220ac3c90a"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/003.png",
+      "sha256": "76c7d976f217570d218e89833a88c90fa5743b322b6024e71e32ba15c0cd6fbb"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/004.png",
+      "sha256": "fe4d79e75b3544b3c68f07cb45a708084ac3d38b7182c1dbec4018216f8a6c1e"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/005.png",
+      "sha256": "48544ecadaf76880d723ece1d5b6dbc2db61903bbfb05a04fa61f327cb631ece"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/006.png",
+      "sha256": "5e5ab1d2e8cc27280ede4b851d4ee644bd65d7e747b92dd86e6cd567f8e08a7e"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/007.png",
+      "sha256": "2538d3386c09fbf1d945c12e99b26c5d289a326f85d7f59a58cf373ffdd9690a"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/008.png",
+      "sha256": "86f9179ac7302ded8e775034253c7a2dd28ca399211b982df7a6be4a74644a20"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/009.png",
+      "sha256": "31186b0497a846c3eceb8c5fb1036695e6f7d5419b22902cc226044e805e88a5"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/010.png",
+      "sha256": "8f6c698a66ebdcb21fa688e326fec86cebd99fe9078c4ffb39934553f493fbc4"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/011.png",
+      "sha256": "1c37bd25a9f03905e031f333812d89162c61b30377ee05a363b360cce653b548"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/012.png",
+      "sha256": "a7b42d36ff102eab215d7b77f54f501826be62b4ca762fab728b69263433fa3b"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/013.png",
+      "sha256": "fdcaef7aef1300fa0ac9df8444059bf86c28a50525c0ad35053922853b87dd39"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/014.png",
+      "sha256": "6064acbd08a8eeb3605d4a50a7eba0b7afd688d2870265eb5c9f8b6f622ebc68"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/015.png",
+      "sha256": "65dbeddc209325171c8f31057b2e2c3beb5c2427bcf4a06f59f212e99c7a717c"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/016.png",
+      "sha256": "c23e19b4bdc153fccdeca248bb263fd912d76d3b361e6ef95fe24626e3eb8a68"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/017.png",
+      "sha256": "bc0a44021fe03b2d7efd998478be3e148f02adac28fd98889aa9263b483d0a8f"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/018.png",
+      "sha256": "3ea8d8e64821458213036373e54694a0f51dc9cc1cf9441993c3af4a8dc3b80d"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/019.png",
+      "sha256": "6c7994f1cbafea1b586dd4f9a50b94f3718e25db216cef791172866ffec8e30e"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/020.png",
+      "sha256": "dc0ed015a20393bc359357c00ad93be7cfe14e1879395ee72c679d5a6a89d9e5"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/021.png",
+      "sha256": "c8561e99667d53d239dd8d995e22d25ed84182c36dfbe30b279c446d5e3644c3"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/022.png",
+      "sha256": "90ddb41f2ddb6bd869b41d6d9a9bfca7da8a2300bd4024ce4cb73ae26af544ea"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/heavy_impact/023.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.heavy_impact",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

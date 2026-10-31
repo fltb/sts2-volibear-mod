@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "reviewer": "root",
+  "checked_at": "2026-10-27T12:29:57.690625+00:00",
+  "status": "accepted_for_delivered_scope",
+  "manifest_sha256": "2d24dfd2125910115adacd420b848da2798221a334695deb85e801c254b31ac3",
+  "evidence": [
+    {
+      "file": "previews/ui_contact.png",
+      "sha256": "d2e0a9bca6296412d4bc3138c4c5f71c1af81b3da7da723d8c67ca5197d31d15",
+      "observation": "Actual contact image inspected. Portrait and dark locked state preserve original head/shoulders. Circle portrait uses intentional round window; map marker has complete face and pin. Outline is a solid expanded underlay, not standalone character art. Both energy sizes remain legible. Full-body fallback retains both arms and feet. Selection background keeps left-side UI space and original proportions."
+    }
+  ],
+  "source_preserved": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
+  "not_claimed": "No new anatomy painting. Full 14-file decode/size/source checks and browser loading are recorded separately."
+}

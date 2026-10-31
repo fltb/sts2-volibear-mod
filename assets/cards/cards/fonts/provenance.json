@@ -1,0 +1,13 @@
+{
+  "font": "Noto Sans SC Regular",
+  "source_sha256": "30751d72ecc3fa752658f8659d37e2f62d01b7ce9c4b37a326521d696f213577",
+  "subset_sha256": "a4c5f18c02303eb721dea55548baac4b110cdb3b0e265287be338dc88ce877d9",
+  "file": "gallery_ui.woff",
+  "bytes": 392088,
+  "modification": "Subset all current source/brief/state and both gallery/navigation templates; converted to WOFF. No glyph artwork modified.",
+  "uncovered_source_characters": [],
+  "delivery_revision": 7,
+  "subset_scope": "All actual V7 gallery data, index HTML and START_HERE text",
+  "output_sha256": "a4c5f18c02303eb721dea55548baac4b110cdb3b0e265287be338dc88ce877d9",
+  "rebuild": "python3 scripts/build_gallery_font.py --font /path/to/NotoSansCJKsc-Regular.otf"
+}

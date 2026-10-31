@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>沃利贝尔 · 官方原始音频资料库</title>
+<style>
+@font-face{font-family:OfficialAudioUI;src:url("fonts/official_audio_ui.woff") format("woff");font-style:normal;font-weight:100 900;font-display:swap}
+:root{color-scheme:dark;--bg:#101a26;--panel:#172432;--edge:#324959;--ink:#eeeae0;--muted:#aab9c5;--cyan:#9de3eb;--gold:#d7bd83}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 OfficialAudioUI,system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+main{width:min(1180px,100%);margin:auto;padding:32px 28px 48px}
+a{color:var(--cyan);text-underline-offset:3px}
+a:hover{color:#d5f7fa}
+button,input,select{font:inherit;color:inherit}
+button,a,input,select,audio{max-width:100%}
+button{cursor:pointer}
+button:disabled{cursor:default;opacity:.5}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--cyan);font-weight:650}
+h1{font-size:clamp(27px,3vw,36px);line-height:1.3;letter-spacing:.01em;margin:8px 0 12px}
+.top a{font-size:14px;padding-top:3px}
+.intro{max-width:880px;margin:0;color:#c7d1d8;line-height:1.85}
+.collection-meta{margin:14px 0 24px;display:flex;gap:9px 20px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.collection-meta strong{color:var(--ink);font-variant-numeric:tabular-nums}
+.collection-meta .status{color:var(--gold)}
+.player-panel{position:sticky;top:12px;z-index:2;padding:18px 20px;border:1px solid #47616e;border-radius:12px;background:#1a2b39;box-shadow:0 12px 32px #08111c55}
+.player-heading{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:10px}
+.player-title{min-width:0;flex:1}
+.player-title .label{display:block;color:var(--cyan);font-size:12px;letter-spacing:.08em;margin-bottom:3px}
+#now-title{display:block;font-weight:650;font-size:16px;line-height:1.5;overflow-wrap:anywhere}
+#stop{flex:0 0 auto;border:1px solid #59717e;border-radius:6px;background:#213746;padding:7px 14px}
+#stop:hover:not(:disabled){background:#2c4759}
+audio{width:100%;height:42px;display:block}
+.player-footer{display:flex;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:var(--muted)}
+#playback-status{min-height:20px;overflow-wrap:anywhere}
+#current-download[hidden]{display:none}
+.filters{display:grid;grid-template-columns:minmax(220px,1fr) minmax(160px,.55fr) minmax(130px,.4fr) auto;gap:12px;align-items:end;margin:26px 0 18px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:13px;color:var(--muted)}
+input[type=search],select{width:100%;min-width:0;border:1px solid var(--edge);border-radius:7px;background:#152635;padding:10px 11px;height:44px}
+input::placeholder{color:#879cae}
+#reset{height:44px;border:1px solid var(--edge);border-radius:7px;background:transparent;padding:8px 14px;white-space:nowrap}
+#reset:hover{border-color:#77939f}
+.results-heading{display:flex;justify-content:space-between;gap:16px;align-items:center;margin:18px 0 12px}
+h2{font-size:18px;margin:0}
+#count{font-size:13px;color:var(--cyan);font-variant-numeric:tabular-nums;white-space:nowrap}
+.entries{display:grid;gap:10px}
+.entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 20px;padding:17px 18px;background:var(--panel);border:1px solid #2b3f50;border-radius:9px;min-width:0}
+.entry.selected{border-color:#80bac5;background:#1c3040}
+.entry h3{font-size:15px;font-weight:620;line-height:1.5;margin:0 0 7px;overflow-wrap:anywhere}
+.tags{display:flex;flex-wrap:wrap;gap:5px 8px;align-items:center;font-size:12px;color:#c4d0d9}
+.tag{padding:1px 7px;border:1px solid #3a5264;border-radius:4px;background:#203344;overflow-wrap:anywhere;max-width:100%}
+.tags .language{color:var(--gold)}
+.specs{font-size:12px;color:#94aabb;margin:8px 0 0;overflow-wrap:anywhere}
+.entry-actions{display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:8px;min-width:88px}
+.play-button{background:#2a4657;border:1px solid #5b8192;border-radius:6px;padding:7px 15px;font-size:14px;font-weight:600}
+.play-button:hover{background:#355a6b;border-color:var(--cyan)}
+.play-button[aria-pressed=true]{background:#89ced8;color:#102431;border-color:#a9e2e8}
+.download-link{text-align:center;font-size:12px}
+details{grid-column:1/-1;font-size:12px;color:var(--muted);min-width:0}
+summary{cursor:pointer;width:fit-content;color:#aebfcb}
+.details-body{display:grid;gap:5px;border-top:1px solid #2d4355;margin-top:8px;padding-top:9px;overflow-wrap:anywhere}
+.details-body p{margin:0}
+.details-body code{font-size:11px;color:#c8d8df;word-break:break-all}
+.empty,.error{padding:24px;border:1px solid var(--edge);border-radius:9px;color:var(--muted);background:var(--panel);line-height:1.8}
+.error{border-color:#927051;color:#f0d5b4;margin-bottom:18px}
+[hidden]{display:none!important}
+footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--edge);color:var(--muted);font-size:13px}
+footer p{margin:0 0 7px}
+footer a{margin-right:18px}
+@media(max-width:760px){main{padding:24px 18px 36px}.filters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.search-field{grid-column:1/-1}#reset{grid-column:1/-1;height:38px}.player-panel{top:6px;padding:14px}.top{gap:10px}.top a{padding:0}.entry{padding:14px;gap:8px 12px}.entry-actions{min-width:76px}.play-button{padding:7px 10px}.collection-meta{margin-bottom:18px;gap:6px 13px}.player-heading{gap:10px}.player-footer{gap:4px}.results-heading{gap:8px}}
+@media(prefers-reduced-motion:no-preference){.play-button,.entry{transition:background-color .12s,border-color .12s}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="top"><div><div class="eyebrow">VOLIBEAR / OFFICIAL AUDIO ARCHIVE</div><h1>沃利贝尔 · 官方音频资料库</h1></div><a href="../index.html">查看当前运行声音库</a></div>
+  <p class="intro">官方原始音频资料库，当前未替换运行音频。按分类或语言查找，点击条目试听，也可直接下载原文件。</p>
+  <div class="collection-meta" aria-label="目录概况"><span><strong id="total">—</strong> 个原始文件</span><span><strong id="category-total">—</strong> 个分类</span><span><strong id="language-total">—</strong> 个语言/发声标签</span><span class="status">独立试听 · 未激活</span></div>
+</header>
+<div id="catalog-error" class="error" role="alert" hidden></div>
+<section class="player-panel" aria-label="音频播放器">
+  <div class="player-heading"><div class="player-title"><span class="label">当前音频</span><strong id="now-title">选择一条音频开始试听</strong></div><button id="stop" type="button" disabled>停止</button></div>
+  <audio id="player" controls preload="none" aria-label="所选官方音频播放器"></audio>
+  <div class="player-footer"><span id="playback-status" role="status" aria-live="polite">点击下方条目的“试听”按钮。</span><a id="current-download" download hidden>下载当前原文件</a></div>
+</section>
+<form class="filters" role="search" onsubmit="return false">
+  <div class="field search-field"><label for="search">搜索音频</label><input id="search" type="search" placeholder="文件名、ID、分类或皮肤" autocomplete="off" spellcheck="false"></div>
+  <div class="field"><label for="category">分类</label><select id="category"><option value="">全部分类</option></select></div>
+  <div class="field"><label for="language">语言 / 发声类型</label><select id="language"><option value="">全部语言</option></select></div>
+  <button id="reset" type="button">清除筛选</button>
+</form>
+<div class="results-heading"><h2 id="results-heading">音频目录</h2><output id="count" aria-live="polite">正在读取目录</output></div>
+<div id="empty" class="empty" hidden>没有符合条件的音频。可以缩短搜索词，或清除筛选后查看全部文件。</div>
+<div id="entries" class="entries" aria-labelledby="results-heading"></div>
+<footer><p>本页保留目录记录的原始文件与来源。运行游戏时的声音仍使用原有音频清单。</p><a href="catalog.json" download>下载目录 JSON</a><a href="../index.html">运行声音库</a></footer>
+</main>
+<script src="catalog.js"></script>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const player = $('player');
+player.volume = 0.65;
+const list = $('entries');
+const search = $('search');
+const category = $('category');
+const language = $('language');
+const collator = new Intl.Collator('zh-CN', {numeric:true});
+let entries = [], selected = null, requestToken = 0;
+document.documentElement.dataset.catalogState = 'loading';
+const label = (value, fallback) => String(value ?? '').trim() || fallback;
+const categoryOf = entry => label(entry.category, '未分类');
+const languageOf = entry => label(entry.language, '未标注');
+const displayLanguage = value => ({en_US:'英语',zh_CN:'简体中文',nonverbal:'无台词'})[value] || value;
+const skinOf = entry => label(entry.skin, '');
+const textOf = entry => [entry.id, entry.filename, entry.category, entry.language, entry.skin].map(v => String(v ?? '')).join(' ').toLocaleLowerCase();
+function localFileUrl(relative) {
+  if (typeof relative !== 'string' || !relative || relative.includes('\\') || relative.includes('\0') || /^[a-z][a-z0-9+.-]*:/i.test(relative)) throw new Error('目录包含无效的本地文件路径。');
+  const parts = relative.split('/');
+  if (parts.some(part => !part || part === '.' || part === '..')) throw new Error('目录包含越界的本地文件路径。');
+  return new URL(parts.map(encodeURIComponent).join('/'), document.baseURI).href;
+}
+function externalUrl(value) {
+  try { const url = new URL(String(value)); return /^https?:$/.test(url.protocol) ? url.href : null; } catch { return null; }
+}
+function duration(seconds) {
+  const n = Number(seconds);
+  return seconds !== null && seconds !== undefined && Number.isFinite(n) && n >= 0 ? n.toFixed(2) + ' 秒' : '时长未标注';
+}
+function byteSize(bytes) {
+  const n = Number(bytes);
+  if (bytes === null || bytes === undefined || !Number.isFinite(n) || n < 0) return '大小未标注';
+  if (n >= 1024 * 1024) return (n / 1024 / 1024).toFixed(2) + ' MiB';
+  if (n >= 1024) return (n / 1024).toFixed(1) + ' KiB';
+  return n + ' B';
+}
+function node(tag, className, text) {
+  const el = document.createElement(tag);
+  if (className) el.className = className;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+function updateButtons() {
+  for (const row of list.children) {
+    const active = selected && row.dataset.entryId === String(selected.id);
+    const playing = active && !player.paused && !player.ended;
+    row.classList.toggle('selected', Boolean(active));
+    const button = row.querySelector('.play-button');
+    button.textContent = playing ? '暂停' : active && player.currentTime > 0 && !player.ended ? '继续试听' : '试听';
+    button.setAttribute('aria-pressed', String(Boolean(playing)));
+    button.setAttribute('aria-label', button.textContent + '：' + row.querySelector('h3').textContent);
+  }
+}
+function stopPlayback() {
+  requestToken++;
+  player.pause();
+  try { player.currentTime = 0; } catch { /* No selected media has a time range yet. */ }
+  if (selected) $('playback-status').textContent = '已停止，可重新试听当前音频。';
+  updateButtons();
+}
+async function playEntry(entry) {
+  if (selected && String(selected.id) === String(entry.id) && !player.paused && !player.ended) {
+    requestToken++;
+    player.pause();
+    $('playback-status').textContent = '已暂停。';
+    updateButtons();
+    return;
+  }
+  const token = ++requestToken;
+  if (!selected || String(selected.id) !== String(entry.id)) {
+    player.pause();
+    selected = entry;
+    player.src = localFileUrl(entry.file);
+    player.dataset.entryId = String(entry.id);
+    player.loop = false;
+    player.load();
+  } else if (player.ended) {
+    player.currentTime = 0;
+  }
+  $('now-title').textContent = (entry.filename || entry.id) + ' · ' + categoryOf(entry);
+  $('current-download').href = localFileUrl(entry.file);
+  $('current-download').download = entry.filename || String(entry.file).split('/').pop();
+  $('current-download').hidden = false;
+  $('stop').disabled = false;
+  $('playback-status').textContent = '正在加载所选音频…';
+  updateButtons();
+  try {
+    await player.play();
+    if (token !== requestToken) return;
+    $('playback-status').textContent = '正在播放 · ' + categoryOf(entry) + ' · ' + displayLanguage(languageOf(entry));
+    updateButtons();
+  } catch (error) {
+    if (token !== requestToken) return;
+    if (error.name === 'AbortError' && player.paused) { $('playback-status').textContent = '已暂停。'; updateButtons(); return; }
+    $('playback-status').textContent = error.name === 'NotAllowedError' ? '浏览器暂停了播放，请点击播放器的播放按钮。' : '此文件未能播放，请确认资料库已完整解压：' + entry.file;
+    updateButtons();
+  }
+}
+function addSource(body, title, value) {
+  const url = externalUrl(value);
+  if (!url) return;
+  const line = node('p');
+  const link = node('a', '', title);
+  link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+  line.append(link); body.append(line);
+}
+function renderEntry(entry) {
+  const row = node('article', 'entry'); row.dataset.entryId = String(entry.id);
+  const main = node('div', 'entry-main');
+  main.append(node('h3', '', entry.filename || entry.id));
+  const tags = node('div', 'tags');
+  tags.append(node('span', 'tag', categoryOf(entry)), node('span', 'tag language', displayLanguage(languageOf(entry))));
+  if (skinOf(entry)) tags.append(node('span', 'tag', skinOf(entry)));
+  main.append(tags);
+  const specs = [duration(entry.duration_seconds), byteSize(entry.bytes)];
+  if (Number(entry.sample_rate) > 0) specs.push((Number(entry.sample_rate) / 1000).toLocaleString('zh-CN') + ' kHz');
+  if (Number(entry.channels) > 0) specs.push(Number(entry.channels) === 1 ? '单声道' : Number(entry.channels) === 2 ? '立体声' : entry.channels + ' 声道');
+  main.append(node('p', 'specs', specs.join(' · ')));
+  const actions = node('div', 'entry-actions');
+  const play = node('button', 'play-button', '试听'); play.type = 'button'; play.addEventListener('click', () => playEntry(entry));
+  const download = node('a', 'download-link', '下载原文件'); download.href = localFileUrl(entry.file); download.download = entry.filename || String(entry.file).split('/').pop();
+  actions.append(play, download);
+  const details = node('details'); details.append(node('summary', '', '文件与来源'));
+  const body = node('div', 'details-body');
+  body.append(node('p', '', 'ID：' + entry.id));
+  if (entry.sha256) { const line = node('p', '', 'SHA-256：'); line.append(node('code', '', entry.sha256)); body.append(line); }
+  addSource(body, '查看来源页面', entry.source_page);
+  addSource(body, '查看原下载地址', entry.download_url);
+  details.append(body); row.append(main, actions, details);
+  return row;
+}
+function render() {
+  const needle = search.value.trim().toLocaleLowerCase();
+  const rows = entries.filter(entry => (!needle || textOf(entry).includes(needle)) && (!category.value || categoryOf(entry) === category.value) && (!language.value || languageOf(entry) === language.value));
+  const fragment = document.createDocumentFragment();
+  for (const entry of rows) fragment.append(renderEntry(entry));
+  list.replaceChildren(fragment);
+  $('count').textContent = rows.length.toLocaleString('zh-CN') + ' / ' + entries.length.toLocaleString('zh-CN') + ' 条';
+  $('count').dataset.visible = String(rows.length);
+  $('empty').hidden = rows.length !== 0;
+  updateButtons();
+}
+function fillOptions(select, field) {
+  const counts = new Map();
+  for (const entry of entries) { const value = field(entry); counts.set(value, (counts.get(value) || 0) + 1); }
+  for (const value of [...counts.keys()].sort(collator.compare)) {
+    const option = node('option', '', (select === language ? displayLanguage(value) : value) + '（' + counts.get(value) + '）'); option.value = value; select.append(option);
+  }
+  return counts.size;
+}
+search.addEventListener('input', render);
+category.addEventListener('change', render);
+language.addEventListener('change', render);
+$('reset').addEventListener('click', () => { search.value = ''; category.value = ''; language.value = ''; render(); });
+$('stop').addEventListener('click', stopPlayback);
+player.addEventListener('play', () => { if (selected) $('playback-status').textContent = '正在播放 · ' + categoryOf(selected) + ' · ' + displayLanguage(languageOf(selected)); updateButtons(); });
+player.addEventListener('pause', () => { if (selected && !player.ended && player.currentTime > 0) $('playback-status').textContent = '已暂停。'; updateButtons(); });
+player.addEventListener('ended', () => { $('playback-status').textContent = '播放结束。点击其他条目继续试听。'; updateButtons(); });
+player.addEventListener('error', () => { if (selected) $('playback-status').textContent = '无法读取音频文件：' + selected.file; updateButtons(); });
+window.addEventListener('pagehide', () => player.pause());
+try {
+  const data = window.OFFICIAL_AUDIO_CATALOG;
+  if (!data || !Array.isArray(data.entries)) throw new Error('未能读取 catalog.js。请完整解压音频资料库后打开本页。');
+  entries = data.entries;
+  const seen = new Set();
+  for (const entry of entries) {
+    if (!entry || typeof entry !== 'object' || !String(entry.id ?? '').trim()) throw new Error('目录中存在没有 ID 的条目。');
+    if (seen.has(String(entry.id))) throw new Error('目录中存在重复 ID：' + entry.id);
+    seen.add(String(entry.id)); localFileUrl(entry.file);
+  }
+  $('total').textContent = entries.length.toLocaleString('zh-CN');
+  $('category-total').textContent = fillOptions(category, categoryOf).toLocaleString('zh-CN');
+  $('language-total').textContent = fillOptions(language, languageOf).toLocaleString('zh-CN');
+  render(); document.documentElement.dataset.catalogState = 'ready';
+} catch (error) {
+  $('catalog-error').textContent = error.message; $('catalog-error').hidden = false;
+  $('count').textContent = '目录暂不可用'; document.documentElement.dataset.catalogState = 'error';
+}
+})();
+</script>
+</body>
+</html>

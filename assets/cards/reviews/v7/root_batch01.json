@@ -1,0 +1,434 @@
+[
+  {
+    "id": "B02",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "b6f8361db82c6238be8b00e46519e01dcba855c0031b65110aef7d4343f64ecb",
+    "master_sha256": "d8a5e1a69c40f15779c086d56584a36bdd98054980f329566c9292ccb0d1f1bb",
+    "comparison_sha256": "e8ecdd825562e62d933a520d5c98ab54b79308abdb0e23ebd80015d57955fc40",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "来刃与竖前臂相抵，肘回收至厚肩，熊头低伏且与手分离；内收爪尖朝向自身，与掌内侧一致。赭黄负形使承重轮廓在125像素仍清楚。",
+    "baseline_comparison": "与C12同样依靠厚毛承力，补足可读的肘腕；与C06的进攻双臂不同，单根竖臂是静止撑杆。",
+    "paw_orientation_observation": "可见短爪向内收，手背朝来刃，没有掌面和指尖相反。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 17
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U11",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "67b9cd1dc40e5afdb584b8b5181ae3f3c2b5b87f742e3d737939e1ab31577d5b",
+    "master_sha256": "f98bd73f63501d315d81b4226fd5ecb52598cc82bcff43fdc7527b4ed5a74904",
+    "comparison_sha256": "4960204532c2edd1e072cc28b95d3a470135379ad94f9157f09cc3453d1541e1",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "右侧真实前臂自然下垂，左侧挥击是墙上的一块暗影，墙地接缝与影子平面读法明确。实体和影子各自无多余关节，短青弧只沿影子爪侧。",
+    "baseline_comparison": "承接U19整块剪影和C09挥击方向，改变为实体动作结束、影子仍挥的关系；125像素能区分静与动。",
+    "paw_orientation_observation": "实体放松手爪从同一掌根自然垂下；影爪为单一轮廓，无翻转掌面。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "T02",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "02b5c2d1d6c6bddbf1effbcf53469eefa2c3b7348e3816228d1670d6bd8b801a",
+    "master_sha256": "af81cdd82838a5ad5307bfdf7ce2dcd840dd8b85520216ad66ad8c86ce13a89d",
+    "comparison_sha256": "bf1481efda55abc46536e3580ae5802600886c1ea52656904e59190d6a858162",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "低宽肩背护面承受两侧细线，暗面连续下沉，两条地面短雷向外释放；没有小头、耳朵或多余四肢。缩图先读稳定护层，后读释放。",
+    "baseline_comparison": "保留C12的毛层大形和U19受控雷形，改为纯护面符号；与竖直裂骨T01轴线和功能均区分。",
+    "paw_orientation_observation": "纯护层符号，不包含手掌或脚掌；没有将残肢伪装为抽象。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R01",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "b5f3273ed33093c55a62e54a1a434b2fd9cbc007facf96492505c4768d0925e7",
+    "master_sha256": "e2a5dd9588b2f7f0d5d3b597479fcbee4e22cb9e40e6dcd6cefdb02bec292373",
+    "comparison_sha256": "e063c91c8985a88262e4ddc2c98b64f87c1c129c091fa26b17520326c582e632",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "低额短吻由同一连续云层构成，侧向熊意志贯通横跨场域的风暴；下方地景只为窄带。没有悬空实体躯干或随机融化四肢。",
+    "baseline_comparison": "与C18的正面神性压迫不同，采用侧向天气横贯；大块白灰、蓝紫负形达到同组清楚程度，125像素仍先读天气。",
+    "paw_orientation_observation": "环境抽象没有实体爪掌，不以断裂四肢表达变化。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 19,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R28",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "49ab83640a5cbc0c0590bae3638b5de77bb0f04f9c73738077314982d124f88e",
+    "master_sha256": "6951772100b0077f37e1ac29bcb76b0f8788b2a55da84f101790f43fbeb5690f",
+    "comparison_sha256": "25a0237dd5c0340f8cdf14227c814697fa8388a02a202b4560da289e58b308e3",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "小手接触独立护片上缘，旧金属面、铆钉与薄厚边界连续；青边向下引出附属于护片的蓝白兽性区域，没有把手臂毛发铺成外物。",
+    "baseline_comparison": "保持U39施加者与外物分离、C08局部材料变化的可读性；主体变为安静护片大平面，接点和变区在圆形遮罩内仍完整。",
+    "paw_orientation_observation": "指爪沿护片边缘收拢，腕从右上连续进入，接触面朝向受体。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 17,
+      "finish": 18,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R29",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "536d069affc5c0661d84df58acfc4e486308eb28ccaa420035962862e998edc3",
+    "master_sha256": "169b51099b4f541750fb3b55832e4747e1e11828b6be720deea8b84634d40fb8",
+    "comparison_sha256": "a9ef49e0fad9a8beb58f04b6ecf8d489feb338aae50c6f17d590bd006aab817b",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "三件厚板状旧器物大小与朝向不同，各有旧木角、完整侧面和落地接触影；兽性刻面与毛缘在原物内延续。上方短件保持扁平木板厚度，不呈现肉质腕臂。",
+    "baseline_comparison": "借R12的旧形破除与C18的大轮廓，改成三件共同兽化的静物；与R28单物局部侵染明显不同。125像素三件仍分离。",
+    "paw_orientation_observation": "对象边缘有爪形刻面，旧木截面和扁平板体可见；不存在脱离角色的活体手脚。",
+    "quality_axes": {
+      "main_read": 17,
+      "large_shapes": 18,
+      "tone": 17,
+      "finish": 18,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U08",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "18657eb5beb78d7d63fb4937c7df1f872ad1af9b5e5851ca6664ef4af4210583",
+    "master_sha256": "46e6c7b578800409d70f3d4c084cdeed730f93ad850ea756dd96a6ceb542b9ee",
+    "comparison_sha256": "98d7ff03d77a2d32cf576080c2455b6e61b96135f8f9cdc6805957d5871e2a1b",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "上下颌侧面清楚，犬齿从两侧咬住外部护肩边缘，下颌连回颈部；不包含前爪，没有自咬或爪牙融合。灰紫受体与白脸分离。",
+    "baseline_comparison": "延续U23清楚的口颌和C08明确受体，改成侧向咬合；面颈折面多于基准，但250/125像素仍集中在眼、牙、接点三处。",
+    "paw_orientation_observation": "本卡没有手掌；犬齿分别来自上下颌，非指爪混入嘴部。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 17,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "T01",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "39aeee47f1e4715cc187028f59ca30221685a2c503a7733e6f2794e9cbdd2ea7",
+    "master_sha256": "b69cc065f304d2c25b8fa3ce2d7a0562ea70c1c698faa0e0ba84b61b440119ff",
+    "comparison_sha256": "b92ce49f9aff00df6608d10cf762d93adbaf5f37396e279c2687e70fb63453b0",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "同一深蓝掌面下接四枚短青钩，从上方切开抽象骨梁；中央断面分离而无血肉。前臂从上缘自然裁入，不再沿横向挥爪。",
+    "baseline_comparison": "与B03的前向射出和C08斜向材料抓裂区别明确；竖直深蓝掌、横向骨梁形成两大形，缩图裂口和爪根仍可读。",
+    "paw_orientation_observation": "四枚短爪同向向下并对应同一掌面，不出现对向爪、额外手指或断腕。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C17",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "d447072a1295f26544f02faa7dc24e4b96f68086c4a0c35e83e2634d44137530",
+    "master_sha256": "af0d6bd4834a76c10c045a59df0e469875717b08af1404ea8da2379dcf8a348f",
+    "comparison_sha256": "f06c3158527e1441e048f9dd9468cc6bef5458d388762dc55ccd3ab748f19c7b",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "肩背低伏、前足支撑与后足蹬地共同形成压缩重心，腹下负形连接清楚；远侧支点可辨，没有悬浮腿或爆光掩盖结构。前方留空表现尚未冲出。",
+    "baseline_comparison": "延续U03脚踏实地的重量，改变成侧向低伏；比C06更远景且安静，仍能在125像素区分蓄势与已发出的攻击。",
+    "paw_orientation_observation": "可见爪沿接地脚掌前缘，不倒置；支撑前臂和后腿各自连回肩与髋。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R01",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "07492af2405de04a813c19f9838dbdfd9477eb41d906a96997d17d098216e50a",
+    "observations": "云层、毛感和地景小纹理过碎，简洁度落后固定卡。",
+    "defects": [
+      "云层、毛感和地景小纹理过碎，简洁度落后固定卡。"
+    ]
+  },
+  {
+    "id": "R28",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "a3ddd48dcdfeaa61716b6e3c977a985ab294e2047ff3dad2a35e06ae4fa0a4f8",
+    "observations": "石面纹理过多，转化区域容易读成手臂毛发铺到受体上。",
+    "defects": [
+      "石面纹理过多，转化区域容易读成手臂毛发铺到受体上。"
+    ]
+  },
+  {
+    "id": "R29",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "f52b624f1012bbe41698a620aca11d2a7901599a7d463e7f325f56dc1694952f",
+    "observations": "右侧器物形似脱体前臂/爪，画幅错误且旧面纹理过密。",
+    "defects": [
+      "右侧器物形似脱体前臂/爪，画幅错误且旧面纹理过密。"
+    ]
+  },
+  {
+    "id": "U28",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "ce3e825ec619f9f1c89db6d32900714713af1782adc499915a7815f817f7a1bd",
+    "observations": "密集碎地面、三名敌人和过大亮爆遮住腕臂，回雷同源关系受干扰。",
+    "defects": [
+      "密集碎地面、三名敌人和过大亮爆遮住腕臂，回雷同源关系受干扰。"
+    ]
+  },
+  {
+    "id": "C10",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "09a67afa4a743a9f0bbc128c4d702c87dde8f629629a30f97a04b426ba49b771",
+    "observations": "侧肩举臂构图重复B02，前臂占比过大成环，敌端反力关系不够清楚。",
+    "defects": [
+      "侧肩举臂构图重复B02，前臂占比过大成环，敌端反力关系不够清楚。"
+    ]
+  },
+  {
+    "id": "B04",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "a622985339492e7cc6c613b7da6f7f861898e40d15e9428bff987a42abaecddd",
+    "observations": "脸、拳与盾挤于同一点，肩撞变成抱盾；腹下小爪归属模糊，碎屑过多。",
+    "defects": [
+      "脸、拳与盾挤于同一点，肩撞变成抱盾；腹下小爪归属模糊，碎屑过多。"
+    ]
+  }
+]

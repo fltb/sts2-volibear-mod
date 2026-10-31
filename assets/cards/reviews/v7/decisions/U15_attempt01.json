@@ -1,0 +1,41 @@
+{
+  "id": "U15",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "e114aba2dab5423582bbc2c701c505d01d7983c7f9e194090c83326e5250bf4c",
+  "master_sha256": "18bc85eed02af43db9edaf8abf3191488ea10100517f84d34913ddedb59a06eb",
+  "comparison_sha256": "de509bcb336691cacfe45b1a3e6cd521d0edb704073dfc08a209414b18eb6814",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "岩隙中的宽风流形成单一漏斗，暗布片为主运动物，另外两枚细小碎物不争焦点。浅风、深岩、暖背景分块完整，缩图与灰阶仍读得清。",
+  "baseline_comparison": "呼应C13的留白和U19风势，采用纯环境的穿隙吸流，彻底避开巨爪和熊形重复。",
+  "paw_orientation_observation": "纯环境图，无拟肢体结构；主布片与岩体清楚分离。",
+  "quality_axes": {
+    "main_read": 19,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:50:56+00:00"
+}

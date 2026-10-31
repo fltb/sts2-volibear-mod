@@ -1,0 +1,36 @@
+{
+  "schema_version": 3,
+  "id": "C24",
+  "decision": "approve",
+  "master_sha256": "dd8877dd9c4c547c3c1ac26e8b52ad33386fcb9436b6dcfe32bcedd01af9abde",
+  "recorded_at": "2026-10-27T13:09:01+08:00",
+  "reviewer": {
+    "name": "card_anatomy_a",
+    "role": "independent_vision",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true
+  },
+  "observations": "无身体肢体，画面以一束分叉雷击的两个地面接触点表现法术；没有解剖上的额外负担。",
+  "crop_and_mask_observation": "本轮未改变已审母图、裁切和四种导出；四个输出逐字节与V2已审成品一致。",
+  "evidence": {
+    "current_anatomy_audit": {
+      "path": "reports/baseline_audit_a.json",
+      "id": "C24",
+      "source_sha256": "dd8877dd9c4c547c3c1ac26e8b52ad33386fcb9436b6dcfe32bcedd01af9abde"
+    },
+    "prior_exact_candidate_review_sha256": "a2ca5485fc70bff82315064db09976ee9db87f89aeda33fd42ca7a266ad8e2da",
+    "unchanged_export_profiles": 4,
+    "scope": "V3 reviewer opened full V2 source individually; the reviewed V2 aspect crop and all four game exports are retained byte-for-byte. No new geometry/crop has been introduced."
+  },
+  "unresolved_defects": []
+}

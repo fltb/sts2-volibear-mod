@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "checked_at": "2026-10-27T12:42:45.314Z",
+  "browser": "134.0.6998.165",
+  "input_sha256": {
+    "START_HERE.html": "88383dbd91622a5d06b0bd6d4451d341b85cf0820ee01f426eb5a4027ce62de7",
+    "reference_manifest.json": "7e3ffb97065d8135ada6ce3db1b77110a238aab58f381c3a44dd48797403d02c",
+    "fonts/reference_ui.woff": "e7707b48555b19789a1729c3d9ee7134d33815ec4ed45dd5b56b2ef361b242b4"
+  },
+  "image_count": 35,
+  "video_count": 4,
+  "video": [
+    {
+      "src": "motion_examples/riot_volibear_Q.mp4",
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_Q.mp4",
+      "readyState": 4,
+      "duration": 5.6,
+      "width": 1056,
+      "height": 720,
+      "error": null,
+      "clock_advanced": 0.22844
+    },
+    {
+      "src": "motion_examples/riot_volibear_W.mp4",
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_W.mp4",
+      "readyState": 4,
+      "duration": 9.966667,
+      "width": 1056,
+      "height": 720,
+      "error": null,
+      "clock_advanced": 0.172123
+    },
+    {
+      "src": "motion_examples/riot_volibear_E.mp4",
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_E.mp4",
+      "readyState": 4,
+      "duration": 6.866667,
+      "width": 1056,
+      "height": 720,
+      "error": null,
+      "clock_advanced": 0.16984
+    },
+    {
+      "src": "motion_examples/riot_volibear_R.mp4",
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_R.mp4",
+      "readyState": 4,
+      "duration": 11.566667,
+      "width": 1056,
+      "height": 720,
+      "error": null,
+      "clock_advanced": 0.17278
+    }
+  ],
+  "local_links_checked": 78,
+  "javascript_errors": [],
+  "failed_requests": [],
+  "metadata_request_cancellations_after_successful_media_load_and_playback": [
+    {
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_E.mp4",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_R.mp4",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "url": "file:///workspace/scratch/6d72a9858741/revision_v5/volibear_reference_repo/motion_examples/riot_volibear_W.mp4",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "reference_cards.png",
+      "path": "/tmp/volibear-v5-reference-browser-PgF4hp/reference_cards.png",
+      "sha256": "8d6800b2b1022108ba7c750d6eff52d3e33a982f829465754c539f08d62c2ea6"
+    },
+    {
+      "name": "reference_desktop.png",
+      "path": "/tmp/volibear-v5-reference-browser-PgF4hp/reference_desktop.png",
+      "sha256": "92a294a8d3ed8023d98bd2ff98db5bda13e0f185f5289474001cc3be4c9c23cf"
+    },
+    {
+      "name": "reference_mobile.png",
+      "path": "/tmp/volibear-v5-reference-browser-PgF4hp/reference_mobile.png",
+      "sha256": "9679c6ecbf928959b4814ea1b219f1141f49303b7337c2a82c2af6f12dd8fbe9"
+    }
+  ],
+  "visual_review": "pending actual screenshot inspection"
+}

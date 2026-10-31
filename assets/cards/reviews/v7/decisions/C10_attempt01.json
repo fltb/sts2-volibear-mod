@@ -1,0 +1,13 @@
+{
+  "id": "C10",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "09a67afa4a743a9f0bbc128c4d702c87dde8f629629a30f97a04b426ba49b771",
+  "observations": "侧肩举臂构图重复B02，前臂占比过大成环，敌端反力关系不够清楚。",
+  "defects": [
+    "侧肩举臂构图重复B02，前臂占比过大成环，敌端反力关系不够清楚。"
+  ],
+  "recorded_at": "2026-10-27T17:29:00+00:00"
+}

@@ -1,0 +1,24 @@
+画布必须为宽1500、高1140的横向卡面，宽高比1.3158:1（25:19）。只生成一张无字无边框独立插画，不要超宽或正方形。
+最高风格优先级：成品卡参考的简洁图形风格优先于身份立绘的材质细节。像精炼的平面海报插画：少数连续硬边大色块，每种材质只有2至3个明暗面。不要笔触、颗粒、细密岩纹、小碎云、软质毛发和密集小切面。角色身份参考只取轮廓与特征，不复制其细碎渲染。保持严肃厚重、非幼态。
+
+卡片：C25《雷引》。创作一张新的独立插画，核心动词/关系为“引入”。
+
+镜头与抽象：收拢爪根与腕侧的紧凑侧近景。M1。
+画面：画面右下是一只自然收拢的短厚熊掌，腕根从下缘连续进入，爪尖朝前但尚未伸出。由左上来的单根细雷沿腕侧一小段深蓝纹路导入爪根，停在根部的一个短亮接点；爪尖前方留一整块没有目标、没有爆点的暗空隙。掌面和指端统一朝内，不把爪画成外翻的人手。
+
+大形与负形：收拢的紧凑实体与一条细入流形成准备状态，空白在爪前而不是在接点后；前臂不横贯画面。
+色彩：深蓝掌面、灰白腕毛、灰紫背景、唯一青白导入线。
+
+25:19横向卡牌插画，只有画面，没有文字、标题、费用、边框或游戏UI。厚而克制的深色轮廓，硬边平涂，2—3个明暗层；少数完整大色块，背景服从唯一主读法。这是有意设计的图形概括，不用软质3D毛发、密集碎毛、体积光和粒子填充。当前只有一枚紧凑掌部，保持深蓝掌、灰白短腕毛、青色短爪，不额外画身体或长前臂。纯环境或符号图不额外塞熊头、爪子或身份标记。用大形、留白、受力与尺度传达厚重和野性，不能把圆身摆拍、随机拉长的肢体或多余零件当作抽象。
+
+参考用途：身份图用于确认实体角色；U40《雷路贯通》用于主形清晰度、重量和气质；R24《雷涌》用于色块简洁或对象关系。借用这些方法，不复制它们的角色占位、动作轴或独特构图。
+
+明确避免：雷沿旧地面爪伤铺开像陷阱；爪子已经发射巨大雷束；左侧长前臂伸向右侧；把爪尖画成独立图标；掌面和爪尖朝向相反；多个亮接点。
+图像语义：能量导入尚未发出的攻击准备，爪前没有被击中的受体；不必图解费用数字。
+只表现上述单一场面，不增加说明文字、分镜、数值图标或与主动作无关的对象。
+
+严格视觉复核要点：
+细雷应导入爪根并停在根部接点，不能从爪尖发射，也不能转成抓握一枚实体闪电。
+收拢短掌的掌面、指端、爪尖与腕根须方向统一，避免外翻人手或一只拳击手套。
+爪前暗空隙必须保留，入流和接点不宜过亮，否则尚未出手的准备状态会被误读为正在雷击。
+MANDATORY NEW COMPOSITION: The paw is SMALL, VERTICAL, and confined to the LOWER-RIGHT CORNER. The entire paw occupies ONLY one quarter of the canvas width and ONE THIRD of its height. Do not zoom in. The top two-thirds and left three-quarters of the image are mostly QUIET DARK PURPLE EMPTY SPACE. A tiny short wrist stump enters vertically from the BOTTOM EDGE just below the paw. NO long forearm, NO diagonal arm, NO arm entering from left or right, NO shoulder, NO body, NO head. A short navy bear paw is naturally curled inward, four short cyan claws all curve consistently inward/downward into the same palm orientation. The visible paw back is only three large flat shade shapes, not many segmented knuckles. A SINGLE VERY THIN, modest cyan-white line enters from upper-left across the broad dark empty space, ends at ONE TINY point on the side of this short wrist; it is incoming charge, no beam comes out of claws. Keep a broad dark empty gap in front of the paw, no target and no impact burst. References define colors and hard-edge flat style only. Absolutely ignore their large-arm compositions. Primary visual is vast calm negative space and a compact lower-right palm preparing. Follow these numerical proportions even if the supplied reference paws are huge.

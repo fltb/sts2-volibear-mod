@@ -1,0 +1,377 @@
+{
+  "id": "card_purify",
+  "label_zh": "卡牌净化",
+  "family": "card",
+  "fps": 24,
+  "frame_count": 28,
+  "duration_seconds": 1.1666666666666667,
+  "loop": false,
+  "anchor": "selected_card",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    78,
+    16,
+    182,
+    227
+  ],
+  "atlas": {
+    "image": "atlases/card_purify.png",
+    "json": "atlases/card_purify.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "532e55f198d17510caef3a4a2f940c925f4f46c54e8e873845d143cdfc0d8b48"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/001.png",
+      "sha256": "416f2b3d575440c1ce6e1ce979d31bc4f454c4101e5b35902614374b22e91dd8"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/002.png",
+      "sha256": "5ce5b602ce8123f156ef1a983730f559c113cd40620bb1ebd063d453bf8c68c0"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/003.png",
+      "sha256": "168b95efe11faf824461981b5add3030f3c6bf7093fb6ee7a1740b65787be894"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/004.png",
+      "sha256": "2893f3e9affb5f5d6f6034ed869ff2a0f751c455080a00862644e57e358544b2"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/005.png",
+      "sha256": "489795d68dfee8592f0e4ab4b66a41f6d858066e4dcdd76725f6354cf0a41461"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/006.png",
+      "sha256": "d09a630bb30937f6b5e809df6d10b9f1f494863bca0475f61418415ebdf80173"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/007.png",
+      "sha256": "255d0293726fd64d47b7a72a20441ca879e4c851b82e2f4a5d874f94268d8b4a"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/008.png",
+      "sha256": "8e1e998704637ce91e68b19f645941679b167b61558fc5d4d9be082437b1c696"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/009.png",
+      "sha256": "5f7f3acf8f9dc71bc299647c250cbbb34d9ef9a7e721076a6caa2f6ebf0deda2"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/010.png",
+      "sha256": "88343da259e69f8dd2e73237e39714a0cdf80b97afe414603c653c19404409bc"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/011.png",
+      "sha256": "57b60028dc51f0d40de8304e466159f1b1578b6d336722058ccc59ee7cebadad"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/012.png",
+      "sha256": "bc00998f1f3d4f12b882a1f8e09cf0de1fd05a8db2bbca10626e0aa28b85fd1b"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/013.png",
+      "sha256": "02ca017320b34dda562c34bc6917f251e44a4c4c91c942a47cdf47b27e974cb9"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/014.png",
+      "sha256": "def0b075f9cedfe2d7605e623012d992bed9a2222f43f3eaf1a31803a42021a1"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/015.png",
+      "sha256": "add3982449a1c296a9b1c2bf694fdaed33a887cd068339fe6dcf344905847948"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/016.png",
+      "sha256": "ba43412228c0dcc38800e914b1dc6b6340b891c47c61fe48b821369ac7f29833"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/017.png",
+      "sha256": "dc0fb72d7a420cde373491b0417908392839ba0acf1aee8a652e0e60dff84492"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/018.png",
+      "sha256": "a80600d926d5e00c1e4f256ef4527d103ee2797f5167afdbe08f009b1958a74e"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/019.png",
+      "sha256": "579cac585571b5aa0aa279bad2c46f6faceafc0089100dde9dc5e2145432452b"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/020.png",
+      "sha256": "38ad4563a666f576e05364f85104e9f5a1a09462d41576d50dcb16483b9131f6"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/021.png",
+      "sha256": "10b7d0a1ef481424e88c22684b1d0d019572be134c325581c303215840228d57"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/022.png",
+      "sha256": "d983d1700d7746648a9ce326a02acb9c297751772c63e06ae1806abf6a065efe"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/023.png",
+      "sha256": "aab7de8434c7d90bff8a14c0b0fb58925879a331e44d08e79ece8ae4181fe3e7"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/024.png",
+      "sha256": "47bf25af3b750f89c376fa0440b299c733fc7a9c83ba365d474e91a352284e19"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/025.png",
+      "sha256": "17666596beed278de9b98ba66b8d477cc60d5ac9c31698b2c31943d40f16c9f0"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/026.png",
+      "sha256": "6f41ad178f342f5b02beaa1d80b190480838a5f326e3e6c98d961cfc2193e65b"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/card_purify/027.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.card_purify",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "actual_card_node_policy": "Retain the authoritative card image/node under this transparent overlay; animation never changes card state."
+}

@@ -1,0 +1,41 @@
+{
+  "id": "R05",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "5a469ab6862ea8d1a7c5057515319b19b493fa9784c2e9ffe76fe06f7a010dd5",
+  "master_sha256": "fc83883250a5ee151725c433044587e0ec519f058c5eb4d35c489d18f4a9079b",
+  "comparison_sha256": "38165efd69e17d099bd89d80c7bcac9f45c8fd8c59526f7f6056e070f682f72b",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "单一厚护体的深蓝外皮包住两块厚暖灰内层，暗金层缝集中在右侧截面；左侧浅旧伤与短蓝纹仍在同一完整受击面。",
+  "baseline_comparison": "将C12承受与U03厚重转为材料截面，没有再摆熊或盾墙；大暗面与宽亮侧缘在小图和灰阶中稳定。",
+  "paw_orientation_observation": "无人物和零散身体部件，厚侧缘是护体材料，未生成断肢或熊头。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:05+00:00"
+}

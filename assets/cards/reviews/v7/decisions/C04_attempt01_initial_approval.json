@@ -1,0 +1,41 @@
+{
+  "id": "C04",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "7b520af92a01ddeb9610eb498f0d7f9ca07e1889f00777ae864cc4270808b2f1",
+  "master_sha256": "21d9ca3f3e51428bd9281c2c6c26c5a61efb19186e3dd0067cf14f248497b6d5",
+  "comparison_sha256": "54bde3f2113beb2fe28c9d1e4b1a87168dac1fe3115f79fcfdcd63e3ae2a441c",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "短前臂从上缘进入，以收拢掌根擂住盔顶，头盔偏斜并连回颈肩；小暖接点没有吞掉腕根。无抱头、穿颈或第二只手。",
+  "baseline_comparison": "与C06正面推进、R31破盾大场面不同，视点集中在上方擂击与下方盔肩；深蓝臂、灰盔与红底三大面使125像素仍认出受体。",
+  "paw_orientation_observation": "掌根接盔，短爪退在同一拳端并朝下收拢，未反画掌面或长出额外指尖。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:31:53+00:00"
+}

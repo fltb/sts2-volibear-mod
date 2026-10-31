@@ -1,0 +1,2 @@
+-r animations/requirements-prepare.txt
+fonttools>=4.50

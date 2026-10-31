@@ -1,0 +1,214 @@
+[
+  {
+    "id": "U12",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "c44ca7e2d91067c3cfd1050d833811c17d4e37094dfba58a66541668727d9cfc",
+    "master_sha256": "38adf3df032bff39965e4abd45e56acf124ede15d8857d4534a0c23bd98aa98a",
+    "comparison_sha256": "17eb9386aa4158c3665491d831b5c619347f2da1f91f98317f3130c73114dc10",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "背部蓝纹沿完整宽背收束，单束短雷从背刺旁离开并向外尖收，整束都留在画内。支撑前臂与肩腰相连，地面已合成宽块。",
+    "baseline_comparison": "与C12实体重量、U21能量接续相容；没有再把外部雷灌进身体。灰阶缩图仍读身体主形，短雷只作力量转化的结果。",
+    "paw_orientation_observation": "近掌向地，粗前臂追溯至肩；背腰髋保持正常连续，画缘为局部镜头裁切。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C25",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "ca3d92727e28c65192400f5907dc68c344b05a685457121fef95c20dada334ad",
+    "master_sha256": "2b48a2dbe26e86280b86ec2b3a0e80e080d80519da6bd0d05957f554e1fe5fe2",
+    "comparison_sha256": "71741341aa32ca4fefb180363c0e33bf0b4cabbc1735bd44da924923463c0ecf",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "右下竖向收掌由下缘短腕进入，大片灰紫空地保留；唯一细雷从左上接到腕根的小亮点，四个短爪一致内收。",
+    "baseline_comparison": "已经移除贯穿半幅的长前臂，与U40地面接续及R24开掌放雷区分为安静蓄力。缩图读到细入线和小收掌，留白明确。",
+    "paw_orientation_observation": "同一掌的四指和指甲自然向掌内弯，腕与掌轴一致，没有反向外翻。",
+    "quality_axes": {
+      "main_read": 19,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "U29",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "68997e640314cf385adb2e041a301169a79d1f9a59709862890c35976170f043",
+    "master_sha256": "030bd482835202d7e290f98b27bbae7526031cdca55092035bbdcdef9a9b3b79",
+    "comparison_sha256": "477326f3b80950c0c7032b92a18e0abb751af89eec862ce49d815596d49936bc",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "云间只有一根横斜雷脊，几条短支在一处汇流后主干加厚；云是完整大带，没有地面、人物或第二种事件。",
+    "baseline_comparison": "沿用U21接续与C24青白雷色，镜头变为无地平线的云内增幅，区别U37中心汇核和R17落雷。圆形能力裁切保留主干与汇点。",
+    "paw_orientation_observation": "纯天气机制，无身体部件及不明爪形。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 19,
+      "tone": 18,
+      "finish": 18,
+      "distinctiveness": 18
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C19",
+    "attempt": 1,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "639e6a6948b8d4ed0778a778b582efe761933fa526badfdfc8b8b5353b69531d",
+    "master_sha256": "e47e00d54f700097e500ea6a0eb8e9a5ad225cb95922747044cc954543ba59c4",
+    "comparison_sha256": "c4227951f00dc879d85d144ae2a3a0d775e6a67ae8a3ee404bce9198c02f369e",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "近处熊伏在真实前景岩后，眼、耳与白肩相连，鼻吻和爪被岩自然遮挡；远处唯一有角猎物横穿亮地。",
+    "baseline_comparison": "与U25外露近脸盯敌、U17看路区分为隐蔽伏候；岩面虽有分层但统一在暗部，125像素白肩与亮地目标关系仍清楚。",
+    "paw_orientation_observation": "前岩遮住熊下脸的前后关系清楚，没有凭空消失肢体；远处猎物四足和身体轮廓完整。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 17,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "R14",
+    "attempt": 2,
+    "decision": "approve",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "09202147bee0efeb6d1a0886ba0fea7021ed3d8659ab4b69ffebb25021e5a53f",
+    "master_sha256": "29ffa675e3c5aa158cfed202b411b162de7937459fa1ed2263dc143f1b82c4b3",
+    "comparison_sha256": "b755ca1f6c824bcfd72c018db962adda21e45f4ecb711419eb778455f10ba24a",
+    "views_inspected": [
+      "raw_full",
+      "comparison_anchors",
+      "250",
+      "125",
+      "grayscale",
+      "sts1_masks"
+    ],
+    "observations": "中央障碍已变成画内完整的低短岩块，两侧普通土路在上方同一处汇合；熊靠近内侧转角，受伤敌人仍沿外弯跑，只有两个实体。",
+    "baseline_comparison": "与U25猎物关系、U17路径判断相承，以俯视截近路线代替侧脸。125像素能看到障碍前端与汇合口，圆形裁切未遮掉路径关键部位。",
+    "paw_orientation_observation": "熊近侧后腿收短并有接地影，肩髋前倾仍连续，另一侧肢体有自然遮挡；未生成残影或多爪。",
+    "quality_axes": {
+      "main_read": 18,
+      "large_shapes": 18,
+      "tone": 18,
+      "finish": 17,
+      "distinctiveness": 19
+    },
+    "gates": {
+      "limb_connections": true,
+      "joints_and_paws": true,
+      "head_and_torso": true,
+      "occlusion": true,
+      "action_causality": true,
+      "thumbnail_readability": true,
+      "series_identity": true,
+      "crop_and_mask": true,
+      "paw_orientation": true
+    },
+    "defects": []
+  },
+  {
+    "id": "C03",
+    "attempt": 1,
+    "decision": "reject",
+    "reviewer": "root_independent_visual_review",
+    "inspected_actual_images": true,
+    "raw_sha256": "c4389c6258b0724fdee24f546e954633247bb5ee4e32e313d71fe081119580a5",
+    "observations": "厚石上翻与盾被压的反力成立，敌握手连接也成立；但上缘熊大竖臂、满幅飞石、细裂纹和支雷竞争主形，比C22/R17基准碎。保留一块上翻石板及盾、手、臂、肩关系，压短熊臂、减少碎石与雷枝。",
+    "defects": [
+      "厚石上翻与盾被压的反力成立，敌握手连接也成立；但上缘熊大竖臂、满幅飞石、细裂纹和支雷竞争主形，比C22/R17基准碎。保留一块上翻石板及盾、手、臂、肩关系，压短熊臂、减少碎石与雷枝。"
+    ]
+  }
+]

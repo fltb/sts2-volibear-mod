@@ -1,0 +1,42 @@
+{
+  "id": "U36",
+  "attempt": 20,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "cdea5abe748cfe5017160cad4139b612a007c081f45e8a1bbeca1b46c5d014bd",
+  "master_sha256": "4f3ad09c0ff62a205b9453f41cf7af24f7bbea6406db18e8dc11d6bcd9cebf61",
+  "comparison_sha256": "1bca50094b86eacbac33bbe54a919df4b862c2185991a9b462be7117abf162a2",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看原始图与完整对照板。单一足部从左上画框连续进入，后踝抬起而前掌趾端压住地面，尘土向后排开，细青雷向右贴地延伸。无胯部或第二悬足，消除了毛裤与蹦跳读法。足部暗色主块、后方浅尘和前向雷迹在125彩色与灰度均分离；两遮罩保留了爪趾接触点和雷迹方向。局部足背有些细毛，但未破坏单个连续主形。",
+  "baseline_comparison": "与U40共享深蓝肢体白毛界和青爪接点语汇，但低机位地面承重、向后尘迹与向前细雷不同于俯视导电线。相对U19仍以单大暗形和少量亮形组织，没有背景景物争夺主读。",
+  "paw_orientation_observation": "小腿到踝足连续；后部抬离地面，前掌和趾端承重；青爪从脚趾前端向下弯接近地面，未见爪长在腕踝侧或额外趾肢。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-29T20:30:31+00:00"
+}

@@ -1,0 +1,472 @@
+{
+  "id": "feral_aura",
+  "label_zh": "兽性显现",
+  "family": "feral",
+  "fps": 24,
+  "frame_count": 36,
+  "duration_seconds": 1.5,
+  "loop": false,
+  "anchor": "owner_ground",
+  "layer_z": -10,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    197
+  ],
+  "content_bbox": [
+    36,
+    103,
+    221,
+    220
+  ],
+  "atlas": {
+    "image": "atlases/feral_aura.png",
+    "json": "atlases/feral_aura.json",
+    "columns": 8,
+    "rows": 5,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "4410ae75a5f15ecb1b499c805cad60a54951acc729aa1c23054d0e177e994aca"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/001.png",
+      "sha256": "119221f5d9dd7f60595bd51af1968d510778a043b8cdc877553637ff6de72ceb"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/002.png",
+      "sha256": "7e84b51195b0ae33543525ca4b1fc931c240b1948f9b43d1ade92e2a12cb4535"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/003.png",
+      "sha256": "69bb5ecd3371a90bcac6c1f3b567095ad7309069472208e4a805887278c15723"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/004.png",
+      "sha256": "69c4417f3213ca4bf94806759dc7a5710b2155da08481b3dcd9911601fe66652"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/005.png",
+      "sha256": "bef96f5c34131993e05b76e6cfd308ecc81e6c308feabe8e894ffe80c01e341c"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/006.png",
+      "sha256": "1371d8b2087b015d3c576b2b3104efa7296da8b75c32a48c2889b608c4176ea6"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/007.png",
+      "sha256": "0f98df68bbff2a5e4a630e7504e974c9200929eb07713953819a16c0dd4bc39c"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/008.png",
+      "sha256": "e61d2734fb6d22944db6d52b3545c185dd843026adf8f67c1d2f0c63e9eda7e4"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/009.png",
+      "sha256": "2d554b58914ef5df84afc85a7f64072f6379e80da490968057c482dd11797c0a"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/010.png",
+      "sha256": "72ef752c13392fa3e92c5560a350ee212b13c625345add2ae54bdec5bb6446d5"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/011.png",
+      "sha256": "c81bfea0afda21c4e59d7d2f42912488d17d90b1bfd675e90046abeeb6eea093"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/012.png",
+      "sha256": "df92421c33be044b772b4f273c8488f321de246459122e8fa80ca31aef006b5b"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/013.png",
+      "sha256": "141f2708d13554737286f754316414a3862bd3a1541bddcf6b37437fbd0280e4"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/014.png",
+      "sha256": "1c9efce336e737fe8ed40de74753a9a097228607e11821c1de4c7fe30d5899cf"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/015.png",
+      "sha256": "37307f3b66a57b5f4810906b5028c643b5d2279339907f5ea9fc3bed964e8033"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/016.png",
+      "sha256": "5b86a282f272663d381ef8d3e61699650a3cf39c4d264b92bd270cccc81a54ed"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/017.png",
+      "sha256": "cf737ff44c5d7385402922d5e0494c9ad1d776ada1bfc66b8cbfc5dd0a4259e0"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/018.png",
+      "sha256": "249bb0452eaa00aa850d01ea26721a9ad601be08c4251dec776b2df0885d03ac"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/019.png",
+      "sha256": "e4f816deb007872cce247dae7afd311b83e2a12575d8bfd42bdf3e9473434659"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/020.png",
+      "sha256": "bc5a364e4c8ee1f131d400c8fc2235d1dba2dff03e1698b7a45d011450256405"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/021.png",
+      "sha256": "0947c80b65bafd8e5b9815f8833992dd9ae483ce79108299b14536922e4ee1ee"
+    },
+    {
+      "index": 22,
+      "time_seconds": 0.9166667,
+      "rect": [
+        1536,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/022.png",
+      "sha256": "a6c9b4112324450687303c292eae4ec489db1f9218db32d87de5030cedd63bf5"
+    },
+    {
+      "index": 23,
+      "time_seconds": 0.9583333,
+      "rect": [
+        1792,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/023.png",
+      "sha256": "5a54785f40b1106e63e6c85b7c6cc5a5b1b5bffb49f879f3eb21cb3d112af65a"
+    },
+    {
+      "index": 24,
+      "time_seconds": 1.0,
+      "rect": [
+        0,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/024.png",
+      "sha256": "a7f52cb88dd5ccc2695cbd7a5c4f37bffc071ad44a85a543c9317c8dec0d0cf9"
+    },
+    {
+      "index": 25,
+      "time_seconds": 1.0416667,
+      "rect": [
+        256,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/025.png",
+      "sha256": "b41f7716cbc2deed8d93b92c38766552669db5e815f68190aa13c7258cf5f728"
+    },
+    {
+      "index": 26,
+      "time_seconds": 1.0833333,
+      "rect": [
+        512,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/026.png",
+      "sha256": "7483662b444c43e70830f230b78c1b6d9b08376c44dd48cad7a7c268822a58c8"
+    },
+    {
+      "index": 27,
+      "time_seconds": 1.125,
+      "rect": [
+        768,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/027.png",
+      "sha256": "9f2a8c87cfae38b3e398ceddd30970e4c34257251b11628a0a1071b083329196"
+    },
+    {
+      "index": 28,
+      "time_seconds": 1.1666667,
+      "rect": [
+        1024,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/028.png",
+      "sha256": "1bbe6122ff924e4f3e73fe8c5ecc1c3896c6cfc2ba14c29381445f3bae7ff3d2"
+    },
+    {
+      "index": 29,
+      "time_seconds": 1.2083333,
+      "rect": [
+        1280,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/029.png",
+      "sha256": "ed2554bcd5d8a17e22cf5b6861bff9985da07555f6306a3b09798249423a7321"
+    },
+    {
+      "index": 30,
+      "time_seconds": 1.25,
+      "rect": [
+        1536,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/030.png",
+      "sha256": "9e02e87ee27199e0a121e9977505c27441e21f4af3834a82cf5324426b8e6356"
+    },
+    {
+      "index": 31,
+      "time_seconds": 1.2916667,
+      "rect": [
+        1792,
+        768,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/031.png",
+      "sha256": "e1cbe86e90d93d2d8a8e04f9677393c7203b6fb9ad4c77790b5c429f4b522dc3"
+    },
+    {
+      "index": 32,
+      "time_seconds": 1.3333333,
+      "rect": [
+        0,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/032.png",
+      "sha256": "4db1c293512cc181512a3628277123d695b9d2ef7d0f3c69fb138fde102bfd4b"
+    },
+    {
+      "index": 33,
+      "time_seconds": 1.375,
+      "rect": [
+        256,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/033.png",
+      "sha256": "32a9313f9b5f0fd9deb35aa1eb77c5637fbf575db67a9e388c6105fce795b8f3"
+    },
+    {
+      "index": 34,
+      "time_seconds": 1.4166667,
+      "rect": [
+        512,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/034.png",
+      "sha256": "b2ef72624c6cd474fdadef60584556bb7cac3b3702f201acff976b42d398419c"
+    },
+    {
+      "index": 35,
+      "time_seconds": 1.4583333,
+      "rect": [
+        768,
+        1024,
+        256,
+        256
+      ],
+      "path": "frames/feral_aura/035.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.feral_aura",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py"
+}

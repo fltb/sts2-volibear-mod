@@ -1,0 +1,7 @@
+{
+  "file": "proof_sans.ttf",
+  "source": "Installed DejaVu Sans font from system package fonts-dejavu-core",
+  "sha256": "ae7b7855e115a5966d8b1b3f80f254ccc117ec86f9965e202ee2940453837280",
+  "license_file": "DEJAVU_LICENSE.txt",
+  "purpose": "Exact font for reproducible English-labelled contact proofs; prevents host-font dependency."
+}

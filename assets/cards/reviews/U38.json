@@ -1,0 +1,54 @@
+{
+  "id": "U38",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "8b05bd13453793d3e378b69f5d7b2661ee92644b82eaf0506c74bccb849a3d6f",
+  "master_sha256": "7af5df8a72c33b1e6c3e3906046a0691996f920ea76cc2c6bfb016109ecae7ca",
+  "comparison_sha256": "29af00a3f59126f3ac929fa6b721efda3a52e3b563d7da086c681e372ac851ca",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "紧凑熊体以侧向步态前进，近后足明确蹬地，前足向前跨而肩髋无异常延长；实体与前方小敌之间留出大片空地。雷留在经过的地面。",
+  "baseline_comparison": "保留C06重量和U25前后距离，改为完整侧身奔袭；相较首稿已去掉巨爪占幅和碎雷，125像素身体比例、蹬地与跨步仍可认。",
+  "paw_orientation_observation": "前足短爪跟随跨步方向，后足接地，远侧支点退为暗形；未增加多余腿。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 19
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:38:08+00:00",
+  "master": "cards/masters/U38.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U38.jpg",
+  "anchors": [
+    "C06",
+    "U25"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

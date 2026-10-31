@@ -1,0 +1,54 @@
+{
+  "id": "R28",
+  "attempt": 2,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "49ab83640a5cbc0c0590bae3638b5de77bb0f04f9c73738077314982d124f88e",
+  "master_sha256": "6951772100b0077f37e1ac29bcb76b0f8788b2a55da84f101790f43fbeb5690f",
+  "comparison_sha256": "25a0237dd5c0340f8cdf14227c814697fa8388a02a202b4560da289e58b308e3",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "小手接触独立护片上缘，旧金属面、铆钉与薄厚边界连续；青边向下引出附属于护片的蓝白兽性区域，没有把手臂毛发铺成外物。",
+  "baseline_comparison": "保持U39施加者与外物分离、C08局部材料变化的可读性；主体变为安静护片大平面，接点和变区在圆形遮罩内仍完整。",
+  "paw_orientation_observation": "指爪沿护片边缘收拢，腕从右上连续进入，接触面朝向受体。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 17,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:28:57+00:00",
+  "master": "cards/masters/R28.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/R28.jpg",
+  "anchors": [
+    "U39",
+    "C08"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

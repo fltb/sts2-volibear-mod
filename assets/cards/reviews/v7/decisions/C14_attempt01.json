@@ -1,0 +1,41 @@
+{
+  "id": "C14",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "c95e34e8254267e60547ed72f4c45c9552958de065394bfcf70916eaa21ff56f",
+  "master_sha256": "7e3b1aaaed7dc38dd731178d3ac9a065a180a8dfbd16d712a83315b41f165675",
+  "comparison_sha256": "b407f5861c4b4caa69b04da39c8dcbcfaef9756e41a0dea048f41abcd6fe5093",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "熊眼留在内侧暗部，宽暗隙把身体与厚青护面分开；完整矛尖停在外侧，同一接点的返雷沿矛轴向外。",
+  "baseline_comparison": "与C12肉身肩承击、U21接续地雷不同，护界内外四层明确；返雷两小分支属于同一个接点，不改变唯一因果。",
+  "paw_orientation_observation": "脸颊和肩在暗处连续，雷未吞没任何肢体，矛尖没有被误画成手爪。",
+  "quality_axes": {
+    "main_read": 19,
+    "large_shapes": 19,
+    "tone": 18,
+    "finish": 18,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:06+00:00"
+}

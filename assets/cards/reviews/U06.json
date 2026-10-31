@@ -1,0 +1,54 @@
+{
+  "id": "U06",
+  "attempt": 1,
+  "decision": "approve",
+  "reviewer": {
+    "name": "root",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "inspected_actual_images": true,
+  "raw_sha256": "77185bb2812af1a621c47304dd852baffe6b45095f4daac1692446096269c800",
+  "master_sha256": "86f835aeb8fdbb9ff39dd1ac38feb43c63e923234d59ea922cef4cbe71cd194b",
+  "comparison_sha256": "e639eb34de6c644ac5155b3e832d9cf6c5b2017c22685b2d508ad93efb19eaa8",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "宽红护带连在敌方暗腰廓上，上段翻口、中段旧暗破处、下段当前拉扯分出时间层次；小爪从右边自然进入抓住同一条带。",
+  "baseline_comparison": "与C08三道切痕不同，以有厚度的材料拉离呈现连续撕扯，破口不等状态；缩图仍读受体与向外拉力。",
+  "paw_orientation_observation": "短爪由同一掌连接并向带面内扣，腕从画边自然延伸，不是漂浮独立指甲。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 18,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 18
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-27T17:55:06+00:00",
+  "master": "cards/masters/U06.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/U06.jpg",
+  "anchors": [
+    "C08",
+    "R23"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

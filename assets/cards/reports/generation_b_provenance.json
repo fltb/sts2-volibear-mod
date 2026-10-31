@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "generator": "card_anatomy_b",
+  "actual_generations": 6,
+  "records": [
+    {
+      "id": "R07",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "generation_mode": "built-in",
+      "generator": "card_anatomy_b",
+      "output_origin": "/workspace/scratch/6d72a9858741/generated_images/exec-afa973dd-eb77-45f1-bc9d-3d681dea3723.png",
+      "output_sha256": "dbc4d180bc517f8b9ef596f23ad87d56dbc106e2deb05b52aa9d9d6e028bb844",
+      "candidate_path": "cards/revision_v3/R07/attempt_01.png",
+      "candidate_sha256": "dbc4d180bc517f8b9ef596f23ad87d56dbc106e2deb05b52aa9d9d6e028bb844",
+      "prompt_path": "cards/revision_v3/R07/attempt_01.prompt.txt",
+      "prompt_sha256": "0b5118c7250290970e134861b9371930531265ebab19d597243484b23c2759c6",
+      "referenced_images_at_generation": [
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/R07.png",
+          "sha256": "dbeaff0a03debb9eb6fce22fba09e9930e3dcc4922c0504187ecacd6ae13a7f0",
+          "id": "R07",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U37.png",
+          "sha256": "c5e84a9ce064e2316ac2abb9ee813c4e1a9c23a8ded8f0338e5b8e6d31ef61a9",
+          "id": "U37",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U19.png",
+          "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+          "id": "U19",
+          "basis": "V2 bytes used before V3 replacement"
+        }
+      ],
+      "transparent_background": false,
+      "visually_viewed_by_generator": true,
+      "generator_disposition": "reject",
+      "generator_review": "整熊俯身下砸重叠处，画面右侧的下肢与前臂易形成多肢误读；为消除遮挡歧义，重新构图为单前臂特写。",
+      "generation_timestamp": null,
+      "timestamp_note": "Exact tool start/end timestamp not captured; not inferred from import or file mtime."
+    },
+    {
+      "id": "R07",
+      "attempt": 2,
+      "tool": "image_gen.imagegen",
+      "generation_mode": "built-in",
+      "generator": "card_anatomy_b",
+      "output_origin": "/workspace/scratch/6d72a9858741/generated_images/exec-4cbd5109-6d75-403f-88d4-8e1dd1eae2c0.png",
+      "output_sha256": "11450ca971cb3241db1ec7c2c86e521be7714729bfa24d899d4a95fbd7b1beff",
+      "candidate_path": "cards/revision_v3/R07/attempt_02.png",
+      "candidate_sha256": "11450ca971cb3241db1ec7c2c86e521be7714729bfa24d899d4a95fbd7b1beff",
+      "prompt_path": "cards/revision_v3/R07/attempt_02.prompt.txt",
+      "prompt_sha256": "a1db6680e2046b55992225093554882f27a9cbfe0d44bed5657330d3d66d9b75",
+      "referenced_images_at_generation": [
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U27.png",
+          "sha256": "4f19da046f0e62947f3bab2bb26ea7ac288aa4a85675eeaf1d260943bc6eab01",
+          "id": "U27",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/R07.png",
+          "sha256": "dbeaff0a03debb9eb6fce22fba09e9930e3dcc4922c0504187ecacd6ae13a7f0",
+          "id": "R07",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U19.png",
+          "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+          "id": "U19",
+          "basis": "V2 bytes used before V3 replacement"
+        }
+      ],
+      "transparent_background": false,
+      "visually_viewed_by_generator": true,
+      "generator_disposition": "proposed_select",
+      "generator_review": "单一前臂-腕-掌承重，四个指根/末端爪清楚；雷裂从接触下方沿外部地面伸出，已无石板掌。",
+      "generation_timestamp": null,
+      "timestamp_note": "Exact tool start/end timestamp not captured; not inferred from import or file mtime."
+    },
+    {
+      "id": "R28",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "generation_mode": "built-in",
+      "generator": "card_anatomy_b",
+      "output_origin": "/workspace/scratch/6d72a9858741/generated_images/exec-38501619-0605-4f55-83ff-a8a680d02d02.png",
+      "output_sha256": "897bffd03863cd021c089e3a39c57219e46ea10a7c667fd9c467362d853f3dbd",
+      "candidate_path": "cards/revision_v3/R28/attempt_01.png",
+      "candidate_sha256": "897bffd03863cd021c089e3a39c57219e46ea10a7c667fd9c467362d853f3dbd",
+      "prompt_path": "cards/revision_v3/R28/attempt_01.prompt.txt",
+      "prompt_sha256": "fd345cb90dffa2efe6320b63cbbf3c729462fe637599dd7cbfb3fcaf22dd8707",
+      "referenced_images_at_generation": [
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/R28.png",
+          "sha256": "1831e97e3399b7dd0836383e1992ac1a682a3607df9d41c8179209ea1e8ae004",
+          "id": "R28",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U27.png",
+          "sha256": "4f19da046f0e62947f3bab2bb26ea7ac288aa4a85675eeaf1d260943bc6eab01",
+          "id": "U27",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U19.png",
+          "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+          "id": "U19",
+          "basis": "V2 bytes used before V3 replacement"
+        }
+      ],
+      "transparent_background": false,
+      "visually_viewed_by_generator": true,
+      "generator_disposition": "proposed_select",
+      "generator_review": "真实熊掌按在独立石板上，爪尖/接触影保持前后分层；局部侵染从接触区域向石板表面扩展，无熊头贴附或自体变化。",
+      "generation_timestamp": null,
+      "timestamp_note": "Exact tool start/end timestamp not captured; not inferred from import or file mtime."
+    },
+    {
+      "id": "U28",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "generation_mode": "built-in",
+      "generator": "card_anatomy_b",
+      "output_origin": "/workspace/scratch/6d72a9858741/generated_images/exec-ed44c16c-7e3b-4a3c-b38b-f5791594ce84.png",
+      "output_sha256": "417774aeaa41527035cadb841a0602efa717978295a5451cfe7de9f327d72ec9",
+      "candidate_path": "cards/revision_v3/U28/attempt_01.png",
+      "candidate_sha256": "417774aeaa41527035cadb841a0602efa717978295a5451cfe7de9f327d72ec9",
+      "prompt_path": "cards/revision_v3/U28/attempt_01.prompt.txt",
+      "prompt_sha256": "1d4ca329be96567c160ca510d0cd116a9c518d6574437b5a6fb196393a78a70d",
+      "referenced_images_at_generation": [
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U28.png",
+          "sha256": "47af41e47e31b970610750ac69aa146559f2d4368e79178003cd17fb151bb6cf",
+          "id": "U28",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U19.png",
+          "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+          "id": "U19",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U35.png",
+          "sha256": "d96da21bdc6d7141b99999d06f7c15fbbca1e57f6cfa5c8137e4d135a2193469",
+          "id": "U35",
+          "basis": "V2 bytes used before V3 replacement"
+        }
+      ],
+      "transparent_background": false,
+      "visually_viewed_by_generator": true,
+      "generator_disposition": "proposed_select",
+      "generator_review": "一前臂屈肘迎击、另一拳回收肋部；金入青返从同一接触处转出，手腕和掌端可见，不再炮筒双掌。",
+      "generation_timestamp": null,
+      "timestamp_note": "Exact tool start/end timestamp not captured; not inferred from import or file mtime."
+    },
+    {
+      "id": "T02",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "generation_mode": "built-in",
+      "generator": "card_anatomy_b",
+      "output_origin": "/workspace/scratch/6d72a9858741/generated_images/exec-e9912f80-7101-490e-baa8-86f5e098cb66.png",
+      "output_sha256": "e139cf1599e3d4ede7557e0c372c454ab3c2d17ce443af6572020c37431bf548",
+      "candidate_path": "cards/revision_v3/T02/attempt_01.png",
+      "candidate_sha256": "e139cf1599e3d4ede7557e0c372c454ab3c2d17ce443af6572020c37431bf548",
+      "prompt_path": "cards/revision_v3/T02/attempt_01.prompt.txt",
+      "prompt_sha256": "aaaab57bce2671948fa396f27c796905563fc79d99299c268e38f10de2e99670",
+      "referenced_images_at_generation": [
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/T02.png",
+          "sha256": "684e7bb3cb0d4b0cfb8e96191d4531730f215fe2880ea283ced98b95f7e93a39",
+          "id": "T02",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U19.png",
+          "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+          "id": "U19",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/R16.png",
+          "sha256": "33162da1a3e9b4e3f95ca14959f87d64ae5a5f3719346cb0f069ac64cdbbb08f",
+          "id": "R16",
+          "basis": "V2 bytes used before V3 replacement"
+        }
+      ],
+      "transparent_background": false,
+      "visually_viewed_by_generator": true,
+      "generator_disposition": "proposed_select",
+      "generator_review": "双拳护体且有高低/前后区别，拳头各有指根和末端爪，两腕连续，双前臂不再封口相碰。",
+      "generation_timestamp": null,
+      "timestamp_note": "Exact tool start/end timestamp not captured; not inferred from import or file mtime."
+    },
+    {
+      "id": "U41",
+      "attempt": 1,
+      "tool": "image_gen.imagegen",
+      "generation_mode": "built-in",
+      "generator": "card_anatomy_b",
+      "output_origin": "/workspace/scratch/6d72a9858741/generated_images/exec-ec359270-f0e7-49e8-8f60-8666e98a6498.png",
+      "output_sha256": "ebb06709f1899e1df4426d415a349568cb4991825a11036927a4625b71ef41b9",
+      "candidate_path": "cards/revision_v3/U41/attempt_01.png",
+      "candidate_sha256": "ebb06709f1899e1df4426d415a349568cb4991825a11036927a4625b71ef41b9",
+      "prompt_path": "cards/revision_v3/U41/attempt_01.prompt.txt",
+      "prompt_sha256": "87e949af918b975e32747218e2fb43b2bad96e1530cc049eaf0c0cd8a50d148a",
+      "referenced_images_at_generation": [
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U41.png",
+          "sha256": "d7b662c4bf3d809b54958c78c47c94ca5dc87de40e6dbd7d8b2feb0ea76af7d6",
+          "id": "U41",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U27.png",
+          "sha256": "4f19da046f0e62947f3bab2bb26ea7ac288aa4a85675eeaf1d260943bc6eab01",
+          "id": "U27",
+          "basis": "V2 bytes used before V3 replacement"
+        },
+        {
+          "path_at_call": "/workspace/scratch/6d72a9858741/revision_v3/volibear_v3/cards/masters/U19.png",
+          "sha256": "d67f176fad5b61b55cdb85006f687053cc281ee661c38c12a58a531bdc0f3546",
+          "id": "U19",
+          "basis": "V2 bytes used before V3 replacement"
+        }
+      ],
+      "transparent_background": false,
+      "visually_viewed_by_generator": true,
+      "generator_disposition": "proposed_select",
+      "generator_review": "正常前臂和四指可见爪，三爪在独立外部护片划开表层；剥离的是物体碎片，手腕上没有骨钩。",
+      "generation_timestamp": null,
+      "timestamp_note": "Exact tool start/end timestamp not captured; not inferred from import or file mtime."
+    }
+  ],
+  "selected_candidates": {
+    "R07": "cards/revision_v3/R07/attempt_02.png",
+    "R28": "cards/revision_v3/R28/attempt_01.png",
+    "U28": "cards/revision_v3/U28/attempt_01.png",
+    "T02": "cards/revision_v3/T02/attempt_01.png",
+    "U41": "cards/revision_v3/U41/attempt_01.png"
+  }
+}

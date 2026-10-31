@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-10-27",
+  "scope": {
+    "champion": "Volibear",
+    "game": "League of Legends",
+    "skin": "Original/default",
+    "asset_type": "sound_effects",
+    "exclude": [
+      "Inkshadow",
+      "other skins",
+      "old/pre-rework",
+      "voice-over",
+      "Legends of Runeterra",
+      "Wild Rift"
+    ]
+  },
+  "status": "incomplete_exact_filenames_not_exposed_by_retrieved_search_index",
+  "complete": false,
+  "files": [],
+  "verified_exact_filename_count": 0,
+  "completeness_evidence": {
+    "category_url": "https://wiki.leagueoflegends.com/en-us/Category:Volibear_sound_effects",
+    "category_membership_list_retrieved": false,
+    "category_file_total_retrieved": false,
+    "category_reference": {
+      "source_url": "https://leagueoflegends.fandom.com/wiki/Category%3AVolibear",
+      "source_reference": "turn85search11",
+      "evidence": "Indexed parent category includes Category:Volibear sound effects; it does not expose that subcategory's members."
+    },
+    "audio_index": {
+      "source_url": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "source_reference": "turn94search0",
+      "index_crawled_relative": "5 days ago",
+      "sfx_body_playback_item_count": 138,
+      "champion_select_sfx_playback_item_count": 1,
+      "total_sfx_playback_items": 139,
+      "count_method": "Counted 138 [Button] SFX entries between Sound Effects and Trivia in retrieved indexed text, plus one Sound Effect entry under Champion Select.",
+      "warning": "Playback item count is not a verified unique-file count or a category total; filename/link targets were not exposed."
+    },
+    "todo_index": {
+      "source_url": "https://wiki.leagueoflegends.com/en-us/League_of_Legends_Wiki%3ATodo/LoL_Audio",
+      "source_reference": "turn94search1",
+      "evidence": "The indexed SFX tracking table shows Volibear with version 25.24.",
+      "inference": "The SFX catalog may have been completed after the independent Wiki migration; Fandom's older media CDN cannot be assumed to contain these files."
+    }
+  },
+  "event_inventory": [
+    {
+      "label": "Taunt",
+      "playback_item_count": 1,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Joke",
+      "playback_item_count": 7,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Laugh",
+      "playback_item_count": 1,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Dance",
+      "playback_item_count": 4,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Ctrl-5",
+      "playback_item_count": 3,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Attacking",
+      "playback_item_count": 52,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Using The Relentless Storm",
+      "playback_item_count": 8,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Using Thundering Smash",
+      "playback_item_count": 24,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Using Frenzied Maul",
+      "playback_item_count": 10,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Using Sky Splitter",
+      "playback_item_count": 11,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Using Stormbringer",
+      "playback_item_count": 13,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Recall",
+      "playback_item_count": 2,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Death",
+      "playback_item_count": 1,
+      "filename_resolution": "unresolved"
+    },
+    {
+      "label": "Respawn",
+      "playback_item_count": 1,
+      "filename_resolution": "unresolved"
+    }
+  ],
+  "unresolved_select": {
+    "label": "Champion Select sound effect",
+    "playback_item_count": 1,
+    "filename": null
+  },
+  "unverified_filename_candidates": [
+    {
+      "filename": "Volibear_Select_SFX.ogg",
+      "verified": false,
+      "source_url": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "basis": "Naming inference supplied by the VO research agent, who explicitly retracted the initial claim of a verified File title. Not included in files or verified counts.",
+      "downloaded_by_this_task": false
+    }
+  ],
+  "exclusions_confirmed_from_index": [
+    {
+      "filename": "Volibear_Original_R_0.ogg",
+      "source_url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_R_0.ogg",
+      "source_reference": "turn75search3",
+      "reason": "File page category is Volibear voice-overs, not SFX."
+    },
+    {
+      "filename": "Volibear_Original_W_4.ogg",
+      "source_url": "https://wiki.leagueoflegends.com/en-us/File%3AVolibear_Original_W_4.ogg",
+      "source_reference": "turn75search5",
+      "reason": "File page category is Volibear voice-overs, not SFX."
+    }
+  ],
+  "retrieval_constraints": {
+    "method": "Public web search index only",
+    "direct_main_site_or_api_requests": 0,
+    "cdn_downloads_by_this_task": 0,
+    "robots_or_access_control_bypass": false,
+    "system1_verification": "Returned non-retryable robots blocks for Wiki/Fandom; no alternate main-site request attempted.",
+    "system2_result": "Category, filename, file-format, and event-specific queries exposed Audio playback labels and VO file pages, but no exact SFX File title/member list."
+  },
+  "next_step_requirement": "Obtain a legitimate category export or audio-page file-target mapping with exact filenames, then match actual media downloads. Do not synthesize 138 filenames from labels, count guessed names as confirmed, or describe this JSON as a full SFX download catalog."
+}

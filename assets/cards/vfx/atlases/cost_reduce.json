@@ -1,0 +1,305 @@
+{
+  "id": "cost_reduce",
+  "label_zh": "减费压印",
+  "family": "card",
+  "fps": 24,
+  "frame_count": 22,
+  "duration_seconds": 0.9166666666666666,
+  "loop": false,
+  "anchor": "card_cost_anchor",
+  "layer_z": 20,
+  "blend_mode": "mix",
+  "alpha_mode": "straight",
+  "pivot_px": [
+    128,
+    128
+  ],
+  "content_bbox": [
+    80,
+    79,
+    177,
+    205
+  ],
+  "atlas": {
+    "image": "atlases/cost_reduce.png",
+    "json": "atlases/cost_reduce.json",
+    "columns": 8,
+    "rows": 3,
+    "tile_size": [
+      256,
+      256
+    ],
+    "sha256": "0ae3d1395a77d04190f47753aff9a5dffed82910bc665611aa5e204698574bd2"
+  },
+  "frames": [
+    {
+      "index": 0,
+      "time_seconds": 0.0,
+      "rect": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/000.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    },
+    {
+      "index": 1,
+      "time_seconds": 0.0416667,
+      "rect": [
+        256,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/001.png",
+      "sha256": "aaf9afc87507118bb05b70797cce2a8b90de00bfa1e038bdf7db3cbef48f481c"
+    },
+    {
+      "index": 2,
+      "time_seconds": 0.0833333,
+      "rect": [
+        512,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/002.png",
+      "sha256": "5611e4b4fb5d0d5798c700eb92c176e9bdf7e31bf441392344c599c3cbe8de6d"
+    },
+    {
+      "index": 3,
+      "time_seconds": 0.125,
+      "rect": [
+        768,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/003.png",
+      "sha256": "29965ddfa26ca5d12d932e7fb49dba722862ce3d13ea9fe9b0d27b6ccf05cf2c"
+    },
+    {
+      "index": 4,
+      "time_seconds": 0.1666667,
+      "rect": [
+        1024,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/004.png",
+      "sha256": "53df2eec76ab48a6ada24e58cb2c20720966dc7bcf335bf5212d3ed6a212052e"
+    },
+    {
+      "index": 5,
+      "time_seconds": 0.2083333,
+      "rect": [
+        1280,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/005.png",
+      "sha256": "deea8b475a349f56faf90d3c953cf5636ef860307dc603a80fec42ee30f2a125"
+    },
+    {
+      "index": 6,
+      "time_seconds": 0.25,
+      "rect": [
+        1536,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/006.png",
+      "sha256": "955b039b42aaa1590edbf806306a38f8434373ad760b064ce201aa849c086f25"
+    },
+    {
+      "index": 7,
+      "time_seconds": 0.2916667,
+      "rect": [
+        1792,
+        0,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/007.png",
+      "sha256": "25546d1bb6a8805f6afe5026d12c1cef4b41ddf906c204e922d266eeaceb40f8"
+    },
+    {
+      "index": 8,
+      "time_seconds": 0.3333333,
+      "rect": [
+        0,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/008.png",
+      "sha256": "bddd2264f42c9579863592d6e43c7ca87d45d862d2d7666d337254c75ab8b001"
+    },
+    {
+      "index": 9,
+      "time_seconds": 0.375,
+      "rect": [
+        256,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/009.png",
+      "sha256": "a90611a58817a691f366a852e73b7dd0067563c548eec54f05ba91817d986ade"
+    },
+    {
+      "index": 10,
+      "time_seconds": 0.4166667,
+      "rect": [
+        512,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/010.png",
+      "sha256": "49dea8f9c86dbac4a0669e8824f31e2dfdaa06086c794a5228e322d018118581"
+    },
+    {
+      "index": 11,
+      "time_seconds": 0.4583333,
+      "rect": [
+        768,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/011.png",
+      "sha256": "44f8bb6c2c009e43e225ea2deda60002902bae6076fdad82969c7dd882c7879a"
+    },
+    {
+      "index": 12,
+      "time_seconds": 0.5,
+      "rect": [
+        1024,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/012.png",
+      "sha256": "fa6c8fec2c91e998371f8c863a9b909abdadccc372eae4c9c0535d670deb237b"
+    },
+    {
+      "index": 13,
+      "time_seconds": 0.5416667,
+      "rect": [
+        1280,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/013.png",
+      "sha256": "75b18b8674b7e15ab674860fe5124d7f268cc9bdbd4b0223e8ac02c65d50d0c6"
+    },
+    {
+      "index": 14,
+      "time_seconds": 0.5833333,
+      "rect": [
+        1536,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/014.png",
+      "sha256": "153e545869c4f8923afba110c05586b08764a0f97bd4ee9a18777c31e69edb60"
+    },
+    {
+      "index": 15,
+      "time_seconds": 0.625,
+      "rect": [
+        1792,
+        256,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/015.png",
+      "sha256": "b46dae6ab82203f9d0ea13f63e9718f29f2d6717022cdfaa5ad2b5f112286d83"
+    },
+    {
+      "index": 16,
+      "time_seconds": 0.6666667,
+      "rect": [
+        0,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/016.png",
+      "sha256": "186fa13d12b6a819212399155e1cc8b3fc6b619670a3457d2dda0984a9abf5a3"
+    },
+    {
+      "index": 17,
+      "time_seconds": 0.7083333,
+      "rect": [
+        256,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/017.png",
+      "sha256": "52bcb4fcdb8bc4a1fdd8a68e4b4668ba7842e24b4c4967d6e069d2da4e704c6b"
+    },
+    {
+      "index": 18,
+      "time_seconds": 0.75,
+      "rect": [
+        512,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/018.png",
+      "sha256": "38962e49b9b55b1cef5c84fff7b450ab46cea239cd7ab2506212a70b91945886"
+    },
+    {
+      "index": 19,
+      "time_seconds": 0.7916667,
+      "rect": [
+        768,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/019.png",
+      "sha256": "b2b91b65ae49b96a49f104cc7caa843173848cabafdb5d93db3c26d30ff34781"
+    },
+    {
+      "index": 20,
+      "time_seconds": 0.8333333,
+      "rect": [
+        1024,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/020.png",
+      "sha256": "574e81a9ed118c9eabbd39d58bfd2759d78564022496567538e73db86611fc31"
+    },
+    {
+      "index": 21,
+      "time_seconds": 0.875,
+      "rect": [
+        1280,
+        512,
+        256,
+        256
+      ],
+      "path": "frames/cost_reduce/021.png",
+      "sha256": "70a213096a8a3aa52d8b05ee5ff5f8d14305a01d51f9305d2555880a4a2b458c"
+    }
+  ],
+  "audio_cue": "sfx.cost_reduce",
+  "audio_policy": "once_on_semantic_event; looping_vfx_never_retriggers_audio",
+  "lifecycle": "one_shot_autofree",
+  "source_geometry": "scripts/effects.py",
+  "actual_card_node_policy": "Retain the authoritative card image/node under this transparent overlay; animation never changes card state."
+}

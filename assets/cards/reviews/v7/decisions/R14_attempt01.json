@@ -1,0 +1,13 @@
+{
+  "id": "R14",
+  "attempt": 1,
+  "decision": "reject",
+  "reviewer": "root_independent_visual_review",
+  "inspected_actual_images": true,
+  "raw_sha256": "fbd6e38c36af8557f7b63c554a9c4c90e1cac81a7b95457c6102b765c3dc0291",
+  "observations": "中央岩障上下贯出画框，分成互不相通的两条沟；熊仍落后，无法看见内侧截近同一出口的逻辑。需在画内露出障碍前端与双方路径的唯一汇合处，并缩短后腿。",
+  "defects": [
+    "中央岩障上下贯出画框，分成互不相通的两条沟；熊仍落后，无法看见内侧截近同一出口的逻辑。需在画内露出障碍前端与双方路径的唯一汇合处，并缩短后腿。"
+  ],
+  "recorded_at": "2026-10-27T17:55:07+00:00"
+}
