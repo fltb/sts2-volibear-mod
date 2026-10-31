@@ -1,7 +1,11 @@
 import importlib.util
+import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 TOOLS = Path(__file__).resolve().parents[1] / 'tools'
@@ -16,7 +20,27 @@ class HeadlessRunnerTests(unittest.TestCase):
     def test_engine_error_rejects_load_marker(self):
         checks = headless.evaluate(0, False,
             'Steam initialization skipped\n[Volibear] LOAD_OK\nSCRIPT ERROR: failed')
-        self.assertFalse(checks['no_engine_errors'])
+        self.assertFalse(checks['no_runtime_errors'])
+
+    def test_engine_teardown_leaks_are_not_runtime_errors(self):
+        leak = ("ERROR: 27 RID allocations of type 'PN13RendererDummy14TextureStorage"
+                "12DummyTextureE' were leaked at exit.")
+        log = 'Steam initialization skipped\n[Volibear] LOAD_OK\n' + leak
+        checks = headless.evaluate(0, False, log)
+        self.assertTrue(checks['no_runtime_errors'])
+        stock = headless.teardown_categories([leak])
+        self.assertTrue(headless.evaluate(0, False, log, stock)['teardown_matches_stock'])
+
+    def test_teardown_category_not_in_stock_control_fails(self):
+        stock = headless.teardown_categories(
+            ["ERROR: 27 RID allocations of type 'A' were leaked at exit."])
+        novel = "ERROR: 3 RID allocations of type 'SomethingNew' were leaked at exit."
+        self.assertFalse(headless.evaluate(0, False, novel, stock)['teardown_matches_stock'])
+        # Counts differ per run; only the category may be compared.
+        same = headless.teardown_categories(
+            ["ERROR: 99 RID allocations of type 'A' were leaked at exit."])
+        self.assertTrue(headless.evaluate(0, False, novel.replace('SomethingNew', 'A'), stock)['teardown_matches_stock'])
+        self.assertEqual(same, stock)
 
     def test_timeout_always_fails(self):
         self.assertFalse(headless.evaluate(0, True,
@@ -27,7 +51,6 @@ class HeadlessRunnerTests(unittest.TestCase):
             'Steam initialization skipped\nwrite saves to steam storage')['no_cloud_backend'])
 
     def test_scenario_evidence_rejects_stale_missing_and_malformed(self):
-        import json
         record = dict(scenario='baseline', token='current', passed=True,
                       before=80, after=74, resultCount=1, roundBefore=1, roundAfter=2,
                       api='DamageCmd.Attack', testMode=False,
@@ -67,34 +90,40 @@ class HeadlessRunnerTests(unittest.TestCase):
         self.assertTrue(headless.engage_evidence(dict(engageEnabled=False,
             engage=None, duplicate=None, skippedActions=0), False))
 
+    def _spawn(self, directory, command):
+        output = (directory / 'stdout.log').open('w')
+        try:
+            process, job = headless.spawn_owned(command, str(directory), os.environ.copy(), output)
+        finally:
+            # The child owns its duplicated handle; Windows cannot delete an open file.
+            output.close()
+        self.addCleanup(headless.close_owned, job)
+        return process, job
+
     def test_owned_process_timeout(self):
-        import subprocess
-        process = subprocess.Popen([sys.executable, '-c', 'import time; time.sleep(60)'],
-                                   start_new_session=True)
-        code, timed_out = headless.wait_owned_process(process, 0.05)
-        self.assertTrue(timed_out)
-        self.assertNotEqual(code, 0)
-        self.assertIsNotNone(process.poll())
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            process, job = self._spawn(directory, [sys.executable, '-c', 'import time; time.sleep(60)'])
+            code, timed_out = headless.wait_owned_process(process, 0.05, job)
+            self.assertTrue(timed_out)
+            self.assertNotEqual(code, 0)
+            self.assertIsNotNone(process.poll())
 
     def test_wrapper_exit_still_cleans_group(self):
-        import os
-        import subprocess
-        import time
         with tempfile.TemporaryDirectory() as tmp:
-            pidfile = Path(tmp) / 'child.pid'
+            directory = Path(tmp)
+            pidfile = directory / 'child.pid'
             script = ('import subprocess,sys; from pathlib import Path; '
                       'p=subprocess.Popen([sys.executable,"-c","import time; time.sleep(60)"]); '
                       'Path(sys.argv[1]).write_text(str(p.pid))')
-            process = subprocess.Popen([sys.executable, '-c', script, str(pidfile)],
-                                       start_new_session=True)
-            code, timed_out = headless.wait_owned_process(process, 5)
+            process, job = self._spawn(directory, [sys.executable, '-c', script, str(pidfile)])
+            code, timed_out = headless.wait_owned_process(process, 5, job)
             self.assertEqual(code, 0)
             self.assertFalse(timed_out)
             pid = int(pidfile.read_text())
             deadline = time.monotonic() + 2
             while time.monotonic() < deadline:
-                status = Path(f'/proc/{pid}/stat')
-                if not status.exists() or status.read_text().split()[2] == 'Z':
+                if not headless.process_alive(pid):
                     break
                 time.sleep(0.01)
             else:
@@ -104,6 +133,18 @@ class HeadlessRunnerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             directory = Path(tmp)
             env = headless.isolated_env(directory)
-            for key in ('HOME', 'XDG_DATA_HOME', 'XDG_CONFIG_HOME', 'XDG_CACHE_HOME'):
+            for key, _ in headless.ISOLATION_BINDINGS:
                 self.assertTrue(Path(env[key]).is_relative_to(directory))
                 self.assertTrue(Path(env[key]).is_dir())
+            self.assertTrue(headless.user_data_root(directory).is_relative_to(directory))
+
+    def test_engine_log_preferred_over_redirected_stdout(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            (directory / 'stdout.log').write_text('')
+            (directory / 'game.log').write_text('[Volibear] LOAD_OK\n')
+            self.assertIn('LOAD_OK', headless.combined_log(directory))
+
+
+if __name__ == '__main__':
+    unittest.main()

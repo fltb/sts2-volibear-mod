@@ -1,0 +1,3 @@
+# Byte-exact checkout: asset manifests record SHA-256 of the committed bytes, so no
+# end-of-line conversion or working-tree normalisation may alter them on any platform.
+* -text
