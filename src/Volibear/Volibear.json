@@ -1,12 +1,12 @@
 {
   "id": "Volibear",
-  "name": "Volibear Development Probe",
+  "name": "沃利贝尔 · 不灭狂雷",
   "author": "fltb",
-  "description": "M0 loading probe. Character and gameplay not implemented yet.",
+  "description": "中文单人角色模组：89张卡牌、两件专属遗物，包含迎战、领域、雷伤与兽化机制。需要 BaseLib 3.4.7。",
   "version": "0.1.0",
   "min_game_version": "0.107.1",
-  "has_pck": false,
+  "has_pck": true,
   "has_dll": true,
-  "dependencies": [],
+  "dependencies": [{"id": "BaseLib", "min_version": "3.4.7"}],
   "affects_gameplay": true
 }

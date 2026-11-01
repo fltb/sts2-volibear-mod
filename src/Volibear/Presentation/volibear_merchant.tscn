@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="SpriteFrames" path="res://VolibearArt/scenes/volibear_social_frames.tres" id="frames"]
+[ext_resource type="Script" path="res://VolibearArt/scenes/actor.gd" id="actor"]
+
+[node name="VolibearMerchant" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-250, -442)
+centered = false
+sprite_frames = ExtResource("frames")
+animation = &"relaxed_loop"
+autoplay = "relaxed_loop"
+script = ExtResource("actor")
+return_animation = &"relaxed_loop"

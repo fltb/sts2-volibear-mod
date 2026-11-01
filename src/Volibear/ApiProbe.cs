@@ -46,6 +46,21 @@ internal static class ApiProbe
             Section(output, $"### TYPE {type.FullName} abstract={type.IsAbstract}", () => AppendMembers(output, type));
         }
 
+        Section(output, "### IRONCLAD FIELDS", () =>
+        {
+            var ironclad = MegaCrit.Sts2.Core.Models.ModelDb.Character<
+                MegaCrit.Sts2.Core.Models.Characters.Ironclad>();
+            for (var type = ironclad.GetType(); type is not null; type = type.BaseType)
+                foreach (var field in type.GetFields(BindingFlags.NonPublic | BindingFlags.Public
+                             | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+                {
+                    object? value;
+                    try { value = field.GetValue(ironclad); } catch { continue; }
+                    var rendered = value as string ?? (value is null ? "null" : value.GetType().Name);
+                    output.AppendLine($"  field {type.Name}.{field.Name}={rendered}");
+                }
+        });
+
         Section(output, "### DYNAMIC VARS", () =>
         {
             var dynamicVars = typeof(MegaCrit.Sts2.Core.Models.CardModel).Assembly
@@ -60,6 +75,20 @@ internal static class ApiProbe
         });
 
         Section(output, "### SAMPLE", () => AppendSampleCard(output));
+        Section(output, "### IRONCLAD PATHS", () =>
+        {
+            var ironclad = MegaCrit.Sts2.Core.Models.ModelDb.Character<
+                MegaCrit.Sts2.Core.Models.Characters.Ironclad>();
+            foreach (var property in ironclad.GetType().GetProperties(
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                if (property.PropertyType != typeof(string)) continue;
+                object? value;
+                try { value = property.GetValue(ironclad); } catch { continue; }
+                if (value is string text && text.Length > 0)
+                    output.AppendLine($"  path {property.Name}={text}");
+            }
+        });
 
         GD.Print("[Volibear] API_DUMP_BEGIN");
         foreach (var line in output.ToString().Split('\n'))

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "purpose": "Hand-authored independent real-engine scenario expectations; NOT execution results. Power amounts below are direct native deployment parameters unless a card is explicitly played. No automatic oracle generation from C#.",
+  "rules": [
+    "reference/bear-forge/examples/sts/src/content/characters/volibear/powers/s2.ts",
+    "reference/bear-forge/examples/sts/src/content/characters/volibear/powers/standing.ts",
+    "reference/bear-forge/examples/sts/src/content/characters/volibear/powers/immovable.ts",
+    "reference/bear-forge/examples/sts/src/content/characters/volibear/powers/battle-body.ts"
+  ],
+  "common": "No other powers/relic responses/modifiers. Keep combat alive; enemy HP sufficiently high. Reset combat per case. Engine effects and normal payment are separate assertions; these vectors do not bypass the real enemy move for Engage.",
+  "cases": [
+    {"id":"PP-U02-instances", "initial":"two enemies HP100 each; Conduction native instances amount3 and4; no storm/domain", "action":"B01 ordinary6 hits first enemy", "expected":{"enemy_hp":[87,93],"lightning_batches":2,"conduction_instances":2}},
+    {"id":"PP-U02-domain-order", "initial":"two enemies HP100; Domain1; Conduction3; storm2", "action":"B01 ordinary6 hits first", "expected":{"enemy_hp":[83,89],"lightning_base_sequence":[4,3],"lightning_amount_sequence":[6,5],"batches":2}},
+    {"id":"PP-U03-min-stack", "initial":"Standing6 then Standing3 then Standing6; player block20; advance to next normal player start, no other draw effects", "action":"native clear block boundary", "expected":{"standing_instances":1,"standing_amount":3,"block":17,"block_gain_events":0}},
+    {"id":"PP-U03-other-retention", "initial":"Standing3 and native Barricade; block20", "action":"next normal player start", "expected":{"block":20,"standing_decay_events":0,"native_barricade_preventer":true}},
+    {"id":"PP-U04-independent-first", "initial":"Scars1 deployed; complete Engage once; deploy Scars2 afterward; complete Engage against different eligible enemy same turn", "action":"inspect per-instance first-turn outputs", "expected":{"strength_gained":3,"storm_gained":2,"scars_instances":2}},
+    {"id":"PP-U19-draw-before-extend", "initial":"no Domain; Lingering1 deployed; top draw is status card; complete valid Engage", "action":"draw response then domain1", "expected":{"status_remains_in_hand":true,"status_purified":false,"domain_rounds":1}},
+    {"id":"PP-U21-deploy-at-three", "initial":"three completed lightning batches this turn; energy0", "action":"deploy Aftershock; resolve fourth batch", "expected":{"energy_after_deploy":1,"energy_after_fourth":2,"aftershock_instances":1}},
+    {"id":"PP-U21-two-independent", "initial":"five completed batches; energy0", "action":"deploy Aftershock twice; resolve sixth then seventh then eighth", "expected":{"energy_after_deployments":2,"energy_after_sixth":4,"energy_after_seventh":4,"energy_after_eighth":6,"aftershock_instances":2}},
+    {"id":"PP-U25-replay", "initial":"Prey1; first actual single-target attack already completed against enemyA; next draw attack base1; next attack has native replay1", "action":"second actual attack onA resolves both effect repetitions", "expected":{"prey_draws":1,"drawn_attack_next_cost":0,"actual_target_ordinal":2}},
+    {"id":"PP-U25-live-finish-count", "initial":"Prey1; one completed single-target attack onA; second actual attack onA starts and triggers a nested third actual single-target attack onA before finishing", "action":"nested third finishes, then outer second finishes", "expected":{"target_count_at_both_finishes":3,"prey_draws":0,"prey_allowance_consumed":false}},
+    {"id":"PP-U25-purification", "initial":"Prey1 and Domain1; first actual attack onA completed; next direct draw is status, replacement is base1 attack", "action":"second actual single-target attack onA completes", "expected":{"status_exhausted":true,"replacement_attack_next_cost":1,"replacement_not_observed_by_prey":true}},
+    {"id":"PP-U26-before-effects", "initial":"Fury1 and Fury2 independent; one earlier attack; strength0 storm0; high HP enemy", "action":"second actual B01 attack, native replay1", "expected":{"strength_before_first_effect":3,"storm_before_first_effect":3,"ordinary_hit_amounts":[9,9],"strength_after_replay":3,"storm_after_replay":3}},
+    {"id":"PP-U32-max-coupon", "initial":"Welcome1 and Welcome2; valid completed Engage", "action":"inspect pending attack discount then pay base3 attack", "expected":{"pending_discount":2,"paid_energy":1,"coupon_consumed_once":true}},
+    {"id":"PP-U34-per-batch", "initial":"Armor3 and Armor4 independent; block0; lightning against three enemies", "action":"resolve one fully blocked lightning batch", "expected":{"block":7,"armor_instances":2,"lightning_count":1}},
+    {"id":"PP-R02-no-consumption", "initial":"Immovable deployed twice; block5 HP80; enemy real attack8 twice", "action":"complete multi-hit real move inside Engage", "expected":{"immovable_amount":1,"block":5,"hp":74,"absorbed":10}},
+    {"id":"PP-R02-unpowered", "initial":"Immovable; block5 HP80", "action":"native nonattack Unpowered damage8", "expected":{"block":0,"hp":77}},
+    {"id":"PP-R16-positive-own-block", "initial":"BattleBody amount2; strength0 dexterity0; enough HP target", "action":"actual attack grants positive own block and native replay1; finish actualplay", "expected":{"strength_gained":2,"dexterity_gained":2,"actual_finish_responses":1}},
+    {"id":"PP-R16-passive-block-excluded", "initial":"BattleBody1, Armor3, Domain1; strength0 dexterity0", "action":"B01 grants no own block; domain lightning triggers Armor3 block", "expected":{"strength_gained":1,"dexterity_gained":0,"block":3}},
+    {"id":"PP-R18-independent-batches", "initial":"Pool4 and Pool6; storm0; first valid Engage this turn completed then a second valid Engage; enemy HP high", "action":"finish normal player turn", "expected":{"first_engage_bases":[4,6],"second_engage_batches":0,"end_turn_bases":[4,6],"total_pool_batches":4}}
+  ]
+}

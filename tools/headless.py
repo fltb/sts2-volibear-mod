@@ -13,6 +13,45 @@ import sys
 import uuid
 
 from dev import ROOT, config, game_executable, validate_game
+from beast_evidence import BEAST_CASES, beast_contract_evidence
+from domain_enemy_evidence import check_log as domain_enemy_evidence
+from persistent_evidence import PERSISTENT_CASES, persistent_contract_evidence
+from catalog_evidence import catalog_evidence
+from card_face_evidence import CARD_FACE_CASES, extract_card_face_result, extract_card_face_batch
+from domain_hopper_evidence import VARIANTS as HOPPER_CASES, domain_hopper_evidence
+from enemy_catalog_evidence import catalog_evidence as enemy_catalog_evidence
+from domain_summon_evidence import check_log as domain_summon_evidence
+from domain_summon_d17_evidence import VARIANTS as SUMMON_D17_CASES, check_log as summon_d17_evidence
+from relic_evidence import RELIC_CASES, relic_contract_evidence
+from domain_passive_evidence import VARIANTS as DOMAIN_PASSIVE_CASES, check_log as domain_passive_evidence
+from card_passive_evidence import VARIANTS as CARD_PASSIVE_CASES, check_log as card_passive_evidence
+from new_strength_passive_evidence import VARIANTS as NEW_APPLY_CASES, check_log as new_apply_evidence
+from suck_passive_evidence import VARIANTS as SUCK_CASES, check_log as suck_evidence
+from initial_plating_evidence import VARIANTS as INITIAL_PLATING_CASES, check_log as initial_plating_evidence
+from enemy_matrix_evidence import matrix_evidence
+from enemy_exploration_evidence import exploration_evidence
+from enemy_exploration_run_config import prepare_run_inputs as prepare_exploration_inputs
+from prepared_evidence import PREPARED_CASES, prepared_contract_evidence
+from prepared_choice_evidence import PREPARED_CHOICE_CASES, prepared_choice_evidence
+from domain_revival_evidence import domain_revival_evidence
+from power_presentation_evidence import power_presentation_evidence
+from audio_receipt_evidence import audio_receipt_evidence
+from coupon_evidence import COUPON_CASES, coupon_contract_evidence
+from primal_evidence import PRIMAL_CASES, primal_contract_evidence
+from domain_card_contributions_evidence import CASES as DOMAIN_CARD_CASES, check_log as domain_card_evidence
+from domain_steam_evidence import VARIANTS as STEAM_VARIANTS, domain_steam_evidence
+STEAM_CASES = ('off', 'on') + tuple(sorted(STEAM_VARIANTS - {'off', 'on'}))
+from standing_extra_turn_evidence import STANDING_CASES, standing_extra_turn_evidence
+from domain_dampen_evidence import check_log as domain_dampen_evidence
+DAMPEN_CASES = ('off', 'on', 'enter-await', 'exit-await', 'enter-pair', 'exit-pair', 'departure')
+REVIVAL_CASES = tuple(f'{family}-{mode}' for family in ('reattach', 'illusion') for mode in ('off', 'on', 'late', 'cached', 'toggle'))
+DOMAIN_PASSIVE_CASES = DOMAIN_PASSIVE_CASES + CARD_PASSIVE_CASES + NEW_APPLY_CASES + SUCK_CASES + INITIAL_PLATING_CASES
+
+DOMAIN_SUMMON_CASES = ('fabricator-off', 'fabricator-on', 'ovicopter-off', 'ovicopter-on',
+                       'infested-off', 'infested-on', 'infested-expire') + SUMMON_D17_CASES
+
+DOMAIN_ENEMY_CASES = ('flutter', 'soar', 'intangible', 'slippery', 'hard-to-kill',
+                      'shell', 'artifact', 'thorns', 'reflect', 'heal')
 
 IS_WINDOWS = os.name == 'nt'
 USER_DATA_NAME = 'SlayTheSpire2'
@@ -44,11 +83,14 @@ TEARDOWN_TAGS = ('leaked at exit', 'were leaked', 'still in use at exit', 'insta
 
 
 def error_lines(text):
-    return [line for line in text.splitlines() if any(tag in line for tag in ERROR_TAGS)]
+    return [line for line in text.splitlines() if any(tag in line for tag in ERROR_TAGS)
+            or re.match(r'^\[Volibear\] [A-Z0-9_]+_(?:ERROR|FAILED)(?:\s|$)', line)]
 
 
 def is_teardown(line):
-    return any(tag in line for tag in TEARDOWN_TAGS)
+    return (any(tag in line for tag in TEARDOWN_TAGS)
+            or re.search(r'\b\d+ shaders of type (?:CanvasShaderRD|ParticlesShaderRD) were never freed\b',
+                         line) is not None)
 
 
 def teardown_categories(lines):
@@ -105,8 +147,8 @@ def scenario_evidence(log, run_id, scenario):
     return result, valid
 
 
-def content_evidence(log):
-    """Validate that the mod's own cards resolved and changed the measured combat state."""
+def content_evidence(log, run_id, scenario='content'):
+    """Validate this run's AutoPlay effect measurements, not ordinary input/payment."""
     prefix = '[Volibear] CONTENT_RESULT '
     records = []
     for line in log.splitlines():
@@ -115,16 +157,261 @@ def content_evidence(log):
                 record = json.loads(line[len(prefix):])
             except json.JSONDecodeError:
                 return None, False
+            if not isinstance(record, dict):
+                return None, False
             records.append(record)
     if len(records) != 1:
         return None, False
     result = records[0]
-    valid = (result.get('passed') is True and result.get('attackDelta') == 6
-             and result.get('blockGain') == 5 and result.get('startingHp') == 80
-             and result.get('deckSize') == 10
-             and isinstance(result.get('enemyDeltas'), list) and len(result['enemyDeltas']) >= 2
-             and result['enemyDeltas'][0] == 11
-             and all(delta == 3 for delta in result['enemyDeltas'][1:]))
+    integers = ('attackBefore', 'attackAfter', 'attackDelta', 'blockBefore', 'blockAfter',
+                'blockGain', 'startingHp', 'deckSize', 'played', 'enemyCount', 'fixtureEnemyHp')
+    arrays = ('enemyBefore', 'enemyAfter', 'enemyDeltas', 'originalEnemyHp')
+    if (any(type(result.get(key)) is not int for key in integers)
+            or any(not isinstance(result.get(key), list)
+                   or any(type(value) is not int for value in result[key]) for key in arrays)):
+        return result, False
+    count = result['enemyCount']
+    valid = (result.get('token') == run_id and scenario == 'content'
+             and result.get('scenario') == scenario and result.get('testMode') is False
+             and result.get('api') == 'CardCmd.AutoPlay'
+             and result.get('acceptance') == 'effect-only-not-payment'
+             and result.get('fixtureApi') == 'CreatureCmd.SetMaxAndCurrentHp;CardPileCmd.Add'
+             and result['fixtureEnemyHp'] == 50 and result['attackBefore'] == 50
+             and result['enemyBefore'] == [50] * (count - 1) + [44]
+             and result.get('cards') == ['Volibear_B01', 'Volibear_B02', 'Volibear_B03']
+             and result.get('character') == 'VolibearCharacter'
+             and result.get('passed') is True and result['played'] == 3
+             and result['attackDelta'] == result['attackBefore'] - result['attackAfter'] == 6
+             and result['blockGain'] == result['blockAfter'] - result['blockBefore'] == 5
+             and result['attackAfter'] > 0 and result['blockBefore'] == 0
+             and result['startingHp'] == 80 and result['deckSize'] == 10
+             and count >= 2 and all(len(result[key]) == count for key in arrays)
+             and result['enemyDeltas'] == [11] + [3] * (count - 1)
+             and all(before - after == delta and after > 0 for before, after, delta in zip(
+                 result['enemyBefore'], result['enemyAfter'], result['enemyDeltas'])))
+    return result, valid
+
+
+DOMAIN_CASES = ('d01', 'd02', 'd03', 'l02', 'draw-expiry')
+
+
+def domain_contract_evidence(log, run_id, variant):
+    """Independent finite mechanism probes, NOT the 16-fixture comparator/G2 gate.
+
+    d02/d03 use native TwinStrike as a multihit/replay proxy, not C02 acceptance.
+    Expected constants are authored from the rule fixtures, never runtime vars.
+    A completed flag only says the driver finished; every measured projection below
+    must match independently, including native history and explicit batch receipts.
+    """
+    prefix = '[Volibear] DOMAIN_CONTRACT_RESULT '
+    lines = [line[len(prefix):] for line in log.splitlines() if line.startswith(prefix)]
+    if len(lines) != 1 or variant not in DOMAIN_CASES:
+        return None, False
+    try:
+        result = json.loads(lines[0])
+    except json.JSONDecodeError:
+        return None, False
+    if not isinstance(result, dict):
+        return None, False
+
+    def equal(actual, expected):
+        # Native decimals may serialize as integer JSON numbers, but bool isn't 1.
+        if type(expected) in (int, float):
+            return type(actual) in (int, float) and actual == expected
+        if type(actual) is not type(expected):
+            return False
+        if isinstance(expected, dict):
+            return actual.keys() == expected.keys() and all(equal(actual[k], v) for k, v in expected.items())
+        if isinstance(expected, list):
+            return len(actual) == len(expected) and all(equal(a, b) for a, b in zip(actual, expected))
+        return actual == expected
+
+    ids, enemies, data, batches = (result.get(k) for k in ('enemyIds', 'enemyTypes', 'data', 'batches'))
+    if (not isinstance(ids, list) or len(ids) != 3 or any(type(i) is not int or i < 0 for i in ids)
+            or len(set(ids)) != 3 or not isinstance(enemies, list) or len(enemies) != 3
+            or any(type(e) is not str for e in enemies) or enemies.count('LeafSlimeS') != 1
+            or enemies.count('TwigSlimeS') != 1 or sum(e in ('LeafSlimeM', 'TwigSlimeM') for e in enemies) != 1
+            or not isinstance(data, dict) or not isinstance(batches, list)):
+        return result, False
+    required = dict(token=run_id, scenario='domain-contract', variant=variant, completed=True,
+                    testMode=False, acceptance='effect-only-not-payment', character='VolibearCharacter',
+                    fixtureApi='CreatureCmd.SetMaxAndCurrentHp;CardPileCmd.Add;PowerCmd;CardCmd.AutoPlay',
+                    api='LightningCmd+CreatureCmd.Damage' if variant == 'l02' else
+                        'CardPileCmd.Draw+PlayerCmd.EndTurn' if variant == 'draw-expiry' else 'CardCmd.AutoPlay',
+                    proxy='native-TwinStrike-not-C02-acceptance' if variant in ('d02', 'd03') else 'none')
+    if not all(equal(result.get(key), value) for key, value in required.items()):
+        return result, False
+    if variant == 'draw-expiry':
+        return result, _domain_draw_evidence(data, batches, equal)
+
+    inputs = data.get('inputs')
+    if not isinstance(inputs, dict) or not isinstance(inputs.get('cards'), list):
+        return result, False
+    cards = inputs['cards']
+    refs = [c.get('cardRef') for c in cards if isinstance(c, dict)]
+    card_count = 2 if variant == 'd01' else 0 if variant == 'l02' else 1
+    if (len(cards) != card_count or len(refs) != card_count
+            or any(type(ref) is not str or not ref for ref in refs) or len(set(refs)) != card_count):
+        return result, False
+    force = 2 if variant == 'd01' else 3 if variant == 'l02' else 0
+    replay = 1 if variant == 'd03' else 0
+    expected_inputs = dict(domainRounds=0 if variant == 'l02' else 1, storm=force,
+                           fixtureEnemyHp=100, fixtureEnemyBlock=10 if variant == 'l02' else 0,
+                           explicitLightningBase=0 if variant == 'l02' else None,
+                           unrelatedUnpowered=1 if variant == 'l02' else 0,
+                           cards=[dict(cardRef=ref, type='Volibear_B01' if variant == 'd01' else 'TwinStrike',
+                                       upgrade=False, replay=replay) for ref in refs])
+    n = 2 if variant == 'd01' else 1
+    hp = [76, 88, 88] if variant == 'd01' else [86, 96, 96] if variant == 'd02' else [76, 96, 96] if variant == 'd03' else [100] * 3
+    projection = dict(inputs=expected_inputs, beforeHp=[100] * 3,
+                      beforeBlock=[10 if variant == 'l02' else 0] * 3,
+                      afterHp=hp, afterBlock=[7 if variant == 'l02' else 0] * 3,
+                      finalHp=hp, finalBlock=[6 if variant == 'l02' else 0] * 3,
+                      countBefore=0, countAfter=n, countFinal=n,
+                      domainAmount=0 if variant == 'l02' else 1, stormAmount=force,
+                      energyBefore=3, energyAfter=3, actualAutoPlayCalls=card_count,
+                      cardPiles=[dict(cardRef=ref, pile='Discard', sameIdentity=True) for ref in refs],
+                      playHistory=[dict(cardRef=ref, index=index, count=replay + 1)
+                                   for ref in refs for index in range(replay + 1)])
+    def damage(target, hp_loss, blocked, props, ref):
+        return dict(target=target, hpLost=hp_loss, blocked=blocked, props=props, cardRef=ref)
+    damage_history = []
+    if variant == 'l02':
+        damage_history = [damage(i, 0, 3, 4, None) for i in ids] + [damage(i, 0, 1, 4, None) for i in ids]
+    else:
+        for ref in refs:
+            damage_history.append(damage(ids[0], 6 if variant == 'd01' else 5, 0, 8, ref))
+            damage_history.extend(damage(i, 6 if variant == 'd01' else 4, 0, 4, ref) for i in ids)
+            damage_history.extend(damage(ids[0], 5, 0, 8, ref) for _ in range(0 if variant == 'd01' else 3 if variant == 'd03' else 1))
+    projection['damageHistory'] = damage_history
+    if not equal(data, projection) or len(batches) != n:
+        return result, False
+    batch_ids, play_ids = [], []
+    for index, batch in enumerate(batches):
+        if (not isinstance(batch, dict) or type(batch.get('id')) is not int or batch['id'] <= 0
+                or (variant != 'l02' and (type(batch.get('playId')) is not int or batch['playId'] <= 0))):
+            return result, False
+        batch_ids.append(batch['id'])
+        play_ids.append(batch.get('playId'))
+        expected = dict(id=batch['id'], round=1, turn=1, baseDamage=0 if variant == 'l02' else 4,
+                        storm=force, amount=3 if variant == 'l02' else 6 if variant == 'd01' else 4,
+                        count=index + 1, cardRef=None if variant == 'l02' else refs[index if variant == 'd01' else 0],
+                        playId=None if variant == 'l02' else batch['playId'], targets=ids,
+                        hits=[dict(target=i, hpLost=0 if variant == 'l02' else 6 if variant == 'd01' else 4,
+                                   blocked=3 if variant == 'l02' else 0, overkill=0) for i in ids])
+        if not equal(batch, expected):
+            return result, False
+    return result, len(set(batch_ids)) == n and (variant != 'd01' or len(set(play_ids)) == 2)
+
+
+def _domain_draw_evidence(data, batches, equal):
+    inputs = data.get('inputs')
+    if not isinstance(inputs, dict):
+        return False
+    refs = inputs.get('replacementRefs')
+    if (not isinstance(refs, list) or len(refs) != 3 or any(type(r) is not str or not r for r in refs)
+            or len(set(refs)) != 3 or batches):
+        return False
+    if not equal(inputs, dict(domainRounds=1, storm=2, directDrawCount=1, normalDrawCount=5,
+                              outsideDrawCount=1, energy=3, replacementRefs=refs, statusType='Void')):
+        return False
+    direct, boundary, outside = (data.get(k) for k in ('direct', 'boundary', 'outside'))
+    if not all(isinstance(v, dict) for v in (direct, boundary, outside)):
+        return False
+    draw = lambda ref, hand: dict(cardRef=ref, fromHandDraw=hand)
+    expected_direct = dict(energy=3, domain=1, handCount=1, voidPile='Exhaust', replacementPile='Hand',
+                           sameVoid=True, sameReplacement=True, drawn=[draw('direct-void', False), draw(refs[0], False)])
+    drawn = boundary.get('drawn')
+    if (not isinstance(drawn, list) or len(drawn) != 6
+            or not equal(drawn[:2], [draw('boundary-void', True), draw(refs[1], False)])
+            or any(not isinstance(d, dict) or set(d) != {'cardRef', 'fromHandDraw'}
+                   or type(d['cardRef']) is not str or not d['cardRef'].startswith('starting-')
+                   or d['fromHandDraw'] is not True for d in drawn[2:])):
+        return False
+    if len({d['cardRef'] for d in drawn}) != 6:
+        return False
+    expected_boundary = dict(round=2, turn=2, domainAfterFullDraw=[1], domainAfterEarlyHook=0,
+                             storm=2, count=0, energy=3, handCount=5, voidPile='Exhaust', replacementPile='Hand',
+                             sameVoid=True, sameReplacement=True, drawn=drawn)
+    # Moving the selected replacement from hand back to Draw may remove one card;
+    # derive that fact independently from the preceding native draw identities.
+    hand_before = 4 if refs[2] in [d['cardRef'] for d in drawn] else 5
+    expected_outside = dict(energyBefore=3, energyAfter=2, handBefore=hand_before, handAfter=hand_before + 1,
+                            voidPile='Hand', replacementPile='Draw', sameVoid=True,
+                            drawn=[draw('outside-void', False)])
+    return equal(data, dict(inputs=inputs, roundBefore=1, turnBefore=1,
+                            direct=expected_direct, boundary=expected_boundary, outside=expected_outside))
+
+
+def engage_contract_evidence(log, run_id, variant):
+    """Production engage receipts, native moves and measured relic draws; not payment tests."""
+    prefix = '[Volibear] ENGAGE_CONTRACT_RESULT '
+    lines = [line[len(prefix):] for line in log.splitlines() if line.startswith(prefix)]
+    if len(lines) != 1 or variant not in ('e01', 'e02', 'b04'):
+        return None, False
+    try:
+        result = json.loads(lines[0])
+    except json.JSONDecodeError:
+        return None, False
+    if not isinstance(result, dict):
+        return None, False
+    integer_fields = ('fixtureEnemyHp', 'hpBefore', 'blockBefore', 'hpAfter', 'blockAfter',
+                      'enemyHpBefore', 'enemyHpAfter', 'handBefore', 'handAfter', 'firstHandDraw',
+                      'movesAfter', 'duplicateHp', 'duplicateBlock', 'duplicateHand',
+                      'duplicateMoves', 'duplicateDamageReceipts', 'secondHandBefore',
+                      'secondHandAfter', 'roundBefore', 'roundAfter', 'turnBefore', 'turnAfter',
+                      'nextHandBefore', 'nextHandAfter', 'nextHp', 'nextBlock', 'nextMoves')
+    if any(type(result.get(key)) is not int for key in integer_fields):
+        return result, False
+    def receipt(key, performed, absorbed):
+        value = result.get(key)
+        return (isinstance(value, dict) and value.get('Performed') is performed
+                and value.get('Completed') is performed
+                and type(value.get('Absorbed')) in (int, float) and value['Absorbed'] == absorbed)
+    absorbed = 5 if variant == 'e01' else 8
+    expected_hp = 77 if variant == 'e01' else 80
+    expected_block = 2 if variant == 'e02' else 0
+    initial_block = {'e01': 5, 'e02': 10, 'b04': 0}[variant]
+    damage_receipts = result.get('firstBlockReceipts')
+    phase_counts = result.get('phaseMoveCounts')
+    monsters = result.get('phaseMonsters')
+    if (not isinstance(damage_receipts, list)
+            or any(type(value) not in (int, float) for value in damage_receipts)
+            or not isinstance(phase_counts, list) or any(type(value) is not int for value in phase_counts)
+            or not isinstance(monsters, list) or any(type(value) is not str for value in monsters)):
+        return result, False
+    valid = (result.get('token') == run_id and result.get('scenario') == 'engage-contract'
+             and result.get('variant') == variant and result.get('passed') is True
+             and result.get('testMode') is False and result.get('acceptance') == 'effect-only-not-payment'
+             and result.get('api') == ('CardCmd.AutoPlay:Volibear_B04' if variant == 'b04'
+                                       else 'Core.EngageCmd.Perform')
+             and result.get('enemy') == 'LeafSlimeS' and result.get('nativeMove') == 'TACKLE_MOVE'
+             and type(result.get('strength')) in (int, float) and result['strength'] == 5
+             and result['fixtureEnemyHp'] == result['enemyHpBefore'] == 50
+             and result['enemyHpAfter'] == (44 if variant == 'b04' else 50)
+             and result['hpBefore'] == 80 and result['blockBefore'] == initial_block
+             and result['hpAfter'] == expected_hp and result['blockAfter'] == expected_block
+             and receipt('first', True, absorbed) and damage_receipts == [absorbed]
+             and 1 <= result['handBefore'] <= 6
+             and result['handAfter'] - result['handBefore'] == (0 if variant == 'b04' else 1)
+             and result['firstHandDraw'] == 1 and result['movesAfter'] == 1
+             and receipt('duplicate', False, 0)
+             and result['duplicateHp'] == result['hpAfter']
+             and result['duplicateBlock'] == result['blockAfter']
+             and result['duplicateHand'] == result['handAfter']
+             and result['duplicateMoves'] == 1 and result['duplicateDamageReceipts'] == 0
+             and receipt('secondResult', True, 4)
+             and result['secondHandBefore'] == result['handAfter']
+             and result['secondHandAfter'] == result['secondHandBefore']
+             and result['roundBefore'] == result['turnBefore'] == 1
+             and result['roundAfter'] == result['turnAfter'] == 2
+             and phase_counts == [1, 1, 1] and len(monsters) == 3
+             and monsters.count('LeafSlimeS') == monsters.count('TwigSlimeS') == 1
+             and sum(monster in ('LeafSlimeM', 'TwigSlimeM') for monster in monsters) == 1
+             and result.get('nextNativeMove') == 'GOOP_MOVE'
+             and receipt('next', True, 8) and 1 <= result['nextHandBefore'] <= 9
+             and result['nextHandAfter'] == result['nextHandBefore'] + 1
+             and result['nextHp'] == 80 and result['nextBlock'] == 2 and result['nextMoves'] == 2)
     return result, valid
 
 
@@ -189,6 +476,25 @@ if IS_WINDOWS:
     _kernel32.TerminateJobObject.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
     _kernel32.WaitForSingleObject.argtypes = [ctypes.c_void_p, ctypes.c_uint32]
     _kernel32.WaitForSingleObject.restype = ctypes.c_uint32
+    _user32 = ctypes.WinDLL('user32', use_last_error=True)
+    _user32.CreateDesktopW.argtypes = [ctypes.c_wchar_p, ctypes.c_void_p, ctypes.c_void_p,
+                                       ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
+    _user32.CreateDesktopW.restype = ctypes.c_void_p
+    _user32.CloseDesktop.argtypes = [ctypes.c_void_p]
+    _user32.CloseDesktop.restype = ctypes.c_int
+
+
+_desktops_by_job = {}
+
+
+def _create_private_desktop():
+    name = 'VolibearAcceptance_' + uuid.uuid4().hex
+    # An unselected desktop supplies a real renderer without touching the operator's desktop.
+    # Never call SwitchDesktop or SetThreadDesktop.
+    handle = _user32.CreateDesktopW(name, None, None, 0, 0x10000000, None)
+    if not handle:
+        raise OSError(ctypes.get_last_error(), 'CreateDesktop failed')
+    return handle, name
 
 
 def _create_job():
@@ -228,6 +534,9 @@ def _terminate_job(job):
 def close_owned(job):
     if job is not None and IS_WINDOWS:
         _kernel32.CloseHandle(job)
+        desktop = _desktops_by_job.pop(job, None)
+        if desktop is not None:
+            _user32.CloseDesktop(desktop)
 
 
 def process_alive(pid):
@@ -259,13 +568,25 @@ def _terminate(process, job, force):
         pass
 
 
-def spawn_owned(command, cwd, env, stdout):
+def spawn_owned(command, cwd, env, stdout, window=False):
     """Start a process in its own ownership boundary and return (process, job)."""
     if IS_WINDOWS:
         job = _create_job()
-        process = subprocess.Popen(command, cwd=cwd, env=env, stdout=stdout,
-                                   stderr=subprocess.STDOUT,
-                                   creationflags=subprocess.CREATE_NO_WINDOW)
+        options = {}
+        try:
+            if window and env.get('VOLIBEAR_TEST_PRIVATE_DESKTOP') == '1':
+                desktop, name = _create_private_desktop()
+                _desktops_by_job[job] = desktop
+                startup = subprocess.STARTUPINFO()
+                startup.lpDesktop = name
+                options['startupinfo'] = startup
+            process = subprocess.Popen(command, cwd=cwd, env=env, stdout=stdout,
+                                       stderr=subprocess.STDOUT,
+                                       creationflags=0 if window else subprocess.CREATE_NO_WINDOW,
+                                       **options)
+        except BaseException:
+            close_owned(job)
+            raise
         if not _assign_job(job, process):
             close_owned(job)
             job = None
@@ -305,11 +626,33 @@ def new_run_id():
     return datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:8]
 
 
-def prepare_run(game, run_id, frames):
+def display_command(command, display):
+    if display == 'headless':
+        return command
+    if display in ('window', 'background'):
+        if not IS_WINDOWS:
+            raise RuntimeError('window/background are Windows native display options; use xvfb on POSIX')
+        native = [arg for arg in command if arg not in ('--headless', '--audio-driver', 'Dummy')]
+        if display == 'background':
+            native.extend(['--audio-driver', 'Dummy'])
+        return native
+    if display == 'xvfb':
+        if IS_WINDOWS:
+            raise RuntimeError('xvfb is a POSIX virtual display; use window or headless on Windows')
+        command = [arg for arg in command if arg not in ('--headless', '--audio-driver', 'Dummy')]
+        command.extend(['--display-driver', 'x11', '--rendering-method', 'gl_compatibility'])
+        return ['xvfb-run', '-a', '-s', '-screen 0 1280x720x24', *command]
+    raise RuntimeError('Unknown display mode: ' + display)
+
+
+def prepare_run(game, run_id, frames, display='headless'):
     directory = ROOT / 'artifacts/headless' / run_id
     directory.mkdir(parents=True)
     env = isolated_env(directory)
     env['VOLIBEAR_TEST_DATA_ROOT'] = str(user_data_root(directory))
+    env['VOLIBEAR_TEST_FAST_MODE'] = 'Fast'
+    if display == 'background':
+        env['VOLIBEAR_TEST_PRIVATE_DESKTOP'] = '1'
     # Only this fresh, offline test profile opts into loading mods.
     # Never read, copy, or edit the operator's normal settings or saves.
     settings = user_data_root(directory) / 'default/1/settings.save'
@@ -317,39 +660,75 @@ def prepare_run(game, run_id, frames):
     settings.write_text(json.dumps({
         'schema_version': 5, 'mod_settings': {'mods_enabled': True},
         'seen_ea_disclaimer': True, 'skip_intro_logo': True,
-        'fullscreen': False, 'language': 'eng',
+        'fullscreen': False, 'language': 'zhs', 'limit_fps_in_background': False,
     }) + '\n')
     env['VOLIBEAR_TEST_TOKEN'] = run_id
+    env['VOLIBEAR_TEST_ARTIFACT_DIR'] = str(directory)
     command = [str(game_executable(game)), '--headless', '--audio-driver', 'Dummy',
                '--force-steam=off', '--quit-after', str(frames),
                '--log-file', str(directory / 'game.log')]
-    return directory, env, command
+    return directory, env, display_command(command, display)
 
 
 def launch(game, directory, env, command, timeout):
     with (directory / 'stdout.log').open('w') as output:
-        process, job = spawn_owned(command, game, env, output)
+        process, job = spawn_owned(command, game, env, output,
+                                   window=IS_WINDOWS and '--headless' not in command)
         try:
             return wait_owned_process(process, timeout, job)
         finally:
             close_owned(job)
 
 
-def stock_teardown(game, timeout, frames):
+def stock_teardown(game, timeout, frames, display='headless'):
     """Measure the shipped game's own exit signature with mod initialization disabled."""
     run_id = new_run_id()
-    directory, env, command = prepare_run(game, run_id, frames)
+    # Native Common texture preload can still be uploading at frame300. Give the
+    # same clean control longer to finish; errors remain strict and are never waived.
+    control_frames = min(frames, 900)
+    directory, env, command = prepare_run(game, run_id, control_frames, display)
     command.append('--nomods')
     code, timed_out = launch(game, directory, env, command, timeout)
-    categories = teardown_categories(error_lines(combined_log(directory)))
+    log = combined_log(directory)
+    errors = error_lines(log)
+    runtime = [line for line in errors if not is_teardown(line)]
+    successful = (code == 0 and not timed_out and not runtime
+                  and 'Steam initialization skipped' in log
+                  and 'write saves to steam storage' not in log)
+    categories = teardown_categories(errors) if successful else set()
     return categories, {'run_id': run_id, 'exit_code': code, 'timed_out': timed_out,
-                        'categories': sorted(categories)}
+                        'successful': successful, 'frames': control_frames,
+                        'runtime_errors': runtime, 'categories': sorted(categories)}
+
+
+def dampen_protocol_log(log, token, checks):
+    """Keep full protocol chronology; common gates alone own matched stock exit noise.
+
+    Never change the original log or its common error/stock checks. Only an exact
+    shutdown boundary plus two successful control gates permits the protocol
+    parser to omit already-accepted teardown lines after that boundary.
+    """
+    if checks.get('stock_control_success') is not True or checks.get('teardown_matches_stock') is not True:
+        return log
+    lines = log.splitlines()
+    marker = '[Volibear] SHUTDOWN_BEGIN ' + token
+    if lines.count(marker) != 1:
+        return log
+    boundary = lines.index(marker)
+    return '\n'.join(lines[:boundary + 1] + [line for line in lines[boundary + 1:] if not is_teardown(line)])
 
 
 def run_once(game, timeout, frames, scenario='discovery', display='headless',
-             stock=None, stock_evidence=None):
+             stock=None, stock_evidence=None, engage_case='e01', domain_case='d01',
+             beast_case='f01', domain_enemy_case='flutter',
+             persistent_case='PP-U21-deploy-at-three', domain_summon_case='fabricator-off',
+             relic_case='RH-starter-turns', domain_passive_case='ritual-off',
+             prepared_case='PR-training-dynamic-spells', revival_case='reattach-off',
+             prepared_choice_case='PC-C19-fixed-replay', matrix_selection=None,
+             matrix_catalog=None, matrix_prerequisite_report=None,
+             coupon_case='CP-max-preserve', domain_card_case='hex', primal_case='U12-paid-snapshot', dampen_case='off', standing_case='U03-base-extra-turn', steam_case='off', card_face_case='B01-base-plain', hopper_case='off', card_face_batch=None):
     run_id = new_run_id()
-    directory, env, command = prepare_run(game, run_id, frames)
+    directory, env, command = prepare_run(game, run_id, frames, display)
     # Optional diagnostic adapter; the shipped extension may bind its own symbols.
     # Never enable this unverified workaround implicitly.
     adapter_enabled = os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
@@ -368,9 +747,105 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         if alias.resolve() != game:
             raise RuntimeError('Audio diagnostic game alias points elsewhere')
         env['LD_PRELOAD'] = ':'.join([str(adapter), str(alias / 'libGodotFmod.linux.template_release.x86_64.so')]) + (':' + env['LD_PRELOAD'] if env.get('LD_PRELOAD') else '')
-    if scenario == 'content':
+    if scenario in ('content', 'engage-contract', 'domain-contract', 'beast-contract',
+                    'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper'):
         env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
-    if scenario in ('baseline', 'api', 'content'):
+    if scenario == 'domain-hopper':
+        if hopper_case not in HOPPER_CASES:
+            raise RuntimeError('Unknown Hopper acceptance case: ' + hopper_case)
+        env['VOLIBEAR_TEST_HOPPER_CASE'] = hopper_case
+    if scenario == 'card-face-acceptance':
+        if card_face_case not in CARD_FACE_CASES:
+            raise RuntimeError('Unknown card face acceptance case: ' + card_face_case)
+        env['VOLIBEAR_TEST_CARD_FACE_CASE'] = card_face_case
+        env.pop('VOLIBEAR_TEST_CARD_FACE_BATCH', None)
+        if card_face_batch is not None:
+            if (not isinstance(card_face_batch, (list, tuple)) or not card_face_batch
+                    or any(not isinstance(c, str) or c not in CARD_FACE_CASES for c in card_face_batch)
+                    or len(set(card_face_batch)) != len(card_face_batch)):
+                raise RuntimeError('Card face batch requires a nonempty unique finite case list')
+            env['VOLIBEAR_TEST_CARD_FACE_BATCH'] = ','.join(card_face_batch)
+    if scenario == 'engage-contract':
+        if engage_case not in ('e01', 'e02', 'b04'):
+            raise RuntimeError('Unknown engage contract case: ' + engage_case)
+        env['VOLIBEAR_TEST_ENGAGE_CASE'] = engage_case
+    if scenario == 'domain-contract':
+        if domain_case not in DOMAIN_CASES:
+            raise RuntimeError('Unknown domain contract case: ' + domain_case)
+        env['VOLIBEAR_TEST_DOMAIN_CASE'] = domain_case
+    if scenario == 'beast-contract':
+        if beast_case not in BEAST_CASES:
+            raise RuntimeError('Unknown beast contract case: ' + beast_case)
+        env['VOLIBEAR_TEST_BEAST_CASE'] = beast_case
+    if scenario == 'domain-enemy-contract':
+        if domain_enemy_case not in DOMAIN_ENEMY_CASES:
+            raise RuntimeError('Unknown enemy domain case: ' + domain_enemy_case)
+        env['VOLIBEAR_TEST_DOMAIN_ENEMY_CASE'] = domain_enemy_case
+    if scenario == 'primal-contract':
+        if primal_case not in PRIMAL_CASES:
+            raise RuntimeError('Unknown primal case: ' + primal_case)
+        env['VOLIBEAR_TEST_PRIMAL_CASE'] = primal_case
+    if scenario == 'coupon-contract':
+        if coupon_case not in COUPON_CASES:
+            raise RuntimeError('Unknown coupon case: ' + coupon_case)
+        env['VOLIBEAR_TEST_COUPON_CASE'] = coupon_case
+    if scenario == 'domain-card-contributions':
+        if domain_card_case not in DOMAIN_CARD_CASES:
+            raise RuntimeError('Unknown domain card contribution case: ' + domain_card_case)
+        env['VOLIBEAR_TEST_DOMAIN_CARD_CASE'] = domain_card_case
+    if scenario == 'enemy-exploration':
+        if matrix_selection is None or matrix_catalog is None:
+            raise RuntimeError('Enemy exploration requires selection and native catalog paths')
+        env.pop('VOLIBEAR_TEST_EXPLORATION_APPROVED', None)
+        additions, frozen_selection, exploration_catalog, exploration_prerequisite = prepare_exploration_inputs(
+            directory, matrix_selection, matrix_catalog, matrix_prerequisite_report)
+        env.update(additions)
+    if scenario == 'power-presentation':
+        env['VOLIBEAR_TEST_POWER_PRESENTATION'] = '1'
+    if scenario == 'audio-receipts':
+        env['VOLIBEAR_TEST_AUDIO_RECEIPTS'] = '1'
+    if scenario == 'domain-revival':
+        if revival_case not in REVIVAL_CASES:
+            raise RuntimeError('Unknown revival case: ' + revival_case)
+        env['VOLIBEAR_TEST_VARIANT'] = revival_case
+    if scenario == 'prepared-choice':
+        if prepared_choice_case not in PREPARED_CHOICE_CASES:
+            raise RuntimeError('Unknown prepared choice case: ' + prepared_choice_case)
+        env['VOLIBEAR_TEST_PREPARED_CHOICE_CASE'] = prepared_choice_case
+    if scenario == 'prepared-contract':
+        if prepared_case not in PREPARED_CASES:
+            raise RuntimeError('Unknown prepared contract case: ' + prepared_case)
+        env['VOLIBEAR_TEST_PREPARED_CASE'] = prepared_case
+    if scenario == 'domain-steam':
+        if steam_case not in STEAM_CASES:
+            raise RuntimeError('Unknown Steam case: ' + steam_case)
+        env['VOLIBEAR_TEST_VARIANT'] = steam_case
+    if scenario == 'standing-extra-turn':
+        if standing_case not in STANDING_CASES:
+            raise RuntimeError('Unknown Standing extra-turn case: ' + standing_case)
+        env['VOLIBEAR_TEST_STANDING_EXTRA_TURN_CASE'] = standing_case
+    if scenario == 'domain-dampen-transactions':
+        if dampen_case not in DAMPEN_CASES:
+            raise RuntimeError('Unknown Dampen case: ' + dampen_case)
+        env['VOLIBEAR_TEST_DAMPEN_CASE'] = dampen_case
+    if scenario == 'domain-passive-contract':
+        if domain_passive_case not in DOMAIN_PASSIVE_CASES:
+            raise RuntimeError('Unknown domain passive case: ' + domain_passive_case)
+        env['VOLIBEAR_TEST_DOMAIN_PASSIVE_CASE'] = domain_passive_case
+    if scenario == 'relic-contract':
+        if relic_case not in RELIC_CASES:
+            raise RuntimeError('Unknown relic contract case: ' + relic_case)
+        env['VOLIBEAR_TEST_RELIC_CASE'] = relic_case
+    if scenario == 'domain-summon-contract':
+        if domain_summon_case not in DOMAIN_SUMMON_CASES:
+            raise RuntimeError('Unknown domain summon case: ' + domain_summon_case)
+        env['VOLIBEAR_TEST_DOMAIN_SUMMON_CASE'] = domain_summon_case
+    if scenario == 'persistent-contract':
+        if persistent_case not in PERSISTENT_CASES:
+            raise RuntimeError('Unknown persistent contract case: ' + persistent_case)
+        env['VOLIBEAR_TEST_PERSISTENT_CASE'] = persistent_case
+    if scenario in ('baseline', 'api', 'content', 'engage-contract', 'domain-contract',
+                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper'):
         # MonoMod's native exception helper needs globally visible libgcc unwind symbols.
         # This is scoped to the child; it changes no system loader configuration.
         if not IS_WINDOWS:
@@ -380,24 +855,93 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             env['LD_PRELOAD'] = str(unwind) + (' ' + env['LD_PRELOAD'] if env.get('LD_PRELOAD') else '')
         env['VOLIBEAR_TEST_SCENARIO'] = scenario
         command.append('--bootstrap')
-    if display == 'xvfb':
-        if IS_WINDOWS:
-            raise RuntimeError('xvfb is a POSIX virtual display; Windows runs --headless only')
-        command.remove('--headless')
-        command.remove('--audio-driver')
-        command.remove('Dummy')
-        command.extend(['--display-driver', 'x11', '--rendering-method', 'gl_compatibility'])
-        command = ['xvfb-run', '-a', '-s', '-screen 0 1280x720x24', *command]
     code, timed_out = launch(game, directory, env, command, timeout)
     log = combined_log(directory)
     checks = evaluate(code, timed_out, log, stock)
+    checks['stock_control_success'] = (isinstance(stock_evidence, dict)
+                                       and stock_evidence.get('successful') is True
+                                       and stock_evidence.get('exit_code') == 0
+                                       and stock_evidence.get('timed_out') is False)
     if adapter_enabled:
         checks['audio_adapter_active'] = '[Volibear] AUDIO_OUTPUT nosound' in log
     scenario_result = None
     if scenario == 'api':
         checks['api_dump_complete'] = '[Volibear] API_DUMP_DONE' in log
+    elif scenario == 'domain-hopper':
+        scenario_result, checks['domain_hopper_assertions'] = domain_hopper_evidence(log, run_id, hopper_case)
+    elif scenario == 'card-face-acceptance':
+        try:
+            scenario_result = (extract_card_face_batch(log, run_id, card_face_batch)
+                               if card_face_batch is not None
+                               else extract_card_face_result(log, run_id, card_face_case))
+            checks['card_face_assertions'] = True
+        except (ValueError, TypeError, KeyError) as error:
+            scenario_result = {'variant': card_face_case, 'error': str(error)}
+            checks['card_face_assertions'] = False
     elif scenario == 'content':
-        scenario_result, checks['content_assertions'] = content_evidence(log)
+        scenario_result, checks['content_assertions'] = content_evidence(log, run_id, scenario)
+    elif scenario == 'engage-contract':
+        scenario_result, checks['engage_contract_assertions'] = engage_contract_evidence(log, run_id, engage_case)
+    elif scenario == 'domain-contract':
+        scenario_result, checks['domain_contract_assertions'] = domain_contract_evidence(log, run_id, domain_case)
+    elif scenario == 'beast-contract':
+        scenario_result, checks['beast_contract_assertions'] = beast_contract_evidence(log, run_id, beast_case)
+    elif scenario == 'domain-enemy-contract':
+        evidence = domain_enemy_evidence(log, run_id, domain_enemy_case)
+        scenario_result = evidence
+        checks['domain_enemy_contract_assertions'] = evidence['passed'] is True
+    elif scenario == 'primal-contract':
+        scenario_result, checks['primal_contract_assertions'] = primal_contract_evidence(log, run_id, primal_case)
+    elif scenario == 'coupon-contract':
+        scenario_result, checks['coupon_contract_assertions'] = coupon_contract_evidence(log, run_id, coupon_case)
+    elif scenario == 'domain-card-contributions':
+        errors = domain_card_evidence(log, run_id, domain_card_case)
+        scenario_result = {'errors': errors, 'case': domain_card_case}
+        checks['domain_card_contribution_assertions'] = not errors
+    elif scenario == 'enemy-exploration':
+        scenario_result, checks['enemy_exploration_assertions'] = exploration_evidence(
+            log, run_id, directory, selection_path=frozen_selection,
+            catalog=exploration_catalog, prerequisite=exploration_prerequisite)
+    elif scenario == 'power-presentation':
+        scenario_result, checks['power_presentation_assertions'] = power_presentation_evidence(log, run_id)
+    elif scenario == 'audio-receipts':
+        scenario_result, checks['audio_receipt_assertions'] = audio_receipt_evidence(log, run_id)
+    elif scenario == 'domain-revival':
+        scenario_result, checks['domain_revival_assertions'] = domain_revival_evidence(log, run_id, revival_case)
+    elif scenario == 'prepared-choice':
+        scenario_result, checks['prepared_choice_assertions'] = prepared_choice_evidence(log, run_id, prepared_choice_case)
+    elif scenario == 'prepared-contract':
+        scenario_result, checks['prepared_contract_assertions'] = prepared_contract_evidence(log, run_id, prepared_case)
+    elif scenario == 'enemy-matrix-mvp':
+        scenario_result, checks['enemy_matrix_assertions'] = matrix_evidence(log, run_id, directory)
+    elif scenario == 'domain-steam':
+        scenario_result = domain_steam_evidence(log, run_id, steam_case)
+        checks['domain_steam_assertions'] = scenario_result['errors'] == []
+    elif scenario == 'standing-extra-turn':
+        scenario_result, checks['standing_extra_turn_assertions'] = standing_extra_turn_evidence(log, run_id, standing_case)
+    elif scenario == 'domain-dampen-transactions':
+        errors = domain_dampen_evidence(dampen_protocol_log(log, run_id, checks), run_id, dampen_case)
+        scenario_result = dict(variant=dampen_case, errors=errors, passed=not errors)
+        checks['domain_dampen_assertions'] = not errors
+    elif scenario == 'domain-passive-contract':
+        gate = (new_apply_evidence if domain_passive_case in NEW_APPLY_CASES else
+                suck_evidence if domain_passive_case in SUCK_CASES else
+                initial_plating_evidence if domain_passive_case in INITIAL_PLATING_CASES else
+                card_passive_evidence if domain_passive_case in CARD_PASSIVE_CASES else domain_passive_evidence)
+        scenario_result = gate(log, run_id, domain_passive_case)
+        checks['domain_passive_contract_assertions'] = scenario_result['passed'] is True
+    elif scenario == 'relic-contract':
+        scenario_result, checks['relic_contract_assertions'] = relic_contract_evidence(log, run_id, relic_case)
+    elif scenario == 'persistent-contract':
+        scenario_result, checks['persistent_contract_assertions'] = persistent_contract_evidence(log, run_id, persistent_case)
+    elif scenario == 'catalog':
+        scenario_result, checks['catalog_assertions'] = catalog_evidence(log, run_id)
+    elif scenario == 'enemy-catalog':
+        scenario_result, checks['enemy_catalog_assertions'] = enemy_catalog_evidence(log, run_id, directory, expected_seed='VOLIBEARTEST')
+    elif scenario == 'domain-summon-contract':
+        summon_gate = summon_d17_evidence if domain_summon_case in SUMMON_D17_CASES else domain_summon_evidence
+        scenario_result = summon_gate(log, run_id, domain_summon_case)
+        checks['domain_summon_contract_assertions'] = scenario_result['passed'] is True
     elif scenario != 'discovery':
         scenario_result, checks['scenario_assertions'] = scenario_evidence(log, run_id, scenario)
         checks['engage_variant_assertions'] = engage_evidence(
@@ -434,14 +978,45 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--display', choices=['headless', 'xvfb'], default='headless')
-    parser.add_argument('--scenario', choices=['discovery', 'baseline', 'api', 'content'], default='discovery')
+    parser.add_argument('--display', choices=['headless', 'xvfb', 'window', 'background'], default='headless')
+    parser.add_argument('--scenario', choices=['discovery', 'baseline', 'api', 'content', 'engage-contract',
+                                              'domain-contract', 'beast-contract', 'domain-enemy-contract',
+                                              'persistent-contract', 'catalog', 'enemy-catalog',
+                                              'domain-summon-contract', 'relic-contract',
+                                              'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp',
+                                              'domain-revival', 'prepared-choice', 'power-presentation',
+                                              'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper'], default='discovery')
+    parser.add_argument('--hopper-case', choices=HOPPER_CASES, default='off')
+    parser.add_argument('--card-face-case', choices=CARD_FACE_CASES, default='B01-base-plain')
+    parser.add_argument('--steam-case', choices=STEAM_CASES, default='off')
+    parser.add_argument('--standing-case', choices=STANDING_CASES, default='U03-base-extra-turn')
+    parser.add_argument('--dampen-case', choices=DAMPEN_CASES, default='off')
+    parser.add_argument('--primal-case', choices=PRIMAL_CASES, default='U12-paid-snapshot')
+    parser.add_argument('--coupon-case', choices=COUPON_CASES, default='CP-max-preserve')
+    parser.add_argument('--domain-card-case', choices=DOMAIN_CARD_CASES, default='hex')
+    parser.add_argument('--matrix-selection', type=Path)
+    parser.add_argument('--matrix-catalog', type=Path)
+    parser.add_argument('--matrix-prerequisite-report', type=Path)
+    parser.add_argument('--revival-case', choices=REVIVAL_CASES, default='reattach-off')
+    parser.add_argument('--prepared-choice-case', choices=PREPARED_CHOICE_CASES, default='PC-C19-fixed-replay')
+    parser.add_argument('--prepared-case', choices=PREPARED_CASES, default='PR-training-dynamic-spells')
+    parser.add_argument('--domain-passive-case', choices=DOMAIN_PASSIVE_CASES, default='ritual-off')
+    parser.add_argument('--relic-case', choices=RELIC_CASES, default='RH-starter-turns')
+    parser.add_argument('--domain-summon-case', choices=DOMAIN_SUMMON_CASES, default='fabricator-off')
+    parser.add_argument('--persistent-case', choices=PERSISTENT_CASES, default='PP-U21-deploy-at-three')
+    parser.add_argument('--beast-case', choices=BEAST_CASES, default='f01')
+    parser.add_argument('--domain-enemy-case', choices=DOMAIN_ENEMY_CASES, default='flutter')
+    parser.add_argument('--domain-case', choices=DOMAIN_CASES, default='d01',
+                        help='isolated domain/lightning mechanism probe; native proxy is not card acceptance')
+    parser.add_argument('--engage-case', choices=['e01', 'e02', 'b04'], default='e01',
+                        help='isolated production engage effect fixture (not ordinary payment)')
     parser.add_argument('--repeat', type=int, default=2)
     parser.add_argument('--timeout', type=int, default=45)
     parser.add_argument('--frames', type=int, default=300)
     args = parser.parse_args()
     if not 1 <= args.repeat <= 10 or not 5 <= args.timeout <= 300 or not 1 <= args.frames <= 10000:
         parser.error('repeat 1..10, timeout 5..300, frames 1..10000 required')
+    display_command([], args.display)  # Reject unsupported display before build/deploy side effects.
     game = Path(config()['game_dir']).expanduser().resolve()
     validate_game(game)
     subprocess.run([sys.executable, 'tools/dev.py', 'test'], cwd=ROOT, check=True)
@@ -449,10 +1024,15 @@ def main():
     subprocess.run([sys.executable, 'tools/dev.py', 'deploy'], cwd=ROOT, check=True)
     # One control launch per invocation defines the exit signature the shipped game produces
     # on its own, so teardown noise is attributed instead of waived.
-    stock, stock_evidence = stock_teardown(game, args.timeout, args.frames)
+    stock, stock_evidence = stock_teardown(game, args.timeout, args.frames, args.display)
     print(json.dumps({'stock_teardown_control': stock_evidence}))
     reports = [run_once(game, args.timeout, args.frames, args.scenario, args.display,
-                        stock, stock_evidence) for _ in range(args.repeat)]
+                        stock, stock_evidence, args.engage_case, args.domain_case,
+                        args.beast_case, args.domain_enemy_case, args.persistent_case,
+                        args.domain_summon_case, args.relic_case, args.domain_passive_case, args.prepared_case,
+                        args.revival_case, args.prepared_choice_case, args.matrix_selection,
+                        args.matrix_catalog, args.matrix_prerequisite_report,
+                        args.coupon_case, args.domain_card_case, args.primal_case, args.dampen_case, args.standing_case, args.steam_case, args.card_face_case, args.hopper_case) for _ in range(args.repeat)]
     return 0 if all(r['status'] == 'passed' for r in reports) else 1
 
 

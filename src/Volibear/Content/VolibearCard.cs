@@ -13,11 +13,12 @@ namespace Volibear.Content;
 /// Common behaviour for every Volibear card: one localization table, one portrait directory and
 /// dynamic vars declared once so upgrade previews and in-combat text stay in sync with the code.
 /// </summary>
-public abstract class VolibearCard : CardModel
+[BaseLib.Utils.Pool(typeof(VolibearCardPool))]
+public abstract class VolibearCard : BaseLib.Abstracts.CustomCardModel
 {
     public const string LocTable = "cards";
-    public const string PortraitRoot = "VolibearArt/cards";
-    public const string BigPortraitRoot = "VolibearArt/cards/big";
+    public const string PortraitRoot = "res://VolibearArt/cards/production/sts2/Volibear/images/card_portraits";
+    public const string BigPortraitRoot = PortraitRoot + "/big";
 
     protected VolibearCard(int cost, CardType type, CardRarity rarity, TargetType target,
                            string key, bool showInCardLibrary = true)
@@ -31,7 +32,9 @@ public abstract class VolibearCard : CardModel
 
     public bool IsUpgradedCard => this.IsUpgraded;
 
-    public override string PortraitPath => $"{PortraitRoot}/{Key}.png";
+    public override string CustomPortraitPath => $"{PortraitRoot}/{Key}.png";
+
+    public override string PortraitPath => CustomPortraitPath;
 
     public override string BetaPortraitPath => $"{BigPortraitRoot}/{Key}.png";
 

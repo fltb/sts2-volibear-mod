@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://VolibearArt/ui/images/character_icon_volibear.png" id="portrait"]
+
+[node name="VolibearIcon" type="TextureRect"]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 2
+texture = ExtResource("portrait")
+expand_mode = 1
+stretch_mode = 5

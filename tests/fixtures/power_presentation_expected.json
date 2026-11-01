@@ -1,0 +1,177 @@
+[
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "NextAttackDiscount",
+    "title": "攻击减费",
+    "text": "本回合下一张实际打出的攻击减费{Amount}，最低0。同类待用减费取最大值，实际打出即消费。",
+    "icon": "cost_reduce"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "NextEngageDiscount",
+    "title": "迎战准备",
+    "text": "本回合下一张迎战牌减费1。同类不叠加，实际打出即消费。",
+    "icon": "cost_reduce"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "NextAttackReplayPower",
+    "title": "暴风再临",
+    "text": "本回合下一张攻击额外结算{Amount}次完整效果。重演不重复支付费用，不算重新打出。",
+    "icon": "replay"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "NextAttackTrainingPower",
+    "title": "磨砺爪牙",
+    "text": "下一张实际打出的攻击本战每次伤害增加{Amount}。包括动态攻击与原生雷伤，复制继承，不改永久牌组。",
+    "icon": "enhance"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "UnifyPower",
+    "title": "天人合一",
+    "text": "本战攻击与雷法的自身攻击、原生雷伤增加{Amount}。不强化领域附雷或反雷。",
+    "icon": "enhance"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "PrimalThunderPower",
+    "title": "原始力量",
+    "text": "本轮每批雷伤增加{Amount}。数值在打出时按当前正力量锁定，敌方阶段结束后失效。",
+    "icon": "thunder_growth"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "ThunderGuardPower",
+    "title": "反雷",
+    "text": "受到每段攻击后，对攻击者造成{Amount}雷伤。完全格挡也触发；双方仍可受伤且战斗未结束时结算。下次玩家回合开始失效。",
+    "icon": "counter_thunder"
+  },
+  {
+    "file": "Core/PreparedEffects.cs",
+    "model": "BiteMarkPower",
+    "title": "咬痕",
+    "text": "暴怒撕咬对已有咬痕的目标追加伤害。同一次实际出牌的重演读取施加前的咬痕。",
+    "icon": "bite_mark"
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "StormConductionPower",
+    "title": "狂雷渐起",
+    "text": "每段普通攻击结算后，对全体造成{Amount}雷伤。各部署独立结算，多段与重演逐段触发，全体一段只触发一次。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "StandingPower",
+    "title": "留甲",
+    "text": "回合开始时，格挡只减少{Amount}。重复获得取较小损耗；不是获得格挡，不受敏捷或脆弱影响。",
+    "icon": "retain_armor"
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "BattleScarsPower",
+    "title": "战痕",
+    "text": "每回合首次完成迎战后，获得{Amount}力量和1雷势。每次部署独立计次。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "LingeringStormPower",
+    "title": "风暴不散",
+    "text": "每次完成迎战后，先抽1张牌，再获得领域1。每次部署独立结算。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "ThunderAftershockPower",
+    "title": "雷霆余威",
+    "text": "本回合第2、4、6…次雷伤后获得1能量。部署时已有至少2次雷伤，立即获得1能量。各部署独立响应，不补发历史次数。",
+    "icon": "energy"
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "PreyStillStandsPower",
+    "title": "猎物未倒",
+    "text": "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。各部署独立计次，重演不另计实际出牌。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "GrowingFuryPower",
+    "title": "愈战愈烈",
+    "text": "每回合第2张实际攻击支付后、牌效前，获得{Amount}力量和{Amount}雷势。各部署独立计次，重演不另计实际出牌。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "WelcomeThunderPower",
+    "title": "迎雷",
+    "text": "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。各部署独立计次，同类待用减费取最大值，不相加，使用后消费。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "ThunderArmorPower",
+    "title": "雷甲",
+    "text": "每次雷伤后获得{Amount}格挡。各部署独立结算，全体雷伤一批只触发一次，完全格挡的雷伤也触发。",
+    "icon": "thunder_armor"
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "ImmovableBodyPower",
+    "title": "坚甲",
+    "text": "承受攻击时不消耗格挡，溢出伤害仍扣生命。不会阻止回合开始的格挡清除。",
+    "icon": "iron_armor"
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "BattleBodyPower",
+    "title": "愈战神躯",
+    "text": "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。重演共享一次实际出牌，被动雷甲不算本牌格挡。",
+    "icon": null
+  },
+  {
+    "file": "Core/PersistentPowers.cs",
+    "model": "ThunderPoolPower",
+    "title": "雷池",
+    "text": "回合结束及每回合首次完成迎战后，对全体造成{Amount}雷伤。各部署独立结算，回合结束不会消费首次迎战机会。",
+    "icon": null
+  },
+  {
+    "file": "Core/BeastPowers.cs",
+    "model": "BearSpiritPower",
+    "title": "熊灵侵染",
+    "text": "每回合首次兽化后抽{Amount}张牌；首次实际打出兽形时获得1雷势。正常起手抽牌及领域扣时后，可选兽化1张手牌。各实例独立计次，重演不增加实际出牌次数。",
+    "icon": null
+  },
+  {
+    "file": "Core/BeastPowers.cs",
+    "model": "WildernessPower",
+    "title": "我即荒野",
+    "text": "每回合首次实际打出爪形时，获得{Amount}格挡；每次实际打出躯形时，获得1能量。各实例独立计次，重演不增加实际出牌次数。",
+    "icon": null
+  },
+  {
+    "file": "Core/StormChargePower.cs",
+    "model": "StormChargePower",
+    "title": "雷势",
+    "text": "每段雷伤增加{Amount}。持续本战，不自动消耗。",
+    "icon": null
+  },
+  {
+    "file": "Core/DomainPower.cs",
+    "model": "DomainPower",
+    "title": "领域",
+    "text": "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤，重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。",
+    "icon": null
+  },
+  {
+    "file": "Content/Cards/HistoryEffects.cs",
+    "model": "EndlessHuntPower",
+    "title": "不休之猎",
+    "text": "每次实际打出单体攻击，使本回合对该目标的非X费攻击费用再降低{Amount}。实际出牌计一次，多段与重演不重复累计，每回合重新累计。",
+    "icon": "cost_reduce"
+  }
+]

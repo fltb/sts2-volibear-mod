@@ -6,7 +6,8 @@ namespace Volibear.Content;
 
 /// <summary>
 /// Localization tables for the mod. They are merged into the game's own tables so the card,
-/// relic and character text resolves exactly like content shipped inside a pck.
+/// relic and character text resolves exactly like content shipped inside a pck. Keys use the
+/// model database's own entry names, which is why the character key carries its full id.
 /// </summary>
 public static class VolibearLoc
 {
@@ -18,28 +19,32 @@ public static class VolibearLoc
                 ["VOLIBEAR_B01.title"] = "打击",
                 ["VOLIBEAR_B01.description"] = "造成{Damage}伤害。",
                 ["VOLIBEAR_B02.title"] = "防御",
-                ["VOLIBEAR_B02.description"] = "获得{Block}点格挡。",
+                ["VOLIBEAR_B02.description"] = "获得{Block}格挡。",
                 ["VOLIBEAR_B03.title"] = "霆爪",
-                ["VOLIBEAR_B03.description"] = "造成{Damage}伤害。对所有敌人造成{Lightning}点雷伤。",
+                ["VOLIBEAR_B03.description"] = "造成{Damage}伤害。对全体造成{Lightning}雷伤。",
                 ["VOLIBEAR_B04.title"] = "挺身迎战",
-                ["VOLIBEAR_B04.description"] = "获得{Block}点格挡。造成{Damage}伤害。迎战。",
+                ["VOLIBEAR_B04.description"] = "获得{Block}格挡。造成{Damage}伤害。迎战。",
             },
             ["characters"] = new()
             {
-                ["VOLIBEAR.title"] = "沃利贝尔",
-                ["VOLIBEAR.description"] = "不灭狂雷。以雷霆与兽性碾碎敌人。",
-                ["VOLIBEAR.pronoun_subject"] = "他",
-                ["VOLIBEAR.pronoun_object"] = "他",
-                ["VOLIBEAR.pronoun_possessive"] = "他的",
-                ["VOLIBEAR.possessive_adjective"] = "他的",
-                ["VOLIBEAR.cards_modifier_title"] = "不灭狂雷",
-                ["VOLIBEAR.cards_modifier_description"] = "沃利贝尔的卡牌与机制。",
-                ["VOLIBEAR.event_death_prevention"] = "{0}的雷霆拒绝了死亡。",
+                ["VOLIBEAR_CHARACTER.title"] = "沃利贝尔",
+                ["VOLIBEAR_CHARACTER.description"] = "不灭狂雷。以雷霆与兽性碾碎敌人。",
+                ["VOLIBEAR_CHARACTER.titleObject"] = "沃利贝尔",
+                ["VOLIBEAR_CHARACTER.pronounSubject"] = "他",
+                ["VOLIBEAR_CHARACTER.pronounObject"] = "他",
+                ["VOLIBEAR_CHARACTER.pronounPossessive"] = "他的",
+                ["VOLIBEAR_CHARACTER.possessiveAdjective"] = "他的",
+                ["VOLIBEAR_CHARACTER.cards_modifier_title"] = "不灭狂雷",
+                ["VOLIBEAR_CHARACTER.cards_modifier_description"] = "沃利贝尔的卡牌与机制。",
+                ["VOLIBEAR_CHARACTER.event_death_prevention"] = "{0}的雷霆拒绝了死亡。",
             },
             ["relics"] = new()
             {
+                ["HUNTERS_HEART.title"] = "不灭狂雷",
+                ["HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
+                ["HUNTERS_HEART.flavor"] = "雷霆不会熄灭。",
                 ["VOLIBEAR_HUNTERS_HEART.title"] = "不灭狂雷",
-                ["VOLIBEAR_HUNTERS_HEART.description"] = "每场战斗首次迎战时，抽一张牌。",
+                ["VOLIBEAR_HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
                 ["VOLIBEAR_HUNTERS_HEART.flavor"] = "雷霆不会熄灭。",
             },
             ["powers"] = new(),
@@ -56,8 +61,9 @@ public static class VolibearLoc
     public static void AfterGetTable(string name, ref LocTable __result)
     {
         if (__result is null) return;
-        if (!Tables.TryGetValue(name, out var entries) || entries.Count == 0) return;
-        __result.MergeWith(entries);
+        if (Tables.TryGetValue(name, out var entries) && entries.Count > 0)
+            __result.MergeWith(entries);
+        InlineModelLocalization.Merge(name, __result);
         installed = true;
     }
 
@@ -70,7 +76,6 @@ public static class VolibearLoc
             return;
         }
         var merged = 0;
-        var tables = new List<object>();
         foreach (var (tableName, entries) in Tables)
         {
             if (entries.Count == 0) continue;
@@ -81,10 +86,9 @@ public static class VolibearLoc
                 continue;
             }
             table.MergeWith(entries);
-            tables.Add(entries.ContainsKey("VOLIBEAR_B01.title") && table.HasEntry("VOLIBEAR_B01.title"));
             merged += entries.Count;
         }
         installed = true;
-        GD.Print($"[Volibear] LOC_OK entries={merged} probe={tables[0]}");
+        GD.Print($"[Volibear] LOC_OK entries={merged}");
     }
 }

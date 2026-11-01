@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 namespace Volibear.Content;
 
 /// <summary>B01 · 打击 — 1 cost, 6 damage (9 upgraded). Plain single-target attack.</summary>
+[BaseLib.Utils.Attributes.CustomID("VOLIBEAR_B01")]
 public sealed class Volibear_B01 : VolibearCard
 {
     public Volibear_B01() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy, "b01") { }

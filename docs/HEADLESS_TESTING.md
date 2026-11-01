@@ -6,6 +6,14 @@ advancement and the optional in-card Engage prototype assertions pass on both pl
 shipped game still reports renderer/text resource leaks on every headless exit, with or without
 mods; the runner attributes that noise against a stock control instead of waiving it.
 
+## Current acceptance execution policy
+
+Full suites must run **multiple cases in one game process**, using native room exit, main-menu cleanup and a fresh run between independent cases. The old `--repeat`/single-case launch route below is retained for focused diagnostics, not the full-suite execution strategy. Restart only when changing assemblies or explicitly testing save/restart.
+
+On Windows, `--display background` creates a private, unselected Windows desktop and launches the native-rendered game there. The runner never switches the operator's desktop and sends no OS input. The process job and desktop handle are owned and released together. Merely starting minimized was tested and did not prevent focus changes; it is not the isolation mechanism. Background mode uses Dummy audio by default, so it is not listening evidence.
+
+Gameplay acceptance uses the real `PlayCardAction`/`RequestEnqueue` path with payment, target validation and native choice handling; it does not replace those steps with direct `OnPlay` or AutoPlay. Runtime errors remain failures even when a semantic receipt passes. In particular, native-renderer runs replace unreliable Dummy-renderer runs rather than waiving texture errors.
+
 ## Run
 
 With the pinned SDK and local game configured for `tools/dev.py`:
@@ -74,7 +82,7 @@ The resolved user-data directory and the Steam-disabled state are asserted from 
 
 ## Deployment ownership
 
-Deploy writes only `Volibear.dll` and `Volibear.json`, records SHA-256 ownership under
+Deploy writes the owned `Volibear.dll`, `Volibear.json`, and `Volibear.pck`, records SHA-256 ownership under
 `.local/deploy/`, and refuses to overwrite unowned files or silently accept hand-edited builds.
 The marker deliberately lives **outside** the mod directory: the game scans every JSON file it
 finds there as a manifest and reports a missing `id` field as an error. `dev.py undeploy`
@@ -108,3 +116,31 @@ On Windows (2026-10-31) the first discovery launch loaded the mod immediately; t
 error was the deployment marker inside the mod directory, a real defect in the deploy tool, now
 fixed. Proprietary decompiled material, game assemblies, test profiles and logs stay
 local/ignored. Only independently authored code and concise API findings belong in Git.
+
+## Catalog persistence (S3 only)
+
+The independent [catalog runner](../tools/save_load_catalog_pair.py) uses a fresh,
+owned, short-path offline profile. It never accepts an existing save profile and
+never builds or deploys. Deploy the intended candidate first, then run serially:
+
+```powershell
+python tools/save_load_catalog_pair.py --execute-native --case S3 --mode same-process --display window --timeout 300
+python tools/save_load_catalog_pair.py --execute-native --case S3 --mode restart --display window --timeout 300
+```
+
+This explicitly constructs all 89 base/upgraded pairs as 178 native master cards,
+checks their distinct combat clones and complete serialized state, performs one
+paid B02, and invokes native Pause / Save-and-Quit / Continue UI actions. Continue
+reconstructs the **room-entry checkpoint**, not the disturbed midcombat state.
+Programmatic native UI is not physical window-input evidence.
+
+The [independent oracle](../tools/save_load_catalog_evidence.py) checks typed
+references, full JSON values, reload-only defaults, and actual disk checkpoints.
+Restart resumes only after every prepare-phase common check, strict phase
+validation, and disk reread succeeds. S4/S5 are rejected before launching or
+creating a profile; they are not silently mapped to S3. The existing
+[S1/S2 runner](../tools/save_load_pair.py) remains separate.
+
+Do not deploy another candidate while a test process or restart pair is active.
+Single-run output under `artifacts/save-catalog/` remains ignored, like the other
+native-test artifacts.

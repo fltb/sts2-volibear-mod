@@ -65,12 +65,23 @@ def ownership_marker():
     return DEPLOY_MARKERS / (MOD + '.json')
 
 
+def owned_file(target, name):
+    if name not in (MOD + '.dll', MOD + '.json', MOD + '.pck'):
+        raise RuntimeError('Unexpected owned file name: ' + str(name))
+    path = target / name
+    if path.is_symlink() or is_junction(path) or path.resolve() != target.resolve() / name:
+        raise RuntimeError('Unexpected owned file target: ' + name)
+    return path
+
+
 def deployment_record(target):
     """Ownership evidence for this installation, migrating a marker from the old layout."""
     marker = ownership_marker()
     if marker.is_file():
         record = json.loads(marker.read_text())
         if isinstance(record, dict) and record.get('target') == str(target):
+            if not isinstance(record.get('files'), dict) or not record['files']:
+                raise RuntimeError('Invalid deployment ownership record')
             return record
     legacy = target / '.volibear-dev-owned.json'
     if legacy.is_file():
@@ -79,7 +90,7 @@ def deployment_record(target):
         except ValueError:
             return None
         if (isinstance(hashes, dict) and hashes
-                and all((target / name).is_file() and digest(target / name) == sha
+                and all(owned_file(target, name).is_file() and digest(target / name) == sha
                         for name, sha in hashes.items())):
             return {'target': str(target), 'files': hashes}
     return None
@@ -90,28 +101,44 @@ def deploy(game, sources=None):
     expected = game.resolve() / 'mods' / MOD
     if target.is_symlink() or target.resolve() != expected:
         raise RuntimeError('Unexpected deployment target')
-    sources = SOURCES if sources is None else sources
+    production = sources is None
+    sources = list(SOURCES if sources is None else sources)
     record = deployment_record(expected)
     if target.exists() and record is None and any(target.iterdir()):
         raise RuntimeError('Existing unowned mod directory; refusing overwrite')
     old = record['files'] if record else {}
     for name, sha in old.items():
-        p = target / name
-        if p.name != name or (p.exists() and digest(p) != sha):
+        p = owned_file(target, name)
+        if p.exists() and (not p.is_file() or digest(p) != sha):
             raise RuntimeError('Previously deployed file changed: ' + name)
     for src in sources:
         if not src.is_file():
             raise RuntimeError('Build first: ' + str(src))
+    payload = {src.name: src for src in sources}
+    manifest = json.loads(payload[MOD + '.json'].read_text(encoding='utf-8'))
+    if production:
+        pack = ROOT / '.local/packs/Volibear.pck'
+        if pack.is_file():
+            payload[MOD + '.pck'] = pack
+    if manifest.get('has_pck') and MOD + '.pck' not in payload:
+        raise RuntimeError('Manifest declares has_pck but required Volibear.pck is missing; build pack first')
+    for name in payload:
+        p = target / name
+        if p.is_symlink() or is_junction(p) or (os.path.lexists(p) and name not in old):
+            raise RuntimeError('Refusing to overwrite unowned deployment file: ' + name)
+    # Preflight before writing files, including migration of the old development junction.
+    validate_assets_junction(target, record)
     target.mkdir(parents=True, exist_ok=True)
-    for src in sources:
-        (target / src.name).write_bytes(src.read_bytes())
+    unlink_assets(target, record)
+    for name, src in payload.items():
+        (target / name).write_bytes(src.read_bytes())
     legacy = target / '.volibear-dev-owned.json'
     if legacy.is_file():
         legacy.unlink()
     marker = ownership_marker()
     marker.parent.mkdir(parents=True, exist_ok=True)
     marker.write_text(json.dumps({'target': str(expected),
-                                 'files': {p.name: digest(p) for p in sources}}, indent=2) + '\n')
+                                 'files': {name: digest(p) for name, p in payload.items()}}, indent=2) + '\n')
     print('Deployed owned files only:', target)
 
 
@@ -133,9 +160,11 @@ def undeploy(game):
     if record is None:
         raise RuntimeError('No owned deployment to remove: ' + str(target))
     for name, sha in record['files'].items():
-        p = target / name
-        if p.is_file() and digest(p) != sha:
+        p = owned_file(target, name)
+        if p.exists() and (not p.is_file() or digest(p) != sha):
             raise RuntimeError('Deployed file changed; refusing to remove: ' + name)
+    validate_assets_junction(target, record)
+    unlink_assets(target, record)
     for name in [*record['files'], '.volibear-dev-owned.json']:
         p = target / name
         if p.is_file():
@@ -146,6 +175,53 @@ def undeploy(game):
     if marker.is_file():
         marker.unlink()
     print('Removed owned files only:', target)
+
+
+def is_junction(path):
+    return hasattr(os.path, 'isjunction') and os.path.isjunction(path)
+
+
+def validate_assets_junction(target, record):
+    """Recognize only the old owned Windows junction, never an arbitrary assets entry."""
+    link = target / 'assets'
+    if not os.path.lexists(link):
+        return False
+    if (not record or record.get('target') != str(target.resolve())
+            or not is_junction(link) or link.is_symlink()
+            or link.resolve(strict=True) != (ROOT / 'assets').resolve(strict=True)):
+        raise RuntimeError('Unowned assets entry; refusing to remove: ' + str(link))
+    return True
+
+
+def unlink_assets(target, record=None):
+    # Revalidate immediately before removal. rmdir removes the junction itself, never its tree.
+    if validate_assets_junction(target, record):
+        os.rmdir(target / 'assets')
+
+
+def doctor_resources(game, settings):
+    pack = ROOT / '.local/packs/Volibear.pck'
+    manifest = json.loads((ROOT / 'src/Volibear/Volibear.json').read_text(encoding='utf-8'))
+    print('PCK:', 'present' if pack.is_file() else 'MISSING',
+          '(required)' if manifest.get('has_pck') else '(not declared)', pack)
+    godot = settings.get('godot')
+    print('Godot resource builder:',
+          ('configured executable present' if Path(godot).is_file() else 'configured executable MISSING')
+          if godot else 'no explicit godot path configured',
+          '; required 4.5.1; version/export capability not verified')
+    dependency = game / 'mods/BaseLib'
+    metadata = dependency / 'BaseLib.json'
+    if metadata.is_file():
+        info = json.loads(metadata.read_text(encoding='utf-8-sig'))
+        print('BaseLib installed manifest:', info.get('version', 'version absent'),
+              '; id:', info.get('id', 'id absent'))
+        print('BaseLib DLL:', 'present' if (dependency / 'BaseLib.dll').is_file() else 'MISSING')
+        if info.get('has_pck'):
+            print('BaseLib PCK:', 'present' if (dependency / 'BaseLib.pck').is_file() else 'MISSING')
+    else:
+        print('BaseLib installed manifest: MISSING')
+    print('BaseLib candidate pin: 3.4.7; compatibility/load with StS2 0.107.1 / 59260271 '
+          'not verified by file presence')
 
 
 def main():
@@ -163,7 +239,7 @@ def main():
         call([c['dotnet'], '--version'])
         print('Game %s / %s and managed references: OK' % (GAME_VERSION, GAME_COMMIT))
         print('Platform:', os.name, 'executable:', game_executable(game).name)
-        print('PCK/Godot and RitsuLib: not yet configured; DLL-only probe supported')
+        doctor_resources(game, c)
     elif args.command == 'build':
         # The probe references the installed assemblies directly, so an up-to-date restore graph
         # needs no package source. Skipping the implicit restore keeps the loop fast and offline;

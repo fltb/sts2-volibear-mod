@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework><OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems><NuGetAudit>false</NuGetAudit>
+    <!-- Linked production adapters intentionally supersede their built-host counterparts. -->
+    <NoWarn>$(NoWarn);CS0436</NoWarn>
+    <HostAssembly Condition="'$(HostAssembly)' == ''">../../src/Volibear/bin/Release/net9.0/Volibear.dll</HostAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../../src/Volibear/Presentation/AudioCommitGate.cs" />
+    <Compile Include="../../src/Volibear/Presentation/PowerAudioReceipts.cs" />
+    <Compile Include="../../src/Volibear/Core/CardReceiptPolicy.cs" />
+    <Compile Include="../../src/Volibear/Core/CardPresentationReceipts.cs" />
+    <Compile Include="../../src/Volibear/Core/DomainPassiveEffects.cs" />
+    <Compile Include="../../src/Volibear/Core/DomainRevivalEffects.cs" />
+    <Compile Include="../../src/Volibear/Core/DomainSummonEffects.cs" />
+    <Compile Include="../../src/Volibear/Core/DomainSummonDecision.cs" />
+    <Compile Include="../../src/Volibear/Core/SummonRegistration.cs" />
+    <Compile Include="../../src/Volibear/Core/RevivalDecision.cs" />
+    <Compile Include="../../src/Volibear/Core/DomainCardContributions.cs" />
+    <Reference Include="Volibear"><HintPath>$(HostAssembly)</HintPath></Reference>
+    <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

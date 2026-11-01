@@ -1,0 +1,5227 @@
+{
+  "schema_version": 1,
+  "authority": {
+    "version": "S2-3.0",
+    "configuration": "S2_BUFF_D4",
+    "sources": [
+      "reference/bear-forge/docs/volibear/cards_s2.json",
+      "reference/bear-forge/docs/volibear/CARDS.md",
+      "reference/bear-forge/docs/volibear/DEVELOPMENT.md",
+      "docs/TEST_SPEC.md",
+      "docs/OVERNIGHT_PLAN.md#3.1"
+    ],
+    "independent_of_runtime": true
+  },
+  "scope": {
+    "card_count": 89,
+    "face_count": 178,
+    "reward_count": 83,
+    "evidence_level": "fixture_contract_only",
+    "notes": [
+      "numeric_literals preserve ordered numerals in rule text; they are NOT engine DynamicVars or an effect interpreter.",
+      "play_target is semantic selection scope, not a C# enum; self includes untargeted support cards.",
+      "keywords are lexical rule-text mentions, not inferred engine keyword registration.",
+      "Mechanism cases are illustrative finite contracts, not full TEST_SPEC coverage or executed gameplay.",
+      "Runtime runner must bind mechanism inputs to real engine operations and concrete enemy actions; no simulated damage qualifies as engine evidence.",
+      "No modifiers, block, powers or relics beyond those explicitly requested by a mechanism case."
+    ]
+  },
+  "cards": [
+    {
+      "card_id": "B01",
+      "name_zh": "打击",
+      "type": "attack",
+      "rarity": "basic",
+      "reward_pool": false,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#B01",
+        "reference/bear-forge/docs/volibear/CARDS.md#B01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "B01",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成6伤害。",
+          "display_text_zh": "造成6伤害。",
+          "numeric_literals": [
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "B01+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成9伤害。",
+          "display_text_zh": "造成9伤害。",
+          "numeric_literals": [
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "B02",
+      "name_zh": "防御",
+      "type": "skill",
+      "rarity": "basic",
+      "reward_pool": false,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#B02",
+        "reference/bear-forge/docs/volibear/CARDS.md#B02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "B02",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得5格挡。",
+          "display_text_zh": "获得5格挡。",
+          "numeric_literals": [
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "B02+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。",
+          "display_text_zh": "获得8格挡。",
+          "numeric_literals": [
+            8
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "B03",
+      "name_zh": "霆爪",
+      "type": "attack",
+      "rarity": "basic",
+      "reward_pool": false,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#B03",
+        "reference/bear-forge/docs/volibear/CARDS.md#B03",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "B03",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成8伤害。对全体造成3雷伤。",
+          "display_text_zh": "造成8伤害。对全体造成3雷伤。",
+          "numeric_literals": [
+            8,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "B03+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成11伤害。对全体造成5雷伤。",
+          "display_text_zh": "造成11伤害。对全体造成5雷伤。",
+          "numeric_literals": [
+            11,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "B04",
+      "name_zh": "挺身迎战",
+      "type": "attack",
+      "rarity": "basic",
+      "reward_pool": false,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#B04",
+        "reference/bear-forge/docs/volibear/CARDS.md#B04",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "B04",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。造成6伤害。迎战。",
+          "display_text_zh": "获得8格挡。造成6伤害。迎战。",
+          "numeric_literals": [
+            8,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战"
+          ]
+        },
+        {
+          "face_id": "B04+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得11格挡。造成9伤害。迎战。",
+          "display_text_zh": "获得11格挡。造成9伤害。迎战。",
+          "numeric_literals": [
+            11,
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C01",
+      "name_zh": "逼近",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C01",
+        "reference/bear-forge/docs/volibear/CARDS.md#C01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C01",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "造成6伤害。",
+          "display_text_zh": "造成6伤害。",
+          "numeric_literals": [
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "C01+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "造成9伤害。",
+          "display_text_zh": "造成9伤害。",
+          "numeric_literals": [
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "C02",
+      "name_zh": "双爪",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C02",
+        "reference/bear-forge/docs/volibear/CARDS.md#C02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C02",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成5伤害，重复2次。",
+          "display_text_zh": "造成5伤害，重复2次。",
+          "numeric_literals": [
+            5,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "C02+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成7伤害，重复2次。",
+          "display_text_zh": "造成7伤害，重复2次。",
+          "numeric_literals": [
+            7,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "C03",
+      "name_zh": "轰雷重击",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C03",
+        "reference/bear-forge/docs/volibear/CARDS.md#C03",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C03",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "造成20伤害。对全体造成5雷伤。",
+          "display_text_zh": "造成20伤害。对全体造成5雷伤。",
+          "numeric_literals": [
+            20,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "C03+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "造成26伤害。对全体造成7雷伤。",
+          "display_text_zh": "造成26伤害。对全体造成7雷伤。",
+          "numeric_literals": [
+            26,
+            7
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C04",
+      "name_zh": "擂首一击",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C04",
+        "reference/bear-forge/docs/volibear/CARDS.md#C04",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C04",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成9伤害。施加1虚弱。迎战。",
+          "display_text_zh": "造成9伤害。施加1虚弱。迎战。",
+          "numeric_literals": [
+            9,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战",
+            "虚弱"
+          ]
+        },
+        {
+          "face_id": "C04+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成12伤害。施加1虚弱。迎战。",
+          "display_text_zh": "造成12伤害。施加1虚弱。迎战。",
+          "numeric_literals": [
+            12,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战",
+            "虚弱"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C05",
+      "name_zh": "雷霆爪击",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C05",
+        "reference/bear-forge/docs/volibear/CARDS.md#C05",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C05",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "领域1。造成6伤害。",
+          "display_text_zh": "领域1。造成6伤害。",
+          "numeric_literals": [
+            1,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域"
+          ]
+        },
+        {
+          "face_id": "C05+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "领域1。造成9伤害。",
+          "display_text_zh": "领域1。造成9伤害。",
+          "numeric_literals": [
+            1,
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C06",
+      "name_zh": "进逼",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C06",
+        "reference/bear-forge/docs/volibear/CARDS.md#C06",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C06",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
+          "display_text_zh": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
+          "numeric_literals": [
+            8,
+            6,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "C06+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。",
+          "display_text_zh": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。",
+          "numeric_literals": [
+            11,
+            8,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "C07",
+      "name_zh": "追嗅",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C07",
+        "reference/bear-forge/docs/volibear/CARDS.md#C07",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C07",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成8伤害。检索1张攻击。",
+          "display_text_zh": "造成8伤害。检索1张攻击。",
+          "numeric_literals": [
+            8,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "检索"
+          ]
+        },
+        {
+          "face_id": "C07+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成11伤害。检索1张攻击。",
+          "display_text_zh": "造成11伤害。检索1张攻击。",
+          "numeric_literals": [
+            11,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "检索"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C08",
+      "name_zh": "撕开伤口",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C08",
+        "reference/bear-forge/docs/volibear/CARDS.md#C08",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C08",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成8伤害。施加1易伤。",
+          "display_text_zh": "造成8伤害。施加1易伤。",
+          "numeric_literals": [
+            8,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "易伤"
+          ]
+        },
+        {
+          "face_id": "C08+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成10伤害。施加2易伤。",
+          "display_text_zh": "造成10伤害。施加2易伤。",
+          "numeric_literals": [
+            10,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "易伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C09",
+      "name_zh": "雷霆横扫",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C09",
+        "reference/bear-forge/docs/volibear/CARDS.md#C09",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C09",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "对全体造成6伤害和3雷伤。",
+          "display_text_zh": "对全体造成6伤害和3雷伤。",
+          "numeric_literals": [
+            6,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "C09+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "对全体造成8伤害和4雷伤。",
+          "display_text_zh": "对全体造成8伤害和4雷伤。",
+          "numeric_literals": [
+            8,
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C10",
+      "name_zh": "以牙还牙",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C10",
+        "reference/bear-forge/docs/volibear/CARDS.md#C10",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C10",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得8格挡。迎战。造成6＋吸收的伤害。",
+          "display_text_zh": "获得8格挡。迎战。造成6＋吸收的伤害。",
+          "numeric_literals": [
+            8,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战",
+            "吸收"
+          ]
+        },
+        {
+          "face_id": "C10+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得11格挡。迎战。造成9＋吸收的伤害。",
+          "display_text_zh": "获得11格挡。迎战。造成9＋吸收的伤害。",
+          "numeric_literals": [
+            11,
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战",
+            "吸收"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C11",
+      "name_zh": "正面迎敌",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C11",
+        "reference/bear-forge/docs/volibear/CARDS.md#C11",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C11",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。迎战。",
+          "display_text_zh": "获得8格挡。迎战。",
+          "numeric_literals": [
+            8
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战"
+          ]
+        },
+        {
+          "face_id": "C11+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得11格挡。迎战。",
+          "display_text_zh": "获得11格挡。迎战。",
+          "numeric_literals": [
+            11
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C12",
+      "name_zh": "厚重皮毛",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C12",
+        "reference/bear-forge/docs/volibear/CARDS.md#C12",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C12",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得10＋力量的格挡。",
+          "display_text_zh": "获得10＋力量的格挡。",
+          "numeric_literals": [
+            10
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量"
+          ]
+        },
+        {
+          "face_id": "C12+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得13＋力量的格挡。",
+          "display_text_zh": "获得13＋力量的格挡。",
+          "numeric_literals": [
+            13
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C13",
+      "name_zh": "呼吸",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C13",
+        "reference/bear-forge/docs/volibear/CARDS.md#C13",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C13",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "消耗1张手牌，抽3张牌。",
+          "display_text_zh": "消耗1张手牌，抽3张牌。",
+          "numeric_literals": [
+            1,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "C13+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "消耗1张手牌，抽4张牌。",
+          "display_text_zh": "消耗1张手牌，抽4张牌。",
+          "numeric_literals": [
+            1,
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "C14",
+      "name_zh": "雷霆护身",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C14",
+        "reference/bear-forge/docs/volibear/CARDS.md#C14",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C14",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得8格挡。领域1。反雷3。消耗。",
+          "display_text_zh": "获得8格挡。领域1。反雷3。消耗。",
+          "numeric_literals": [
+            8,
+            1,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "领域",
+            "反雷"
+          ]
+        },
+        {
+          "face_id": "C14+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得11格挡。领域1。反雷5。",
+          "display_text_zh": "获得11格挡。领域1。反雷5。",
+          "numeric_literals": [
+            11,
+            1,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "反雷"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C15",
+      "name_zh": "重整爪牙",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C15",
+        "reference/bear-forge/docs/volibear/CARDS.md#C15",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C15",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "回收1张攻击或雷法，减费1。",
+          "display_text_zh": "回收1张攻击或雷法，减费1。",
+          "numeric_literals": [
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷法",
+            "回收",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "C15+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "回收1张攻击或雷法，减费1。",
+          "display_text_zh": "回收1张攻击或雷法，减费1。",
+          "numeric_literals": [
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷法",
+            "回收",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C17",
+      "name_zh": "蓄力",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C17",
+        "reference/bear-forge/docs/volibear/CARDS.md#C17",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C17",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "本回合获得4力量。",
+          "display_text_zh": "本回合获得4力量。",
+          "numeric_literals": [
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量"
+          ]
+        },
+        {
+          "face_id": "C17+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "本回合获得6力量。",
+          "display_text_zh": "本回合获得6力量。",
+          "numeric_literals": [
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C18",
+      "name_zh": "显圣",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C18",
+        "reference/bear-forge/docs/volibear/CARDS.md#C18",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C18",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "领域1。对全体施加2虚弱。",
+          "display_text_zh": "领域1。对全体施加2虚弱。",
+          "numeric_literals": [
+            1,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "虚弱"
+          ]
+        },
+        {
+          "face_id": "C18+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "领域1。对全体施加3虚弱。",
+          "display_text_zh": "领域1。对全体施加3虚弱。",
+          "numeric_literals": [
+            1,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "虚弱"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C19",
+      "name_zh": "追猎准备",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C19",
+        "reference/bear-forge/docs/volibear/CARDS.md#C19",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C19",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "使1张手牌攻击获得保留与蓄势3。",
+          "display_text_zh": "使1张手牌攻击获得保留与蓄势3。",
+          "numeric_literals": [
+            1,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "蓄势",
+            "保留"
+          ]
+        },
+        {
+          "face_id": "C19+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "使1张手牌攻击获得保留与蓄势5。",
+          "display_text_zh": "使1张手牌攻击获得保留与蓄势5。",
+          "numeric_literals": [
+            1,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "蓄势",
+            "保留"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C20",
+      "name_zh": "乘势追击",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C20",
+        "reference/bear-forge/docs/volibear/CARDS.md#C20",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C20",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
+          "display_text_zh": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
+          "numeric_literals": [
+            10,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "C20+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成14伤害。本回合此前打出过攻击时，抽2张牌。",
+          "display_text_zh": "造成14伤害。本回合此前打出过攻击时，抽2张牌。",
+          "numeric_literals": [
+            14,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "C21",
+      "name_zh": "稳住阵脚",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C21",
+        "reference/bear-forge/docs/volibear/CARDS.md#C21",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C21",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得5格挡。领域1。抽2张牌。",
+          "display_text_zh": "获得5格挡。领域1。抽2张牌。",
+          "numeric_literals": [
+            5,
+            1,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域"
+          ]
+        },
+        {
+          "face_id": "C21+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。领域1。抽2张牌。",
+          "display_text_zh": "获得8格挡。领域1。抽2张牌。",
+          "numeric_literals": [
+            8,
+            1,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C22",
+      "name_zh": "雷震",
+      "type": "attack",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C22",
+        "reference/bear-forge/docs/volibear/CARDS.md#C22",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C22",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "对全体造成5伤害和2雷伤，重复2次。",
+          "display_text_zh": "对全体造成5伤害和2雷伤，重复2次。",
+          "numeric_literals": [
+            5,
+            2,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "C22+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "对全体造成7伤害和3雷伤，重复2次。",
+          "display_text_zh": "对全体造成7伤害和3雷伤，重复2次。",
+          "numeric_literals": [
+            7,
+            3,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C24",
+      "name_zh": "霹雳",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C24",
+        "reference/bear-forge/docs/volibear/CARDS.md#C24",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C24",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "对全体造成6雷伤。抽1张牌。",
+          "display_text_zh": "对全体造成6雷伤。抽1张牌。",
+          "numeric_literals": [
+            6,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "C24+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "对全体造成9雷伤。抽1张牌。",
+          "display_text_zh": "对全体造成9雷伤。抽1张牌。",
+          "numeric_literals": [
+            9,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C25",
+      "name_zh": "雷引",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C25",
+        "reference/bear-forge/docs/volibear/CARDS.md#C25",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C25",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得1雷势。本回合下一张攻击减费1。消耗。",
+          "display_text_zh": "获得1雷势。本回合下一张攻击减费1。消耗。",
+          "numeric_literals": [
+            1,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷势",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "C25+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得2雷势。本回合下一张攻击减费1。消耗。",
+          "display_text_zh": "获得2雷势。本回合下一张攻击减费1。消耗。",
+          "numeric_literals": [
+            2,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷势",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C26",
+      "name_zh": "接地",
+      "type": "skill",
+      "rarity": "common",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#C26",
+        "reference/bear-forge/docs/volibear/CARDS.md#C26",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "C26",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "若本回合造成过雷伤，获得2能量。消耗。",
+          "display_text_zh": "若本回合造成过雷伤，获得2能量。消耗。",
+          "numeric_literals": [
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "C26+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "若本回合造成过雷伤，获得3能量。消耗。",
+          "display_text_zh": "若本回合造成过雷伤，获得3能量。消耗。",
+          "numeric_literals": [
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U02",
+      "name_zh": "狂雷渐起",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U02",
+        "reference/bear-forge/docs/volibear/CARDS.md#U02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U02",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "对全体造成6雷伤。每段普通攻击结算后，对全体造成3雷伤。",
+          "display_text_zh": "对全体造成6雷伤。每段普通攻击结算后，对全体造成3雷伤。",
+          "numeric_literals": [
+            6,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U02+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "对全体造成9雷伤。每段普通攻击结算后，对全体造成4雷伤。",
+          "display_text_zh": "对全体造成9雷伤。每段普通攻击结算后，对全体造成4雷伤。",
+          "numeric_literals": [
+            9,
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U03",
+      "name_zh": "屹立",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U03",
+        "reference/bear-forge/docs/volibear/CARDS.md#U03",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U03",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。留甲6。",
+          "display_text_zh": "获得8格挡。留甲6。",
+          "numeric_literals": [
+            8,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "留甲"
+          ]
+        },
+        {
+          "face_id": "U03+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得12格挡。留甲3。",
+          "display_text_zh": "获得12格挡。留甲3。",
+          "numeric_literals": [
+            12,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "留甲"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U04",
+      "name_zh": "战痕",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U04",
+        "reference/bear-forge/docs/volibear/CARDS.md#U04",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U04",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得6格挡。每回合首次迎战后，获得1力量和1雷势。",
+          "display_text_zh": "获得6格挡。每回合首次迎战后，获得1力量和1雷势。",
+          "numeric_literals": [
+            6,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势",
+            "迎战",
+            "力量"
+          ]
+        },
+        {
+          "face_id": "U04+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得9格挡。每回合首次迎战后，获得2力量和1雷势。",
+          "display_text_zh": "获得9格挡。每回合首次迎战后，获得2力量和1雷势。",
+          "numeric_literals": [
+            9,
+            2,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势",
+            "迎战",
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U05",
+      "name_zh": "挟山",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U05",
+        "reference/bear-forge/docs/volibear/CARDS.md#U05",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U05",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成等同当前格挡的伤害。",
+          "display_text_zh": "造成等同当前格挡的伤害。",
+          "numeric_literals": [],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "U05+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "造成等同当前格挡的伤害。",
+          "display_text_zh": "造成等同当前格挡的伤害。",
+          "numeric_literals": [],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "U06",
+      "name_zh": "三重撕裂",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U06",
+        "reference/bear-forge/docs/volibear/CARDS.md#U06",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U06",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "造成8伤害，重复3次。",
+          "display_text_zh": "造成8伤害，重复3次。",
+          "numeric_literals": [
+            8,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "U06+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "造成11伤害，重复3次。",
+          "display_text_zh": "造成11伤害，重复3次。",
+          "numeric_literals": [
+            11,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "U07",
+      "name_zh": "崩山",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U07",
+        "reference/bear-forge/docs/volibear/CARDS.md#U07",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U07",
+          "upgrade": false,
+          "cost": 3,
+          "rules_text_zh": "造成28伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+          "display_text_zh": "造成28伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+          "numeric_literals": [
+            28,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "U07+",
+          "upgrade": true,
+          "cost": 3,
+          "rules_text_zh": "造成36伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+          "display_text_zh": "造成36伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+          "numeric_literals": [
+            36,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "U08",
+      "name_zh": "暴怒撕咬",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U08",
+        "reference/bear-forge/docs/volibear/CARDS.md#U08",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U08",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
+          "display_text_zh": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
+          "numeric_literals": [
+            6,
+            10,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "咬痕"
+          ]
+        },
+        {
+          "face_id": "U08+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。",
+          "display_text_zh": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。",
+          "numeric_literals": [
+            9,
+            14,
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "咬痕"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U10",
+      "name_zh": "磨砺爪牙",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U10",
+        "reference/bear-forge/docs/volibear/CARDS.md#U10",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U10",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "抽1张牌。下一张攻击强化3。",
+          "display_text_zh": "抽1张牌。下一张攻击强化3。",
+          "numeric_literals": [
+            1,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "强化"
+          ]
+        },
+        {
+          "face_id": "U10+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "抽2张牌。下一张攻击强化5。",
+          "display_text_zh": "抽2张牌。下一张攻击强化5。",
+          "numeric_literals": [
+            2,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "强化"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U11",
+      "name_zh": "暴风再临",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U11",
+        "reference/bear-forge/docs/volibear/CARDS.md#U11",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U11",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "本回合下一张攻击获得重演。",
+          "display_text_zh": "本回合下一张攻击获得重演。",
+          "numeric_literals": [],
+          "self_exhaust": false,
+          "keywords": [
+            "重演"
+          ]
+        },
+        {
+          "face_id": "U11+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "本回合下一张攻击获得重演。",
+          "display_text_zh": "本回合下一张攻击获得重演。",
+          "numeric_literals": [],
+          "self_exhaust": false,
+          "keywords": [
+            "重演"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U12",
+      "name_zh": "原始力量",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U12",
+        "reference/bear-forge/docs/volibear/CARDS.md#U12",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U12",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "本轮雷伤增加当前力量。抽1张牌。消耗。",
+          "display_text_zh": "本轮雷伤增加当前力量。抽1张牌。消耗。",
+          "numeric_literals": [
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤",
+            "力量"
+          ]
+        },
+        {
+          "face_id": "U12+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "本轮雷伤增加当前力量。抽2张牌。消耗。",
+          "display_text_zh": "本轮雷伤增加当前力量。抽2张牌。消耗。",
+          "numeric_literals": [
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤",
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U13",
+      "name_zh": "力量归身",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U13",
+        "reference/bear-forge/docs/volibear/CARDS.md#U13",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U13",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得2力量。将临时力量转为力量。",
+          "display_text_zh": "获得2力量。将临时力量转为力量。",
+          "numeric_literals": [
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量"
+          ]
+        },
+        {
+          "face_id": "U13+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得3力量。将临时力量转为力量。",
+          "display_text_zh": "获得3力量。将临时力量转为力量。",
+          "numeric_literals": [
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U14",
+      "name_zh": "迎战准备",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U14",
+        "reference/bear-forge/docs/volibear/CARDS.md#U14",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U14",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "获得5格挡。本回合下一张迎战牌减费1。消耗。",
+          "display_text_zh": "获得5格挡。本回合下一张迎战牌减费1。消耗。",
+          "numeric_literals": [
+            5,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "迎战",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "U14+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "获得8格挡。本回合下一张迎战牌减费1。",
+          "display_text_zh": "获得8格挡。本回合下一张迎战牌减费1。",
+          "numeric_literals": [
+            8,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "迎战",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U15",
+      "name_zh": "暴风换气",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U15",
+        "reference/bear-forge/docs/volibear/CARDS.md#U15",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U15",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "消耗1张手牌，抽2张牌。",
+          "display_text_zh": "消耗1张手牌，抽2张牌。",
+          "numeric_literals": [
+            1,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "U15+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "消耗1张手牌，抽3张牌。",
+          "display_text_zh": "消耗1张手牌，抽3张牌。",
+          "numeric_literals": [
+            1,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "U17",
+      "name_zh": "古老直觉",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U17",
+        "reference/bear-forge/docs/volibear/CARDS.md#U17",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U17",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "预见3。抽1张牌。",
+          "display_text_zh": "预见3。抽1张牌。",
+          "numeric_literals": [
+            3,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "U17+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "预见5。抽1张牌。",
+          "display_text_zh": "预见5。抽1张牌。",
+          "numeric_literals": [
+            5,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "U19",
+      "name_zh": "风暴不散",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U19",
+        "reference/bear-forge/docs/volibear/CARDS.md#U19",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U19",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "抽1张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+          "display_text_zh": "抽1张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+          "numeric_literals": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "迎战"
+          ]
+        },
+        {
+          "face_id": "U19+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "抽2张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+          "display_text_zh": "抽2张牌。领域1。每次迎战后，抽1张牌并获得领域1。",
+          "numeric_literals": [
+            2,
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "迎战"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U20",
+      "name_zh": "势不可挡",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U20",
+        "reference/bear-forge/docs/volibear/CARDS.md#U20",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U20",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成10伤害。若上一张打出的是攻击牌，获得2能量。消耗。",
+          "display_text_zh": "造成10伤害。若上一张打出的是攻击牌，获得2能量。消耗。",
+          "numeric_literals": [
+            10,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": []
+        },
+        {
+          "face_id": "U20+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成14伤害。若上一张打出的是攻击牌，获得3能量。消耗。",
+          "display_text_zh": "造成14伤害。若上一张打出的是攻击牌，获得3能量。消耗。",
+          "numeric_literals": [
+            14,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "U21",
+      "name_zh": "雷霆余威",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U21",
+        "reference/bear-forge/docs/volibear/CARDS.md#U21",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U21",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+          "display_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+          "numeric_literals": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U21+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+          "display_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+          "numeric_literals": [
+            2,
+            1,
+            2,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U23",
+      "name_zh": "迎风咆哮",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U23",
+        "reference/bear-forge/docs/volibear/CARDS.md#U23",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U23",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "对全体施加1虚弱。获得9格挡。",
+          "display_text_zh": "对全体施加1虚弱。获得9格挡。",
+          "numeric_literals": [
+            1,
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "虚弱"
+          ]
+        },
+        {
+          "face_id": "U23+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "对全体施加2虚弱。获得12格挡。",
+          "display_text_zh": "对全体施加2虚弱。获得12格挡。",
+          "numeric_literals": [
+            2,
+            12
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "虚弱"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U24",
+      "name_zh": "饮血而战",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U24",
+        "reference/bear-forge/docs/volibear/CARDS.md#U24",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U24",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "造成21伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+          "display_text_zh": "造成21伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+          "numeric_literals": [
+            21,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U24+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "造成28伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+          "display_text_zh": "造成28伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+          "numeric_literals": [
+            28,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U25",
+      "name_zh": "猎物未倒",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U25",
+        "reference/bear-forge/docs/volibear/CARDS.md#U25",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U25",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
+          "display_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
+          "numeric_literals": [
+            1,
+            2,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "减费"
+          ]
+        },
+        {
+          "face_id": "U25+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。",
+          "display_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。",
+          "numeric_literals": [
+            1,
+            2,
+            2,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U26",
+      "name_zh": "愈战愈烈",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U26",
+        "reference/bear-forge/docs/volibear/CARDS.md#U26",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U26",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得1力量。每回合打出第2张攻击时，获得1力量和1雷势。",
+          "display_text_zh": "获得1力量。每回合打出第2张攻击时，获得1力量和1雷势。",
+          "numeric_literals": [
+            1,
+            2,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势",
+            "力量"
+          ]
+        },
+        {
+          "face_id": "U26+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得1力量。每回合打出第2张攻击时，获得2力量和2雷势。",
+          "display_text_zh": "获得1力量。每回合打出第2张攻击时，获得2力量和2雷势。",
+          "numeric_literals": [
+            1,
+            2,
+            2,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势",
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U27",
+      "name_zh": "淬躯爪击",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U27",
+        "reference/bear-forge/docs/volibear/CARDS.md#U27",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U27",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成8伤害。获得本回合雷伤次数×2的格挡。",
+          "display_text_zh": "造成8伤害。获得本回合雷伤次数×2的格挡。",
+          "numeric_literals": [
+            8,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U27+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成11伤害。获得本回合雷伤次数×2的格挡。",
+          "display_text_zh": "造成11伤害。获得本回合雷伤次数×2的格挡。",
+          "numeric_literals": [
+            11,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U28",
+      "name_zh": "雷霆反扑",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U28",
+        "reference/bear-forge/docs/volibear/CARDS.md#U28",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U28",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得12格挡。迎战。对全体造成4＋吸收的雷伤。",
+          "display_text_zh": "获得12格挡。迎战。对全体造成4＋吸收的雷伤。",
+          "numeric_literals": [
+            12,
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战",
+            "吸收"
+          ]
+        },
+        {
+          "face_id": "U28+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得17格挡。迎战。对全体造成6＋吸收的雷伤。",
+          "display_text_zh": "获得17格挡。迎战。对全体造成6＋吸收的雷伤。",
+          "numeric_literals": [
+            17,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战",
+            "吸收"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U29",
+      "name_zh": "雷霆渐盛",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U29",
+        "reference/bear-forge/docs/volibear/CARDS.md#U29",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U29",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得2雷势。",
+          "display_text_zh": "获得2雷势。",
+          "numeric_literals": [
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势"
+          ]
+        },
+        {
+          "face_id": "U29+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得3雷势。",
+          "display_text_zh": "获得3雷势。",
+          "numeric_literals": [
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U31",
+      "name_zh": "万钧连踏",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U31",
+        "reference/bear-forge/docs/volibear/CARDS.md#U31",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U31",
+          "upgrade": false,
+          "cost": "X",
+          "rules_text_zh": "造成5伤害和3全体雷伤，重复X次。",
+          "display_text_zh": "造成5伤害和3全体雷伤，重复X次。",
+          "numeric_literals": [
+            5,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U31+",
+          "upgrade": true,
+          "cost": "X",
+          "rules_text_zh": "造成7伤害和3全体雷伤，重复X次。",
+          "display_text_zh": "造成7伤害和3全体雷伤，重复X次。",
+          "numeric_literals": [
+            7,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U32",
+      "name_zh": "迎雷",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U32",
+        "reference/bear-forge/docs/volibear/CARDS.md#U32",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U32",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "领域1。本回合下一张攻击减费1。每回合首次迎战后，下一张攻击减费1。",
+          "display_text_zh": "领域1。本回合下一张攻击减费1。每回合首次迎战后，下一张攻击减费1。",
+          "numeric_literals": [
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "迎战",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "U32+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "领域1。本回合下一张攻击减费2。每回合首次迎战后，下一张攻击减费2。",
+          "display_text_zh": "领域1。本回合下一张攻击减费2。每回合首次迎战后，下一张攻击减费2。",
+          "numeric_literals": [
+            1,
+            2,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域",
+            "迎战",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U34",
+      "name_zh": "雷甲",
+      "type": "power",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U34",
+        "reference/bear-forge/docs/volibear/CARDS.md#U34",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U34",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得4格挡。每造成1次雷伤，获得3格挡。",
+          "display_text_zh": "获得4格挡。每造成1次雷伤，获得3格挡。",
+          "numeric_literals": [
+            4,
+            1,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U34+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得7格挡。每造成1次雷伤，获得4格挡。",
+          "display_text_zh": "获得7格挡。每造成1次雷伤，获得4格挡。",
+          "numeric_literals": [
+            7,
+            1,
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U35",
+      "name_zh": "霹天雳地",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U35",
+        "reference/bear-forge/docs/volibear/CARDS.md#U35",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U35",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。对全体造成3雷伤。迎战。",
+          "display_text_zh": "获得8格挡。对全体造成3雷伤。迎战。",
+          "numeric_literals": [
+            8,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战"
+          ]
+        },
+        {
+          "face_id": "U35+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得11格挡。对全体造成5雷伤。迎战。",
+          "display_text_zh": "获得11格挡。对全体造成5雷伤。迎战。",
+          "numeric_literals": [
+            11,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U36",
+      "name_zh": "奔雷",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U36",
+        "reference/bear-forge/docs/volibear/CARDS.md#U36",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U36",
+          "upgrade": false,
+          "cost": 0,
+          "rules_text_zh": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+          "display_text_zh": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+          "numeric_literals": [
+            1,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U36+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+          "display_text_zh": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+          "numeric_literals": [
+            2,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U37",
+      "name_zh": "风暴汇聚",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U37",
+        "reference/bear-forge/docs/volibear/CARDS.md#U37",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U37",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "对全体造成12雷伤。领域1。",
+          "display_text_zh": "对全体造成12雷伤。领域1。",
+          "numeric_literals": [
+            12,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "领域"
+          ]
+        },
+        {
+          "face_id": "U37+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "对全体造成16雷伤。领域1。",
+          "display_text_zh": "对全体造成16雷伤。领域1。",
+          "numeric_literals": [
+            16,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "领域"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U38",
+      "name_zh": "雷势奔袭",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U38",
+        "reference/bear-forge/docs/volibear/CARDS.md#U38",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U38",
+          "upgrade": false,
+          "cost": 3,
+          "rules_text_zh": "造成18伤害。本回合每造成1次雷伤，本牌费用−1。",
+          "display_text_zh": "造成18伤害。本回合每造成1次雷伤，本牌费用−1。",
+          "numeric_literals": [
+            18,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U38+",
+          "upgrade": true,
+          "cost": 3,
+          "rules_text_zh": "造成24伤害。本回合每造成1次雷伤，本牌费用−1。",
+          "display_text_zh": "造成24伤害。本回合每造成1次雷伤，本牌费用−1。",
+          "numeric_literals": [
+            24,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U39",
+      "name_zh": "雷暴先兆",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U39",
+        "reference/bear-forge/docs/volibear/CARDS.md#U39",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U39",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得4格挡。领域1。检索1张雷法。",
+          "display_text_zh": "获得4格挡。领域1。检索1张雷法。",
+          "numeric_literals": [
+            4,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷法",
+            "领域",
+            "检索"
+          ]
+        },
+        {
+          "face_id": "U39+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得7格挡。领域1。检索1张雷法。",
+          "display_text_zh": "获得7格挡。领域1。检索1张雷法。",
+          "numeric_literals": [
+            7,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷法",
+            "领域",
+            "检索"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U40",
+      "name_zh": "雷路贯通",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U40",
+        "reference/bear-forge/docs/volibear/CARDS.md#U40",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U40",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+          "display_text_zh": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+          "numeric_literals": [
+            8,
+            2,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "U40+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+          "display_text_zh": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+          "numeric_literals": [
+            12,
+            2,
+            2
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U41",
+      "name_zh": "破皮见骨",
+      "type": "attack",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U41",
+        "reference/bear-forge/docs/volibear/CARDS.md#U41",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U41",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成3伤害。兽化1张攻击手牌，减费1。",
+          "display_text_zh": "造成3伤害。兽化1张攻击手牌，其本回合下次打出时设为0费。",
+          "numeric_literals": [
+            3,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "U41+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成6伤害。兽化1张攻击手牌，减费1。",
+          "display_text_zh": "造成6伤害。兽化1张攻击手牌，其本回合下次打出时设为0费。",
+          "numeric_literals": [
+            6,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U42",
+      "name_zh": "蛮荒护体",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U42",
+        "reference/bear-forge/docs/volibear/CARDS.md#U42",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U42",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得3格挡。兽化1张非攻击手牌，减费1。",
+          "display_text_zh": "获得3格挡。兽化1张非攻击手牌，其本回合下次打出时设为0费。",
+          "numeric_literals": [
+            3,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "U42+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得6格挡。兽化1张非攻击手牌，减费1。",
+          "display_text_zh": "获得6格挡。兽化1张非攻击手牌，其本回合下次打出时设为0费。",
+          "numeric_literals": [
+            6,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "U43",
+      "name_zh": "循着本能",
+      "type": "skill",
+      "rarity": "uncommon",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#U43",
+        "reference/bear-forge/docs/volibear/CARDS.md#U43",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "U43",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "检索1张牌，兽化1张手牌，减费1。消耗。",
+          "display_text_zh": "检索1张牌，兽化1张手牌，其本回合下次打出时设为0费。消耗。",
+          "numeric_literals": [
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "兽化",
+            "检索",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "U43+",
+          "upgrade": true,
+          "cost": 0,
+          "rules_text_zh": "检索1张牌，兽化1张手牌，减费1。消耗。",
+          "display_text_zh": "检索1张牌，兽化1张手牌，其本回合下次打出时设为0费。消耗。",
+          "numeric_literals": [
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "兽化",
+            "检索",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R01",
+      "name_zh": "风暴形态",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R01",
+        "reference/bear-forge/docs/volibear/CARDS.md#R01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R01",
+          "upgrade": false,
+          "cost": 3,
+          "rules_text_zh": "获得10格挡。永久领域。",
+          "display_text_zh": "获得10格挡。永久领域。",
+          "numeric_literals": [
+            10
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域"
+          ]
+        },
+        {
+          "face_id": "R01+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得14格挡。永久领域。",
+          "display_text_zh": "获得14格挡。永久领域。",
+          "numeric_literals": [
+            14
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "领域"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R02",
+      "name_zh": "不动神躯",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R02",
+        "reference/bear-forge/docs/volibear/CARDS.md#R02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R02",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得10格挡。坚甲。",
+          "display_text_zh": "获得10格挡。坚甲。",
+          "numeric_literals": [
+            10
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "坚甲"
+          ]
+        },
+        {
+          "face_id": "R02+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得15格挡。坚甲。",
+          "display_text_zh": "获得15格挡。坚甲。",
+          "numeric_literals": [
+            15
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "坚甲"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R05",
+      "name_zh": "全身之力",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R05",
+        "reference/bear-forge/docs/volibear/CARDS.md#R05",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R05",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "格挡变为3倍。",
+          "display_text_zh": "格挡变为3倍。",
+          "numeric_literals": [
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "R05+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "格挡变为3倍。",
+          "display_text_zh": "格挡变为3倍。",
+          "numeric_literals": [
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "R06",
+      "name_zh": "天人合一",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R06",
+        "reference/bear-forge/docs/volibear/CARDS.md#R06",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R06",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
+          "display_text_zh": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
+          "numeric_literals": [
+            3,
+            10,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷法",
+            "强化",
+            "力量"
+          ]
+        },
+        {
+          "face_id": "R06+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。",
+          "display_text_zh": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。",
+          "numeric_literals": [
+            4,
+            14,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷法",
+            "强化",
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R07",
+      "name_zh": "天崩地裂",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R07",
+        "reference/bear-forge/docs/volibear/CARDS.md#R07",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R07",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "对全体造成等同当前格挡的雷伤。",
+          "display_text_zh": "对全体造成等同当前格挡的雷伤。",
+          "numeric_literals": [],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "R07+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "对全体造成等同当前格挡的雷伤。",
+          "display_text_zh": "对全体造成等同当前格挡的雷伤。",
+          "numeric_literals": [],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R08",
+      "name_zh": "雷霆万钧",
+      "type": "attack",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "random_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R08",
+        "reference/bear-forge/docs/volibear/CARDS.md#R08",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R08",
+          "upgrade": false,
+          "cost": 3,
+          "rules_text_zh": "随机攻击4次，每次造成10伤害和5雷伤。",
+          "display_text_zh": "随机攻击4次，每次造成10伤害和5雷伤。",
+          "numeric_literals": [
+            4,
+            10,
+            5
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "R08+",
+          "upgrade": true,
+          "cost": 3,
+          "rules_text_zh": "随机攻击4次，每次造成13伤害和8雷伤。",
+          "display_text_zh": "随机攻击4次，每次造成13伤害和8雷伤。",
+          "numeric_literals": [
+            4,
+            13,
+            8
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R09",
+      "name_zh": "众敌皆来",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R09",
+        "reference/bear-forge/docs/volibear/CARDS.md#R09",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R09",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得15格挡。迎战全体。对全体造成等同吸收的雷伤。",
+          "display_text_zh": "获得15格挡。迎战全体。对全体造成等同吸收的雷伤。",
+          "numeric_literals": [
+            15
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战",
+            "吸收"
+          ]
+        },
+        {
+          "face_id": "R09+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得21格挡。迎战全体。对全体造成等同吸收的雷伤。",
+          "display_text_zh": "获得21格挡。迎战全体。对全体造成等同吸收的雷伤。",
+          "numeric_literals": [
+            21
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战",
+            "吸收"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R10",
+      "name_zh": "这场战斗尚未结束",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R10",
+        "reference/bear-forge/docs/volibear/CARDS.md#R10",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R10",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "回收至多3张攻击，减费1。",
+          "display_text_zh": "回收至多3张攻击，减费1。",
+          "numeric_literals": [
+            3,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "回收",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "R10+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "回收至多4张攻击，减费1。",
+          "display_text_zh": "回收至多4张攻击，减费1。",
+          "numeric_literals": [
+            4,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "回收",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R12",
+      "name_zh": "解放本能",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R12",
+        "reference/bear-forge/docs/volibear/CARDS.md#R12",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R12",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "抽牌至手牌达到7张。",
+          "display_text_zh": "抽牌至手牌达到7张。",
+          "numeric_literals": [
+            7
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "R12+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "抽牌至手牌达到9张。",
+          "display_text_zh": "抽牌至手牌达到9张。",
+          "numeric_literals": [
+            9
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "R13",
+      "name_zh": "重返蛮荒",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R13",
+        "reference/bear-forge/docs/volibear/CARDS.md#R13",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R13",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
+          "display_text_zh": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
+          "numeric_literals": [
+            4,
+            1,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "领域",
+            "力量"
+          ]
+        },
+        {
+          "face_id": "R13+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。",
+          "display_text_zh": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。",
+          "numeric_literals": [
+            6,
+            1,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "领域",
+            "力量"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R14",
+      "name_zh": "不休之猎",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R14",
+        "reference/bear-forge/docs/volibear/CARDS.md#R14",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R14",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+          "display_text_zh": "每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+          "numeric_literals": [
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        },
+        {
+          "face_id": "R14+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "抽1张牌。每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+          "display_text_zh": "抽1张牌。每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+          "numeric_literals": [
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "R16",
+      "name_zh": "愈战神躯",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R16",
+        "reference/bear-forge/docs/volibear/CARDS.md#R16",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R16",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+          "display_text_zh": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+          "numeric_literals": [
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量",
+            "敏捷"
+          ]
+        },
+        {
+          "face_id": "R16+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+          "display_text_zh": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+          "numeric_literals": [
+            8,
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "力量",
+            "敏捷"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R17",
+      "name_zh": "天雷决",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R17",
+        "reference/bear-forge/docs/volibear/CARDS.md#R17",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R17",
+          "upgrade": false,
+          "cost": "X",
+          "rules_text_zh": "获得X雷势。造成6雷伤，重复X次。消耗。",
+          "display_text_zh": "获得X雷势。造成6雷伤，重复X次。消耗。",
+          "numeric_literals": [
+            6
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷势",
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "R17+",
+          "upgrade": true,
+          "cost": "X",
+          "rules_text_zh": "获得X＋1雷势。造成6雷伤，重复X＋1次。消耗。",
+          "display_text_zh": "获得X＋1雷势。造成6雷伤，重复X＋1次。消耗。",
+          "numeric_literals": [
+            1,
+            6,
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷势",
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R18",
+      "name_zh": "雷池",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R18",
+        "reference/bear-forge/docs/volibear/CARDS.md#R18",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R18",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
+          "display_text_zh": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
+          "numeric_literals": [
+            6,
+            4
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战"
+          ]
+        },
+        {
+          "face_id": "R18+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。",
+          "display_text_zh": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。",
+          "numeric_literals": [
+            9,
+            6
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤",
+            "迎战"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R21",
+      "name_zh": "雷霆化身",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R21",
+        "reference/bear-forge/docs/volibear/CARDS.md#R21",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R21",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+          "display_text_zh": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+          "numeric_literals": [
+            4,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "R21+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。",
+          "display_text_zh": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。",
+          "numeric_literals": [
+            5,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R23",
+      "name_zh": "裂天",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R23",
+        "reference/bear-forge/docs/volibear/CARDS.md#R23",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R23",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "造成8雷伤，重复3次。",
+          "display_text_zh": "造成8雷伤，重复3次。",
+          "numeric_literals": [
+            8,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "R23+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "造成11雷伤，重复3次。",
+          "display_text_zh": "造成11雷伤，重复3次。",
+          "numeric_literals": [
+            11,
+            3
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R24",
+      "name_zh": "雷涌",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R24",
+        "reference/bear-forge/docs/volibear/CARDS.md#R24",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R24",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得等同本回合雷伤次数的能量。抽2张牌。消耗。",
+          "display_text_zh": "获得等同本回合雷伤次数的能量。抽2张牌。消耗。",
+          "numeric_literals": [
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "R24+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得等同本回合雷伤次数的能量。抽3张牌。消耗。",
+          "display_text_zh": "获得等同本回合雷伤次数的能量。抽3张牌。消耗。",
+          "numeric_literals": [
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R25",
+      "name_zh": "风暴重临",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R25",
+        "reference/bear-forge/docs/volibear/CARDS.md#R25",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R25",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "领域2。检索至多2张技能。消耗。",
+          "display_text_zh": "领域2。检索至多2张技能。消耗。",
+          "numeric_literals": [
+            2,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "领域",
+            "检索"
+          ]
+        },
+        {
+          "face_id": "R25+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "领域2。检索至多2张技能。消耗。",
+          "display_text_zh": "领域2。检索至多2张技能。消耗。",
+          "numeric_literals": [
+            2,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "领域",
+            "检索"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R27",
+      "name_zh": "旧日重临",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R27",
+        "reference/bear-forge/docs/volibear/CARDS.md#R27",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R27",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "兽化至多2张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
+          "display_text_zh": "兽化至多2张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。消耗。",
+          "numeric_literals": [
+            2,
+            1,
+            4
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "R27+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "兽化至多3张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
+          "display_text_zh": "兽化至多3张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。消耗。",
+          "numeric_literals": [
+            3,
+            1,
+            4
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R28",
+      "name_zh": "熊灵侵染",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R28",
+        "reference/bear-forge/docs/volibear/CARDS.md#R28",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R28",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽1张牌。每回合首次打出兽形时，获得1雷势。",
+          "display_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽1张牌。每回合首次打出兽形时，获得1雷势。",
+          "numeric_literals": [
+            1,
+            1,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势",
+            "兽化",
+            "兽形"
+          ]
+        },
+        {
+          "face_id": "R28+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽2张牌。每回合首次打出兽形时，获得1雷势。",
+          "display_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽2张牌。每回合首次打出兽形时，获得1雷势。",
+          "numeric_literals": [
+            1,
+            2,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "雷势",
+            "兽化",
+            "兽形"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R29",
+      "name_zh": "不再为人",
+      "type": "skill",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R29",
+        "reference/bear-forge/docs/volibear/CARDS.md#R29",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R29",
+          "upgrade": false,
+          "cost": 3,
+          "rules_text_zh": "兽化所有手牌并减费1。消耗。",
+          "display_text_zh": "兽化所有手牌，其本回合下次打出时设为0费。消耗。",
+          "numeric_literals": [
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "R29+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "兽化所有手牌并减费1。消耗。",
+          "display_text_zh": "兽化所有手牌，其本回合下次打出时设为0费。消耗。",
+          "numeric_literals": [
+            1
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R30",
+      "name_zh": "我即荒野",
+      "type": "power",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "self",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R30",
+        "reference/bear-forge/docs/volibear/CARDS.md#R30",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R30",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "兽化1张手牌，减费1。每回合首次打出爪形时，获得6格挡；每次打出躯形时，获得1能量。",
+          "display_text_zh": "兽化1张手牌，其本回合下次打出时设为0费。每回合首次打出爪形时，获得6格挡；每次打出躯形时，获得1能量。",
+          "numeric_literals": [
+            1,
+            1,
+            6,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        },
+        {
+          "face_id": "R30+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "兽化1张手牌，减费1。每回合首次打出爪形时，获得9格挡；每次打出躯形时，获得1能量。",
+          "display_text_zh": "兽化1张手牌，其本回合下次打出时设为0费。每回合首次打出爪形时，获得9格挡；每次打出躯形时，获得1能量。",
+          "numeric_literals": [
+            1,
+            1,
+            9,
+            1
+          ],
+          "self_exhaust": false,
+          "keywords": [
+            "兽化",
+            "减费"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "R31",
+      "name_zh": "天声震落",
+      "type": "attack",
+      "rarity": "rare",
+      "reward_pool": true,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#R31",
+        "reference/bear-forge/docs/volibear/CARDS.md#R31",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "R31",
+          "upgrade": false,
+          "cost": 2,
+          "rules_text_zh": "获得8格挡。领域1。移除目标格挡。造成20伤害，对所有敌人造成6雷伤。消耗。",
+          "display_text_zh": "获得8格挡。领域1。移除目标格挡。造成20伤害，对所有敌人造成6雷伤。消耗。",
+          "numeric_literals": [
+            8,
+            1,
+            20,
+            6
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤",
+            "领域"
+          ]
+        },
+        {
+          "face_id": "R31+",
+          "upgrade": true,
+          "cost": 2,
+          "rules_text_zh": "获得12格挡。领域2。移除目标格挡。造成28伤害，对所有敌人造成9雷伤。消耗。",
+          "display_text_zh": "获得12格挡。领域2。移除目标格挡。造成28伤害，对所有敌人造成9雷伤。消耗。",
+          "numeric_literals": [
+            12,
+            2,
+            28,
+            9
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤",
+            "领域"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "T01",
+      "name_zh": "裂骨之爪",
+      "type": "attack",
+      "rarity": "token",
+      "reward_pool": false,
+      "play_target": "single_enemy",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#T01",
+        "reference/bear-forge/docs/volibear/CARDS.md#T01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "T01",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "造成7伤害2次。消耗。",
+          "display_text_zh": "造成7伤害2次。消耗。",
+          "numeric_literals": [
+            7,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": []
+        },
+        {
+          "face_id": "T01+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "造成11伤害2次。消耗。",
+          "display_text_zh": "造成11伤害2次。消耗。",
+          "numeric_literals": [
+            11,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": []
+        }
+      ]
+    },
+    {
+      "card_id": "T02",
+      "name_zh": "风暴之躯",
+      "type": "skill",
+      "rarity": "token",
+      "reward_pool": false,
+      "play_target": "all_enemies",
+      "requirement_refs": [
+        "reference/bear-forge/docs/volibear/cards_s2.json#T02",
+        "reference/bear-forge/docs/volibear/CARDS.md#T02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "faces": [
+        {
+          "face_id": "T02",
+          "upgrade": false,
+          "cost": 1,
+          "rules_text_zh": "获得9格挡。对全体造成2雷伤。消耗。",
+          "display_text_zh": "获得9格挡。对全体造成2雷伤。消耗。",
+          "numeric_literals": [
+            9,
+            2
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        },
+        {
+          "face_id": "T02+",
+          "upgrade": true,
+          "cost": 1,
+          "rules_text_zh": "获得12格挡。对全体造成3雷伤。消耗。",
+          "display_text_zh": "获得12格挡。对全体造成3雷伤。消耗。",
+          "numeric_literals": [
+            12,
+            3
+          ],
+          "self_exhaust": true,
+          "keywords": [
+            "雷伤"
+          ]
+        }
+      ]
+    }
+  ],
+  "mechanism_cases": [
+    {
+      "case_id": "E01",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#E01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": null,
+      "upgrade": null,
+      "fixture_seed": 0,
+      "initial_state": {
+        "player": {
+          "hp": 80,
+          "block": 5,
+          "steadfast_armor": false
+        },
+        "enemy": {
+          "instance_id": "enemy-1",
+          "hp": 100,
+          "remaining_move": [
+            {
+              "damage": 8
+            }
+          ]
+        },
+        "modifiers": []
+      },
+      "player_inputs": [
+        {
+          "action": "request_engage",
+          "enemy_id": "enemy-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "enemy_move_started",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 8,
+          "absorbed": 5,
+          "hp_loss": 3
+        },
+        {
+          "event": "enemy_move_finished",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "engage_completed",
+          "absorbed": 5
+        }
+      ],
+      "expected_state": {
+        "player_hp": 77,
+        "player_block": 0,
+        "absorbed": 5,
+        "enemy_moves_executed": 1,
+        "engage_completions": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "E02",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#E02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": null,
+      "upgrade": null,
+      "fixture_seed": 0,
+      "initial_state": {
+        "player": {
+          "hp": 80,
+          "block": 20,
+          "steadfast_armor": false
+        },
+        "enemy": {
+          "instance_id": "enemy-1",
+          "hp": 100,
+          "remaining_move": [
+            {
+              "damage": 8
+            }
+          ]
+        },
+        "modifiers": []
+      },
+      "player_inputs": [
+        {
+          "action": "request_engage",
+          "enemy_id": "enemy-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "enemy_move_started",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 8,
+          "absorbed": 8,
+          "hp_loss": 0
+        },
+        {
+          "event": "enemy_move_finished",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "engage_completed",
+          "absorbed": 8
+        }
+      ],
+      "expected_state": {
+        "player_hp": 80,
+        "player_block": 12,
+        "absorbed": 8,
+        "enemy_moves_executed": 1,
+        "engage_completions": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "E03",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#E03",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": null,
+      "upgrade": null,
+      "fixture_seed": 0,
+      "initial_state": {
+        "player": {
+          "hp": 80,
+          "block": 10,
+          "steadfast_armor": false
+        },
+        "enemy": {
+          "instance_id": "enemy-1",
+          "hp": 100,
+          "remaining_move": [
+            {
+              "damage": 6
+            },
+            {
+              "damage": 6
+            },
+            {
+              "damage": 6
+            }
+          ]
+        },
+        "modifiers": []
+      },
+      "player_inputs": [
+        {
+          "action": "request_engage",
+          "enemy_id": "enemy-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "enemy_move_started",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 6,
+          "absorbed": 6,
+          "hp_loss": 0
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 6,
+          "absorbed": 4,
+          "hp_loss": 2
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 6,
+          "absorbed": 0,
+          "hp_loss": 6
+        },
+        {
+          "event": "enemy_move_finished",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "engage_completed",
+          "absorbed": 10
+        }
+      ],
+      "expected_state": {
+        "player_hp": 72,
+        "player_block": 0,
+        "absorbed": 10,
+        "enemy_moves_executed": 1,
+        "engage_completions": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "E04",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#E04",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": null,
+      "upgrade": null,
+      "fixture_seed": 0,
+      "initial_state": {
+        "player": {
+          "hp": 80,
+          "block": 5,
+          "steadfast_armor": true
+        },
+        "enemy": {
+          "instance_id": "enemy-1",
+          "hp": 100,
+          "remaining_move": [
+            {
+              "damage": 8
+            },
+            {
+              "damage": 8
+            }
+          ]
+        },
+        "modifiers": []
+      },
+      "player_inputs": [
+        {
+          "action": "request_engage",
+          "enemy_id": "enemy-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "enemy_move_started",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 8,
+          "absorbed": 5,
+          "hp_loss": 3
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 8,
+          "absorbed": 5,
+          "hp_loss": 3
+        },
+        {
+          "event": "enemy_move_finished",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "engage_completed",
+          "absorbed": 10
+        }
+      ],
+      "expected_state": {
+        "player_hp": 74,
+        "player_block": 5,
+        "absorbed": 10,
+        "enemy_moves_executed": 1,
+        "engage_completions": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "D01",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#D01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "B01",
+      "upgrade": false,
+      "fixture_seed": 0,
+      "initial_state": {
+        "domain_rounds": 1,
+        "thunder": 2,
+        "energy": 3,
+        "enemy_hp": 100
+      },
+      "player_inputs": [
+        {
+          "action": "play",
+          "card_instance": "strike-1",
+          "card_id": "B01"
+        },
+        {
+          "action": "play",
+          "card_instance": "strike-2",
+          "card_id": "B01"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 6
+        },
+        {
+          "event": "lightning_batch",
+          "play_id": "p1",
+          "damage_per_target": 6
+        },
+        {
+          "event": "ordinary_attack",
+          "play_id": "p2",
+          "damage": 6
+        },
+        {
+          "event": "lightning_batch",
+          "play_id": "p2",
+          "damage_per_target": 6
+        }
+      ],
+      "expected_state": {
+        "enemy_hp": 76,
+        "lightning_count": 2,
+        "thunder": 2,
+        "energy": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "D02",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#D02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "C02",
+      "upgrade": false,
+      "fixture_seed": 0,
+      "initial_state": {
+        "domain_rounds": 1,
+        "thunder": 0,
+        "energy": 3,
+        "enemy_hp": 100
+      },
+      "player_inputs": [
+        {
+          "action": "play",
+          "card_id": "C02"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 5
+        },
+        {
+          "event": "lightning_batch",
+          "play_id": "p1",
+          "damage_per_target": 4
+        },
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 5
+        }
+      ],
+      "expected_state": {
+        "enemy_hp": 86,
+        "lightning_count": 1,
+        "energy": 2
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "D03",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#D03",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "C02",
+      "upgrade": false,
+      "fixture_seed": 0,
+      "initial_state": {
+        "domain_rounds": 1,
+        "thunder": 0,
+        "energy": 3,
+        "enemy_hp": 100,
+        "next_attack_replays": 1
+      },
+      "player_inputs": [
+        {
+          "action": "play",
+          "card_id": "C02"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 5
+        },
+        {
+          "event": "lightning_batch",
+          "play_id": "p1",
+          "damage_per_target": 4
+        },
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 5
+        },
+        {
+          "event": "replay_started",
+          "play_id": "p1"
+        },
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 5
+        },
+        {
+          "event": "ordinary_attack",
+          "play_id": "p1",
+          "damage": 5
+        }
+      ],
+      "expected_state": {
+        "enemy_hp": 76,
+        "lightning_count": 1,
+        "energy": 2,
+        "actual_plays": 1,
+        "payments": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "L02",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#L02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": null,
+      "upgrade": null,
+      "fixture_seed": 0,
+      "initial_state": {
+        "thunder": 0,
+        "lightning_count": 0,
+        "enemies": [
+          {
+            "instance_id": "e0",
+            "hp": 30,
+            "block": 10
+          },
+          {
+            "instance_id": "e1",
+            "hp": 30,
+            "block": 10
+          },
+          {
+            "instance_id": "e2",
+            "hp": 30,
+            "block": 10
+          }
+        ],
+        "deployed_instances": [
+          "U34-base-1",
+          "U34-base-2"
+        ],
+        "player_block": 0
+      },
+      "player_inputs": [
+        {
+          "action": "lightning_batch",
+          "base_damage": 3,
+          "targets": [
+            "e0",
+            "e1",
+            "e2"
+          ]
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "lightning_batch",
+          "damage_per_target": 3,
+          "targets": [
+            "e0",
+            "e1",
+            "e2"
+          ],
+          "hp_losses": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "event": "lightning_count_changed",
+          "value": 1
+        },
+        {
+          "event": "block_granted",
+          "instance_id": "U34-base-1",
+          "amount": 3
+        },
+        {
+          "event": "block_granted",
+          "instance_id": "U34-base-2",
+          "amount": 3
+        }
+      ],
+      "expected_state": {
+        "enemy_hp": [
+          30,
+          30,
+          30
+        ],
+        "enemy_block": [
+          7,
+          7,
+          7
+        ],
+        "lightning_count": 1,
+        "player_block": 6
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "L05",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#L05",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": null,
+      "upgrade": null,
+      "fixture_seed": 0,
+      "initial_state": {
+        "thunder": 2,
+        "lightning_count": 0,
+        "enemy_hp": 100,
+        "enemy_block": 0
+      },
+      "player_inputs": [
+        {
+          "action": "lightning_batch",
+          "base_damage": 3
+        },
+        {
+          "action": "lightning_batch",
+          "base_damage": 3
+        },
+        {
+          "action": "advance_to_next_player_turn"
+        },
+        {
+          "action": "lightning_batch",
+          "base_damage": 3
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "lightning_batch",
+          "damage_per_target": 5
+        },
+        {
+          "event": "lightning_batch",
+          "damage_per_target": 5
+        },
+        {
+          "event": "turn_started",
+          "thunder": 2,
+          "lightning_count": 0
+        },
+        {
+          "event": "lightning_batch",
+          "damage_per_target": 5
+        }
+      ],
+      "expected_state": {
+        "enemy_hp": 85,
+        "thunder": 2,
+        "lightning_count": 1
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "F01-B01-base",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#F01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "B01",
+      "upgrade": false,
+      "fixture_seed": 0,
+      "initial_state": {
+        "material": {
+          "instance_id": "material-1",
+          "master_id": "master-1",
+          "card_id": "B01",
+          "upgrade": false,
+          "zone": "hand"
+        }
+      },
+      "player_inputs": [
+        {
+          "action": "beastify",
+          "instance_id": "material-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "beastified",
+          "instance_id": "material-1",
+          "form": "T01"
+        }
+      ],
+      "expected_state": {
+        "instance_id": "material-1",
+        "master_id": "master-1",
+        "master_card_id": "B01",
+        "form": "T01",
+        "upgrade": false,
+        "base_cost": 1,
+        "ordinary_damage_segments": [
+          7,
+          7
+        ],
+        "block": 0,
+        "lightning_base_damage": 0,
+        "self_exhaust": true,
+        "zone": "hand"
+      },
+      "expected_identity_relations": [
+        {
+          "left": "initial_state.material.instance_id",
+          "relation": "equal",
+          "right": "actual_state.instance_id"
+        },
+        {
+          "left": "initial_state.material.master_id",
+          "relation": "equal",
+          "right": "actual_state.master_id"
+        }
+      ],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "F01-B01-upgraded",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#F01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "B01",
+      "upgrade": true,
+      "fixture_seed": 0,
+      "initial_state": {
+        "material": {
+          "instance_id": "material-1",
+          "master_id": "master-1",
+          "card_id": "B01",
+          "upgrade": true,
+          "zone": "hand"
+        }
+      },
+      "player_inputs": [
+        {
+          "action": "beastify",
+          "instance_id": "material-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "beastified",
+          "instance_id": "material-1",
+          "form": "T01"
+        }
+      ],
+      "expected_state": {
+        "instance_id": "material-1",
+        "master_id": "master-1",
+        "master_card_id": "B01",
+        "form": "T01",
+        "upgrade": true,
+        "base_cost": 1,
+        "ordinary_damage_segments": [
+          11,
+          11
+        ],
+        "block": 0,
+        "lightning_base_damage": 0,
+        "self_exhaust": true,
+        "zone": "hand"
+      },
+      "expected_identity_relations": [
+        {
+          "left": "initial_state.material.instance_id",
+          "relation": "equal",
+          "right": "actual_state.instance_id"
+        },
+        {
+          "left": "initial_state.material.master_id",
+          "relation": "equal",
+          "right": "actual_state.master_id"
+        }
+      ],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "F01-B02-base",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#F01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "B02",
+      "upgrade": false,
+      "fixture_seed": 0,
+      "initial_state": {
+        "material": {
+          "instance_id": "material-1",
+          "master_id": "master-1",
+          "card_id": "B02",
+          "upgrade": false,
+          "zone": "hand"
+        }
+      },
+      "player_inputs": [
+        {
+          "action": "beastify",
+          "instance_id": "material-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "beastified",
+          "instance_id": "material-1",
+          "form": "T02"
+        }
+      ],
+      "expected_state": {
+        "instance_id": "material-1",
+        "master_id": "master-1",
+        "master_card_id": "B02",
+        "form": "T02",
+        "upgrade": false,
+        "base_cost": 1,
+        "ordinary_damage_segments": [],
+        "block": 9,
+        "lightning_base_damage": 2,
+        "self_exhaust": true,
+        "zone": "hand"
+      },
+      "expected_identity_relations": [
+        {
+          "left": "initial_state.material.instance_id",
+          "relation": "equal",
+          "right": "actual_state.instance_id"
+        },
+        {
+          "left": "initial_state.material.master_id",
+          "relation": "equal",
+          "right": "actual_state.master_id"
+        }
+      ],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "F01-B02-upgraded",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#F01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "B02",
+      "upgrade": true,
+      "fixture_seed": 0,
+      "initial_state": {
+        "material": {
+          "instance_id": "material-1",
+          "master_id": "master-1",
+          "card_id": "B02",
+          "upgrade": true,
+          "zone": "hand"
+        }
+      },
+      "player_inputs": [
+        {
+          "action": "beastify",
+          "instance_id": "material-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "beastified",
+          "instance_id": "material-1",
+          "form": "T02"
+        }
+      ],
+      "expected_state": {
+        "instance_id": "material-1",
+        "master_id": "master-1",
+        "master_card_id": "B02",
+        "form": "T02",
+        "upgrade": true,
+        "base_cost": 1,
+        "ordinary_damage_segments": [],
+        "block": 12,
+        "lightning_base_damage": 3,
+        "self_exhaust": true,
+        "zone": "hand"
+      },
+      "expected_identity_relations": [
+        {
+          "left": "initial_state.material.instance_id",
+          "relation": "equal",
+          "right": "actual_state.instance_id"
+        },
+        {
+          "left": "initial_state.material.master_id",
+          "relation": "equal",
+          "right": "actual_state.master_id"
+        }
+      ],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "F02-discount-retain",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#F02",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "C02",
+      "upgrade": true,
+      "fixture_seed": 0,
+      "initial_state": {
+        "material": {
+          "instance_id": "material-1",
+          "master_id": "master-1",
+          "card_id": "C02",
+          "upgrade": true,
+          "temporary_discount": 1,
+          "retain": true,
+          "zone": "hand"
+        }
+      },
+      "player_inputs": [
+        {
+          "action": "beastify",
+          "instance_id": "material-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "beastified",
+          "instance_id": "material-1",
+          "form": "T01"
+        }
+      ],
+      "expected_state": {
+        "instance_id": "material-1",
+        "master_id": "master-1",
+        "master_card_id": "C02",
+        "form": "T01",
+        "upgrade": true,
+        "temporary_discount": 1,
+        "retain": true,
+        "preview_cost": 0,
+        "ordinary_damage_segments": [
+          11,
+          11
+        ],
+        "self_exhaust": true
+      },
+      "expected_identity_relations": [
+        {
+          "left": "initial_state.material.instance_id",
+          "relation": "equal",
+          "right": "actual_state.instance_id"
+        }
+      ],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "C10-base",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#E01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "C10",
+      "upgrade": false,
+      "fixture_seed": 0,
+      "initial_state": {
+        "player_hp": 80,
+        "player_block": 0,
+        "energy": 3,
+        "enemy_hp": 100,
+        "enemy_attack": 8,
+        "modifiers": []
+      },
+      "player_inputs": [
+        {
+          "action": "play",
+          "card_id": "C10",
+          "target": "enemy-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "block_granted",
+          "amount": 8
+        },
+        {
+          "event": "enemy_move_started",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 8,
+          "absorbed": 8,
+          "hp_loss": 0
+        },
+        {
+          "event": "enemy_move_finished",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "engage_completed",
+          "absorbed": 8
+        },
+        {
+          "event": "ordinary_attack",
+          "damage": 14
+        }
+      ],
+      "expected_state": {
+        "player_hp": 80,
+        "player_block": 0,
+        "enemy_hp": 86,
+        "energy": 1,
+        "absorbed": 8
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "case_id": "C10-upgraded",
+      "requirement_refs": [
+        "docs/TEST_SPEC.md#E01",
+        "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
+      ],
+      "fixture_kind": "mechanism_contract",
+      "card_id": "C10",
+      "upgrade": true,
+      "fixture_seed": 0,
+      "initial_state": {
+        "player_hp": 80,
+        "player_block": 0,
+        "energy": 3,
+        "enemy_hp": 100,
+        "enemy_attack": 8,
+        "modifiers": []
+      },
+      "player_inputs": [
+        {
+          "action": "play",
+          "card_id": "C10",
+          "target": "enemy-1"
+        }
+      ],
+      "choices": [],
+      "expected_events": [
+        {
+          "event": "block_granted",
+          "amount": 11
+        },
+        {
+          "event": "enemy_move_started",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "enemy_attack_resolved",
+          "damage": 8,
+          "absorbed": 8,
+          "hp_loss": 0
+        },
+        {
+          "event": "enemy_move_finished",
+          "enemy_id": "enemy-1"
+        },
+        {
+          "event": "engage_completed",
+          "absorbed": 8
+        },
+        {
+          "event": "ordinary_attack",
+          "damage": 17
+        }
+      ],
+      "expected_state": {
+        "player_hp": 80,
+        "player_block": 3,
+        "enemy_hp": 83,
+        "energy": 1,
+        "absorbed": 8
+      },
+      "expected_identity_relations": [],
+      "comparison_mode": "exact_projection",
+      "timeout_seconds": 30,
+      "evidence_requirements": [
+        "engine_history",
+        "engine_state",
+        "readonly_trace"
+      ],
+      "execution_status": "NOT_RUN"
+    }
+  ]
+}

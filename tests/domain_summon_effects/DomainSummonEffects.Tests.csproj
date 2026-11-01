@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net9.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <NuGetAudit>false</NuGetAudit><EnableDefaultCompileItems>false</EnableDefaultCompileItems><NoWarn>$(NoWarn);CS0436</NoWarn>
+    <SummonRegistrationSource Condition="'$(SummonSource)' == '' and '$(SummonRegistrationSource)' == ''">../../src/Volibear/Core/SummonRegistration.cs</SummonRegistrationSource>
+    <SummonDecisionSource Condition="'$(SummonSource)' == '' and '$(SummonDecisionSource)' == ''">../../src/Volibear/Core/DomainSummonDecision.cs</SummonDecisionSource>
+    <RevivalDecisionSource Condition="'$(RevivalSource)' == '' and '$(RevivalDecisionSource)' == ''">../../src/Volibear/Core/RevivalDecision.cs</RevivalDecisionSource>
+    <SummonSource Condition="'$(SummonSource)' == ''">../../src/Volibear/Core/DomainSummonEffects.cs</SummonSource>
+    <RevivalSource Condition="'$(RevivalSource)' == ''">../../src/Volibear/Core/DomainRevivalEffects.cs</RevivalSource>
+    <SummonProbeSource Condition="'$(SummonProbeSource)' == ''">../../src/Volibear/DomainSummonD17Probe.cs</SummonProbeSource>
+    <ModAssembly Condition="'$(ModAssembly)' == ''">../../src/Volibear/bin/Release/net9.0/Volibear.dll</ModAssembly>
+    <BaseLibPath Condition="'$(BaseLibPath)' == ''">../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
+  </PropertyGroup>
+  <Target Name="CheckNativeReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Provide the pinned real game assembly directory."/>
+    <Error Condition="!Exists('$(ModAssembly)')" Text="Build the real mod first; this isolated test neither builds it nor substitutes engine models."/>
+  </Target>
+  <ItemGroup>
+    <Compile Include="$(SummonRegistrationSource)" Link="SummonRegistration.cs" Condition="'$(SummonRegistrationSource)' != ''"/>
+    <Compile Include="$(SummonDecisionSource)" Link="DomainSummonDecision.cs" Condition="'$(SummonDecisionSource)' != ''"/>
+    <Compile Include="$(RevivalDecisionSource)" Link="RevivalDecision.cs" Condition="'$(RevivalDecisionSource)' != ''"/>
+    <Compile Include="$(SummonSource)" Link="DomainSummonEffects.cs"/>
+    <Compile Include="$(RevivalSource)" Link="DomainRevivalEffects.cs"/>
+    <Compile Include="$(SummonProbeSource)" Link="DomainSummonD17Probe.cs"/>
+    <Compile Include="Program.cs"/>
+    <Reference Include="Volibear"><HintPath>$(ModAssembly)</HintPath></Reference>
+    <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>$(BaseLibPath)</HintPath></Reference>
+  </ItemGroup>
+</Project>

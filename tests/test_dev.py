@@ -1,5 +1,9 @@
 import importlib.util
 import json
+import io
+import os
+import subprocess
+from contextlib import redirect_stdout
 from pathlib import Path
 import tempfile
 import unittest
@@ -11,6 +15,40 @@ SPEC.loader.exec_module(dev)
 
 
 class EnvironmentContractTests(unittest.TestCase):
+    def test_doctor_accepts_official_dependency_utf8_bom_without_rewriting(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            game = Path(tmp)
+            dependency = game / 'mods/BaseLib'
+            dependency.mkdir(parents=True)
+            metadata = dependency / 'BaseLib.json'
+            payload = b'\xef\xbb\xbf' + json.dumps({'id': 'BaseLib', 'version': 'v3.4.7', 'has_pck': True}).encode('utf-8')
+            metadata.write_bytes(payload)
+            output = io.StringIO()
+            with redirect_stdout(output):
+                dev.doctor_resources(game, {})
+            self.assertIn('BaseLib installed manifest: v3.4.7', output.getvalue())
+            self.assertEqual(metadata.read_bytes(), payload)
+
+    def test_assets_symlink_is_not_a_known_junction(self):
+        target = dev.ROOT / '.local/fixture-game/mods/Volibear'
+        record = {'target': str(target.resolve()), 'files': {'Volibear.dll': 'hash'}}
+        with mock.patch.object(dev.os.path, 'lexists', return_value=True), \
+                mock.patch.object(dev, 'is_junction', return_value=False), \
+                mock.patch.object(dev.os, 'rmdir') as remove:
+            with self.assertRaisesRegex(RuntimeError, 'Unowned assets'):
+                dev.unlink_assets(target, record)
+            remove.assert_not_called()
+
+    def test_assets_junction_revalidates_target_before_removal(self):
+        target = dev.ROOT / '.local/fixture-game/mods/Volibear'
+        with mock.patch.object(dev, 'validate_assets_junction',
+                               side_effect=RuntimeError('target changed')) as validate, \
+                mock.patch.object(dev.os, 'rmdir') as remove:
+            with self.assertRaisesRegex(RuntimeError, 'target changed'):
+                dev.unlink_assets(target, {'target': str(target)})
+            validate.assert_called_once()
+            remove.assert_not_called()
+
     def test_version_mismatch_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -52,7 +90,7 @@ class EnvironmentContractTests(unittest.TestCase):
         self.assertEqual(manifest['id'], 'Volibear')
         self.assertEqual(manifest['min_game_version'], '0.107.1')
         self.assertTrue(manifest['has_dll'])
-        self.assertFalse(manifest['has_pck'])
+        self.assertTrue(manifest['has_pck'])
 
 
 class DeploymentTests(unittest.TestCase):
@@ -70,6 +108,149 @@ class DeploymentTests(unittest.TestCase):
         markers = mock.patch.object(dev, 'DEPLOY_MARKERS', self.root / 'markers')
         markers.start()
         self.addCleanup(markers.stop)
+        root_patch = mock.patch.object(dev, 'ROOT', self.root)
+        root_patch.start()
+        self.addCleanup(root_patch.stop)
+        (self.root / 'assets').mkdir()
+        (self.root / 'assets/keep.txt').write_text('source assets must survive')
+
+    def require_pack(self):
+        self.sources[1].write_text(json.dumps({'id': 'Volibear', 'has_pck': True}))
+
+    def test_declared_missing_pack_fails_before_writes(self):
+        self.require_pack()
+        with self.assertRaisesRegex(RuntimeError, 'has_pck.*missing'):
+            dev.deploy(self.game, self.sources)
+        self.assertFalse((self.game / 'mods/Volibear').exists())
+        self.assertFalse(dev.ownership_marker().exists())
+
+    def test_production_missing_pack_rejects_even_stale_staged_pack(self):
+        self.require_pack()
+        stale = self.root / '.local/deploy/Volibear.pck'
+        stale.parent.mkdir(parents=True)
+        stale.write_bytes(b'stale pack')
+        with mock.patch.object(dev, 'SOURCES', self.sources):
+            with self.assertRaisesRegex(RuntimeError, 'has_pck.*missing'):
+                dev.deploy(self.game)
+        self.assertFalse((self.game / 'mods/Volibear').exists())
+        self.assertEqual(stale.read_bytes(), b'stale pack')
+
+    def test_production_pack_is_owned_without_junction(self):
+        self.require_pack()
+        pack = self.root / '.local/packs/Volibear.pck'
+        pack.parent.mkdir(parents=True)
+        pack.write_bytes(b'packed assets')
+        with mock.patch.object(dev, 'SOURCES', self.sources):
+            dev.deploy(self.game)
+        target = self.game / 'mods/Volibear'
+        self.assertEqual(sorted(p.name for p in target.iterdir()),
+                         ['Volibear.dll', 'Volibear.json', 'Volibear.pck'])
+        self.assertEqual((target / 'Volibear.pck').read_bytes(), b'packed assets')
+        self.assertIn('Volibear.pck', json.loads(dev.ownership_marker().read_text())['files'])
+        dev.undeploy(self.game)
+        self.assertFalse(target.exists())
+        self.assertEqual(pack.read_bytes(), b'packed assets')
+
+    def test_unowned_assets_directory_preserved_on_deploy_and_undeploy(self):
+        dev.deploy(self.game, self.sources)
+        target = self.game / 'mods/Volibear'
+        assets = target / 'assets'
+        assets.mkdir()
+        (assets / 'foreign.txt').write_text('keep')
+        for operation in (lambda: dev.deploy(self.game, self.sources),
+                          lambda: dev.undeploy(self.game)):
+            with self.assertRaisesRegex(RuntimeError, 'Unowned assets'):
+                operation()
+            self.assertEqual((assets / 'foreign.txt').read_text(), 'keep')
+            self.assertTrue((target / 'Volibear.dll').exists())
+            self.assertTrue(dev.ownership_marker().exists())
+
+    def make_junction(self, link, destination):
+        subprocess.run(['cmd', '/c', 'mklink', '/J', str(link), str(destination)], check=True)
+        self.assertTrue(dev.is_junction(link))
+        def cleanup():
+            if dev.is_junction(link):
+                self.assertEqual(link.resolve(), destination.resolve())
+                os.rmdir(link)
+        self.addCleanup(cleanup)
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows junction migration')
+    def test_known_owned_junction_removed_without_touching_assets(self):
+        for operation in ('deploy', 'undeploy'):
+            with self.subTest(operation=operation):
+                dev.deploy(self.game, self.sources)
+                target = self.game / 'mods/Volibear'
+                self.make_junction(target / 'assets', self.root / 'assets')
+                if operation == 'deploy':
+                    dev.deploy(self.game, self.sources)
+                else:
+                    dev.undeploy(self.game)
+                self.assertFalse(os.path.lexists(target / 'assets'))
+                self.assertEqual((self.root / 'assets/keep.txt').read_text(),
+                                 'source assets must survive')
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows junction migration')
+    def test_foreign_junction_refused_without_mutation(self):
+        dev.deploy(self.game, self.sources)
+        target = self.game / 'mods/Volibear'
+        foreign = self.root / 'foreign'
+        foreign.mkdir()
+        (foreign / 'keep.txt').write_text('foreign assets')
+        self.make_junction(target / 'assets', foreign)
+        for operation in (lambda: dev.deploy(self.game, self.sources),
+                          lambda: dev.undeploy(self.game)):
+            with self.assertRaisesRegex(RuntimeError, 'Unowned assets'):
+                operation()
+            self.assertTrue(dev.is_junction(target / 'assets'))
+            self.assertEqual((foreign / 'keep.txt').read_text(), 'foreign assets')
+            self.assertTrue((target / 'Volibear.dll').is_file())
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows junction migration')
+    def test_matching_junction_without_ownership_is_not_removed(self):
+        target = self.game / 'mods/Volibear'
+        target.mkdir()
+        self.make_junction(target / 'assets', self.root / 'assets')
+        with self.assertRaisesRegex(RuntimeError, 'unowned'):
+            dev.deploy(self.game, self.sources)
+        with self.assertRaisesRegex(RuntimeError, 'No owned deployment'):
+            dev.undeploy(self.game)
+        self.assertTrue(dev.is_junction(target / 'assets'))
+
+    def test_undeploy_rejects_path_traversal_record(self):
+        dev.deploy(self.game, self.sources)
+        victim = self.game / 'mods/victim.txt'
+        victim.write_text('not owned')
+        record = json.loads(dev.ownership_marker().read_text())
+        record['files']['../victim.txt'] = dev.digest(victim)
+        dev.ownership_marker().write_text(json.dumps(record))
+        with self.assertRaisesRegex(RuntimeError, 'Unexpected owned file name'):
+            dev.undeploy(self.game)
+        self.assertEqual(victim.read_text(), 'not owned')
+        self.assertTrue((self.game / 'mods/Volibear/Volibear.dll').exists())
+
+    def test_doctor_reports_observations_not_compatibility(self):
+        manifest = self.root / 'src/Volibear/Volibear.json'
+        manifest.parent.mkdir(parents=True)
+        manifest.write_text('{"has_pck": true}')
+        output = io.StringIO()
+        with redirect_stdout(output):
+            dev.doctor_resources(self.game, {})
+        report = output.getvalue()
+        self.assertIn('PCK: MISSING (required)', report)
+        self.assertIn('BaseLib installed manifest: MISSING', report)
+        self.assertIn('required 4.5.1', report)
+        self.assertIn('not verified by file presence', report)
+        self.assertNotIn('RitsuLib', report)
+        dependency = self.game / 'mods/BaseLib'
+        dependency.mkdir()
+        (dependency / 'BaseLib.json').write_text('{"id":"BaseLib","version":"3.4.7","has_pck":true}')
+        (dependency / 'BaseLib.dll').write_bytes(b'dll')
+        output = io.StringIO()
+        with redirect_stdout(output):
+            dev.doctor_resources(self.game, {'godot': str(self.root / 'missing.exe')})
+        self.assertIn('BaseLib installed manifest: 3.4.7', output.getvalue())
+        self.assertIn('BaseLib PCK: MISSING', output.getvalue())
+        self.assertIn('configured executable MISSING', output.getvalue())
 
     def test_mod_directory_holds_only_deployable_files(self):
         dev.deploy(self.game, self.sources)

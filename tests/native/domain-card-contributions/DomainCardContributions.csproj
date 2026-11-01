@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings>
+    <NuGetAudit>false</NuGetAudit><EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>$(NoWarn);CS0436</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="DomainCardContributionsProof.cs" />
+    <Compile Include="../../../src/Volibear/Core/DomainCardContributions.cs" />
+    <Compile Include="../../../src/Volibear/Core/DomainPassiveEffects.cs" />
+    <Compile Include="../../../src/Volibear/DomainCardContributionsProbe.cs" />
+    <Reference Include="Volibear"><HintPath>../../../src/Volibear/bin/Release/net9.0/Volibear.dll</HintPath></Reference>
+    <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>../../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

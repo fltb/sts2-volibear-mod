@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://VolibearArt/ui/images/text_energy.png" id="spark"]
+
+[sub_resource type="Gradient" id="fade"]
+colors = PackedColorArray(0.6, 0.94, 1, 0.8, 0.15, 0.55, 0.8, 0)
+
+[node name="VolibearTrail" type="Node2D"]
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Sparks" type="CPUParticles2D" parent="Sprites"]
+texture = ExtResource("spark")
+amount = 18
+lifetime = 0.4
+preprocess = 0.1
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 7.0
+direction = Vector2(-1, 0)
+spread = 35.0
+gravity = Vector2(0, 22)
+initial_velocity_min = 12.0
+initial_velocity_max = 36.0
+angular_velocity_min = -40.0
+angular_velocity_max = 40.0
+scale_amount_min = 0.2
+scale_amount_max = 0.4
+color_ramp = SubResource("fade")

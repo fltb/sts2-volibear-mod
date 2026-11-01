@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3]
+
+[ext_resource type="Shader" path="res://VolibearArt/scenes/volibear_transition.gdshader" id="shader"]
+[ext_resource type="Texture2D" path="res://VolibearArt/ui/images/character_select_transition.png" id="portrait"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("shader")
+shader_parameter/threshold = 0.0
+shader_parameter/portrait = ExtResource("portrait")
