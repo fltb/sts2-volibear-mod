@@ -64,9 +64,16 @@ def acquire():
     return selected
 
 
-def install(selected):
-    from dev import config, validate_game
-    game = Path(config()['game_dir']).expanduser().resolve()
+def install(selected, game=None):
+    if game is None:
+        from dev import config, validate_game
+        game = Path(config()['game_dir']).expanduser().resolve()
+    else:
+        try:
+            from .dev import validate_game
+        except ImportError:
+            from dev import validate_game
+        game = Path(game).expanduser().resolve()
     validate_game(game)
     target = game / 'mods' / 'BaseLib'
     if target.is_symlink() or target.resolve() != target:

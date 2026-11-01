@@ -194,7 +194,7 @@ public static partial class DomainEnemyStatusContributions
 
     private static bool Suppress(CardModel card, Creature receiver)
     {
-        if (BeastForms.Shape(card) != BeastShape.None || !DomainEnemyEffects.ProtectsPlayer(receiver)) return false;
+        if (!DomainEnemyEffects.ProtectsPlayer(receiver)) return false;
         var seen = new HashSet<CardModel>(ReferenceEqualityComparer.Instance);
         for (CardModel? current = card; current is not null && seen.Add(current); current = current.CloneOf)
         {

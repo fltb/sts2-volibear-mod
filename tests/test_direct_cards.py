@@ -89,8 +89,8 @@ class DirectCardSourceContracts(unittest.TestCase):
         marked = set(re.findall(r'class Volibear_(\w+) : VolibearCard, INativeLightningSpell', self.text))
         self.assertEqual(marked, set('C24 U28 U35 U37 U40 R07 R09 R23'.split()))
         capabilities = (ROOT / 'src/Volibear/Content/CardCapabilities.cs').read_text(encoding='utf-8')
-        self.assertIn('BeastShape.Body => true', capabilities)
-        self.assertIn('BeastShape.Claw => false', capabilities)
+        self.assertNotIn('BeastForms', capabilities)
+        self.assertNotIn('BeastShape', capabilities)
         self.assertIn('card.Type == CardType.Skill && card is INativeLightningSpell', capabilities)
 
     def test_pre_play_snapshots_are_distinct_from_effect_time_counters(self):

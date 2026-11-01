@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
@@ -18,18 +20,17 @@ using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
-using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
-using MegaCrit.Sts2.Core.Nodes.Screens.PauseMenu;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Saves.Managers;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using Volibear.Content;
 using Volibear.Core;
 
 namespace Volibear;
 
-/// <summary>Actual disk checkpoint + native pause/continue lifecycle. ForceClick is not physical input.
+/// <summary>Actual disk checkpoint + native save/restore APIs, without input simulation.
 /// Fixture setup and direct beast-state mutations are explicit; no save bytes are written here.</summary>
 internal static class SaveLoadContractProbe
 {
@@ -58,11 +59,11 @@ internal static class SaveLoadContractProbe
         var clock = Stopwatch.StartNew();
         while (!ready()) { if (clock.Elapsed.TotalSeconds > 90) throw new TimeoutException(stage); await Frame(); }
     }
-    public static void Install()
+    public static void Install(bool start = true)
     {
         if (_installed) return; _installed = true;
         new Harmony("Volibear.SaveLoadProbe.PaymentObservation").CreateClassProcessor(typeof(ObservePayment)).Patch();
-        _ = Run(); // Godot's main-thread async context; never Task.Run.
+        if (start) _ = Run(); // Godot's main-thread async context; never Task.Run.
     }
     private static bool Ready() => CombatManager.Instance.DebugOnlyGetState() is CombatState state &&
         state.CurrentSide == CombatSide.Player && state.Players.Count == 1 &&
@@ -73,7 +74,7 @@ internal static class SaveLoadContractProbe
     {
         var deck = card.Owner.Deck.Cards.ToList();
         return new { entity = Ref(card), id = card.Id.Entry, nativeType = card.GetType().Name, upgrade = card.CurrentUpgradeLevel,
-            type = card.Type.ToString(), target = card.TargetType.ToString(), shape = BeastForms.Shape(card).ToString(), converted = BeastForms.IsConverted(card),
+            type = card.Type.ToString(), target = card.TargetType.ToString(), shape = BeastForms.Shape(card).ToString(), converted = card is Volibear_T01 or Volibear_T02,
             canonicalCost = card.EnergyCost.Canonical, cost = card.EnergyCost.GetWithModifiers(CostModifiers.Local), costsX = card.EnergyCost.CostsX,
             vars = card.DynamicVars.ToDictionary(p => p.Key, p => p.Value.BaseValue),
             keywords = card.Keywords.Select(k => k.ToString()).OrderBy(k => k).ToArray(),
@@ -111,28 +112,36 @@ internal static class SaveLoadContractProbe
         using var json = JsonDocument.Parse(File.ReadAllText(path));
         return json.RootElement.Clone(); // Observe actual native disk bytes; never write/rewrite a save.
     }
-    private static void Click(NClickableControl button, string name)
-    {
-        Need(button.IsEnabled && button.IsVisibleInTree(), "Native button not interactable: " + name);
-        Events.Add(new { op = "native-ui-forceclick", button = name }); button.ForceClick();
-    }
     private static async Task QuitToMenu()
     {
-        await Wait(() => NRun.Instance?.GlobalUi.TopBar.Pause is { IsEnabled: true } button && button.IsVisibleInTree(), "enabled native pause button");
-        Click(NRun.Instance!.GlobalUi.TopBar.Pause, "Pause");
-        await Wait(() => NRun.Instance?.GlobalUi.SubmenuStack.Stack.Peek() is NPauseMenu, "native pause menu");
-        var pause = (NPauseMenu)NRun.Instance!.GlobalUi.SubmenuStack.Stack.Peek()!;
-        Click(pause.GetNode<NClickableControl>("%ButtonContainer/SaveAndQuit"), "SaveAndQuit");
-        await Wait(() => NGame.Instance?.MainMenu is not null && !RunManager.Instance.IsInProgress, "native SaveAndQuit completion");
+        await Wait(Ready, "quiet native action queue before checkpoint exit");
         if (SaveManager.Instance.CurrentRunSaveTask is { } saving) await saving;
+        Events.Add(new { op = "native-run-api", api = "NGame.ReturnToMainMenu" });
+        await NGame.Instance!.ReturnToMainMenu();
+        await Wait(() => NGame.Instance?.MainMenu is not null && !RunManager.Instance.IsInProgress, "native run cleanup");
         Need(!CombatManager.Instance.IsInProgress, "Combat survived menu cleanup");
     }
     private static async Task Continue()
     {
-        await Wait(() => NGame.Instance?.MainMenu?.GetNodeOrNull<NClickableControl>("MainMenuTextButtons/ContinueButton") is { IsEnabled: true } button &&
-            button.IsVisibleInTree(), "enabled native menu Continue");
-        Click(NGame.Instance!.MainMenu!.GetNode<NClickableControl>("MainMenuTextButtons/ContinueButton"), "Continue");
-        await Wait(Ready, "native Continue restored active combat");
+        var loaded = SaveManager.Instance.LoadRunSave();
+        Need(loaded.Success && loaded.SaveData is not null, "Native disk checkpoint load failed");
+        var save = loaded.SaveData!;
+        var run = RunState.FromSerializable(save);
+        // These two public spellings occur in the game's shipped API history.
+        // Signature mismatch fails explicitly; never fall back to a menu click.
+        var setup = new[] { "SetUpSavedSingleplayer", "SetUpSavedSinglePlayer" }
+            .Select(name => typeof(RunManager).GetMethod(name,BindingFlags.Public | BindingFlags.Instance,
+                null,new[] { typeof(RunState),typeof(SerializableRun) },null)).FirstOrDefault(m => m is not null)
+            ?? throw new MissingMethodException("RunManager.SetUpSavedSingleplayer(RunState,SerializableRun)");
+        object? result;
+        try { result = setup.Invoke(RunManager.Instance,new object[] { run,save }); }
+        catch (TargetInvocationException error) when (error.InnerException is not null)
+        { ExceptionDispatchInfo.Capture(error.InnerException).Throw(); throw; }
+        if (result is Task task) await task;
+        else Need(setup.ReturnType == typeof(void), "Unknown native saved-run setup return contract");
+        Events.Add(new { op = "native-run-api", api = "SaveManager.LoadRunSave;RunState.FromSerializable;RunManager."+setup.Name+";NGame.LoadRun" });
+        await NGame.Instance!.LoadRun(run,save.PreFinishedRoom);
+        await Wait(Ready, "native checkpoint restored active combat");
     }
     private static async Task<object> Interrupt(string caseId)
     {
@@ -152,9 +161,13 @@ internal static class SaveLoadContractProbe
             {
                 var card = Find(id); await InHand(card);
                 var original = Freeze(Card(card)); var masterBefore = Freeze(Card(card.DeckVersion!));
-                await BeastForms.Convert(choices, card);
-                BeastForms.SetZeroThisTurnOrUntilPlayed(card);
-                converted.Add(new { original, form = Freeze(Card(card)), masterBefore, masterAfter = Freeze(Card(card.DeckVersion!)) });
+                var form = await BeastForms.Convert(choices, card) ?? throw new InvalidOperationException("Native beast token missing");
+                Need(!ReferenceEquals(card,form) && card.Pile?.Type == PileType.Exhaust && form.DeckVersion is null,
+                    "Native material exhaustion and distinct beast token required");
+                BeastForms.SetZeroThisTurnOrUntilPlayed(form);
+                converted.Add(new { original,materialAfter = Freeze(Card(card)),form = Freeze(Card(form)),masterBefore,masterAfter = Freeze(Card(card.DeckVersion!)),
+                    nativeExhaust = CombatManager.Instance.History.Entries.OfType<CardExhaustedEntry>().Any(e => ReferenceEquals(e.Card,card)),
+                    nativeGenerated = CombatManager.Instance.History.Entries.OfType<CardGeneratedEntry>().Any(e => ReferenceEquals(e.Card,form)) });
                 Events.Add(new { op = "state-fixture-convert-and-temporary-zero", id });
             }
         var defend = Find("VOLIBEAR_B02"); await InHand(defend);
@@ -186,13 +199,14 @@ internal static class SaveLoadContractProbe
         return new { converted, payment = new { action = action.GetType().Name, state = action.State.ToString(), actionId = action.Id,
             context = action.PlayerChoiceContext?.GetType().Name, history = plays, afterEnergySpent = PaymentReceipts.ToArray(), energyHistory } };
     }
-    private static async Task Run()
+    internal static async Task Run(bool managed = false)
     {
         string token = "missing";
         try
         {
-            token = Env("VOLIBEAR_TEST_TOKEN"); var pair = Env("VOLIBEAR_SAVE_PAIR"); var phase = Env("VOLIBEAR_SAVE_PHASE");
-            var mode = Env("VOLIBEAR_SAVE_MODE"); var caseId = Env("VOLIBEAR_SAVE_CASE"); var seed = Env("VOLIBEAR_SAVE_SEED");
+            Refs.Clear();Events.Clear();
+            token = Env("VOLIBEAR_TEST_TOKEN"); var pair = managed ? token : Env("VOLIBEAR_SAVE_PAIR"); var phase = managed ? "same" : Env("VOLIBEAR_SAVE_PHASE");
+            var mode = managed ? "same-process" : Env("VOLIBEAR_SAVE_MODE"); var caseId = managed ? "S2" : Env("VOLIBEAR_SAVE_CASE"); var seed = managed ? "VOLIBEARTEST" : Env("VOLIBEAR_SAVE_SEED");
             Need(caseId is "S1" or "S2", "Unsupported save case");
             Need((mode == "same-process" && phase == "same") || (mode == "restart" && phase is "prepare" or "resume"), "Invalid phase/mode");
             Need(!MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn, "TestMode forbidden");
@@ -245,14 +259,15 @@ internal static class SaveLoadContractProbe
                 pid = System.Environment.ProcessId, userRoot, checkpointPath = CheckpointPath(userRoot),
                 gameVersion = release.Version, gameCommit = release.Commit, testMode = false,
                 assemblyMvid = typeof(BeastForms).Assembly.ManifestModule.ModuleVersionId.ToString(),
-                acceptance = "native-save-quit-continue-room-entry-ui-forceclick-not-mouse", seed,
+                acceptance = "native-checkpoint-save-load-apis-no-input", seed,
                 fixture, events = Events, checkpoint, afterMenu, initial, interruption, interrupted, resumed, afterLoad }));
-            GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);
-            NGame.Instance!.Quit(); ((SceneTree)Engine.GetMainLoop()).Quit(0);
+            if (!managed) { GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);
+                NGame.Instance!.Quit(); ((SceneTree)Engine.GetMainLoop()).Quit(0); }
         }
         catch (Exception error)
         {
             GD.PrintErr("[Volibear] SAVE_LOAD_PROBE_ERROR " + token + " " + error);
+            if (managed) throw;
             ((SceneTree)Engine.GetMainLoop()).Quit(2);
         }
     }

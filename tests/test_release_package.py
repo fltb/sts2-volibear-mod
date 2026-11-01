@@ -74,6 +74,31 @@ class ReleasePackageTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'missing'): self.package()
         self.assertFalse(self.output.parent.exists())
 
+    def test_private_profile_keeps_rights_notices_and_metadata_in_ignored_output(self):
+        original_root = release.ROOT
+        for relative in ('assets/animation/audio/official/CREDITS.md',
+                         'assets/animation/audio/profiles/riot_en.json'):
+            target = self.root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((original_root / relative).read_bytes())
+        output = self.root / '.local/release/riot_en-private.zip'
+        with patch.object(release, 'ROOT', self.root):
+            release.package(self.dll, self.pck, self.manifest, self.archive, self.license,
+                            self.instructions, output, audio_profile='riot_en')
+        with zipfile.ZipFile(output) as z:
+            record = json.loads(z.read('PACKAGE.json'))
+            self.assertEqual(record['audio_profile'], 'riot_en')
+            self.assertIs(record['private_audio'], True)
+            self.assertIn('licenses/audio/RIOT_AUDIO_CREDITS.md', z.namelist())
+            self.assertIn('licenses/audio/riot_en.json', z.namelist())
+            self.assertIn(b'not GPL/CC licensed', z.read('AUDIO_PROFILE.txt'))
+
+    def test_private_profile_refuses_output_outside_ignored_directory(self):
+        with self.assertRaisesRegex(ValueError, 'ignored .local'):
+            release.package(self.dll, self.pck, self.manifest, self.archive, self.license,
+                            self.instructions, self.output, audio_profile='riot_en')
+        self.assertFalse(self.output.exists())
+
     def test_manifest_identity_game_flags_and_dependency_pin_fail(self):
         for field, value in [('id', 'Other'), ('min_game_version', '0.108'), ('has_pck', False),
                              ('version', ''), ('dependencies', [{'id': 'BaseLib', 'min_version': '3.4.8'}])]:

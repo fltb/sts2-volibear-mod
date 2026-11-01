@@ -10,7 +10,7 @@ using Volibear.Core;
 
 namespace Volibear.Content;
 
-// These are form definitions, not replacement entities for converted materials.
+// These are the native generated replacement entities for exhausted materials.
 // Token rarity excludes them from ordinary rarity-based reward generation; inherited
 // BaseLib.Pool metadata gives both canonical definitions the proper portrait/color pool.
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_T01")]
@@ -28,7 +28,7 @@ public sealed class Volibear_T01 : VolibearCard
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_T02")]
-public sealed class Volibear_T02 : VolibearCard
+public sealed class Volibear_T02 : VolibearCard, INativeLightningSpell
 {
     public Volibear_T02() : base(1, CardType.Skill, CardRarity.Token, TargetType.AllEnemies, "t02", false) { }
     public override List<(string, string)> Localization => new CardLoc("风暴之躯", "获得{Block:diff()}格挡。对全体造成{Lightning:diff()}雷伤。");

@@ -93,7 +93,7 @@ class PreparedCardContracts(unittest.TestCase):
         self.assertIn('spent = true;', self.core)
         self.assertIn('participants.Contains(Owner)', self.core)
         declare = self.core.split('public static bool DeclaresEngage', 1)[1].split('protected override bool Eligible', 1)[0]
-        self.assertIn('BeastForms.Shape(card) == BeastShape.None', declare)
+        self.assertNotIn('BeastForms', declare)
         self.assertEqual(set(re.findall(r'Volibear_([BCUR]\d\d)', declare)), set('B04 C04 C10 C11 U28 U35 R09'.split()))
 
     def test_training_includes_dynamic_but_only_c19_fixed(self):

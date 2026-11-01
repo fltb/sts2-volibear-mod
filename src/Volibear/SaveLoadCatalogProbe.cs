@@ -81,7 +81,7 @@ internal static class SaveLoadCatalogProbe
     {
         var deck = card.Owner.Deck.Cards.ToList();
         return new { entity = Ref(card), id = card.Id.Entry, nativeType = card.GetType().Name, upgrade = card.CurrentUpgradeLevel,
-            type = card.Type.ToString(), rarity = card.Rarity.ToString(), target = card.TargetType.ToString(), shape = BeastForms.Shape(card).ToString(), converted = BeastForms.IsConverted(card),
+            type = card.Type.ToString(), rarity = card.Rarity.ToString(), target = card.TargetType.ToString(), shape = BeastForms.Shape(card).ToString(), converted = false,
             canonicalCost = card.EnergyCost.Canonical, cost = card.EnergyCost.GetWithModifiers(CostModifiers.Local),
             allCost = card.EnergyCost.GetWithModifiers(CostModifiers.All), costsX = card.EnergyCost.CostsX,
             vars = card.DynamicVars.ToDictionary(p => p.Key, p => new { kind = p.Value.GetType().Name, baseValue = p.Value.BaseValue, enchantedValue = p.Value.EnchantedValue, previewValue = p.Value.PreviewValue }),

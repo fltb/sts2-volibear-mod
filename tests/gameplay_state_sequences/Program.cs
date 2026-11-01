@@ -8,7 +8,7 @@ var cases = new Dictionary<string, Action>(StringComparer.Ordinal)
     ["card-domain-replay-close"] = CardDomainReplayClose,
     ["domain-two-clocks"] = DomainTwoClocks,
     ["lightning-pending-epoch-close"] = LightningPendingEpochClose,
-    ["beast-reference-clone-lifetime"] = BeastReferenceCloneLifetime,
+    ["beast-native-cost-lifetime"] = BeastNativeCostLifetime,
     ["steam-death-evidence"] = SteamDeathEvidence,
     ["steam-commit-and-identity"] = SteamCommitAndIdentity,
     ["steam-terminal-guards"] = SteamTerminalGuards,
@@ -122,33 +122,23 @@ void LightningPendingEpochClose()
     Reject<InvalidOperationException>(() => counter.Begin(2, 2), "No Begin after combat close.");
 }
 
-void BeastReferenceCloneLifetime()
+void BeastNativeCostLifetime()
 {
-    var old = new Modifier(1, false);
-    var equalButLater = new Modifier(1, false);
-    Check(old.Equals(equalButLater) && !ReferenceEquals(old, equalButLater), "Fixture uses value-equal distinct modifiers.");
-    var setLater = new Modifier(1, true);
-    var source = new[] { old, equalButLater, setLater };
-    var ledger = new BeastCostLedger<Modifier>(3, new[] { old });
-    Check(ledger.IsInherited(old) && !ledger.IsInherited(equalButLater), "Only original reference is inherited.");
-    Check(ledger.Evaluate(source, Apply) == 1, "Later Set(1) refers to beast, not old material cost.");
-    var clones = source.Select(m => new Modifier(m.Amount, m.Absolute)).ToArray();
-    var firstClone = ledger.CloneFor(source, clones);
-    Check(firstClone.IsInherited(clones[0]) && !firstClone.IsInherited(clones[1]), "Clone preserves inherited membership by position, not value equality.");
-    Check(!firstClone.IsInherited(old), "Clone cannot inherit source modifier identity.");
-    Check(firstClone.Evaluate(clones, Apply) == 1, "Clone preserves cost at cloning boundary.");
-    var secondClones = clones.Select(m => new Modifier(m.Amount, m.Absolute)).ToArray();
-    var secondClone = firstClone.CloneFor(clones, secondClones);
-    Check(secondClone.IsInherited(secondClones[0]) && !secondClone.IsInherited(secondClones[1]), "Second clone does not promote post-transform modifiers.");
-    Check(secondClone.Evaluate(secondClones, Apply) == 1, "Second clone keeps later absolute modifier.");
-    firstClone.FormBase = 3;
-    Check(firstClone.Evaluate(new[] { clones[0] }, Apply) == 2, "Removing later modifiers exposes inherited discount on changed form base.");
-    Check(secondClone.FormBase == 1 && ledger.FormBase == 1, "Changing one clone does not change another ledger.");
-    Check(secondClone.Evaluate(new[] { secondClones[0] }, Apply) == 0, "Second clone independently retains inherited discount.");
-    Check(ledger.Evaluate(Array.Empty<Modifier>(), Apply) == 1, "Expired inherited modifier no longer discounts original overlay.");
-    Reject<InvalidOperationException>(() => ledger.CloneFor(source, clones.Take(2).ToArray()), "Broken native clone count rejected.");
+    var modifiers = new[] { new NativeModifier(-1, false, false, false), new NativeModifier(1, false, true, false) };
+    var transfer = BeastCostTransfer.Rebase(3, modifiers, ApplyNative, m => m.Turn, m => m.Play);
+    Check(transfer.Combat == -1 && transfer.ThisTurn == 1 && transfer.UntilPlayed == 0 && transfer.ThisTurnOrPlayed == 0,
+        "A temporary surcharge may mask a combat discount without widening its lifetime.");
+    Check(1 + transfer.Combat + transfer.ThisTurn == 1, "No inherited surcharge or discount while masking modifier survives.");
+    Check(1 + transfer.Combat == 0, "Native turn cleanup exposes the inherited combat discount.");
+    Check(3 + transfer.Combat == 2, "Later native base changes retain the discount rather than a permanent cap.");
+    var absolute = new[] { new NativeModifier(2, true, true, true) };
+    transfer = BeastCostTransfer.Rebase(3, absolute, ApplyNative, m => m.Turn, m => m.Play);
+    Check(transfer.ThisTurnOrPlayed == -1 && transfer.Combat == 0 && transfer.ThisTurn == 0 && transfer.UntilPlayed == 0,
+        "Absolute material Set(2) becomes the native -1 difference with either cleanup boundary.");
+    transfer = BeastCostTransfer.Rebase(3, Array.Empty<NativeModifier>(), ApplyNative, m => m.Turn, m => m.Play);
+    Check(transfer == default, "Already expired modifiers grant no new discount.");
 }
-int Apply(Modifier modifier, int value) => modifier.Absolute ? modifier.Amount : value - modifier.Amount;
+int ApplyNative(NativeModifier modifier, int value) => modifier.Absolute ? modifier.Amount : value + modifier.Amount;
 
 void SteamDeathEvidence()
 {
@@ -259,3 +249,5 @@ void SteamVetoAndRetirement()
 
 sealed record Modifier(int Amount, bool Absolute);
 sealed record Key(string Value);
+
+sealed record NativeModifier(int Amount, bool Absolute, bool Turn, bool Play);

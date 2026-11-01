@@ -38,10 +38,16 @@ def fixture(case='S2',mode='restart',phase='prepare',pid=100,token='phase-a'):
                 interrupted['piles'][c['pile']].remove(c);interrupted['piles']['Hand'].append(c);c['pile']='Hand'
                 events.append(dict(op='state-fixture-native-move-to-hand',id=c['id'],entity=c['entity']))
             original=copy.deepcopy(c)
-            c.update(shape='Claw' if index==0 else 'Body',converted=True,cost=0,type='Attack' if index==0 else 'Skill',
+            interrupted['piles']['Hand'].remove(c);c['pile']='Exhaust';interrupted['piles']['Exhaust'].append(c)
+            token_card=copy.deepcopy(c)
+            token_card.update(entity=70+index,id='VOLIBEAR_T01' if index==0 else 'VOLIBEAR_T02',
+                     nativeType='Volibear_T01' if index==0 else 'Volibear_T02',masterIndex=-1,masterEntity=None,pile='Hand',
+                     shape='Claw' if index==0 else 'Body',converted=True,cost=0,type='Attack' if index==0 else 'Skill',
                      target='AnyEnemy' if index==0 else 'AllEnemies',
                      vars={'Damage':7,'Hits':2} if index==0 else {'Block':12,'Lightning':3},keywords=['Exhaust'])
-            conversions.append(dict(original=original,form=copy.deepcopy(c),masterBefore=copy.deepcopy(s['deck'][index]),masterAfter=copy.deepcopy(s['deck'][index])))
+            interrupted['piles']['Hand'].append(token_card)
+            conversions.append(dict(original=original,materialAfter=copy.deepcopy(c),form=copy.deepcopy(token_card),
+                 masterBefore=copy.deepcopy(s['deck'][index]),masterAfter=copy.deepcopy(s['deck'][index]),nativeExhaust=True,nativeGenerated=True))
             events.append(dict(op='state-fixture-convert-and-temporary-zero',id=c['id']))
     checkpoint=dict(rng={'seed':seed},start_time=1793484000,num_reloads=0,visited_map_coords=[{'x':0,'y':0}],pre_finished_room=None,
         acts=[{'id':'ACT.OVERGROWTH','saved_map':{'points':[
@@ -56,7 +62,7 @@ def fixture(case='S2',mode='restart',phase='prepare',pid=100,token='phase-a'):
            assemblyMvid='00000000-0000-0000-0000-000000000001',acceptance=e.SCOPE,seed=seed,
            fixture=dict(directRunApi=True,statsExistedBefore=False,statsPresent=True,ftuesDisabledInIsolatedProfile=True,shouldSave=True,
                         startedWithNeow=False,masterPreparation='native-CreateCard-AddToDeck-Upgrade-U03' if case=='S2' else 'native-starter-deck'),
-           events=events+[dict(op='native-ui-forceclick',button=b) for b in ['Pause','SaveAndQuit']],
+           events=events+[dict(op='native-run-api',api='NGame.ReturnToMainMenu')],
            checkpoint=checkpoint,afterMenu=copy.deepcopy(checkpoint),initial=s,interruption=dict(converted=conversions,payment=dict(
                action='PlayCardAction',state='Finished',actionId=1,context='GameActionPlayerChoiceContext',
                history=[dict(id='VOLIBEAR_B02',autoPlay=False,spent=1,index=0,count=1)],
@@ -73,14 +79,22 @@ def fixture(case='S2',mode='restart',phase='prepare',pid=100,token='phase-a'):
         r['afterLoad']=copy.deepcopy(checkpoint);r['afterLoad']['num_reloads']=1
         # Independently model the pinned native constructor/default-omission roundtrip.
         r['afterLoad']['acts'][0]['saved_map']['points'][1]['can_modify']=True
-        r['events'].append(dict(op='native-ui-forceclick',button='Continue'))
+        r['events'].append(dict(op='native-run-api',api='SaveManager.LoadRunSave;RunState.FromSerializable;RunManager.SetUpSavedSingleplayer;NGame.LoadRun'))
         if phase=='resume':
             for k in ('fixture','initial','interruption','interrupted','afterMenu'):r[k]=None
-            r['events']=[dict(op='native-ui-forceclick',button='Continue')]
+            r['events']=[dict(op='native-run-api',api='SaveManager.LoadRunSave;RunState.FromSerializable;RunManager.SetUpSavedSingleplayer;NGame.LoadRun')]
     expected={k:r[k] for k in ('token','pair','phase','mode','caseId','seed','pid','userRoot','checkpointPath')}
     return r,expected
 
 class EvidenceTests(unittest.TestCase):
+    def test_conversion_requires_new_native_identity_and_exhaust_generation(self):
+        for change in (lambda r:r['interruption']['converted'][0].update(nativeExhaust=False),
+                       lambda r:r['interruption']['converted'][0].update(nativeGenerated=False),
+                       lambda r:r['interruption']['converted'][0]['form'].update(entity=r['interruption']['converted'][0]['original']['entity']),
+                       lambda r:r['interrupted']['piles']['Exhaust'].clear()):
+            with self.subTest(change=change):self.reject(change)
+    def test_simulated_click_receipt_rejected(self):
+        self.reject(lambda r:r['events'].__setitem__(-1,{'op':'native-ui-forceclick','button':'Continue'}))
     def test_positive_all_four_modes(self):
         for case in ('S1','S2'):
             for mode,phase in [('restart','prepare'),('restart','resume'),('same-process','same')]:
@@ -96,7 +110,7 @@ class EvidenceTests(unittest.TestCase):
     def reject_body_target(self,target):
         r,x=fixture();body=next(c for c in r['interrupted']['piles']['Hand'] if c['shape']=='Body')
         body['target']=target;r['interruption']['converted'][1]['form']['target']=target
-        errors=[];self.assertFalse(e.validate_phase(r,x,errors));self.assertIn('form metadata',errors[0])
+        errors=[];self.assertFalse(e.validate_phase(r,x,errors));self.assertIn('token metadata',errors[0])
     def test_body_self_target_rejected(self):self.reject_body_target('Self')
     def test_body_single_enemy_target_rejected(self):self.reject_body_target('AnyEnemy')
     def test_pair_positive(self):
@@ -192,12 +206,12 @@ class EvidenceTests(unittest.TestCase):
         source=(ROOT/'src/Volibear/SaveLoadContractProbe.cs').read_text(encoding='utf-8')
         self.assertIn('seed = run.Rng.StringSeed',source)
         self.assertNotIn('seed = run.Rng.Seed,',source)
-    def test_probe_uses_real_pause_continue_and_no_save_writer(self):
+    def test_probe_uses_native_checkpoint_api_and_no_simulated_input(self):
         source=(ROOT/'src/Volibear/SaveLoadContractProbe.cs').read_text(encoding='utf-8')
-        for required in ('button.ForceClick()', 'EnterMapCoord(', 'MainMenuTextButtons/ContinueButton',
-                         '%ButtonContainer/SaveAndQuit', 'StartNewSingleplayerRun(character, true'):
+        for required in ('LoadRunSave()', 'EnterMapCoord(', 'RunState.FromSerializable(save)',
+                         'SetUpSavedSingleplayer', 'LoadRun(run,save.PreFinishedRoom)', 'StartNewSingleplayerRun(character, true'):
             self.assertIn(required,source)
-        for forbidden in ('EnterRoomDebug(', '.LoadRun(', '.FromSerializable(', 'File.Write', '.SaveRun('):
+        for forbidden in ('EnterRoomDebug(', 'ForceClick(', 'PushInput(', 'InputEvent', 'EmitSignal(', 'File.Write', '.SaveRun('):
             self.assertNotIn(forbidden,source)
     def test_missing_after_energy_spent_witness(self):self.reject(lambda r:r['interruption']['payment'].update(afterEnergySpent=[]))
     def test_missing_energy_history(self):self.reject(lambda r:r['interruption']['payment'].update(energyHistory=[]))

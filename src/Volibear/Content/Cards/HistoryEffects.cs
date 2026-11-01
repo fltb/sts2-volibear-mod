@@ -52,7 +52,7 @@ public sealed class Volibear_U07 : VolibearCard, ITargetCostCard
     public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
         modifiedCost = originalCost;
-        if (!ReferenceEquals(card, this) || BeastForms.IsConverted(this) || originalCost < 0 || card.EnergyCost.CostsX ||
+        if (!ReferenceEquals(card, this) || originalCost < 0 || card.EnergyCost.CostsX ||
             TargetCosts.TargetFor(card) is not { } target) return false;
         modifiedCost = Math.Max(0, originalCost - AttackHistory.PriorTargetAttackCount(card, target));
         return modifiedCost != originalCost;
@@ -88,7 +88,7 @@ public sealed class Volibear_U38 : VolibearCard
     public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
     {
         modifiedCost = originalCost;
-        if (!ReferenceEquals(card, this) || BeastForms.IsConverted(this) || originalCost < 0 || card.EnergyCost.CostsX) return false;
+        if (!ReferenceEquals(card, this) || originalCost < 0 || card.EnergyCost.CostsX) return false;
         modifiedCost = Math.Max(0, originalCost - LightningBatches.GetTurnCount(Owner.Creature));
         return modifiedCost != originalCost;
     }

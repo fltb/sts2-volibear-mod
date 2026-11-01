@@ -1,6 +1,48 @@
 # 实施续作检查点（2026-11-01）
 
-## 最新机制与兼容性复核（2026-11-01）
+## 当前规则：原生兽化、普通Godot与统一受控验证
+
+用户最新要求覆盖下文历史兽化规则：**消耗原卡，再在原牌堆生成新兽形**。
+材料保留自己的模型、永久牌组关联和正常耗尽响应；新T01/T02有独立战斗身份，
+不复制CloneOf、DeckVersion或任意第三方附着。“就地”使用原生Bottom插入及满手规则，
+不为维持原槽位改写牌堆。永久牌组中的原牌不变。
+
+BeastForms现在只调用CardCmd.Exhaust、combat.CreateCard和AddGeneratedCardToCombat。
+必须观察到本次耗尽历史才允许生成；外部取消、旧历史、重复进入和等待后失效不会白给新牌。
+升级、仍有效的临时费用与保留通过原生公开写接口转移；唯一窄适配是经过签名检查的费用列表
+和临时保留getter只读访问。原全卡Harmony覆盖、第三方类型继承链注册、私有身份/目标改写、
+旧费用克隆侧表及IsConverted已删除，依赖方已迁移到返回的新牌引用。
+
+正常开发入口为 **[LOCAL_WORKFLOW.md](LOCAL_WORKFLOW.md)**：
+
+```sh
+python tools/local_delivery.py --game-dir GAME --godot GODOT_4_5_1_MONO --dotnet DOTNET_9_0_320 --verify-native
+```
+
+核验后保存本机路径；后续`python tools/local_delivery.py --verify-native`即可。
+顺序为当前DLL fresh build、一次完整回归、普通Godot资源导出/检查、归属部署、
+受控游戏批次、安装ZIP。普通Godot固定4.5.1 Mono，导出源码脚本并实际核对PCK内容；
+无需额外MegaDot编辑器。资源单独入口不生成DLL/安装包，也不写部分游戏配置。
+
+原生验证由NativeVerificationSuite串接：410牌面分支、48生命周期、356原生卡牌视图、
+同进程原生检查点恢复；`all`模式增加既有动作/声音检查并要求真实音频后端。
+真实付费出牌仍走PlayCardAction/ActionQueueSynchronizer，选牌走CardSelectCmd.UseSelector。
+无系统/视口点击、键盘或按钮伪信号；一次无Mod退出对照后只启动一个Mod批次进程。
+旧native-run/UI catalog不属于这条路线；不要用其历史结果替代新规则验证。
+
+源码覆盖ZIP现含删除清单：local_delivery只清理摘要匹配的已废弃源码/测试文件。
+包仍不带.git和本机config；私有音频及PCK仍放在忽略路径。不能再只解压后直接运行旧测试，
+应先走统一入口完成旧文件清理。若本地旧文件被修改，保留文件并报告冲突。
+
+**证据边界仍明确保留：**本轮生产兽化与选择器在命令边界替身下执行，独立协议及反例回归
+可以运行；两套PCK已通过普通Godot真实加载/播放/资源检查。现环境仍缺锁版本体和程序集，
+整Mod当前DLL绑定、四组游戏阶段、当前完整安装ZIP、双端网络、实际跨进程恢复未完成。
+UseSelector入口有锁版API索引，完整接口及加载链参考实际上游源码；它们仍须本体编译确认。
+领域C01外部Prefix冲突、C02混合/未知来源保守保留和C03网络未验证状态没有因兽化重构消失。
+
+当前实现项为IMPLEMENTATION_TODO的M36–M39；以下章节保留接续背景，与本节冲突时以本节为准。
+
+## 前轮机制与兼容性复核（2026-11-01）
 
 用户要求核对全部特殊机制，重点迎战、领域、玩家信息、其他Mod与多人。最终玩法以
 `reference/bear-forge/docs/volibear/DEVELOPMENT.md`为准：领域只压制对敌方有利的特殊贡献，
@@ -59,8 +101,9 @@ GitHub连接此前未包含目标仓库，创建分支返回403。用户随后�
 用户另要求可直接解压到已有本地Git仓库的覆盖ZIP。该包按仓库相对路径包含基线`6545593`
 之后的全部改动文件与当前`.gitignore`；私有原始／处理音频及两份最终PCK放在被忽略的
 `.local/`内。包不带`.git/`或`.local/config.json`，保留接收机器的Git历史和本机配置。
-当前范围没有删除文件，解压替换同名文件即可恢复源码内容；解压后`git add .`不会纳入这些
-尚未被跟踪的私有文件。若本地以前强制跟踪过私有文件，`.gitignore`不会自动取消其跟踪。
+前轮包没有删除文件；本轮删除旧兽化实现，已加入摘要清理清单和统一入口，详见顶部。
+完成清理后`git add .`不会纳入这些尚未被跟踪的私有文件。若本地以前强制跟踪过私有文件，
+`.gitignore`不会自动取消其跟踪。
 
 完整目标仍未完成，用户已批准持续实施，不再逐阶段请求授权。最新目标以 OVERNIGHT_PLAN / TEST_SPEC 为准：89卡/178牌面、完整机制与表现、正式敌人覆盖；BaseLib 取代 RitsuLib。
 

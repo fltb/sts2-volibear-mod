@@ -1,55 +1,54 @@
 # Isolated real-game automation
 
-Status: development checkpoint for Windows and Linux; see [current handoff](HANDOFF.md) for
-latest evidence and resume instructions. Native attack, Strike AutoPlay, next-round
-advancement and the optional in-card Engage prototype assertions pass on both platforms. The
-shipped game still reports renderer/text resource leaks on every headless exit, with or without
-mods; the runner attributes that noise against a stock control instead of waiving it.
+Current route: [local build, packaging and controlled verification](LOCAL_WORKFLOW.md).
+The current native-beast candidate has not been compiled or run against the pinned game in
+this environment: its game assemblies are unavailable. Historical assertions and resource
+renders below are not evidence that this revision passes. The runner still compares native
+renderer/text teardown errors with a stock control rather than silently waiving new errors.
 
 ## Current acceptance execution policy
 
-Full suites must run **multiple cases in one game process**, using native room exit, main-menu cleanup and a fresh run between independent cases. The old `--repeat`/single-case launch route below is retained for focused diagnostics, not the full-suite execution strategy. Restart only when changing assemblies or explicitly testing save/restart.
+Full suites use **one Mod process for all stages**, native room exit/main-menu cleanup and
+a fresh run between independent cases. One separate no-Mod process establishes exit noise.
+The current route uses no OS input, viewport input, synthetic clicks, keyboard events or
+button-signal shortcuts. Selection decisions use `CardSelectCmd.UseSelector`; paid cards
+still use `PlayCardAction` and the real action queue. Same-process native checkpoint restore
+is included; a real process restart and two network peers are separate, unexecuted gates.
 
 On Windows, `--display background` creates a private, unselected Windows desktop and launches the native-rendered game there. The runner never switches the operator's desktop and sends no OS input. The process job and desktop handle are owned and released together. Merely starting minimized was tested and did not prevent focus changes; it is not the isolation mechanism. Background mode uses Dummy audio by default, so it is not listening evidence.
 
 Gameplay acceptance uses the real `PlayCardAction`/`RequestEnqueue` path with payment, target validation and native choice handling; it does not replace those steps with direct `OnPlay` or AutoPlay. Runtime errors remain failures even when a semantic receipt passes. In particular, native-renderer runs replace unreliable Dummy-renderer runs rather than waiving texture errors.
 
-## Connected batch and normal-flow entrypoints
+## Unified current entrypoint
 
-The existing C# probes are now connected through both `ModEntry` and the runner. The
-commands below are execution instructions, not evidence that this candidate has run
-in the game. Configure the pinned installation, build DLL/PCK and deploy one candidate
-first. `--use-deployed` keeps that candidate unchanged between checks. The stock
-control is a separate launch; all cases within each selected batch share one game
-process and use native cleanup between cases.
+Use `tools/local_delivery.py --verify-native` to build, check, deploy, execute and package
+the same candidate. Configure paths as documented in LOCAL_WORKFLOW on the first run.
+For an already built and deployed candidate, this entrypoint runs only the one finite suite:
 
 Windows private-desktop examples (use `--display xvfb` on Linux):
 
 ```sh
-python -B tools/headless.py --scenario card-face-acceptance --card-face-batch all --display background --use-deployed
-python -B tools/headless.py --scenario card-lifecycle --card-lifecycle-cases all --display background --use-deployed
-python -B tools/headless.py --scenario native-run --native-run-mode three-battle-save --display background --use-deployed
-python -B tools/headless.py --scenario presentation-acceptance --presentation-mode cards --display background --use-deployed
+python -B tools/native_suite.py --execute-native --use-deployed --display background
 ```
 
-`--card-face-batch` and `--card-lifecycle-cases` also accept explicit comma-separated
-case names. Invalid/duplicate names and `--repeat` values other than one are rejected
-before build/deploy. Batch defaults are one process, a 900-second timeout and a
-60,000-frame budget; bounded overrides allow up to 1,800 seconds / 300,000 frames.
-The old short single-case defaults remain available for diagnostics.
+The default finite scope is 410 card-face cases (178 faces plus explicit branches),
+48 lifecycle cases, 356 rendered normal/Inspect card views, and S2 native checkpoint
+save/restore. The suite validates stage order, one process ID, cleanup, the run token,
+independent per-stage receipts, the on-disk checkpoint and one final shutdown. A failure
+stops the command and prevents the delivery entrypoint from packaging it as a passed run.
+This is not the complete enemy interaction matrix or live multiplayer verification.
 
-`native-run` starts through the normal menu and does not install the development
-bootstrap or a fixture character. The paired entrypoint makes the one deliberate
-restart needed to test the real native disk checkpoint:
+`--card-face-cases` and `--card-lifecycle-cases` accept `all` or explicit comma-separated
+names. Unknown, duplicate or empty choices fail before launch. The whole suite defaults
+to 3,600 seconds / 216,000 frames; limits are 60–14,400 seconds / 3,600–864,000 frames.
+There is no per-case restart or repeat option. Smaller subsets are failure diagnostics,
+not substitutes for a completed default batch.
 
-```sh
-python -B tools/native_run_pair.py --execute-native --display background --timeout 300 --frames 60000
-```
-
-The pair creates one fresh private profile. It runs three battles and Save-and-Quit,
-checks the full log and exact checkpoint bytes/content, then restarts that same profile
-and uses Continue. A failed first phase never starts the second. This entrypoint does
-not build/deploy or accept an existing profile path, and does not edit the checkpoint.
+The older `native-run`, `native_run_pair.py` and UI catalog drivers retain historical
+interface automation. They are excluded from this no-input suite and are not the current
+recommended acceptance flow. Their historical restart evidence does not validate the
+new beast identities or the current candidate. The new save/load stage uses native
+SaveManager, RunState/RunManager restoration and NGame loading without clicking Continue.
 
 Presentation `cards` captures rendered card/Inspect views without an audio claim.
 `actions` and `all` require an explicit non-Dummy Godot audio driver, for example
@@ -58,16 +57,17 @@ The stock control uses the same driver. Captures remain in the game's private de
 or virtual display, record only the game bus, and do not establish human visual or
 listening approval. Runtime errors and unmatched teardown errors still fail the run.
 
-## Run
+## Focused historical diagnostics
 
 With the pinned SDK and local game configured for `tools/dev.py`:
 
 ```sh
-python3 tools/headless.py --repeat 2 --timeout 45
+python3 tools/headless.py --scenario baseline --repeat 1 --timeout 180 --frames 5000
 ```
 
 Runs Python contract tests, builds the probe, deploys owned mod files, then launches the
-installed **MegaDot game executable**, not a reimplementation. Each iteration gets a unique
+installed **StS2 game executable** with its shipped engine; no separate MegaDot editor is
+required. Ordinary Godot 4.5.1 Mono builds the resources. Each iteration gets a unique
 `artifacts/headless/<run-id>/` with stdout, engine log, and JSON report. Reports record game
 version, source commit/dirty state, process status and individual checks. Iterations are
 bounded (1–10), timeout is bounded (5–300 seconds), and only a newly created ownership

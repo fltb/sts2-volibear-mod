@@ -92,7 +92,7 @@ class BeastCardStaticContracts(unittest.TestCase):
                     self.assertIn('减费1', face['rules_text_zh'])
                     self.assertIn('本回合下次打出时设为0费', face['display_text_zh'])
         self.assertEqual(changed, OVERRIDES)
-        self.assertEqual(self.text.count('NextPlayDiscount.Grant(card)'), 1)
+        self.assertEqual(self.text.count('NextPlayDiscount.Grant(replacement)'), 1)
         self.assertIn('if (discount && (!oldDays || shape == BeastShape.Claw))', self.text)
         self.assertNotRegex(self.text, r'(?:SetZero|SetThisTurn|SetUntilPlayed|SetToFree|AddThisTurnOrUntilPlayed)\(')
         self.assertIn('optional: true, discount: false', self.cards['R28'])

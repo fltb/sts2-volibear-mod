@@ -7,8 +7,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/Volibear/Core/BeastFormsCost.cs" Link="BeastFormsCost.cs" />
-    <Compile Include="../../src/Volibear/Core/BeastFormsAdapters.cs" Link="BeastFormsAdapters.cs" />
-    <Compile Include="AdapterRegistrationTests.cs" />
+    <Compile Include="../../src/Volibear/Core/BeastForms.cs" Link="BeastForms.cs" />
+    <Compile Include="../../src/Volibear/Core/BeastFormsNativeCosts.cs" Link="BeastFormsNativeCosts.cs" />
+    <Compile Include="../../src/Volibear/Content/Cards/BeastTokens.cs" Link="BeastTokens.cs" />
+    <Compile Include="../../artifacts/beast-bookkeeping/ProductionSelections.cs" Link="ProductionSelections.cs" />
+    <Compile Include="../../artifacts/beast-bookkeeping/ProductionCoupon.cs" Link="ProductionCoupon.cs" />
+    <Compile Include="Stubs.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
 </Project>

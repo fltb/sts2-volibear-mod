@@ -130,6 +130,11 @@ public static class ModEntry
                     CardPassiveContractProbe.Install();
                 else PassiveContractProbe.Install();
             }
+            else if (scenario == "native-suite")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                NativeVerificationSuite.Install();
+            }
             else if (scenario == "card-face-acceptance")
             {
                 DevelopmentBootstrap.Install(installDriver: false);

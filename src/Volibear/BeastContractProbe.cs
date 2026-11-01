@@ -44,6 +44,7 @@ internal static class BeastContractProbe
         internal readonly ThrowingPlayerChoiceContext Choices = new();
         internal readonly Dictionary<CardModel, string> Ids = new(ReferenceEqualityComparer.Instance);
         internal readonly List<object> Changes = [];
+        internal string? PendingBeastName;
         internal PlayerCombatState Pcs => Player.PlayerCombatState!;
         internal string? Ref(CardModel? card)
         {
@@ -58,6 +59,8 @@ internal static class BeastContractProbe
         }
         internal Task Changed(PlayerChoiceContext _, BeastChange change)
         {
+            if (PendingBeastName is { } name && !Ids.ContainsKey(change.Card)) Name(change.Card, name);
+            PendingBeastName = null;
             Changes.Add(new { cardRef = Ref(change.Card), shape = change.Shape.ToString(),
                 ownerRef = RuntimeHelpers.GetHashCode(change.Card.Owner),
                 sameCombat = ReferenceEquals(change.Combat, Combat) });
@@ -66,7 +69,7 @@ internal static class BeastContractProbe
         internal object Snapshot(CardModel card) => new
         {
             cardRef = Ref(card), nativeType = card.GetType().Name, modelId = card.Id.Entry,
-            ownerRef = RuntimeHelpers.GetHashCode(card.Owner), masterRef = Ref(card.DeckVersion),
+            ownerRef = RuntimeHelpers.GetHashCode(card.Owner), masterRef = Ref(card.DeckVersion), cloneRef = Ref(card.CloneOf),
             costObjectRef = RuntimeHelpers.GetHashCode(card.EnergyCost),
             shape = BeastForms.Shape(card).ToString(), type = card.Type.ToString(), target = card.TargetType.ToString(),
             upgrade = card.IsUpgraded, canonicalCost = card.EnergyCost.Canonical, costsX = card.EnergyCost.CostsX,
@@ -76,6 +79,15 @@ internal static class BeastContractProbe
             pile = card.Pile?.Type.ToString(), presence = Pcs.AllPiles.Sum(p => p.Cards.Count(c => ReferenceEquals(c, card))),
             vars = card.DynamicVars.ToDictionary(p => p.Key, p => p.Value.BaseValue), title = card.Title
         };
+        internal object HistorySince(int start)
+        {
+            var entries = CombatManager.Instance.History.Entries.Skip(start).ToArray();
+            return new
+            {
+                exhausted = entries.OfType<CardExhaustedEntry>().Select(e => Ref(e.Card)).ToArray(),
+                generated = entries.OfType<CardGeneratedEntry>().Select(e => Ref(e.Card)).ToArray()
+            };
+        }
         internal object[] Deck() => Player.Deck.Cards.Select(c => (object)new
         {
             cardRef = Ref(c), modelId = c.Id.Entry, nativeType = c.GetType().Name,
@@ -156,7 +168,7 @@ internal static class BeastContractProbe
                 acceptance = "effect-only-not-payment", character = f.Player.Character.GetType().Name,
                 gameVersion = release.Version, gameCommit = release.Commit,
                 fixtureApi = "CombatState.CreateCard;CardPileCmd.Add;CardCmd.Upgrade;CreatureCmd.SetMaxAndCurrentHp",
-                api = "BeastForms.Convert;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn",
+                api = "BeastForms.Convert;CardCmd.Exhaust;CardPileCmd.AddGeneratedCardToCombat;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn",
                 enemyIds = f.Enemies.Select(e => e.CombatId).ToArray(),
                 enemyTypes = f.Enemies.Select(e => e.Monster!.GetType().Name).ToArray(),
                 deckBefore, deckAfter = f.Deck(), changes = f.Changes, data
@@ -177,21 +189,6 @@ internal static class BeastContractProbe
         }
     }
 
-    private static void CostDiagnostic(CardModel card, string phase)
-    {
-        object? Raw(string name) => typeof(CardEnergyCost).GetField(name,
-            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
-            .GetValue(card.EnergyCost);
-        GD.Print("[Volibear] BEAST_COST_OBSERVATION " + JsonSerializer.Serialize(new
-        {
-            token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN"), phase,
-            modelId = card.Id.Entry, costObjectRef = RuntimeHelpers.GetHashCode(card.EnergyCost),
-            rawCanonical = Raw("<Canonical>k__BackingField"), rawCostsX = Raw("<CostsX>k__BackingField"),
-            rawBase = Raw("_base"), observedCanonical = card.EnergyCost.Canonical,
-            observedCostsX = card.EnergyCost.CostsX, amountToSpend = card.EnergyCost.GetAmountToSpend()
-        }));
-    }
-
     private static async Task<object> F01(Fixture f, CardModel starter)
     {
         var rows = new List<object>();
@@ -202,16 +199,20 @@ internal static class BeastContractProbe
             if (retain) card.GiveSingleTurnRetain();
             await CardPileCmd.Add(card, draw ? PileType.Draw : PileType.Hand, CardPilePosition.Top);
             var before = f.Snapshot(card);
-            if (name == "native-x") CostDiagnostic(card, "before-conversion");
-            var converted = await BeastForms.Convert(f.Choices, card);
-            var afterConversion = f.Snapshot(card);
-            if (name == "native-x") CostDiagnostic(card, "after-conversion-before-autoplay");
+            var historyStart = CombatManager.Instance.History.Entries.Count();
+            f.PendingBeastName = name + "-beast";
+            var converted = await BeastForms.Convert(f.Choices, card)
+                ?? throw new InvalidOperationException("Native beast replacement did not commit.");
+            var afterMaterial = f.Snapshot(card);
+            var afterConversion = f.Snapshot(converted);
+            var conversionHistory = f.HistorySince(historyStart);
             var beforeDrawEnergy = f.Pcs.Energy;
             if (draw) await CardPileCmd.Draw(f.Choices, 1, f.Player);
             var afterDrawEnergy = f.Pcs.Energy;
-            var afterDraw = f.Snapshot(card);
-            var play = await f.Play(card);
-            rows.Add(new { name, before, returnedShape = converted.ToString(), afterConversion,
+            var afterDraw = f.Snapshot(converted);
+            var play = await f.Play(converted);
+            rows.Add(new { name, before, returnedShape = BeastForms.Shape(converted).ToString(),
+                newEntity = !ReferenceEquals(card, converted), afterMaterial, afterConversion, conversionHistory,
                 drawCalls = draw ? 1 : 0, beforeDrawEnergy, afterDrawEnergy, afterDraw, play });
         }
         await Row("starter-claw", starter, retain: true);
@@ -245,10 +246,19 @@ internal static class BeastContractProbe
         card.AddKeyword(CardKeyword.Retain);
         card.EnergyCost.SetThisTurnOrUntilPlayed(2);
         var before = f.Snapshot(card);
-        var first = await BeastForms.Convert(f.Choices, card);
+        var historyStart = CombatManager.Instance.History.Entries.Count();
+        f.PendingBeastName = "native-bludgeon-beast";
+        var material = card;
+        var first = await BeastForms.Convert(f.Choices, material)
+            ?? throw new InvalidOperationException("Native beast replacement did not commit.");
+        card = first;
+        var afterMaterial = f.Snapshot(material);
         var afterConversion = f.Snapshot(card);
+        var conversionHistory = f.HistorySince(historyStart);
+        historyStart = CombatManager.Instance.History.Entries.Count();
         var second = await BeastForms.Convert(f.Choices, card);
         var afterRepeat = f.Snapshot(card);
+        var repeatHistory = f.HistorySince(historyStart);
         card.EnergyCost.SetThisTurnOrUntilPlayed(1);
         var afterNewSet = f.Snapshot(card);
         var firstPlay = await f.Play(card);
@@ -271,8 +281,10 @@ internal static class BeastContractProbe
             if (timeout.Elapsed > TimeSpan.FromSeconds(20)) throw new TimeoutException("Beast fixture next turn timed out.");
             await ((SceneTree)Engine.GetMainLoop()).ToSignal(Engine.GetMainLoop(), SceneTree.SignalName.ProcessFrame);
         }
-        return new { before, firstShape = first.ToString(), afterConversion, secondShape = second.ToString(),
-            afterRepeat, afterNewSet, firstPlay, recycled, afterUpgrade, afterZero, upgradedPlay, beforeTurn,
+        return new { before, firstShape = BeastForms.Shape(first).ToString(), afterMaterial, afterConversion,
+            newEntity = !ReferenceEquals(material, first), conversionHistory,
+            secondShape = second is null ? "None" : BeastForms.Shape(second).ToString(),
+            sameOnRepeat = ReferenceEquals(first, second), repeatHistory, afterRepeat, afterNewSet, firstPlay, recycled, afterUpgrade, afterZero, upgradedPlay, beforeTurn,
             afterTurn = f.Snapshot(card), roundBefore, turnBefore, roundAfter = f.Combat.RoundNumber,
             turnAfter = f.Pcs.TurnNumber, energyAfterTurn = f.Pcs.Energy, hpAfterTurn = f.Player.Creature.CurrentHp };
     }

@@ -80,7 +80,7 @@ public static class TargetCosts
     private static bool Scoped(CardModel card) => Current.Value is { } query && ReferenceEquals(query.Card, card);
     private static bool Sensitive(CardModel card) => !card.IsCanonical && card.Owner?.PlayerCombatState is not null &&
         card.TargetType == TargetType.AnyEnemy && !card.EnergyCost.CostsX &&
-        ((card is ITargetCostCard && !BeastForms.IsConverted(card)) ||
+        (card is ITargetCostCard ||
          (card.Type == CardType.Attack && card.Owner.Creature.HasPower<EndlessHuntPower>()));
 
     public static int CostFor(CardModel card, Creature? target)

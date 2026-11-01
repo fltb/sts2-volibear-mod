@@ -20,6 +20,7 @@ from catalog_evidence import catalog_evidence
 from card_face_evidence import CARD_FACE_CASES, extract_card_face_result, extract_card_face_batch
 from card_lifecycle_evidence import CASES as CARD_LIFECYCLE_CASES, card_lifecycle_batch_evidence
 from native_run_evidence import MODES as NATIVE_RUN_MODES, native_run_evidence
+from native_suite_evidence import check_log as native_suite_evidence
 from presentation_acceptance_evidence import check_log as presentation_acceptance_evidence
 from domain_hopper_evidence import VARIANTS as HOPPER_CASES, domain_hopper_evidence
 from enemy_catalog_evidence import catalog_evidence as enemy_catalog_evidence
@@ -753,6 +754,19 @@ def dampen_protocol_log(log, token, checks):
     return '\n'.join(lines[:boundary + 1] + [line for line in lines[boundary + 1:] if not is_teardown(line)])
 
 
+def repository_metadata():
+    """Optional source provenance: a source ZIP need not include Git or .git."""
+    commit, dirty = None, None
+    try:
+        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
+                                         text=True, stderr=subprocess.DEVNULL).strip()
+        dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT,
+                                            stderr=subprocess.DEVNULL))
+    except (OSError, subprocess.CalledProcessError) as error:
+        return {'git_commit': commit, 'dirty': dirty, 'git_metadata': 'unavailable:' + type(error).__name__}
+    return {'git_commit': commit, 'dirty': dirty, 'git_metadata': 'observed'}
+
+
 def run_once(game, timeout, frames, scenario='discovery', display='headless',
              stock=None, stock_evidence=None, engage_case='e01', domain_case='d01',
              beast_case='f01', domain_enemy_case='flutter',
@@ -765,10 +779,10 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
              card_lifecycle_cases=None, native_run_mode='three-battle-save', native_run_pair=None,
              presentation_mode='cards', audio_driver=None, _profile_env=None):
     if card_face_batch is not None:
-        if scenario != 'card-face-acceptance':
-            raise RuntimeError('Card face batch requires the card-face-acceptance scenario')
+        if scenario not in ('card-face-acceptance', 'native-suite'):
+            raise RuntimeError('Card face batch requires the card-face-acceptance or native-suite scenario')
         card_face_batch = finite_cases(card_face_batch, CARD_FACE_CASES, 'Card face batch')
-    if scenario == 'card-lifecycle':
+    if scenario in ('card-lifecycle', 'native-suite'):
         card_lifecycle_cases = finite_cases(
             CARD_LIFECYCLE_CASES if card_lifecycle_cases is None else card_lifecycle_cases,
             CARD_LIFECYCLE_CASES, 'Card lifecycle batch')
@@ -777,24 +791,32 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Unknown native run mode: ' + str(native_run_mode))
         if native_run_mode == 'resume' and _profile_env is None:
             raise RuntimeError('Native resume requires the fresh owned profile from native_run_pair.py')
-    if scenario == 'presentation-acceptance':
+    if scenario in ('presentation-acceptance', 'native-suite'):
         if presentation_mode not in ('all', 'cards', 'actions'):
             raise RuntimeError('Unknown presentation mode: ' + str(presentation_mode))
         if display == 'headless':
             raise RuntimeError('Presentation capture requires a rendered background/xvfb display')
         if presentation_mode != 'cards' and (not audio_driver or audio_driver.lower() == 'dummy'):
             raise RuntimeError('Action/audio capture requires an explicit non-Dummy --audio-driver')
+    if scenario == 'native-suite' and card_face_batch is None:
+        raise RuntimeError('Native suite requires an explicit finite card-face batch')
     if (IS_WINDOWS and display == 'window'
-            and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance'))):
+            and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'))):
         raise RuntimeError('Acceptance runs must use a private background desktop, not a foreground window')
     run_id = new_run_id()
     directory, env, command = (prepare_run(game, run_id, frames, display)
                                if _profile_env is None else
                                prepare_run(game, run_id, frames, display, _profile_env=_profile_env))
     command = with_audio_driver(command, audio_driver)
+    if scenario == 'native-suite':
+        retained = {'VOLIBEAR_TEST_DATA_ROOT','VOLIBEAR_TEST_FAST_MODE','VOLIBEAR_TEST_PRIVATE_DESKTOP',
+                    'VOLIBEAR_TEST_TOKEN','VOLIBEAR_TEST_ARTIFACT_DIR'}
+        for key in list(env):
+            if key.startswith(('VOLIBEAR_TEST_','VOLIBEAR_SAVE_','VOLIBEAR_NATIVE_RUN_')) and key not in retained:
+                del env[key]
     # Optional diagnostic adapter; the shipped extension may bind its own symbols.
     # Never enable this unverified workaround implicitly.
-    adapter_enabled = scenario != 'native-run' and os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
+    adapter_enabled = scenario not in ('native-run', 'native-suite') and os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
     if adapter_enabled:
         if IS_WINDOWS:
             raise RuntimeError('The FMOD NOSOUND adapter is a POSIX LD_PRELOAD test; '
@@ -817,7 +839,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         if hopper_case not in HOPPER_CASES:
             raise RuntimeError('Unknown Hopper acceptance case: ' + hopper_case)
         env['VOLIBEAR_TEST_HOPPER_CASE'] = hopper_case
-    if scenario == 'card-face-acceptance':
+    if scenario in ('card-face-acceptance', 'native-suite'):
         if card_face_case not in CARD_FACE_CASES:
             raise RuntimeError('Unknown card face acceptance case: ' + card_face_case)
         env['VOLIBEAR_TEST_CARD_FACE_CASE'] = card_face_case
@@ -828,7 +850,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                     or len(set(card_face_batch)) != len(card_face_batch)):
                 raise RuntimeError('Card face batch requires a nonempty unique finite case list')
             env['VOLIBEAR_TEST_CARD_FACE_BATCH'] = ','.join(card_face_batch)
-    if scenario == 'card-lifecycle':
+    if scenario in ('card-lifecycle', 'native-suite'):
         env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
         env.pop('VOLIBEAR_TEST_CARD_LIFECYCLE_CASE', None)
         env['VOLIBEAR_TEST_CARD_LIFECYCLE_CASES'] = json.dumps(card_lifecycle_cases)
@@ -841,7 +863,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                 del env[key]
         env['VOLIBEAR_NATIVE_RUN_MODE'] = native_run_mode
         env['VOLIBEAR_NATIVE_RUN_PAIR'] = native_run_pair or run_id
-    if scenario == 'presentation-acceptance':
+    if scenario in ('presentation-acceptance', 'native-suite'):
         env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
         env['VOLIBEAR_TEST_PRESENTATION_ACCEPTANCE'] = '1'
         env['VOLIBEAR_TEST_PRESENTATION_MODE'] = presentation_mode
@@ -926,7 +948,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Unknown persistent contract case: ' + persistent_case)
         env['VOLIBEAR_TEST_PERSISTENT_CASE'] = persistent_case
     if scenario in ('baseline', 'api', 'content', 'engage-contract', 'domain-contract',
-                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'card-lifecycle', 'native-run', 'presentation-acceptance'):
+                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'):
         # MonoMod's native exception helper needs globally visible libgcc unwind symbols.
         # This is scoped to the child; it changes no system loader configuration.
         if not IS_WINDOWS:
@@ -949,6 +971,11 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     scenario_result = None
     if scenario == 'api':
         checks['api_dump_complete'] = '[Volibear] API_DUMP_DONE' in log
+    elif scenario == 'native-suite':
+        scenario_result = native_suite_evidence(dampen_protocol_log(log, run_id, checks), run_id,
+                                               card_face_batch, card_lifecycle_cases, presentation_mode,
+                                               directory / 'presentation', env['VOLIBEAR_TEST_DATA_ROOT'])
+        checks['native_suite_assertions'] = scenario_result['errors'] == []
     elif scenario == 'card-lifecycle':
         scenario_result, checks['card_lifecycle_assertions'] = card_lifecycle_batch_evidence(log, run_id, card_lifecycle_cases)
     elif scenario == 'native-run':
@@ -1057,8 +1084,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         'schema': 1, 'run_id': run_id, 'mode': 'real-game-' + display, 'scenario': scenario,
         'platform': os.name,
         'game_version': '0.107.1', 'game_commit': '59260271',
-        'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
-        'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT)),
+        **repository_metadata(),
         'exit_code': code, 'timed_out': timed_out, 'checks': checks,
         'diagnostics': diagnostics,
         'status': 'passed' if all(checks.values()) else 'failed',

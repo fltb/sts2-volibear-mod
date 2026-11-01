@@ -101,7 +101,11 @@ def check_owned_output(path, expected_names):
         raise ValueError('Refusing to overwrite unknown or modified output archive') from error
 
 
-def package(dll, pck, mod_manifest, archive, license_file, instructions, output):
+def package(dll, pck, mod_manifest, archive, license_file, instructions, output, *, audio_profile='open'):
+    if audio_profile not in ('open', 'riot_en'):
+        raise ValueError('Unknown audio profile: ' + str(audio_profile))
+    if audio_profile == 'riot_en' and not Path(output).resolve().is_relative_to((ROOT / '.local').resolve()):
+        raise ValueError('Private Riot package must remain beneath ignored .local/')
     if any(Path(path).name != name for name, path in zip(MOD_FILES, (dll, pck, mod_manifest))):
         raise ValueError('Input artifact filename mismatch; no renamed game/development files')
     payload = {f'mods/Volibear/{name}': read_file(path)
@@ -112,6 +116,14 @@ def package(dll, pck, mod_manifest, archive, license_file, instructions, output)
     # The DLL, artwork and open audio travel with their own terms and source credits;
     # BaseLib's MIT text does not cover this mod or its asset authors.
     payload.update({name: read_file(path) for name, path in DISTRIBUTION_NOTICES.items()})
+    if audio_profile == 'riot_en':
+        payload['licenses/audio/RIOT_AUDIO_CREDITS.md'] = read_file(ROOT / 'assets/animation/audio/official/CREDITS.md')
+        payload['licenses/audio/riot_en.json'] = read_file(ROOT / 'assets/animation/audio/profiles/riot_en.json')
+        payload['AUDIO_PROFILE.txt'] = (
+            'Private local Riot English audio profile with the complete open fallback set.\n'
+            'Riot recordings remain Riot property and are not GPL/CC licensed.\n'
+            'Replace the single Volibear.pck to switch profiles; never install two competing packs.\n'
+            'This package does not claim human listening or native gameplay acceptance.\n').encode('utf-8')
     for name, data in payload.items():
         # Preserve approved DLL/PCK bytes. Their debug/provenance text is not an installation address.
         # Runtime resource loading is covered by the existing resource/game gates, not a byte-grep oracle.
@@ -123,6 +135,7 @@ def package(dll, pck, mod_manifest, archive, license_file, instructions, output)
             raise ValueError('PCK header mismatch: ' + name)
     record = {'producer': PRODUCER, 'status': 'packaged-build', 'mod_version': info['version'],
               'game_version': GAME_VERSION, 'game_build': GAME_BUILD,
+              'audio_profile': audio_profile, 'private_audio': audio_profile == 'riot_en',
               'dependency': {'id': 'BaseLib', 'version': dependencies.VERSION, 'archive_sha256': dependencies.SHA256,
                              'official_url': dependencies.URL},
               'files': {name: sha(data) for name, data in sorted(payload.items())}}
@@ -160,9 +173,12 @@ def main():
     parser.add_argument('--baselib-archive', type=Path, default=ROOT / '.local/dependencies/BaseLib.3.4.7.zip')
     parser.add_argument('--baselib-license', type=Path, default=ROOT / 'licenses/BaseLib-LICENSE.txt')
     parser.add_argument('--output', type=Path, default=OUTPUT)
+    parser.add_argument('--audio-profile', choices=('open', 'riot_en'), default='open')
     args = parser.parse_args()
+    if args.audio_profile == 'riot_en' and args.output == OUTPUT:
+        args.output = OUTPUT.with_name(OUTPUT.stem + '-riot_en-private.zip')
     result = package(args.dll, args.pck, args.manifest, args.baselib_archive, args.baselib_license,
-                     ROOT / 'docs/INSTALL_ZH.md', args.output)
+                     ROOT / 'docs/INSTALL_ZH.md', args.output, audio_profile=args.audio_profile)
     print('Portable mod archive created: ' + result.name)
 
 

@@ -86,7 +86,6 @@ namespace MegaCrit.Sts2.Core.Models
         public Player Owner = null!;
         public ICombatState? CombatState;
         public CardModel? CloneOf;
-        public bool Converted;
         public Vars DynamicVars = new();
         public sealed class Vars { public DamageVar Damage = new(); }
     }
@@ -149,13 +148,14 @@ namespace MegaCrit.Sts2.Core.Commands
     { public static Task<T?> Apply<T>(PlayerChoiceContext c, Creature t, decimal n, Creature? applier, CardModel? card, bool silent) where T : PowerModel => Task.FromResult((T?)null); }
     public static class Cmd { public static Task Wait(float n) => Task.CompletedTask; }
 }
-namespace Volibear.Content { public sealed class VolibearCharacter { } }
+namespace Volibear.Content
+{
+    public sealed class VolibearCharacter { }
+    public sealed class Volibear_T02 : CardModel { }
+}
 namespace Volibear.Core
 {
     public sealed class DomainPower : PowerModel { public static bool IsActive(Creature owner) => owner.Domain && owner.IsAlive; }
-    public enum BeastShape { None, Claw }
-    public static class BeastForms
-    { public static BeastShape Shape(CardModel card) => card.Converted ? BeastShape.Claw : BeastShape.None; public static bool IsConverted(CardModel card) => card.Converted; }
     public static class DomainEnemyEffects
     {
         private static readonly ConditionalWeakTable<PowerModel, ShellWindow> SuppressedShells = new();
@@ -312,9 +312,10 @@ internal static class Program
         Check(card.DynamicVars.Damage.BaseValue == 5m && enemy.WitherUpgradeCount == 1, "New upgrade after domain expiration executes normally");
         owner.Creature.Domain = true;
         Check((decimal)Call("WitherDamageWithoutEnemyContribution", card, receiver.Creature, 5m)! == 2m, "Shared domain suppresses enemy upgrade only, preserving player Wither base damage");
-        card.Converted = true;
-        Check((decimal)Call("WitherDamageWithoutEnemyContribution", card, receiver.Creature, 5m)! == 5m, "Converted form does not inherit old status damage adjustment");
-        card.Converted = false; s.Creatures.Remove(enemy.Creature);
+        var beast = s.CreateCard<Volibear_T02>(receiver);
+        Check((decimal)Call("WitherDamageWithoutEnemyContribution", beast, receiver.Creature, 5m)! == 5m, "New native beast does not inherit the material's status damage contribution");
+        Check((decimal)Call("WitherDamageWithoutEnemyContribution", card, receiver.Creature, 5m)! == 2m, "Original Wither retains its own identity and contribution after a separate beast exists");
+        s.Creatures.Remove(enemy.Creature);
         Call("SetWitherUpgradeCount", enemy, 2);
         Check(enemy.WitherUpgradeCount == 2, "Detached enemy does not borrow live encounter policy");
     }

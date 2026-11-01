@@ -98,9 +98,8 @@ public static partial class DomainEnemyStatusContributions
         // Tooltip Withers have no owner/combat; keep their native informational path.
         var receiver = card.Owner?.Creature;
         if (receiver is null || !EnemySource(source, receiver, out _)) { card.FakeUpgrade(); return; }
-        if (DomainEnemyEffects.ProtectsPlayer(receiver) || BeastForms.IsConverted(card))
+        if (DomainEnemyEffects.ProtectsPlayer(receiver))
         {
-            // The helper verifies the live domain; a converted card alone emits nothing.
             Volibear.Presentation.PowerPresentationDomain.Suppressed(source.Creature, source, card, sourceCombat: receiver.CombatState);
             return;
         }
@@ -120,7 +119,7 @@ public static partial class DomainEnemyStatusContributions
 
     private static decimal WitherDamageWithoutEnemyContribution(CardModel card, Creature receiver, decimal original)
     {
-        if (card is not Wither || BeastForms.IsConverted(card) || !DomainEnemyEffects.ProtectsPlayer(receiver) ||
+        if (card is not Wither || !DomainEnemyEffects.ProtectsPlayer(receiver) ||
             !_witherContributions.TryGetValue(card, out var contribution) || contribution.Generation != _generation ||
             !ReferenceEquals(contribution.Combat, receiver.CombatState) || !ReferenceEquals(contribution.Receiver, receiver))
             return original;

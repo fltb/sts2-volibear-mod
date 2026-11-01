@@ -10,15 +10,16 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
 import uuid
 
 try:
-    from tools import audio_profiles
+    from tools import audio_profiles, toolchain
 except ModuleNotFoundError:
-    import audio_profiles
+    import audio_profiles, toolchain
 
 ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION = ROOT / 'src/Volibear/Presentation'
@@ -275,7 +276,19 @@ def run(godot_args, work, label, env):
     return text
 
 
-def build(godot, output=PACK, *, audio_profile='open'):
+def source_export_preset(preset, resources):
+    preset, count = re.subn(r'^export_filter="all_resources"$',
+                           'export_filter="resources"\nexport_files=PackedStringArray('
+                           + ', '.join(json.dumps(p) for p in resources) + ')', preset, flags=re.MULTILINE)
+    if count != 1:
+        raise ValueError('Expected exactly one resource-export preset')
+    preset, count = re.subn(r'^script_export_mode=\d+$', 'script_export_mode=0', preset, flags=re.MULTILINE)
+    if count != 1:
+        raise ValueError('Expected exactly one GDScript export mode')
+    return preset
+
+
+def build(godot, output=PACK, *, audio_profile='open', dotnet=None):
     output = output_path(output)
     godot = godot.resolve()
     if not godot.is_file():
@@ -286,10 +299,14 @@ def build(godot, output=PACK, *, audio_profile='open'):
     audio_profiles.profile_data(audio_profile)
     profile_expected = {'profile': 'open', 'overrides': []}
     if audio_profile == 'riot_en':
-        runtime_profile = audio_profiles.verify_prepared()
+        # Fixed source/processed hashes are checked here; the actual packed streams are
+        # decoded and played by Godot below. A prepared private ZIP needs no FFmpeg install.
+        runtime_profile = audio_profiles.verify_prepared(full_decode=False)
         profile_expected = {'profile': 'riot_en', 'overrides': runtime_profile['overrides']}
     snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',
-                                    UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json']}
+                                    UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json',
+                                    PRESENTATION / 'actor.gd',
+                                    *(PRESENTATION / name for name in NATIVE_RESOURCES)]}
     work = ROOT / '.local/asset-build' / uuid.uuid4().hex
     project = work / 'project'
     art = project / 'VolibearArt'
@@ -298,13 +315,10 @@ def build(godot, output=PACK, *, audio_profile='open'):
     # The Mono editor needs hostfxr even though this pack contains no C# scripts.
     # Prefer the repository's pinned SDK; do not replace any system installation.
     config_path = ROOT / '.local/config.json'
-    config = json.loads(config_path.read_text(encoding='utf-8')) if config_path.is_file() else {}
-    dotnet = config.get('dotnet') or shutil.which('dotnet')
-    if not dotnet or not Path(dotnet).is_file():
-        raise ValueError('Godot Mono requires dotnet: configure .local/config.json dotnet or PATH')
-    env['DOTNET_ROOT'] = str(Path(dotnet).resolve().parent)
-    env['PATH'] = env['DOTNET_ROOT'] + os.pathsep + env.get('PATH', '')
-    env['DOTNET_CLI_TELEMETRY_OPTOUT'] = '1'
+    config = json.loads(config_path.read_text(encoding='utf-8-sig')) if config_path.is_file() else {}
+    dotnet = toolchain.executable(dotnet or os.environ.get('VOLIBEAR_DOTNET') or config.get('dotnet')
+                                 or shutil.which('dotnet'), '.NET')
+    env = toolchain.dotnet_environment(dotnet, env)
     for variable in ['APPDATA', 'LOCALAPPDATA', 'HOME', 'XDG_DATA_HOME', 'XDG_CONFIG_HOME', 'XDG_CACHE_HOME']:
         folder = work / 'profile' / variable
         folder.mkdir(parents=True)
@@ -358,20 +372,29 @@ def build(godot, output=PACK, *, audio_profile='open'):
     resources = sorted('res://' + p.relative_to(project).as_posix() for p in art.rglob('*')
                        if p.suffix in {'.png', '.ogg', '.svg', '.tscn', '.tres', '.gd', '.gdshader'})
     preset = (ROOT / 'assets/animation/integration_sts2_v5/export_presets.cfg').read_text(encoding='utf-8')
-    preset = preset.replace('export_filter="all_resources"', 'export_filter="resources"\nexport_files=PackedStringArray('
-                            + ', '.join(json.dumps(p) for p in resources) + ')')
-    # Keep GDScript as source: the pack is consumed by the pinned MegaDot host, not this editor.
-    preset = preset.replace('script_export_mode=1', 'script_export_mode=0')
+    # The installed game runs its own engine. Source GDScript avoids compiler-bytecode
+    # coupling to this ordinary Godot editor; verify the exported bytes independently below.
+    preset = source_export_preset(preset, resources)
     (project / 'export_presets.cfg').write_text(preset, encoding='utf-8')
     run([godot, '--headless', '--editor', '--path', project, '--import'], work, 'import', env)
     temporary_pack = work / 'Volibear.pck'
     run([godot, '--headless', '--path', project, '--export-pack', 'AssetPack', temporary_pack], work, 'export', env)
+    toolchain.validate_pack_header(temporary_pack)
     verify = work / 'verify'
     verify.mkdir()
     (verify / 'project.godot').write_text(verify_project_text, encoding='utf-8')
     shutil.copyfile(PRESENTATION / 'verify_pack.gd', verify / 'verify_pack.gd')
     shutil.copyfile(PRESENTATION / 'verify_effects.gd', verify / 'verify_effects.gd')
     shutil.copyfile(PRESENTATION / 'verify_audio_profile.gd', verify / 'verify_audio_profile.gd')
+    shutil.copyfile(ROOT / 'tools/godot_pack_compat.gd', verify / 'godot_pack_compat.gd')
+    source_expectations = {'res://VolibearArt/scenes/' + name: sha(PRESENTATION / name)
+                           for name in ('actor.gd', *NATIVE_RESOURCES) if name.endswith('.gd')}
+    sources_path = work / 'expected-source-scripts.json'
+    sources_path.write_text(json.dumps(source_expectations), encoding='utf-8')
+    compatibility = run([godot, '--headless', '--path', verify, '--script', 'godot_pack_compat.gd', '--',
+                         temporary_pack, sources_path], work, 'verify-pack-compat', env)
+    if f'VOLIBEAR_PACK_COMPAT_PASS source_scripts={len(source_expectations)} ' not in compatibility:
+        raise RuntimeError('Missing packed source-script compatibility sentinel')
     # Independent expectations travel outside the pack, so a missing resource cannot erase its test.
     expected = {'clips': {c['name']: {'frames': c['frame_count'], 'loop': c['loop']} for c in clips},
                 'portraits': ['res://VolibearArt/cards/' + e['path'] for e in portraits],
@@ -400,7 +423,7 @@ def build(godot, output=PACK, *, audio_profile='open'):
         raise RuntimeError('Missing packed audio profile playback verification completion sentinel')
     for source, digest in snapshots.items():
         if sha(source) != digest:
-            raise ValueError(f'Input manifest changed during build: {source}')
+            raise ValueError(f'Production input changed during build: {source}')
     # Recheck approved source and staged atlas hashes before publishing the candidate pack.
     read_inputs()
     for clip in clips:
@@ -427,12 +450,13 @@ def build(godot, output=PACK, *, audio_profile='open'):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--godot', type=Path, required=True)
+    parser.add_argument('--dotnet', type=Path, help='Pinned SDK executable; otherwise config, VOLIBEAR_DOTNET or PATH')
     parser.add_argument('--output', type=Path, default=PACK,
                         help='Candidate .pck beneath .local; defaults to .local/packs/Volibear.pck')
     parser.add_argument('--audio-profile', choices=('open', 'riot_en'), default='open',
                         help='Open sounds by default; riot_en requires locally prepared private recordings')
     args = parser.parse_args()
-    build(args.godot, args.output, audio_profile=args.audio_profile)
+    build(args.godot, args.output, audio_profile=args.audio_profile, dotnet=args.dotnet)
 
 
 if __name__ == '__main__':

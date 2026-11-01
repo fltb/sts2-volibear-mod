@@ -36,15 +36,18 @@ internal static class BeastSelection
             new CardSelectorPrefs(new LocString("cards", source.Id.Entry + ".beastSelectionPrompt"), optional ? 0 : count, count),
             c => candidates.Contains(c), source)).ToArray();
         var committed = 0;
+        var visited = new HashSet<CardModel>(ReferenceEqualityComparer.Instance);
         foreach (var card in selected)
         {
             if (!Live(source)) break;
-            if (!ReferenceEquals(card.Pile, hand)) continue;
-            var previous = BeastForms.Shape(card);
-            var shape = await BeastForms.Convert(context, card, source);
-            if (previous == BeastShape.None && BeastForms.IsConverted(card)) committed++;
+            if (!visited.Add(card) || !ReferenceEquals(card.Pile, hand)) continue;
+            var replacement = await BeastForms.Convert(context, card, source);
+            if (replacement is null) continue;
+            var shape = BeastForms.Shape(replacement);
+            if (!ReferenceEquals(replacement, card)) committed++;
+            if (!Live(source) || !ReferenceEquals(replacement.Owner, source.Owner)) continue;
             // Display-only set-zero wording does NOT replace the shared -1 coupon.
-            if (discount && (!oldDays || shape == BeastShape.Claw)) NextPlayDiscount.Grant(card);
+            if (discount && (!oldDays || shape == BeastShape.Claw)) NextPlayDiscount.Grant(replacement);
             if (oldDays && shape == BeastShape.Body && Live(source))
                 await CreatureCmd.GainBlock(source.Owner.Creature, 4m, ValueProp.Move, play);
         }

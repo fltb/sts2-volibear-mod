@@ -32,6 +32,10 @@ static class Program
                 Need(domain[0].Description.Contains("下一次正常起手抽牌结束") && domain[0].Description.Contains("4＋当前雷势"), "Draw boundary and attachment visible");
                 Need(domain[0].Description.Contains("多段与重演共用一次") && domain[0].Description.Contains("你实际抽到"), "Personal benefit boundary visible");
                 Need(domain[1].Description.Contains("敌人自身的不利效果") && domain[1].Description.Contains("不会在领域结束后补发"), "Beneficial-only suppression visible");
+                var beast = Tips(MechanicHoverTips.ForText("兽化")).Single().Description;
+                Need(beast.Contains("先消耗原牌") && beast.Contains("生成新的兽形牌"), "Native exhaust and generation are explicit");
+                Need(beast.Contains("正常触发消耗响应") && beast.Contains("原牌所在牌堆"), "Exhaust responses and destination are explicit");
+                Need(!beast.Contains("保留原牌实体"), "Retired identity overlay is not advertised");
                 break;
             case "compose":
                 var attack = new TestCard();
@@ -42,9 +46,9 @@ static class Program
                 Need(EngageCmd.Queries == 0, "Card library does not query combat or consume opportunities");
                 break;
             case "forms":
-                Need(Ids(MechanicHoverTips.ForBeast(true)).SequenceEqual(["VOLIBEAR-BEAST_FORM"]), "Converted claw shows only current form");
-                Need(Ids(MechanicHoverTips.ForBeast(false)).SequenceEqual(["VOLIBEAR-LIGHTNING", "VOLIBEAR-BEAST_FORM"]), "Converted body has lightning and form explanation");
-                Need(!Ids(MechanicHoverTips.ForBeast(false)).Contains("VOLIBEAR-ENGAGE"), "Original foreign-card effect cannot leak into converted tip");
+                Need(Ids(MechanicHoverTips.ForText("裂骨之爪")).SequenceEqual(["VOLIBEAR-BEAST_FORM"]), "Native claw has its own form tip");
+                Need(Ids(MechanicHoverTips.ForText("风暴之躯 雷伤")).SequenceEqual(["VOLIBEAR-LIGHTNING", "VOLIBEAR-BEAST_FORM"]), "Native body has lightning and form explanation");
+                Need(!Ids(MechanicHoverTips.ForText("风暴之躯 雷伤")).Contains("VOLIBEAR-ENGAGE"), "New token has no material-card tip");
                 Need(!Ids(MechanicHoverTips.ForText("领域", "领域")).Contains("VOLIBEAR-DOMAIN"), "Own-tip omission remains available");
                 break;
             case "reload":

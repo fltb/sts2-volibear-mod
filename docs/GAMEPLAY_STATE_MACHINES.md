@@ -236,34 +236,22 @@ stateDiagram-v2
 
 ## 7. 兽化、牌区、费用（FORM）
 
-```mermaid
-stateDiagram-v2
-    [*] --> Original
-    Original --> BeastClaw: 攻击材料，保原实体及升级
-    Original --> BeastBody: 非攻击材料，保原实体及升级
-    BeastClaw --> BeastClaw: 再次兽化不重复转换事件
-    BeastBody --> BeastBody: 再次兽化不重复转换事件
-    BeastClaw --> Exhausted: 真实打出与原生消耗
-    BeastBody --> Exhausted: 真实打出与原生消耗
-    Original --> CombatClosed: 战斗结束
-    BeastClaw --> CombatClosed: 战斗结束
-    BeastBody --> CombatClosed: 战斗结束
-    Exhausted --> CombatClosed
-```
-
-这不是用新卡替换旧卡的许可：牌形态、实际牌区、永久主牌关联分别记录。永久牌组不因战斗覆盖层而变成兽形。
+2026-11-01用户将兽化改为原生“消耗材料→生成新兽形”。原材料与新牌是两个实体：
+材料走完整Exhaust响应，确认本次原生耗尽事实且战斗仍可继续，才创建T01/T02并走
+AddGeneratedCardToCombat。目的地为材料原牌堆，按原生Bottom插入；满手回落与生成响应
+继续由原生处理，不额外搬动其他牌恢复手牌槽位。永久牌组保持原牌。
 
 | 转换 | 不变量与边界 |
 |---|---|
-| FORM-01 转换 | 相同实体/owner/master引用；升级、已有减费和保留按规则保留；原牌特殊效果不再执行（F01/F02）。 |
-| FORM-02 转换响应 | 先提交形态覆盖再通知监听；监听异常不能谎称没转换或重新发转换事件。 |
+| FORM-01 转换 | 本次材料真实耗尽，生成不同身份的T01/T02；owner相同，新牌不绑定材料CloneOf/DeckVersion。升级、仍有效的局部减费与保留转移，永久主牌不变（F01/F02）。 |
+| FORM-02 转换响应 | 正常耗尽和生成响应先执行，再发一次兽化完成响应。耗尽被取消、终局或失效时不制造新牌；旧耗尽历史不能作为本次事实，重入不重复消费/生成。 |
 | FORM-03 批量转换 | 固定原批集合；响应中新抽牌不能加入同批；同实体不重复选择（F03/F05/F06）。 |
 | FORM-04 打出 | 预览与实际支付一致，兽形最终消耗；0费文案不新增永久费用改写（F04/P02）。 |
 | FORM-05 多实例 | 每个部署的首次/每次资格独立；轮次重置不能替另一实例消费（F07/F08）。 |
 
 费用另有状态：`无券 → 已准备 → 合法真实出牌消费 / 到期`；重演不二次消费。普通同类优惠取最大、R14按目标累加，不能混为同一种账本（P02）。
 
-入口：[BeastForms](../src/Volibear/Core/BeastForms.cs)、[BeastCostLedger](../src/Volibear/Core/BeastFormsCost.cs)、[TargetCosts](../src/Volibear/Core/TargetCosts.cs)。
+入口：[BeastForms](../src/Volibear/Core/BeastForms.cs)、[原生费用转移](../src/Volibear/Core/BeastFormsCost.cs)、[TargetCosts](../src/Volibear/Core/TargetCosts.cs)。费用转移后由原生命令管理有效期，不持续接管卡牌费用查询。
 
 ### 7.1 独立部署、待用效果与到期（DEPLOY）
 
@@ -502,7 +490,7 @@ stateDiagram-v2
 | card-domain-replay-close | CARD-04/05、LIGHTNING-04；D01–D03/L12 | PlayGate + LightningCounter：晚进入、重入、完成、重复、关闭、新实例 | 实际付款/重演调度/伤害/不同owner适配 |
 | domain-two-clocks | DOMAIN-01–04、LIGHTNING-03；D05/D06/L05 | DrawClock + Duration + LightningCounter：额外玩家回合、正常边界、重复/倒序通知、永久 | 原生抽牌与R28调用顺序；测试中的轮数递减是显式编排 |
 | lightning-pending-epoch-close | LIGHTNING-04；L03/L05/L12 | LightningCounter：多pending、局部Abort、完成、epoch ABA、重复Close | 原生伤害与listener故障；票据所属owner由适配器保证 |
-| beast-reference-clone-lifetime | FORM-01/04；F02/P02 | BeastCostLedger：值相等不同引用、多代clone、过期、后加Set、形态基础费用 | 原牌实体覆盖、实际支付与消耗 |
+| beast-native-cost-lifetime | FORM-01/04；F02/P02 | BeastCostTransfer：本战、本回合、下次打出及组合到期的相对费用转移；后续费用由原生管理 | 原游戏耗尽/生成响应、真实支付与网络同步 |
 | steam-death-evidence | DEATH-01/03、EFFECT-02；D14/D17 | SteamEruptionDecision：观察领域、否决、真实确认、取消锁存、伤害贡献门 | 原生实际死亡、领域实际挂载 |
 | steam-commit-and-identity | EFFECT-02、DEATH-01；D14/D17 | SteamEruptionDecision：引用身份、epoch、写后事实不回滚/不重复 | 原生HP确实发生；这里只测试写后账本 |
 | steam-terminal-guards | DEATH、RUN-03；D14/E16 | SteamEruptionDecision：ancestor/firstDeath/inflight/tail组合与一次终结 | 实际调度是否传入正确guard |
@@ -523,8 +511,8 @@ stateDiagram-v2
 | CARD-01/02 前置拒绝/支付 | [TargetCosts](../src/Volibear/Core/TargetCosts.cs) `CanPlayResolved/SpendResolved/ResolvedTargetCallsites` | C：[历史契约](../tests/test_history_contracts.py) `test_native_preflight_and_payment_not_current_target_or_refund`；实际正常输入/支付N，尚无独立支付内核U |
 | CARD-03、HISTORY 真实牌/重演 | [AttackHistory](../src/Volibear/Core/AttackHistory.cs) `BeforeNativeHooks/AfterNativeHooks`，`PlayHistoryLedger.Record/Complete` | U：[历史内核](../tests/history_bookkeeping/Program.cs)顶层Record/Complete序列；原生多系列与付款N |
 | DRAW-01/02 净化/补抽 | [CardResolutionHooks](../src/Volibear/Core/CardResolutionHooks.cs) `AddDrawnCard/PurifyThenDispatch`，[DomainPower](../src/Volibear/Core/DomainPower.cs) `AfterCardDrawnEarly` | S/N；缺完整净化事务行为U，DrawClock不替代此项 |
-| FORM-01/02/04 转换/消费 | [BeastForms](../src/Volibear/Core/BeastForms.cs) `Convert/DispatchPlay/ResultPile` | S/N；费用账本U不覆盖实体、牌区或转换listener异常 |
-| FORM-03、CHOICE 兽化选择 | [BeastSelection](../src/Volibear/Content/Cards/BeastEffects.cs) `Transform` | S/N；固定集合已实现，`Transform`本身没有Distinct/重复拒绝，F06依赖原生selector，仍需独立行为断言 |
+| FORM-01/02/04 转换/消费 | [BeastForms](../src/Volibear/Core/BeastForms.cs) `Convert`及原生T01/T02 | U/C：生产Convert、原生形态类与费用转移在命令边界替身下执行；真实耗尽/生成/支付及绑定仍N |
+| FORM-03、CHOICE 兽化选择 | [BeastSelection](../src/Volibear/Content/Cards/BeastEffects.cs) `Transform` | U/C：固定原集合、等待后牌堆重验、按对象去重及材料被耗尽响应取回时不重复消费；原生selector组合仍N |
 | FORM-05、DEPLOY 独立首次 | [BeastPowers](../src/Volibear/Core/BeastPowers.cs) `BearSpiritPower.AfterConversion/BeforeCardPlayed`、`WildernessPower.BeforeCardPlayed` | S/N；缺抽取后的实际首次资格U，不以只测入场效果代替 |
 | CHOICE 检索/预见/消耗材料 | [ControlledEffects](../src/Volibear/Content/Cards/ControlledEffects.cs) `Retrieve/Scry/ExhaustAnother` | C：[控制牌契约](../tests/test_controlled_cards.py) `test_native_selections_capacity_identity_and_scry_order`；退出、候选移动、满手和实际结果N |
 | CHOICE 敌人强制选牌 | 原生Knowledge `ChooseCurse → FromChooseACardScreen → OnChosen` | 原生源码已定位；受限transport仅stage的C/门禁测试，完整原生输入/下游效果N，不是正式修复 |
@@ -535,7 +523,7 @@ stateDiagram-v2
 
 1. 迎战机会、跨轮、reset和多实例已有直接生产内核序列，但仍需适配器/原生生命周期组合验证。§3.1已按原生切侧与快照时序解释新敌机会，不能把未查 `SpawnedThisTurn` 当缺陷并一刀切封禁；四类实际场景仍待原生验收。
 2. 召唤多边界与reset后续、复活/被动提交对照、偷牌归还部分提交与生命周期；未整合stage不计正式实现。
-3. 原生付款、完整兽化覆盖、净化补抽、各独立部署首次响应、选择退出等缺少纯内核的部分，先抽取实际生产责任或用真实程序集离线夹具；不能一概推给真机。
+3. 原生付款、原生兽化事务组合、净化补抽、各独立部署首次响应、选择退出等缺少纯内核的部分，先抽取实际生产责任或用真实程序集离线夹具；不能一概推给真机。
 4. 每张牌基础/升级及特殊分支、逐敌自然状态转换仍按原规格建立测试。第一批8条序列并不覆盖全部89卡或全部敌人。
 
 ### 15.4 测试自身的行为失效检测（G7）
@@ -547,7 +535,7 @@ stateDiagram-v2
 | 去掉同出牌已附雷资格检查 | card-domain-replay-close：pending期间重入不能再次附雷 |
 | 正常抽牌时钟将同轮也视为下一轮 | domain-two-clocks：额外玩家回合不能扣领域轮数 |
 | 雷伤完成不消费pending票据 | lightning-pending-epoch-close：已Abort的票据不能完成 |
-| 兽化费用继承按值相等合并对象 | beast-reference-clone-lifetime：只有原引用属于继承集合 |
+| 兽化费用转移丢弃下一次打出到期差值 | beast-native-cost-lifetime：临时加费遮住本战减费时，不能拓宽临时费用期限 |
 | Steam永远压制匹配来源正伤害 | steam-death-evidence：确认死亡且无领域时仍允许原生收益 |
 
 变异必须先**编译成功**，然后因指定行为断言失败；编译报错、运行器失效或缺少成功标记本身不算检出。临时变异不修改生产源码，也不进入发布构建。此集合只是新增序列的失效检测，不代替原规格全部G7变异。

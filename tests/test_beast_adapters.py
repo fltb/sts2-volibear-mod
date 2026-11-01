@@ -1,4 +1,4 @@
-"""Compiled production foreign-card registration; no native game/Harmony claim."""
+"""Compiled production native-replacement orchestration; command boundaries are stubs."""
 import json
 import os
 from pathlib import Path
@@ -9,13 +9,25 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class BeastAdapterRegistration(unittest.TestCase):
-    def test_foreign_inheritance_late_load_idempotence_and_failure(self):
+class BeastNativeReplacement(unittest.TestCase):
+    def test_native_replacement_responses_cost_lifetimes_and_owner_boundaries(self):
         config = ROOT / '.local/config.json'
         configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
         dotnet = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
         if not dotnet or not Path(dotnet).is_file():
-            raise unittest.SkipTest('SDK unavailable; beast adapter registration NOT_RUN')
+            raise unittest.SkipTest('SDK unavailable; beast replacement production execution NOT_RUN')
+        generated = ROOT / 'artifacts/beast-bookkeeping'
+        generated.mkdir(parents=True, exist_ok=True)
+        selections = (ROOT / 'src/Volibear/Content/Cards/BeastEffects.cs').read_text(encoding='utf-8')
+        (generated / 'ProductionSelections.cs').write_text(selections.split('[BaseLib.Utils.Attributes.CustomID', 1)[0], encoding='utf-8')
+        controlled = (ROOT / 'src/Volibear/Content/Cards/ControlledEffects.cs').read_text(encoding='utf-8')
+        coupon = controlled.split('public sealed class NextPlayDiscount', 1)[1].split('/// <summary>Native temporary-strength', 1)[0]
+        imports = ['System', 'System.Linq', 'System.Collections.Generic', 'System.Threading.Tasks',
+                   'BaseLib.Abstracts', 'MegaCrit.Sts2.Core.Combat', 'MegaCrit.Sts2.Core.Entities.Cards',
+                   'MegaCrit.Sts2.Core.Entities.Creatures', 'MegaCrit.Sts2.Core.GameActions.Multiplayer',
+                   'MegaCrit.Sts2.Core.Models', 'MegaCrit.Sts2.Core.Rooms', 'Volibear.Core']
+        (generated / 'ProductionCoupon.cs').write_text(''.join('using ' + name + ';\n' for name in imports) +
+            'namespace Volibear.Content;\npublic sealed class NextPlayDiscount' + coupon, encoding='utf-8')
         project = ROOT / 'tests/beast_bookkeeping/BeastBookkeeping.csproj'
         build = subprocess.run([dotnet, 'build', str(project), '-c', 'Release', '--nologo'],
                                cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=180)
@@ -24,16 +36,18 @@ class BeastAdapterRegistration(unittest.TestCase):
         result = subprocess.run([dotnet, str(dll)], cwd=ROOT, capture_output=True,
                                 text=True, encoding='utf-8', timeout=60)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('BEAST_ADAPTERS_OK assertions=22; harmony-gameplay=NOT_RUN', result.stdout)
-        self.assertIn('BEAST_BOOKKEEPING_OK assertions=22; engine_cases=NOT_RUN', result.stdout)
+        self.assertRegex(result.stdout, r'BEAST_NATIVE_REPLACEMENT_OK assertions=\d+; native-gameplay=NOT_RUN')
+        self.assertEqual(result.stdout.count('BEAST_PRODUCTION_CASE_PASS'), 8)
 
-    def test_conversion_registers_before_mutating_and_warms_all_loaded_mods(self):
+    def test_no_card_type_overlay_or_private_metadata_writes_remain(self):
         source = (ROOT / 'src/Volibear/Core/BeastForms.cs').read_text(encoding='utf-8')
-        self.assertLess(source.index('cardAdapters!.Ensure(card.GetType())'), source.index('forms.Add(card, form)'))
-        self.assertIn('BeastCardAdapterRegistry.LoadedCardTypes(typeof(CardModel))', source)
-        self.assertIn('BeastCardAdapterRegistry.DeclaredOverrides(type, root)', source)
-        self.assertIn('cardAdapters!.PatchOnce(method, handler, postfix,', source)
-        self.assertIn('cardAdapters!.PatchOnce(method, handler, false,', source)
+        self.assertIn('await CardCmd.Exhaust(context, card)', source)
+        self.assertIn('CardPileCmd.AddGeneratedCardToCombat', source)
+        self.assertNotIn('Harmony', source.replace('no beast Harmony patches', 'no patches'))
+        for obsolete in ('forms.TryGetValue', 'PatchCardMembers', 'NativeCanonical.SetValue', 'IsConverted(', 'FilterOriginalHooks'):
+            self.assertNotIn(obsolete, source)
+        self.assertFalse((ROOT / 'src/Volibear/Core/BeastFormsAdapters.cs').exists())
+        self.assertFalse((ROOT / 'src/Volibear/Core/BeastFormsMetadata.cs').exists())
 
 
 if __name__ == '__main__':

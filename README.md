@@ -1,8 +1,28 @@
 # 沃利贝尔 · StS2 Mod 工作区
 
-代码 GPL-3.0-only；原创资产与文档 CC-BY-SA-4.0。第三方例外见 [LICENSING.md](LICENSING.md)。当前已有可编译、可加载的开发候选，包含 89 张卡的 178 个基础／升级牌面及 2 个遗物；**尚未完成完整机制、全部敌人行为与普通窗口流程验收，不是完成品**。
+代码 GPL-3.0-only；原创资产与文档 CC-BY-SA-4.0。第三方例外见 [LICENSING.md](LICENSING.md)。当前生产实现包含 89 张卡的 178 个基础／升级牌面及 2 个遗物；历史开发候选曾编译、加载，**本轮原生兽化重构尚缺锁版游戏程序集的完整编译及游戏验收，不能把历史结果当成本版通过**。
 
-完整实施目标与验收条件分别见 [实施计划](docs/OVERNIGHT_PLAN.md) 和 [测试规格](docs/TEST_SPEC.md)，游戏状态、转换条件及单元测试映射见 [状态机设计](docs/GAMEPLAY_STATE_MACHINES.md)，当前边界与接续工作见 [交接说明](docs/HANDOFF.md)。构建成功、受控原生场景通过及程序化 UI 操作，均不能替代普通鼠标键盘流程或完整分支覆盖。
+完整实施目标与验收条件分别见 [实施计划](docs/OVERNIGHT_PLAN.md) 和 [测试规格](docs/TEST_SPEC.md)，游戏状态、转换条件及单元测试映射见 [状态机设计](docs/GAMEPLAY_STATE_MACHINES.md)，当前边界与接续工作见 [交接说明](docs/HANDOFF.md)。游戏验收使用同一后台实例内的原生出牌队列与受控选牌，不发送系统或视口点击/键盘事件；资源构建、逻辑回归和原生游戏证据分别记录。
+
+## 本地构建、打包与游戏内验证
+
+使用普通 **Godot 4.5.1 stable Mono/.NET**、项目固定的 **.NET SDK 9.0.320**、Python 3.10+
+及已安装的 StS2 **0.107.1 / 59260271**。不需要额外下载 MegaDot 编辑器。
+首次在仓库根目录执行（将三个路径替换为本机路径）：
+
+```powershell
+python tools/local_delivery.py --game-dir "D:\SteamLibrary\steamapps\common\Slay the Spire 2" --godot "C:\Tools\Godot\Godot_v4.5.1-stable_mono_win64.exe" --dotnet "C:\Program Files\dotnet\dotnet.exe" --verify-native
+```
+
+入口保存本机配置，核验并准备固定依赖，重新编译当前DLL，执行一次回归，构建并检查PCK，
+部署后执行统一受控游戏批次，成功后生成`.local/release/Volibear-0.1.0-StS2-0.107.1.zip`。
+后续使用`python tools/local_delivery.py --verify-native`即可。仅打包可省略`--verify-native`，
+对应输出不会宣称游戏验证通过。完整前置条件、音频切换、输出、失败处理及卸载见
+**[本地运行说明](docs/LOCAL_WORKFLOW.md)**。
+
+本轮兽化已按新规则改为**原生消耗材料，再在同牌堆生成新兽形**；原材料正常触发消耗响应，
+新牌使用自己的原生身份。旧的全卡类型行为覆盖层已移除。源码覆盖包由上述入口按固定摘要
+清理未修改的旧文件；若本地修改过旧文件，会保留并明确报告冲突。
 
 当前实现和复核发现按 [实现清单](docs/IMPLEMENTATION_TODO.md) 跟踪。无游戏依赖的检查可在装有.NET 9的机器直接运行`python -B -m unittest discover -s tests -v`；配置或PATH提供SDK即可。需要游戏程序集的检查会明确跳过，不据此声明游戏兼容或流程验收完成。
 
@@ -46,7 +66,8 @@ Git 跟踪完整生产路径，不需要 ZIP restore；同内容文件由 Git �
 ## 迎战与领域：完整覆盖仍是验收门
 
 本轮机制复核修复了迎战的第三方动作跳过/过期窗口、领域对队友的敌源状态保护、
-多持有者去重、第三方卡牌兽化与动态手牌上限，并补齐机制悬停和本轮共享行动信息。
+多持有者去重、动态手牌上限，并补齐机制悬停和本轮共享行动信息。第三方卡牌兽化现统一
+调用原生消耗与生成，不再给第三方卡类型安装行为覆盖补丁。
 这些修复有生产逻辑的执行回归，仍不能代替当前游戏DLL和双客户端运行。
 已知领域兼容限制包括瀑布巨人适配对部分外部伤害Prefix的明确拒绝，以及混合/未知来源的
 保守保留。详细边界见[最新机制复核](docs/HANDOFF.md)。当前仍按单人开发候选声明。
@@ -107,4 +128,6 @@ Windows 另需四点：脚本按 UTF-8 读写，须设 `PYTHONUTF8=1`；`ffmpeg`
 
 游戏测试必须使用隔离资料目录，并保留普通／云端存档和其它 Mod。执行规则、原生退出对照和各独立测试入口见 [原生测试说明](docs/HEADLESS_TESTING.md)。不要在游戏或测试进程运行期间部署另一个候选。
 
-完整打包依次使用`tools/dependencies.py fetch`、`tools/dev.py build`、`tools/build_assets.py --godot <Godot4.5.1-mono>`和`tools/release_package.py`。BaseLib的固定原始许可已随仓库提供；完整DLL构建仍需要本机锁版游戏程序集。只有当前DLL与当前PCK齐备后才生成完整ZIP。
+常规交付使用`tools/local_delivery.py`统一完成依赖、当前DLL、回归、普通Godot资源构建及打包；
+底层工具保留用于定位具体失败。BaseLib的固定原始许可已随仓库提供；完整DLL构建仍需要
+本机锁版游戏程序集。只有当前DLL与通过检查的PCK齐备后才生成完整ZIP。

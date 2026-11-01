@@ -1,36 +1,27 @@
-"""Static lifecycle wiring checks; native optimized-consumer checks are separate C# tests."""
+"""Native replacement metadata wiring; executed semantics live in beast_bookkeeping."""
 from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class BeastMetadataLifecycleContracts(unittest.TestCase):
-    def test_conversion_captures_original_before_overlay_and_applies_same_card(self):
-        source = (ROOT / 'src/Volibear/Core/BeastForms.cs').read_text(encoding='utf-8')
-        self.assertLess(source.index('Metadata = BeastCardMetadata.Capture(card)'), source.index('forms.Add(card, form)'))
-        self.assertIn('form.Metadata.Apply(card, shape == BeastShape.Claw)', source)
-        self.assertIn('entry.Value.Metadata.Restore(entry.Key)', source)
-        self.assertIn('Metadata = source.Metadata', source)
-        self.assertIn('form.Metadata.Apply(clone, form.Shape == BeastShape.Claw)', source)
-        self.assertNotIn('BeastCardMetadata.Capture(clone)', source)
-        # Concrete virtual overrides still require the pre-existing getter adapters.
-        self.assertIn('new[] { "Type" }, nameof(TypeProperty)', source)
-        self.assertIn('new[] { "TargetType" }, nameof(TargetProperty)', source)
+class BeastNativeMetadataContracts(unittest.TestCase):
+    def test_native_definitions_own_type_target_cost_and_capability(self):
+        source = (ROOT / 'src/Volibear/Content/Cards/BeastTokens.cs').read_text(encoding='utf-8')
+        self.assertIn('base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy', source)
+        self.assertIn('base(1, CardType.Skill, CardRarity.Token, TargetType.AllEnemies', source)
+        self.assertIn('Volibear_T02 : VolibearCard, INativeLightningSpell', source)
+        self.assertEqual(source.count('CanonicalKeywords => [CardKeyword.Exhaust]'), 2)
 
-    def test_helper_changes_only_native_type_target_metadata(self):
-        source = (ROOT / 'src/Volibear/Core/BeastFormsMetadata.cs').read_text(encoding='utf-8')
-        self.assertIn('Required("<Type>k__BackingField")', source)
-        self.assertIn('Required("<TargetType>k__BackingField")', source)
-        self.assertIn('private readonly CardType originalType', source)
-        self.assertIn('private readonly TargetType originalTarget', source)
-        self.assertIn('TypeField.SetValue(card, originalType)', source)
-        self.assertIn('TargetField.SetValue(card, originalTarget)', source)
-        self.assertIn('claw ? CardType.Attack : CardType.Skill', source)
-        self.assertIn('claw ? TargetType.AnyEnemy : TargetType.AllEnemies', source)
-        for unrelated in ('_keywords', '_hasSingleTurnRetain', '_owner', '_deckVersion',
-                          'SpendEnergy', 'SpendResources', 'GetAmountToSpend', 'SetCustomBaseCost'):
-            self.assertNotIn(unrelated, source)
+    def test_narrow_native_inheritance_adapter_is_read_only(self):
+        source = (ROOT / 'src/Volibear/Core/BeastFormsNativeCosts.cs').read_text(encoding='utf-8')
+        self.assertIn('GetField("_localModifiers"', source)
+        self.assertIn('SingleTurnProperty.GetValue(card)', source)
+        self.assertIn('GetGetMethod(true)', source)
+        for forbidden in ('.SetValue(', 'HarmonyLib', 'k__BackingField', 'SetCustomBaseCost(', 'GetAmountToSpend'):
+            self.assertNotIn(forbidden, source)
+        for native in ('AddThisCombat', 'AddUntilPlayed', 'AddThisTurn', 'AddThisTurnOrUntilPlayed'):
+            self.assertIn(native, source)
 
 
 if __name__ == '__main__':

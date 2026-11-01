@@ -11,7 +11,7 @@ from itertools import product
 from math import isfinite
 
 PREFIX = '[Volibear] CARD_FACE_RESULT '
-ACCEPTANCE = 'controlled-native-queue-viewport-not-OS-input'
+ACCEPTANCE = 'controlled-native-queue-selector-no-input'
 REFERENCE = 'reference/bear-forge/docs/volibear/CARDS.md'
 ALL_IDS = tuple('B01 B02 B03 B04 C01 C02 C03 C04 C05 C06 C07 C08 C09 C10 C11 C12 C13 C14 C15 C17 C18 C19 C20 C21 C22 C24 C25 C26 U02 U03 U04 U05 U06 U07 U08 U10 U11 U12 U13 U14 U15 U17 U19 U20 U21 U23 U24 U25 U26 U27 U28 U29 U31 U32 U34 U35 U36 U37 U38 U39 U40 U41 U42 U43 R01 R02 R05 R06 R07 R08 R09 R10 R12 R13 R14 R16 R17 R18 R21 R23 R24 R25 R27 R28 R29 R30 R31 T01 T02'.split())
 IMPLEMENTED_IDS = tuple('B01 B02 B03 C01 C02 C03 C08 C09 C12 C13 C20 C22 C24 C26 U05 U06 U07 U13 U15 U20 U23 U24 U27 U31 U36 U38 U40 R05 R07 R12 R17 R21 R23 R24 T01 T02 C05 C14 C17 C18 C21 C25 U02 U03 U04 U10 U11 U12 U14 U19 U21 U25 U26 U29 U32 U34 U37 R01 R02 R06 R13 R14 R16 R18 B04 C04 C06 C10 C11 U08 U28 U35 R31 C07 C15 C19 U39 U41 U42 U43 R10 R25 R27 R28 R29 R30 U17 R08 R09'.split())
@@ -150,6 +150,7 @@ ROWS.update({
     'R09':[(2,15,1,0,0,7,1,True),(2,21,1,0,0,7,1,True)],
 })
 SELECTION_IDS = set('C07 C15 C19 U39 U41 U42 U43 R10 R25 R27 R28 R30'.split())
+BEAST_CARDS = set('U41 U42 U43 R27 R28 R29 R30'.split())
 
 
 def selection_fixture(c,branch='plain'):
@@ -168,6 +169,14 @@ def selection_fixture(c,branch='plain'):
     if c in SELECTION_IDS or c=='R29':
         return [('selected','B02' if c=='U42' else 'B01','Hand'),('alternate','B01' if c in ('C19','U41') else 'B02','Hand')]
     return []
+
+
+def beast_materials(c,up,branch):
+    """Independent fixed fixture selections, before exhaust/generation responses."""
+    if c not in BEAST_CARDS or branch in ('empty','zero'): return []
+    candidates=selection_fixture(c,branch)
+    count=(3 if up else 2) if c=='R27' else len(candidates) if c=='R29' else 1
+    return candidates[:count]
 
 
 ENGAGE_CARDS = set('B04 C04 C10 C11 U28 U35'.split())
@@ -249,7 +258,8 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
     if b=='empty' and c in ('C07','U43','R25','U17','R12') or b=='insufficient' and c=='R25':
         before['exhaust']=before['draw'];before['draw']=[]
     if b=='full-hand':before['hand']+=before['draw'][:9];before['draw']=before['draw'][9:]
-    if b=='master':before['draw'].remove('source')
+    if b=='master':before['draw'].remove('source-material')
+    if b in ('converted','master'):before['exhaust'].append('source-material')
     for ref,model,pile in selection_fixture(c,b):
         before[pile.lower()].append(ref)
         before['selectedCards'].append(dict(cardRef=ref,shape='None',type='Attack' if model=='B01' else 'Status' if model=='SLIMED' else 'Curse' if model=='INJURY' else 'Skill',upgraded=False,
@@ -371,11 +381,19 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
             ref=card['cardRef'];after[card['pile'].lower()].remove(ref);after['hand'].append(ref);card['pile']='Hand'
         if c=='U43' and b!='empty':
             pending=deepcopy(after);pending['play']=['source'];selection_pending.append(pending)
+    conversion_sequence=[]
     for card in chosen:
         if c=='C19':card.update(prepared=5 if up else 3,retain=True)
-        if c in ('U41','U42','U43','R27','R28','R29','R30'):
-            card['shape']='Claw' if card['type']=='Attack' else 'Body'
-            card['type']='Attack' if card['shape']=='Claw' else 'Skill';card['cost']=1
+        if c in BEAST_CARDS:
+            material=card['cardRef'];after[card['pile'].lower()].remove(material)
+            after['exhaust'].append(material);card['pile']='Exhaust'
+            conversion_sequence.append([dict(kind='exhaust',cardRef=material)])
+            shape='Claw' if card['type']=='Attack' else 'Body'
+            card=dict(cardRef=material+'-beast',shape=shape,type='Attack' if shape=='Claw' else 'Skill',
+                      upgraded=False,cost=1,prepared=0,retain=False,discount=0,pile='Hand')
+            tracked.append(card);after['hand'].append(card['cardRef'])
+            if c=='R27' and shape=='Body':
+                conversion_sequence.append([dict(kind='block',target=-1,cardRef='source',amount=4,props=8)])
         if c in ('C15','R10','U41','U42','U43','R29','R30') or c=='R27' and card['shape']=='Claw':
             card['cost']=max(0,card['cost']-1);card['discount']=1
     if b == 'material': after['hand'].remove('material'); after['exhaust'].append('material')
@@ -411,26 +429,31 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
         elif c=='U19':sequence=draw_groups+[domain_group]
         else:sequence.insert(0,domain_group)
     block_gain=before['block']*2 if c=='R05' else block
-    if block_gain:
+    if block_gain and c!='R27':
         block_group=[dict(kind='block',target=-1,cardRef='source',amount=block_gain,props=12 if c=='R05' else 8)]
         if c in ('C06','U27','U23'):sequence.append(block_group)
         else:sequence.insert(0,block_group)
     if b=='material':sequence.insert(0,[dict(kind='exhaust',cardRef='material')])
+    if c in BEAST_CARDS:
+        # Exhaust is an actual native event. R28 draws after the first generated
+        # token; R27's body block follows that body's conversion, not the batch.
+        sequence=[group for group in sequence if not any(event['kind']=='draw' for event in group)]
+        sequence+=conversion_sequence+draw_groups
     if 'source' in after['exhaust']:sequence.append([dict(kind='exhaust',cardRef='source')])
     return dict(before=before,after=after,cost=cost,playCount=play_count,paidEnergy=paid_energy,damage=damage,damageGroups=damage_groups,sequenceGroups=sequence,batches=batch_records,draws=drawn,selectionPending=selection_pending)
 
 
 def expected_response(c,up,source_after):
-    """Fixed responder cards and actual converted status/curse-body plays."""
+    """Fixed responder cards and generated beast tokens from status/curse material."""
     if c=='U42':
         before=deepcopy(source_after);after=deepcopy(before)
-        after['hand'].remove('selected');after['exhaust'].append('selected');after['block']+=9
+        after['hand'].remove('selected-beast');after['exhaust'].append('selected-beast');after['block']+=9
         after['enemyHp']=[hp-2 for hp in after['enemyHp']];after['lightningCount']+=1
-        selected=next(card for card in after['selectedCards'] if card['cardRef']=='selected');selected.update(cost=1,discount=0,pile='Exhaust')
-        damage=[dict(target=t,cardRef='selected',hpLost=2,blocked=0,props=4) for t in range(3)]
-        sequence=[[dict(kind='block',target=-1,cardRef='selected',amount=9,props=8)],[dict(kind='damage',**d) for d in damage],[dict(kind='exhaust',cardRef='selected')]]
-        batch=dict(cardRef='selected',baseDamage=2,amount=2,count=after['lightningCount'],targets=[0,1,2],hits=[dict(target=t,hpLost=2,blocked=0,overkill=0) for t in range(3)])
-        history=dict(plays=[dict(cardRef='selected',index=0,count=1)],draws=[],moves=[],generated=[],damage=damage,sequence=sum(sequence,[]))
+        selected=next(card for card in after['selectedCards'] if card['cardRef']=='selected-beast');selected.update(cost=1,discount=0,pile='Exhaust')
+        damage=[dict(target=t,cardRef='selected-beast',hpLost=2,blocked=0,props=4) for t in range(3)]
+        sequence=[[dict(kind='block',target=-1,cardRef='selected-beast',amount=9,props=8)],[dict(kind='damage',**d) for d in damage],[dict(kind='exhaust',cardRef='selected-beast')]]
+        batch=dict(cardRef='selected-beast',baseDamage=2,amount=2,count=after['lightningCount'],targets=[0,1,2],hits=[dict(target=t,hpLost=2,blocked=0,overkill=0) for t in range(3)])
+        history=dict(plays=[dict(cardRef='selected-beast',index=0,count=1)],draws=[],moves=[],generated=[],damage=damage,sequence=sum(sequence,[]))
         return dict(before=before,after=after,cost=0,paidEnergy=before['energy'],batches=[batch],history=history,damageGroups=[damage],sequenceGroups=sequence)
     before=deepcopy(source_after);before['hand'].append('response-card');after=deepcopy(before)
     after['hand'].remove('response-card');after['discard'].append('response-card')
@@ -473,7 +496,7 @@ def _validate_response(response,c,up,source_after,root_action,enemy_id):
     _same(response['action'],dict(id=aid,state='Finished',type='PlayCardAction',context='GameActionPlayerChoiceContext',actionType='CombatPlayPhaseOnly',
         target=enemy_id if c in ('U02','U21') else None,sameCard=True,events=[dict(name='before-executed',state='Executing',id=aid,energy=e['before']['energy']),
         dict(name='after-finished',state='Finished',id=aid,energy=e['after']['energy'])]),'response action')
-    ref='selected' if c=='U42' else 'response-card'
+    ref='selected-beast' if c=='U42' else 'response-card'
     _same(response['payments'],[dict(cardRef=ref,amount=e['cost'],energy=e['paidEnergy'])],'response payment')
     _same(response['effects'],[dict(cardRef=ref,index=0,count=1,autoPlay=False,energy=e['paidEnergy'],spent=e['cost'])],'response effect')
     actual=deepcopy(response['batches'])
@@ -493,9 +516,9 @@ def _validate(r, token, variant):
     _need(type(token) is str and bool(token), 'token required')
     _need(variant in CARD_FACE_CASES, 'unknown case')
     c,face,b = variant.split('-',2)
-    fields = 'schema token variant scenario acceptance version commit testMode character enemyTypes playerId enemyIds enemyOrder cards sourceIdentity starterDrawOrder before after choice selections action payments effects batches history response'.split()
+    fields = 'schema token variant scenario acceptance version commit testMode character enemyTypes playerId enemyIds enemyOrder cards sourceIdentity starterDrawOrder before after choice selections conversions action payments effects batches history response'.split()
     _need(type(r) is dict and set(r)==set(fields), 'result fields')
-    for k,v in dict(schema=1,token=token,variant=variant,scenario='card-face-acceptance',acceptance=ACCEPTANCE,
+    for k,v in dict(schema=2,token=token,variant=variant,scenario='card-face-acceptance',acceptance=ACCEPTANCE,
                     version='v0.107.1',commit='59260271',testMode=False,character='VolibearCharacter').items(): _same(r[k],v,k)
     _need(r['enemyTypes'] in [['LeafSlimeS','TwigSlimeS',m] for m in ('LeafSlimeM','TwigSlimeM')], 'native roster')
     _need(type(r['enemyOrder']) is list and sorted(r['enemyOrder'])==[0,1,2] and all(type(x) is int for x in r['enemyOrder']),'initial native enemy order')
@@ -506,10 +529,12 @@ def _validate(r, token, variant):
         present={card['cardRef'] for card in r['cards']}
         originals=[ref for ref in originals if ref in present]
         _need(len(originals)==9,'exactly one physical starter is the source')
-    extra = {'source':'VOLIBEAR_'+('B01' if c=='T01' else 'B02') if b in ('converted','master') else 'VOLIBEAR_'+c}
+    extra = {'source':'VOLIBEAR_'+c}
+    if b in ('converted','master'):extra['source-material']='VOLIBEAR_'+('B01' if c=='T01' else 'B02')
     if b=='second-instance':extra['response-card']='VOLIBEAR_'+('C02' if c=='U02' else 'R23' if c=='U21' else 'C24')
     if b == 'material': extra.update(material='VOLIBEAR_B01',alternate='VOLIBEAR_B02')
     extra.update({ref:model if model in ('SLIMED','INJURY') else 'VOLIBEAR_'+model for ref,model,pile in selection_fixture(c,b)})
+    extra.update({ref+'-beast':'VOLIBEAR_T01' if model=='B01' else 'VOLIBEAR_T02' for ref,model,pile in beast_materials(c,face=='upgrade',b)})
     if c=='R09':extra.update({f'generated-{i}':'SLIMED' for i in range(2 if r['enemyTypes'][2]=='LeafSlimeM' else 1)})
     lookup = {}; indices=set(); masters=set(); models=[]
     for card in r['cards']:
@@ -517,9 +542,9 @@ def _validate(r, token, variant):
         ref=card['cardRef']; index=card['combatCardIndex']; master=card['masterIndex']
         _need(type(index) is int and index>=0 and index not in indices and ref not in lookup,'unique identity')
         _same(card['sameObject'],True,'native reference'); _same(card['ownerId'],pid,'owner')
-        _same(card['upgraded'],ref=='source' and face=='upgrade','upgrade')
-        if ref in originals or b=='master' and ref=='source':
-            if ref=='source':_same(card['modelId'],extra['source'],'material source model')
+        _same(card['upgraded'],ref in ('source','source-material') and face=='upgrade','upgrade')
+        if ref in originals or b=='master' and ref=='source-material':
+            if ref=='source-material':_same(card['modelId'],extra[ref],'material source model')
             _need(type(master) is int and 0<=master<10 and master not in masters,'deck identity')
             masters.add(master); models.append(card['modelId']); _same(card['masterModelId'],card['modelId'],'master model')
         else:
@@ -529,9 +554,20 @@ def _validate(r, token, variant):
     _need(Counter(models)==Counter(['VOLIBEAR_B01']*4+['VOLIBEAR_B02']*4+['VOLIBEAR_B03','VOLIBEAR_B04']),'starter models')
     source=lookup['source']
     _same(r['sourceIdentity'],dict(indexBefore=source['combatCardIndex'],masterIndexBefore=source['masterIndex'],sameMaster=True,
-                                   masterUpgradedBefore=False if b=='master' else None,masterUpgradedAfter=False if b=='master' else None),'source conversion identity')
+                                   masterUpgradedBefore=None,masterUpgradedAfter=None),'played source identity')
     order=r['starterDrawOrder']
-    _need(type(order) is list and len(order)==10 and set(order)==set(originals)|({'source'} if b=='master' else set()),'original native draw fixture')
+    _need(type(order) is list and len(order)==10 and set(order)==set(originals)|({'source-material'} if b=='master' else set()),'original native draw fixture')
+    conversion_pairs=([('source-material','source')] if b in ('converted','master') else []) + [
+        (ref,ref+'-beast') for ref,model,pile in beast_materials(c,face=='upgrade',b)]
+    expected_conversions=[]
+    for material_ref,beast_ref in conversion_pairs:
+        material=lookup[material_ref];beast=lookup[beast_ref]
+        master_upgraded=False if b=='master' and material_ref=='source-material' else None
+        expected_conversions.append(dict(materialRef=material_ref,cardRef=beast_ref,
+            materialIndex=material['combatCardIndex'],cardIndex=beast['combatCardIndex'],sameObject=False,masterUnchanged=True,
+            materialMasterUpgradedBefore=master_upgraded,materialMasterUpgradedAfter=master_upgraded,
+            pileBefore='Hand',pileAfter='Hand',originalExhausted=True))
+    _same(r['conversions'],expected_conversions,'native exhaust and new-token identities')
     e=expected_observations(variant,order,medium=r['enemyTypes'][2],enemy_order=r['enemyOrder'])
     if c=='R08':
         # Exactly 81 legal four-target outcomes in this nonlethal three-enemy fixture.
@@ -550,7 +586,7 @@ def _validate(r, token, variant):
     _same(r['history']['plays'],[dict(cardRef='source',index=i,count=e['playCount']) for i in range(e['playCount'])],'play receipt')
     _same(r['history']['draws'],e['draws'],'draw receipt')
     moves=['TACKLE_MOVE'] if c in ENGAGE_CARDS else []
-    generated=[]
+    generated=[dict(cardRef=ref+'-beast',creatorId=pid) for ref,model,pile in beast_materials(c,face=='upgrade',b)]
     if c=='R09':
         moves=['TACKLE_MOVE' if t<2 else 'STICKY_SHOT' if r['enemyTypes'][2]=='LeafSlimeM' else 'STICKY_SHOT_MOVE' for t in r['enemyOrder']]
         generated=[dict(cardRef=f'generated-{i}',creatorId=None) for i in range(2 if r['enemyTypes'][2]=='LeafSlimeM' else 1)]
@@ -596,12 +632,18 @@ def selection_plan(c,up,index,branch='plain'):
     return pile,minimum,maximum,selected
 
 
+def _validate_selector(receipt,pending,aid,minimum,maximum,allowed,selected):
+    # Native ICardSelector resolves the original candidate objects. This makes no
+    # claim about visible controls, UI input, or remote-peer synchronization.
+    _need(type(receipt) is dict and set(receipt)=={'api','pending','actionId','min','max','options','selected','sameObjects'},'selector fields')
+    _same(receipt,dict(api='CardSelectCmd.UseSelector',pending=pending,actionId=aid,min=minimum,max=maximum,
+                       options=allowed,selected=selected,sameObjects=[True]*len(selected)),'controlled native selector')
+
+
 def _validate_selections(selections,cards,aid,e,c,up,branch):
     _need(type(selections) is list and len(selections)==len(e['selectionPending']),'selection count')
-    seen=set()
     for i,receipt in enumerate(selections):
-        _need(type(receipt) is dict and set(receipt)=={'request','pending','visible','inputs','sync'},'selection fields')
-        pending=e['selectionPending'][i];_same(receipt['pending'],pending,'selection boundary')
+        pending=e['selectionPending'][i]
         pile,minimum,maximum,selected=selection_plan(c,up,i,branch)
         available=pending[pile.lower()]
         if c=='U17':available=available[:maximum];selected=[] if branch=='zero' else available[:2]
@@ -612,58 +654,14 @@ def _validate_selections(selections,cards,aid,e,c,up,branch):
             if c=='R25':return model=='VOLIBEAR_B02'
             return True
         allowed=[ref for ref in available if eligible(ref)]
-        def identity(ref,location):
-            return {k:cards[ref][k] for k in ('modelId','combatCardIndex','sameObject','ownerId','masterIndex')}|{'pile':location}
-        cid=receipt['request']['choiceId'];_need(type(cid) is int and cid>=0 and cid not in seen,'distinct reserved choice');seen.add(cid)
-        _same(receipt['request'],dict(actionId=aid,actionState='GatheringPlayerChoice',choiceId=cid,source=identity('source','Play'),pile=pile,
-                                      min=minimum,max=maximum,manualConfirmation=minimum!=maximum,available=[identity(r,pile) for r in available],
-                                      eligible=[identity(r,pile) for r in allowed],ineligible=[identity(r,pile) for r in available if r not in allowed],synced=[]),'native request')
-        _need(len(receipt['visible'])==len(allowed) and set(receipt['visible'])==set(allowed),'visible eligible identities')
-        confirmation=pile=='Hand' or minimum!=maximum
-        _validate_inputs(receipt['inputs'],len(selected),confirmation,pile=='Hand')
-        synchronized=dict(choiceId=cid,actionId=aid,actionState='GatheringPlayerChoice',selected=[identity(r,pile) for r in selected],selectedSameObjects=[True]*len(selected))
-        if c=='U17':synchronized['indices']=[] if branch=='zero' else [0,1]
-        _same(receipt['sync'],[synchronized],'selection transport')
+        _validate_selector(receipt,pending,aid,minimum,maximum,allowed,selected)
 
 
-def _validate_inputs(inputs,selected,confirmation,hand=False):
-    _need(type(inputs) is list and len(inputs)==selected+int(confirmation),'input count')
-    for inp in inputs[:selected]:
-        _same(inp,dict(api='Viewport.PushInput',action='ui_select',controlType='NHandCardHolder' if hand else 'NGridCardHolder',
-                       visible=True,focusMatched=True,pressed=[True,False]),'native selection input')
-    if confirmation:
-        confirm=inputs[-1];position=confirm['position'];size=confirm['viewportSize'];mode=confirm['focusModeBefore']
-        _need(type(position) is list and type(size) is list and len(position)==len(size)==2,'pointer geometry')
-        _need(all(type(p) in (int,float) and type(s) in (int,float) and isfinite(p) and isfinite(s) and 0<=p<s for p,s in zip(position,size)),'visible pointer bounds')
-        _need(mode in ('None','Click','All'),'original focus mode')
-        _same(confirm,dict(api='Viewport.PushInput',action='viewport-left-pointer-confirm',controlType='NConfirmButton',insideTree=True,visible=True,enabled=True,
-                           stableFrames=3,hoverMatched=True,nativeFocused=True,focusModeBefore=mode,focusModeAfter=mode,position=position,viewportSize=size,pressed=[True,False]),'native confirmation')
-
-
-def _validate_choice(choice, cards, aid, e):
-    _need(type(choice) is dict and set(choice)=={'request','pending','visible','inputs','sync'},'choice fields')
-    request=choice['request']; cid=request['choiceId']; _need(type(cid) is int and cid>=0,'choice id')
-    def identity(ref,pile):
-        c=cards[ref]
-        return {k:c[k] for k in ('modelId','combatCardIndex','sameObject','ownerId','masterIndex')}|{'pile':pile}
-    # Hand exhaust UI must offer TWO different entities; source is already in Play.
-    _same(request,dict(actionId=aid,actionState='GatheringPlayerChoice',choiceId=cid,source=identity('source','Play'),pile='Hand',min=1,max=1,
-                       manualConfirmation=False,available=[identity(x,'Hand') for x in ('material','alternate')],eligible=[identity(x,'Hand') for x in ('material','alternate')],ineligible=[],synced=[]),'choice request')
+def _validate_choice(choice,cards,aid,e):
+    # The source is already in Play. Both material entities must remain available
+    # before resolution, and the selected object must be the original candidate.
     pending=deepcopy(e['before']);pending['energy']=e['paidEnergy'];pending['hand'].remove('source');pending['play']=['source']
-    _same(choice['pending'],pending,'pending state')
-    _need(len(choice['visible'])==2 and set(choice['visible'])=={'material','alternate'},'visible candidates')
-    _validate_inputs(choice['inputs'],1,True,True)
-    _need(type(choice['inputs']) is list and len(choice['inputs'])==2,'native selection and hand confirmation')
-    inp=choice['inputs'][0]
-    _need(inp.get('api')=='Viewport.PushInput' and inp.get('visible') is True and inp.get('focusMatched') is True and inp.get('pressed')==[True,False]
-          and type(inp.get('action')) is str and bool(inp['action']) and type(inp.get('controlType')) is str and bool(inp['controlType']),'viewport input receipt')
-    confirm=choice['inputs'][1]
-    for key in ('insideTree','visible','enabled','hoverMatched','nativeFocused'):
-        _same(confirm[key],True,'confirmation '+key)
-    _need(confirm.get('api')=='Viewport.PushInput' and confirm.get('action')=='viewport-left-pointer-confirm'
-          and confirm.get('pressed')==[True,False] and type(confirm.get('stableFrames')) is int and confirm['stableFrames']>=3
-          and confirm.get('focusModeBefore')==confirm.get('focusModeAfter'),'native confirmation')
-    _same(choice['sync'],[dict(choiceId=cid,actionId=aid,actionState='GatheringPlayerChoice',selected=[identity('material','Hand')],selectedSameObjects=[True])],'choice synchronization')
+    _validate_selector(choice,pending,aid,1,1,['material','alternate'],['material'])
 
 
 def validate_card_face_result(result, token, variant):

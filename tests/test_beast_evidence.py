@@ -13,7 +13,7 @@ def snapshot(name, native, kind, target, base, variables, *, cost=None, upgrade=
              retain=False, keywords=None, pile='Hand', master=None, xid=False, cost_ref=100):
     value = base if cost is None else cost
     return dict(cardRef=name, nativeType=native, modelId=native.upper(), ownerRef=901,
-                masterRef=master, costObjectRef=cost_ref, shape='None', type=kind, target=target,
+                masterRef=master, cloneRef=None, costObjectRef=cost_ref, shape='None', type=kind, target=target,
                 upgrade=upgrade, canonicalCost=base, costsX=xid, localCost=value, allCost=value,
                 amountToSpend=3 if xid else max(0, value), retain=retain, keywords=keywords or [],
                 pile=pile, presence=1, vars=variables, title='原始牌名')
@@ -22,7 +22,11 @@ def snapshot(name, native, kind, target, base, variables, *, cost=None, upgrade=
 def form(original, shape, variables, *, cost=1, upgrade=False, retain=False,
          keywords=None, pile='Hand'):
     # Synthetic fixture construction does not import the comparator's expectation helpers.
-    return dict(original, shape=shape, type='Attack' if shape == 'Claw' else 'Skill',
+    return dict(original, cardRef=original['cardRef'] + '-beast',
+                nativeType='Volibear_T01' if shape == 'Claw' else 'Volibear_T02',
+                modelId='VOLIBEAR_T01' if shape == 'Claw' else 'VOLIBEAR_T02',
+                masterRef=None, cloneRef=None, costObjectRef=original['costObjectRef'] + 1000,
+                shape=shape, type='Attack' if shape == 'Claw' else 'Skill',
                 target='AnyEnemy' if shape == 'Claw' else 'AllEnemies', canonicalCost=1,
                 costsX=False, localCost=cost, allCost=cost, amountToSpend=cost, upgrade=upgrade,
                 retain=retain, keywords=keywords or ['Exhaust'], pile=pile, vars=variables,
@@ -49,7 +53,7 @@ def common(variant):
                 acceptance='effect-only-not-payment', character='VolibearCharacter',
                 gameVersion='v0.107.1', gameCommit='59260271',
                 fixtureApi='CombatState.CreateCard;CardPileCmd.Add;CardCmd.Upgrade;CreatureCmd.SetMaxAndCurrentHp',
-                api='BeastForms.Convert;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn',
+                api='BeastForms.Convert;CardCmd.Exhaust;CardPileCmd.AddGeneratedCardToCombat;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn',
                 enemyIds=[10, 11, 12], enemyTypes=['LeafSlimeS', 'TwigSlimeS', 'LeafSlimeM'],
                 deckBefore=deck, deckAfter=copy.deepcopy(deck), changes=[], data={})
 
@@ -72,11 +76,13 @@ def f01_fixture():
         before = snapshot(name, native, kind, target, base, variables, upgrade=upgraded, retain=retained,
                           keywords=keywords, pile='Draw' if draw else 'Hand', master=master, xid=xid, cost_ref=100 + index)
         after = form(before, shape, beast_vars, upgrade=upgraded, retain=retained)
-        rows.append(dict(name=name, before=before, returnedShape=shape,
+        rows.append(dict(name=name, before=before, returnedShape=shape, newEntity=True,
+                         afterMaterial=dict(before, pile='Exhaust'),
+                         conversionHistory=dict(exhausted=[name], generated=[name + '-beast']),
                          afterConversion=dict(after, pile='Draw' if draw else 'Hand'),
                          drawCalls=int(draw), beforeDrawEnergy=3, afterDrawEnergy=3, afterDraw=after,
                          play=play(dict(after, pile='Exhaust'), hp, block, hits, cb, ca)))
-        result['changes'].append(dict(cardRef=name, shape=shape, ownerRef=901, sameCombat=True))
+        result['changes'].append(dict(cardRef=name + '-beast', shape=shape, ownerRef=901, sameCombat=True))
     result['data'] = dict(rows=rows, voidControl=dict(beforeEnergy=3, afterEnergy=2, restoredEnergy=3, drawCalls=1,
         snapshot=snapshot('native-void-control', 'Void', 'Status', 'None', -1, {'Energy': 1},
                           keywords=['Ethereal', 'Unplayable'], cost_ref=200)))
@@ -92,14 +98,16 @@ def f02_fixture():
                     keywords=['Exhaust', 'Retain'])
     zero = dict(base, localCost=0, allCost=0, amountToSpend=0)
     upgraded_zero = dict(upgraded, localCost=0, allCost=0, amountToSpend=0)
-    result['data'] = dict(before=original, firstShape='Claw', afterConversion=zero, secondShape='Claw',
+    result['data'] = dict(before=original, firstShape='Claw', afterMaterial=dict(original, pile='Exhaust'),
+        newEntity=True, conversionHistory=dict(exhausted=['native-bludgeon'], generated=['native-bludgeon-beast']),
+        afterConversion=zero, secondShape='Claw', sameOnRepeat=True, repeatHistory=dict(exhausted=[], generated=[]),
         afterRepeat=copy.deepcopy(zero), afterNewSet=base,
         firstPlay=play(dict(base, pile='Exhaust'), [86, 100, 100], 0, [(10, 7, 8)] * 2, 0, 0),
         recycled=copy.deepcopy(base), afterUpgrade=upgraded, afterZero=upgraded_zero,
         upgradedPlay=play(dict(upgraded, pile='Exhaust'), [78, 100, 100], 0, [(10, 11, 8)] * 2, 0, 0),
         beforeTurn=copy.deepcopy(upgraded_zero), afterTurn=copy.deepcopy(upgraded),
         roundBefore=1, turnBefore=1, roundAfter=2, turnAfter=2, energyAfterTurn=3, hpAfterTurn=80)
-    result['changes'] = [dict(cardRef='native-bludgeon', shape='Claw', ownerRef=901, sameCombat=True)]
+    result['changes'] = [dict(cardRef='native-bludgeon-beast', shape='Claw', ownerRef=901, sameCombat=True)]
     return result
 
 
@@ -130,10 +138,15 @@ class BeastEvidenceTests(unittest.TestCase):
             (('enemyIds',), [10, 10, 12]), (('deckAfter', 0, 'vars', 'Damage'), 7),
             (('data', 'rows', 0, 'before', 'masterRef'), None),
             (('data', 'rows', 0, 'afterConversion', 'cardRef'), 'replacement-token'),
-            (('data', 'rows', 0, 'afterConversion', 'modelId'), 'VOLIBEAR_T01'),
+            (('data', 'rows', 0, 'afterConversion', 'modelId'), 'VOLIBEAR_B01'),
             (('data', 'rows', 0, 'afterConversion', 'ownerRef'), 902),
-            (('data', 'rows', 0, 'afterConversion', 'costObjectRef'), 999),
+            (('data', 'rows', 0, 'afterConversion', 'costObjectRef'), 100),
             (('data', 'rows', 0, 'afterConversion', 'masterRef'), 'master-1'),
+            (('data', 'rows', 0, 'afterConversion', 'cloneRef'), 'starter-claw'),
+            (('data', 'rows', 0, 'afterMaterial', 'pile'), 'Hand'),
+            (('data', 'rows', 0, 'newEntity'), False),
+            (('data', 'rows', 0, 'conversionHistory', 'exhausted'), []),
+            (('data', 'rows', 0, 'conversionHistory', 'generated'), ['starter-claw']),
             (('data', 'rows', 0, 'afterConversion', 'retain'), False),
             (('data', 'rows', 0, 'afterConversion', 'presence'), 0),
             (('data', 'rows', 0, 'afterConversion', 'vars', 'Damage'), 6),
@@ -169,6 +182,11 @@ class BeastEvidenceTests(unittest.TestCase):
             (('data', 'before', 'localCost'), 3),
             (('data', 'afterConversion', 'localCost'), 1),
             (('data', 'afterRepeat', 'costObjectRef'), 999),
+            (('data', 'newEntity'), False),
+            (('data', 'sameOnRepeat'), False),
+            (('data', 'repeatHistory', 'generated'), ['another-beast']),
+            (('data', 'conversionHistory', 'exhausted'), []),
+            (('data', 'afterMaterial', 'shape'), 'Claw'),
             (('data', 'afterNewSet', 'localCost'), 0),
             (('data', 'firstPlay', 'after', 'localCost'), 0),
             (('data', 'recycled', 'cardRef'), 'new-entity'),

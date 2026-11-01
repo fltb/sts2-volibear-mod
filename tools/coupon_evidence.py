@@ -7,8 +7,8 @@ PREFIX='[Volibear] COUPON_CONTRACT_RESULT '
 ACCEPTANCE='native-action-queue-payment-not-OS-input'
 ENGAGE=('B04','C04','C10','C11','U28','U35','R09')
 COUPON_CASES=tuple('CP-elig-'+c for c in ENGAGE)+('CP-max-preserve','CP-zero-consume','CP-expiry','CP-beast-attack','CP-beast-skill')
-COST={'C25':1,'U14':0,'B02':1,'B04':1,'C04':1,'C10':2,'C11':1,'U28':2,'U35':1,'R09':2,'C01':0,'R29':3}
-ATTACK={'B04','C04','C10','C01'}
+COST={'C25':1,'U14':0,'B02':1,'B04':1,'C04':1,'C10':2,'C11':1,'U28':2,'U35':1,'R09':2,'C01':0,'R29':3,'T01':1,'T02':1}
+ATTACK={'B04','C04','C10','C01','T01'}
 
 
 def need(x):
@@ -34,7 +34,7 @@ def profile(case):
     elif case=='CP-max-preserve':rows += [('engage-coupon-upgrade','U14',True,'engage-coupon-upgrade'),('noneligible','B02',False,'noneligible'),('target','C10',False,'invalid-target'),('target','C10',False,'target')]
     elif case=='CP-zero-consume':rows += [('zero-attack','C01',False,'zero-attack'),('target','B04',False,'target')]
     elif case=='CP-expiry':rows.append(('target','C10',False,'target'))
-    else:rows += [('convert','R29',False,'convert'),('target','C10' if case=='CP-beast-attack' else 'U28',False,'target')]
+    else:rows += [('convert','R29',False,'convert'),('target-beast','T01' if case=='CP-beast-attack' else 'T02',False,'target')]
     return rows
 
 
@@ -55,7 +55,7 @@ def validate_coupon_result(r,token,variant):
 
 
 def _validate(r,token,variant):
-    need(variant in COUPON_CASES and type(r) is dict and set(r)==set('token variant scenario completed gameVersion gameCommit testMode acceptance character playerId enemyIds enemyTypes fixture cards generated initial steps transition'.split()))
+    need(variant in COUPON_CASES and type(r) is dict and set(r)==set('token variant scenario completed gameVersion gameCommit testMode acceptance character playerId enemyIds enemyTypes fixture cards generated conversions initial steps transition'.split()))
     for k,v in dict(token=token,variant=variant,scenario='coupon-contract',completed=True,gameVersion='v0.107.1',gameCommit='59260271',testMode=False,
                     acceptance=ACCEPTANCE,character='VolibearCharacter',fixture='fresh-native-three-slimes-energy30-enemyHp500-created-cards-explicit').items():same(r[k],v)
     pid=r['playerId'];ids=r['enemyIds'];types=r['enemyTypes']
@@ -64,6 +64,7 @@ def _validate(r,token,variant):
     need(types in [[a,m,b] for a,b in [('LeafSlimeS','TwigSlimeS'),('TwigSlimeS','LeafSlimeS')] for m in ['LeafSlimeM','TwigSlimeM']])
     leaf=types.index('LeafSlimeS');mid=1
     rows=profile(variant);roles={ref:(code,up) for ref,code,up,_ in rows}
+    if variant.startswith('CP-beast-'):roles['target']=('C10' if variant.endswith('attack') else 'U28',False)
     originals=[f'starter-{i}' for i in range(10)];lookup={};native=set();masters=set();model_ids=[]
     need(type(r['cards']) is list and len(r['cards'])==10+len(roles))
     for c in r['cards']:
@@ -77,6 +78,12 @@ def _validate(r,token,variant):
             need(ref in roles);code,up=roles[ref];same(c['modelId'],'VOLIBEAR_'+code);same(c['upgraded'],up);same(c['masterIndex'],-1);same(c['masterModelId'],None)
         lookup[ref]=c;native.add(idx)
     need(set(lookup)==set(originals)|set(roles));need(Counter(model_ids)==Counter(['VOLIBEAR_B01']*4+['VOLIBEAR_B02']*4+['VOLIBEAR_B03','VOLIBEAR_B04']))
+    conversions=[]
+    if variant.startswith('CP-beast-'):
+        conversions=[dict(materialRef='target',cardRef='target-beast',sameObject=False,
+            materialIndex=lookup['target']['combatCardIndex'],cardIndex=lookup['target-beast']['combatCardIndex'],
+            materialExhausted=True,originalPile='Hand',generatedPile='Hand')]
+    same(r['conversions'],conversions)
     medium_count=2 if types[mid]=='LeafSlimeM' else 1
     gen_count=(medium_count+1 if variant=='CP-expiry' else medium_count) if variant in ('CP-expiry','CP-elig-R09') else 0
     need(type(r['generated']) is list and len(r['generated'])==gen_count)
@@ -124,10 +131,10 @@ def _validate(r,token,variant):
         if label=='convert' and 'target' not in present:state['hand'].append('target');present.add('target')
         if ref not in present:state['hand'].append(ref);present.add(ref)
         before=deepcopy(state);h=history();shape='None'
-        if ref=='target' and variant.startswith('CP-beast-'):shape='Claw' if variant.endswith('attack') else 'Body'
+        if ref=='target-beast' and variant.startswith('CP-beast-'):shape='Claw' if variant.endswith('attack') else 'Body'
         card_type='Attack' if shape=='Claw' or shape=='None' and code in ATTACK else 'Skill'
         a=step['action'];aid=a['id'];need(integer(aid) and aid not in action_ids);action_ids.add(aid)
-        invalid=label=='invalid-target';target=pid if invalid else ids[leaf] if code in ENGAGE and code!='R09' and shape!='Body' or code=='C01' else None
+        invalid=label=='invalid-target';target=pid if invalid else ids[leaf] if code in ENGAGE and code!='R09' and shape!='Body' or code in ('C01','T01') else None
         before_coupons=coupons();is_attack=card_type=='Attack';is_engage=code in ENGAGE and shape=='None'
         # Same-kind grants retain their maximum; distinct eligible power kinds each reduce cost.
         discount=(before_coupons['attack'] if is_attack else 0)+(before_coupons['engage'] if is_engage else 0)
@@ -147,7 +154,11 @@ def _validate(r,token,variant):
                 state['powers']['StormChargePower']=state['powers'].get('StormChargePower',0)+(2 if up else 1);state['powers']['NextAttackDiscount']=1
             elif code=='U14':state['block']+=8 if up else 5;state['powers']['NextEngageDiscount']=1
             elif code=='B02':state['block']+=5
-            elif code=='R29':state['forms']=[dict(cardRef='target',shape='Claw' if variant.endswith('attack') else 'Body',type='Attack' if variant.endswith('attack') else 'Skill')]
+            elif code=='R29':
+                state['hand'].remove('target');state['exhaust'].append('target')
+                state['hand'].append('target-beast');present.add('target-beast')
+                state['forms']=[dict(cardRef='target-beast',shape='Claw' if variant.endswith('attack') else 'Body',type='Attack' if variant.endswith('attack') else 'Skill')]
+                h['generated'].append(dict(cardRef='target-beast',creatorId=pid))
             elif shape=='Claw':strike(h,7,ref);strike(h,7,ref)
             elif shape=='Body':state['block']+=9;lightning(h,2+state['powers']['StormChargePower'],ref)
             elif code=='C01':strike(h,6,ref)

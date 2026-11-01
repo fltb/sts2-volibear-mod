@@ -44,7 +44,4 @@ internal static class MechanicHoverTips
                 { Id = "VOLIBEAR-" + entry.Key };
     }
 
-    // A converted foreign card must display only its current form's rules.
-    internal static IEnumerable<IHoverTip> ForBeast(bool claw) =>
-        ForText(claw ? "裂骨之爪" : "风暴之躯 雷伤");
 }

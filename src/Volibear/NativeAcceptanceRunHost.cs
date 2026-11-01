@@ -47,14 +47,17 @@ internal static class NativeAcceptanceRunHost
         if (!exit.RunNull || !exit.CombatNull || exit.InProgress || !exit.QueueEmpty || !exit.ActionNull || exit.HistoryVisible!=0)
             throw new InvalidOperationException("Native prior-run cleanup incomplete: "+exit);
     }
-    internal static async Task<ExitReceipt> ExitToMainMenu()
+    internal static async Task<ExitReceipt> ExitToMainMenu(bool enterMapFirst = true)
     {
         var state=CombatManager.Instance.DebugOnlyGetState();
         if (state is not null && CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsOverOrEnding)
         {
             await WaitForQuiet(state);
-            await RunManager.Instance.EnterRoom(new MapRoom());
-            await Frame();
+            if (enterMapFirst)
+            {
+                await RunManager.Instance.EnterRoom(new MapRoom());
+                await Frame();
+            }
         }
         await NGame.Instance!.ReturnToMainMenu();await Frame();RequireClean();return CleanState();
     }
