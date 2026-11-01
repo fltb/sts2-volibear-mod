@@ -18,12 +18,8 @@ namespace Volibear.Content;
 
 // Small native-command adapters only. Each card below declares and orders its own effects;
 // neither a card-id dispatch table nor a text-driven card interpreter lives here.
-internal static class DirectEffects
+internal static partial class DirectEffects
 {
-    internal static bool Live(CardModel card) => card.Owner.Creature.IsAlive &&
-        card.Owner.Creature.CombatState is not null && CombatManager.Instance.IsInProgress &&
-        !CombatManager.Instance.IsOverOrEnding;
-
     internal static async Task Attack(PlayerChoiceContext context, CardModel card, Creature? target,
                                       decimal damage, int hits = 1)
     {
@@ -47,9 +43,6 @@ internal static class DirectEffects
     internal static Task WeakAll(PlayerChoiceContext context, CardModel card, decimal amount) => Live(card)
         ? PowerCmd.Apply<WeakPower>(context, card.Owner.Creature.CombatState!.HittableEnemies.ToArray(),
             amount, card.Owner.Creature, card) : Task.CompletedTask;
-    internal static Task<EngageCmd.Result> Engage(PlayerChoiceContext context, CardModel card, Creature? target) =>
-        Live(card) && target is not null ? EngageCmd.Perform(context, target, card)
-            : Task.FromResult(new EngageCmd.Result(false, 0m, false));
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C01")]
@@ -322,6 +315,7 @@ public sealed class Volibear_U24 : VolibearCard
 public sealed class Volibear_U27 : VolibearCard
 {
     public Volibear_U27() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u27") { }
+    public override bool GainsBlock => true;
     public override List<(string, string)> Localization => new CardLoc("淬躯爪击", "造成{Damage:diff()}伤害。获得本回合雷伤次数×{BlockPerStrike:diff()}的格挡。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new DynamicVar("BlockPerStrike", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -496,6 +490,7 @@ public sealed class Volibear_R13 : VolibearCard
 public sealed class Volibear_R21 : VolibearCard
 {
     public Volibear_R21() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r21") { }
+    public override bool GainsBlock => true;
     public override List<(string, string)> Localization => new CardLoc("雷霆化身", "获得本回合雷伤次数×{BlockPerStrike:diff()}的格挡。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("BlockPerStrike", 4m), new CardsVar(2)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

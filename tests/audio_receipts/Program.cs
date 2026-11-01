@@ -44,13 +44,13 @@ cardPolicy.GetMethod("Notify", flags)!.MakeGenericMethod(typeof(int)).Invoke(nul
 Check(notified == 7, "throwing subscriber cannot block following synchronous observers");
 var audio = T("Volibear.Presentation.PowerAudioReceipts");
 foreach (var row in new[] { ("StandingPower", "armor_retain"), ("ImmovableBodyPower", "armor_iron"),
-    ("ThunderArmorPower", "thunder_armor"), ("NextAttackDiscount", "cost_reduce"),
+    ("NextAttackDiscount", "cost_reduce"),
     ("NextEngageDiscount", "cost_reduce"), ("EndlessHuntPower", "cost_reduce") })
 {
     var type = host.GetType("Volibear.Core." + row.Item1) ?? host.GetType("Volibear.Content." + row.Item1)!;
     Check((string?)Call(audio, "Cue", RuntimeHelpers.GetUninitializedObject(type)) == row.Item2, "exact approved positive power cue: " + row.Item1);
 }
-foreach (var type in new[] { typeof(WeakPower), typeof(VulnerablePower), T("Volibear.Content.VolibearChargeStrengthPower"), T("Volibear.Core.StormChargePower") })
+foreach (var type in new[] { typeof(WeakPower), typeof(VulnerablePower), T("Volibear.Content.VolibearChargeStrengthPower"), T("Volibear.Core.StormChargePower"), T("Volibear.Core.ThunderArmorPower") })
     Check(Call(audio, "Cue", RuntimeHelpers.GetUninitializedObject(type)) is null, "unapproved/duplicate power family rejected: " + type.Name);
 var nativePower = (StrengthPower)RuntimeHelpers.GetUninitializedObject(typeof(StrengthPower));
 Check((string?)Call(audio, "Cue", nativePower) == "strength", "native positive Strength routes once at its own command");

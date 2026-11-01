@@ -1,5 +1,7 @@
 # 第一阶段：可运行的核心玩法纵向切片
 
+本文件保留最早10–14卡切片的历史范围。当前任务已经扩展为89卡/178牌面及两遗物，框架固定为BaseLib3.4.7；以[IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md)及[HANDOFF.md](HANDOFF.md)的最新章节继续，不再把下文的旧切片范围或RitsuLib选型当作当前要求。
+
 状态：实施中，未通过游戏验收。目标版本 StS2 0.107.1 / commit 59260271。
 
 ## M0 开发运行环境

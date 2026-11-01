@@ -1,6 +1,8 @@
 # 声音成品与接入
 
-V5.1 另附 [官方原始音频目录](official/index.html)：153 个原始 OGG，含 Wiki 默认英配和腾讯官方国服选择/禁用入口。它们完整保留源文件，尚未替换下述运行 cue。说明与来源见 [official/README.md](official/README.md)。
+默认运行方案仍为下述开放音频。现在也可显式构建 [Riot 英文私有音频方案](profiles/README.md)：11 个 cue 使用经过来源及摘要验证的英文发声/Q 研发音效，其余 cue 保留开放素材，实际媒体只写入被忽略的本地构建目录。
+
+V5.1 另附 [官方原始音频来源目录](official/index.html)：历史清单为 153 个 OGG，含 Wiki 默认英配和腾讯官方国服选择/禁用入口。公开 Git 不含这些 Riot 媒体；历史报告不代表 fresh clone 已下载文件。说明与来源见 [official/README.md](official/README.md)。
 
 打开 `index.html` 可逐项播放。`ogg/` 是运行素材，`wav/` 为 48 kHz、16-bit、单声道母版。游戏可按实体位置进行声像处理；领域环境声不占用语音通道。
 

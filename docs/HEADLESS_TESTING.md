@@ -14,6 +14,50 @@ On Windows, `--display background` creates a private, unselected Windows desktop
 
 Gameplay acceptance uses the real `PlayCardAction`/`RequestEnqueue` path with payment, target validation and native choice handling; it does not replace those steps with direct `OnPlay` or AutoPlay. Runtime errors remain failures even when a semantic receipt passes. In particular, native-renderer runs replace unreliable Dummy-renderer runs rather than waiving texture errors.
 
+## Connected batch and normal-flow entrypoints
+
+The existing C# probes are now connected through both `ModEntry` and the runner. The
+commands below are execution instructions, not evidence that this candidate has run
+in the game. Configure the pinned installation, build DLL/PCK and deploy one candidate
+first. `--use-deployed` keeps that candidate unchanged between checks. The stock
+control is a separate launch; all cases within each selected batch share one game
+process and use native cleanup between cases.
+
+Windows private-desktop examples (use `--display xvfb` on Linux):
+
+```sh
+python -B tools/headless.py --scenario card-face-acceptance --card-face-batch all --display background --use-deployed
+python -B tools/headless.py --scenario card-lifecycle --card-lifecycle-cases all --display background --use-deployed
+python -B tools/headless.py --scenario native-run --native-run-mode three-battle-save --display background --use-deployed
+python -B tools/headless.py --scenario presentation-acceptance --presentation-mode cards --display background --use-deployed
+```
+
+`--card-face-batch` and `--card-lifecycle-cases` also accept explicit comma-separated
+case names. Invalid/duplicate names and `--repeat` values other than one are rejected
+before build/deploy. Batch defaults are one process, a 900-second timeout and a
+60,000-frame budget; bounded overrides allow up to 1,800 seconds / 300,000 frames.
+The old short single-case defaults remain available for diagnostics.
+
+`native-run` starts through the normal menu and does not install the development
+bootstrap or a fixture character. The paired entrypoint makes the one deliberate
+restart needed to test the real native disk checkpoint:
+
+```sh
+python -B tools/native_run_pair.py --execute-native --display background --timeout 300 --frames 60000
+```
+
+The pair creates one fresh private profile. It runs three battles and Save-and-Quit,
+checks the full log and exact checkpoint bytes/content, then restarts that same profile
+and uses Continue. A failed first phase never starts the second. This entrypoint does
+not build/deploy or accept an existing profile path, and does not edit the checkpoint.
+
+Presentation `cards` captures rendered card/Inspect views without an audio claim.
+`actions` and `all` require an explicit non-Dummy Godot audio driver, for example
+`--audio-driver WASAPI` on Windows or an available `PulseAudio`/`ALSA` driver on Linux.
+The stock control uses the same driver. Captures remain in the game's private desktop
+or virtual display, record only the game bus, and do not establish human visual or
+listening approval. Runtime errors and unmatched teardown errors still fail the run.
+
 ## Run
 
 With the pinned SDK and local game configured for `tools/dev.py`:
@@ -90,12 +134,15 @@ removes exactly the files it owns and leaves anything else in place.
 
 ## Still required for integration acceptance
 
-1. Lightning, block, and Engage multi-hit/duplicate/skip/advancement/death cases beyond the
-   current single-attack baseline.
-2. Windowed or virtual-display verification on Windows; only `--headless` is implemented there.
-3. Multi-round state machine, next-intent, and enemy-turn comparisons against the original game.
-4. A clean engine teardown, either fixed here or reported upstream; the current gate attributes
-   the leak, it does not remove it.
+1. Run the current candidate's complete normal Harmony installation chain and required
+   lightning/block/Engage/domain cases against the pinned game assemblies.
+2. Execute the connected paid-card/lifecycle batches and rendered presentation checks in
+   the private Windows desktop or Linux virtual display. These routes are implemented;
+   their wiring tests do not substitute for native execution.
+3. Execute normal progression and the owned-profile save/restart/Continue pair; compare
+   native rounds, intents and cleanup. Human visual/listening review remains separate.
+4. Keep attributing engine teardown noise against the stock control. This does not
+   remove the shipped engine's leak or claim a clean exit.
 
 ## Audio diagnostic (Linux)
 

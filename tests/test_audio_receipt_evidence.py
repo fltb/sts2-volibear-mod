@@ -146,11 +146,16 @@ class AudioReceiptEvidenceTests(unittest.TestCase):
         config_file = ROOT / '.local/config.json'
         if not config_file.is_file(): self.skipTest('Native refs missing; observer emission NOT RUN')
         config = json.loads(config_file.read_text(encoding='utf-8'))
-        dotnet = Path(config.get('dotnet', '')); data = Path(config.get('game_dir', '')) / 'data_sts2_windows_x86_64'
-        if not dotnet.is_file() or not (data/'sts2.dll').is_file() or not (ROOT/'src/Volibear/bin/Release/net9.0/Volibear.dll').is_file():
-            self.skipTest('Actual native/built host absent; no fake substitution')
+        dotnet = Path(config.get('dotnet', ''))
+        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+        data = Path(config.get('game_dir', '')) / data_name
+        baselib = ROOT / '.local/dependencies/BaseLib-3.4.7/BaseLib.dll'
+        required = [dotnet, baselib, *(data / name for name in ('sts2.dll', 'GodotSharp.dll', '0Harmony.dll'))]
+        if not all(path.is_file() for path in required):
+            self.skipTest('Actual native/BaseLib references absent; no fake substitution')
         result = subprocess.run([str(dotnet), 'run', '--project', str(ROOT/'tests/audio_receipt_probe/AudioReceiptProbe.csproj'),
-            '-c', 'Release', '-p:Sts2DataDir='+str(data)], cwd=ROOT, capture_output=True, text=True,
+            '-c', 'Release', '-p:RepositoryRoot='+str(ROOT), '-p:Sts2DataDir='+str(data),
+            '-p:BaseLibPath='+str(baselib)], cwd=ROOT, capture_output=True, text=True,
             timeout=180, env=dict(os.environ, DOTNET_NOLOGO='1'))
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
         self.assertIn('AUDIO_RECEIPT_PROBE_EMISSION_OK checks=20;', result.stdout)

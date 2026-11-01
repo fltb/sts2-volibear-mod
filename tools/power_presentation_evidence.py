@@ -6,7 +6,7 @@ EXPECTED = json.loads((Path(__file__).resolve().parents[1] / 'tests/fixtures/pow
 PREFIX = '[Volibear] POWER_PRESENTATION_RESULT '
 ACCEPTANCE = 'native-tooltip/resource-not-visual-recognition'
 FIXTURE = 'native-ToMutable-ApplyInternal-SetAmount-HoverTips-RemoveInternal'
-PERMANENT = '领域持续本战。每张实际攻击首段普通攻击后附加4点全体雷伤；重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。'
+PERMANENT = '领域持续本战。每张实际攻击首段普通攻击后附加4点全体雷伤；重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。'
 
 
 def expected_cases():

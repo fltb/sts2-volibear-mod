@@ -216,8 +216,9 @@ class ExtendedRunnerTests(unittest.TestCase):
                 with self.subTest(case=case, accepted=accepted):
                     self.run_case('coupon-contract', case, accepted)
 
-    def test_steam_routes_all_twenty_nine_variants_and_preserves_failure(self):
-        self.assertEqual(len(headless.STEAM_CASES), 29)
+    def test_steam_routes_all_thirty_eight_variants_and_preserves_failure(self):
+        self.assertEqual(len(headless.STEAM_CASES), 38)
+        self.assertEqual(set(headless.STEAM_CASES), headless.STEAM_VARIANTS)
         for case in headless.STEAM_CASES:
             for accepted in (False, True):
                 with self.subTest(case=case, accepted=accepted):

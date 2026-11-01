@@ -21,6 +21,14 @@ GAME_BUILD = '59260271'
 PRODUCER = 'volibear-release-package-v1'
 LICENSE_SHA256 = '1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f'
 MOD_FILES = ('Volibear.dll', 'Volibear.pck', 'Volibear.json')
+DISTRIBUTION_NOTICES = {
+    'LICENSE': ROOT / 'LICENSE',
+    'LICENSE-ASSETS': ROOT / 'LICENSE-ASSETS',
+    'LICENSING.md': ROOT / 'LICENSING.md',
+    'licenses/audio/CREDITS.md': ROOT / 'assets/animation/audio/CREDITS.md',
+    'licenses/audio/sources.json': ROOT / 'assets/animation/audio/sources.json',
+    'licenses/audio/source/kenney/License.txt': ROOT / 'assets/animation/audio/source/kenney/License.txt',
+}
 OUTPUT = ROOT / '.local/release/Volibear-0.1.0-StS2-0.107.1.zip'
 
 
@@ -101,6 +109,9 @@ def package(dll, pck, mod_manifest, archive, license_file, instructions, output)
     info = manifest(payload['mods/Volibear/Volibear.json'], 'Volibear')
     payload.update(dependency_files(archive, license_file))
     payload['INSTALL_ZH.md'] = read_file(instructions)
+    # The DLL, artwork and open audio travel with their own terms and source credits;
+    # BaseLib's MIT text does not cover this mod or its asset authors.
+    payload.update({name: read_file(path) for name, path in DISTRIBUTION_NOTICES.items()})
     for name, data in payload.items():
         # Preserve approved DLL/PCK bytes. Their debug/provenance text is not an installation address.
         # Runtime resource loading is covered by the existing resource/game gates, not a byte-grep oracle.
@@ -147,7 +158,7 @@ def main():
     parser.add_argument('--pck', type=Path, default=ROOT / '.local/packs/Volibear.pck')
     parser.add_argument('--manifest', type=Path, default=ROOT / 'src/Volibear/Volibear.json')
     parser.add_argument('--baselib-archive', type=Path, default=ROOT / '.local/dependencies/BaseLib.3.4.7.zip')
-    parser.add_argument('--baselib-license', type=Path, default=ROOT / '.local/dependencies/source/BaseLib-StS2-3.4.7/LICENSE.txt')
+    parser.add_argument('--baselib-license', type=Path, default=ROOT / 'licenses/BaseLib-LICENSE.txt')
     parser.add_argument('--output', type=Path, default=OUTPUT)
     args = parser.parse_args()
     result = package(args.dll, args.pck, args.manifest, args.baselib_archive, args.baselib_license,

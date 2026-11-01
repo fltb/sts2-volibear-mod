@@ -15,6 +15,11 @@ import subprocess
 import sys
 import uuid
 
+try:
+    from tools import audio_profiles
+except ModuleNotFoundError:
+    import audio_profiles
+
 ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION = ROOT / 'src/Volibear/Presentation'
 ANIMATIONS = ROOT / 'assets/animation/animations/clean'
@@ -23,12 +28,12 @@ UI = ROOT / 'assets/animation/ui'
 VFX = ROOT / 'assets/animation/vfx'
 AUDIO = ROOT / 'assets/animation/audio'
 ICON_EXPORTS = {
-    'relics/lightning_heart.svg': ('lightning_heart.svg', 64),
-    'relics/big/lightning_heart.svg': ('lightning_heart.svg', 256),
-    'relics/outline/lightning_heart.svg': ('lightning_heart_outline.svg', 64),
-    'relics/storm_crown.svg': ('storm_crown.svg', 64),
-    'relics/big/storm_crown.svg': ('storm_crown.svg', 256),
-    'relics/outline/storm_crown.svg': ('storm_crown_outline.svg', 64),
+    'relics/lightning_heart.png': ('relics/lightning_heart.png', 64),
+    'relics/big/lightning_heart.png': ('relics/big/lightning_heart.png', 256),
+    'relics/outline/lightning_heart.png': ('relics/outline/lightning_heart.png', 64),
+    'relics/storm_crown.png': ('relics/storm_crown.png', 64),
+    'relics/big/storm_crown.png': ('relics/big/storm_crown.png', 256),
+    'relics/outline/storm_crown.png': ('relics/outline/storm_crown.png', 64),
     'powers/thunder_force.svg': ('thunder_force.svg', 64),
     'powers/big/thunder_force.svg': ('thunder_force.svg', 256),
     'powers/domain.svg': ('domain.svg', 64),
@@ -38,7 +43,7 @@ NATIVE_RESOURCES = (
     'volibear_icon.tscn', 'volibear_energy.tscn', 'volibear_rest.tscn',
     'volibear_merchant.tscn', 'volibear_trail.tscn',
     'volibear_transition.tres', 'volibear_transition.gdshader',
-    'volibear_effects.tscn', 'effects.gd',
+    'volibear_effects.tscn', 'effects.gd', 'energy.gd', 'audio_profile.gd',
 )
 PACK = ROOT / '.local/packs/Volibear.pck'
 ALIASES = {
@@ -131,12 +136,24 @@ def effect_clips(effects):
 
 def stage_icons(art):
     for path, (source, size) in ICON_EXPORTS.items():
-        svg = (PRESENTATION / 'icons' / source).read_text(encoding='utf-8')
+        source_path = safe_source(PRESENTATION / 'icons', source)
+        destination = art / 'icons' / path
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        if source_path.suffix == '.png':
+            # These checked-in game-sized exports are produced by export_relic_icons.py.
+            # Decode/dimension/alpha checks also run in the real Godot pack verifier.
+            import struct
+            header = source_path.read_bytes()[:29]
+            if (header[:8] != b'\x89PNG\r\n\x1a\n' or header[12:16] != b'IHDR'
+                    or struct.unpack('>II', header[16:24]) != (size, size)
+                    or header[25] != 6):
+                raise ValueError('Painted relic export must be correctly sized RGBA PNG: ' + source)
+            shutil.copyfile(source_path, destination)
+            continue
+        svg = source_path.read_text(encoding='utf-8')
         if 'width="256" height="256"' not in svg:
             raise ValueError('Original rune master must be 256px square')
         svg = svg.replace('width="256" height="256"', f'width="{size}" height="{size}"', 1)
-        destination = art / 'icons' / path
-        destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(svg, encoding='utf-8')
 
 
@@ -258,7 +275,7 @@ def run(godot_args, work, label, env):
     return text
 
 
-def build(godot, output=PACK):
+def build(godot, output=PACK, *, audio_profile='open'):
     output = output_path(output)
     godot = godot.resolve()
     if not godot.is_file():
@@ -266,6 +283,11 @@ def build(godot, output=PACK):
     manifest, clips, portraits = read_inputs()
     ui = read_ui_inputs()
     effects, audio = read_effect_inputs()
+    audio_profiles.profile_data(audio_profile)
+    profile_expected = {'profile': 'open', 'overrides': []}
+    if audio_profile == 'riot_en':
+        runtime_profile = audio_profiles.verify_prepared()
+        profile_expected = {'profile': 'riot_en', 'overrides': runtime_profile['overrides']}
     snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',
                                     UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json']}
     work = ROOT / '.local/asset-build' / uuid.uuid4().hex
@@ -293,6 +315,7 @@ def build(godot, output=PACK):
     # Reuse the existing runtime-only asset selection, never the legacy build output.
     run([sys.executable, ROOT / 'assets/animation/integration_sts2_v5/stage_assets.py',
          '--output', art], work, 'stage', env)
+    audio_profiles.stage_profile(audio_profile, art / 'audio')
     for export in portraits:
         destination = art / 'cards' / export['path']
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -348,6 +371,7 @@ def build(godot, output=PACK):
     (verify / 'project.godot').write_text(verify_project_text, encoding='utf-8')
     shutil.copyfile(PRESENTATION / 'verify_pack.gd', verify / 'verify_pack.gd')
     shutil.copyfile(PRESENTATION / 'verify_effects.gd', verify / 'verify_effects.gd')
+    shutil.copyfile(PRESENTATION / 'verify_audio_profile.gd', verify / 'verify_audio_profile.gd')
     # Independent expectations travel outside the pack, so a missing resource cannot erase its test.
     expected = {'clips': {c['name']: {'frames': c['frame_count'], 'loop': c['loop']} for c in clips},
                 'portraits': ['res://VolibearArt/cards/' + e['path'] for e in portraits],
@@ -367,6 +391,13 @@ def build(godot, output=PACK):
                          temporary_pack, expected_path], work, 'verify-effects', env)
     if 'VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=54 icons=10 lifecycle=PASS' not in effect_result:
         raise RuntimeError('Missing production effects lifecycle verification completion sentinel')
+    profile_expected_path = work / 'expected-audio-profile.json'
+    profile_expected_path.write_text(json.dumps(profile_expected), encoding='utf-8')
+    profile_result = run([godot, '--headless', '--audio-driver', 'Dummy', '--path', verify,
+                          '--script', 'verify_audio_profile.gd', '--', temporary_pack,
+                          profile_expected_path], work, 'verify-audio-profile', env)
+    if f'VOLIBEAR_AUDIO_PROFILE_PASS profile={audio_profile} ' not in profile_result:
+        raise RuntimeError('Missing packed audio profile playback verification completion sentinel')
     for source, digest in snapshots.items():
         if sha(source) != digest:
             raise ValueError(f'Input manifest changed during build: {source}')
@@ -388,7 +419,8 @@ def build(godot, output=PACK):
             raise ValueError('Staged approved audio bytes changed during build')
     output.parent.mkdir(parents=True, exist_ok=True)
     os.replace(temporary_pack, output)
-    print(f'RESOURCE BUILD ONLY: {output} ({output.stat().st_size} bytes); no game acceptance or deployment')
+    print(f'RESOURCE BUILD ONLY: {output} ({output.stat().st_size} bytes); '
+          f'audio_profile={audio_profile}; no game acceptance or deployment')
     return output
 
 
@@ -397,8 +429,10 @@ def main():
     parser.add_argument('--godot', type=Path, required=True)
     parser.add_argument('--output', type=Path, default=PACK,
                         help='Candidate .pck beneath .local; defaults to .local/packs/Volibear.pck')
+    parser.add_argument('--audio-profile', choices=('open', 'riot_en'), default='open',
+                        help='Open sounds by default; riot_en requires locally prepared private recordings')
     args = parser.parse_args()
-    build(args.godot, args.output)
+    build(args.godot, args.output, audio_profile=args.audio_profile)
 
 
 if __name__ == '__main__':

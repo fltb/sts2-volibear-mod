@@ -1,9 +1,13 @@
 extends Node2D
 ## Production presentation owner. Never computes rules or waits on gameplay.
+const AudioProfile = preload("res://VolibearArt/scenes/audio_profile.gd")
 const MAX_VISUALS = 64
 const MAX_VOICES = 24
 const DEDUP_WINDOW = 4096
 const MAX_LEASE = 60.0
+# The approved ground atlases have a ~190px footprint; the native actor's feet
+# span its 310px bounds. Enclose both feet without changing the raster or timing.
+const OWNER_GROUND_SCALE = 1.8
 var battle_id = ""
 var owner_id = ""
 var volume_provider: Callable
@@ -33,7 +37,7 @@ func _ready() -> void:
 	var visual_manifest = JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/vfx/manifest.json"))
 	for item in visual_manifest.effects:
 		_effects[item.id] = item
-	var audio_manifest = JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/audio/manifest.json"))
+	var audio_manifest = AudioProfile.resolve_manifest(JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/audio/manifest.json")))
 	for item in audio_manifest.cues:
 		_cues[item.id] = item
 	_mix = audio_manifest.mix_rules
@@ -179,6 +183,8 @@ func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, targe
 	sprite.centered = false
 	var pivot = effect.get("target_anchor_px", effect.pivot_px) if effect.anchor == "owner_to_selected_card" else effect.pivot_px
 	sprite.offset = -Vector2(pivot[0], pivot[1])
+	if effect.anchor == "owner_ground":
+		sprite.scale = Vector2.ONE * OWNER_GROUND_SCALE
 	sprite.z_index = effect.layer_z
 	add_child(sprite)
 	_next += 1
@@ -224,7 +230,10 @@ func play_sound(event_id: String, cue_id: String, persistent_key: String = "", l
 		return false
 	if not _streams.has(cue.file):
 		_streams[cue.file] = load("res://VolibearArt/audio/" + cue.file)
-	var stream = _streams[cue.file].duplicate() as AudioStreamOggVorbis
+	var source_stream = _streams[cue.file] as AudioStreamOggVorbis
+	if source_stream == null:
+		return false
+	var stream = source_stream.duplicate() as AudioStreamOggVorbis
 	if stream == null:
 		return false
 	stream.loop = cue.loop

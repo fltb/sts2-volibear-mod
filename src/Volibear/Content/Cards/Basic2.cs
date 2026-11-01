@@ -14,6 +14,8 @@ public sealed class Volibear_B02 : VolibearCard
 {
     public Volibear_B02() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self, "b02") { }
 
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(5m, Move)];
 
@@ -69,13 +71,13 @@ public sealed class Volibear_B04 : VolibearCard
         await CreatureCmd.GainBlock(owner.Creature, Var<BlockVar>("Block").BaseValue,
                                     Move, cardPlay, false);
         var target = cardPlay.Target;
-        if (target is not null)
+        if (DirectEffects.Live(this) && target is { IsHittable: true })
             await DamageCmd.Attack(Var<DamageVar>("Damage").BaseValue)
                 .FromCard(this)
                 .Targeting(target)
                 .Execute(choiceContext);
         if (target is not null)
-            await Core.EngageCmd.Perform(choiceContext, target, this);
+            await DirectEffects.Engage(choiceContext, this, target);
     }
 
     protected override void OnUpgrade()

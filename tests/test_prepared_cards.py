@@ -114,7 +114,11 @@ class PreparedCardContracts(unittest.TestCase):
     def test_lightning_origin_snapshot_native_accounting_and_round_expiry(self):
         light = self.lightning
         self.assertEqual(light.count('nativeCardOrigin: true'), 2)
-        self.assertEqual(light.count('nativeCardOrigin: false'), 1)
+        # Explicit-owner passive calls retain false both with and without hit receipts.
+        self.assertEqual(light.count('nativeCardOrigin: false'), 2)
+        for callback in ('', ', onResolved'):
+            self.assertIn(
+                'DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false' + callback + ')', light)
         self.assertIn('CardDamageTraining.Current(card) + UnifyPower.NativeThunderBonus(card)', light)
         self.assertIn('amount + charge + cardBonus + roundBonus', light)
         self.assertLess(light.index('var roundBonus ='), light.index('await CreatureCmd.Damage'))
@@ -126,12 +130,13 @@ class PreparedCardContracts(unittest.TestCase):
         self.assertRegex(light, r'public static Task<int> DealAllEnemies\(PlayerChoiceContext choiceContext, Creature owner,\s*decimal amount, CardModel\? card = null,\s*ICombatState\? state = null\)')
         primal = self.core.split('public sealed class PrimalThunderPower', 1)[1].split('public sealed class ThunderGuardPower', 1)[0]
         self.assertIn('if (side == CombatSide.Enemy)', primal)
-        self.assertIn('Math.Max(0, Owner.Creature.GetPowerAmount<StrengthPower>())', self.cards['U12'])
+        self.assertIn('Math.Max(0, DomainPlayerStatContributions.EffectiveStrength(Owner.Creature))', self.cards['U12'])
+        self.assertLess(self.cards['U12'].index('var strength ='), self.cards['U12'].index('await PowerCmd.Apply<PrimalThunderPower>'))
         guard = self.core.split('public sealed class ThunderGuardPower', 1)[1].split('public sealed class PreparedAttackBonus', 1)[0]
         self.assertIn('PowerInstanceType.Instanced', guard)
         self.assertIn('AfterDamageReceived', guard)
         self.assertIn('!Owner.IsHittable', guard)
-        self.assertIn('LightningCmd.Deal(context, Owner, new[] { dealer }, Amount, null)', guard)
+        self.assertIn('LightningCmd.Deal(context, Owner, new[] { dealer }, Amount, null, hits =>', guard)
         self.assertIn('BeforeSideTurnStart', guard)
         self.assertNotIn('result.UnblockedDamage > 0', guard)
 

@@ -1,10 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net9.0</TargetFramework><OutputType>Exe</OutputType><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><EnableDefaultCompileItems>false</EnableDefaultCompileItems><NuGetAudit>false</NuGetAudit><NoWarn>$(NoWarn);CS0436</NoWarn></PropertyGroup><ItemGroup>
-<Compile Include="Program.cs"/>
-<Compile Include="../../src/Volibear/AudioReceiptProbe.cs;../../src/Volibear/AudioReceiptProbeObservers.cs"/>
-<Compile Include="../../src/Volibear/Presentation/AudioCommitGate.cs;../../src/Volibear/Presentation/PowerAudioReceipts.cs"/>
-<Compile Include="../../src/Volibear/Core/CardReceiptPolicy.cs;../../src/Volibear/Core/CardPresentationReceipts.cs"/>
-<Compile Include="../../src/Volibear/Core/DomainSummonDecision.cs;../../src/Volibear/Core/RevivalDecision.cs;../../src/Volibear/Core/SummonRegistration.cs"/>
-<Compile Include="../../src/Volibear/Core/DomainPassiveEffects.cs;../../src/Volibear/Core/DomainRevivalEffects.cs;../../src/Volibear/Core/DomainSummonEffects.cs;../../src/Volibear/Core/DomainCardContributions.cs"/>
-<Reference Include="Volibear"><HintPath>../../src/Volibear/bin/Release/net9.0/Volibear.dll</HintPath></Reference>
-<Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference><Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference><Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference><Reference Include="BaseLib"><HintPath>../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</HintPath></Reference>
-</ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework><OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems><NuGetAudit>false</NuGetAudit>
+    <RepositoryRoot Condition="'$(RepositoryRoot)' == ''">$(MSBuildProjectDirectory)/../..</RepositoryRoot>
+    <BaseLibPath Condition="'$(BaseLibPath)' == ''">$(RepositoryRoot)/.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <!-- Native receipt adapters share internal state and partial definitions. -->
+    <Compile Include="$(RepositoryRoot)/src/Volibear/**/*.cs" Exclude="$(RepositoryRoot)/src/Volibear/bin/**;$(RepositoryRoot)/src/Volibear/obj/**" />
+    <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>$(BaseLibPath)</HintPath></Reference>
+  </ItemGroup>
+</Project>

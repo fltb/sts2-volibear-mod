@@ -41,15 +41,21 @@ BaseLib's custom animation patch discovers `Visuals/AnimatedSprite2D`; no Spine 
 Actions return to the configured loop; death holds frame 39. The 26 original clip names remain
 available through `VolibearPresentation.Play(visuals, clip)`.
 `SetIdle(visuals, loop)` changes the next return pose, without interrupting an action.
-Domain/feral/low-HP gameplay events are NOT wired here. No custom animation wait is introduced.
+This low-level scene adapter leaves domain/feral/low-HP event routing to the production
+bridge below. No custom animation wait is introduced.
 
 ## Native UI contracts
 
 - Icon: native `TextureRect`/`Control`, using the approved 128px portrait; no game script.
 - Energy: 128px `Control` with `Label` (BaseLib converts it to `MegaLabel`), unique `Layers`,
   `RotationLayers`, `EnergyVfxBack`, `EnergyVfxFront`, `StarAnchor`. The game owns label updates,
-  zero-energy darkening and rotation. Particle containers are intentionally empty; this slice
-  does not claim new energy VFX. The approved energy emblem stays upright.
+  zero-energy darkening and rotation. `energy.gd` is attached to the retained `StormRing` child
+  under `RotationLayers`, so replacing the scene root does not remove its animated rim. The
+  approved emblem remains upright as a small crest above a dark numeric area; the native label
+  draws above these layers. The script only reads the native label: an actual decrease contracts
+  the rim, an increase expands it, and zero energy dims its moving branches. Initial binding,
+  max-value-only text changes and unknown placeholder text do not fabricate an energy gain.
+  No game value, label text, payment, sound or global tween is created by this cosmetic child.
 - Rest: `Node2D` plus `ControlRoot`, unique `Hitbox` and left/right thought anchors. The factory
   creates the universal game selection reticle. Visuals are under `ControlRoot` so native flip
   also flips the actor. Approved `relaxed_loop` is reused; no seated animation is claimed.
@@ -81,6 +87,9 @@ owners whose actual native Character is `VolibearCharacter`; other characters ar
   attach during `IsStarting`; domain loops renew every 200ms with a two-second lease only while
   the authoritative domain is positive and the owner alive. Snapshot/silent recovery does not
   pretend a fresh entry occurred. Revival alone cannot restore a domain presentation.
+- Low-health poses enter at 30% HP and leave at 35%. A scope created during native combat
+  setup reconciles the starting HP once the battle becomes playable; that initial snapshot
+  stays silent. Actual subsequent low-health entry supplies the approved voice cue.
 - `EngageCmd.Perform` gets an isolated AsyncLocal observation scope. A block telegraph pose is
   shown only if that invocation actually reaches its enemy's native `PerformIntent` after native
   eligibility/reservation. Incoming damage/block history supplies the real impacts. A successful
@@ -95,17 +104,25 @@ owners whose actual native Character is `VolibearCharacter`; other characters ar
   reference and actual room instance, never presented as a network/gameplay identifier.
 - Death stops owned loops/audio before its bounded death cue; actual combat end, Reset(bool) and
   room TreeExiting dispose subscriptions and players. A transient native IsEnding suspends
-  cosmetics, rather than permanently breaking a battle that subsequently resumes. The only
-  Harmony boundaries are room Ready, manager Reset, owner Lightning Deal, Engage Perform and
-  native PerformIntent; no private card/MoveNext/settlement hooks are patched.
+  cosmetics, rather than permanently breaking a battle that subsequently resumes.
+- The native selection screen and CombatWon events own selection/victory cues. Actual healing
+  and energy increases own heal/energy cues. Captured visible card/cost coordinates carry
+  committed purification, retrieval and discount effects after the original view disappears.
+- `GameplayPresentationReceipts` routes the implemented V01–V21 bindings: guard removal,
+  counter thunder, actual domain suppression, beast transfer/batch, bite mark, vulnerable/weak,
+  card charge/retain/enhancement, lifesteal, ability deployment, thunder modifiers/armor,
+  dexterity, and native scry selection/discard. Thunder armor emits after positive block from
+  a completed lightning batch, not merely when its power is installed.
+- Authored motion triggers, domain fallback clips, bounded segments, timed poses and domain
+  entry arbitration are consumed by `VolibearPresentationBridge.Motion.cs`. Repeated effects
+  retain their replay marker without restarting the primary paid-play animation.
 
-This first primitive bridge covers B01/B02/B03/B04, domain state, actual force growth, committed
-ordinary attacks/block/draw, incoming reactions, replay/card movement and beast conversion.
-The low-level renderer supports all 54 cues, but **not all are activated by this bridge**. In
-particular selection/victory/low-health/footstep, dedicated hand-cast charge, native heal/energy,
-status-specific enemy effects, purification-versus-generic-exhaust, full transfer choreography
-and all later card/passive semantic bindings need their own precise event integrations. No
-normal-window visual/audio acceptance follows from merely installing or compiling this bridge.
+The high-level bridge observes native history and command events. Its receipt adapters also
+instrument exact native power/keyword/damage commit boundaries so previews cannot emit successful
+effects. Those Harmony integrations require verification against the pinned game assemblies.
+The optional lightning-chain binding, disabled feral-aura sound and unbound footstep cue are not
+invented gameplay events. Resource decoding and bridge compilation do not establish normal-window
+visual quality or human listening acceptance.
 
 ## Semantic VFX/audio API
 
@@ -148,6 +165,10 @@ effects.Dispose();
   axis stretches. Feral transfer preserves aspect ratio and pins its authored arrival point to
   the selected card. Card/pile transition atlases remain local arrival effects, not invented
   full-screen card movement. `lightning_all` can be emitted per actual resolved enemy.
+- The four `owner_ground` effects use a 1.8x presentation scale around the existing ground
+  pivot, so the domain and feral rings enclose the native actor's feet. Approved atlas bytes,
+  playback timing and negative background layers stay intact. The verifier checks all four
+  against the native body bounds and follows an actual actor position change.
 - Maximum 64 simultaneous visuals, 24 sound players, manifest per-cue voice counts/cooldowns and
   one Voice-category player. Disabled `sfx.feral_aura` stays off unless explicitly requested with
   `PlaySound(..., allowDisabled: true)`. Native streams are duplicated before setting loop mode;
@@ -161,16 +182,26 @@ effects.Dispose();
   refresh during playback. Manifest mix attenuation/headroom and conservative simultaneous-voice
   normalization are applied. No global bus or output device is changed, and normal windows never
   force Dummy audio. Headless decode/lifecycle verification is not a listening approval.
+- `audio_profile.gd` keeps the complete default open-audio manifest. An explicitly built private
+  `riot_en` pack may replace validated one-shot cue files and their duration/gain fields; category,
+  loop, disabled-cue and concurrency rules stay unchanged. Missing or invalid overrides fall back
+  to the open cue. See the [audio profile instructions](../../../assets/animation/audio/profiles/README.md).
+- The resource verifier dispatches all 40 effects through the production controller with explicit
+  owner, target, card, cost and energy anchors. It checks frame advancement, natural one-shot
+  completion and persistent-loop cleanup, alongside the native-label-driven energy transitions.
+  These checks exercise the Godot resources; actual gameplay event delivery still needs the game.
 
-## Original relic and power runes
+## Relic illustrations and power runes
 
-The six SVG masters under `icons/` are newly authored geometry, not modifications of approved
-art or borrowed game assets. The builder exports ten textures: packed/outline 64px, big 256px.
-`VolibearIcons` supplies exact runtime path constants:
+The two relics use the original painted PNG illustrations under `icons/relics/`, with transparent
+masters and a reproducible size/outline export tool documented in [icons/README.md](icons/README.md).
+The two power runes remain SVG geometry. The builder includes ten textures: relic packed/outline
+64px and big 256px, plus power packed 64px and big 256px. The old relic SVGs remain historical
+sources and are not production resources. `VolibearIcons` supplies exact runtime path constants:
 
-- LightningHeart, LightningHeartOutline, LightningHeartBig: `icons/relics/lightning_heart.svg`,
-  `icons/relics/outline/lightning_heart.svg`, `icons/relics/big/lightning_heart.svg`.
-- StormCrown, StormCrownOutline, StormCrownBig: matching `storm_crown.svg` paths.
+- LightningHeart, LightningHeartOutline, LightningHeartBig: `icons/relics/lightning_heart.png`,
+  `icons/relics/outline/lightning_heart.png`, `icons/relics/big/lightning_heart.png`.
+- StormCrown, StormCrownOutline, StormCrownBig: matching `storm_crown.png` paths.
 - ThunderForce, ThunderForceBig: `icons/powers/thunder_force.svg` and
   `icons/powers/big/thunder_force.svg`.
 - Domain, DomainBig: matching `domain.svg` power paths.
@@ -195,6 +226,12 @@ From the repository root, using Python 3 (with pip on Windows) and the installed
 `.local/config.json`'s `dotnet` path, or available on PATH. Windows builds supply pip's bundled
 CA certificates explicitly to the isolated editor, avoiding dependence on its access to the
 host certificate store; these certificates are not exported into the PCK.
+
+`python tools/preview_presentation.py --godot <Godot4.5.1-mono>` renders the built PCK into
+an isolated virtual display on Linux. It produces the two relic sizes/outlines, four energy
+states and a moving energy GIF, all forty VFX keyframes, and dark/bright background comparisons.
+The VFX fixtures apply the same zoom to character and effects, preserving their native size
+ratio. These outputs inspect production resources; they do not simulate or certify gameplay.
 
 ```powershell
 $env:PYTHONUTF8='1'
@@ -228,6 +265,7 @@ Runtime paths:
 - `res://VolibearArt/scenes/volibear_frames.tres`
 - `res://VolibearArt/scenes/volibear_icon.tscn`
 - `res://VolibearArt/scenes/volibear_energy.tscn`
+- `res://VolibearArt/scenes/energy.gd`
 - `res://VolibearArt/scenes/volibear_rest.tscn`
 - `res://VolibearArt/scenes/volibear_merchant.tscn`
 - `res://VolibearArt/scenes/volibear_trail.tscn`
@@ -237,6 +275,21 @@ Runtime paths:
 
 Card IDs in filenames are lowercase; substitute each approved ID. Load textures with Godot
 `ResourceLoader` from these paths rather than external filesystem/junction loading.
+
+## Rendered resource previews
+
+After building the PCK, run `python tools/preview_presentation.py --godot <Godot-4.5.1-Mono>`.
+The tool uses the current `.local/packs/Volibear.pck` without building, deploying or starting the
+game. Linux uses an isolated Xvfb display; .NET and Pillow are also required. `--pack` can select
+another already-built resource candidate, and `--output` can select a new ignored local directory.
+
+The output contains the actual actor, 64/256px relics and outlines, a four-second energy GIF with
+3 → 2 → 0 → 4 preview label inputs, and five contact sheets covering all 40 VFX. Each VFX is created
+by production `emit_effect`, then paused on its authored poster frame for static inspection. The
+tool rejects visible effect pixels outside its fixture viewport. Card/target fixtures are neutral
+preview anchors, not native gameplay controls or simulated enemies; static keyframes are not
+evidence of game event delivery. The preview disables audio and does not make a listening claim.
+Only the reusable tools are source files; rendered outputs remain ignored local artifacts.
 
 ## Explicit limits
 

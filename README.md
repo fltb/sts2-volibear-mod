@@ -4,6 +4,36 @@
 
 完整实施目标与验收条件分别见 [实施计划](docs/OVERNIGHT_PLAN.md) 和 [测试规格](docs/TEST_SPEC.md)，游戏状态、转换条件及单元测试映射见 [状态机设计](docs/GAMEPLAY_STATE_MACHINES.md)，当前边界与接续工作见 [交接说明](docs/HANDOFF.md)。构建成功、受控原生场景通过及程序化 UI 操作，均不能替代普通鼠标键盘流程或完整分支覆盖。
 
+当前实现和复核发现按 [实现清单](docs/IMPLEMENTATION_TODO.md) 跟踪。无游戏依赖的检查可在装有.NET 9的机器直接运行`python -B -m unittest discover -s tests -v`；配置或PATH提供SDK即可。需要游戏程序集的检查会明确跳过，不据此声明游戏兼容或流程验收完成。
+
+本轮恢复了前次未提交的遗物、能量与双音频改动，并补齐B04格挡响应后的目标检查、
+无效私有音频的开放回退、分发许可及领域地面效果范围。两套PCK和全部40种特效已重新构建、
+播放与渲染检查；**当前完整DLL、原生游戏流程和完整安装ZIP仍需要锁版游戏环境**。
+源码实现、资源检查和游戏验收按[最新交接](docs/HANDOFF.md)分别记录。
+
+## 本轮表现改进与两套音频
+
+初始与升级遗物已重画，普通栏位、放大查看及悬停轮廓使用同一套新图。能量界面的周边电弧
+持续运动，数值保持清晰；消耗、恢复和耗尽反馈只跟随游戏实际Label。耗尽牌面锚点、近战命中
+映射、全部雷伤入口及真正迎战开始后的语音接线也已修复。
+
+| 初始遗物：不灭狂雷 | 升级遗物：万古不灭 |
+| --- | --- |
+| ![初始雷霆符物](src/Volibear/Presentation/icons/relics/big/lightning_heart.png) | ![升级风暴冠](src/Volibear/Presentation/icons/relics/big/storm_crown.png) |
+
+默认`open`保留47个开放声音／54个cue。可选`riot_en`使用9条英文Riot发声和2条官方Q研发音效，
+其余43个cue保持开放声音。源码中的[音频方案说明](assets/animation/audio/profiles/README.md)
+和[英文来源清单](assets/animation/audio/profiles/riot_en.json)包含实际下载地址、事件类别、
+固定摘要及处理方法；Riot媒体不进入公开Git。两个方案均生成单份完整PCK，避免资源包加载顺序歧义。
+
+```sh
+# 默认开放素材；可替换为riot_en，自动准备私有录音。
+python tools/audio_profiles.py package --profile open --godot /path/to/Godot_4.5.1_mono
+```
+
+输出是**资源替换包**，仍需匹配的Mod DLL、JSON和BaseLib。当前修改已执行独立Godot资源检查，
+新DLL编译、真实游戏流程及听感仍需锁版游戏环境，不能把资源ZIP当完整安装包。
+
 ## 开始
 
 ```sh
@@ -11,7 +41,7 @@ git clone git@github.com:fltb/sts2-volibear-mod.git
 cd sts2-volibear-mod
 ```
 
-Git 跟踪完整生产路径，不需要 ZIP restore；同内容文件由 Git 对象存储去重。可直接打开 `assets/cards/cards/index.html` 和 `assets/animation/animations/skeletal_v9/index.html`。预留至少 2 GB。官方 Riot 录音不纳入 Git，也不属于当前运行 cue 依赖。
+Git 跟踪完整生产路径，不需要 ZIP restore；同内容文件由 Git 对象存储去重。可直接打开 `assets/cards/cards/index.html` 和 `assets/animation/animations/skeletal_v9/index.html`。预留至少 2 GB。官方 Riot 录音不纳入 Git，默认open方案不依赖它们。
 
 ## 迎战与领域：完整覆盖仍是验收门
 
@@ -70,3 +100,5 @@ Windows 另需四点：脚本按 UTF-8 读写，须设 `PYTHONUTF8=1`；`ffmpeg`
 仓库不分发游戏程序集、SDK、Godot、下载的框架依赖或本机测试存档。源码入口为 [Mod 工程](src/Volibear/Volibear.csproj)，本地依赖获取与校验见 [依赖工具](tools/dependencies.py)，开发命令见 [开发工具](tools/dev.py)。构建产物与本机配置不入 Git；已有开发候选部署验证不代表发布版安装／卸载及全部玩法验收完成。
 
 游戏测试必须使用隔离资料目录，并保留普通／云端存档和其它 Mod。执行规则、原生退出对照和各独立测试入口见 [原生测试说明](docs/HEADLESS_TESTING.md)。不要在游戏或测试进程运行期间部署另一个候选。
+
+完整打包依次使用`tools/dependencies.py fetch`、`tools/dev.py build`、`tools/build_assets.py --godot <Godot4.5.1-mono>`和`tools/release_package.py`。BaseLib的固定原始许可已随仓库提供；完整DLL构建仍需要本机锁版游戏程序集。只有当前DLL与当前PCK齐备后才生成完整ZIP。

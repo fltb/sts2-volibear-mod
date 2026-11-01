@@ -135,6 +135,21 @@ public static class ModEntry
                 DevelopmentBootstrap.Install(installDriver: false);
                 CardFaceAcceptanceProbe.Install();
             }
+            else if (scenario == "card-lifecycle")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                CardLifecycleAcceptanceProbe.Install();
+            }
+            else if (scenario == "native-run")
+            {
+                // Exercise normal selection / save / Continue, with no development run fixture.
+                NativeRunAcceptanceProbe.Install();
+            }
+            else if (scenario == "presentation-acceptance")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                PresentationAcceptanceProbe.Install();
+            }
             else if (scenario == "prepared-contract")
             {
                 DevelopmentBootstrap.Install(installDriver: false);

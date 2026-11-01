@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import unittest
 from unittest.mock import patch
@@ -25,11 +26,10 @@ CASES = {
 
 def configured_sdk():
     config = ROOT / '.local/config.json'
-    if not config.is_file():
-        raise unittest.SkipTest('SDK configuration absent; lightning responses NOT_RUN')
-    value = json.loads(config.read_text(encoding='utf-8')).get('dotnet')
-    if value is None or not Path(value).is_file():
-        raise unittest.SkipTest('Configured SDK unavailable; lightning responses NOT_RUN')
+    configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
+    value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
+    if not value or not Path(value).is_file():
+        raise unittest.SkipTest('SDK unavailable; lightning responses NOT_RUN')
     return value
 
 

@@ -122,6 +122,7 @@ public sealed class Volibear_U43 : VolibearCard
 public sealed class Volibear_R27 : VolibearCard
 {
     public Volibear_R27() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r27") { }
+    public override bool GainsBlock => true;
     public override List<(string, string)> Localization => new CardLoc("旧日重临", "兽化至多{Convert:diff()}张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。",
         ("beastSelectionPrompt", "选择至多{Amount}张手牌兽化。"));
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import unittest
 import xml.etree.ElementTree as ET
@@ -28,11 +29,10 @@ class DomainLifecycleStates(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         config = ROOT / '.local/config.json'
-        if not config.is_file():
-            raise unittest.SkipTest('SDK configuration absent; domain lifecycle states NOT_RUN')
-        value = json.loads(config.read_text(encoding='utf-8')).get('dotnet')
-        if value is None or not Path(value).is_file():
-            raise unittest.SkipTest('Configured SDK unavailable; domain lifecycle states NOT_RUN')
+        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
+        value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
+        if not value or not Path(value).is_file():
+            raise unittest.SkipTest('SDK unavailable; domain lifecycle states NOT_RUN')
         cls.dotnet = value
         require_success(cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo'))
         result = cls.invoke(str(DLL), '--list')
@@ -98,8 +98,6 @@ class DomainDecisionSourceContracts(unittest.TestCase):
         # Static wiring only: these native-reference projects are deliberately NOT built here.
         projects = {
             'domain_revival/DomainRevival.Tests.csproj': ('RevivalDecision.cs',),
-            'audio_receipts/AudioReceipts.csproj': ('DomainSummonDecision.cs', 'RevivalDecision.cs', 'SummonRegistration.cs'),
-            'audio_receipt_probe/AudioReceiptProbe.csproj': ('DomainSummonDecision.cs', 'RevivalDecision.cs', 'SummonRegistration.cs'),
         }
         for project, names in projects.items():
             with self.subTest(project=project):
@@ -107,6 +105,19 @@ class DomainDecisionSourceContracts(unittest.TestCase):
                 includes = [part for node in root.findall('.//Compile') for part in node.attrib['Include'].split(';')]
                 for name in names:
                     self.assertEqual(includes.count('../../src/Volibear/Core/' + name), 1)
+        # Audio now shares internal commit adapters and partial implementations
+        # with the production core. A partial source list plus a host DLL creates
+        # duplicate identities or omits internal dependencies; compile one source tree.
+        for project in ('audio_receipts/AudioReceipts.csproj', 'audio_receipt_probe/AudioReceiptProbe.csproj'):
+            with self.subTest(project=project):
+                root = ET.parse(ROOT / 'tests' / project).getroot()
+                sources = [node for node in root.findall('.//Compile')
+                           if node.attrib['Include'] == '$(RepositoryRoot)/src/Volibear/**/*.cs']
+                self.assertEqual(len(sources), 1)
+                self.assertEqual(set(sources[0].attrib.get('Exclude', '').split(';')), {
+                    '$(RepositoryRoot)/src/Volibear/bin/**', '$(RepositoryRoot)/src/Volibear/obj/**'})
+                self.assertNotIn('Volibear', [node.attrib['Include'] for node in root.findall('.//Reference')])
+                self.assertFalse(root.findall('.//HostAssembly'))
 
     def test_stage_override_remains_self_contained_unless_kernel_explicit(self):
         root = ET.parse(ROOT / 'tests/domain_summon_effects/DomainSummonEffects.Tests.csproj').getroot()

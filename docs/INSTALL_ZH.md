@@ -11,7 +11,11 @@
 - `mods/Volibear/`：原始 `Volibear.dll`、`Volibear.pck`、`Volibear.json`。
 - `mods/BaseLib/`：固定官方发行包中的 `BaseLib.dll`、`BaseLib.pck`、`BaseLib.json`。
 - `licenses/BaseLib-LICENSE.txt`：BaseLib 原始 MIT 许可。
+- `LICENSE`、`LICENSE-ASSETS`、`LICENSING.md`：模组代码、原创资产及第三方例外的许可。
+- `licenses/audio/`：默认开放音频的作者、来源 URL、录音摘要及 Kenney 原始许可。
 - `PACKAGE.json`：构建标识、锁定版本、官方依赖来源及每个包内文件的 SHA-256。没有本机安装目录。
+
+模组源码与构建说明：https://github.com/fltb/sts2-volibear-mod
 
 官方依赖来源：https://github.com/Alchyr/BaseLib-StS2/releases/tag/v3.4.7
 
@@ -39,3 +43,10 @@
 4. 仅在 `mods/Volibear` 完全为空时删除空目录；不得递归删除包含其它内容的目录。
 
 **卸载 Volibear 不删除或修改 BaseLib、其它模组、游戏原文件、游戏设置、存档或云端数据。** 本包没有存档迁移或回退承诺；不要借卸载操作清理存档。
+
+
+## 音频方案切换
+
+完整安装包默认使用 `open`：47 个开放声音覆盖 54 个声音事件。可选 `riot_en` 的英文原声来源、自动获取和构建命令见源码仓库 `assets/animation/audio/profiles/README.md`；公开源码不包含 Riot 录音。
+
+两套资源替换包都只替换 `mods/Volibear/Volibear.pck`。退出游戏、保留原 PCK 后，使用与当前 DLL 同一版源码构建的目标 PCK 替换；切回 `open` 时恢复默认 PCK。资源替换包不包含 DLL 和 BaseLib，不能单独安装成完整模组。使用替换包后，卸载时以其实际 PCK 摘要核对该文件，另外两份文件仍以原完整包清单核对。

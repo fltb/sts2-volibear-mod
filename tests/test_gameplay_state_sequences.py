@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -23,11 +24,11 @@ class GameplayStateSequences(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         config = ROOT / '.local/config.json'
-        if not config.is_file():
-            raise unittest.SkipTest('Local SDK configuration absent; production state sequences NOT_RUN')
-        cls.dotnet = Path(json.loads(config.read_text(encoding='utf-8'))['dotnet'])
-        if not cls.dotnet.is_file():
-            raise unittest.SkipTest('Configured SDK unavailable; production state sequences NOT_RUN')
+        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
+        value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
+        if not value or not Path(value).is_file():
+            raise unittest.SkipTest('SDK unavailable; production state sequences NOT_RUN')
+        cls.dotnet = Path(value)
         # Missing source/project, compile failure and timeout fail rather than skip.
         result = cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo')
         if result.returncode:

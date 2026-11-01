@@ -2,6 +2,7 @@
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import unittest
 import xml.etree.ElementTree as ET
@@ -22,11 +23,10 @@ class SummonRegistrationTests(unittest.TestCase):
 
     def test_production_real_clr_registration_lifetime_matrix(self):
         config = ROOT / '.local/config.json'
-        if not config.is_file():
-            self.skipTest('SDK configuration unavailable; NOT_RUN')
-        dotnet = json.loads(config.read_text(encoding='utf-8')).get('dotnet')
+        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
+        dotnet = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
         if not dotnet or not Path(dotnet).is_file():
-            self.skipTest('Configured SDK unavailable; NOT_RUN')
+            self.skipTest('SDK unavailable; NOT_RUN')
         result = subprocess.run([dotnet, 'run', '-c', 'Release', '--project', str(PROJECT)],
                                 cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=180,
                                 env=dict(os.environ, DOTNET_NOLOGO='1'))

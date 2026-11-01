@@ -40,7 +40,9 @@ class Input(ctypes.Structure):
 
 
 class LastInputInfo(ctypes.Structure):
-    _fields_ = [('cbSize', wintypes.UINT), ('dwTime', wintypes.DWORD)]
+    # Win32 UINT/DWORD are always 32-bit, including when these declarations are
+    # imported by the platform-independent routing tests on an LP64 host.
+    _fields_ = [('cbSize', ctypes.c_uint32), ('dwTime', ctypes.c_uint32)]
 
 
 class WinMouse:

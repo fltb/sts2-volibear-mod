@@ -13,6 +13,8 @@ public sealed class Volibear_B01 : VolibearCard
 {
     public Volibear_B01() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy, "b01") { }
 
+    protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(6m, Move)];
 

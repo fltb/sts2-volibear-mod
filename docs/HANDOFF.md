@@ -1,4 +1,36 @@
-# 实施续作检查点（2026-11-01，Windows）
+# 实施续作检查点（2026-11-01）
+
+## 最新恢复检查点：Mode 7交付
+
+用户已授权持续完成、GitHub推送及PR，不再逐阶段征求确认。Mode 7的实现判定是：
+假设所有已实现行为正确，既定产品范围没有缺项；正确性必须另有实际证据。
+范围为89卡／178牌面、两遗物、完整机制、角色动画、能量UI、战斗VFX、双音频、
+存读档、安装／卸载及实际游戏流程。
+
+本轮找回`e1eb166`及其后的未提交美术／音频工作，在新分支`codex/mode7-completion`
+继续。确认GitHub主分支仍为`6545593`，没有覆盖更新。恢复出的两遗物PNG、能量动画、
+耗尽历史锚点、物理命中映射、全部雷伤入口及整批迎战语音接线均保留并重新核对。
+新增修复包括B04格挡等待后失效目标守卫、私有音频真实时长回退、完整分发许可／音频出处，
+以及领域／兽化地面光环按原生角色尺度放大至1.8倍。详见M28–M31。
+
+当前既定产品功能均找到生产实现和正常入口。独立Python／C#回归、两套音频解码及
+Godot4.5.1资源构建／播放／渲染已执行；英文音频的11个固定公开源也已重新下载并验证。
+资源预览覆盖两遗物、能量变化、全部40种特效及深浅背景。真实引擎资源渲染与原生游戏
+流程分别记录，不能把前者写成后者。单次证据仍只保存在被忽略的artifacts／.local下。
+
+**剩余游戏环境阻塞：**当前环境未安装StS2 0.107.1／59260271，完整工程构建实际在
+`CheckGameReference`处因缺少`Sts2DataDir/sts2.dll`停止；当前DLL、Harmony组合、正常流程、
+隔离存读档及完整安装ZIP尚未完成。
+
+GitHub连接此前未包含目标仓库，创建分支返回403。用户随后把目标仓库加入连接范围，
+现已实际创建`codex/mode7-completion`分支。线上交付使用该独立分支与PR；已有用户授权持续有效。
+恢复目标游戏环境后沿用下方既有命令完成T01–T05。两套资源ZIP仅替换PCK，必须配套同一版源码构建的DLL。
+
+用户另要求可直接解压到已有本地Git仓库的覆盖ZIP。该包按仓库相对路径包含基线`6545593`
+之后的全部改动文件与当前`.gitignore`；私有原始／处理音频及两份最终PCK放在被忽略的
+`.local/`内。包不带`.git/`或`.local/config.json`，保留接收机器的Git历史和本机配置。
+当前范围没有删除文件，解压替换同名文件即可恢复源码内容；解压后`git add .`不会纳入这些
+尚未被跟踪的私有文件。若本地以前强制跟踪过私有文件，`.gitignore`不会自动取消其跟踪。
 
 完整目标仍未完成，用户已批准持续实施，不再逐阶段请求授权。最新目标以 OVERNIGHT_PLAN / TEST_SPEC 为准：89卡/178牌面、完整机制与表现、正式敌人覆盖；BaseLib 取代 RitsuLib。
 
@@ -6,7 +38,42 @@
 
 用户最新要求：实际缺失必须落成清单、commit/push，之后逐条完成并打勾。以 [IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md) 为当前执行清单，下方长篇记录只作历史背景，不再用“继续收尾”代替明确条目。
 
-## 换机续作入口：阶段一已完成，下一步T01（2026-11-01）
+## 本轮追加：遗物、能量、表现接线与双音频（2026-11-01）
+
+用户已明确授权推送GitHub或创建PR，并要求在发布前完成可独立处理的美术／特效／音频改进。
+M22–M28记录于IMPLEMENTATION_TODO。两遗物现用原创透明PNG，普通／放大／悬停图均接到
+VolibearIcons；能量场景有真实运动的周边电弧与只读原生Label反馈，脚本不挂在会被BaseLib替换的根上。
+
+补齐的表现接线包括耗尽等事件使用已有真实历史牌面锚点、按实际physical cue选择命中特效、
+全部雷伤重载共享订阅入口、真正迎战开始后的挑战语音及全体调用去重。主要机制与卡牌数值没有重写。
+
+音频说明与英文源URL见`assets/animation/audio/profiles/README.md`。`open`是离线默认；
+`riot_en`为9英文发声＋2官方Q研发SFX，其余43 cue回退。W/E/R独立SFX确切媒体尚未取得，
+不得把VO文件或研发样例称为当前客户端完整音库。所有Riot媒体只在忽略目录；公开Git保存清单与工具。
+两方案均已构建完整资源PCK并进行Godot加载、实际播放／解码及清理检查；不能据此称原生游戏验收通过。
+
+`python tools/audio_profiles.py package --profile open|riot_en --godot <Godot4.5.1-mono>`生成
+资源替换ZIP，仍需要匹配的新DLL。此机器缺少StS2锁版程序集，不能生成本轮最终DLL或完整安装ZIP。
+后续原生验证仍按下一节接续，不能拿历史DLL搭配新PCK宣称本轮完整包已完成。
+
+## 本轮复核后的续作入口（2026-11-01）
+
+复核基线为`6545593`。89卡/178牌面、两遗物和主要机制具有生产实现；复核新增M16–M21见IMPLEMENTATION_TODO：原生卡牌分类、B04等待后的终局守卫、低血初始快照、重演动作、三类验收入口及打包许可路径已修复。批准资产与玩法数值保持原样。
+
+当前环境已执行可运行的Python和.NET9逻辑回归，并用Godot4.5.1 Mono重建PCK、执行资源与特效生命周期检查。这里没有锁版游戏程序集及可运行游戏，因此没有执行完整Mod编译、Harmony实际组合或正常游戏流程；T01–T05的原生部分继续保持未完成。具体测试结果在本轮对话中，运行输出只在被忽略的临时目录中。
+
+接到安装了StS2 **0.107.1 / 59260271** 的机器后：
+
+1. 配置`.local/config.json`的`game_dir`、`dotnet`及所需Godot路径。`python -B tools/dependencies.py fetch`获取固定BaseLib3.4.7；其原始许可现在随仓库提供。
+2. `python -B -m unittest discover -s tests -v`，先补跑本轮跳过的原生/平台检查；`python -B tools/dev.py build`编译当前DLL。
+3. `python -B tools/build_assets.py --godot <Godot4.5.1-mono>`重建当前PCK。退出测试进程后再部署同一候选，避免在活动实例中替换程序集。
+4. 按[HEADLESS_TESTING.md](HEADLESS_TESTING.md)的新批次入口执行T02/T03/T04。Windows统一使用`--display background`，Linux使用`--display xvfb`；保持私有资料目录。使用`--use-deployed`连续检查已部署的同一候选。
+5. `python -B tools/native_run_pair.py --execute-native --display background`执行正常三战存档、必要重启及Continue；Linux改为`--display xvfb`。工具只接受本次新建的私有profile，不接受已有存档路径。
+6. 原生问题修复后重新构建DLL/PCK，再运行`python -B tools/release_package.py`生成完整安装包。当前没有可替代这一步的新ZIP。
+
+单独运行SDK逻辑测试时可把.NET9的`dotnet`放到PATH，或设置`VOLIBEAR_DOTNET`；无需伪造`game_dir`。仅有SDK不能使游戏引用检查通过。
+
+## 上一换机记录：阶段一自报完成，下一步T01（历史）
 
 用户要求先完成阶段一再commit/push，然后在另一台机器继续。当前IMPLEMENTATION_TODO的P/M/V/A实现项已全部完成；T01–T05未开始。不要重开无界实现审计，也不要把编译成功当行为验收。所有作者已冻结，无游戏进程、无待收构建作业。最新冻结后Release构建成功；完整编译仅3处旧EnemyExplorationProbe CS8602，最后增量编译0错误。新领域表现包括已存在适配的实际执行取消门与原生Damage/GainBlock/Power/Play/Draw/关键词/费用实际消费边界，预览不准入。新的Harmony IL安装与运行行为尚未验证，正是T02任务。
 

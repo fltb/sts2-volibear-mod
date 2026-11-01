@@ -57,6 +57,8 @@ func verify() -> void:
 	if audio.cues.size() != 54 or expected.audio.size() != 47:
 		fail("Cue coverage mismatch")
 		return
+	if not await verify_energy():
+		return
 	var owner = Node2D.new()
 	owner.position = Vector2(100, 200)
 	root.add_child(owner)
@@ -66,6 +68,8 @@ func verify() -> void:
 	var fx = load("res://VolibearArt/scenes/volibear_effects.tscn").instantiate()
 	fx.configure("resource_test_battle", "resource_test_owner")
 	root.add_child(fx)
+	if not await verify_ground_coverage(fx):
+		return
 	var anchors = {"owner": owner, "target": target}
 	if not fx.emit_effect("hit_1", "claw_slash", anchors, "enemy_1"):
 		fail("Production effect/sound failed to start")
@@ -143,6 +147,8 @@ func verify() -> void:
 		fail("Visual capacity is not bounded")
 		return
 	fx.stop_all()
+	if not await verify_all_effects(fx, owner, target, expected.effects):
+		return
 	if not fx.emit_effect("mark", "mark_bite", anchors, "enemy_1", "mark", 10.0, false):
 		fail("Target-bound loop failed")
 		return
@@ -164,3 +170,127 @@ func verify() -> void:
 	await create_timer(0.25).timeout
 	print("VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=54 icons=10 lifecycle=PASS")
 	quit(0)
+
+func verify_ground_coverage(fx) -> bool:
+	var actor = load("res://VolibearArt/scenes/volibear_combat.tscn").instantiate()
+	actor.position = Vector2(600, 600)
+	root.add_child(actor)
+	var body = actor.get_node("Bounds") as Control
+	for id in ["domain_enter", "domain_loop", "domain_exit", "feral_aura"]:
+		if not fx.emit_effect("ground_" + id, id, {"owner": actor}, "", "ground" if id == "domain_loop" else "", 10.0, false):
+			fail("Ground composition effect did not start: " + id)
+			return false
+		var record = fx.get("_visuals").values()[0]
+		var sprite = record.node as AnimatedSprite2D
+		sprite.set_frame_and_progress(int(record.effect.poster_frame), 0.0)
+		var used = sprite.sprite_frames.get_frame_texture(id, sprite.frame).get_image().get_used_rect()
+		var left = (sprite.transform * (Vector2(used.position) + sprite.offset)).x - actor.position.x
+		var right = (sprite.transform * (Vector2(used.end) + sprite.offset)).x - actor.position.x
+		if left > body.position.x or right < body.position.x + body.size.x or right - left > body.size.x * 1.25:
+			fail("Ground effect must enclose the native feet without becoming an oversized field: " + id)
+			return false
+		if sprite.z_index >= 0 or not sprite.position.is_equal_approx(actor.position):
+			fail("Ground effect must remain behind the actor at its ground pivot: " + id)
+			return false
+		actor.position += Vector2(20, 10)
+		await process_frame
+		await process_frame
+		if not sprite.position.is_equal_approx(actor.position):
+			fail("Ground effect did not follow the actor's real position: " + id)
+			return false
+		fx.stop_all()
+	actor.free()
+	print("VOLIBEAR_GROUND_VFX_PASS effects=4 feet_coverage=PASS following=PASS layering=PASS")
+	return true
+
+func verify_energy() -> bool:
+	var energy = load("res://VolibearArt/scenes/volibear_energy.tscn").instantiate()
+	root.add_child(energy)
+	var ring = energy.get_node_or_null("Layers/RotationLayers/StormRing")
+	var label = energy.get_node("Label") as Label
+	if ring == null or ring.get_script() == null or not ring.get("_has_value") or ring.get("_energy_value") != 3 or ring.get("_pulse") != 0.0:
+		fail("Energy must initialize from the native label without a false gain pulse")
+		return false
+	var phase = ring.get("_phase")
+	await create_timer(0.1).timeout
+	if ring.get("_phase") == phase or label.text != "3/3":
+		fail("Energy rim did not animate independently of the native numeric value")
+		return false
+	for step in [["2/3", 2, -1], ["0/3", 0, -1], ["4/3", 4, 1]]:
+		label.text = step[0]
+		await process_frame
+		await process_frame
+		if ring.get("_energy_value") != step[1] or ring.get("_pulse_direction") != step[2] or ring.get("_pulse") <= 0.0 or label.text != step[0]:
+			fail("Energy spend/depletion/recovery did not follow the native label")
+			return false
+	await create_timer(0.5).timeout
+	label.text = "4/4"
+	await process_frame
+	await process_frame
+	if ring.get("_pulse") != 0.0:
+		fail("Max-energy formatting changes must not fabricate a gain pulse")
+		return false
+	label.text = "?"
+	await process_frame
+	await process_frame
+	if ring.get("_energy_value") != 4:
+		fail("Unknown native energy text was treated as depletion")
+		return false
+	label.text = "[color=#ffffff]0/4[/color]"
+	await process_frame
+	await process_frame
+	if ring.get("_energy_value") != 0:
+		fail("Formatted native label did not preserve the numeric energy state")
+		return false
+	if energy.get_node("Layers/Emblem").size.x > 48 or label.z_index <= energy.get_node("Layers").z_index:
+		fail("Energy crest/number separation regressed")
+		return false
+	energy.free()
+	print("VOLIBEAR_ENERGY_PASS animation=PASS spend=PASS depleted=PASS recovery=PASS")
+	return true
+
+func verify_all_effects(fx, owner: Node2D, target: Node2D, expected: Dictionary) -> bool:
+	# Exercise every shipped effect through its production dispatcher, with all required anchors.
+	# Atlas decoding alone cannot reveal an unhandled anchor or a stopped animation.
+	var card = Control.new()
+	card.position = Vector2(720, 480)
+	card.size = Vector2(180, 260)
+	root.add_child(card)
+	var energy = Control.new()
+	energy.position = Vector2(30, 570)
+	energy.size = Vector2(128, 128)
+	root.add_child(energy)
+	var cost = Node2D.new()
+	cost.position = Vector2(12, 12)
+	card.add_child(cost)
+	var anchors = {"owner": owner, "target": target, "source": owner, "card": card,
+		"energy": energy, "hand": owner, "mouth": owner, "cost": cost}
+	for id in expected:
+		var key = "all_" + id if expected[id].loop else ""
+		if not fx.emit_effect("all_" + id, id, anchors, "enemy_1", key, 3.0, false):
+			fail("Shipped effect could not execute its anchor route: " + id)
+			return false
+	if fx.active_visuals() != 40:
+		fail("All forty effects must start as independent presentation instances")
+		return false
+	await create_timer(0.15).timeout
+	for record in fx.get("_visuals").values():
+		if record.node.frame == 0 or not record.node.is_playing():
+			fail("Shipped effect animation did not advance: " + record.effect.id)
+			return false
+	await create_timer(1.8).timeout
+	var remaining: Array = []
+	for record in fx.get("_visuals").values():
+		remaining.append(str(record.effect.id))
+	remaining.sort()
+	if remaining != ["domain_loop", "mark_bite"]:
+		fail("One-shot cleanup or persistent-loop playback failed: " + str(remaining))
+		return false
+	fx.stop_all()
+	if fx.active_visuals() != 0 or fx.active_voices() != 0:
+		fail("All-effect batch left presentation owners alive")
+		return false
+	card.free()
+	energy.free()
+	print("VOLIBEAR_ALL_VFX_PASS played=40 advanced=40 cleanup=PASS")
+	return true
