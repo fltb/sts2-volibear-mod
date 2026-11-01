@@ -131,7 +131,7 @@ public static partial class DomainEnemyStatusContributions
     {
         enemy = SourceCreature(source);
         return enemy.IsEnemy && !enemy.IsPlayer && receiver.IsPlayer && receiver.CombatState is { } combat &&
-            ReferenceEquals(enemy.CombatState, combat) && combat.ContainsCreature(enemy);
+            ReferenceEquals(enemy.CombatState, combat) && combat.ContainsCreature(enemy) && combat.ContainsCreature(receiver);
     }
 
     private static Task AddEnemyStatusOne<T>(Creature target, PileType pile, int count, Player? creator,
@@ -147,9 +147,9 @@ public static partial class DomainEnemyStatusContributions
         {
             Player player = target.Player ?? target.PetOwner!;
             if (player.Creature.IsDead) continue;
-            if (EnemySource(source, player.Creature, out var enemy) && DomainPower.IsActive(player.Creature))
+            if (EnemySource(source, player.Creature, out var enemy) && DomainEnemyEffects.ProtectsPlayer(player.Creature))
             {
-                Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, amount: count, domainOwner: player.Creature);
+                Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, amount: count, sourceCombat: player.Creature.CombatState);
                 continue;
             }
             var results = new CardPileAddResult[count];
@@ -178,12 +178,12 @@ public static partial class DomainEnemyStatusContributions
         if (EnemySource(source, receiver, out var enemy))
         {
             var combat = receiver.CombatState!;
-            if (DomainPower.IsActive(receiver))
+            if (DomainEnemyEffects.ProtectsPlayer(receiver))
             {
                 // Direct native sites already created the card. Undo that registration
                 // before it can enter a pile/history; unsuccessful previews are ignored.
                 combat.RemoveCard(card);
-                Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, card, domainOwner: receiver);
+                Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, card, sourceCombat: combat);
                 return Task.FromResult(new CardPileAddResult { success = false, cardAdded = card });
             }
             _origins.Remove(card);
@@ -194,7 +194,7 @@ public static partial class DomainEnemyStatusContributions
 
     private static bool Suppress(CardModel card, Creature receiver)
     {
-        if (BeastForms.Shape(card) != BeastShape.None || !DomainPower.IsActive(receiver)) return false;
+        if (BeastForms.Shape(card) != BeastShape.None || !DomainEnemyEffects.ProtectsPlayer(receiver)) return false;
         var seen = new HashSet<CardModel>(ReferenceEqualityComparer.Instance);
         for (CardModel? current = card; current is not null && seen.Add(current); current = current.CloneOf)
         {
@@ -203,7 +203,7 @@ public static partial class DomainEnemyStatusContributions
                 ReferenceEquals(origin.Combat, receiver.CombatState) && ReferenceEquals(card.Owner.Creature, receiver) &&
                 ReferenceEquals(card.CombatState, origin.Combat);
             // This private gate is used only by the two concrete StatusDamage commands below, not previews.
-            if (suppressed) Volibear.Presentation.PowerPresentationDomain.Suppressed(origin.Enemy, card, card, domainOwner: receiver);
+            if (suppressed) Volibear.Presentation.PowerPresentationDomain.Suppressed(origin.Enemy, card, card, sourceCombat: origin.Combat);
             return suppressed;
         }
         return false;

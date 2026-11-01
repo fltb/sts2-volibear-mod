@@ -56,6 +56,7 @@ public static class BeastForms
     private static readonly Dictionary<Type, MethodInfo> NativePlays = new();
     private static readonly Dictionary<Type, MethodInfo> NativeUpgrades = new();
     private static bool installed;
+    private static BeastCardAdapterRegistry? cardAdapters;
 
     /// <summary>Raised once, after conversion is fully observable; subscribers run serially.</summary>
     public static event Func<PlayerChoiceContext, BeastChange, Task>? Converted;
@@ -82,6 +83,10 @@ public static class BeastForms
         if (combat is null || card.Owner?.PlayerCombatState is null || card.Pile?.IsCombatPile != true ||
             card.Pile.Type == PileType.Deck || ReferenceEquals(card, card.DeckVersion))
             throw new InvalidOperationException("Beast conversion requires a combat card, never a master-deck entity.");
+        // A third-party card can be registered after our initializer. Install the
+        // same adapters for its complete inheritance chain BEFORE mutating the card.
+        // This is metadata-only work on every peer, with no RNG, choices or new IDs.
+        cardAdapters!.Ensure(card.GetType());
         // Capture before installing the overlay. None of these identities are replaced.
         var shape = card.Type == CardType.Attack ? BeastShape.Claw : BeastShape.Body;
         var keywords = new HashSet<CardKeyword> { CardKeyword.Exhaust };
@@ -189,38 +194,16 @@ public static class BeastForms
         var harmony = new Harmony("Volibear.BeastForms");
         try
         {
-            // Include concrete overrides. Patching only CardModel.get_Type, for example,
-            // silently misses native cards whose type/playability/portrait is overridden.
-            var types = new[] { typeof(CardModel).Assembly, typeof(BeastForms).Assembly,
-                typeof(BaseLib.Abstracts.CustomCardModel).Assembly }.Distinct()
-                .SelectMany(a => a.GetTypes()).Where(t => typeof(CardModel).IsAssignableFrom(t)).ToArray();
-            PatchProperties(harmony, types, new[] { "Title", "PortraitPath", "BetaPortraitPath", "PortraitPngPath", "BetaPortraitPngPath" }, nameof(StringProperty));
-            PatchProperties(harmony, types, new[] { "TitleLocString", "Description" }, nameof(LocalizedProperty));
-            PatchProperties(harmony, types, new[] { "Type" }, nameof(TypeProperty));
-            PatchProperties(harmony, types, new[] { "Rarity" }, nameof(RarityProperty));
-            PatchProperties(harmony, types, new[] { "VisualCardPool" }, nameof(VisualPoolProperty));
-            PatchProperties(harmony, types, new[] { "OrbEvokeType" }, nameof(OrbProperty));
-            PatchProperties(harmony, types, new[] { "TargetType" }, nameof(TargetProperty));
-            PatchProperties(harmony, types, new[] { "DynamicVars" }, nameof(VarsProperty));
-            PatchProperties(harmony, types, new[] { "LocalKeywords" }, nameof(LocalKeywordsProperty));
-            PatchProperties(harmony, types, new[] { "CanonicalKeywords" }, nameof(CanonicalKeywordsProperty));
-            PatchProperties(harmony, types, new[] { "CanonicalVars" }, nameof(CanonicalVarsProperty));
-            PatchProperties(harmony, types, new[] { "IsPlayable", "HasTurnEndInHandEffect", "GainsBlock", "HasStarCostX", "HasEnergyCostX", "HasBuiltInOverlay", "IsBasicStrikeOrDefend", "ShouldGlowGoldInternal", "ShouldGlowRedInternal" }, nameof(BoolProperty));
-            PatchProperties(harmony, types, new[] { "CanonicalEnergyCost", "CanonicalStarCost", "CurrentStarCost", "BaseStarCost", "MaxUpgradeLevel" }, nameof(IntProperty));
-            PatchProperties(harmony, types, new[] { "Tags" }, nameof(TagsProperty));
-            PatchProperties(harmony, types, new[] { "ExtraHoverTips" }, nameof(HoverProperty));
-            PatchProperties(harmony, types, new[] { "Enchantment" }, nameof(EnchantmentProperty), postfix: true);
-            PatchProperties(harmony, types, new[] { "Affliction" }, nameof(AfflictionProperty), postfix: true);
+            cardAdapters = new BeastCardAdapterRegistry(typeof(CardModel), types => PatchCardMembers(harmony, types));
+            // Warm all currently loaded mod types before normal card consumers run;
+            // Convert also handles late registrations through the same idempotent path.
+            foreach (var type in BeastCardAdapterRegistry.LoadedCardTypes(typeof(CardModel)))
+                cardAdapters.Ensure(type);
             // Final texture replacement also wins over the pre-existing Volibear portrait bridge.
             var portraitPatch = Handler(nameof(PortraitProperty));
             portraitPatch.priority = Priority.Last;
             portraitPatch.after = new[] { "Volibear.Portraits", "BaseLib" };
             harmony.Patch(AccessTools.PropertyGetter(typeof(CardModel), nameof(CardModel.Portrait)), postfix: portraitPatch);
-            PatchMethods(harmony, types, "AddExtraArgsToDescription", nameof(SkipOriginal));
-            PatchMethods(harmony, types, "OnEnqueuePlayVfx", nameof(SkipOriginalTask));
-            PatchMethods(harmony, types, "OnTurnEndInHand", nameof(SkipOriginalTask));
-            PatchMethods(harmony, types, "AfterDowngraded", nameof(SkipOriginal));
-            PatchMethods(harmony, types, "GetResultPileTypeForCardPlay", nameof(ResultPile));
 
             harmony.Patch(MoveNext(Required(typeof(CardModel), nameof(CardModel.OnPlayWrapper))), transpiler: Handler(nameof(PlayCallsite)));
             harmony.Patch(Required(typeof(CardModel), nameof(CardModel.UpgradeInternal)), transpiler: Handler(nameof(UpgradeCallsite)));
@@ -238,7 +221,38 @@ public static class BeastForms
             CombatManager.Instance.CombatSetUp += _ => Reset();
             installed = true;
         }
-        catch { harmony.UnpatchAll(harmony.Id); throw; }
+        catch
+        {
+            harmony.UnpatchAll(harmony.Id);
+            cardAdapters = null;
+            throw;
+        }
+    }
+
+    private static void PatchCardMembers(Harmony harmony, Type[] types)
+    {
+        PatchProperties(harmony, types, new[] { "Title", "PortraitPath", "BetaPortraitPath", "PortraitPngPath", "BetaPortraitPngPath" }, nameof(StringProperty));
+        PatchProperties(harmony, types, new[] { "TitleLocString", "Description" }, nameof(LocalizedProperty));
+        PatchProperties(harmony, types, new[] { "Type" }, nameof(TypeProperty));
+        PatchProperties(harmony, types, new[] { "Rarity" }, nameof(RarityProperty));
+        PatchProperties(harmony, types, new[] { "VisualCardPool" }, nameof(VisualPoolProperty));
+        PatchProperties(harmony, types, new[] { "OrbEvokeType" }, nameof(OrbProperty));
+        PatchProperties(harmony, types, new[] { "TargetType" }, nameof(TargetProperty));
+        PatchProperties(harmony, types, new[] { "DynamicVars" }, nameof(VarsProperty));
+        PatchProperties(harmony, types, new[] { "LocalKeywords" }, nameof(LocalKeywordsProperty));
+        PatchProperties(harmony, types, new[] { "CanonicalKeywords" }, nameof(CanonicalKeywordsProperty));
+        PatchProperties(harmony, types, new[] { "CanonicalVars" }, nameof(CanonicalVarsProperty));
+        PatchProperties(harmony, types, new[] { "IsPlayable", "HasTurnEndInHandEffect", "GainsBlock", "HasStarCostX", "HasEnergyCostX", "HasBuiltInOverlay", "IsBasicStrikeOrDefend", "ShouldGlowGoldInternal", "ShouldGlowRedInternal" }, nameof(BoolProperty));
+        PatchProperties(harmony, types, new[] { "CanonicalEnergyCost", "CanonicalStarCost", "CurrentStarCost", "BaseStarCost", "MaxUpgradeLevel" }, nameof(IntProperty));
+        PatchProperties(harmony, types, new[] { "Tags" }, nameof(TagsProperty));
+        PatchProperties(harmony, types, new[] { "ExtraHoverTips" }, nameof(HoverProperty));
+        PatchProperties(harmony, types, new[] { "Enchantment" }, nameof(EnchantmentProperty), postfix: true);
+        PatchProperties(harmony, types, new[] { "Affliction" }, nameof(AfflictionProperty), postfix: true);
+        PatchMethods(harmony, types, "AddExtraArgsToDescription", nameof(SkipOriginal));
+        PatchMethods(harmony, types, "OnEnqueuePlayVfx", nameof(SkipOriginalTask));
+        PatchMethods(harmony, types, "OnTurnEndInHand", nameof(SkipOriginalTask));
+        PatchMethods(harmony, types, "AfterDowngraded", nameof(SkipOriginal));
+        PatchMethods(harmony, types, "GetResultPileTypeForCardPlay", nameof(ResultPile));
     }
 
     private static void PatchProperties(Harmony h, Type[] types, string[] names, string handler, bool postfix = false)
@@ -250,21 +264,23 @@ public static class BeastForms
             var methods = new HashSet<MethodInfo> { root };
             foreach (var type in types)
             {
-                var method = AccessTools.DeclaredPropertyGetter(type, name);
-                if (method is not null && !method.IsAbstract) methods.Add(method);
+                foreach (var method in BeastCardAdapterRegistry.DeclaredOverrides(type, root))
+                    methods.Add(method);
             }
             foreach (var method in methods)
-                h.Patch(method, prefix: postfix ? null : Handler(handler), postfix: postfix ? Handler(handler) : null);
+                cardAdapters!.PatchOnce(method, handler, postfix,
+                    () => h.Patch(method, prefix: postfix ? null : Handler(handler), postfix: postfix ? Handler(handler) : null));
         }
     }
 
     private static void PatchMethods(Harmony h, Type[] types, string name, string handler)
     {
-        var methods = new HashSet<MethodInfo> { Required(typeof(CardModel), name) };
+        var root = Required(typeof(CardModel), name);
+        var methods = new HashSet<MethodInfo> { root };
         foreach (var type in types)
-            foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
-                if (method.Name == name && !method.IsAbstract) methods.Add(method);
-        foreach (var method in methods) h.Patch(method, prefix: Handler(handler));
+            foreach (var method in BeastCardAdapterRegistry.DeclaredOverrides(type, root)) methods.Add(method);
+        foreach (var method in methods)
+            cardAdapters!.PatchOnce(method, handler, false, () => h.Patch(method, prefix: Handler(handler)));
     }
 
     private static FieldInfo Field(Type type, string name) => AccessTools.Field(type, name)
@@ -369,7 +385,7 @@ public static class BeastForms
     private static bool TagsProperty(CardModel __instance, ref IEnumerable<CardTag> __result)
     { if (!forms.TryGetValue(__instance, out _)) return true; __result = Array.Empty<CardTag>(); return false; }
     private static bool HoverProperty(CardModel __instance, ref IEnumerable<IHoverTip> __result)
-    { if (!forms.TryGetValue(__instance, out _)) return true; __result = Array.Empty<IHoverTip>(); return false; }
+    { if (!forms.TryGetValue(__instance, out var f)) return true; __result = MechanicHoverTips.ForBeast(f.Shape == BeastShape.Claw); return false; }
     private static void EnchantmentProperty(CardModel __instance, ref EnchantmentModel? __result)
     { if (forms.TryGetValue(__instance, out var f) && ReferenceEquals(__result, f.OldEnchantment)) __result = null; }
     private static void AfflictionProperty(CardModel __instance, ref AfflictionModel? __result)

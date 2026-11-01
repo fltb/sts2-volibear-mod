@@ -7,6 +7,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/Volibear/Core/BeastFormsCost.cs" Link="BeastFormsCost.cs" />
+    <Compile Include="../../src/Volibear/Core/BeastFormsAdapters.cs" Link="BeastFormsAdapters.cs" />
+    <Compile Include="AdapterRegistrationTests.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
 </Project>

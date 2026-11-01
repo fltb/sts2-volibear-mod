@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using BaseLib.Patches.Hooks;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -55,14 +56,14 @@ internal static class BeastSelection
     {
         if (!Live(source)) return;
         var hand = PileType.Hand.GetPile(source.Owner);
-        if (hand.Cards.Count >= CardPile.MaxCardsInHand) return;
+        if (hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)) return;
         var draw = PileType.Draw.GetPile(source.Owner);
         if (draw.Cards.Count == 0) return;
         var selected = (await CardSelectCmd.FromCombatPile(context, draw, source.Owner,
             new CardSelectorPrefs(new LocString("cards", source.Id.Entry + ".selectionScreenPrompt"), 1), _ => true)).ToArray();
         foreach (var card in selected)
         {
-            if (!Live(source) || hand.Cards.Count >= CardPile.MaxCardsInHand) break;
+            if (!Live(source) || hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)) break;
             if (ReferenceEquals(card.Pile, draw))
             {
                 await CardPileCmd.Add(card, PileType.Hand);

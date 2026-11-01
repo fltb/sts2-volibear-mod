@@ -6,6 +6,7 @@ using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.HoverTips;
 using Volibear.Core;
 
 namespace Volibear.Content;
@@ -26,6 +27,7 @@ public sealed class ImmortalHeart : CustomRelicModel, IEngageResponder
     public override string PackedIconPath => Presentation.VolibearIcons.StormCrown;
     protected override string PackedIconOutlinePath => Presentation.VolibearIcons.StormCrownOutline;
     protected override string BigIconPath => Presentation.VolibearIcons.StormCrownBig;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => base.ExtraHoverTips.Concat(MechanicHoverTips.ForText("迎战"));
     public override List<(string, string)> Localization => new RelicLoc(
         "万古不灭", "每回合首次完成迎战后，抽2张牌。", "风暴不会遗忘，雷霆永不止息。");
 

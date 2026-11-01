@@ -111,7 +111,7 @@ class BeastCardStaticContracts(unittest.TestCase):
     def test_native_selection_capacity_frozen_batch_and_effect_order(self):
         helper = self.text.split('[BaseLib.Utils.Attributes.CustomID', 1)[0]
         for required in ('CardSelectCmd.FromHand', 'CardSelectCmd.FromCombatPile',
-                         'optional ? 0 : count, count', 'hand.Cards.Count >= CardPile.MaxCardsInHand',
+                         'optional ? 0 : count, count', 'hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)',
                          'draw.Cards.Count == 0', '!ReferenceEquals(c, source)',
                          'ReferenceEquals(card.Pile, hand)', 'ReferenceEquals(card.Pile, draw)',
                          'await CardPileCmd.Add(card, PileType.Hand)', 'var selected = all ? candidates',

@@ -48,6 +48,7 @@ public static class VolibearLoc
                 ["VOLIBEAR_HUNTERS_HEART.flavor"] = "雷霆不会熄灭。",
             },
             ["powers"] = new(),
+            ["static_hover_tips"] = MechanicGlossary.Localization(),
         };
 
     private static bool installed;

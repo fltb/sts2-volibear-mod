@@ -35,9 +35,9 @@ public sealed class DomainPower : CustomPowerModel
     protected override string SmartDescriptionLocKey => IsPermanent
         ? Id.Entry + ".permanentDescription" : base.SmartDescriptionLocKey;
     public override List<(string, string)> Localization => new PowerLoc(
-        "领域", "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。",
-        "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤，重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。",
-        ("permanentDescription", "领域持续本战。每张实际攻击首段普通攻击后附加4点全体雷伤；重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。"));
+        "领域", "你的领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。你的每张攻击在领域内首段普通攻击后附加4＋当前雷势的全体雷伤，多段与重演共享一次机会。你实际抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。压制对全队生效；任一存活持有者仍有领域就继续，多人领域不重复叠加。",
+        "你的领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。你的每张攻击在领域内首段普通攻击后附加4＋当前雷势的全体雷伤，多段与重演共享一次机会。你实际抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。压制对全队生效；任一存活持有者仍有领域就继续，多人领域不重复叠加。",
+        ("permanentDescription", "你的领域持续本战。你的每张攻击在领域内首段普通攻击后附加4＋当前雷势的全体雷伤，多段与重演共享一次机会。你实际抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。压制对全队生效；任一存活持有者仍有领域就继续，多人领域不重复叠加。"));
 
     public static bool IsActive(Creature owner) => owner.CombatState is not null && owner.IsAlive &&
         !CombatManager.Instance.IsOverOrEnding && owner.GetPowerAmount<DomainPower>() > 0;

@@ -83,9 +83,9 @@ public static partial class DomainEnemyStatusContributions
 
     private static bool SuppressPowerContribution(PowerModel source, Creature receiver)
     {
-        bool suppressed = EnemySource(source, receiver, out var enemy) && DomainPower.IsActive(receiver);
+        bool suppressed = EnemySource(source, receiver, out var enemy) && DomainEnemyEffects.ProtectsPlayer(receiver);
         // Only concrete afflict/damage/max-HP execution calls use this gate.
-        if (suppressed) Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, domainOwner: receiver);
+        if (suppressed) Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, sourceCombat: receiver.CombatState);
         return suppressed;
     }
     private static Task<T?> EnemyAfflict<T>(CardModel card, decimal amount, PowerModel source) where T : AfflictionModel =>
@@ -129,7 +129,7 @@ public static partial class DomainEnemyStatusContributions
     // Weak/Frail/stat adapters. No second patch competes for those mutation sites.
     internal static bool ShouldCancelTainted(PowerModel power, Creature target, decimal delta,
         Creature? applier, CardModel? card, PlayerChoiceContext context) => power is TaintedPower && delta > 0m &&
-        EnemyTainted(target, applier, card, context) && DomainPower.IsActive(target);
+        EnemyTainted(target, applier, card, context) && DomainEnemyEffects.ProtectsPlayer(target);
     internal static void AppliedTainted(PowerModel power, Creature target, decimal amount,
         Creature? applier, CardModel? card, PlayerChoiceContext context)
     {
@@ -177,7 +177,7 @@ public static partial class DomainEnemyStatusContributions
         if (!_taintedReceipts.TryGetValue(power, out var receipt) || !ReferenceEquals(receipt.Receiver, power.Owner) ||
             !ReferenceEquals(receipt.Combat, power.Owner.CombatState) || !power.Owner.Powers.Contains(power)) return power.Amount;
         ReconcileTainted(power, receipt);
-        bool domain = DomainPower.IsActive(power.Owner);
+        bool domain = DomainEnemyEffects.ProtectsPlayer(power.Owner);
         try
         {
             if (domain && receipt.Retained < power.Amount)

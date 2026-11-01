@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NuGetAudit>false</NuGetAudit>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DefineConstants>$(DefineConstants);REAL_HARMONY</DefineConstants>
+    <HarmonyPath Condition="'$(HarmonyPath)' == ''">../../../.local/dependencies/Harmony-2.4.2/0Harmony.dll</HarmonyPath>
+    <OutputPath>../../../artifacts/engage-harmony/bin/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony"><HintPath>$(HarmonyPath)</HintPath></Reference>
+    <Compile Include="../Stubs.cs" Link="Stubs.cs" />
+    <Compile Include="../RealHarmonyProgram.cs" Link="Program.cs" />
+    <Compile Include="../../../src/Volibear/Core/EngageCmd.cs" Link="Production/EngageCmd.cs" />
+    <Compile Include="../../../src/Volibear/Core/EngageOpportunityLedger.cs" Link="Production/EngageOpportunityLedger.cs" />
+  </ItemGroup>
+</Project>

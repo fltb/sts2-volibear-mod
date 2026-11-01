@@ -55,6 +55,7 @@ try { ledger.CloneFor([oldSetTwo], []); }
 catch (InvalidOperationException) { rejected = true; }
 Equal(1, rejected ? 1 : 0, "clone shape drift fails loudly");
 Console.WriteLine($"BEAST_BOOKKEEPING_OK assertions={assertions}; engine_cases=NOT_RUN");
+AdapterRegistrationTests.Run();
 
 sealed class Modifier(int amount, bool absolute, bool reduceOnly = false)
 {

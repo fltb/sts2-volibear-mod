@@ -43,6 +43,14 @@ public static class DomainEnemyEffects
         !creature.IsPlayer && creature.CombatState is { } combat &&
         combat.ContainsCreature(creature) && ActiveFor(combat);
 
+    /// <summary>
+    /// A hostile contribution aimed at a player is suppressed by the encounter's domain,
+    /// even when a different player owns it. Personal attack attachment and draw
+    /// purification still require that player's own DomainPower.
+    /// </summary>
+    internal static bool ProtectsPlayer(Creature? creature) => creature is { IsPlayer: true, IsAlive: true } &&
+        creature.CombatState is { } combat && combat.ContainsCreature(creature) && ActiveFor(combat);
+
     private static bool ProtectsTarget(PowerModel power, Creature? target) =>
         target is not null && ReferenceEquals(power.Owner, target) && ActiveFor(target);
 
@@ -128,9 +136,9 @@ public static class DomainEnemyEffects
     // run: notably Flutter's decrement/stun, Slippery's charge loss, and Intangible's expiry.
     private static void NeutralMultiplier(PowerModel __instance, Creature? __0, ref decimal __result)
     {
-        if (ProtectsTarget(__instance, __0))
+        if (__result < 1m && ProtectsTarget(__instance, __0))
         {
-            if (__result != 1m) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
+            Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
             __result = 1m;
         }
     }
@@ -171,9 +179,9 @@ public static class DomainEnemyEffects
 
     private static void NeutralHpLoss(PowerModel __instance, Creature? __0, decimal __1, ref decimal __result)
     {
-        if (ProtectsTarget(__instance, __0))
+        if (__result < __1 && ProtectsTarget(__instance, __0))
         {
-            if (__result != __1) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
+            Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
             __result = __1;
         }
     }
@@ -191,8 +199,13 @@ public static class DomainEnemyEffects
     {
         if (ProtectsTarget(__instance, __0))
         {
-            if (__result != __1) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
-            __result = __1;
+            // Keep any independent increase in damage, including another mod's
+            // contribution. Domain removes enemy protection, not enemy penalties.
+            if (__result < __1)
+            {
+                Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
+                __result = __1;
+            }
             if (__1 > 0m)
             {
                 var combat = __0!.CombatState!;
