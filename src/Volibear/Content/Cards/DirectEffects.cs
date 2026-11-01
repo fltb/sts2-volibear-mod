@@ -166,7 +166,7 @@ public sealed class Volibear_C12 : VolibearCard
     public override List<(string, string)> Localization => new CardLoc("厚重皮毛", "获得{Block:diff()}＋力量的格挡。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, Move)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
-        DirectEffects.Block(this, play, Value("Block") + Math.Max(0, Owner.Creature.GetPowerAmount<StrengthPower>()));
+        DirectEffects.Block(this, play, Value("Block") + Math.Max(0, DomainPlayerStatContributions.EffectiveStrength(Owner.Creature)));
     protected override void OnUpgrade() => UpgradeVar("Block", 3m);
 }
 

@@ -15,12 +15,14 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Monsters;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Volibear.Core;
 
-/// <summary>Six exact passive contribution callsites, rechecked at native precommit boundaries.
+/// <summary>Exact passive contribution callsites, rechecked at native precommit boundaries.
 /// Direct benefits, existing values and source bookkeeping are never blanket-filtered.</summary>
 public static class DomainPassiveEffects
 {
@@ -46,6 +48,8 @@ public static class DomainPassiveEffects
     private sealed class Receipt(PowerModel source, Creature target, bool strength, decimal input, int generation)
     {
         internal readonly PowerModel Source = source;
+        internal readonly Creature SourceOwner = source.Owner;
+        internal readonly ICombatState? SourceCombat = source.Owner.CombatState;
         internal readonly Creature Target = target;
         internal readonly ICombatState? Combat = target.CombatState;
         internal readonly bool Strength = strength;
@@ -107,6 +111,14 @@ public static class DomainPassiveEffects
             {
                 (typeof(RitualPower), "AfterSideTurnEnd", true, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),
                 (typeof(SuckPower), "AfterAttack", true, true, [typeof(PlayerChoiceContext), typeof(AttackCommand)]),
+                (typeof(TerritorialPower), "AfterSideTurnEnd", true, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),
+                (typeof(HighVoltagePower), "AfterSideTurnEnd", true, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),
+                (typeof(EnragePower), "AfterCardPlayed", true, true, [typeof(PlayerChoiceContext), typeof(CardPlay)]),
+                (typeof(RavenousPower), "AfterDeath", true, true, [typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float)]),
+                // CrabRage has TWO independent positive contributions in one native body.
+                // SourceCalls wraps both while its one-shot source removal remains native.
+                (typeof(CrabRagePower), "AfterDeath", true, true, [typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float)]),
+                (typeof(RampartPower), "AfterSideTurnStart", false, true, [typeof(CombatSide), typeof(IReadOnlyList<Creature>), typeof(ICombatState)]),
                 (typeof(PlatingPower), "BeforeSideTurnStart", false, false, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IReadOnlyList<Creature>), typeof(ICombatState)]),
                 (typeof(PlatingPower), "BeforeSideTurnEndEarly", false, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),
                 (typeof(CurlUpPower), "AfterCardPlayed", false, true, [typeof(PlayerChoiceContext), typeof(CardPlay)]),
@@ -148,6 +160,13 @@ public static class DomainPassiveEffects
         var receipt = new Receipt(source, target, false, amount, _generation);
         return WithTicket(receipt, () => CreatureCmd.GainBlock(target, amount, props, card, fast));
     }
+    private static Task<decimal> PassiveBlockVar(Creature target, BlockVar amount, CardPlay? card, bool fast, PowerModel source)
+    {
+        var receipt = new Receipt(source, target, false, amount.BaseValue, _generation);
+        // Keep the exact original overload and its metadata reads; only the inner
+        // native numeric GainBlock transaction claims this one-shot receipt.
+        return WithTicket(receipt, () => CreatureCmd.GainBlock(target, amount, card, fast));
+    }
     private static Task<StrengthPower?> PassiveStrength(PlayerChoiceContext context, Creature target, decimal amount,
         Creature? applier, CardModel? card, bool silent, PowerModel source)
     {
@@ -157,7 +176,7 @@ public static class DomainPassiveEffects
     private static async Task<StrengthPower?> StrengthResult(Task<StrengthPower?> native, Receipt receipt)
     {
         var actual = await native;
-        // Only two verified unused-result source awaits reach this wrapper. Never fabricate a spawn/null Creature.
+        // Only exact unused-result source awaits reach this wrapper. Never fabricate a spawn/null Creature.
         return receipt.Decision.Cancelled ? null : actual;
     }
     private static Task<T> WithTicket<T>(Receipt receipt, Func<Task<T>> invoke)
@@ -210,10 +229,22 @@ public static class DomainPassiveEffects
     {
         var receipt = frame.Receipt;
         if (receipt is null || receipt.Generation != _generation || frame.Generation != _generation ||
-            !ReferenceEquals(receipt.Target, target) || !ReferenceEquals(receipt.Source.Owner, target) ||
-            !ReferenceEquals(receipt.Combat, target.CombatState) || receipt.Input <= 0 || contribution <= 0 ||
-            (receipt.Strength ? power is not StrengthPower || receipt.Source is not (RitualPower or SuckPower)
-                : power is not null || receipt.Source is not (PlatingPower or CurlUpPower or SkittishPower))) return false;
+            !ReferenceEquals(receipt.Target, target) || !ReferenceEquals(receipt.Source.Owner, receipt.SourceOwner) ||
+            !ReferenceEquals(receipt.Combat, target.CombatState) || !ReferenceEquals(receipt.SourceCombat, receipt.Combat) ||
+            receipt.Input <= 0 || contribution <= 0 ||
+            (receipt.Strength ? power is not StrengthPower || receipt.Source is not
+                (RitualPower or SuckPower or TerritorialPower or HighVoltagePower or EnragePower or RavenousPower or CrabRagePower)
+                : power is not null || receipt.Source is not
+                (PlatingPower or CurlUpPower or SkittishPower or CrabRagePower or RampartPower))) return false;
+        if (receipt.Source is RampartPower)
+        {
+            // Rampart is the sole cross-owner callsite: living-shield passive block
+            // to a native TurretOperator teammate, never player/pet or another combat.
+            if (receipt.Strength || !receipt.SourceOwner.IsEnemy || receipt.SourceOwner.IsPlayer ||
+                target.Monster is not TurretOperator || !target.IsEnemy || target.IsPlayer ||
+                !ReferenceEquals(receipt.SourceOwner.CombatState, receipt.Combat)) return false;
+        }
+        else if (!ReferenceEquals(receipt.SourceOwner, target)) return false;
         return receipt.Decision.Decide(DomainEnemyEffects.ActiveFor(target));
     }
 
@@ -236,6 +267,20 @@ public static class DomainPassiveEffects
         code.InsertRange(index, load);
         code[index + load.Count].opcode = OpCodes.Call;
         code[index + load.Count].operand = Handler(strength ? nameof(PassiveStrength) : nameof(PassiveBlock));
+        if (source == typeof(CrabRagePower))
+        {
+            var nativeBlock = Required(typeof(CreatureCmd), nameof(CreatureCmd.GainBlock),
+                typeof(Creature), typeof(BlockVar), typeof(CardPlay), typeof(bool));
+            int block = UniqueCall(code, nativeBlock);
+            var sourceLoad = new List<CodeInstruction>
+            {
+                new(OpCodes.Ldarg_0), new(OpCodes.Ldfld, Field(__originalMethod.DeclaringType!, "<>4__this", source))
+            };
+            TransferLabels(code[block], sourceLoad[0]);
+            code.InsertRange(block, sourceLoad);
+            code[block + sourceLoad.Count].opcode = OpCodes.Call;
+            code[block + sourceLoad.Count].operand = Handler(nameof(PassiveBlockVar));
+        }
         return code;
     }
 

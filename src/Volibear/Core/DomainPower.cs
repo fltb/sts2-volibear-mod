@@ -11,14 +11,15 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
 using Volibear.Content;
 
 namespace Volibear.Core;
 
 /// <summary>
-/// Domain duration, attack attachment and drawn-card purification only.
-/// Enemy-benefit suppression/cancelled resurrection are separate integration work;
-/// this power does not pretend to implement those policies by removing whole powers.
+/// Domain duration, attack attachment, purification and source-aware stat compensation.
+/// Installed contribution adapters suppress enemy benefits without deleting mixed powers;
+/// opening notifications also settle cancellable native revival transactions.
 /// </summary>
 public sealed class DomainPower : CustomPowerModel
 {
@@ -34,9 +35,9 @@ public sealed class DomainPower : CustomPowerModel
     protected override string SmartDescriptionLocKey => IsPermanent
         ? Id.Entry + ".permanentDescription" : base.SmartDescriptionLocKey;
     public override List<(string, string)> Localization => new PowerLoc(
-        "领域", "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤。抽到状态或诅咒时，净化消耗并补抽1张。",
-        "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤，重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。",
-        ("permanentDescription", "领域持续本战。每张实际攻击首段普通攻击后附加4点全体雷伤；重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。"));
+        "领域", "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。",
+        "领域剩余{Amount}轮。覆盖下次正常起手抽牌，抽完后扣1轮。每张实际攻击首段普通攻击后附加4点全体雷伤，重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。",
+        ("permanentDescription", "领域持续本战。每张实际攻击首段普通攻击后附加4点全体雷伤；重演共享机会。抽到状态或诅咒时，净化消耗并补抽1张。压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。"));
 
     public static bool IsActive(Creature owner) => owner.CombatState is not null && owner.IsAlive &&
         !CombatManager.Instance.IsOverOrEnding && owner.GetPowerAmount<DomainPower>() > 0;
@@ -62,11 +63,18 @@ public sealed class DomainPower : CustomPowerModel
         return PowerCmd.Apply<DomainPower>(context, owner, CardResolutionDuration.Permanent - current, owner, card);
     }
 
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource) =>
+        DomainPlayerStatContributions.DamageContribution(this, dealer, props);
+
+    public override decimal ModifyBlockAdditive(Creature target, decimal block, ValueProp props, CardModel? cardSource, CardPlay? cardPlay) =>
+        DomainPlayerStatContributions.BlockContribution(this, target, props, cardSource);
+
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         _drawClock = new CardResolutionDrawClock(CombatState.RoundNumber);
         await DomainRevivalEffects.AfterDomainOpened(Owner);
         await DomainSteamEruptionEffects.AfterDomainOpened(Owner);
+        await DomainAdditionalRevivalEffects.AfterDomainOpened(Owner);
     }
 
     public override async Task AfterPlayerTurnStartEarly(PlayerChoiceContext context, Player player)

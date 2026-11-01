@@ -64,6 +64,9 @@ public static class DomainEnemyEffects
             Type[] received = [typeof(PlayerChoiceContext), typeof(Creature), typeof(DamageResult), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
             PatchSpec[] specs =
             [
+                new(typeof(VigorPower), "ModifyDamageAdditive", typeof(decimal), damage, nameof(NeutralEnemyAttackBonus)),
+                new(typeof(SurroundedPower), "ModifyDamageMultiplicative", typeof(decimal), damage, nameof(NeutralBackAttackBonus)),
+                new(typeof(BurrowedPower), "ShouldClearBlock", typeof(bool), [typeof(Creature)], nameof(AllowBlockClear)),
                 new(typeof(FlutterPower), "ModifyDamageMultiplicative", typeof(decimal), damage, nameof(NeutralMultiplier)),
                 new(typeof(SoarPower), "ModifyDamageMultiplicative", typeof(decimal), damage, nameof(NeutralMultiplier)),
                 new(typeof(IntangiblePower), "ModifyHpLostAfterOsty", typeof(decimal), damage, nameof(NeutralHpLoss)),
@@ -126,6 +129,28 @@ public static class DomainEnemyEffects
     private static void NeutralMultiplier(PowerModel __instance, Creature? __0, ref decimal __result)
     {
         if (ProtectsTarget(__instance, __0)) __result = 1m;
+    }
+
+    private static void NeutralEnemyAttackBonus(PowerModel __instance, Creature? __3, ref decimal __result)
+    {
+        // Vigor's attack registration and AfterAttack consumption still run. Only
+        // its positive additive contribution is suppressed; negative values survive.
+        if (__result > 0m && ReferenceEquals(__instance.Owner, __3) && ActiveFor(__3)) __result = 0m;
+    }
+
+    private static void NeutralBackAttackBonus(PowerModel __instance, Creature? __0, Creature? __3, ref decimal __result)
+    {
+        // Facing/markers are combat facts and remain intact. This exact native
+        // multiplier is the enemy benefit, even though its power lives on a player.
+        if (__result > 1m && __0 is { IsPlayer: true } && ReferenceEquals(__instance.Owner, __0) &&
+            __3 is not null && ReferenceEquals(__0.CombatState, __3.CombatState) && ActiveFor(__3)) __result = 1m;
+    }
+
+    private static void AllowBlockClear(PowerModel __instance, Creature __0, ref bool __result)
+    {
+        // Do not strip current/direct block on domain entry. Suppress only this
+        // passive veto when the normal lifecycle actually requests block clearing.
+        if (ProtectsTarget(__instance, __0)) __result = true;
     }
 
     private static void NeutralHpLoss(PowerModel __instance, Creature? __0, decimal __1, ref decimal __result)

@@ -84,6 +84,10 @@ public static partial class DomainSummonEffects
         Add(typeof(CreatureCmd), "KillWithoutCheckingWinCondition", 3, [typeof(Creature), typeof(bool), typeof(int)]);
         Add(typeof(Fabricator), "FabricateMove", 4, [typeof(IReadOnlyList<Creature>)]);
         Add(typeof(Fabricator), "FabricatingStrikeMove", 5, [typeof(IReadOnlyList<Creature>)]);
+        Add(typeof(LivingFog), "BloatMove", 6, [typeof(IReadOnlyList<Creature>)]);
+        Add(typeof(TwoTailedRat), "CallForBackup", 7, [typeof(IReadOnlyList<Creature>)]);
+        Add(typeof(Fogmog), "IllusionMove", 8, [typeof(IReadOnlyList<Creature>)]);
+        Add(typeof(TheObscura), "IllusionMove", 9, [typeof(IReadOnlyList<Creature>)]);
         Aggro = Required(typeof(Fabricator), "SpawnAggroBot", typeof(Task), []).CreateDelegate<Func<Fabricator, Task>>();
         Defensive = Required(typeof(Fabricator), "SpawnDefensiveBot", typeof(Task), []).CreateDelegate<Func<Fabricator, Task>>();
         ValidateCreationTiming();
@@ -200,7 +204,13 @@ public static partial class DomainSummonEffects
         Require(expectedRegistrations.Length>0&&inputRegistrations.Length==expectedRegistrations.Length&&expectedRegistrations.All(m=>inputRegistrations.Count(x=>x==m)==expectedRegistrations.Count(x=>x==m)),"Summon original registration count/type multiset changed before emission");
         var builder = Field(sm, "<>t__builder", typeof(AsyncTaskMethodBuilder));
         var state = Field(sm, "<>1__state", typeof(int));
-        var source = Field(sm, kind == 3 ? "creature" : "<>4__this", kind == 3 ? typeof(Creature) : kind == 2 ? typeof(InfestedPower) : kind == 1 ? typeof(Ovicopter) : typeof(Fabricator));
+        var sourceType = kind switch
+        {
+            1 => typeof(Ovicopter), 2 => typeof(InfestedPower), 3 => typeof(Creature),
+            6 => typeof(LivingFog), 7 => typeof(TwoTailedRat), 8 => typeof(Fogmog),
+            9 => typeof(TheObscura), _ => typeof(Fabricator)
+        };
+        var source = Field(sm, kind == 3 ? "creature" : "<>4__this", sourceType);
         var frame = generator.DeclareLocal(typeof(Frame));
         var getTask = AccessTools.PropertyGetter(typeof(AsyncTaskMethodBuilder), nameof(AsyncTaskMethodBuilder.Task));
         Unique(code, Required(typeof(AsyncTaskMethodBuilder), nameof(AsyncTaskMethodBuilder.SetResult), typeof(void), []));
@@ -279,6 +289,10 @@ public static partial class DomainSummonEffects
                 var guard = new List<CodeInstruction> { new(OpCodes.Ldloc,frame), new(OpCodes.Ldstr,boundary), new(OpCodes.Call,Handler(boundary.StartsWith("Retired.",StringComparison.Ordinal)?nameof(RetiredGate):nameof(CancelAtGate))), new(OpCodes.Brfalse,allow), new(OpCodes.Leave,complete) };
                 Transfer(code[index],guard[0]); code[index].labels.Add(allow); code.InsertRange(index,guard);
             }
+        }
+        else if (kind >= 6)
+        {
+            RewriteAdditionalBirth(code, frame, kind);
         }
         else if (kind >= 4)
         {

@@ -32,9 +32,11 @@ public sealed class NextPlayDiscount : CardModifier, ICustomModel
         if (!DirectEffects.Live(card) || Modifiers(card).OfType<NextPlayDiscount>().Any()) return;
         // Add only on a new grant, never OnInitialApplication: native card cloning
         // already copies local cost modifiers, so a copied marker must not add twice.
+        var presentation = CostPresentationReceipts.Capture(card);
         AddModifier<NextPlayDiscount>(card, 1);
         card.EnergyCost.AddThisTurnOrUntilPlayed(-1);
         card.InvokeEnergyCostChanged();
+        CostPresentationReceipts.LocalReductionCommitted(presentation);
     }
 
     private void Clear()

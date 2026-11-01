@@ -115,7 +115,10 @@ public static class TargetCosts
     private static Task<(int, int)> SpendResolved(CardModel card, Creature? target)
     {
         using var scope = Enter(card, target);
-        return card.SpendResources();
+        var presentation = CostPresentationReceipts.Capture(card);
+        var original = card.SpendResources();
+        CostPresentationReceipts.ObserveNativePayment(presentation, original);
+        return original;
     }
 
     private static void BeforeTargeting(CardModel __instance, Creature? target, out Lease? __state)

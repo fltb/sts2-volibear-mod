@@ -74,8 +74,11 @@ public static class DomainCardContributions
         origin.EnemySources.Add(source);
         if (source.CombatId is { } id) origin.EnemyIds.Add(id.ToString()!);
     }
-    private static void ApplyCommit(PowerModel power, Creature target, decimal amount, bool silent, Creature? applier, CardModel? card)
+    private static void ApplyCommit(PowerModel power, Creature target, decimal amount, bool silent, Creature? applier, CardModel? card, PlayerChoiceContext context)
     {
+        DomainEnemyStatusContributions.AppliedTainted(power, target, amount, applier, card, context);
+        DomainPlayerDebuffContributions.Applied(power, target, amount, applier, card, context);
+        DomainPlayerStatContributions.Applied(power, target, amount, applier, card, context);
         // Prepare provenance before SetAmount/ApplyPowerInternal invoke synchronous observers.
         if (Whitelisted(power) && target.IsPlayer && target.CombatState is { } combat && amount != 0m)
         {
@@ -86,8 +89,11 @@ public static class DomainCardContributions
         }
         power.ApplyInternal(target, amount, silent);
     }
-    private static void AmountCommit(PowerModel power, int amount, bool silent, Creature? applier, CardModel? card)
+    private static void AmountCommit(PowerModel power, int amount, bool silent, Creature? applier, CardModel? card, PlayerChoiceContext context)
     {
+        DomainEnemyStatusContributions.TaintedAmountChanged(power, amount, applier, card, context);
+        DomainPlayerDebuffContributions.AmountChanged(power, amount, applier, card, context);
+        DomainPlayerStatContributions.AmountChanged(power, amount, applier, card, context);
         Origin? changed = null;
         if (Whitelisted(power) && _origins.TryGetValue(power, out var origin))
         {
@@ -205,15 +211,17 @@ public static class DomainCardContributions
         var (native, wrapper) = Replacement(kind);
         var sourceParameters = new[] { native.DeclaringType! }.Concat(native.GetParameters().Select(p => p.ParameterType)).ToList();
         bool commit = kind is "apply" or "amount";
-        if (commit) sourceParameters.AddRange([typeof(Creature), typeof(CardModel)]);
+        if (commit) sourceParameters.AddRange([typeof(Creature), typeof(CardModel), typeof(PlayerChoiceContext)]);
         if (wrapper.ReturnType != native.ReturnType || !sourceParameters.SequenceEqual(wrapper.GetParameters().Select(p => p.ParameterType)))
             throw new InvalidOperationException("Native contribution/commit signature drift: " + native);
-        FieldInfo? applier = null, card = null;
+        FieldInfo? applier = null, card = null, context = null;
         if (commit)
         {
             applier = __originalMethod.DeclaringType!.GetField("applier", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             card = __originalMethod.DeclaringType!.GetField("cardSource", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            if (applier?.FieldType != typeof(Creature) || card?.FieldType != typeof(CardModel)) throw new InvalidOperationException("Native async provenance fields changed");
+            context = __originalMethod.DeclaringType!.GetField("choiceContext", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (applier?.FieldType != typeof(Creature) || card?.FieldType != typeof(CardModel) || context?.FieldType != typeof(PlayerChoiceContext))
+                throw new InvalidOperationException("Native async provenance fields changed");
         }
         int matched = 0;
         var output = new List<CodeInstruction>();
@@ -225,11 +233,12 @@ public static class DomainCardContributions
                 matched++;
                 if (commit)
                 {
-                    // Labels must target argument loading, not jump over the two new arguments.
+                    // Labels must target argument loading, not jump over the provenance arguments.
                     if (instruction.blocks.Count != 0) throw new InvalidOperationException("Exception boundary at native commit call");
                     var load = new CodeInstruction(OpCodes.Ldarg_0); load.labels.AddRange(instruction.labels); instruction.labels.Clear();
                     output.Add(load); output.Add(new CodeInstruction(OpCodes.Ldfld, applier));
                     output.Add(new CodeInstruction(OpCodes.Ldarg_0)); output.Add(new CodeInstruction(OpCodes.Ldfld, card));
+                    output.Add(new CodeInstruction(OpCodes.Ldarg_0)); output.Add(new CodeInstruction(OpCodes.Ldfld, context));
                 }
                 instruction.opcode = OpCodes.Call; instruction.operand = wrapper;
             }

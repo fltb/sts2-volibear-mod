@@ -26,6 +26,12 @@ public static class ModEntry
         Core.DomainCardContributions.Install();
         Core.DomainDampenTransactions.Install();
         Core.DomainSteamEruptionEffects.Install();
+        Core.DomainPlayerStatContributions.Install();
+        Core.DomainPlayerDebuffContributions.StatCancellation = Core.DomainPlayerStatContributions.ShouldCancel;
+        Core.DomainPlayerDebuffContributions.Install();
+        Core.DomainEnemyStatusContributions.Install();
+        Core.DomainEnemySpecialContributions.Install();
+        Core.DomainAdditionalRevivalEffects.Install();
         Presentation.VolibearPresentationBridge.Install();
         Presentation.VolibearInspectPortraits.Install();
         var expectedDirectory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT");

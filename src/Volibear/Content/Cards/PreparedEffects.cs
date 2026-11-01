@@ -127,7 +127,7 @@ public sealed class Volibear_U12 : VolibearCard
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
-        var strength = Math.Max(0, Owner.Creature.GetPowerAmount<StrengthPower>());
+        var strength = Math.Max(0, DomainPlayerStatContributions.EffectiveStrength(Owner.Creature));
         if (strength > 0 && DirectEffects.Live(this))
             await PowerCmd.Apply<PrimalThunderPower>(context, Owner.Creature, strength, Owner.Creature, this);
         await DirectEffects.Draw(context, this, Value("Cards"));
