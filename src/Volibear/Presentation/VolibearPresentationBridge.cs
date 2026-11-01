@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat.History;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -67,7 +69,14 @@ public static class VolibearPresentationBridge
             ["engage.accepted_native_intent"] = "block telegraph pose (no invented block)",
             ["engage.completed_absorption_positive"] = "absorb",
             ["beast.converted"] = "feral_claw / feral_body",
-            ["native.owner_died"] = "stop owned playback, death voice/pose"
+            ["native.owner_died"] = "stop owned playback, death voice/pose",
+            ["native.heal_internal_positive_commit"] = "heal at actual owner",
+            ["native.gain_energy_positive_commit"] = "energy_gain at actual energy counter",
+            ["native.health_ratio_state_transition"] = "weak/domain_weak pose and entry-only low_health voice",
+            ["native.local_character_selected"] = "select voice attached to selected native background",
+            ["native.combat_won"] = "victory voice attached to still-visible native room",
+            ["committed.card_purify_or_retrieve"] = "card VFX on actual native card view; hidden cards sound-only",
+            ["committed.owner_power"] = "owner VFX and sound; pending cost coupons do not invent a target card"
         };
 
     public static void Install()
@@ -89,6 +98,15 @@ public static class VolibearPresentationBridge
         harmony.Patch(engage, prefix: Handler(nameof(BeforeEngage)),
             postfix: Handler(nameof(AfterEngage)), finalizer: Handler(nameof(FinishEngageInvocation)));
         harmony.Patch(intent, prefix: Handler(nameof(BeforeIntent)));
+        harmony.Patch(Required(typeof(Creature), nameof(Creature.HealInternal), typeof(decimal)),
+            prefix: Handler(nameof(BeforeHeal)), postfix: Handler(nameof(AfterHeal)));
+        harmony.Patch(Required(typeof(PlayerCombatState), nameof(PlayerCombatState.GainEnergy), typeof(decimal)),
+            prefix: Handler(nameof(BeforeEnergy)), postfix: Handler(nameof(AfterEnergy)));
+        harmony.Patch(Required(typeof(CardCmd), nameof(CardCmd.Exhaust), typeof(PlayerChoiceContext), typeof(CardModel), typeof(bool), typeof(bool)),
+            prefix: Handler(nameof(BeforeCardExhaust)));
+        harmony.Patch(Required(typeof(CardModel), nameof(CardModel.SpendResources)), prefix: Handler(nameof(BeforeCardPayment)));
+        CostPresentationReceipts.Committed += receipt => Dispatch("cost_committed", () => Owner(receipt.Owner)?.CostReduced(receipt));
+        VolibearPresentationCues.Install();
         CombatManager.Instance.CombatSetUp += state => Dispatch("setup", () =>
         {
             CloseRoom();
@@ -287,6 +305,37 @@ public static class VolibearPresentationBridge
         }
     }
 
+    private static void BeforeCardExhaust(CardModel card) => Dispatch("capture_exhaust_anchor", () => Owner(card.Owner.Creature)?.RememberCard(card));
+    private static void BeforeCardPayment(CardModel __instance) => Dispatch("capture_payment_anchor", () => Owner(__instance.Owner.Creature)?.RememberCard(__instance));
+
+    private sealed record GainObservation(OwnerScope Scope, int Before);
+    private static void BeforeHeal(Creature __instance, out GainObservation? __state)
+    {
+        __state = null;
+        try { if (Owner(__instance) is { } scope) __state = new(scope, __instance.CurrentHp); }
+        catch (Exception error) { Warn("heal_entry", error); }
+    }
+    private static void AfterHeal(Creature __instance, GainObservation? __state)
+    {
+        if (__state is not { } state || __instance.CurrentHp <= state.Before) return;
+        Dispatch("native_heal_committed", () => state.Scope.AtOwner(Next("heal"), "heal"));
+    }
+    private static void BeforeEnergy(PlayerCombatState __instance, out GainObservation? __state)
+    {
+        __state = null;
+        try
+        {
+            var player = _room?.Combat.Players.FirstOrDefault(p => ReferenceEquals(p.PlayerCombatState, __instance));
+            if (player is not null && Owner(player.Creature) is { } scope) __state = new(scope, __instance.Energy);
+        }
+        catch (Exception error) { Warn("energy_entry", error); }
+    }
+    private static void AfterEnergy(PlayerCombatState __instance, GainObservation? __state)
+    {
+        if (__state is not { } state || __instance.Energy <= state.Before) return;
+        Dispatch("native_energy_committed", () => state.Scope.AtOwner(Next("energy"), "energy_gain"));
+    }
+
     private sealed class EngageObservation(EngageObservation? previous, ICombatState combat,
         Creature receiver, Creature enemy, string id)
     {
@@ -441,6 +490,10 @@ public static class VolibearPresentationBridge
         private bool _dead;
         private bool _combatStopped;
         private bool _domain;
+        private bool _lowHealth;
+        private sealed record CapturedCard(Vector2 Center, Vector2? Cost, ulong View, ulong At);
+        private readonly Dictionary<CardModel,CapturedCard> _cardAnchors = new(ReferenceEqualityComparer.Instance);
+        private readonly List<(Node2D Node,ulong Expires)> _capturedMarkers = [];
         private bool _domainEligible = true;
         private int _voiceCounter;
         private readonly string _domainKey;
@@ -459,14 +512,17 @@ public static class VolibearPresentationBridge
             _owner.PowerRemoved += PowerRemoved;
             _owner.Died += Died;
             _owner.Revived += Revived;
+            _owner.CurrentHpChanged += HealthChanged;
+            _owner.MaxHpChanged += HealthChanged;
             SubscribeLightning();
             UpdateDomain(announce: false);
+            UpdateLowHealth(announce: false);
         }
         private bool Live => !_disposed && !_combatStopped && !_dead && _owner.IsAlive &&
             CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding &&
             ReferenceEquals(_room, VolibearPresentationBridge._room) &&
             ReferenceEquals(_owner.CombatState, _room.Combat) && Valid(_node) && Valid(_node.Visuals);
-        private EffectAnchors Anchors(NCreature? target = null, NCard? card = null) =>
+        private EffectAnchors Anchors(NCreature? target = null, CanvasItem? card = null) =>
             new(_node.Visuals, Target: target?.Visuals, Source: _node.Visuals.VfxSpawnPosition,
                 Card: card, Energy: _room.Room.Ui.EnergyCounterContainer,
                 OwnerMouth: _node.Visuals.TalkPosition);
@@ -549,15 +605,77 @@ public static class VolibearPresentationBridge
         {
             if (Live) Pose(_domain ? "domain_block" : "block");
         }
+        internal void RememberCard(CardModel card)
+        {
+            if (!Live || !ReferenceEquals(card.Owner.Creature,_owner)) return;
+            var view=NCard.FindOnTable(card)??FindVisibleCard(_room.Room,card);
+            if (!Valid(view) || !view!.IsVisibleInTree()) return;
+            var cost=view.GetNodeOrNull<Control>("%EnergyLabel");
+            Vector2? costPoint=Valid(cost)&&cost!.IsVisibleInTree()?cost.GetGlobalTransformWithCanvas()*(cost.Size*0.5f):null;
+            _cardAnchors[card]=new(view.GetGlobalTransformWithCanvas()*(view.Size*0.5f),costPoint,view.GetInstanceId(),Time.GetTicksMsec());
+            if (_cardAnchors.Count>128) _cardAnchors.Remove(_cardAnchors.MinBy(pair=>pair.Value.At).Key);
+        }
+        private CanvasItem? CardAnchor(CardModel card,bool cost=false)
+        {
+            var view=NCard.FindOnTable(card)??FindVisibleCard(_room.Room,card);
+            if (Valid(view)&&view!.IsVisibleInTree())
+            {
+                RememberCard(card);
+                if (!cost) return view;
+                var label=view.GetNodeOrNull<Control>("%EnergyLabel");
+                if(Valid(label)&&label!.IsVisibleInTree())return label;
+            }
+            if (!_cardAnchors.TryGetValue(card,out var captured)||Time.GetTicksMsec()-captured.At>10000 || (cost&&captured.Cost is null))return null;
+            // A measured old native view coordinate, not a fabricated card or guessed location.
+            // This owner scope is tied to one room/epoch and is discarded on death/end/exit.
+            var marker=new Node2D {Name=$"CapturedCardAnchor_{captured.View}"};
+            var container=_room.Room.CombatVfxContainer;
+            container.AddChild(marker);
+            marker.Position=container.GetGlobalTransformWithCanvas().AffineInverse()*(cost?captured.Cost!.Value:captured.Center);
+            _capturedMarkers.Add((marker,Time.GetTicksMsec()+3000)); // Cosmetic anchor lifetime only; never a settlement timer.
+            return marker;
+        }
+        internal void CostReduced(CommittedCostPresentation receipt)
+        {
+            if (!Live||!ReferenceEquals(receipt.Owner,_owner)||!ReferenceEquals(receipt.Combat,_room.Combat))return;
+            string id=$"cost_receipt:{receipt.Id}";
+            if (CardAnchor(receipt.Card,cost:true) is { } cost && CardId(receipt.Card) is { } cardId)
+                _effects.Emit(id,"cost_reduce",Anchors() with {CardCost=cost},cardId);
+            _effects.PlaySound(id,"sfx.cost_reduce");
+        }
         internal void CardAudio(CommittedCardPresentation receipt)
         {
-            if (Live && ReferenceEquals(receipt.Combat, _room.Combat) && ReferenceEquals(receipt.Owner, _owner))
-                _effects.PlaySound($"card_receipt:{receipt.Id}", "sfx." + receipt.Effect);
+            if (!Live || !ReferenceEquals(receipt.Combat, _room.Combat) || !ReferenceEquals(receipt.Owner, _owner)) return;
+            string id = $"card_receipt:{receipt.Id}";
+            var node = CardAnchor(receipt.Card);
+            if (Valid(node) && CardId(receipt.Card) is { } cardId)
+            {
+                var anchors = Anchors(card: node);
+                if (receipt.Effect == "card_retrieve")
+                    anchors = anchors with { Source = receipt.From == PileType.Draw ? _room.Room.Ui.DrawPile : _room.Room.Ui.DiscardPile };
+                _effects.Emit(id, receipt.Effect, anchors, cardId);
+            }
+            // Hidden/removed native cards have no invented card or guessed screen position.
+            _effects.PlaySound(id, "sfx." + receipt.Effect);
+        }
+        private static NCard? FindVisibleCard(Node root, CardModel model)
+        {
+            foreach (var child in root.GetChildren())
+            {
+                if (child is NCard card && Valid(card) && card.IsVisibleInTree() && ReferenceEquals(card.Model, model)) return card;
+                if (FindVisibleCard(child, model) is { } found) return found;
+            }
+            return null;
         }
         private void PowerAudio(PowerAudioReceipt? receipt)
         {
             if (receipt is not null && Live && ReferenceEquals(receipt.Combat, _room.Combat) && ReferenceEquals(receipt.Owner, _owner))
-                _effects.PlaySound($"power_transaction:{receipt.Transaction}", "sfx." + receipt.Cue);
+            {
+                string id = $"power_transaction:{receipt.Transaction}";
+                // A pending cost coupon has no committed target card yet: never decorate its source card as if discounted.
+                if (receipt.Cue != "cost_reduce") AtOwner(id, receipt.Cue);
+                _effects.PlaySound(id, "sfx." + receipt.Cue);
+            }
         }
         private void PowerApplied(PowerModel power)
         {
@@ -588,6 +706,28 @@ public static class VolibearPresentationBridge
         {
             if (power is DomainPower) UpdateDomain();
         });
+        private void HealthChanged(int before, int after) => Dispatch("native_health_pose", () => UpdateLowHealth());
+        private void UpdateLowHealth(bool announce = true)
+        {
+            if (!Live || _owner.MaxHp <= 0) return;
+            double ratio = (double)_owner.CurrentHp / _owner.MaxHp;
+            // Approved animation state_rules: visual hysteresis only, never a gameplay debuff.
+            bool low = _lowHealth ? ratio < 0.35 : ratio <= 0.30;
+            if (low == _lowHealth) { RefreshIdle(); return; }
+            _lowHealth = low;
+            RefreshIdle();
+            if (low && announce) _effects.PlaySound(Next("low_health"), "voice.low_health");
+        }
+        private void RefreshIdle()
+        {
+            if (!Live) return;
+            string clip = _domain ? (_lowHealth ? "domain_weak_loop" : "domain_idle") : (_lowHealth ? "weak_loop" : "idle_loop");
+            VolibearPresentation.SetIdle(_node.Visuals, clip);
+            var sprite = _node.Visuals.GetNode<AnimatedSprite2D>("Visuals/AnimatedSprite2D");
+            string current = sprite.Animation.ToString();
+            if (current != clip && current is "idle_loop" or "relaxed_loop" or "weak_loop" or "domain_idle" or "domain_weak_loop")
+                sprite.Play(clip);
+        }
         private void UpdateDomain(bool announce = true)
         {
             bool active = Live && _domainEligible && DomainPower.IsActive(_owner);
@@ -598,7 +738,7 @@ public static class VolibearPresentationBridge
                 string id = Next("domain_enter");
                 if (announce) AtOwner(id, "domain_enter");
                 _effects.Emit(id + ":loop", "domain_loop", Anchors(), persistentKey: _domainKey, leaseSeconds: 2f);
-                VolibearPresentation.SetIdle(_node.Visuals, "domain_idle");
+                RefreshIdle();
                 if (announce)
                 {
                     Pose("domain_enter");
@@ -610,7 +750,7 @@ public static class VolibearPresentationBridge
                 _effects.StopLoop(_domainKey);
                 if (Live)
                 {
-                    VolibearPresentation.SetIdle(_node.Visuals, "idle_loop");
+                    RefreshIdle();
                     if (announce)
                     {
                         AtOwner(Next("domain_exit"), "domain_exit");
@@ -619,9 +759,24 @@ public static class VolibearPresentationBridge
                 }
             }
         }
+        private void ReleaseCapturedAnchors(bool all = false)
+        {
+            ulong now = Time.GetTicksMsec();
+            for (int i = _capturedMarkers.Count - 1; i >= 0; i--)
+            {
+                var marker = _capturedMarkers[i];
+                if (!all && Valid(marker.Node) && marker.Expires > now) continue;
+                if (Valid(marker.Node)) marker.Node.QueueFree();
+                _capturedMarkers.RemoveAt(i);
+            }
+            if (all) _cardAnchors.Clear();
+            else foreach (var card in _cardAnchors.Where(pair => now - pair.Value.At > 10000).Select(pair => pair.Key).ToArray())
+                _cardAnchors.Remove(card);
+        }
         internal void Tick()
         {
             if (_disposed || _combatStopped) return;
+            ReleaseCapturedAnchors();
             if (!Valid(_node) && _room.NodeFor(_owner) is { } rebound) _node = rebound;
             if (!_owner.IsAlive) { if (!_dead) Died(_owner); return; }
             if (!Live) return;
@@ -640,6 +795,7 @@ public static class VolibearPresentationBridge
             _lightning?.Dispose();
             _lightning = null;
             _effects.StopAll();
+            ReleaseCapturedAnchors(all: true);
             Pose(domain ? "domain_die" : "die");
             _effects.PlaySound(Next("death"), "voice.death", leaseSeconds: 3f);
         });
@@ -655,11 +811,14 @@ public static class VolibearPresentationBridge
                 Pose("idle_loop");
             }
             SubscribeLightning();
+            UpdateLowHealth(announce: false);
+            RefreshIdle();
         });
         internal void SuspendEnding()
         {
             _domain = false;
             _effects.StopAll();
+            ReleaseCapturedAnchors(all: true);
         }
         internal void StopCombat()
         {
@@ -669,6 +828,7 @@ public static class VolibearPresentationBridge
             _lightning?.Dispose();
             _lightning = null;
             _effects.StopAll();
+            ReleaseCapturedAnchors(all: true);
         }
         public void Dispose()
         {
@@ -681,6 +841,8 @@ public static class VolibearPresentationBridge
             _owner.PowerRemoved -= PowerRemoved;
             _owner.Died -= Died;
             _owner.Revived -= Revived;
+            _owner.CurrentHpChanged -= HealthChanged;
+            _owner.MaxHpChanged -= HealthChanged;
             _effects.Dispose();
         }
     }

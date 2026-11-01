@@ -6,7 +6,11 @@
 
 用户最新要求：实际缺失必须落成清单、commit/push，之后逐条完成并打勾。以 [IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md) 为当前执行清单，下方长篇记录只作历史背景，不再用“继续收尾”代替明确条目。
 
-## 最新两阶段执行状态（2026-11-01，goal revision10）
+## 最新推进（goal revision12，已恢复运行）
+
+清单已push于15aae42，领域补丁已push于ddaf508。用户要求更新goal并开始执行，已edit+resume为revision12/armed。M12四文件已freeze且正常接线完整。M14a/b由主接管Bridge三处机械收口：CanvasItem锚点类型、Tick到期与死亡/终局/退出清理，实际费用receipt已接。全构建先发现该类型错误，修后pwsh-4e4d8f3f733848d3成功0错误/3旧probe警告（输出已收）。当前仅M14c有限表现事件核对及M15最终确认未收口；b03只读核对，不再改Bridge。没有运行测试或游戏，阶段二尚未开始。按IMPLEMENTATION_TODO逐项勾选推进。
+
+## 此前两阶段执行状态（goal revision10，历史）
 
 - 用户要求的初始commit/push已完成：main与origin/main均为`1c8990e1d786ea29f4dc7fb49b9daacf48bd1f91`，作者fltb <fltbk@outlook.com>，没有强推。goal `goal-1d63ebb0-0a2b-41bc-8c03-869ba9fefaee`已按新指令edit+resume至revision10；下面revision7/blocked旧记载只是历史。
 - **仍在阶段1补真遗漏，尚未开始新一轮正确性测试。** 89卡/178牌面及两遗物静态审计有实际实现，但领域遗漏真实存在，故此前“全部写完”不可沿用。已交付ZIP仍是初始commit版本，不含本轮补丁。
