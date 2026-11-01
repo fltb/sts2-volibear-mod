@@ -2,7 +2,22 @@
 
 完整目标仍未完成，用户已批准持续实施，不再逐阶段请求授权。最新目标以 OVERNIGHT_PLAN / TEST_SPEC 为准：89卡/178牌面、完整机制与表现、正式敌人覆盖；BaseLib 取代 RitsuLib。
 
-## 最新指令与交付收尾（2026-11-01，goal revision7）
+## 当前执行入口
+
+用户最新要求：实际缺失必须落成清单、commit/push，之后逐条完成并打勾。以 [IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md) 为当前执行清单，下方长篇记录只作历史背景，不再用“继续收尾”代替明确条目。
+
+## 最新两阶段执行状态（2026-11-01，goal revision10）
+
+- 用户要求的初始commit/push已完成：main与origin/main均为`1c8990e1d786ea29f4dc7fb49b9daacf48bd1f91`，作者fltb <fltbk@outlook.com>，没有强推。goal `goal-1d63ebb0-0a2b-41bc-8c03-869ba9fefaee`已按新指令edit+resume至revision10；下面revision7/blocked旧记载只是历史。
+- **仍在阶段1补真遗漏，尚未开始新一轮正确性测试。** 89卡/178牌面及两遗物静态审计有实际实现，但领域遗漏真实存在，故此前“全部写完”不可沿用。已交付ZIP仍是初始commit版本，不含本轮补丁。
+- 已补并接普通入口：六类玩家负面、Tender/永久负力量敏捷与Possess返还、八类敌源状态及Wither强化、Galvanic/VitalSpark/Tainted/PaperCuts、偷金/Sandpit强杀/Fat逃跑/Surprise召唤及赃款返还、额外敌方正伤害/被动力量格挡。共享PowerCmd提交adapter已增加真实choiceContext并接debuff/stat/Tainted记录与精确取消门。
+- Stock/Adaptable/TestSubject及PainfulStabs保尸：f4a新增AdditionalRevivalEffects两文件，主已接Install与AfterDomainOpened；作者仍在补ToughEgg实际孵化正HP重置/清负面保护性阶段。不得吞整move或伪造死亡。主另补DomainSummonEffects.Additional四实际出生调用（LivingFog/TwoTailedRat/Fogmog/TheObscura），保混合攻击/计数/HasSummoned和已提交子实体；尚待统一编译及阶段2运行验证。
+- 表现b03已补低血30%入35%出、选角/胜利语音、真实治疗/返能及已提交能力/卡牌VFX；仍续作真实净化卡锚点保留与实际目标减费receipt。不要用不可见伪节点或grant来源牌冒充减费目标。
+- 最近主全构建`pwsh-1967954629b14527`已收：special/additional/passive/presentation首组及四召唤整合0错误/3既有probe可空警告；随后已接ControlledEffects.NextPlayDiscount.Grant与TargetCosts.SpendResolved真实减费receipt，保原支付Task身份。ToughEgg及表现最终尾项仍待下一构建。各作者最小独立编译不是完整安装或行为验证。当前没有游戏进程；本阶段未新增测试、未运行测试或游戏。普通diff --check的CR告警来自既有index/working均CRLF且attr/-text，保换行使用一次性git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --check已通过，不改变持久Git设置。
+- 活跃作者：f4a3c6cf-d7b9-4da2-81d3-f9d088945219独占AdditionalRevivalEffects*.cs继续ToughEgg；b03e1fc6-c935-4717-ad83-da647fad3857独占PresentationBridge/Cues及可新增CostPresentationReceipts继续实际减费。6e、70eff、fd738各生产文件已freeze。主独占共享接线、DomainSummonEffects、统一构建/部署/游戏。
+- 下一步：收两作者有限生产尾项→统一构建并核普通入口/实际diff→确认已识别实现遗漏全部闭合→阶段2复用现有测试修真实失败、同后台实例队列hook批量→重新打包。不要先开无限probe研究，也不要把未运行的IL安装检查称已通过。
+
+### 上一交付阶段的记录
 
 ### 最新用户决策：提交推送后，先核实实现完整，再验证正确性
 
