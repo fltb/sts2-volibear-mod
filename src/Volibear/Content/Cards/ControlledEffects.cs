@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using BaseLib.Patches.Hooks;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -90,7 +91,7 @@ internal static class ControlledEffects
     {
         if (!DirectEffects.Live(source)) return;
         var hand = PileType.Hand.GetPile(source.Owner);
-        var space = CardPile.MaxCardsInHand - hand.Cards.Count;
+        var space = MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand) - hand.Cards.Count;
         if (space <= 0) return;
         var pile = from.GetPile(source.Owner);
         var original = pile.Cards.ToArray();
@@ -103,7 +104,7 @@ internal static class ControlledEffects
         var ordered = from == PileType.Discard ? original.Where(selected.Contains).ToArray() : selected;
         foreach (var card in ordered)
         {
-            if (!DirectEffects.Live(source) || hand.Cards.Count >= CardPile.MaxCardsInHand) break;
+            if (!DirectEffects.Live(source) || hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)) break;
             if (!ReferenceEquals(card.Pile, pile)) continue;
             await CardPileCmd.Add(card, PileType.Hand);
             CardPresentationReceipts.Retrieved(card, source, from);

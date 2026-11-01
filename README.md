@@ -1,72 +1,108 @@
-# 沃利贝尔 · StS2 Mod 工作区
+# 沃利贝尔 · StS2 Mod
 
-代码 GPL-3.0-only；原创资产与文档 CC-BY-SA-4.0。第三方例外见 [LICENSING.md](LICENSING.md)。当前已有可编译、可加载的开发候选，包含 89 张卡的 178 个基础／升级牌面及 2 个遗物；**尚未完成完整机制、全部敌人行为与普通窗口流程验收，不是完成品**。
+以 BaseLib 接入的中文角色 Mod，包含 89 张卡牌、178 个基础/升级牌面、两件专属遗物，
+以及迎战、领域、雷势、雷伤、兽化和配套角色动画、UI、VFX、双音频。
+当前工作在 [PR #1](https://github.com/fltb/sts2-volibear-mod/pull/1) 的
+`codex/mode7-completion` 分支，完整产品范围见 [交付标准](docs/RELEASE_PLAN.md)。
 
-完整实施目标与验收条件分别见 [实施计划](docs/OVERNIGHT_PLAN.md) 和 [测试规格](docs/TEST_SPEC.md)，游戏状态、转换条件及单元测试映射见 [状态机设计](docs/GAMEPLAY_STATE_MACHINES.md)，当前边界与接续工作见 [交接说明](docs/HANDOFF.md)。构建成功、受控原生场景通过及程序化 UI 操作，均不能替代普通鼠标键盘流程或完整分支覆盖。
+**当前源码已补齐本地构建与验收入口。维护环境没有目标游戏本体，当前完整 Mod DLL、原生
+游戏流程和真实网络仍需在本机执行验证。** 独立回归、Godot 资源检查、原生引用检查、实际游戏
+和人工视觉/听感分别记录；详细状态见 [实现清单](docs/IMPLEMENTATION_TODO.md) 与
+[当前交接](docs/HANDOFF.md)。
 
-## 开始
+## 本地构建与完整验收
 
-```sh
-git clone git@github.com:fltb/sts2-volibear-mod.git
-cd sts2-volibear-mod
+| 依赖 | 固定版本 |
+| --- | --- |
+| Slay the Spire 2 | 0.107.1 / 59260271 |
+| Godot | 普通 4.5.1 stable Mono/.NET |
+| .NET SDK | 9.0.320 |
+| BaseLib | 3.4.7，由工具获取并核对发行包 |
+| Python | 3.10+ |
+
+首次在仓库根目录执行，替换本机路径：
+
+```powershell
+python -B tools/local_delivery.py --game-dir "D:\SteamLibrary\steamapps\common\Slay the Spire 2" --godot "C:\Tools\Godot\Godot_v4.5.1-stable_mono_win64.exe" --dotnet "C:\Program Files\dotnet\dotnet.exe" --verify-release --audio-driver WASAPI
 ```
 
-Git 跟踪完整生产路径，不需要 ZIP restore；同内容文件由 Git 对象存储去重。可直接打开 `assets/cards/cards/index.html` 和 `assets/animation/animations/skeletal_v9/index.html`。预留至少 2 GB。官方 Riot 录音不纳入 Git，也不属于当前运行 cue 依赖。
-
-## 迎战与领域：完整覆盖仍是验收门
-
-必须保留真实敌人动作、吸收、完成响应及后续敌方阶段的正确结算，不能用意图数字模拟冒充等价实现。当前已有调度实现和限定场景的真实引擎验证，但不能扩写成所有敌人动作、状态转移或领域交互均已通过。
-
-**先读 [迎战结算架构与验收门](docs/ENGAGE_SETTLEMENT.md)**；未执行、未支持和失败的分支必须保留，不能以历史研究中的乐观概括代替实际检查。
-
-## 唯一有效版本
-
-- 动画：2026-10-31 当前 V9，含用户直接编辑的双脚与近膝曲线。运行入口 `assets/animation/animations/clean/manifest.json`；制作权威 `assets/animation/animations/skeletal_v9/parts/`。26 序列、940 帧。**已有游戏内资源加载与限定表现回执验证，仍未完成本版逐帧艺术审核；自动音频事件回执不代表人耳听感验收**。
-- 卡图：当前 V7 加 10-30 四卡修订（B01/C12/U36/T02），89 张、26 固定、63 重绘。当前审稿与母图/导出绑定；不使用旧 V7 ZIP。`assets/cards/data/asset_manifest.json` 是图像入口。
-- VFX、音频、UI：`assets/animation/` 中对应目录。卡图仓同内容路径是兼容别名，不是另一套资产版本。
-- 卡图仓的 cards_source 是旧美术语义，不是玩法数值权威。玩法以 `reference/bear-forge` 当前实现及其定稿文档、`docs/research/sts2-mod-research/content-cards.json` 为参考，旧方案的路径与版本描述是历史快照。
-
-## 目录
-
-- `assets/animation/`：当前动画、制作部件/源/脚本、VFX、音频、UI、未编译接入示例。
-- `assets/cards/`：当前卡图、四种游戏格式导出、制作输入/编辑祖先、提示词、审稿与离线图库。STS1 导出作为现有生产管线的验证依赖保留；StS2 接入只使用 production/sts2。
-- `reference/art/`：研究和许可资料，不是替代最终资产。
-- `reference/bear-forge/`：规则参考源码与本地改动快照，剔除环境、构建、Git、缓存及归档。不是已移植的 StS2 Mod。
-- `docs/research/`：原五份方案、机读数据和提取脚本，原文历史路径未伪造改写。
-- `docs/ENGAGE_SETTLEMENT.md`：迎战结算决策与待执行 POC 验收。原本地迁移报告不作为 Git 当前完整性清单。
-
-## 继续生产
-
-Python 图像工具依赖 Pillow、NumPy、SciPy、fonttools；按各目录 requirements 安装到新的虚拟环境。音频需要 ffmpeg/ffprobe；浏览器自动测试需 Node 与 Playwright/Chromium。不携带旧电脑 node_modules 或虚拟环境。
+Linux 使用本机 Godot 音频后端和虚拟显示，例如：
 
 ```sh
-python -m venv .venv
-# Linux/macOS: source .venv/bin/activate
-# Windows: .venv\Scripts\Activate.ps1
-python -m pip install Pillow numpy scipy fonttools
-python assets/cards/scripts/card_repo.py verify
-# 重导出卡图（会更新副本中的导出和技术报告）
-python assets/cards/scripts/card_repo.py rebuild
-# V9 动画重导出：耗时操作，使用现有用户部件，不重建 parts
-python assets/animation/animations/skeletal_v9/scripts/export.py
-python assets/animation/animations/skeletal_v9/scripts/export_clean.py
-python assets/animation/animations/skeletal_v9/scripts/refresh_viewer.py
+python3 -B tools/local_delivery.py --game-dir "/path/to/Slay the Spire 2" --godot "/path/to/Godot_v4.5.1-stable_mono_linux.x86_64" --dotnet "/path/to/dotnet" --verify-release --audio-driver PulseAudio --display xvfb
 ```
 
-Windows 另需四点：脚本按 UTF-8 读写，须设 `PYTHONUTF8=1`；`ffmpeg`/`ffprobe` 要在 PATH 上；
-克隆后确认换行未被转换（全局 `core.autocrlf=true` 会破坏清单里的字节级 SHA 校验，仓库已带
-`* -text` 的 `.gitattributes`，本仓库仍需 `git config core.autocrlf false`）；不要用微软商店
-版 Python，它在部分宿主上以低完整性级别运行、写不了游戏目录，若宿主会降低工作区内可执行文件
-的权限，就把虚拟环境建在仓库外并直接调用其中的解释器。
+入口核对版本，重新编译当前 DLL，执行严格回归，导出并检查完整 PCK，部署当前候选，
+执行单进程原生批次、跨进程保存恢复和两个真实网络客户端。阶段失败即停止。
+成功后安装包位于 `.local/release/Volibear-0.1.0-StS2-0.107.1.zip`。
 
-**禁止直接运行** `build_parts.py`、旧 restore 脚本，或用旧 user_overrides 覆盖当前 parts。动画 GIF/WebP、逐帧和审查联系表未作为最终资产重复收录，可由 export.py 重建；查看器相关下载/审查入口若需要这些派生文件，先重导出。旧 Godot 场景、PCK、旧批准报告不能代表当前版本。
+路径保存后，Windows 后续只需：
 
-卡图 `finalize_v7_delivery.py` / `build_v7_overviews.py` 是带旧 28/61 假设的历史工具，**不要运行**；当前常规入口是 card_repo.py。生成式美术并非离线确定性重建：保留已有原图、提示词、参考与编辑链，但未来重新调用图像服务需要账号/网络，也不会承诺同字节输出。
+```powershell
+python -B tools/local_delivery.py --verify-release --audio-driver WASAPI
+```
 
-## 开发与运行依赖
+完整操作、较小的诊断入口、安装/卸载与音频切换见 [本地运行说明](docs/LOCAL_WORKFLOW.md)。
+**交给本地 Agent 时，让它从 [LOCAL_AGENT_TASK.md](docs/LOCAL_AGENT_TASK.md) 开始。**
 
-目标锁定 **StS2 0.107.1 / 59260271、Godot 4.5.1、.NET 9、BaseLib 3.4.7**。BaseLib 已取代旧研究中的 RitsuLib 选型；不要混用两套注册。领域 Tier 2 不允许静默豁免正式敌人行为。
+## Godot 与 Mod 打包
 
-仓库不分发游戏程序集、SDK、Godot、下载的框架依赖或本机测试存档。源码入口为 [Mod 工程](src/Volibear/Volibear.csproj)，本地依赖获取与校验见 [依赖工具](tools/dependencies.py)，开发命令见 [开发工具](tools/dev.py)。构建产物与本机配置不入 Git；已有开发候选部署验证不代表发布版安装／卸载及全部玩法验收完成。
+构建流程参考用户提供的 [ModTemplate Setup](https://github.com/Alchyr/ModTemplate-StS2/wiki/Setup)。
+该模板允许以匹配版本的普通 Godot .NET 作为 MegaDot 的后备。本仓库采用固定的普通
+Godot 4.5.1；游戏仍使用安装的本体引擎。`Volibear.sln` 可在 IDE 打开，C# 直接引用游戏程序集，
+资产在独立 Godot 工程中导出。
 
-游戏测试必须使用隔离资料目录，并保留普通／云端存档和其它 Mod。执行规则、原生退出对照和各独立测试入口见 [原生测试说明](docs/HEADLESS_TESTING.md)。不要在游戏或测试进程运行期间部署另一个候选。
+完整发布包括 `Volibear.dll`、`Volibear.pck`、`Volibear.json`，三个文件放在同一 Mod 目录。
+`tools/local_delivery.py` 负责这条发布链。图片、文本和场景有改动时必须重建 PCK；
+单独编译 C# 只能更新 DLL。PCK 使用 `gl_compatibility` 和源码 GDScript，并在构建后实际
+加载验证脚本、动画、卡图、UI、VFX 和音频。
+
+## 内容与运行规则
+
+- 初始 80 生命、3 能量，起始牌组为 4 打击、4 防御、霆爪、挺身迎战。
+- 迎战执行真实敌人动作；同轮全队共享敌方行动机会，吸收和完成收益归发起者。
+- 领域的敌方特殊贡献压制对全队生效；附雷、抽牌净化等本人收益按规则归属。
+- 兽化先原生消耗材料，再在原牌堆生成有独立身份的 T01/T02；永久牌组不改写，
+  原生耗尽、生成和满手规则照常执行。
+- 多人状态沿游戏原生有序动作推进。正常存档与恢复沿游戏已有的检查点和加载流程。
+  实际联网/重启结果以本地双进程验收报告为准。
+- 运行初始化检查固定游戏版本。公共补丁采用来源隔离与贡献级适配，保留玩家自身效果；
+  未知第三方私有直接写入仍有明确的来源诊断。
+
+玩法权威为 [定稿规则](reference/bear-forge/docs/volibear/DEVELOPMENT.md)、
+[卡表](reference/bear-forge/docs/volibear/CARDS.md) 和用户后续裁决。
+
+## 美术与音频
+
+当前资产为批准的 V7 卡图及四卡修订、V9 角色动画（26 序列、940 帧）、40 种 VFX。
+两件遗物和能量界面已经按本轮要求更新；批准的角色母图与牌面继续保留。
+四种多人手势参考 Riot 原模型与 StS2 原生贴图，使用手背视角、422×1200 长前臂比例和
+简化笔触。源图、提示词和来源见 [手势资源记录](assets/animation/ui/source/multiplayer_hands/provenance.json)；
+资源通过不等于用户视觉批准。
+
+| 不灭狂雷 | 万古不灭 |
+| --- | --- |
+| ![初始遗物](src/Volibear/Presentation/icons/relics/big/lightning_heart.png) | ![升级遗物](src/Volibear/Presentation/icons/relics/big/storm_crown.png) |
+
+默认 `open` 包含 47 个开放声音，映射 54 个声音事件。可选 `riot_en` 提供 9 条英文语音和
+2 条有明确来源的技能音效，其余事件继续使用开放音频。完整交付命令加
+`--audio-profile riot_en` 即可构建独立私有包；公开 Git 保留来源、映射和处理工具。
+两方案都使用单个完整 PCK，具体说明见 [音频方案](assets/animation/audio/profiles/README.md)。
+
+## 工程与检查入口
+
+| 路径/命令 | 用途 |
+| --- | --- |
+| `src/Volibear/` | 原生内容、机制、表现与隔离验收入口 |
+| `assets/cards/`、`assets/animation/` | 批准资产、导出与检查工具 |
+| `python -B tools/regression.py` | 当前环境可运行的回归；报告明确列出跳过项 |
+| `python -B tools/regression.py --require-native` | 本地引用检查；必需测试未执行即失败 |
+| `python -B tools/local_delivery.py --verify-release --audio-driver DRIVER` | 完整构建、原生/重启/联机验收与打包 |
+| `python -B tools/local_delivery.py --resources-only --godot GODOT --dotnet DOTNET` | 无本体环境的 PCK 构建与检查 |
+| [HEADLESS_TESTING.md](docs/HEADLESS_TESTING.md) | 原生验收阶段、报告和进程边界 |
+
+单人批次复用后台实例，出牌和选择走原生接口。测试不发送系统/视口输入，使用隔离资料目录，
+保留普通存档和其它 Mod。`.local/`、`artifacts/`、游戏程序集与私有媒体不入 Git。
+
+代码 GPL-3.0-only；原创资产与文档 CC-BY-SA-4.0。第三方例外及作者信息见
+[LICENSING.md](LICENSING.md)。安装包包含适用许可与音频来源。

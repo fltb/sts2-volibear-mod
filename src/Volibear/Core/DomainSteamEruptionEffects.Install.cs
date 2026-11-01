@@ -32,21 +32,10 @@ public static partial class DomainSteamEruptionEffects
             throw;
         }
     }
-    // A prefix can synchronously invoke another same-owner body before the intended
-    // MoveNext consumes its single-use binding. That composition is not identifiable
-    // from subject identity alone, so reject it explicitly, including late additions.
-    // This is not arbitrary Harmony interoperability: unknown entry-reentrant MoveNext
-    // transpilers remain unsupported too. Only the explicitly emitted production-ID
-    // compositions are checked; prefix metadata cannot certify arbitrary foreign IL.
-    private static void CheckHandoffPrefixes(MethodInfo entry)
-    {
-        var owners = Harmony.GetPatchInfo(entry)?.Prefixes.Where(patch => patch.owner != HarmonyId).Select(patch => patch.owner).Distinct().ToArray();
-        if (owners is { Length: > 0 }) throw new NotSupportedException("Unsupported Steam handoff composition: foreign public-entry prefixes on " + entry + ": " + string.Join(",", owners));
-    }
     internal static void InstallPatches(Harmony harmony)
     {
-        CheckHandoffPrefixes(NativeDamage);
-        CheckHandoffPrefixes(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState)));
+        DamageHandoff.Install(harmony, NativeDamage);
+        PhaseHandoff.Install(harmony, AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState)));
         void Patch(MethodInfo original, string transpiler) => harmony.Patch(original, transpiler: new HarmonyMethod(Own(transpiler)));
         Patch(Async(AccessTools.Method(typeof(CreatureCmd), "KillWithoutCheckingWinCondition")), nameof(DeathMachine));
         Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Kill), [typeof(IReadOnlyCollection<Creature>), typeof(bool)])), nameof(PublicKill));

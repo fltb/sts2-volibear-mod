@@ -92,7 +92,7 @@ class BeastCardStaticContracts(unittest.TestCase):
                     self.assertIn('减费1', face['rules_text_zh'])
                     self.assertIn('本回合下次打出时设为0费', face['display_text_zh'])
         self.assertEqual(changed, OVERRIDES)
-        self.assertEqual(self.text.count('NextPlayDiscount.Grant(card)'), 1)
+        self.assertEqual(self.text.count('NextPlayDiscount.Grant(replacement)'), 1)
         self.assertIn('if (discount && (!oldDays || shape == BeastShape.Claw))', self.text)
         self.assertNotRegex(self.text, r'(?:SetZero|SetThisTurn|SetUntilPlayed|SetToFree|AddThisTurnOrUntilPlayed)\(')
         self.assertIn('optional: true, discount: false', self.cards['R28'])
@@ -111,7 +111,7 @@ class BeastCardStaticContracts(unittest.TestCase):
     def test_native_selection_capacity_frozen_batch_and_effect_order(self):
         helper = self.text.split('[BaseLib.Utils.Attributes.CustomID', 1)[0]
         for required in ('CardSelectCmd.FromHand', 'CardSelectCmd.FromCombatPile',
-                         'optional ? 0 : count, count', 'hand.Cards.Count >= CardPile.MaxCardsInHand',
+                         'optional ? 0 : count, count', 'hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)',
                          'draw.Cards.Count == 0', '!ReferenceEquals(c, source)',
                          'ReferenceEquals(card.Pile, hand)', 'ReferenceEquals(card.Pile, draw)',
                          'await CardPileCmd.Add(card, PileType.Hand)', 'var selected = all ? candidates',

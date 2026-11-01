@@ -39,7 +39,7 @@ public static partial class VolibearPresentationBridge
     }
 
     // Preserve the original Task and AsyncLocal invocation chain, including nested responder work.
-    private sealed record EngageGroup(EngageGroup? Previous, OwnerScope? Scope, OwnerScope.PlayMotion? Motion, CardModel Card);
+    private sealed record EngageGroup(EngageGroup? Previous, OwnerScope? Scope, OwnerScope.PlayMotion? Motion, CardModel Card, string Id);
     private static readonly AsyncLocal<EngageGroup?> ActiveEngageGroup = new();
     private static void BeforeEngageGroup(CardModel card, out EngageGroup? __state)
     {
@@ -47,7 +47,7 @@ public static partial class VolibearPresentationBridge
         try
         {
             var scope = Owner(card.Owner.Creature);
-            __state = new(ActiveEngageGroup.Value, scope, scope?.FindMotion(card), card);
+            __state = new(ActiveEngageGroup.Value, scope, scope?.FindMotion(card), card, Next("engage_group"));
             ActiveEngageGroup.Value = __state;
         }
         catch (Exception error) { Warn("engage_group_entry", error); }

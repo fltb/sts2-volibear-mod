@@ -22,8 +22,8 @@ GAME_EXECUTABLES = {'nt': 'SlayTheSpire2.exe', 'posix': 'SlayTheSpire2'}
 def config():
     path = ROOT / '.local/config.json'
     if not path.is_file():
-        raise RuntimeError('Create .local/config.json with game_dir and dotnet paths.')
-    return json.loads(path.read_text())
+        raise RuntimeError('Run python tools/local_delivery.py --game-dir GAME --godot GODOT --dotnet DOTNET first.')
+    return json.loads(path.read_text(encoding='utf-8-sig'))
 
 
 def data_directory(game):
@@ -39,7 +39,10 @@ def game_executable(game):
 
 
 def validate_game(game):
-    info = json.loads((game / 'release_info.json').read_text())
+    release = game / 'release_info.json'
+    if not release.is_file():
+        raise RuntimeError('Missing installed-game release_info.json: ' + str(game))
+    info = json.loads(release.read_text(encoding='utf-8-sig'))
     if (info.get('version'), info.get('commit')) != (GAME_VERSION, GAME_COMMIT):
         raise RuntimeError('Game version mismatch; deployment refused: ' + str(info))
     data = data_directory(game)
@@ -51,9 +54,29 @@ def validate_game(game):
     return data
 
 
-def call(args):
-    env = dict(os.environ, DOTNET_CLI_TELEMETRY_OPTOUT='1')
+def call(args, *, env=None):
+    env = dict(os.environ if env is None else env, DOTNET_CLI_TELEMETRY_OPTOUT='1')
     subprocess.run([str(x) for x in args], cwd=ROOT, env=env, check=True)
+
+
+def build_mod(settings, *, fresh=False):
+    try:
+        from . import toolchain
+    except ImportError:
+        import toolchain
+    game = Path(settings['game_dir']).expanduser().resolve()
+    data = validate_game(game)
+    sdk = toolchain.executable(settings['dotnet'], '.NET')
+    project = ROOT / 'src/Volibear/Volibear.csproj'
+    assets = ROOT / 'src/Volibear/obj/project.assets.json'
+    command = [sdk, 'build', project, '-c', 'Release', '-p:Sts2DataDir=' + str(data)]
+    if fresh:
+        # Delivery compiles every current source before tests inspect the resulting DLL.
+        command.append('--no-incremental')
+    elif assets.is_file() and assets.stat().st_mtime >= project.stat().st_mtime:
+        command.append('--no-restore')
+    call(command, env=toolchain.dotnet_environment(sdk))
+    return ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll'
 
 
 def digest(path):
@@ -208,7 +231,7 @@ def doctor_resources(game, settings):
     print('Godot resource builder:',
           ('configured executable present' if Path(godot).is_file() else 'configured executable MISSING')
           if godot else 'no explicit godot path configured',
-          '; required 4.5.1; version/export capability not verified')
+          '; required 4.5.1; resource export/load not verified by file presence')
     dependency = game / 'mods/BaseLib'
     metadata = dependency / 'BaseLib.json'
     if metadata.is_file():
@@ -236,21 +259,17 @@ def main():
     game = Path(c['game_dir']).expanduser().resolve()
     data = validate_game(game)
     if args.command == 'doctor':
-        call([c['dotnet'], '--version'])
+        try:
+            from . import toolchain
+        except ImportError:
+            import toolchain
+        checked = toolchain.check(c['dotnet'], c.get('godot'))
+        print('.NET SDK:', checked['dotnet_version'], '; Godot Mono:', checked['godot_version'])
         print('Game %s / %s and managed references: OK' % (GAME_VERSION, GAME_COMMIT))
         print('Platform:', os.name, 'executable:', game_executable(game).name)
         doctor_resources(game, c)
     elif args.command == 'build':
-        # The probe references the installed assemblies directly, so an up-to-date restore graph
-        # needs no package source. Skipping the implicit restore keeps the loop fast and offline;
-        # a changed project file or a fresh clone still restores normally.
-        assets = ROOT / 'src/Volibear/obj/project.assets.json'
-        project = ROOT / 'src/Volibear/Volibear.csproj'
-        command = [c['dotnet'], 'build', 'src/Volibear/Volibear.csproj', '-c', 'Release',
-                   '-p:Sts2DataDir=' + str(data)]
-        if assets.is_file() and assets.stat().st_mtime >= project.stat().st_mtime:
-            command.append('--no-restore')
-        call(command)
+        build_mod(c)
     elif args.command == 'deploy':
         deploy(game)
     elif args.command == 'undeploy':

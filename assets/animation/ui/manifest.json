@@ -2,7 +2,7 @@
   "schema_version": 1,
   "source_file": "references/identity/volibear_approved.png",
   "source_sha256": "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d",
-  "source_processing": "UI crops, proportional resize, UI panel composition and grayscale locked state. No repaint or new character generation.",
+  "source_processing": "Existing UI derives from the unchanged approved illustration. Four additional multiplayer gestures are new authored images; see source/multiplayer_hands/provenance.json.",
   "template_commit": "2c900a04dd2073872f677f4fb78ee2ad1e871009",
   "size_policy": "Template conventions, not claimed engine-enforced limits.",
   "assets": [
@@ -173,6 +173,70 @@
       "role": "transition character cutout",
       "basis": "same registered position as select background; engine scene controls transition",
       "sha256": "6dfb2144bd2b3a8a4fd48d8e517b8daccf981a053e7b25bcb10fef45ecd22d76"
+    },
+    {
+      "id": "multiplayer_hand_volibear_pointing",
+      "file": "images/multiplayer_hand_volibear_pointing.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: pointing",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "9442cf4e5343aa0f0baf275c8b4c8e231ce6747f620c69f8e339602357348e6c",
+      "native_control_pivot_px": [
+        163,
+        10
+      ]
+    },
+    {
+      "id": "multiplayer_hand_volibear_rock",
+      "file": "images/multiplayer_hand_volibear_rock.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: rock",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "14a1039c0d9d66fe5a61572dd02e2af20a40db75ba1454d489d2d785a8022448",
+      "native_control_pivot_px": [
+        197,
+        600
+      ]
+    },
+    {
+      "id": "multiplayer_hand_volibear_paper",
+      "file": "images/multiplayer_hand_volibear_paper.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: paper",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "40b269bad95238b7c4dc198549d5ba549a8007db46b501d8728d9733c83dd5bf",
+      "native_control_pivot_px": [
+        197,
+        600
+      ]
+    },
+    {
+      "id": "multiplayer_hand_volibear_scissors",
+      "file": "images/multiplayer_hand_volibear_scissors.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: scissors",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "b2c41ab611348b4d7f22148a76c4b1a3a7160f798b1fb2bf9b98bc47a13ff198",
+      "native_control_pivot_px": [
+        197,
+        600
+      ]
     }
   ],
   "reuse_decisions": {
@@ -181,7 +245,7 @@
     "revive": "return from held death to idle via explicit game revive trigger; no new painted revive clip claimed",
     "card_frames": "basegame UI frames, with existing 89 project portraits",
     "background_music": "basegame music retained; no new score commissioned",
-    "multiplayer_point_and_rps": "vanilla fallback; four bespoke gesture drawings not included",
+    "multiplayer_point_and_rps": "four bespoke Volibear gesture sprites; native fixed pivots; no vanilla fallback",
     "yummy_cookie_relic": "vanilla fallback unless mod gameplay defines a custom version"
   }
 }

@@ -23,6 +23,47 @@ def localized_face(body, upgraded):
 
 
 class CatalogTextSourceContracts(unittest.TestCase):
+    def test_dusty_tome_uses_existing_rare_without_changing_the_frozen_pool(self):
+        sources = [(path, path.read_text(encoding='utf-8')) for path in
+                   (ROOT / 'src/Volibear/Content/Cards').glob('*.cs')]
+        marked = [(name, body) for _, source in sources for name, body in re.findall(
+            r'public sealed class (Volibear_[BCURT]\d\d)\s*:\s*VolibearCard, ITomeCard\s*\{(.*?)(?=\n\[BaseLib|\Z)',
+            source, re.S)]
+        self.assertEqual([name for name, _ in marked], ['Volibear_R18'])
+        body = marked[0][1]
+        self.assertIn('base(2, CardType.Power, CardRarity.Rare, TargetType.AllEnemies, "r18")', body)
+        self.assertIn('ModelDb.Character<VolibearCharacter>()', body)
+        self.assertIn('new DynamicVar("Lightning", 6m)', body)
+        self.assertIn('new DynamicVar("Pool", 4m)', body)
+        self.assertIn('UpgradeVar("Lightning", 3m); UpgradeVar("Pool", 2m);', body)
+        classes = [name for _, source in sources for name in re.findall(
+            r'public sealed class (Volibear_[BCURT]\d\d)\s*:', source)]
+        self.assertEqual(len(classes), 89)
+        self.assertEqual(len(set(classes)), 89)
+
+    def test_native_starter_tags_and_formula_block_metadata(self):
+        # Native starter/enchantment consumers inspect metadata, not the Chinese
+        # name or OnPlay body. BaseLib 3.4.7 infers GainsBlock only from BlockVar or
+        # CalculatedBlockVar, so formula-only and per-material block need a flag.
+        cards = {}
+        for path in (ROOT / 'src/Volibear/Content/Cards').glob('*.cs'):
+            source = path.read_text(encoding='utf-8')
+            cards.update(re.findall(
+                r'public sealed class Volibear_([BCURT]\d\d) : VolibearCard[^\{]*\{(.*?)(?=\n\[BaseLib|\n/// <summary>|\Z)',
+                source, re.S))
+        catalog = json.loads((ROOT / 'docs/research/sts2-mod-research/content-cards.json').read_text(encoding='utf-8'))
+        self.assertEqual(set(cards), {card['code'] for card in catalog['cards']})
+        expected_strikes = {card['code'] for card in catalog['cards'] if card['strike_tag']}
+        actual_strikes = {code for code, body in cards.items()
+                          if 'CardTag.Strike' in body.split('protected override async Task', 1)[0]}
+        self.assertEqual(actual_strikes, expected_strikes)
+        self.assertRegex(cards['B01'], r'CanonicalTags\s*=>\s*\[CardTag.Strike\]')
+        self.assertRegex(cards['B02'], r'CanonicalTags\s*=>\s*\[CardTag.Defend\]')
+        self.assertEqual({code for code, body in cards.items() if 'CardTag.Defend' in body}, {'B02'})
+        for code in ('U27', 'R21', 'R27'):
+            with self.subTest(card=code):
+                self.assertIn('public override bool GainsBlock => true;', cards[code])
+
     def test_history_and_token_fourteen_faces_equal_original_fixture(self):
         fixtures = {card['card_id']: card for card in json.loads((ROOT / 'tests/fixtures/card_expectations.json').read_text(encoding='utf-8'))['cards']}
         codes = set()

@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "profile": "riot_en",
+  "base_profile": "open",
+  "distribution": "private-local-package; no Riot media in public git",
+  "sources": [
+    {
+      "id": "en_us_volibear_original_basicattack_0",
+      "filename": "Volibear_Original_BasicAttack_0.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/5/52/Volibear_Original_BasicAttack_0.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_BasicAttack_0.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "07b9ac845383dc27f2e8f3b42d22837b20dae00774f8bc5ff927eeb73dfc0db3",
+      "bytes": 43616,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "普攻发力",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_basicattack_1",
+      "filename": "Volibear_Original_BasicAttack_1.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/9/94/Volibear_Original_BasicAttack_1.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_BasicAttack_1.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "c713966cd03fd910417c4f20aaf2248cc62b52583b98857046be6f64b33ea459",
+      "bytes": 40756,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "普攻发力",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_basicattack_2",
+      "filename": "Volibear_Original_BasicAttack_2.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/6/6d/Volibear_Original_BasicAttack_2.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_BasicAttack_2.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "16f08c01363da38e4c30fd31d0e58fe382e9be90e78e0a8d1e11f3f019c9694a",
+      "bytes": 39491,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "普攻发力",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_death_2",
+      "filename": "Volibear_Original_Death_2.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/7/7a/Volibear_Original_Death_2.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_Death_2.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "38e781819e9da6fc69ae2a1732f7892bd408585bfde508704eef7948172040ec",
+      "bytes": 77060,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "死亡",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_e_2",
+      "filename": "Volibear_Original_E_2.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/4/4f/Volibear_Original_E_2.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_E_2.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "580552c72b53531942a709e60c3a6c81aee83c08474b477145f88f0e3d4a5a8c",
+      "bytes": 52070,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "技能发声",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_kill_4",
+      "filename": "Volibear_Original_Kill_4.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/d/d1/Volibear_Original_Kill_4.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_Kill_4.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "a27193ecd8c9664cc54832a1881ed75fec4bfe6dc9ae484746767a1491675d7e",
+      "bytes": 60881,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "击杀与摧毁互动",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_q",
+      "filename": "Volibear_Original_Q.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/f/f4/Volibear_Original_Q.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_Q.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "5604299ef29da62a7154f90d822476a231e22f7f36160bb66475daf9a5d538a7",
+      "bytes": 67157,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "技能发声",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_original_w_4",
+      "filename": "Volibear_Original_W_4.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/2/2a/Volibear_Original_W_4.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Original_W_4.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "4573e7a930d233be4988d9414fa9753544b08886f46f78ebc01d0241644f7738",
+      "bytes": 37134,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "技能发声",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "en_us_volibear_select",
+      "filename": "Volibear_Select.ogg",
+      "download_url": "https://static.wikia.nocookie.net/leagueoflegends/images/b/bb/Volibear_Select.ogg/revision/latest",
+      "source_page": "https://wiki.leagueoflegends.com/en-us/File:Volibear_Select.ogg",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "sha256": "3fe87cba4cc1ccf4c8e2dc9cd08b5ac26cce0256470b3b56ad1b9a343e09a9ad",
+      "bytes": 63923,
+      "language": "en_US",
+      "kind": "voice",
+      "original_event": "角色选择",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Default Original English voice-over, filename and bytes pinned to the existing official catalog."
+    },
+    {
+      "id": "riot_dev_q_layers",
+      "filename": "riot_dev_q_layers.mp3",
+      "download_url": "https://cmsassets.rgpub.io/sanity/files/dsfx7636/news_live/e999c86260813966c323c341870630a1c3466df2.mp3",
+      "source_page": "https://www.leagueoflegends.com/en-us/news/dev/dev-a-storm-is-brewing/",
+      "sha256": "db81403a9637a01934712c51db521cf16fd342c13f4919721bd72d838d2d87f3",
+      "bytes": 28973,
+      "language": "nonverbal",
+      "kind": "sfx",
+      "original_event": "Q sound layers",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Published by the Riot Volibear VGU team on 2020-04-10; the article explicitly associates this embedded audio with Q. Development sample, not a current-client asset."
+    },
+    {
+      "id": "riot_dev_q_impact",
+      "filename": "riot_dev_q_impact.mp3",
+      "download_url": "https://cmsassets.rgpub.io/sanity/files/dsfx7636/news_live/e93bcd6c205c3f497aad9cec5aff23be9d90b542.mp3",
+      "source_page": "https://www.leagueoflegends.com/en-us/news/dev/dev-a-storm-is-brewing/",
+      "sha256": "bd0976bc5efe9f4e191579c3b465342fb757a73e986714f9098fd83f685b967d",
+      "bytes": 163176,
+      "language": "nonverbal",
+      "kind": "sfx",
+      "original_event": "Q impact/cast demonstration",
+      "copyright_holder": "Riot Games, Inc.",
+      "license": "LicenseRef-Riot-Proprietary",
+      "provenance": "Published by the Riot Volibear VGU team on 2020-04-10; the article explicitly associates this embedded audio with Q. Development sample, not a current-client asset."
+    }
+  ],
+  "processing": {
+    "sample_rate": 48000,
+    "channels": 1,
+    "vorbis_quality": 5,
+    "target_peak": 0.65,
+    "trim_edge_silence_db": -48.0,
+    "edge_padding_seconds": 0.06,
+    "fade_in_seconds": 0.01,
+    "fade_out_seconds": 0.08
+  },
+  "edits": {
+    "en_us_volibear_original_death_2": {
+      "start_seconds": 0.0,
+      "end_seconds": 2.6,
+      "reason": "Bounded nonverbal death excerpt; existing gameplay presentation owns a three-second lease."
+    }
+  },
+  "overrides": [
+    {
+      "cue": "voice.select",
+      "source": "en_us_volibear_select",
+      "selection_basis": "Champion selection; the original English pick recording."
+    },
+    {
+      "cue": "voice.attack_01",
+      "source": "en_us_volibear_original_basicattack_0",
+      "selection_basis": "Basic-attack vocal exertion, variation A."
+    },
+    {
+      "cue": "voice.attack_02",
+      "source": "en_us_volibear_original_basicattack_1",
+      "selection_basis": "Basic-attack vocal exertion, variation B."
+    },
+    {
+      "cue": "voice.heavy",
+      "source": "en_us_volibear_original_basicattack_2",
+      "selection_basis": "Third basic-attack exertion reused for the authored heavy action."
+    },
+    {
+      "cue": "voice.bite",
+      "source": "en_us_volibear_original_w_4",
+      "selection_basis": "Frenzied Maul W vocal family, reused for the bite action."
+    },
+    {
+      "cue": "voice.cast",
+      "source": "en_us_volibear_original_e_2",
+      "selection_basis": "Sky Splitter E vocal family, reused for the cast action."
+    },
+    {
+      "cue": "voice.roar",
+      "source": "en_us_volibear_original_q",
+      "selection_basis": "Thundering Smash Q challenge line, reused for engage/roar."
+    },
+    {
+      "cue": "voice.death",
+      "source": "en_us_volibear_original_death_2",
+      "selection_basis": "Death vocal family; a bounded 2.6 second excerpt fits the existing three-second death lease."
+    },
+    {
+      "cue": "voice.victory",
+      "source": "en_us_volibear_original_kill_4",
+      "selection_basis": "Generic kill-response family, deliberately adapted to this mod combat victory; not a claim that LoL has a Victory VO event."
+    },
+    {
+      "cue": "sfx.charge",
+      "source": "riot_dev_q_layers",
+      "selection_basis": "Riot 2020 development article: Q sound layers. Development sample, not certified current game SFX."
+    },
+    {
+      "cue": "sfx.heavy_impact",
+      "source": "riot_dev_q_impact",
+      "selection_basis": "Riot 2020 development article: Q impact/cast demonstration, adapted to heavy impact. Development sample, not certified current game SFX."
+    }
+  ],
+  "fallbacks": [
+    {
+      "cue": "voice.low_health",
+      "reason": "No confirmed dedicated low-health recording in the collected Original English event families; retain the open low-health cue."
+    },
+    {
+      "cue": "voice.hurt_01",
+      "reason": "No confirmed dedicated hurt recording; do not substitute a death line."
+    },
+    {
+      "cue": "voice.hurt_02",
+      "reason": "No confirmed dedicated hurt recording; do not substitute a death line."
+    },
+    {
+      "cue": "voice.feral",
+      "reason": "The mod card-conversion event has no equivalent confirmed LoL English event."
+    }
+  ],
+  "sfx_research": [
+    {
+      "ability": "Q",
+      "status": "exact_official_development_samples",
+      "sources": [
+        "riot_dev_q_layers",
+        "riot_dev_q_impact"
+      ],
+      "scope": "Riot public 2020 development examples, not a claim of the current shipping client sound bank."
+    },
+    {
+      "ability": "W",
+      "status": "unresolved_exact_media_url",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "search_category": "https://wiki.leagueoflegends.com/en-us/Category:Volibear_sound_effects",
+      "fallback_cues": [
+        "sfx.bite_hit"
+      ],
+      "note": "The current indexed Audio page names SFX events but does not expose verified downloadable file targets. Q/W/E/R voice-over filenames are not SFX. No guessed media URL is requested."
+    },
+    {
+      "ability": "E",
+      "status": "unresolved_exact_media_url",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "search_category": "https://wiki.leagueoflegends.com/en-us/Category:Volibear_sound_effects",
+      "fallback_cues": [
+        "sfx.cast_charge",
+        "sfx.lightning_strike",
+        "sfx.guard_gain"
+      ],
+      "note": "The current indexed Audio page names SFX events but does not expose verified downloadable file targets. Q/W/E/R voice-over filenames are not SFX. No guessed media URL is requested."
+    },
+    {
+      "ability": "R",
+      "status": "unresolved_exact_media_url",
+      "index_page": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+      "search_category": "https://wiki.leagueoflegends.com/en-us/Category:Volibear_sound_effects",
+      "fallback_cues": [
+        "sfx.roar_wave",
+        "sfx.lightning_all",
+        "sfx.domain_enter"
+      ],
+      "note": "The current indexed Audio page names SFX events but does not expose verified downloadable file targets. Q/W/E/R voice-over filenames are not SFX. No guessed media URL is requested."
+    }
+  ],
+  "candidate_catalog": "../official/catalog.json",
+  "source_guidance": {
+    "wiki_audio": "https://wiki.leagueoflegends.com/en-us/Volibear/Audio",
+    "communitydragon_assets": "https://www.communitydragon.org/docs/assets",
+    "communitydragon_limitation": "Its documentation states in-game audio is unavailable; client pick/ban audio is a separate exception. Do not invent game sound-bank download URLs.",
+    "riot_policy": "https://www.riotgames.com/en/legal"
+  },
+  "listening_review": "not_claimed; event categories and objective decoding/level checks determine this initial optional mapping"
+}

@@ -13,56 +13,62 @@ def synthetic(variant):
     models=['B01']*4+['B02']*4+['B03','B04']
     cards=[dict(cardRef=ref,modelId='VOLIBEAR_'+models[i],upgraded=False,combatCardIndex=i,sameObject=True,
                 ownerId=0,masterIndex=i,masterModelId='VOLIBEAR_'+models[i]) for i,ref in enumerate(originals)]
-    extra={'source':('B01' if c=='T01' else 'B02') if b in ('converted','master') else c}
+    extra={'source':c}
+    if b in ('converted','master'):extra['source-material']='B01' if c=='T01' else 'B02'
     if b=='master':
         index=0 if c=='T01' else 4
-        source=cards.pop(index);old=source['cardRef'];source['cardRef']='source';source['upgraded']=face=='upgrade';cards.append(source)
-        originals=['source' if ref==old else ref for ref in originals];extra.pop('source')
+        material=cards[index];old=material['cardRef'];material['cardRef']='source-material';material['upgraded']=face=='upgrade'
+        originals=['source-material' if ref==old else ref for ref in originals];extra.pop('source-material')
     if b=='second-instance':extra['response-card']='C02' if c=='U02' else 'R23' if c=='U21' else 'C24'
     if b=='material': extra.update(material='B01',alternate='B02')
     extra.update({ref:model for ref,model,pile in gate.selection_fixture(c,b)})
+    material_rows=gate.beast_materials(c,face=='upgrade',b)
+    extra.update({ref+'-beast':'T01' if model=='B01' else 'T02' for ref,model,pile in material_rows})
     if c=='R09':extra.update({'generated-0':'SLIMED','generated-1':'SLIMED'})
     for ref,model in extra.items():
-        cards.append(dict(cardRef=ref,modelId=model if model in ('SLIMED','INJURY') else 'VOLIBEAR_'+model,upgraded=ref=='source' and face=='upgrade',combatCardIndex=len(cards),sameObject=True,
+        cards.append(dict(cardRef=ref,modelId=model if model in ('SLIMED','INJURY') else 'VOLIBEAR_'+model,
+                          upgraded=ref in ('source','source-material') and face=='upgrade',combatCardIndex=len(cards),sameObject=True,
                           ownerId=0,masterIndex=-1,masterModelId=None))
-    e=gate.expected_observations(variant,originals)
-    aid=7
-    source=next(x for x in cards if x['cardRef']=='source')
+    e=gate.expected_observations(variant,originals);aid=7;lookup={x['cardRef']:x for x in cards}
+    source=lookup['source']
     identity=dict(indexBefore=source['combatCardIndex'],masterIndexBefore=source['masterIndex'],sameMaster=True,
-                  masterUpgradedBefore=False if b=='master' else None,masterUpgradedAfter=False if b=='master' else None)
-    result=dict(schema=1,token='unit-fixture-not-native',variant=variant,scenario='card-face-acceptance',acceptance=gate.ACCEPTANCE,
+                  masterUpgradedBefore=None,masterUpgradedAfter=None)
+    pairs=([('source-material','source')] if b in ('converted','master') else [])+[(ref,ref+'-beast') for ref,model,pile in material_rows]
+    conversions=[]
+    for material_ref,beast_ref in pairs:
+        upgraded=False if b=='master' and material_ref=='source-material' else None
+        conversions.append(dict(materialRef=material_ref,cardRef=beast_ref,materialIndex=lookup[material_ref]['combatCardIndex'],
+            cardIndex=lookup[beast_ref]['combatCardIndex'],sameObject=False,masterUnchanged=True,
+            materialMasterUpgradedBefore=upgraded,materialMasterUpgradedAfter=upgraded,
+            pileBefore='Hand',pileAfter='Hand',originalExhausted=True))
+    generated=([dict(cardRef=f'generated-{i}',creatorId=None) for i in range(2)] if c=='R09' else
+               [dict(cardRef=ref+'-beast',creatorId=0) for ref,model,pile in material_rows])
+    result=dict(schema=2,token='unit-fixture-not-native',variant=variant,scenario='card-face-acceptance',acceptance=gate.ACCEPTANCE,
                 version='v0.107.1',commit='59260271',testMode=False,character='VolibearCharacter',enemyTypes=['LeafSlimeS','TwigSlimeS','LeafSlimeM'],
-                playerId=0,enemyIds=[1,2,3],enemyOrder=[0,1,2],cards=cards,sourceIdentity=identity,starterDrawOrder=originals,response=None,before=e['before'],after=e['after'],choice=None,selections=[],
+                playerId=0,enemyIds=[1,2,3],enemyOrder=[0,1,2],cards=cards,sourceIdentity=identity,starterDrawOrder=originals,
+                response=None,before=e['before'],after=e['after'],choice=None,selections=[],conversions=conversions,
                 action=dict(id=aid,state='Finished',type='PlayCardAction',context='GameActionPlayerChoiceContext',actionType='CombatPlayPhaseOnly',
                             target=1 if c in gate.TARGETED else None,sameCard=True,events=[
                                 dict(name='before-executed',state='Executing',id=aid,energy=e['before']['energy']),
                                 dict(name='after-finished',state='Finished',id=aid,energy=e['after']['energy'])]),
                 payments=[dict(cardRef='source',amount=e['cost'],energy=e['paidEnergy'])],
                 effects=[dict(cardRef='source',index=i,count=e['playCount'],autoPlay=False,energy=e['paidEnergy'],spent=e['cost']) for i in range(e['playCount'])],
-                batches=e['batches'],history=dict(plays=[dict(cardRef='source',index=i,count=e['playCount']) for i in range(e['playCount'])],draws=e['draws'],sequence=sum(e['sequenceGroups'],[]),moves=['TACKLE_MOVE','TACKLE_MOVE','STICKY_SHOT'] if c=='R09' else ['TACKLE_MOVE'] if c in gate.ENGAGE_CARDS else [],
-                    generated=[dict(cardRef=f'generated-{i}',creatorId=None) for i in range(2)] if c=='R09' else [],damage=e['damage']))
+                batches=e['batches'],history=dict(plays=[dict(cardRef='source',index=i,count=e['playCount']) for i in range(e['playCount'])],
+                    draws=e['draws'],sequence=sum(e['sequenceGroups'],[]),moves=['TACKLE_MOVE','TACKLE_MOVE','STICKY_SHOT'] if c=='R09' else ['TACKLE_MOVE'] if c in gate.ENGAGE_CARDS else [],
+                    generated=generated,damage=e['damage']))
     if b=='second-instance' or c=='U42' and b in ('status','curse'):
-        follow=gate.expected_response(c,face=='upgrade',e['after']);fid=8;ref='selected' if c=='U42' else 'response-card'
+        follow=gate.expected_response(c,face=='upgrade',e['after']);fid=8;ref='selected-beast' if c=='U42' else 'response-card'
         result['response']=dict(before=follow['before'],after=follow['after'],batches=follow['batches'],history=follow['history'],
             payments=[dict(cardRef=ref,amount=follow['cost'],energy=follow['paidEnergy'])],
             effects=[dict(cardRef=ref,index=0,count=1,autoPlay=False,energy=follow['paidEnergy'],spent=follow['cost'])],
             action=dict(id=fid,state='Finished',type='PlayCardAction',context='GameActionPlayerChoiceContext',actionType='CombatPlayPhaseOnly',target=1 if c in ('U02','U21') else None,sameCard=True,
                         events=[dict(name='before-executed',state='Executing',id=fid,energy=follow['before']['energy']),dict(name='after-finished',state='Finished',id=fid,energy=follow['after']['energy'])]))
+    def selection(pending,minimum,maximum,allowed,selected):
+        return dict(api='CardSelectCmd.UseSelector',pending=pending,actionId=aid,min=minimum,max=maximum,
+                    options=allowed,selected=selected,sameObjects=[True]*len(selected))
     if b=='material':
-        lookup={x['cardRef']:x for x in cards}
-        def identity(ref,pile):
-            return {k:lookup[ref][k] for k in ('modelId','combatCardIndex','sameObject','ownerId','masterIndex')}|{'pile':pile}
         pending=deepcopy(e['before']);pending['energy']=e['paidEnergy'];pending['hand'].remove('source');pending['play']=['source']
-        result['choice']=dict(request=dict(actionId=aid,actionState='GatheringPlayerChoice',choiceId=11,source=identity('source','Play'),pile='Hand',min=1,max=1,
-                                           manualConfirmation=False,available=[identity(x,'Hand') for x in ('material','alternate')],
-                                           eligible=[identity(x,'Hand') for x in ('material','alternate')],ineligible=[],synced=[]),
-                              pending=pending,visible=['material','alternate'],inputs=[dict(api='Viewport.PushInput',action='ui_select',controlType='NHandCardHolder',visible=True,focusMatched=True,pressed=[True,False]),
-                                dict(api='Viewport.PushInput',action='viewport-left-pointer-confirm',controlType='NConfirmButton',position=[100,100],viewportSize=[1920,1080],insideTree=True,visible=True,enabled=True,hoverMatched=True,nativeFocused=True,
-                                     pressed=[True,False],stableFrames=3,focusModeBefore='None',focusModeAfter='None')],
-                              sync=[dict(choiceId=11,actionId=aid,actionState='GatheringPlayerChoice',selected=[identity('material','Hand')],selectedSameObjects=[True])])
-    lookup={x['cardRef']:x for x in cards}
-    def identity(ref,pile):
-        return {k:lookup[ref][k] for k in ('modelId','combatCardIndex','sameObject','ownerId','masterIndex')}|{'pile':pile}
+        result['choice']=selection(pending,1,1,['material','alternate'],['material'])
     for i,pending in enumerate(e['selectionPending']):
         pile,minimum,maximum,selected=gate.selection_plan(c,face=='upgrade',i,b)
         available=pending[pile.lower()]
@@ -73,17 +79,8 @@ def synthetic(variant):
             if c=='U39':return ref in ('selected','alternate')
             if c=='R25':return model=='VOLIBEAR_B02'
             return True
-        allowed=[ref for ref in available if eligible(ref)];cid=12+i
-        inputs=[dict(api='Viewport.PushInput',action='ui_select',controlType='NHandCardHolder' if pile=='Hand' else 'NGridCardHolder',visible=True,focusMatched=True,pressed=[True,False]) for _ in selected]
-        if pile=='Hand' or minimum!=maximum:
-            inputs.append(dict(api='Viewport.PushInput',action='viewport-left-pointer-confirm',controlType='NConfirmButton',position=[100,100],viewportSize=[1920,1080],insideTree=True,visible=True,enabled=True,hoverMatched=True,nativeFocused=True,
-                               pressed=[True,False],stableFrames=3,focusModeBefore='None',focusModeAfter='None'))
-        result['selections'].append(dict(request=dict(actionId=aid,actionState='GatheringPlayerChoice',choiceId=cid,source=identity('source','Play'),pile=pile,min=minimum,max=maximum,
-                                                     manualConfirmation=minimum!=maximum,available=[identity(x,pile) for x in available],eligible=[identity(x,pile) for x in allowed],
-                                                     ineligible=[identity(x,pile) for x in available if x not in allowed],synced=[]),
-                                         pending=pending,visible=allowed,inputs=inputs,sync=[dict(choiceId=cid,actionId=aid,actionState='GatheringPlayerChoice',
-                                         selected=[identity(x,pile) for x in selected],selectedSameObjects=[True]*len(selected))]))
-    if c=='U17' and b!='empty':result['selections'][0]['sync'][0]['indices']=[] if b=='zero' else [0,1]
+        allowed=[ref for ref in available if eligible(ref)]
+        result['selections'].append(selection(pending,minimum,maximum,allowed,selected))
     return result
 
 
@@ -113,7 +110,9 @@ class CardFaceEvidenceTests(unittest.TestCase):
         self.assertNotIn('CardCmd.AutoPlay',text)
         self.assertIn('new PlayCardAction(source,target)',text)
         self.assertIn('ActionQueueSynchronizer.RequestEnqueue(action)',text)
-        self.assertIn('NativeControlledChoice.SelectVisibleCandidate',text)
+        self.assertIn('new NativeAutomationSelector',text)
+        self.assertNotIn('NativeControlledChoice',text)
+        self.assertNotIn('PushInput',text)
         self.assertNotIn('CanonicalVars',text)
         self.assertNotIn('passed = true',text)
 
@@ -154,12 +153,12 @@ class CardFaceEvidenceTests(unittest.TestCase):
 
     def test_choice_identity_and_pending_boundary_mutations(self):
         for case in ('C13-base-material','U15-upgrade-material'):
-            r=synthetic(case);r['choice']['sync'][0]['selectedSameObjects']=[False];self.assertFalse(self.valid(r))
-            r=synthetic(case);r['choice']['request']['actionId']+=1;self.assertFalse(self.valid(r))
+            r=synthetic(case);r['choice']['sameObjects']=[False];self.assertFalse(self.valid(r))
+            r=synthetic(case);r['choice']['actionId']+=1;self.assertFalse(self.valid(r))
             r=synthetic(case);r['choice']['pending']['exhaust']=['material'];self.assertFalse(self.valid(r))
-            r=synthetic(case);r['choice']['inputs'][0]['api']='DirectSignal';self.assertFalse(self.valid(r))
-            r=synthetic(case);r['choice']['visible']=['material','material'];self.assertFalse(self.valid(r))
-            r=synthetic(case);r['choice']['inputs'][1]['hoverMatched']=False;self.assertFalse(self.valid(r))
+            r=synthetic(case);r['choice']['api']='Viewport.PushInput';self.assertFalse(self.valid(r))
+            r=synthetic(case);r['choice']['options']=['material','material'];self.assertFalse(self.valid(r))
+            r=synthetic(case);r['choice']['selected']=['alternate'];self.assertFalse(self.valid(r))
 
     def test_stale_cross_run_duplicate_logs_and_wrong_face_rejected(self):
         r=synthetic('B01-base-plain')
@@ -229,17 +228,38 @@ class CardFaceEvidenceTests(unittest.TestCase):
         self.assertEqual([x['cardRef'] for x in r['batches']],[None,'source',None,'source'])
         r['batches'][0]['cardRef']='source';self.assertFalse(self.valid(r))
 
-    def test_converted_real_master_identity_upgrade_and_zero_payment(self):
+    def test_new_beast_identity_material_exhaust_master_upgrade_and_zero_payment(self):
         for c in ('T01','T02'):
             for face in ('base','upgrade'):
                 r=synthetic(f'{c}-{face}-master');self.assertTrue(self.valid(r))
-                self.assertEqual(len(r['cards']),10)
+                self.assertEqual(len(r['cards']),11)
                 self.assertEqual(r['payments'][0]['amount'],0)
-                self.assertEqual(r['sourceIdentity']['masterUpgradedAfter'],False)
+                self.assertIsNone(r['sourceIdentity']['masterUpgradedAfter'])
+                self.assertEqual(r['conversions'][0]['materialMasterUpgradedAfter'],False)
+                self.assertEqual(r['before']['exhaust'],['source-material'])
+                self.assertNotEqual(r['conversions'][0]['materialIndex'],r['conversions'][0]['cardIndex'])
                 broken=deepcopy(r);broken['sourceIdentity']['sameMaster']=False;self.assertFalse(self.valid(broken))
                 broken=deepcopy(r);broken['sourceIdentity']['indexBefore']+=99;self.assertFalse(self.valid(broken))
-                broken=deepcopy(r);broken['sourceIdentity']['masterUpgradedAfter']=True;self.assertFalse(self.valid(broken))
+                broken=deepcopy(r);broken['conversions'][0]['materialMasterUpgradedAfter']=True;self.assertFalse(self.valid(broken))
+                broken=deepcopy(r);broken['conversions'][0]['originalExhausted']=False;self.assertFalse(self.valid(broken))
+                broken=deepcopy(r);broken['conversions'][0]['sameObject']=True;self.assertFalse(self.valid(broken))
                 broken=deepcopy(r);broken['payments'][0]['amount']=1;self.assertFalse(self.valid(broken))
+
+    def test_exhaust_generate_and_body_response_remain_distinct_native_cards(self):
+        r=synthetic('U42-base-curse');self.assertTrue(self.valid(r))
+        self.assertEqual(r['after']['hand'],['alternate','selected-beast'])
+        self.assertEqual(r['history']['generated'],[dict(cardRef='selected-beast',creatorId=0)])
+        self.assertEqual(r['response']['effects'][0]['cardRef'],'selected-beast')
+        material=next(card for card in r['after']['selectedCards'] if card['cardRef']=='selected')
+        self.assertEqual((material['shape'],material['type'],material['pile']),('None','Curse','Exhaust'))
+        for key in ('generated','sequence'):
+            broken=deepcopy(r);broken['history'][key]=[];self.assertFalse(self.valid(broken))
+        broken=deepcopy(r);broken['response']['effects'][0]['cardRef']='selected';self.assertFalse(self.valid(broken))
+        for face in ('base','upgrade'):
+            r=synthetic('R27-'+face+'-plain');self.assertTrue(self.valid(r))
+            events=r['history']['sequence']
+            self.assertEqual([(event['kind'],event.get('cardRef')) for event in events[:3]],
+                             [('exhaust','selected'),('exhaust','alternate'),('block','source')])
 
     def test_native_cross_effect_order_mutations_are_rejected(self):
         for case in ('B04-base-plain','C04-base-plain','C05-base-plain','C13-base-material','U23-base-plain','C24-base-plain','U37-base-plain'):

@@ -83,6 +83,17 @@ class PowerPresentationTests(unittest.TestCase):
         bad['rows'][finite]['description'] = gate.PERMANENT
         self.assertFalse(gate.validate_power_presentation(bad, 'fresh'))
 
+    def test_domain_suppression_description_is_required_for_finite_and_permanent(self):
+        sentence = '压制敌方有利特殊效果，保留普通攻击、直接力量与格挡及必要清理。'
+        baseline = sample_report()
+        for index, row in enumerate(baseline['rows']):
+            if row['model'] != 'DomainPower':
+                continue
+            self.assertIn(sentence, row['description'])
+            bad = copy.deepcopy(baseline)
+            bad['rows'][index]['description'] = row['description'].replace(sentence, '')
+            self.assertFalse(gate.validate_power_presentation(bad, 'fresh'))
+
     def test_negative_metadata_rows_and_runtime_failure(self):
         baseline = sample_report()
         for field, value in [('token', 'stale'), ('schema', True), ('models', 24), ('testMode', True),

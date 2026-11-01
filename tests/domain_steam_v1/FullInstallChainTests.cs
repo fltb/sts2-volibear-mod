@@ -11,6 +11,18 @@ internal static class SteamFullInstallChainTests
     internal static void Run()
     {
         const BindingFlags flags=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Static;
+        Type[] expectedInstallers =
+        [
+            typeof(EngageCmd), typeof(CardResolutionHooks), typeof(DomainEnemyEffects),
+            typeof(DomainHopperEffects), typeof(BeastForms), typeof(AttackHistory),
+            typeof(TargetCosts), typeof(PersistentBlockHooks), typeof(DomainSummonEffects),
+            typeof(DomainRevivalEffects), typeof(DomainPassiveEffects), typeof(DomainCardContributions),
+            typeof(DomainDampenTransactions), typeof(DomainSteamEruptionEffects),
+            typeof(DomainPlayerStatContributions), typeof(DomainPlayerDebuffContributions),
+            typeof(DomainEnemyStatusContributions), typeof(DomainEnemySpecialContributions),
+            typeof(DomainAdditionalRevivalEffects), typeof(Volibear.Presentation.VolibearPresentationBridge),
+            typeof(Volibear.Presentation.VolibearInspectPortraits),
+        ];
         var main=typeof(Volibear.ModEntry).GetMethod("Initialize")!;
         // Derive the actual main Install calls, including dynamic Beast discovery and
         // Presentation's nested Audio installation. Do not manufacture a subset list.
@@ -43,7 +55,7 @@ internal static class SteamFullInstallChainTests
             Need(dispatch>=0&&domain>dispatch&&responders>domain,"native dispatch then complete Domain/ordinary responder pipeline");
             var wrapper=PatchProcessor.GetOriginalInstructions(Method(steam,"DamageFromCommand")).ToArray();
             Need(wrapper.Count(c=>c.Calls(Method(cards,"OrdinaryAttackPipelineV1")))==1,"Steam always enters complete ordinary pipeline");
-            Need(!wrapper.Any(c=>c.operand is FieldInfo field&&field.Name=="PendingDamage"),"no handoff ticket spans ordinary pipeline");
+            Need(!wrapper.Any(c=>c.operand is FieldInfo field&&field.Name=="DamageHandoff"),"no handoff ticket spans ordinary pipeline");
             var draw=typeof(MegaCrit.Sts2.Core.Commands.CardPileCmd).GetMethods().Single(m=>m.Name=="Draw"&&m.GetParameters().Length==4);
             var drawCode=PatchProcessor.GetCurrentInstructions(Machine(draw)).ToArray();
             Need(drawCode.Count(c=>c.Calls(Method(cards,"AddDrawnCard")))==1&&drawCode.Count(c=>c.Calls(Method(cards,"DispatchDrawHooks")))==1,"draw and purification wrappers retained");
@@ -68,7 +80,7 @@ internal static class SteamFullInstallChainTests
         }
         try
         {
-            Need(installs.Length==15 && installs.Count(m=>m.DeclaringType==typeof(DomainHopperEffects))==1,"current ModEntry normal Install manifest includes exactly one Hopper adapter");
+            Need(installs.Select(m=>m.DeclaringType).SequenceEqual(expectedInstallers),"current ModEntry normal Install manifest matches all 21 production adapters in order");
             foreach(var method in installs)
             {
                 Console.WriteLine("STEAM_MAIN_INSTALL_EMIT "+method.DeclaringType!.FullName+"."+method.Name);

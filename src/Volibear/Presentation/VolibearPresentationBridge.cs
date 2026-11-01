@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat.History;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -33,12 +34,13 @@ namespace Volibear.Presentation;
 public static partial class VolibearPresentationBridge
 {
     private const string HarmonyId = "Volibear.Presentation.SemanticBridge";
-    private sealed record DamageMotion(string Clip);
+    private sealed record DamageContact(string Effect);
     private static readonly Dictionary<string, Motion> Motions = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, string> ContactEffects = new(StringComparer.OrdinalIgnoreCase);
     private static readonly Dictionary<string, string> StartVoices = new(StringComparer.Ordinal);
     private static readonly ConcurrentQueue<Action> Pending = new();
     private static readonly HashSet<string> Warned = [];
-    private static ConditionalWeakTable<DamageResult, DamageMotion> DamageMotions = new();
+    private static ConditionalWeakTable<DamageResult, DamageContact> DamageContacts = new();
     private static readonly AsyncLocal<EngageObservation?> ActiveEngage = new();
     private static RoomScope? _room;
     private static ICombatState? _historyState;
@@ -70,7 +72,7 @@ public static partial class VolibearPresentationBridge
             ["beast.converted"] = "feral_claw / feral_body",
             ["native.owner_died"] = "stop owned playback, death voice/pose",
             ["native.heal_internal_positive_commit"] = "heal at actual owner",
-            ["native.gain_energy_positive_commit"] = "energy_gain at actual energy counter",
+            ["native.gain_energy_positive_commit"] = "energy_gain at local energy counter or actual remote owner",
             ["native.health_ratio_state_transition"] = "weak/domain_weak pose and entry-only low_health voice",
             ["native.local_character_selected"] = "select voice attached to selected native background",
             ["native.combat_won"] = "victory voice attached to still-visible native room",
@@ -82,11 +84,13 @@ public static partial class VolibearPresentationBridge
     {
         if (_installed) return;
         _mainThread = Environment.CurrentManagedThreadId;
-        // Resolve every boundary first. No private OnPlay/MoveNext/settlement hook is patched.
+        // Observe existing boundaries without replacing any command or Task. The mod-owned
+        // lightning entry is shared by every overload, including native card callbacks.
         var ready = Required(typeof(NCombatRoom), nameof(NCombatRoom._Ready));
         var reset = Required(typeof(CombatManager), nameof(CombatManager.Reset), typeof(bool));
-        var lightning = Required(typeof(LightningCmd), nameof(LightningCmd.Deal),
-            typeof(PlayerChoiceContext), typeof(Creature), typeof(IEnumerable<Creature>), typeof(decimal), typeof(CardModel));
+        var lightning = Required(typeof(LightningCmd), "DealCore",
+            typeof(PlayerChoiceContext), typeof(Creature), typeof(IEnumerable<Creature>), typeof(decimal), typeof(CardModel),
+            typeof(bool), typeof(Action<IReadOnlyList<LightningHit>>));
         var engage = Required(typeof(EngageCmd), nameof(EngageCmd.Perform),
             typeof(PlayerChoiceContext), typeof(Creature), typeof(CardModel));
         var intent = Required(typeof(NCreature), nameof(NCreature.PerformIntent));
@@ -108,6 +112,7 @@ public static partial class VolibearPresentationBridge
             prefix: Handler(nameof(BeforeCardExhaust)));
         harmony.Patch(Required(typeof(CardModel), nameof(CardModel.SpendResources)), prefix: Handler(nameof(BeforeCardPayment)));
         CostPresentationReceipts.Committed += receipt => Dispatch("cost_committed", () => Owner(receipt.Owner)?.CostReduced(receipt));
+        VolibearNativeAudio.Install();
         VolibearPresentationCues.Install();
         CombatManager.Instance.CombatSetUp += state => Dispatch("setup", () =>
         {
@@ -184,8 +189,9 @@ public static partial class VolibearPresentationBridge
         using var cards = JsonDocument.Parse(cardsFile.GetAsText());
         foreach (var row in cards.RootElement.GetProperty("cards").EnumerateArray())
         {
-            var motion = row.GetProperty("primary_motion");
-            Motions[row.GetProperty("asset_key").GetString()!] = ReadMotion(motion);
+            string key = row.GetProperty("asset_key").GetString()!;
+            Motions[key] = ReadMotion(row.GetProperty("primary_motion"));
+            if (ReadContactEffect(row) is { } contact) ContactEffects[key] = contact;
         }
         using var voicesFile = Godot.FileAccess.Open("res://VolibearArt/audio/action_cues.json", Godot.FileAccess.ModeFlags.Read)
             ?? throw new InvalidOperationException("Missing approved action voice bindings");
@@ -201,19 +207,24 @@ public static partial class VolibearPresentationBridge
         // Numeric/rules text and offline impact timestamps are deliberately NEVER read.
         _metadataLoaded = true;
     }
-    private static string MotionFor(CardModel? card, Creature owner)
+    private static string? ReadContactEffect(JsonElement row)
     {
-        if (MotionKey(card) is { } key && Motions.TryGetValue(key, out var motion))
-            return motion.Clip; // Contact semantics survive domain fallback (counter != ordinary attack).
-        return "attack";
+        // Primary character motion and resolved contact are separate approved bindings.
+        // Several heavy-motion cards deliberately retain a claw contact; a domain fallback
+        // or later transformation must not reclassify an already-recorded native hit.
+        var contacts = row.GetProperty("cues").EnumerateArray()
+            .Where(cue => cue.GetProperty("event").GetString() == "physical_damage_resolved")
+            .Select(cue => cue.GetProperty("effect_id").GetString()!).Distinct().ToArray();
+        if (contacts.Length > 1 || contacts.Any(effect => effect is not
+            ("claw_slash" or "heavy_impact" or "bite_hit" or "counter_release")))
+            throw new InvalidOperationException("Invalid approved physical contact binding");
+        return contacts.SingleOrDefault();
     }
-    private static string ContactEffect(string clip) => clip switch
+    private static string ContactEffectFor(CardModel? card)
     {
-        "counter" => "counter_release",
-        "bite" => "bite_hit",
-        "attack_heavy" or "storm_leap" or "domain_storm_leap" => "heavy_impact",
-        _ => "claw_slash"
-    };
+        if (MotionKey(card) is { } key && ContactEffects.TryGetValue(key, out var effect)) return effect;
+        return "claw_slash"; // Native/foreign ordinary attacks retain the default contact.
+    }
 
     private static RoomScope? EnsureRoom(ICombatState? combat, NCombatRoom? readyRoom = null)
     {
@@ -236,7 +247,7 @@ public static partial class VolibearPresentationBridge
         var previous = _room;
         _room = null;
         previous?.Dispose();
-        DamageMotions = new();
+        DamageContacts = new();
         while (Pending.TryDequeue(out _)) { }
     }
     private static void RoomReady(NCombatRoom __instance) => Dispatch("room_ready", () =>
@@ -282,7 +293,7 @@ public static partial class VolibearPresentationBridge
                 break;
             case DamageReceivedEntry damage:
                 if (Bear(damage.Dealer))
-                    DamageMotions.GetValue(damage.Result, _ => new DamageMotion(MotionFor(damage.CardSource, damage.Dealer!)));
+                    DamageContacts.GetValue(damage.Result, _ => new DamageContact(ContactEffectFor(damage.CardSource)));
                 room.GetOwner(damage.Receiver)?.Incoming(damage.Result, id);
                 break;
             case CreatureAttackedEntry attack:
@@ -291,8 +302,8 @@ public static partial class VolibearPresentationBridge
                     for (int i = 0; i < attack.DamageResults.Count; i++)
                     {
                         var result = attack.DamageResults[i];
-                        string clip = DamageMotions.TryGetValue(result, out var motion) ? motion.Clip : "attack";
-                        attacker.AtTarget(id + ":hit:" + i, ContactEffect(clip), result.Receiver);
+                        string effect = DamageContacts.TryGetValue(result, out var contact) ? contact.Effect : "claw_slash";
+                        attacker.AtTarget(id + ":hit:" + i, effect, result.Receiver);
                     }
                 }
                 break;
@@ -344,13 +355,14 @@ public static partial class VolibearPresentationBridge
     }
 
     private sealed class EngageObservation(EngageObservation? previous, ICombatState combat,
-        Creature receiver, Creature enemy, string id)
+        Creature receiver, Creature enemy, string id, string voiceId)
     {
         internal readonly EngageObservation? Previous = previous;
         internal readonly ICombatState Combat = combat;
         internal readonly Creature Receiver = receiver;
         internal readonly Creature Enemy = enemy;
         internal readonly string Id = id;
+        internal readonly string VoiceId = voiceId;
         internal int IntentSeen;
         internal OwnerScope.PlayMotion? Motion;
         internal bool Grouped;
@@ -362,8 +374,11 @@ public static partial class VolibearPresentationBridge
         {
             var owner = card.Owner.Creature;
             if (!Bear(owner) || owner.CombatState is not { } state) return;
-            __state = new EngageObservation(ActiveEngage.Value, state, owner, target, Next("engage"))
-            { Motion = Owner(owner)?.FindMotion(card), Grouped = ReferenceEquals(ActiveEngageGroup.Value?.Card, card) };
+            string id = Next("engage");
+            var group = ActiveEngageGroup.Value;
+            bool grouped = ReferenceEquals(group?.Card, card);
+            __state = new EngageObservation(ActiveEngage.Value, state, owner, target, id, grouped ? group!.Id : id)
+            { Motion = Owner(owner)?.FindMotion(card), Grouped = grouped };
             ActiveEngage.Value = __state;
         }
         catch (Exception error) { Warn("engage_invocation", error); }
@@ -378,7 +393,7 @@ public static partial class VolibearPresentationBridge
         {
             if (ReferenceEquals(invocation.Receiver.CombatState, invocation.Combat))
             {
-                Owner(invocation.Receiver)?.EngageTelegraph();
+                Owner(invocation.Receiver)?.EngageTelegraph(invocation.VoiceId);
                 Owner(invocation.Receiver)?.AtTarget(invocation.Id + ":roar", "roar_wave", invocation.Enemy);
             }
         });
@@ -537,10 +552,41 @@ public static partial class VolibearPresentationBridge
             CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding &&
             ReferenceEquals(_room, VolibearPresentationBridge._room) &&
             ReferenceEquals(_owner.CombatState, _room.Combat) && Valid(_node) && Valid(_node.Visuals);
-        private EffectAnchors Anchors(NCreature? target = null, CanvasItem? card = null) =>
-            new(_node.Visuals, Target: target?.Visuals, Source: _node.Visuals.VfxSpawnPosition,
-                Card: card, Energy: _room.Room.Ui.EnergyCounterContainer,
+        private bool OwnsLocalHud()
+        {
+            // The combat UI belongs to this client's player, not every creature in the room.
+            return _owner.Player is { } player && ReferenceEquals(LocalContext.GetMe(_room.Combat), player);
+        }
+        private EffectAnchors Anchors(NCreature? target = null, CanvasItem? card = null)
+        {
+            return new(_node.Visuals, Target: target?.Visuals, Source: _node.Visuals.VfxSpawnPosition,
+                Card: card, Energy: OwnsLocalHud() ? _room.Room.Ui.EnergyCounterContainer : _node.Visuals.VfxSpawnPosition,
                 OwnerMouth: _node.Visuals.TalkPosition, OwnerHand: _node.Visuals.VfxSpawnPosition);
+        }
+        private bool TryCardAnchors(CanvasItem card, PileType? from, bool toDiscard, out EffectAnchors anchors)
+        {
+            anchors = Anchors(card: card);
+            // Remote visible cards still have real view anchors, but their private piles have
+            // no corresponding UI here. Keep the sound instead of borrowing this client's piles.
+            if ((from is not null || toDiscard) && !OwnsLocalHud()) return false;
+            if (from is not null)
+            {
+                CanvasItem? source = from switch
+                {
+                    PileType.Draw => _room.Room.Ui.DrawPile,
+                    PileType.Discard => _room.Room.Ui.DiscardPile,
+                    _ => null
+                };
+                if (!Valid(source)) return false;
+                anchors = anchors with { Source = source };
+            }
+            if (toDiscard)
+            {
+                if (!Valid(_room.Room.Ui.DiscardPile)) return false;
+                anchors = anchors with { Target = _room.Room.Ui.DiscardPile };
+            }
+            return true;
+        }
         internal void EnsureLightning() => SubscribeLightning();
         private void SubscribeLightning()
         {
@@ -566,7 +612,9 @@ public static partial class VolibearPresentationBridge
         }
         internal void AtOwner(string id, string effect)
         {
-            if (Live) _effects.Emit(id, effect, Anchors());
+            if (!Live) return;
+            if (!_effects.Emit(id, effect, Anchors()) && effect == "energy_gain")
+                _effects.PlaySound(id, "sfx.energy_gain");
         }
         internal void AtTarget(string id, string effect, Creature target)
         {
@@ -576,15 +624,13 @@ public static partial class VolibearPresentationBridge
         internal void AtCard(string id, string effect, CardModel card)
         {
             if (!Live || !ReferenceEquals(card.Owner.Creature, _owner)) return;
-            var node = NCard.FindOnTable(card);
+            // Exhaust/replay can remove the original view before native history is published.
+            // Reuse a measured same-card anchor; never invent a hidden card position.
+            var node = CardAnchor(card);
             var cardId = CardId(card);
-            if (Valid(node) && cardId is not null)
-            {
-                var anchors = Anchors(card: node);
-                if (effect == "card_draw") anchors = anchors with { Source = _room.Room.Ui.DrawPile };
-                if (effect == "card_discard") anchors = anchors with { Target = _room.Room.Ui.DiscardPile };
+            if (Valid(node) && cardId is not null && TryCardAnchors(node!,
+                    effect == "card_draw" ? PileType.Draw : null, effect == "card_discard", out var anchors))
                 _effects.Emit(id, effect, anchors, cardId);
-            }
             // Missing remote/hidden cards never cause fake card nodes or guessed screen positions.
             _effects.PlaySound(id, "sfx." + effect);
         }
@@ -596,7 +642,11 @@ public static partial class VolibearPresentationBridge
         internal void CardStarted(CardPlay play, string id)
         {
             if (!Live) return;
-            if (play.PlayIndex > 0) AtCard(id, "card_replay", play.Card);
+            if (play.PlayIndex > 0)
+            {
+                AtCard(id, "card_replay", play.Card);
+                return; // Repeated effects retain the original paid play's primary motion.
+            }
             BeginMotion(play, id);
             if (MotionKey(play.Card) == "u23") AtOwner(id + ":roar", "roar_wave");
         }
@@ -610,9 +660,13 @@ public static partial class VolibearPresentationBridge
                 _effects.PlaySound(id, ++_voiceCounter % 2 == 0 ? "voice.hurt_02" : "voice.hurt_01");
             }
         }
-        internal void EngageTelegraph()
+        internal void EngageTelegraph(string id)
         {
-            if (Live) Pose(_domain ? "domain_block" : "block");
+            if (!Live) return;
+            Pose(_domain ? "domain_block" : "block");
+            // Only the accepted native intent reaches here. One PerformAll invocation shares
+            // its voice event across enemies, so both audio profiles announce the challenge once.
+            _effects.PlaySound(id + ":challenge", "voice.roar");
         }
         internal void RememberCard(CardModel card)
         {
@@ -657,13 +711,9 @@ public static partial class VolibearPresentationBridge
             if (!Live || !ReferenceEquals(receipt.Combat, _room.Combat) || !ReferenceEquals(receipt.Owner, _owner)) return;
             string id = $"card_receipt:{receipt.Id}";
             var node = CardAnchor(receipt.Card);
-            if (Valid(node) && CardId(receipt.Card) is { } cardId)
-            {
-                var anchors = Anchors(card: node);
-                if (receipt.Effect == "card_retrieve")
-                    anchors = anchors with { Source = receipt.From == PileType.Draw ? _room.Room.Ui.DrawPile : _room.Room.Ui.DiscardPile };
+            if (Valid(node) && CardId(receipt.Card) is { } cardId && TryCardAnchors(node!,
+                    receipt.Effect == "card_retrieve" ? receipt.From : null, false, out var anchors))
                 _effects.Emit(id, receipt.Effect, anchors, cardId);
-            }
             // Hidden/removed native cards have no invented card or guessed screen position.
             _effects.PlaySound(id, "sfx." + receipt.Effect);
         }
@@ -792,6 +842,9 @@ public static partial class VolibearPresentationBridge
             TickSemanticVisuals();
             SubscribeLightning();
             UpdateDomain(announce: false);
+            // Setup can create this scope while IsStarting, before Live admits a snapshot.
+            // Reconcile starting/restored low HP silently once the battle is playable.
+            UpdateLowHealth(announce: false);
             if (_domain && !_effects.RenewLoop(_domainKey, 2f))
                 _effects.Emit(Next("domain_lease"), "domain_loop", Anchors(), persistentKey: _domainKey, leaseSeconds: 2f);
         }

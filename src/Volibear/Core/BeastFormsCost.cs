@@ -3,47 +3,35 @@ using System.Collections.Generic;
 
 namespace Volibear.Core;
 
-/// <summary>
-/// Rebase only modifiers which existed when the material became a form. Their native
-/// objects retain expiry/cleanup ownership. Later absolute modifiers refer to the form,
-/// not the material (Set(1) after conversion must cost 1).
-/// </summary>
-internal sealed class BeastCostLedger<T> where T : class
+/// <summary>Native relative adjustments with the four native combat cost lifetimes.</summary>
+internal readonly record struct BeastCostAdjustments(int Combat, int UntilPlayed, int ThisTurn, int ThisTurnOrPlayed);
+
+internal static class BeastCostTransfer
 {
-    private readonly HashSet<T> inherited;
-    internal int MaterialBase { get; }
-    internal int FormBase { get; set; } = 1;
-
-    internal BeastCostLedger(int materialBase, IEnumerable<T> existing)
+    /// <summary>
+    /// Preserve the material's local discount (never its surcharge) at each native
+    /// cleanup boundary. Four relative adjustments encode those four states; after
+    /// transfer the engine alone owns cost reads, clone copying and expiration.
+    /// Relative adjustments also respect later base-cost changes and Set(...) calls.
+    /// </summary>
+    internal static BeastCostAdjustments Rebase<T>(int materialBase, IReadOnlyList<T> modifiers,
+        Func<T, int, int> apply, Func<T, bool> expiresOnTurn, Func<T, bool> expiresOnPlay)
     {
-        MaterialBase = Math.Max(0, materialBase);
-        inherited = new HashSet<T>(existing, ReferenceEqualityComparer.Instance);
-    }
-
-    internal bool IsInherited(T modifier) => inherited.Contains(modifier);
-
-    internal int Evaluate(IEnumerable<T> live, Func<T, int, int> apply)
-    {
-        var added = new List<T>();
-        var oldCost = MaterialBase;
-        foreach (var modifier in live)
+        materialBase = Math.Max(0, materialBase);
+        int Discount(bool turnEnded, bool played)
         {
-            if (inherited.Contains(modifier)) oldCost = apply(modifier, oldCost);
-            else added.Add(modifier);
+            var value = materialBase;
+            foreach (var modifier in modifiers)
+                if (!(turnEnded && expiresOnTurn(modifier)) && !(played && expiresOnPlay(modifier)))
+                    value = apply(modifier, value);
+            return Math.Max(0, checked(materialBase - value));
         }
-        // Preserve a discount, not an old card's surcharge or absolute base.
-        var value = Math.Max(0, FormBase - Math.Max(0, MaterialBase - oldCost));
-        foreach (var modifier in added) value = apply(modifier, value);
-        return Math.Max(0, value);
-    }
-
-    internal BeastCostLedger<T> CloneFor(IReadOnlyList<T> source, IReadOnlyList<T> clones)
-    {
-        if (source.Count != clones.Count)
-            throw new InvalidOperationException("Native cost clone changed modifier count.");
-        var selected = new List<T>();
-        for (var i = 0; i < source.Count; i++)
-            if (inherited.Contains(source[i])) selected.Add(clones[i]);
-        return new BeastCostLedger<T>(MaterialBase, selected) { FormBase = FormBase };
+        var initial = Discount(false, false);
+        var afterPlay = Discount(false, true);
+        var afterTurn = Discount(true, false);
+        var afterBoth = Discount(true, true);
+        return new BeastCostAdjustments(-afterBoth,
+            checked(afterBoth - afterTurn), checked(afterBoth - afterPlay),
+            checked(afterPlay + afterTurn - afterBoth - initial));
     }
 }

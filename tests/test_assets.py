@@ -5,6 +5,8 @@ import unittest
 import xml.etree.ElementTree as ET
 from unittest.mock import patch
 
+from PIL import Image
+
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('build_assets', ROOT / 'tools/build_assets.py')
 assets = importlib.util.module_from_spec(spec)
@@ -71,7 +73,8 @@ class AssetTests(unittest.TestCase):
     def test_ui_scenes_use_native_types_and_no_borrowed_character(self):
         expected = {'volibear_icon.tscn', 'volibear_energy.tscn', 'volibear_rest.tscn',
                     'volibear_merchant.tscn', 'volibear_trail.tscn', 'volibear_transition.tres',
-                    'volibear_transition.gdshader', 'volibear_effects.tscn', 'effects.gd'}
+                    'volibear_transition.gdshader', 'volibear_effects.tscn', 'effects.gd',
+                    'energy.gd', 'audio_profile.gd'}
         self.assertEqual(expected, set(assets.NATIVE_RESOURCES))
         for name in expected:
             text = (assets.PRESENTATION / name).read_text(encoding='utf-8')
@@ -84,6 +87,24 @@ class AssetTests(unittest.TestCase):
         for name in ('ControlRoot', 'Hitbox', 'ThoughtBubbleLeft', 'ThoughtBubbleRight'):
             self.assertIn(f'[node name="{name}"', rest)
         self.assertNotIn('[node name="SelectionReticle"', rest)
+
+    def test_energy_motion_survives_native_root_conversion_and_keeps_number_clear(self):
+        energy = (assets.PRESENTATION / 'volibear_energy.tscn').read_text(encoding='utf-8')
+        # BaseLib replaces the root and Label. A retained child owns all cosmetic state.
+        root_section = energy.split('[node name="VolibearEnergy"', 1)[1].split('\n[node ', 1)[0]
+        self.assertNotIn('script = ', root_section)
+        self.assertIn('[node name="StormRing" type="Control" parent="Layers/RotationLayers"]', energy)
+        self.assertIn('path="res://VolibearArt/scenes/energy.gd"', energy)
+        emblem = energy.split('[node name="Emblem"', 1)[1].split('\n[node ', 1)[0]
+        props = dict(line.split(' = ', 1) for line in emblem.splitlines() if ' = ' in line)
+        self.assertLessEqual(float(props['offset_right']) - float(props['offset_left']), 48)
+        self.assertLessEqual(float(props['offset_bottom']) - float(props['offset_top']), 48)
+        self.assertNotIn('anchor_right = 1.0', emblem)
+        label = energy.split('[node name="Label"', 1)[1]
+        label_props = dict(line.split(' = ', 1) for line in label.splitlines() if ' = ' in line)
+        self.assertGreater(int(label_props['z_index']), 0)
+        self.assertIn('text = "3/3"', label)
+        # Numeric transitions, animation advancement and cleanup execute in verify_effects.gd.
 
     def test_social_aliases_preserve_relaxed_loop_reuse(self):
         text = assets.sprite_frames(self.clips, {**assets.ALIASES, 'idle': 'relaxed_loop'})
@@ -121,16 +142,23 @@ class AssetTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Approved audio hash mismatch'):
                 assets.read_effect_inputs()
 
-    def test_original_rune_icons_have_no_embedded_external_art(self):
+    def test_native_relic_exports_and_original_power_runes(self):
         self.assertEqual(10, len(assets.ICON_EXPORTS))
         for destination, (source, size) in assets.ICON_EXPORTS.items():
             self.assertIn(size, (64, 256))
+            self.assertFalse(destination.startswith('/'))
+            if source.endswith('.png'):
+                with Image.open(assets.PRESENTATION / 'icons' / source) as icon:
+                    self.assertEqual('RGBA', icon.mode)
+                    self.assertEqual((size, size), icon.size)
+                    self.assertEqual((0, 255), icon.getchannel('A').getextrema())
+                    self.assertIsNotNone(icon.getbbox())
+                continue
             svg = ET.fromstring((assets.PRESENTATION / 'icons' / source).read_text(encoding='utf-8'))
             self.assertEqual('256', svg.attrib['width'])
             self.assertEqual('256', svg.attrib['height'])
             self.assertEqual('0 0 256 256', svg.attrib['viewBox'])
             self.assertTrue(all(element.tag.rsplit('}', 1)[-1] in {'svg', 'path', 'circle'} for element in svg.iter()))
-            self.assertFalse(destination.startswith('/'))
 
 
 if __name__ == '__main__':

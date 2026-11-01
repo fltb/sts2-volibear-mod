@@ -1,6 +1,7 @@
 """Passive source/commit boundaries + actual native IL emission, not gameplay acceptance."""
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import unittest
@@ -29,13 +30,27 @@ class DomainPassiveContractTests(unittest.TestCase):
         self.assertIn('Strength source now consumes its result', self.source)
 
     def test_only_owned_positive_commit_can_cancel(self):
-        for expression in ('ReferenceEquals(receipt.Target, target)', 'ReferenceEquals(receipt.Source.Owner, target)',
+        for expression in ('ReferenceEquals(receipt.Target, target)', 'ReferenceEquals(receipt.Source.Owner, receipt.SourceOwner)',
                            'ReferenceEquals(receipt.Combat, target.CombatState)', 'receipt.Input <= 0 || contribution <= 0',
                            'receipt.Generation != _generation', 'DomainEnemyEffects.ActiveFor(target)',
                            'ticket.Claimed = true', 'candidate.Target, target'):
             self.assertIn(expression, self.source)
-        self.assertIn('Source is not (RitualPower or SuckPower)', self.source)
-        self.assertIn('Source is not (PlatingPower or CurlUpPower or SkittishPower)', self.source)
+        # Preserve the exact source allowlists and owner/combat identity checks.
+        # Rampart intentionally grants block to its TurretOperator teammate; every
+        # other source must still target its own snapshotted owner.
+        strength, block = re.findall(r'receipt.Source is not\s*\(([^)]+)\)', self.source)
+        self.assertEqual(re.findall(r'\w+Power', strength), [
+            'RitualPower', 'SuckPower', 'TerritorialPower', 'HighVoltagePower',
+            'EnragePower', 'RavenousPower', 'CrabRagePower'])
+        self.assertEqual(re.findall(r'\w+Power', block), [
+            'PlatingPower', 'CurlUpPower', 'SkittishPower', 'CrabRagePower', 'RampartPower'])
+        for expression in ('ReferenceEquals(receipt.SourceCombat, receipt.Combat)',
+                           'if (receipt.Source is RampartPower)',
+                           'receipt.Strength || !receipt.SourceOwner.IsEnemy || receipt.SourceOwner.IsPlayer',
+                           'target.Monster is not TurretOperator || !target.IsEnemy || target.IsPlayer',
+                           'ReferenceEquals(receipt.SourceOwner.CombatState, receipt.Combat)',
+                           'else if (!ReferenceEquals(receipt.SourceOwner, target)) return false;'):
+            self.assertIn(expression, self.source)
 
     def test_native_commit_and_return_anchors_are_fail_closed(self):
         for anchor in ('Block precommit/await anchor changed', 'New power precommit/await anchor changed',
@@ -58,7 +73,8 @@ class DomainPassiveContractTests(unittest.TestCase):
         if not config_file.exists(): self.skipTest('Pinned native assemblies unavailable; native IL checks NOT RUN')
         config = json.loads(config_file.read_text(encoding='utf-8'))
         dotnet = Path(config.get('dotnet', ''))
-        data = Path(config.get('game_dir', '')) / 'data_sts2_windows_x86_64'
+        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+        data = Path(config.get('game_dir', '')) / data_name
         mod = ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll'
         if not dotnet.is_file() or not (data / 'sts2.dll').is_file() or not mod.is_file():
             self.skipTest('Actual game/built mod missing; no fake model substitution')

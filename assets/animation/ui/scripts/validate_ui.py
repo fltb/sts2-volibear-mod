@@ -21,7 +21,7 @@ from fontTools.ttLib import TTFont
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parent
-REPORT = ROOT / "reports/technical_validation.json"
+REPORT = ROOT.parents[2] / "artifacts/ui/technical_validation.json"
 APPROVED_SOURCE_SHA256 = "870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d"
 FONT_SPECS = [
     ("fonts/volibear_ui_v5.woff", "fonts/provenance.json", "fonts/characters.txt",
@@ -86,9 +86,9 @@ def validate(report):
     }
 
     assets = manifest["assets"]
-    require(len(assets) == 14, "Expected exactly 14 manifest PNG assets")
-    require(len({row["id"] for row in assets}) == 14, "Duplicate asset IDs")
-    require(len({row["file"] for row in assets}) == 14, "Duplicate asset file paths")
+    require(len(assets) == 18, "Expected 14 approved UI PNGs and four authored hand PNGs")
+    require(len({row["id"] for row in assets}) == len(assets), "Duplicate asset IDs")
+    require(len({row["file"] for row in assets}) == len(assets), "Duplicate asset file paths")
     actual_pngs = {p.relative_to(ROOT).as_posix() for p in (ROOT / "images").rglob("*.png")}
     require(actual_pngs == {row["file"] for row in assets}, "Manifest PNG inventory differs from images/")
     for row in assets:
@@ -102,11 +102,27 @@ def validate(report):
             image.load()
             require(list(image.size) == row["size"], f"PNG size mismatch: {row['file']}")
             require(image.mode == row["mode"], f"PNG mode mismatch: {row['file']}")
+            if row['id'].startswith('multiplayer_hand_volibear_'):
+                require(image.mode == 'RGBA' and image.getchannel('A').getextrema() == (0, 255),
+                        'Hand requires actual transparent and opaque pixels')
+                require(image.size == (422, 1200), 'Hand canvas must use native long-forearm proportions')
+                bottom_alpha = image.getchannel('A').crop((0, image.height - 1, image.width, image.height))
+                require(bottom_alpha.getextrema()[1] <= 4,
+                        'Hand forearm must fade to transparency instead of ending in a visible flat cut')
             report["png_assets"].append({
                 "id": row["id"], "file": row["file"], "sha256": digest,
                 "size": list(image.size), "mode": image.mode,
                 "full_decode": True, "matches_manifest": True,
             })
+
+    hands = json.loads(inside(ROOT, 'source/multiplayer_hands/provenance.json').read_text())
+    expected_hands = {f'multiplayer_hand_volibear_{gesture}' for gesture in ('pointing', 'rock', 'paper', 'scissors')}
+    hand_rows = [row for row in assets if row['id'] in expected_hands]
+    require({row['id'] for row in hand_rows} == expected_hands and len({row['sha256'] for row in hand_rows}) == 4,
+            'Four distinct native hand gestures required')
+    require(hand_rows == hands['runtime_assets'], 'Hand provenance differs from runtime manifest')
+    for row in hands['source_assets']:
+        require(sha(inside(ROOT, row['file'])) == row['sha256'], 'Authored hand source SHA mismatch')
 
     svg_path = ROOT / "source/energy_emblem.svg"
     svg = ET.parse(svg_path).getroot()
@@ -169,7 +185,7 @@ def main():
         "schema_version": 1,
         "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "passed": False, "validator_sha256": sha(Path(__file__)),
-        "scope": "Delivered UI technical integrity only: 14 PNGs, approved source identity, JSON/JS data equality, SVG XML parse, and two actual fontTools font parses with declared character coverage.",
+        "scope": "Delivered UI technical integrity: 14 approved UI PNGs plus four authored native hand gestures, approved source identity, JSON/JS equality, SVG and two fontTools parses with declared character coverage.",
         "libraries": {"pillow": PIL.__version__, "fonttools": fontTools.__version__},
         "png_assets": [], "fonts": [],
         "limitations": "No visual judgment, browser rendering, or target-game integration approval. The independent visual review remains separate. Original upstream font hashes are provenance declarations; this validator hashes the two delivered font outputs.",
@@ -183,7 +199,7 @@ def main():
         return 1
     atomic_report(report)
     print(json.dumps({"passed": True, "png_count": report["png_count"],
-                      "font_count": report["font_count"], "report": str(REPORT.relative_to(REPO))}))
+                      "font_count": report["font_count"], "report": str(REPORT.relative_to(ROOT.parents[2]))}))
     return 0
 
 

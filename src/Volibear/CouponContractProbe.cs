@@ -74,9 +74,26 @@ internal static class CouponContractProbe
             await PlayerCmd.SetEnergy(30,p);
             string? generationWindow = null;
             var generated = new List<object>();
+            var conversions = new List<object>();
+            CardModel? conversionMaterial = null, convertedCard = null;
             int mediumStatusCount = enemies.Any(e => e.Monster is LeafSlimeM) ? 2 : 1;
             Generated = (card,creator) =>
             {
+                if (generationWindow == "beast-conversion")
+                {
+                    var material = conversionMaterial ?? throw new InvalidOperationException("Missing explicit conversion material");
+                    bool exhausted = CombatManager.Instance.History.Entries.OfType<CardExhaustedEntry>().Any(e => ReferenceEquals(e.Card,material));
+                    if (convertedCard is not null || !exhausted || material.Pile?.Type != PileType.Exhaust ||
+                        !ReferenceEquals(card.Owner,p) || !ReferenceEquals(creator,p) || card.DeckVersion is not null ||
+                        card.Pile?.Type != PileType.Hand || ReferenceEquals(card,material) ||
+                        (variant == "CP-beast-attack" ? card is not Volibear_T01 : card is not Volibear_T02))
+                        throw new InvalidOperationException("Native beast generation/exhaust provenance mismatch");
+                    Cards.Add(card,"target-beast");convertedCard = card;
+                    conversions.Add(new { materialRef = Ref(material),cardRef = Ref(card),sameObject = ReferenceEquals(material,card),
+                        materialIndex = NetCombatCard.FromModel(material).CombatCardIndex,cardIndex = NetCombatCard.FromModel(card).CombatCardIndex,
+                        materialExhausted = exhausted,originalPile = "Hand",generatedPile = card.Pile.Type.ToString() });
+                    return;
+                }
                 var monster = state.Enemies.Select(e => e.Monster).SingleOrDefault(m => m is { IsPerformingMove:true });
                 string? move = monster?.NextMove.Id;
                 bool sticky = monster is TwigSlimeM && move == "STICKY_SHOT_MOVE" || monster is LeafSlimeM && move == "STICKY_SHOT";
@@ -128,7 +145,8 @@ internal static class CouponContractProbe
                 var action = new PlayCardAction(card,target); var events = new List<object>();
                 void Event(string name,GameAction current) => events.Add(new { name,state = current.State.ToString(),id = current.Id,energy = pcs.Energy });
                 action.BeforeExecuted += a => Event("before-executed",a); action.BeforeCancelled += a => Event("cancelled",a); action.AfterFinished += a => Event("after-finished",a);
-                generationWindow = card is Volibear_R09 && BeastForms.Shape(card) == BeastShape.None ? "R09" :
+                generationWindow = card is Volibear_R29 && conversionMaterial is not null ? "beast-conversion" :
+                    card is Volibear_R09 && BeastForms.Shape(card) == BeastShape.None ? "R09" :
                     variant == "CP-expiry" && label == "target" && card is Volibear_C10 && BeastForms.Shape(card) == BeastShape.None ? "expiry-engage" : null;
                 RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(action);
                 await Until(() => action.CompletionTask.IsCompleted,"Native coupon action did not finish: "+label);
@@ -169,9 +187,10 @@ internal static class CouponContractProbe
             }
             else
             {
-                var target = await Create(variant == "CP-beast-attack" ? "C10" : "U28","target");
+                conversionMaterial = await Create(variant == "CP-beast-attack" ? "C10" : "U28","target");
                 await Play(await Create("R29","convert"),"convert");
-                await Play(target,"target",variant == "CP-beast-attack" ? leaf : null);
+                var replacement = convertedCard ?? throw new InvalidOperationException("Queued R29 did not generate the native beast token");
+                await Play(replacement,"target",variant == "CP-beast-attack" ? leaf : null);
             }
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
             GD.Print("[Volibear] COUPON_CONTRACT_RESULT " + JsonSerializer.Serialize(new {
@@ -182,7 +201,7 @@ internal static class CouponContractProbe
                 cards = Cards.Where(kv => !kv.Value.StartsWith("generated-")).Select(kv => new { cardRef = kv.Value,modelId = kv.Key.Id.Entry,upgraded = kv.Key.IsUpgraded,
                     combatCardIndex = NetCombatCard.FromModel(kv.Key).CombatCardIndex,sameObject = ReferenceEquals(NetCombatCard.FromModel(kv.Key).ToCardModel(),kv.Key),
                     ownerId = kv.Key.Owner.Creature.CombatId,masterIndex = Array.FindIndex(p.Deck.Cards.ToArray(),c => ReferenceEquals(c,kv.Key.DeckVersion)),masterModelId = kv.Key.DeckVersion?.Id.Entry }).ToArray(),
-                generated,initial,steps,transition }));
+                generated,conversions,initial,steps,transition }));
             GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);
             MegaCrit.Sts2.Core.Nodes.NGame.Instance!.Quit(); ((SceneTree)Engine.GetMainLoop()).Quit(0);
         }

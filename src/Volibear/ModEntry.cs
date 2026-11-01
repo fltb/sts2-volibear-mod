@@ -9,6 +9,7 @@ public static class ModEntry
 {
     public static void Initialize()
     {
+        Core.SupportedGameBuild.EnsureInstalled(OS.GetExecutablePath());
         DomainSteamNativeObservation.PrepareForTestScenario();
         Presentation.VolibearPresentation.RegisterSceneConversions();
         ContentRegistry.Register();
@@ -130,10 +131,36 @@ public static class ModEntry
                     CardPassiveContractProbe.Install();
                 else PassiveContractProbe.Install();
             }
+            else if (scenario == "native-suite")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                NativeVerificationSuite.Install();
+            }
+            else if (scenario == "multiplayer-suite")
+            {
+                // Two native network sessions create their own lobby/run. The single-player
+                // bootstrap must not create a competing run or advance either peer.
+                MultiplayerAcceptanceProbe.Install();
+            }
             else if (scenario == "card-face-acceptance")
             {
                 DevelopmentBootstrap.Install(installDriver: false);
                 CardFaceAcceptanceProbe.Install();
+            }
+            else if (scenario == "card-lifecycle")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                CardLifecycleAcceptanceProbe.Install();
+            }
+            else if (scenario == "native-run")
+            {
+                // Exercise normal selection / save / Continue, with no development run fixture.
+                NativeRunAcceptanceProbe.Install();
+            }
+            else if (scenario == "presentation-acceptance")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                PresentationAcceptanceProbe.Install();
             }
             else if (scenario == "prepared-contract")
             {

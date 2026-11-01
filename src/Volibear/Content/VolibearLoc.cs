@@ -34,9 +34,13 @@ public static class VolibearLoc
                 ["VOLIBEAR_CHARACTER.pronounObject"] = "他",
                 ["VOLIBEAR_CHARACTER.pronounPossessive"] = "他的",
                 ["VOLIBEAR_CHARACTER.possessiveAdjective"] = "他的",
-                ["VOLIBEAR_CHARACTER.cards_modifier_title"] = "不灭狂雷",
-                ["VOLIBEAR_CHARACTER.cards_modifier_description"] = "沃利贝尔的卡牌与机制。",
-                ["VOLIBEAR_CHARACTER.event_death_prevention"] = "{0}的雷霆拒绝了死亡。",
+                ["VOLIBEAR_CHARACTER.cardsModifierTitle"] = "不灭狂雷",
+                ["VOLIBEAR_CHARACTER.cardsModifierDescription"] = "沃利贝尔的卡牌会出现在奖励和商店中。",
+                ["VOLIBEAR_CHARACTER.eventDeathPrevention"] = "雷霆拒绝了死亡。",
+                ["VOLIBEAR_CHARACTER.aromaPrinciple"] = "风暴只服从自己的意志",
+                ["VOLIBEAR_CHARACTER.goldMonologue"] = "这些金属，终将被雷霆熔铸。",
+                ["VOLIBEAR_CHARACTER.banter.alive.endTurnPing"] = "风暴不会等待。",
+                ["VOLIBEAR_CHARACTER.banter.dead.endTurnPing"] = "雷声尚未消散……",
             },
             ["relics"] = new()
             {
@@ -46,8 +50,19 @@ public static class VolibearLoc
                 ["VOLIBEAR_HUNTERS_HEART.title"] = "不灭狂雷",
                 ["VOLIBEAR_HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
                 ["VOLIBEAR_HUNTERS_HEART.flavor"] = "雷霆不会熄灭。",
+                ["SEA_GLASS.VOLIBEAR_CHARACTER.title"] = "风暴海玻璃",
+            },
+            // BaseLib adds these lines to TheArchitect's actual dialogue set.
+            // Every line uses the repeat suffix so both first and later victories
+            // have a valid character-specific conversation in the native finale.
+            ["ancients"] = new()
+            {
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient"] = "你的风暴，已经震动了这里的根基。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char"] = "石墙会崩塌。雷霆不会。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"] = "那就让我看看，这场风暴还能持续多久。",
             },
             ["powers"] = new(),
+            ["static_hover_tips"] = MechanicGlossary.Localization(),
         };
 
     private static bool installed;

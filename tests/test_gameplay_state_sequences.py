@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -13,7 +14,7 @@ PROJECT = ROOT / 'tests/gameplay_state_sequences/GameplayStateSequences.csproj'
 DLL = ROOT / 'artifacts/gameplay-state-sequences/bin/net9.0/GameplayStateSequences.dll'
 CASES = {
     'card-domain-replay-close', 'domain-two-clocks',
-    'lightning-pending-epoch-close', 'beast-reference-clone-lifetime',
+    'lightning-pending-epoch-close', 'beast-native-cost-lifetime',
     'steam-death-evidence', 'steam-commit-and-identity',
     'steam-terminal-guards', 'steam-veto-and-retirement',
 }
@@ -23,11 +24,11 @@ class GameplayStateSequences(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         config = ROOT / '.local/config.json'
-        if not config.is_file():
-            raise unittest.SkipTest('Local SDK configuration absent; production state sequences NOT_RUN')
-        cls.dotnet = Path(json.loads(config.read_text(encoding='utf-8'))['dotnet'])
-        if not cls.dotnet.is_file():
-            raise unittest.SkipTest('Configured SDK unavailable; production state sequences NOT_RUN')
+        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
+        value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
+        if not value or not Path(value).is_file():
+            raise unittest.SkipTest('SDK unavailable; production state sequences NOT_RUN')
+        cls.dotnet = Path(value)
         # Missing source/project, compile failure and timeout fail rather than skip.
         result = cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo')
         if result.returncode:
@@ -61,8 +62,8 @@ class GameplayStateSequences(unittest.TestCase):
     def test_lightning_pending_epoch_close(self):
         self.run_case('lightning-pending-epoch-close')
 
-    def test_beast_reference_clone_lifetime(self):
-        self.run_case('beast-reference-clone-lifetime')
+    def test_beast_native_cost_lifetime(self):
+        self.run_case('beast-native-cost-lifetime')
 
     def test_steam_death_evidence(self):
         self.run_case('steam-death-evidence')
@@ -90,9 +91,9 @@ class GameplayStateSequences(unittest.TestCase):
              'ticket.PlayerTurn != _turn || !_pending.Remove(ticket.Id)) return false;',
              'ticket.PlayerTurn != _turn) return false;', 'lightning-pending-epoch-close',
              'Abort only consumes its own pending ticket.'),
-            ('BeastFormsCost.cs', 'new HashSet<T>(existing, ReferenceEqualityComparer.Instance)',
-             'new HashSet<T>(existing)', 'beast-reference-clone-lifetime',
-             'Only original reference is inherited.'),
+            ('BeastFormsCost.cs', 'checked(afterBoth - afterPlay)',
+             '0', 'beast-native-cost-lifetime',
+             'A temporary surcharge may mask a combat discount without widening its lifetime.'),
             ('SteamEruptionDecision.cs', 'proposed > 0 && !CanApplyBenefit ? 0 : proposed;',
              'proposed > 0 ? 0 : proposed;', 'steam-death-evidence',
              'Confirmed native benefit remains allowed without Domain; do not permanently suppress matched damage.'),

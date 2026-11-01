@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
+    <NuGetAudit>false</NuGetAudit><RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/Volibear/Content/MechanicGlossary.cs" Link="MechanicGlossary.cs" />
+    <Compile Include="../../src/Volibear/Content/MechanicHoverTips.cs" Link="MechanicHoverTips.cs" />
+    <Compile Include="../../src/Volibear/Content/VolibearCard.cs" Link="VolibearCard.cs" />
+    <Compile Include="../../src/Volibear/Content/VolibearLoc.cs" Link="VolibearLoc.cs" />
+  </ItemGroup>
+</Project>

@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="DomainCardContributionsProof.cs" />
     <Compile Include="../../../src/Volibear/Core/DomainCardContributions.cs" />
+    <Compile Include="../../../src/Volibear/Core/DomainCardContributionLedger.cs" />
     <Compile Include="../../../src/Volibear/Core/DomainPassiveEffects.cs" />
     <Compile Include="../../../src/Volibear/DomainCardContributionsProbe.cs" />
     <Reference Include="Volibear"><HintPath>../../../src/Volibear/bin/Release/net9.0/Volibear.dll</HintPath></Reference>

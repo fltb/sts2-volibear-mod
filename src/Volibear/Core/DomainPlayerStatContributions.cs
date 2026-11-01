@@ -126,9 +126,11 @@ public static partial class DomainPlayerStatContributions
     // Invoke from the FIRST active DomainPower only: a combat may contain several domain owners.
     private static bool Contributes(DomainPower domain)
     {
-        if (!DomainPower.IsActive(domain.Owner) || domain.Owner.CombatState is not { } combat) return false;
+        if (!DomainPower.IsActive(domain.Owner) || !DomainEnemyEffects.ProtectsPlayer(domain.Owner) ||
+            domain.Owner.CombatState is not { } combat) return false;
         foreach (var player in combat.Players)
-            if (DomainPower.IsActive(player.Creature)) return ReferenceEquals(player.Creature.GetPower<DomainPower>(), domain);
+            if (DomainPower.IsActive(player.Creature) && DomainEnemyEffects.ProtectsPlayer(player.Creature))
+                return ReferenceEquals(player.Creature.GetPower<DomainPower>(), domain);
         return false;
     }
     public static decimal DamageContribution(DomainPower domain, Creature? dealer, ValueProp props) =>

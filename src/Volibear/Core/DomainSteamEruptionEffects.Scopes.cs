@@ -63,8 +63,8 @@ public static partial class DomainSteamEruptionEffects
     private sealed record CleanupLease(Episode Episode, CleanupLease? Previous);
     private static readonly AsyncLocal<Frame?> Current = new();
     private static readonly AsyncLocal<CleanupLease?> CleanupOwner = new();
-    private static readonly AsyncLocal<SteamSingleUseBinding<Episode>?> PendingPhase = new();
-    private static readonly AsyncLocal<SteamSingleUseBinding<DamageInvocation>?> PendingDamage = new();
+    private static readonly SteamNativeEntryBinding PhaseHandoff = new();
+    private static readonly SteamNativeEntryBinding DamageHandoff = new();
     private sealed class PendingBindings { internal readonly List<WeakReference<Frame>> Items = []; }
     private static readonly object NullSubject = new();
     private static readonly ConditionalWeakTable<object, PendingBindings> Unreturned = new();
@@ -185,16 +185,19 @@ public static partial class DomainSteamEruptionEffects
                 }
                 else if (flow == Flow.Phase)
                 {
-                    episode = PendingPhase.Value?.Consume(); PendingPhase.Value = null;
-                    if (episode is not null && !ReferenceEquals(subject, episode.Monster)) throw new InvalidOperationException("Steam phase provenance mismatch.");
+                    episode = PhaseHandoff.Consume() as Episode;
+                    // A foreign prefix may replace the native receiver. That new
+                    // operation is not this Steam episode and must remain unattributed.
+                    if (episode is not null && !ReferenceEquals(subject, episode.Monster)) episode = null;
                 }
                 else if ((flow is Flow.About or Flow.Explode) && subject is WaterfallGiant monster) episode = LatestFor(monster);
                 else if (flow == Flow.Attack && subject is AttackCommand command) Attacks.TryGetValue(command, out episode);
                 else if (flow == Flow.Damage)
                 {
-                    damage = PendingDamage.Value?.Consume(); PendingDamage.Value = null;
+                    damage = DamageHandoff.Consume() as DamageInvocation;
                     episode = damage?.Episode;
-                    if (episode is not null && !ReferenceEquals(subject, episode.Owner)) throw new InvalidOperationException("Steam damage dealer provenance mismatch.");
+                    if (episode is not null && !ReferenceEquals(subject, episode.Owner))
+                    { damage = null; episode = null; } // Preserve a foreign dealer rewrite without borrowing Steam authority.
                 }
             }
             if (episode?.Decision is { } boundDecision && boundDecision.Epoch != contextEpoch)
@@ -250,7 +253,8 @@ public static partial class DomainSteamEruptionEffects
     }
     public static void Reset()
     {
-        _epoch++; OwnerDeaths = new(); Current.Value = null; CleanupOwner.Value = null; PendingPhase.Value = null; PendingDamage.Value = null;
+        _epoch++; OwnerDeaths = new(); Current.Value = null; CleanupOwner.Value = null;
+        PhaseHandoff.Reset(); DamageHandoff.Reset();
         Episodes.Clear(); // Weak task bindings survive reset so old awaiters can finish without borrowing a new generation.
         // Epoch checks reject their future benefits; no strong global list retains old episodes.
     }

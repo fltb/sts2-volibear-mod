@@ -25,7 +25,8 @@ class DomainSteamV1Regression(unittest.TestCase):
             self.skipTest('Pinned native configuration unavailable; V1 emission NOT RUN')
         config = json.loads(config_path.read_text(encoding='utf-8'))
         dotnet = Path(config['dotnet'])
-        data = Path(config['game_dir']) / 'data_sts2_windows_x86_64'
+        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+        data = Path(config['game_dir']) / data_name
         baselib = ROOT / '.local/dependencies/BaseLib-3.4.7/BaseLib.dll'
         required = [dotnet, baselib, *(data / name for name in ('sts2.dll', 'GodotSharp.dll', '0Harmony.dll'))]
         if not all(path.is_file() for path in required):
@@ -50,12 +51,12 @@ class DomainSteamV1Regression(unittest.TestCase):
         cooperation = re.search(r'STEAM_ORDINARY_COOPERATION_PASS checks=(\d+) managed-dispatch-domain-combat-stubs=true native-gameplay=NOT_RUN', result.stdout)
         self.assertIsNotNone(cooperation, output)
         self.assertGreaterEqual(int(cooperation.group(1)), 26)
-        chain = re.search(r'STEAM_FULL_INSTALL_CHAIN_EMISSION_PASS installers=15 pair-orders=2 checks=(\d+) registration-and-BaseLib-runtime=NOT_RUN gameplay=NOT_RUN', result.stdout)
+        chain = re.search(r'STEAM_FULL_INSTALL_CHAIN_EMISSION_PASS installers=21 pair-orders=2 checks=(\d+) registration-and-BaseLib-runtime=NOT_RUN gameplay=NOT_RUN', result.stdout)
         self.assertIsNotNone(chain, output)
         self.assertGreaterEqual(int(chain.group(1)), 55)
-        self.assertEqual(len(re.findall(r'^STEAM_MAIN_INSTALL_EMIT ', result.stdout, re.MULTILINE)), 15, output)
+        self.assertEqual(len(re.findall(r'^STEAM_MAIN_INSTALL_EMIT ', result.stdout, re.MULTILINE)), 21, output)
         self.assertIn('STEAM_DOMAIN_PROBE_EMISSION_PASS shared-pipeline=true gameplay=NOT_RUN', result.stdout)
-        audio = re.search(r'STEAM_EARLY_AUDIO_OBSERVER_EMISSION_PASS checks=(\d+) main-installers=15 expected-sequences=UNCHANGED core-calls=STATICALLY-PRESERVED pre-JIT-cause=NOT_PROVEN native-gameplay=NOT_RUN', result.stdout)
+        audio = re.search(r'STEAM_EARLY_AUDIO_OBSERVER_EMISSION_PASS checks=(\d+) main-installers=21 expected-sequences=UNCHANGED core-calls=STATICALLY-PRESERVED pre-JIT-cause=NOT_PROVEN native-gameplay=NOT_RUN', result.stdout)
         self.assertIsNotNone(audio, output)
         self.assertGreaterEqual(int(audio.group(1)), 50)
 

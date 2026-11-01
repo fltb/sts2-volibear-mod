@@ -222,6 +222,9 @@ class ActivationRoutingTests(unittest.TestCase):
             with self.subTest(flag=flag), ExitStack() as stack:
                 argv=['manual_input.py']+(['--activate-owned-window'] if flag else [])
                 stack.enter_context(patch.object(runner.sys,'argv',argv))
+                # Exercise only CLI routing on every host. run_case is mocked;
+                # do not replace the process-wide os.name used by pathlib.
+                stack.enter_context(patch.object(runner,'os',type('WindowsPlatform',(),{'name':'nt'})))
                 stack.enter_context(patch.object(runner.headless,'config',return_value={'game_dir':'.'}))
                 stack.enter_context(patch.object(runner.headless,'validate_game'))
                 case=stack.enter_context(patch.object(runner,'run_case',return_value={'status':'passed'}))

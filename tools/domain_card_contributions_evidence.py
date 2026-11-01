@@ -33,11 +33,11 @@ def validate(payload, token, family):
     def require(ok, path):
         if not ok: errors.append(path)
     source, encounter, move, power, affliction, amount = SOURCES[family]
-    meta = dict(schema=1, token=token, scenario='domain-card-contributions', family=family,
+    meta = dict(schema=2, token=token, scenario='domain-card-contributions', family=family,
         acceptance='four-native-contributions-not-affliction-writes-or-ordinary-input', testMode=False,
         version='v0.107.1', commit='59260271', encounter=encounter, sourceType=source,
         nativeMoveCalls=2 if family == 'hex' else 1, directPowerCallbackCalls=0, warmupQueriesPerApi=16,
-        mixedStackPolicy='detected-unsupported-native-contribution-preserved', insertionCoverage=False,
+        mixedStackPolicy='retained-player-predicate-and-cost-counterfactual', insertionCoverage=False,
         afflictionWriteSuppression=False, hexCleanupKind='native-PowerCmd.Remove-after-escape' if family == 'hex' else None)
     for key, value in meta.items(): eq(payload.get(key), value, key)
     owner, enemy = payload.get('ownerId'), payload.get('sourceId')
@@ -99,10 +99,11 @@ def validate(payload, token, family):
         if not isinstance(origin, dict): errors.append(phase + ': source receipt missing'); continue
         state = 'mixed' if phase == 'mixed-native' else 'enemy'
         eq(origin, dict(State=state, ExpectedAmount=row['amount'], ActualAmount=row['amount'], SameCombat=True, SameOwner=True,
-            EnemyIds=[str(enemy)], UnsupportedReason='contributor-allocation-not-proven;native-contribution-preserved' if state == 'mixed' else ''), phase + '.origin')
+            EnemyIds=[str(enemy)], UnsupportedReason='', RetainedAmount=1 if state == 'mixed' else 0,
+            RetainedPredicate=state == 'mixed'), phase + '.origin')
     def effect(phase, suppressed=False, other=False, player=False):
         row = snapshots[phase]
-        expected_cost = 1 + ((1 if player else amount + (phase == 'mixed-native')) if family == 'tangled' and not suppressed else 0)
+        expected_cost = 1 + ((1 if player or phase == 'mixed-native' else amount) if family == 'tangled' and not suppressed else 0)
         if other and family == 'tangled': expected_cost += 2
         eq(row.get('cost'), expected_cost, phase + '.cost')
         eq(row.get('ethereal'), family == 'hex' and (not suppressed or other), phase + '.ethereal')
@@ -126,12 +127,12 @@ def validate(payload, token, family):
     if family == 'hex':
         row = snapshots['death-before']; require(row.get('powerRef') != power_ref, 'fresh native death-control instance')
         eq(row.get('applierId'), death, 'death control native applier'); eq(row.get('affliction'), 'Hexed', 'death control affliction')
-        eq(row.get('origin'), dict(State='enemy', ExpectedAmount=2, ActualAmount=2, SameCombat=True, SameOwner=True, EnemyIds=[str(death)], UnsupportedReason=''), 'death control origin')
+        eq(row.get('origin'), dict(State='enemy', ExpectedAmount=2, ActualAmount=2, SameCombat=True, SameOwner=True, EnemyIds=[str(death)], UnsupportedReason='', RetainedAmount=0, RetainedPredicate=False), 'death control origin')
         effect('death-before', True)
     control = snapshots['player-control']; require(control.get('powerRef') != power_ref, 'fresh player-applied power instance')
     eq(control.get('power'), power, 'player control power'); eq(control.get('applierId'), owner, 'player control actual applier')
     eq(control.get('applierIsPlayer'), True, 'player control source'); eq(control.get('amount'), 1, 'player control amount')
-    eq(control.get('origin'), dict(State='player', ExpectedAmount=1, ActualAmount=1, SameCombat=True, SameOwner=True, EnemyIds=[], UnsupportedReason=''), 'player control origin')
+    eq(control.get('origin'), dict(State='player', ExpectedAmount=1, ActualAmount=1, SameCombat=True, SameOwner=True, EnemyIds=[], UnsupportedReason='', RetainedAmount=1, RetainedPredicate=True), 'player control origin')
     effect('player-control', player=True)
     plays = payload.get('plays')
     expected_play_phases = ['activate-native-restriction', 'activate-other-native-veto', 'activate-player-control'] if family in ('smoggy', 'ringing') else []

@@ -48,11 +48,8 @@ public static partial class DomainSteamEruptionEffects
     private static Task<IEnumerable<DamageResult>> DispatchNativeDamage(PlayerChoiceContext choice, IEnumerable<Creature> targets,
         decimal amount, ValueProp props, Creature? dealer, CardModel? card, AttackCommand command, Episode? episode)
     {
-        if (episode is not null) CheckHandoffPrefixes(NativeDamage);
-        var previous = PendingDamage.Value;
-        PendingDamage.Value = episode is null ? null : new(new DamageInvocation(episode, command));
-        try { return CreatureCmd.Damage(choice, targets, amount, props, dealer, card); }
-        finally { PendingDamage.Value = previous; }
+        using var binding = DamageHandoff.Dispatch(episode is null ? null : new DamageInvocation(episode, command));
+        return CreatureCmd.Damage(choice, targets, amount, props, dealer, card);
     }
     private static DamageInvocation? CurrentDamage => ActiveFrame is { Flow: Flow.Damage, Closed: false } frame ? frame.Damage : null;
     private static decimal GateDamage(DamageInvocation? invocation, Creature receiver, decimal amount)

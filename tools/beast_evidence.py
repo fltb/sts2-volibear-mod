@@ -9,7 +9,7 @@ from collections import Counter
 
 BEAST_CASES = ('f01', 'f02')
 PREFIX = '[Volibear] BEAST_CONTRACT_RESULT '
-SNAP_KEYS = set('cardRef nativeType modelId ownerRef masterRef costObjectRef shape type target upgrade canonicalCost costsX localCost allCost amountToSpend retain keywords pile presence vars title'.split())
+SNAP_KEYS = set('cardRef nativeType modelId ownerRef masterRef cloneRef costObjectRef shape type target upgrade canonicalCost costsX localCost allCost amountToSpend retain keywords pile presence vars title'.split())
 
 
 def _equal(actual, expected):
@@ -42,6 +42,7 @@ def _original(actual, name, native, card_type, target, cost, variables, *, upgra
     if owner is not None:
         _need(actual['ownerRef'] == owner)
     value = cost if local is None else local
+    _need(actual['cloneRef'] is None or master is not None and actual['cloneRef'] == master)
     expected = dict(actual, cardRef=name, nativeType=native, masterRef=master, shape='None',
                     type=card_type, target=target, upgrade=upgrade, canonicalCost=cost, costsX=costs_x,
                     localCost=value, allCost=value, amountToSpend=3 if costs_x else max(0, value),
@@ -50,8 +51,14 @@ def _original(actual, name, native, card_type, target, cost, variables, *, upgra
     return actual
 
 
-def _form(original, *, shape='Claw', upgraded=False, cost=1, retain=False, local_retain=False, pile='Hand'):
-    return dict(original, shape=shape, type='Attack' if shape == 'Claw' else 'Skill',
+def _form(original, identity, *, shape='Claw', upgraded=False, cost=1, retain=False, local_retain=False, pile='Hand'):
+    _need(type(identity) is dict and identity.keys() == SNAP_KEYS)
+    _need(_is_ref(identity['costObjectRef']) and identity['costObjectRef'] != original['costObjectRef'])
+    return dict(original, cardRef=original['cardRef'] + '-beast',
+                nativeType='Volibear_T01' if shape == 'Claw' else 'Volibear_T02',
+                modelId='VOLIBEAR_T01' if shape == 'Claw' else 'VOLIBEAR_T02',
+                masterRef=None, cloneRef=None, costObjectRef=identity['costObjectRef'],
+                shape=shape, type='Attack' if shape == 'Claw' else 'Skill',
                 target='AnyEnemy' if shape == 'Claw' else 'AllEnemies', upgrade=upgraded,
                 canonicalCost=1, costsX=False, localCost=cost, allCost=cost, amountToSpend=cost,
                 retain=retain, keywords=['Exhaust', 'Retain'] if local_retain else ['Exhaust'],
@@ -59,6 +66,14 @@ def _form(original, *, shape='Claw', upgraded=False, cost=1, retain=False, local
                 vars={'Damage': 11 if upgraded else 7, 'Hits': 2} if shape == 'Claw'
                 else {'Block': 12 if upgraded else 9, 'Lightning': 3 if upgraded else 2},
                 title=('裂骨之爪' if shape == 'Claw' else '风暴之躯') + ('+' if upgraded else ''))
+
+
+def _conversion(before, after_material, form, history, new_entity):
+    _need(_equal(new_entity, True))
+    _need(_equal(after_material, dict(before, pile='Exhaust')))
+    _need(_equal(history, dict(exhausted=[before['cardRef']], generated=[form['cardRef']])))
+    _need(form['ownerRef'] == before['ownerRef'] and form['cardRef'] != before['cardRef'])
+    _need(form['masterRef'] is None and form['cloneRef'] is None)
 
 
 def _play(actual, snapshot, enemies, *, shape='Claw', upgraded=False, count=0):
@@ -111,7 +126,7 @@ def _f01(result, masters):
     owner, count, cost_refs, changes = None, 0, [], []
     for row, spec in zip(rows, specs):
         name, native, card_type, target, cost, variables, shape, upgraded, retain, draw, costs_x, keywords = spec
-        _need(type(row) is dict and set(row) == set('name before returnedShape afterConversion drawCalls beforeDrawEnergy afterDrawEnergy afterDraw play'.split()))
+        _need(type(row) is dict and set(row) == set('name before returnedShape afterMaterial newEntity conversionHistory afterConversion drawCalls beforeDrawEnergy afterDrawEnergy afterDraw play'.split()))
         master = row['before']['masterRef'] if name == 'starter-claw' else None
         if name == 'starter-claw':
             _need(master in masters and masters[master]['nativeType'] == 'Volibear_B01' and master != name)
@@ -119,16 +134,17 @@ def _f01(result, masters):
                            upgrade=upgraded, retain=retain, keywords=keywords, costs_x=costs_x,
                            master=master, pile='Draw' if draw else 'Hand', owner=owner)
         owner = before['ownerRef']
-        cost_refs.append(before['costObjectRef'])
+        cost_refs.extend([before['costObjectRef'], row['afterConversion']['costObjectRef']])
         _need(_equal(row['name'], name) and _equal(row['returnedShape'], shape))
-        _need(_equal(row['afterConversion'], _form(before, shape=shape, upgraded=upgraded, retain=retain,
+        _need(_equal(row['afterConversion'], _form(before, row['afterConversion'], shape=shape, upgraded=upgraded, retain=retain,
                                                    pile='Draw' if draw else 'Hand')))
+        _conversion(before, row['afterMaterial'], row['afterConversion'], row['conversionHistory'], row['newEntity'])
         _need(_equal(row['drawCalls'], int(draw)) and _equal(row['beforeDrawEnergy'], 3) and _equal(row['afterDrawEnergy'], 3))
-        _need(_equal(row['afterDraw'], _form(before, shape=shape, upgraded=upgraded, retain=retain)))
-        _play(row['play'], _form(before, shape=shape, upgraded=upgraded, retain=retain, pile='Exhaust'),
+        _need(_equal(row['afterDraw'], _form(before, row['afterConversion'], shape=shape, upgraded=upgraded, retain=retain)))
+        _play(row['play'], _form(before, row['afterConversion'], shape=shape, upgraded=upgraded, retain=retain, pile='Exhaust'),
               result['enemyIds'], shape=shape, upgraded=upgraded, count=count)
         count += shape == 'Body'
-        changes.append(dict(cardRef=name, shape=shape, ownerRef=owner, sameCombat=True))
+        changes.append(dict(cardRef=name + '-beast', shape=shape, ownerRef=owner, sameCombat=True))
     control = data['voidControl']
     _need(type(control) is dict and set(control) == {'beforeEnergy', 'afterEnergy', 'restoredEnergy', 'drawCalls', 'snapshot'})
     _need(all(_equal(control[key], value) for key, value in dict(beforeEnergy=3, afterEnergy=2, restoredEnergy=3, drawCalls=1).items()))
@@ -141,25 +157,27 @@ def _f01(result, masters):
 
 def _f02(result):
     data = result['data']
-    keys = set('before firstShape afterConversion secondShape afterRepeat afterNewSet firstPlay recycled afterUpgrade afterZero upgradedPlay beforeTurn afterTurn roundBefore turnBefore roundAfter turnAfter energyAfterTurn hpAfterTurn'.split())
+    keys = set('before firstShape afterMaterial newEntity conversionHistory afterConversion secondShape sameOnRepeat repeatHistory afterRepeat afterNewSet firstPlay recycled afterUpgrade afterZero upgradedPlay beforeTurn afterTurn roundBefore turnBefore roundAfter turnAfter energyAfterTurn hpAfterTurn'.split())
     _need(type(data) is dict and set(data) == keys)
     before = _original(data['before'], 'native-bludgeon', 'Bludgeon', 'Attack', 'AnyEnemy', 3,
                        {'Damage': 32}, retain=True, keywords=['Retain'], local=2)
     _need(_equal(data['firstShape'], 'Claw') and _equal(data['secondShape'], 'Claw'))
     def form(**kwargs):
-        return _form(before, retain=True, local_retain=True, **kwargs)
+        return _form(before, data['afterConversion'], retain=True, local_retain=True, **kwargs)
     for key, expected in {
         'afterConversion': form(cost=0), 'afterRepeat': form(cost=0), 'afterNewSet': form(cost=1),
         'recycled': form(), 'afterUpgrade': form(upgraded=True), 'afterZero': form(upgraded=True, cost=0),
         'beforeTurn': form(upgraded=True, cost=0), 'afterTurn': form(upgraded=True),
     }.items():
         _need(_equal(data[key], expected))
+    _conversion(before, data['afterMaterial'], data['afterConversion'], data['conversionHistory'], data['newEntity'])
+    _need(_equal(data['sameOnRepeat'], True) and _equal(data['repeatHistory'], dict(exhausted=[], generated=[])))
     _play(data['firstPlay'], form(pile='Exhaust'), result['enemyIds'])
     _play(data['upgradedPlay'], form(upgraded=True, pile='Exhaust'), result['enemyIds'], upgraded=True)
     for key, expected in dict(roundBefore=1, turnBefore=1, roundAfter=2, turnAfter=2,
                               energyAfterTurn=3, hpAfterTurn=80).items():
         _need(_equal(data[key], expected))
-    _need(_equal(result['changes'], [dict(cardRef='native-bludgeon', shape='Claw', ownerRef=before['ownerRef'], sameCombat=True)]))
+    _need(_equal(result['changes'], [dict(cardRef='native-bludgeon-beast', shape='Claw', ownerRef=before['ownerRef'], sameCombat=True)]))
 
 
 def validate_beast_result(result, run_id, variant):
@@ -170,7 +188,7 @@ def validate_beast_result(result, run_id, variant):
                         testMode=False, acceptance='effect-only-not-payment', character='VolibearCharacter',
                         gameVersion='v0.107.1', gameCommit='59260271',
                         fixtureApi='CombatState.CreateCard;CardPileCmd.Add;CardCmd.Upgrade;CreatureCmd.SetMaxAndCurrentHp',
-                        api='BeastForms.Convert;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn')
+                        api='BeastForms.Convert;CardCmd.Exhaust;CardPileCmd.AddGeneratedCardToCombat;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn')
         _need(set(result) == set(required) | {'enemyIds', 'enemyTypes', 'deckBefore', 'deckAfter', 'changes', 'data'})
         _need(all(_equal(result[key], value) for key, value in required.items()))
         ids, enemies = result['enemyIds'], result['enemyTypes']

@@ -96,7 +96,7 @@ class ShortOwnedProfileTests(unittest.TestCase):
                 'teardown_matches_stock','stock_control_success','save_lifecycle','disk_checkpoint_matches_raw')}
             return dict(raw=raw,expected=expected,checks=checks,passed=True)
         with tempfile.TemporaryDirectory() as directory,patch.object(p,'ROOT',Path(directory)),patch.object(runner,'ROOT',Path(directory)),\
-            patch.object(runner.h,'validate_game'),patch.object(runner.h,'stock_teardown',return_value=('',dict(successful=True,exit_code=0,timed_out=False))),\
+            patch.object(runner.h,'validate_game'),patch.object(runner.h,'stock_teardown',return_value=('',dict(successful=True,exit_code=0,timed_out=False,runtime_errors=[]))),\
             patch.object(runner,'launch_phase',side_effect=fake_phase),patch.dict(os.environ,{'VOLIBEAR_TEST_TOKEN':'stale','VOLIBEAR_SAVE_PHASE':'stale'}):
             report=runner.run_pair(Path('not-a-game'),'S1','restart',display='headless')
             self.assertTrue(report['passed']);self.assertEqual(len(calls),2);self.assertEqual(calls[0],calls[1])

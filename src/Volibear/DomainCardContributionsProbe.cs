@@ -26,7 +26,7 @@ using Volibear.Core;
 namespace Volibear;
 
 /// <summary>Actual native encounters/moves and native card queries. Not ordinary input acceptance.
-/// Mixed-source rows explicitly prove conservative native behavior, not mixed-stack suppression.</summary>
+/// Mixed rows check retained player predicates and the isolated enemy share of Tangled cost.</summary>
 internal static class DomainCardContributionsProbe
 {
     private static bool _started, _installed;
@@ -196,13 +196,13 @@ internal static class DomainCardContributionsProbe
             Snapshot("player-control");
             GD.Print("[Volibear] DOMAIN_CARD_CONTRIBUTIONS_RESULT " + JsonSerializer.Serialize(new
             {
-                schema = 1, token, scenario = "domain-card-contributions", family = Family,
+                schema = 2, token, scenario = "domain-card-contributions", family = Family,
                 acceptance = "four-native-contributions-not-affliction-writes-or-ordinary-input", testMode = false,
                 version = release.Version, commit = release.Commit, encounter = Encounter.GetType().Name,
                 sourceType = SourceType.Name, sourceId, ownerId, initialRoster, keeperAdded,
                 nativeMoveCalls = moves.Length, deathSourceId, directPowerCallbackCalls = 0, warmupQueriesPerApi = 16,
                 ilSites = DomainCardContributions.VerifyNativeIl(), moves, received, plays, steps,
-                mixedStackPolicy = "detected-unsupported-native-contribution-preserved", insertionCoverage = false,
+                mixedStackPolicy = "retained-player-predicate-and-cost-counterfactual", insertionCoverage = false,
                 afflictionWriteSuppression = false, hexCleanupKind = Family == "hex" ? "native-PowerCmd.Remove-after-escape" : null
             }));
             GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);

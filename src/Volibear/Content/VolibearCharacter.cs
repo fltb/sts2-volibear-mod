@@ -43,6 +43,13 @@ public sealed class VolibearCharacter : BaseLib.Abstracts.CustomCharacterModel
     public override string CustomCharacterSelectLockedIconPath => "res://VolibearArt/ui/images/char_select_volibear_locked.png";
     public override string CustomMapMarkerPath => "res://VolibearArt/ui/images/map_marker_volibear.png";
 
+    // Native treasure sharing / rock-paper-scissors uses these four distinct
+    // textures. Leaving the BaseLib overrides null would invent missing paths.
+    public override string CustomArmPointingTexturePath => "res://VolibearArt/ui/images/multiplayer_hand_volibear_pointing.png";
+    public override string CustomArmRockTexturePath => "res://VolibearArt/ui/images/multiplayer_hand_volibear_rock.png";
+    public override string CustomArmPaperTexturePath => "res://VolibearArt/ui/images/multiplayer_hand_volibear_paper.png";
+    public override string CustomArmScissorsTexturePath => "res://VolibearArt/ui/images/multiplayer_hand_volibear_scissors.png";
+
     public override string CustomIconPath => Presentation.VolibearPresentation.IconScenePath;
     public override string CustomEnergyCounterPath => Presentation.VolibearPresentation.EnergyScenePath;
     public override string CustomRestSiteAnimPath => Presentation.VolibearPresentation.RestScenePath;

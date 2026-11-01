@@ -83,10 +83,9 @@ public static partial class DomainEnemyStatusContributions
 
     private static void SetWitherUpgradeCount(Aeonglass source, int value)
     {
-        // Single-player contract. A canceled hostile upgrade is consumed now; it
+        // A canceled hostile upgrade is consumed for the encounter now; it
         // must not be banked and applied to future Withers after domain expires.
-        if (value > source.WitherUpgradeCount && source.Creature.IsEnemy &&
-            source.Creature.CombatState?.Players.Any(player => DomainPower.IsActive(player.Creature)) == true)
+        if (value > source.WitherUpgradeCount && DomainEnemyEffects.ActiveFor(source.Creature))
         {
             Volibear.Presentation.PowerPresentationDomain.Suppressed(source.Creature, source);
             return;
@@ -99,10 +98,9 @@ public static partial class DomainEnemyStatusContributions
         // Tooltip Withers have no owner/combat; keep their native informational path.
         var receiver = card.Owner?.Creature;
         if (receiver is null || !EnemySource(source, receiver, out _)) { card.FakeUpgrade(); return; }
-        if (DomainPower.IsActive(receiver) || BeastForms.IsConverted(card))
+        if (DomainEnemyEffects.ProtectsPlayer(receiver))
         {
-            // The helper verifies the live domain; a converted card alone emits nothing.
-            Volibear.Presentation.PowerPresentationDomain.Suppressed(source.Creature, source, card, domainOwner: receiver);
+            Volibear.Presentation.PowerPresentationDomain.Suppressed(source.Creature, source, card, sourceCombat: receiver.CombatState);
             return;
         }
         decimal before = card.DynamicVars.Damage.BaseValue;
@@ -121,7 +119,7 @@ public static partial class DomainEnemyStatusContributions
 
     private static decimal WitherDamageWithoutEnemyContribution(CardModel card, Creature receiver, decimal original)
     {
-        if (card is not Wither || BeastForms.IsConverted(card) || !DomainPower.IsActive(receiver) ||
+        if (card is not Wither || !DomainEnemyEffects.ProtectsPlayer(receiver) ||
             !_witherContributions.TryGetValue(card, out var contribution) || contribution.Generation != _generation ||
             !ReferenceEquals(contribution.Combat, receiver.CombatState) || !ReferenceEquals(contribution.Receiver, receiver))
             return original;
@@ -132,7 +130,7 @@ public static partial class DomainEnemyStatusContributions
         {
             if (original > 0 && contribution.Damage > 0)
                 foreach (var enemy in contribution.PresentationSources)
-                    Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, card, card, domainOwner: receiver, sourceCombat: contribution.Combat);
+                    Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, card, card, sourceCombat: contribution.Combat);
         }
         catch { }
         return Math.Max(0m, original - contribution.Damage);

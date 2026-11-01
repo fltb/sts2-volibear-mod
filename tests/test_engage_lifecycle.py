@@ -36,7 +36,7 @@ class EngageLifecycleContracts(unittest.TestCase):
         method = SOURCE[start:SOURCE.index('[HarmonyPatch(typeof(Creature), nameof(Creature.TakeTurn))', start)]
         self.assertIn('GetCustomAttribute<AsyncStateMachineAttribute>()', method)
         self.assertIn('AccessTools.Method(Machine, "MoveNext")', method)
-        self.assertIn('(int)State.GetValue(__instance)! != -1', method)
+        self.assertIn('machineState != -1', method)
         self.assertIn('!ReferenceEquals(state, CombatManager.Instance.DebugOnlyGetState())', method)
         self.assertIn('Opportunities.ObserveActionStart(state, monster.Creature.CombatState, monster.Creature, state.RoundNumber)', method)
         self.assertIn('Entry(enemy).ActionRound = round;', KERNEL)
@@ -50,7 +50,7 @@ class EngageLifecycleContracts(unittest.TestCase):
         self.assertIn('Opportunities.Consumed(state, enemy.CombatState, enemy, state.RoundNumber)', SOURCE)
         self.assertIn('Opportunities.EarlyConsumed(state, enemy.CombatState, enemy, state.RoundNumber)', SOURCE)
         skip = SOURCE[SOURCE.index('private static class SkipConsumedAction'):]
-        self.assertIn('if (!EarlyConsumed(__instance)) return true;', skip)
+        self.assertIn('__instance.CombatState?.CurrentSide != CombatSide.Enemy || !EarlyConsumed(__instance)', skip)
         self.assertIn('creature.CombatState?.CurrentSide != CombatSide.Enemy || !EarlyConsumed(creature)', skip)
         self.assertNotIn('!Consumed(', skip)
         self.assertNotIn('SpawnedThisTurn', SOURCE)

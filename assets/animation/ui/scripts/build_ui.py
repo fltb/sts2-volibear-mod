@@ -52,7 +52,15 @@ def main():
     transition=Image.new('RGBA',(1920,1080));transition.alpha_composite(person,(780,1070-person.height));save(transition,'character_select_transition.png','transition character cutout','same registered position as select background; engine scene controls transition')
     svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128 13 228 70 228 186 128 243 28 186 28 70Z" fill="#102131" stroke="#977e57" stroke-width="9"/><path d="M128 36 208 82 208 174 128 220 48 174 48 82Z" fill="none" stroke="#436a7f" stroke-width="4"/><path d="M138 49 72 133 118 133 97 207 184 110 138 110 164 49Z" fill="#61cce4"/></svg>'
     (ROOT/'source').mkdir(exist_ok=True);(ROOT/'source/energy_emblem.svg').write_text(svg)
+    # New gestures are authored separately. Preserve them and their provenance
+    # when rebuilding crops of the approved character; never regenerate them.
+    hands=json.loads((ROOT/'source/multiplayer_hands/provenance.json').read_text())
+    for row in hands['source_assets']+hands['runtime_assets']:
+        if sha(ROOT/row['file'])!=row['sha256']: raise ValueError('Authored hand differs: '+row['file'])
+    REC.extend(hands['runtime_assets'])
     m={'schema_version':1,'source_file':str(SRC.relative_to(REPO)),'source_sha256':sha(SRC),'source_processing':'UI crops, proportional resize, UI panel composition and grayscale locked state. No repaint or new character generation.','template_commit':'2c900a04dd2073872f677f4fb78ee2ad1e871009','size_policy':'Template conventions, not claimed engine-enforced limits.','assets':REC,'reuse_decisions':{'merchant':'animations/clean relaxed_loop','rest_site':'animations/clean relaxed_loop; no new sitting/campfire animation claimed','revive':'return from held death to idle via explicit game revive trigger; no new painted revive clip claimed','card_frames':'basegame UI frames, with existing 89 project portraits','background_music':'basegame music retained; no new score commissioned','multiplayer_point_and_rps':'vanilla fallback; four bespoke gesture drawings not included','yummy_cookie_relic':'vanilla fallback unless mod gameplay defines a custom version'}}
+    m['source_processing']='Existing UI derives from the unchanged approved illustration. Four additional multiplayer gestures are new authored images; see source/multiplayer_hands/provenance.json.'
+    m['reuse_decisions']['multiplayer_point_and_rps']='four bespoke Volibear gesture sprites; native fixed pivots; no vanilla fallback'
     (ROOT/'manifest.json').write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
     (ROOT/'manifest.js').write_text('window.VOLIBEAR_UI='+json.dumps(m,ensure_ascii=False,separators=(',',':'))+';\n')
     proof=Image.new('RGB',(1200,850),(31,43,57));d=ImageDraw.Draw(proof)

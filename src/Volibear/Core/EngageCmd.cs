@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,8 +29,11 @@ public static class EngageCmd
     private sealed class Window
     {
         internal Creature Receiver = null!;
+        internal Creature Enemy = null!;
         internal ICombatState Combat = null!;
         internal long Generation;
+        internal int Round;
+        internal bool ActionStarted;
         internal decimal Absorbed;
     }
     private static readonly AsyncLocal<Window?> Active = new();
@@ -89,18 +93,25 @@ public static class EngageCmd
         if (!Opportunities.TryReserve(state, target.CombatState, target, state.RoundNumber))
             return new(false, 0, false);
         var previous = Active.Value;
-        var window = new Window { Receiver = receiver, Combat = state, Generation = Opportunities.Generation };
-        Active.Value = window;
+        var window = new Window { Receiver = receiver, Enemy = target, Combat = state,
+            Generation = Opportunities.Generation, Round = state.RoundNumber };
         try
         {
             var node = target.GetCreatureNode();
             if (node is not null) await node.PerformIntent();
             if (!Live(window) || receiver.IsDead || target.IsDead || !state.ContainsCreature(target) ||
                 !CombatManager.Instance.IsInProgress || CombatManager.Instance.IsEnding) return new(false, 0, false);
+            // Intent rendering is not the enemy action. Other mods may run effects there;
+            // only observe absorption while the real move is being invoked.
+            Active.Value = window;
             await target.Monster.PerformMove(); // This method already advances OnMovePerformed.
         }
         finally { Active.Value = previous is not null && Live(previous) ? previous : null; }
 
+        // A completed Task is not proof of an action: a cooperating patch can skip the
+        // native method. Keep the reservation (prefixes may have committed effects), but
+        // never manufacture completion rewards for a native body that did not start.
+        if (!window.ActionStarted) return new(false, 0, false);
         var completed = Live(window) && !receiver.IsDead && CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding;
         if (completed)
         {
@@ -120,11 +131,17 @@ public static class EngageCmd
     public static async Task<IReadOnlyList<Result>> PerformAll(PlayerChoiceContext choices, CardModel card)
     {
         var state = card.Owner?.Creature.CombatState ?? throw new InvalidOperationException("No combat");
+        if (!ReferenceEquals(state, CombatManager.Instance.DebugOnlyGetState())) return Array.Empty<Result>();
+        EnsureCombat(state);
+        var generation = Opportunities.Generation;
+        var round = state.RoundNumber;
         var targets = state.Enemies.ToArray(); // Stable engine ordering; new summons are not added mid-card.
         var results = new List<Result>();
         foreach (var target in targets)
         {
-            if (!ReferenceEquals(state, CombatManager.Instance.DebugOnlyGetState()) ||
+            if (!Opportunities.IsCurrent(state, generation) || state.RoundNumber != round ||
+                state.CurrentSide != CombatSide.Player ||
+                !ReferenceEquals(state, CombatManager.Instance.DebugOnlyGetState()) ||
                 card.Owner!.Creature.IsDead || !CombatManager.Instance.IsInProgress || CombatManager.Instance.IsEnding) break;
             results.Add(await Perform(choices, target, card));
         }
@@ -133,6 +150,8 @@ public static class EngageCmd
 
     private static bool Live(Window window) => Opportunities.IsCurrent(window.Combat, window.Generation) &&
         ReferenceEquals(window.Combat, CombatManager.Instance.DebugOnlyGetState()) &&
+        window.Combat.CurrentSide == CombatSide.Player &&
+        window.Combat.RoundNumber == window.Round &&
         ReferenceEquals(window.Receiver.CombatState, window.Combat);
 
     [HarmonyPatch(typeof(CombatManager), nameof(CombatManager.Reset), new[] { typeof(bool) })]
@@ -162,15 +181,30 @@ public static class EngageCmd
         private static readonly FieldInfo Owner = AccessTools.Field(Machine, "<>4__this")
             ?? throw new MissingFieldException(Machine.FullName, "<>4__this");
         private static MethodBase TargetMethod() => AccessTools.Method(Machine, "MoveNext");
-        private static void Prefix(object __instance)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            // Observe the real initial state-machine entry, including callers whose
-            // tiny async entry stub was inlined before mod initialization.
-            if ((int)State.GetValue(__instance)! != -1 || Owner.GetValue(__instance) is not MonsterModel monster ||
+            // Observe inside the actual body: any foreign Prefix veto skips this too.
+            // Read the two fields directly for both class and struct state machines;
+            // no boxed copy, original instruction replacement, or patch-order assumption.
+            yield return new CodeInstruction(OpCodes.Ldarg_0);
+            yield return new CodeInstruction(OpCodes.Ldfld, State);
+            yield return new CodeInstruction(OpCodes.Ldarg_0);
+            yield return new CodeInstruction(OpCodes.Ldfld, Owner);
+            yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(ObserveActionStart), nameof(BodyEntered)));
+            foreach (var instruction in instructions) yield return instruction;
+        }
+
+        private static void BodyEntered(int machineState, MonsterModel monster)
+        {
+            // Initial body entry precedes every synchronous effect/reentry. Resuming an
+            // await does not spend another opportunity or move the fact to another round.
+            if (machineState != -1 ||
                 monster.Creature.CombatState is not { } state ||
                 !ReferenceEquals(state, CombatManager.Instance.DebugOnlyGetState())) return;
             EnsureCombat(state);
             Opportunities.ObserveActionStart(state, monster.Creature.CombatState, monster.Creature, state.RoundNumber);
+            if (Active.Value is { } window && Live(window) && ReferenceEquals(window.Enemy, monster.Creature))
+                window.ActionStarted = true;
         }
     }
 
@@ -179,7 +213,7 @@ public static class EngageCmd
     {
         private static bool Prefix(Creature __instance, ref Task __result)
         {
-            if (!EarlyConsumed(__instance)) return true;
+            if (__instance.CombatState?.CurrentSide != CombatSide.Enemy || !EarlyConsumed(__instance)) return true;
             __result = Task.CompletedTask;
             return false;
         }

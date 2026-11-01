@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using BaseLib.Patches.Hooks;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -35,15 +36,18 @@ internal static class BeastSelection
             new CardSelectorPrefs(new LocString("cards", source.Id.Entry + ".beastSelectionPrompt"), optional ? 0 : count, count),
             c => candidates.Contains(c), source)).ToArray();
         var committed = 0;
+        var visited = new HashSet<CardModel>(ReferenceEqualityComparer.Instance);
         foreach (var card in selected)
         {
             if (!Live(source)) break;
-            if (!ReferenceEquals(card.Pile, hand)) continue;
-            var previous = BeastForms.Shape(card);
-            var shape = await BeastForms.Convert(context, card, source);
-            if (previous == BeastShape.None && BeastForms.IsConverted(card)) committed++;
+            if (!visited.Add(card) || !ReferenceEquals(card.Pile, hand)) continue;
+            var replacement = await BeastForms.Convert(context, card, source);
+            if (replacement is null) continue;
+            var shape = BeastForms.Shape(replacement);
+            if (!ReferenceEquals(replacement, card)) committed++;
+            if (!Live(source) || !ReferenceEquals(replacement.Owner, source.Owner)) continue;
             // Display-only set-zero wording does NOT replace the shared -1 coupon.
-            if (discount && (!oldDays || shape == BeastShape.Claw)) NextPlayDiscount.Grant(card);
+            if (discount && (!oldDays || shape == BeastShape.Claw)) NextPlayDiscount.Grant(replacement);
             if (oldDays && shape == BeastShape.Body && Live(source))
                 await CreatureCmd.GainBlock(source.Owner.Creature, 4m, ValueProp.Move, play);
         }
@@ -55,14 +59,14 @@ internal static class BeastSelection
     {
         if (!Live(source)) return;
         var hand = PileType.Hand.GetPile(source.Owner);
-        if (hand.Cards.Count >= CardPile.MaxCardsInHand) return;
+        if (hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)) return;
         var draw = PileType.Draw.GetPile(source.Owner);
         if (draw.Cards.Count == 0) return;
         var selected = (await CardSelectCmd.FromCombatPile(context, draw, source.Owner,
             new CardSelectorPrefs(new LocString("cards", source.Id.Entry + ".selectionScreenPrompt"), 1), _ => true)).ToArray();
         foreach (var card in selected)
         {
-            if (!Live(source) || hand.Cards.Count >= CardPile.MaxCardsInHand) break;
+            if (!Live(source) || hand.Cards.Count >= MaxHandSizePatch.GetMaxHandSize(source.Owner, CardPile.MaxCardsInHand)) break;
             if (ReferenceEquals(card.Pile, draw))
             {
                 await CardPileCmd.Add(card, PileType.Hand);
@@ -122,6 +126,7 @@ public sealed class Volibear_U43 : VolibearCard
 public sealed class Volibear_R27 : VolibearCard
 {
     public Volibear_R27() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r27") { }
+    public override bool GainsBlock => true;
     public override List<(string, string)> Localization => new CardLoc("旧日重临", "兽化至多{Convert:diff()}张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。",
         ("beastSelectionPrompt", "选择至多{Amount}张手牌兽化。"));
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];

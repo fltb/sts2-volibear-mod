@@ -44,12 +44,26 @@ class AudioReceiptTests(unittest.TestCase):
         self.assertNotIn('await ', source)
         self.assertNotIn('Task.CompletedTask', source)
         cues = set(re.findall(r'=> "([a-z_]+)"', source))
-        self.assertEqual(cues, {'armor_retain', 'armor_iron', 'thunder_armor', 'cost_reduce', 'strength'})
+        self.assertEqual(cues, {'armor_retain', 'armor_iron', 'cost_reduce', 'strength'})
         bridge = (SRC / 'Presentation/VolibearPresentationBridge.cs').read_text(encoding='utf-8')
         self.assertIn('PowerAudioReceipts.Install();', bridge)
         self.assertIn('CardPresentationReceipts.Committed += CardCommitted;', bridge)
         self.assertIn('var receipt = PowerAudioReceipts.Applied(power);', bridge)
         self.assertIn('var receipt = PowerAudioReceipts.Increased(power, amount, silent);', bridge)
+
+    def test_thunder_armor_cue_follows_actual_lightning_batch_block(self):
+        # V18 belongs to the positive block commit, not the earlier power deployment.
+        powers = (SRC / 'Core/PersistentPowers.cs').read_text(encoding='utf-8')
+        thunder_armor = powers.split('public sealed class ThunderArmorPower ', 1)[1].split('public sealed class ', 1)[0]
+        self.assertIn('LightningBatches.Subscribe(Owner, AfterBatch)', thunder_armor)
+        self.assertIn('!ReferenceEquals(receipt.Owner, Owner)', thunder_armor)
+        self.assertIn('var added = Math.Min(granted, Owner.Block - before);', thunder_armor)
+        publish = 'GameplayPresentationReceipts.Publish("thunder_armor_block_committed", Owner, this, amount: added);'
+        self.assertEqual(thunder_armor.count(publish), 1)
+        self.assertLess(thunder_armor.index('await CreatureCmd.GainBlock'), thunder_armor.index(publish))
+        self.assertRegex(thunder_armor, r'if \(added > 0\)\s*' + re.escape(publish))
+        bridge = (SRC / 'Presentation/VolibearPresentationBridge.Semantics.cs').read_text(encoding='utf-8')
+        self.assertIn('case "thunder_armor_block_committed": AtOwner(id, "thunder_armor"); break;', bridge)
 
     def test_published_sources_combined_native_emission(self):
         config_path = ROOT / '.local/config.json'
@@ -57,18 +71,20 @@ class AudioReceiptTests(unittest.TestCase):
             self.skipTest('Pinned native assemblies unavailable; native emission NOT RUN')
         config = json.loads(config_path.read_text(encoding='utf-8'))
         dotnet = Path(config.get('dotnet', ''))
-        data = Path(config.get('game_dir', '')) / 'data_sts2_windows_x86_64'
-        host = SRC / 'bin/Release/net9.0/Volibear.dll'
-        if not dotnet.is_file() or not (data / 'sts2.dll').is_file() or not host.is_file():
-            self.skipTest('Actual native assemblies/built host missing; no fake substitution')
+        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+        data = Path(config.get('game_dir', '')) / data_name
+        baselib = ROOT / '.local/dependencies/BaseLib-3.4.7/BaseLib.dll'
+        required = [dotnet, baselib, *(data / name for name in ('sts2.dll', 'GodotSharp.dll', '0Harmony.dll'))]
+        if not all(path.is_file() for path in required):
+            self.skipTest('Actual native assemblies/BaseLib missing; no fake substitution')
         project = ROOT / 'tests/audio_receipts/AudioReceipts.csproj'
         text = project.read_text(encoding='utf-8')
         self.assertNotIn('.local/audio-receipt-stage', text)
-        for name in ('AudioCommitGate', 'PowerAudioReceipts', 'CardReceiptPolicy', 'CardPresentationReceipts',
-                     'DomainPassiveEffects', 'DomainRevivalEffects', 'DomainSummonEffects', 'DomainCardContributions'):
-            self.assertIn(name + '.cs', text)
+        self.assertIn('$(RepositoryRoot)/src/Volibear/**/*.cs', text)
+        self.assertNotIn('Volibear.dll', text)
         result = subprocess.run([str(dotnet), 'run', '--project', str(project), '-c', 'Release',
-            '-p:Sts2DataDir=' + str(data)], cwd=ROOT, capture_output=True, text=True,
+            '-p:RepositoryRoot=' + str(ROOT), '-p:Sts2DataDir=' + str(data),
+            '-p:BaseLibPath=' + str(baselib)], cwd=ROOT, capture_output=True, text=True,
             timeout=180, env=dict(os.environ, DOTNET_NOLOGO='1'))
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         match = re.search(r'AUDIO_RECEIPT_RULES_AND_COMBINED_NATIVE_EMISSION_OK checks=(\d+)', result.stdout)

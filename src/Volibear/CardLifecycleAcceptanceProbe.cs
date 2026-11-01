@@ -9,10 +9,8 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Debug;
-using MegaCrit.Sts2.Core.ControllerInput;
 using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -54,15 +52,15 @@ internal static class CardLifecycleAcceptanceProbe
     private static string Ref(object? value)
     { if (value is null) return "null"; if (!Refs.TryGetValue(value, out var id)) Refs.Add(value, id = "r" + (Refs.Count + 1)); return id; }
     private static void Require(bool value, string message) { if (!value) throw new InvalidOperationException(message); }
-    public static void Install()
+    public static void Install(bool subscribe = true)
     {
-        Require(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO") == "card-lifecycle", "Explicit lifecycle scenario required");
-        foreach (var type in new[] { typeof(Payment), typeof(Effect), typeof(ExtraTurn), typeof(SyncChoice) }) Observer.CreateClassProcessor(type).Patch();
-        CombatManager.Instance.TurnStarted += Start;
+        Require(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO") is "card-lifecycle" or "native-suite", "Explicit lifecycle scenario required");
+        foreach (var type in new[] { typeof(Payment), typeof(Effect), typeof(ExtraTurn) }) Observer.CreateClassProcessor(type).Patch();
+        if (subscribe) CombatManager.Instance.TurnStarted += Start;
     }
     private static readonly Dictionary<object, string> RunRefs = new(ReferenceEqualityComparer.Instance);
     private static void Start(CombatState state) { if (!started) { started = true; _ = RunBatch(state); } }
-    private static async Task RunBatch(CombatState initial)
+    internal static async Task RunBatch(CombatState initial, bool managed = false)
     {
         try
         {
@@ -83,9 +81,9 @@ internal static class CardLifecycleAcceptanceProbe
                 if (completed.Count < requested.Length) current = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>());
             }
             GD.Print("[Volibear] CARD_LIFECYCLE_BATCH_RESULT " + JsonSerializer.Serialize(new { schema = 1, token, scenario = "card-lifecycle", requested, completed, runRefs = runs, exits, finished = true }));
-            GD.Print("[Volibear] SHUTDOWN_BEGIN " + token); MegaCrit.Sts2.Core.Nodes.NGame.Instance!.Quit(); ((SceneTree)Engine.GetMainLoop()).Quit(0);
+            if (!managed) { GD.Print("[Volibear] SHUTDOWN_BEGIN " + token); MegaCrit.Sts2.Core.Nodes.NGame.Instance!.Quit(); ((SceneTree)Engine.GetMainLoop()).Quit(0); }
         }
-        catch (Exception error) { GD.PrintErr("[Volibear] CARD_LIFECYCLE_ERROR " + error); ((SceneTree)Engine.GetMainLoop()).Quit(2); }
+        catch (Exception error) { GD.PrintErr("[Volibear] CARD_LIFECYCLE_ERROR " + error); if (managed) throw; ((SceneTree)Engine.GetMainLoop()).Quit(2); }
         finally { subscription?.Dispose(); Observer.UnpatchAll(Observer.Id); CombatManager.Instance.TurnStarted -= Start; }
     }
     private static async Task Until(Func<bool> done, string label)
@@ -94,16 +92,6 @@ internal static class CardLifecycleAcceptanceProbe
         while (!done())
         {
             if (watch.Elapsed > TimeSpan.FromSeconds(75)) throw new TimeoutException(label);
-            if (code == "R28" && MegaCrit.Sts2.Core.Nodes.Combat.NPlayerHand.Instance?.GetNodeOrNull<NClickableControl>("%SelectModeConfirmButton") is { IsEnabled: true } confirm && confirm.IsVisibleInTree())
-            {
-                // Optional native start-turn choices select zero through the actual focused GUI,
-                // never CardSelectCmd.Selector or completing a choice task ourselves.
-                confirm.GrabFocus(); await Frame();
-                Require(ReferenceEquals(confirm.GetViewport().GuiGetFocusOwner(), confirm), "R28 native confirmation focus failed");
-                confirm.GetViewport().PushInput(new InputEventAction { Action = MegaInput.select, Pressed = true }); await Frame();
-                confirm.GetViewport().PushInput(new InputEventAction { Action = MegaInput.select, Pressed = false }); await Frame();
-                Confirmations.Add(new { api = "Viewport.PushInput", selection = "optional-zero", round = combat.RoundNumber, turn = Pcs.TurnNumber });
-            }
             var tree = (SceneTree)Engine.GetMainLoop(); await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
         }
     }
@@ -308,6 +296,7 @@ internal static class CardLifecycleAcceptanceProbe
     }
     internal static async Task<JsonElement> RunCase(CombatState state, string variant, string token, string runRef)
     {
+        NativeAutomationSelector? selector = null;
         try
         {
             Refs.Clear(); Actions.Clear(); Fixtures.Clear(); Transitions.Clear(); Payments.Clear(); Effects.Clear(); Batches.Clear(); ExtraTurns.Clear(); Confirmations.Clear(); ChoiceSync.Clear();
@@ -315,6 +304,12 @@ internal static class CardLifecycleAcceptanceProbe
             upgraded = variant.EndsWith("-upgraded", StringComparison.Ordinal); code = variant[..variant.LastIndexOf('-')];
             combat = state; player = state.Players.Single(); enemies = state.Enemies.ToArray();
             Require(!MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && state.Encounter is SlimesWeak && state.RoundNumber == 1 && Pcs.TurnNumber == 1 && Owner.CurrentHp == 80 && Owner.Block == 0 && !Owner.Powers.Any() && enemies.Length == 3, "Fresh native SlimesWeak required");
+            if (code == "R28") selector = new NativeAutomationSelector(player, request => {
+                Require(request.Min == 0 && request.Max > 0, "R28 start-turn selection must be optional");
+                return Array.Empty<CardModel>();
+            }, (request,selected) => Confirmations.Add(new { api = "CardSelectCmd.UseSelector", selection = "optional-zero",
+                min = request.Min,max = request.Max,options = request.Options.Select(Ref).ToArray(),selected = selected.Select(Ref).ToArray(),
+                round = combat.RoundNumber,turn = Pcs.TurnNumber }),allowTurnChoice:true);
             Subscribe(); var original = Snapshot(); await PrepareCombat("native-created-card-and-HP-energy-isolation");
             bool ability = !new[] { "U07", "U08", "U20", "C17", "U13" }.Contains(code);
             if (code == "U26-extra") await Fixture("native-PaelsEye-extra-turn-fixture", async () => { await RelicCmd.Obtain<PaelsEye>(player); });
@@ -361,13 +356,7 @@ internal static class CardLifecycleAcceptanceProbe
                 reentry = new { beforeExit, afterReentry, samePlayer = ReferenceEquals(player, combat.Players.Single()), combatChanged = !ReferenceEquals(oldCombat, combat) }, final = Snapshot()
             });
         }
-        finally { subscription?.Dispose(); subscription = null; }
-    }
-    [HarmonyPatch(typeof(PlayerChoiceSynchronizer), nameof(PlayerChoiceSynchronizer.SyncLocalChoice))]
-    private static class SyncChoice
-    {
-        private static void Postfix(Player player, uint choiceId, PlayerChoiceResult result)
-        { if (ReferenceEquals(player, CardLifecycleAcceptanceProbe.player)) ChoiceSync.Add(new { choiceId, selected = result.AsCombatCards().Select(Ref).ToArray(), round = combat.RoundNumber, turn = Pcs.TurnNumber }); }
+        finally { selector?.Dispose(); subscription?.Dispose(); subscription = null; }
     }
     [HarmonyPatch(typeof(Hook), nameof(Hook.AfterEnergySpent))]
     private static class Payment

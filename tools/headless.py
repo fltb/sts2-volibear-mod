@@ -18,6 +18,10 @@ from domain_enemy_evidence import check_log as domain_enemy_evidence
 from persistent_evidence import PERSISTENT_CASES, persistent_contract_evidence
 from catalog_evidence import catalog_evidence
 from card_face_evidence import CARD_FACE_CASES, extract_card_face_result, extract_card_face_batch
+from card_lifecycle_evidence import CASES as CARD_LIFECYCLE_CASES, card_lifecycle_batch_evidence
+from native_run_evidence import MODES as NATIVE_RUN_MODES, native_run_evidence
+from native_suite_evidence import check_log as native_suite_evidence
+from presentation_acceptance_evidence import check_log as presentation_acceptance_evidence
 from domain_hopper_evidence import VARIANTS as HOPPER_CASES, domain_hopper_evidence
 from enemy_catalog_evidence import catalog_evidence as enemy_catalog_evidence
 from domain_summon_evidence import check_log as domain_summon_evidence
@@ -645,23 +649,54 @@ def display_command(command, display):
     raise RuntimeError('Unknown display mode: ' + display)
 
 
-def prepare_run(game, run_id, frames, display='headless'):
+def with_audio_driver(command, audio_driver=None):
+    if audio_driver is None:
+        return command
+    if not isinstance(audio_driver, str) or not audio_driver.strip():
+        raise ValueError('Audio driver must be a nonempty Godot driver name')
+    result = []
+    arguments = iter(command)
+    for argument in arguments:
+        if argument == '--audio-driver':
+            next(arguments, None)
+        else:
+            result.append(argument)
+    return [*result, '--audio-driver', audio_driver]
+
+
+def finite_cases(cases, allowed, label):
+    if (not isinstance(cases, (list, tuple)) or not cases
+            or any(not isinstance(case, str) or case not in allowed for case in cases)
+            or len(set(cases)) != len(cases)):
+        raise RuntimeError(label + ' requires a nonempty unique finite case list')
+    return tuple(cases)
+
+
+def cli_cases(value, allowed, label):
+    return finite_cases(allowed if value == 'all' else value.split(','), allowed, label)
+
+
+def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
     directory = ROOT / 'artifacts/headless' / run_id
     directory.mkdir(parents=True)
-    env = isolated_env(directory)
-    env['VOLIBEAR_TEST_DATA_ROOT'] = str(user_data_root(directory))
+    # Only the paired native runner supplies this environment, from a newly
+    # created owned profile. There is deliberately no CLI arbitrary-profile path.
+    env = isolated_env(directory) if _profile_env is None else dict(_profile_env)
+    if _profile_env is None:
+        env['VOLIBEAR_TEST_DATA_ROOT'] = str(user_data_root(directory))
     env['VOLIBEAR_TEST_FAST_MODE'] = 'Fast'
     if display == 'background':
         env['VOLIBEAR_TEST_PRIVATE_DESKTOP'] = '1'
     # Only this fresh, offline test profile opts into loading mods.
     # Never read, copy, or edit the operator's normal settings or saves.
-    settings = user_data_root(directory) / 'default/1/settings.save'
-    settings.parent.mkdir(parents=True)
-    settings.write_text(json.dumps({
-        'schema_version': 5, 'mod_settings': {'mods_enabled': True},
-        'seen_ea_disclaimer': True, 'skip_intro_logo': True,
-        'fullscreen': False, 'language': 'zhs', 'limit_fps_in_background': False,
-    }) + '\n')
+    if _profile_env is None:
+        settings = user_data_root(directory) / 'default/1/settings.save'
+        settings.parent.mkdir(parents=True)
+        settings.write_text(json.dumps({
+            'schema_version': 5, 'mod_settings': {'mods_enabled': True},
+            'seen_ea_disclaimer': True, 'skip_intro_logo': True,
+            'fullscreen': False, 'language': 'zhs', 'limit_fps_in_background': False,
+        }) + '\n')
     env['VOLIBEAR_TEST_TOKEN'] = run_id
     env['VOLIBEAR_TEST_ARTIFACT_DIR'] = str(directory)
     command = [str(game_executable(game)), '--headless', '--audio-driver', 'Dummy',
@@ -680,13 +715,14 @@ def launch(game, directory, env, command, timeout):
             close_owned(job)
 
 
-def stock_teardown(game, timeout, frames, display='headless'):
+def stock_teardown(game, timeout, frames, display='headless', audio_driver=None):
     """Measure the shipped game's own exit signature with mod initialization disabled."""
     run_id = new_run_id()
     # Native Common texture preload can still be uploading at frame300. Give the
     # same clean control longer to finish; errors remain strict and are never waived.
     control_frames = min(frames, 900)
     directory, env, command = prepare_run(game, run_id, control_frames, display)
+    command = with_audio_driver(command, audio_driver)
     command.append('--nomods')
     code, timed_out = launch(game, directory, env, command, timeout)
     log = combined_log(directory)
@@ -718,6 +754,19 @@ def dampen_protocol_log(log, token, checks):
     return '\n'.join(lines[:boundary + 1] + [line for line in lines[boundary + 1:] if not is_teardown(line)])
 
 
+def repository_metadata():
+    """Optional source provenance: a source ZIP need not include Git or .git."""
+    commit, dirty = None, None
+    try:
+        commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
+                                         text=True, stderr=subprocess.DEVNULL).strip()
+        dirty = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT,
+                                            stderr=subprocess.DEVNULL))
+    except (OSError, subprocess.CalledProcessError) as error:
+        return {'git_commit': commit, 'dirty': dirty, 'git_metadata': 'unavailable:' + type(error).__name__}
+    return {'git_commit': commit, 'dirty': dirty, 'git_metadata': 'observed'}
+
+
 def run_once(game, timeout, frames, scenario='discovery', display='headless',
              stock=None, stock_evidence=None, engage_case='e01', domain_case='d01',
              beast_case='f01', domain_enemy_case='flutter',
@@ -726,12 +775,48 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
              prepared_case='PR-training-dynamic-spells', revival_case='reattach-off',
              prepared_choice_case='PC-C19-fixed-replay', matrix_selection=None,
              matrix_catalog=None, matrix_prerequisite_report=None,
-             coupon_case='CP-max-preserve', domain_card_case='hex', primal_case='U12-paid-snapshot', dampen_case='off', standing_case='U03-base-extra-turn', steam_case='off', card_face_case='B01-base-plain', hopper_case='off', card_face_batch=None):
+             coupon_case='CP-max-preserve', domain_card_case='hex', primal_case='U12-paid-snapshot', dampen_case='off', standing_case='U03-base-extra-turn', steam_case='off', card_face_case='B01-base-plain', hopper_case='off', card_face_batch=None,
+             card_lifecycle_cases=None, native_run_mode='three-battle-save', native_run_pair=None,
+             presentation_mode='cards', audio_driver=None, _profile_env=None):
+    if card_face_batch is not None:
+        if scenario not in ('card-face-acceptance', 'native-suite'):
+            raise RuntimeError('Card face batch requires the card-face-acceptance or native-suite scenario')
+        card_face_batch = finite_cases(card_face_batch, CARD_FACE_CASES, 'Card face batch')
+    if scenario in ('card-lifecycle', 'native-suite'):
+        card_lifecycle_cases = finite_cases(
+            CARD_LIFECYCLE_CASES if card_lifecycle_cases is None else card_lifecycle_cases,
+            CARD_LIFECYCLE_CASES, 'Card lifecycle batch')
+    if scenario == 'native-run':
+        if native_run_mode not in NATIVE_RUN_MODES:
+            raise RuntimeError('Unknown native run mode: ' + str(native_run_mode))
+        if native_run_mode == 'resume' and _profile_env is None:
+            raise RuntimeError('Native resume requires the fresh owned profile from native_run_pair.py')
+    if scenario in ('presentation-acceptance', 'native-suite'):
+        if presentation_mode not in ('all', 'cards', 'actions'):
+            raise RuntimeError('Unknown presentation mode: ' + str(presentation_mode))
+        if display == 'headless':
+            raise RuntimeError('Presentation capture requires a rendered background/xvfb display')
+        if presentation_mode != 'cards' and (not audio_driver or audio_driver.lower() == 'dummy'):
+            raise RuntimeError('Action/audio capture requires an explicit non-Dummy --audio-driver')
+    if scenario == 'native-suite' and card_face_batch is None:
+        raise RuntimeError('Native suite requires an explicit finite card-face batch')
+    if (IS_WINDOWS and display == 'window'
+            and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'))):
+        raise RuntimeError('Acceptance runs must use a private background desktop, not a foreground window')
     run_id = new_run_id()
-    directory, env, command = prepare_run(game, run_id, frames, display)
+    directory, env, command = (prepare_run(game, run_id, frames, display)
+                               if _profile_env is None else
+                               prepare_run(game, run_id, frames, display, _profile_env=_profile_env))
+    command = with_audio_driver(command, audio_driver)
+    if scenario == 'native-suite':
+        retained = {'VOLIBEAR_TEST_DATA_ROOT','VOLIBEAR_TEST_FAST_MODE','VOLIBEAR_TEST_PRIVATE_DESKTOP',
+                    'VOLIBEAR_TEST_TOKEN','VOLIBEAR_TEST_ARTIFACT_DIR'}
+        for key in list(env):
+            if key.startswith(('VOLIBEAR_TEST_','VOLIBEAR_SAVE_','VOLIBEAR_NATIVE_RUN_')) and key not in retained:
+                del env[key]
     # Optional diagnostic adapter; the shipped extension may bind its own symbols.
     # Never enable this unverified workaround implicitly.
-    adapter_enabled = os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
+    adapter_enabled = scenario not in ('native-run', 'native-suite') and os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
     if adapter_enabled:
         if IS_WINDOWS:
             raise RuntimeError('The FMOD NOSOUND adapter is a POSIX LD_PRELOAD test; '
@@ -754,7 +839,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         if hopper_case not in HOPPER_CASES:
             raise RuntimeError('Unknown Hopper acceptance case: ' + hopper_case)
         env['VOLIBEAR_TEST_HOPPER_CASE'] = hopper_case
-    if scenario == 'card-face-acceptance':
+    if scenario in ('card-face-acceptance', 'native-suite'):
         if card_face_case not in CARD_FACE_CASES:
             raise RuntimeError('Unknown card face acceptance case: ' + card_face_case)
         env['VOLIBEAR_TEST_CARD_FACE_CASE'] = card_face_case
@@ -765,6 +850,24 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                     or len(set(card_face_batch)) != len(card_face_batch)):
                 raise RuntimeError('Card face batch requires a nonempty unique finite case list')
             env['VOLIBEAR_TEST_CARD_FACE_BATCH'] = ','.join(card_face_batch)
+    if scenario in ('card-lifecycle', 'native-suite'):
+        env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
+        env.pop('VOLIBEAR_TEST_CARD_LIFECYCLE_CASE', None)
+        env['VOLIBEAR_TEST_CARD_LIFECYCLE_CASES'] = json.dumps(card_lifecycle_cases)
+    if scenario == 'native-run':
+        # A normal menu/run must never inherit a development character fixture.
+        retained = {'VOLIBEAR_TEST_DATA_ROOT', 'VOLIBEAR_TEST_FAST_MODE', 'VOLIBEAR_TEST_PRIVATE_DESKTOP',
+                    'VOLIBEAR_TEST_TOKEN', 'VOLIBEAR_TEST_ARTIFACT_DIR'}
+        for key in list(env):
+            if key.startswith(('VOLIBEAR_TEST_', 'VOLIBEAR_SAVE_', 'VOLIBEAR_NATIVE_RUN_')) and key not in retained:
+                del env[key]
+        env['VOLIBEAR_NATIVE_RUN_MODE'] = native_run_mode
+        env['VOLIBEAR_NATIVE_RUN_PAIR'] = native_run_pair or run_id
+    if scenario in ('presentation-acceptance', 'native-suite'):
+        env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
+        env['VOLIBEAR_TEST_PRESENTATION_ACCEPTANCE'] = '1'
+        env['VOLIBEAR_TEST_PRESENTATION_MODE'] = presentation_mode
+        env['VOLIBEAR_TEST_PRESENTATION_OUTPUT'] = str(directory / 'presentation')
     if scenario == 'engage-contract':
         if engage_case not in ('e01', 'e02', 'b04'):
             raise RuntimeError('Unknown engage contract case: ' + engage_case)
@@ -845,7 +948,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Unknown persistent contract case: ' + persistent_case)
         env['VOLIBEAR_TEST_PERSISTENT_CASE'] = persistent_case
     if scenario in ('baseline', 'api', 'content', 'engage-contract', 'domain-contract',
-                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper'):
+                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'):
         # MonoMod's native exception helper needs globally visible libgcc unwind symbols.
         # This is scoped to the child; it changes no system loader configuration.
         if not IS_WINDOWS:
@@ -854,7 +957,8 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                 raise RuntimeError('Baseline Harmony probe requires the host libgcc_s.so.1')
             env['LD_PRELOAD'] = str(unwind) + (' ' + env['LD_PRELOAD'] if env.get('LD_PRELOAD') else '')
         env['VOLIBEAR_TEST_SCENARIO'] = scenario
-        command.append('--bootstrap')
+        if scenario != 'native-run':
+            command.append('--bootstrap')
     code, timed_out = launch(game, directory, env, command, timeout)
     log = combined_log(directory)
     checks = evaluate(code, timed_out, log, stock)
@@ -867,6 +971,22 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     scenario_result = None
     if scenario == 'api':
         checks['api_dump_complete'] = '[Volibear] API_DUMP_DONE' in log
+    elif scenario == 'native-suite':
+        scenario_result = native_suite_evidence(dampen_protocol_log(log, run_id, checks), run_id,
+                                               card_face_batch, card_lifecycle_cases, presentation_mode,
+                                               directory / 'presentation', env['VOLIBEAR_TEST_DATA_ROOT'])
+        checks['native_suite_assertions'] = scenario_result['errors'] == []
+    elif scenario == 'card-lifecycle':
+        scenario_result, checks['card_lifecycle_assertions'] = card_lifecycle_batch_evidence(log, run_id, card_lifecycle_cases)
+    elif scenario == 'native-run':
+        scenario_result = native_run_evidence(log, run_id, native_run_mode, env['VOLIBEAR_NATIVE_RUN_PAIR'])
+        checks['native_run_assertions'] = scenario_result['errors'] == []
+    elif scenario == 'presentation-acceptance':
+        errors = presentation_acceptance_evidence(dampen_protocol_log(log, run_id, checks), run_id,
+                                                  presentation_mode, directory / 'presentation')
+        scenario_result = {'mode': presentation_mode, 'errors': errors,
+                           'scope': 'native-capture-not-human-visual-or-listening-review'}
+        checks['presentation_acceptance_assertions'] = not errors
     elif scenario == 'domain-hopper':
         scenario_result, checks['domain_hopper_assertions'] = domain_hopper_evidence(log, run_id, hopper_case)
     elif scenario == 'card-face-acceptance':
@@ -964,8 +1084,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         'schema': 1, 'run_id': run_id, 'mode': 'real-game-' + display, 'scenario': scenario,
         'platform': os.name,
         'game_version': '0.107.1', 'game_commit': '59260271',
-        'git_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
-        'dirty': bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT)),
+        **repository_metadata(),
         'exit_code': code, 'timed_out': timed_out, 'checks': checks,
         'diagnostics': diagnostics,
         'status': 'passed' if all(checks.values()) else 'failed',
@@ -985,9 +1104,17 @@ def main():
                                               'domain-summon-contract', 'relic-contract',
                                               'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp',
                                               'domain-revival', 'prepared-choice', 'power-presentation',
-                                              'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper'], default='discovery')
+                                              'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper',
+                                              'card-lifecycle', 'native-run', 'presentation-acceptance'], default='discovery')
     parser.add_argument('--hopper-case', choices=HOPPER_CASES, default='off')
     parser.add_argument('--card-face-case', choices=CARD_FACE_CASES, default='B01-base-plain')
+    parser.add_argument('--card-face-batch', help='all or comma-separated cases, in one game process')
+    parser.add_argument('--card-lifecycle-cases', default='all', help='all or comma-separated lifecycle cases, in one game process')
+    parser.add_argument('--native-run-mode', choices=sorted(NATIVE_RUN_MODES - {'resume'}), default='three-battle-save',
+                        help='Normal menu/paid-input route; use native_run_pair.py for save/restart/Continue')
+    parser.add_argument('--presentation-mode', choices=['cards', 'actions', 'all'], default='cards')
+    parser.add_argument('--audio-driver', help='Explicit Godot driver; non-Dummy required for presentation actions/audio')
+    parser.add_argument('--use-deployed', action='store_true', help='Run the already deployed candidate; do not rebuild or redeploy')
     parser.add_argument('--steam-case', choices=STEAM_CASES, default='off')
     parser.add_argument('--standing-case', choices=STANDING_CASES, default='U03-base-extra-turn')
     parser.add_argument('--dampen-case', choices=DAMPEN_CASES, default='off')
@@ -1010,21 +1137,46 @@ def main():
                         help='isolated domain/lightning mechanism probe; native proxy is not card acceptance')
     parser.add_argument('--engage-case', choices=['e01', 'e02', 'b04'], default='e01',
                         help='isolated production engage effect fixture (not ordinary payment)')
-    parser.add_argument('--repeat', type=int, default=2)
-    parser.add_argument('--timeout', type=int, default=45)
-    parser.add_argument('--frames', type=int, default=300)
+    parser.add_argument('--repeat', type=int, help='Focused diagnostics only; batches/acceptance require one process')
+    parser.add_argument('--timeout', type=int)
+    parser.add_argument('--frames', type=int)
     args = parser.parse_args()
-    if not 1 <= args.repeat <= 10 or not 5 <= args.timeout <= 300 or not 1 <= args.frames <= 10000:
-        parser.error('repeat 1..10, timeout 5..300, frames 1..10000 required')
+    batch = args.card_face_batch is not None or args.scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance')
+    args.repeat = args.repeat if args.repeat is not None else (1 if batch else 2)
+    args.timeout = args.timeout if args.timeout is not None else (900 if batch else 45)
+    args.frames = args.frames if args.frames is not None else (60000 if batch else 300)
+    limit_timeout, limit_frames = (1800, 300000) if batch else (300, 10000)
+    if not 1 <= args.repeat <= 10 or not 5 <= args.timeout <= limit_timeout or not 1 <= args.frames <= limit_frames:
+        parser.error(f'repeat 1..10, timeout 5..{limit_timeout}, frames 1..{limit_frames} required')
+    if batch and args.repeat != 1:
+        parser.error('Batched/acceptance cases run continuously in one process; use --repeat 1')
+    if args.card_face_batch is not None and args.scenario != 'card-face-acceptance':
+        parser.error('--card-face-batch requires --scenario card-face-acceptance')
+    try:
+        card_face_batch = (cli_cases(args.card_face_batch, CARD_FACE_CASES, 'Card face batch')
+                           if args.card_face_batch is not None else None)
+        lifecycle_cases = (cli_cases(args.card_lifecycle_cases, CARD_LIFECYCLE_CASES, 'Card lifecycle batch')
+                           if args.scenario == 'card-lifecycle' else None)
+        with_audio_driver([], args.audio_driver)
+    except (ValueError, RuntimeError) as error:
+        parser.error(str(error))
+    if args.scenario == 'presentation-acceptance':
+        if args.display == 'headless':
+            parser.error('Presentation capture requires --display background (Windows) or xvfb (Linux)')
+        if args.presentation_mode != 'cards' and (not args.audio_driver or args.audio_driver.lower() == 'dummy'):
+            parser.error('Action/audio capture requires an explicit non-Dummy --audio-driver')
+    if IS_WINDOWS and args.display == 'window' and batch:
+        parser.error('Acceptance runs require a private background desktop, not a foreground window')
     display_command([], args.display)  # Reject unsupported display before build/deploy side effects.
     game = Path(config()['game_dir']).expanduser().resolve()
     validate_game(game)
-    subprocess.run([sys.executable, 'tools/dev.py', 'test'], cwd=ROOT, check=True)
-    subprocess.run([sys.executable, 'tools/dev.py', 'build'], cwd=ROOT, check=True)
-    subprocess.run([sys.executable, 'tools/dev.py', 'deploy'], cwd=ROOT, check=True)
+    if not args.use_deployed:
+        subprocess.run([sys.executable, 'tools/dev.py', 'test'], cwd=ROOT, check=True)
+        subprocess.run([sys.executable, 'tools/dev.py', 'build'], cwd=ROOT, check=True)
+        subprocess.run([sys.executable, 'tools/dev.py', 'deploy'], cwd=ROOT, check=True)
     # One control launch per invocation defines the exit signature the shipped game produces
     # on its own, so teardown noise is attributed instead of waived.
-    stock, stock_evidence = stock_teardown(game, args.timeout, args.frames, args.display)
+    stock, stock_evidence = stock_teardown(game, args.timeout, args.frames, args.display, args.audio_driver)
     print(json.dumps({'stock_teardown_control': stock_evidence}))
     reports = [run_once(game, args.timeout, args.frames, args.scenario, args.display,
                         stock, stock_evidence, args.engage_case, args.domain_case,
@@ -1032,7 +1184,10 @@ def main():
                         args.domain_summon_case, args.relic_case, args.domain_passive_case, args.prepared_case,
                         args.revival_case, args.prepared_choice_case, args.matrix_selection,
                         args.matrix_catalog, args.matrix_prerequisite_report,
-                        args.coupon_case, args.domain_card_case, args.primal_case, args.dampen_case, args.standing_case, args.steam_case, args.card_face_case, args.hopper_case) for _ in range(args.repeat)]
+                        args.coupon_case, args.domain_card_case, args.primal_case, args.dampen_case, args.standing_case, args.steam_case, args.card_face_case, args.hopper_case,
+                        card_face_batch=card_face_batch, card_lifecycle_cases=lifecycle_cases,
+                        native_run_mode=args.native_run_mode, presentation_mode=args.presentation_mode,
+                        audio_driver=args.audio_driver) for _ in range(args.repeat)]
     return 0 if all(r['status'] == 'passed' for r in reports) else 1
 
 

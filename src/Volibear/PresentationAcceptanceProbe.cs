@@ -199,9 +199,11 @@ internal static class PresentationAcceptanceProbe
     }
     private static JsonElement Manifest(string path)
     { using var file=Godot.FileAccess.Open(path,Godot.FileAccess.ModeFlags.Read)??throw new InvalidOperationException("Missing authored manifest "+path);using var document=JsonDocument.Parse(file.GetAsText());return document.RootElement.Clone(); }
-    private static async Task Run(CombatState state)
+    internal static async Task Run(CombatState state, bool managed = false)
     {
         var originalSize=Tree.Root.Size;
+        Views.Clear();Actions.Clear();Frames.Clear();Screens.Clear();Pcm.Clear();Voices.Clear();
+        sampling=null;samplingError=null;discarded=0;lastScreen=0;capture=null;captureIndex=-1;Clock.Restart();
         try
         {
             token=Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")??"";
@@ -245,8 +247,13 @@ internal static class PresentationAcceptanceProbe
                     foreach(string code in new[]{"B01","B02","B03","B04","C03","C05"})
                     {var card=await Create(state,player,code);await Paid(card,card.TargetType==TargetType.AnyEnemy?state.Enemies.First():null,player,$"{size.X}-{code}");}
                 }
-                var claw=await Create(state,player,"B01");var body=await Create(state,player,"B02");
+                var clawMaterial=await Create(state,player,"B01");var bodyMaterial=await Create(state,player,"B02");
                 await Paid(await Create(state,player,"R29"),null,player,"beast-convert");
+                var claw=player.PlayerCombatState!.Hand.Cards.OfType<Volibear_T01>().Single();
+                var body=player.PlayerCombatState.Hand.Cards.OfType<Volibear_T02>().Single();
+                Need(clawMaterial.Pile?.Type==PileType.Exhaust&&bodyMaterial.Pile?.Type==PileType.Exhaust&&
+                    !ReferenceEquals(clawMaterial,claw)&&!ReferenceEquals(bodyMaterial,body)&&claw.DeckVersion is null&&body.DeckVersion is null,
+                    "Beast action must exhaust materials and generate new native token identities");
                 await Paid(claw,state.Enemies.First(),player,"converted-claw");await Paid(body,null,player,"converted-body");
                 phase="native-combat-end";var effects=Effects(owner);var root=EffectRoot(owner);
                 int beforeVisuals=effects?.ActiveVisuals??0,beforeVoices=effects?.ActiveVoices??0;
@@ -269,9 +276,9 @@ internal static class PresentationAcceptanceProbe
                 matrix=Enumerable.Range(1,10).Select(i=>new {id=$"V{i:D2}",status=i==9?"NOTRUN":i==1?(mode=="actions"?"NOTRUN":"captured-awaiting-manual-review"):i==5?"inventory-only":mode=="cards"?"NOTRUN":"partial-evidence-manual-review-required"}).ToArray(),
                 manualReviewRequired=new[]{"readability/crop/black-background/occlusion/flicker","animation continuity and aesthetics","heard loudness/mix/synchronization",
                     "remaining animation/VFX/cue routes","selection/map/rest/merchant/trail normal progression","return-to-menu/cancellation"}}));
-            // Deliberately NO Quit: the parent owns one persistent native process and subsequent scenarios.
+            if (!managed) { GD.Print("[Volibear] SHUTDOWN_BEGIN "+token);NGame.Instance!.Quit();Tree.Quit(0); }
         }
-        catch(Exception error){GD.PrintErr("[Volibear] PRESENTATION_ACCEPTANCE_ERROR "+token+" "+error);}
+        catch(Exception error){GD.PrintErr("[Volibear] PRESENTATION_ACCEPTANCE_ERROR "+token+" "+error);if(managed)throw;Tree.Quit(2);}
         finally
         {
             observing=false;if(sampling is not null)await sampling;

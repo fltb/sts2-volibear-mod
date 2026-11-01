@@ -1,11 +1,26 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Texture2D" path="res://VolibearArt/ui/images/energy_master.png" id="emblem"]
+[ext_resource type="Script" path="res://VolibearArt/scenes/energy.gd" id="motion"]
+
+[sub_resource type="StyleBoxFlat" id="core"]
+bg_color = Color(0.025, 0.07, 0.11, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.19, 0.38, 0.46, 0.9)
+corner_radius_top_left = 42
+corner_radius_top_right = 42
+corner_radius_bottom_left = 42
+corner_radius_bottom_right = 42
+anti_aliasing = true
 
 [node name="VolibearEnergy" type="Control"]
 offset_right = 128.0
 offset_bottom = 128.0
 pivot_offset = Vector2(64, 64)
+mouse_filter = 2
 
 [node name="EnergyVfxBack" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -18,15 +33,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="Emblem" type="TextureRect" parent="Layers"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("emblem")
-expand_mode = 1
-stretch_mode = 5
-
 [node name="RotationLayers" type="Control" parent="Layers"]
 unique_name_in_owner = true
 layout_mode = 0
@@ -34,6 +40,34 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 pivot_offset = Vector2(64, 64)
 mouse_filter = 2
+
+[node name="StormRing" type="Control" parent="Layers/RotationLayers"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+pivot_offset = Vector2(64, 64)
+mouse_filter = 2
+script = ExtResource("motion")
+
+[node name="Core" type="Panel" parent="Layers"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 104.0
+offset_bottom = 104.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("core")
+
+[node name="Emblem" type="TextureRect" parent="Layers"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 3.0
+offset_right = 85.0
+offset_bottom = 45.0
+mouse_filter = 2
+texture = ExtResource("emblem")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="EnergyVfxFront" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -44,13 +78,18 @@ unique_name_in_owner = true
 position = Vector2(64, 64)
 
 [node name="Label" type="Label" parent="."]
+z_index = 30
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 18.0
+offset_right = -5.0
+offset_bottom = 8.0
 mouse_filter = 2
 theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
 theme_override_colors/font_outline_color = Color(0.03, 0.09, 0.14, 1)
-theme_override_constants/outline_size = 10
+theme_override_constants/outline_size = 5
 theme_override_font_sizes/font_size = 36
 text = "3/3"
 horizontal_alignment = 1

@@ -17,13 +17,13 @@ def fixture(family):
         'smoggy': ('LivingFog', 'LivingFogNormal', 'ADVANCED_GAS_MOVE', 'SmoggyPower', 'Smog', 1),
         'ringing': ('CeremonialBeast', 'CeremonialBeastBoss', 'BEAST_CRY_MOVE', 'RingingPower', 'Ringing', 1)}
     source, encounter, move, power, affliction, amount = defs[family]
-    p = dict(schema=1, token='unit-token', scenario='domain-card-contributions', family=family,
+    p = dict(schema=2, token='unit-token', scenario='domain-card-contributions', family=family,
         acceptance='four-native-contributions-not-affliction-writes-or-ordinary-input', testMode=False,
         version='v0.107.1', commit='59260271', encounter=encounter, sourceType=source, sourceId=1, ownerId=0,
         initialRoster=[dict(id=1, type=source)], keeperAdded=True, nativeMoveCalls=2 if family == 'hex' else 1,
         deathSourceId=3 if family == 'hex' else None, directPowerCallbackCalls=0, warmupQueriesPerApi=16,
         moves=[dict(sourceId=1, type=source, move=move)], received=[dict(type=power, amount=amount, applierId=1, targetId=0)],
-        mixedStackPolicy='detected-unsupported-native-contribution-preserved', insertionCoverage=False,
+        mixedStackPolicy='retained-player-predicate-and-cost-counterfactual', insertionCoverage=False,
         afflictionWriteSuppression=False, hexCleanupKind='native-PowerCmd.Remove-after-escape' if family == 'hex' else None)
     if family == 'hex': p['moves'].append(dict(sourceId=3, type=source, move=move))
     p['ilSites'] = [dict(Method=name, Kind=kind, NativeCalls=1, ReplacedCalls=1) for kind, name in [
@@ -47,11 +47,12 @@ def fixture(family):
         kind = 'player' if player else 'mixed' if mixed else 'enemy'
         origin = dict(State=kind, ExpectedAmount=n, ActualAmount=n, SameCombat=True, SameOwner=True,
             EnemyIds=[] if player else ['3'] if died else ['1'],
-            UnsupportedReason='contributor-allocation-not-proven;native-contribution-preserved' if kind == 'mixed' else '') if native_power else None
+            UnsupportedReason='', RetainedAmount=1 if kind in ('player', 'mixed') else 0,
+            RetainedPredicate=kind in ('player', 'mixed')) if native_power else None
         suppressed = phase in ('on', 'other-source', 'other-removed', 'departed-on', 'death-before')
         other = phase == 'other-source'
         veto = has_affliction and family in ('smoggy', 'ringing') and (not suppressed or other)
-        cost = 1 + (n if has_affliction and family == 'tangled' and not suppressed else 0) + (2 if other and family == 'tangled' else 0)
+        cost = 1 + ((1 if phase == 'mixed-native' else n) if has_affliction and family == 'tangled' and not suppressed else 0) + (2 if other and family == 'tangled' else 0)
         rows.append(dict(phase=phase, round=2 if phase in ('native-next-turn', 'death-before', 'death-after', 'player-control') else 1,
             domain=5 if active else 0, sourceAttached=phase in ('warm', 'off', 'on', 'other-source', 'other-removed', 'off-again'),
             sourceAlive=True, ownerId=0, sourceId=1, cardId=20, cardType='StrikeIronclad' if family == 'tangled' else 'DefendIronclad',
@@ -102,6 +103,17 @@ class EvidenceTests(unittest.TestCase):
         for family in gate.CASES:
             p = fixture(family); row(p, 'mixed-native')['origin']['State'] = 'enemy'
             with self.subTest(family=family): self.assertTrue(gate.validate(p, 'unit-token', family))
+
+    def test_mixed_cost_excludes_enemy_without_erasing_player(self):
+        for wrong_cost in (1, 3):
+            p = fixture('tangled'); row(p, 'mixed-native')['cost'] = wrong_cost
+            with self.subTest(cost=wrong_cost): self.assertTrue(gate.validate(p, 'unit-token', 'tangled'))
+
+    def test_legacy_unsupported_or_missing_retained_receipt_is_rejected(self):
+        p = fixture('tangled'); p['schema'] = 1
+        self.assertTrue(gate.validate(p, 'unit-token', 'tangled'))
+        p = fixture('tangled'); row(p, 'mixed-native')['origin']['RetainedAmount'] = 0
+        self.assertTrue(gate.validate(p, 'unit-token', 'tangled'))
 
     def test_departure_cannot_drop_provenance(self):
         for family in gate.CASES:

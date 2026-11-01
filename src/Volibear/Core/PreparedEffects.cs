@@ -75,8 +75,7 @@ public sealed class NextEngageDiscount : PendingCostPower
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/cost_reduce.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/cost_reduce.png";
     public override List<(string, string)> Localization => new PowerLoc("迎战准备", "本回合下一张迎战牌减费1。", "本回合下一张迎战牌减费1。同类不叠加，实际打出即消费。");
-    public static bool DeclaresEngage(CardModel card) => BeastForms.Shape(card) == BeastShape.None &&
-        card is Volibear_B04 or Volibear_C04 or Volibear_C10 or Volibear_C11 or Volibear_U28 or Volibear_U35 or Volibear_R09;
+    public static bool DeclaresEngage(CardModel card) => card is Volibear_B04 or Volibear_C04 or Volibear_C10 or Volibear_C11 or Volibear_U28 or Volibear_U35 or Volibear_R09;
     protected override bool Eligible(CardModel card) => DeclaresEngage(card);
     public static async Task Grant(PlayerChoiceContext context, Creature owner)
     {
@@ -219,14 +218,10 @@ public sealed class PreparedAttackBonus : CardModifier, ICustomModel
         // card previews cannot identify a segment; runtime above never guesses.
         return HasFixedAttack(card) ? Amount : 0m;
     }
-    public static bool HasFixedAttack(CardModel card) => BeastForms.Shape(card) switch
-    {
-        BeastShape.Claw => true,
-        BeastShape.Body => false,
-        _ => card.Type == CardType.Attack && (card is VolibearCard ? card is not Volibear_U05 :
+    public static bool HasFixedAttack(CardModel card) =>
+        card.Type == CardType.Attack && (card is VolibearCard ? card is not Volibear_U05 :
             card.DynamicVars.Values.Any(variable => variable is DamageVar) &&
-            !card.DynamicVars.Values.Any(variable => variable is CalculatedDamageVar))
-    };
+            !card.DynamicVars.Values.Any(variable => variable is CalculatedDamageVar));
     private CardModel? completionCard;
     public override Task BeforeCardPlayed(CardPlay play)
     {

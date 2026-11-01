@@ -29,7 +29,15 @@ class HistoryCardContracts(unittest.TestCase):
         source = (ROOT / 'src/Volibear/Core/TargetCosts.cs').read_text(encoding='utf-8')
         # These are adapter contract checks, not native payment acceptance.
         self.assertIn('return card.CanPlay(out reason, out preventer);', source)
-        self.assertIn('return card.SpendResources();', source)
+        spend = source.split('private static Task<(int, int)> SpendResolved(', 1)[1].split('\n    }', 1)[0]
+        self.assertIn('using var scope = Enter(card, target);', spend)
+        self.assertEqual(spend.count('card.SpendResources()'), 1)
+        self.assertIn('var original = card.SpendResources();', spend)
+        self.assertIn('CostPresentationReceipts.ObserveNativePayment(presentation, original);', spend)
+        self.assertIn('return original;', spend)
+        self.assertLess(spend.index('card.SpendResources()'), spend.index('ObserveNativePayment('))
+        self.assertLess(spend.index('ObserveNativePayment('), spend.index('return original;'))
+        self.assertNotIn('await ', spend)  # Preserve the native Task identity and completion.
         self.assertNotRegex(source, r'card\s*\.\s*CurrentTarget')
         self.assertNotIn('GainEnergy(', source)
         self.assertIn('canPlayCount != 1 || spendCount != 1', source)

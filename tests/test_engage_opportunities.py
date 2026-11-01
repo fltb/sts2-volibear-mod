@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import unittest
 from unittest.mock import patch
@@ -24,15 +25,11 @@ CASES = {
 
 def configured_sdk():
     config = ROOT / '.local/config.json'
-    if not config.is_file():
-        raise unittest.SkipTest('Local SDK configuration absent; engage opportunities NOT_RUN')
-    value = json.loads(config.read_text(encoding='utf-8')).get('dotnet')
-    if value is None:
-        raise unittest.SkipTest('SDK not configured; engage opportunities NOT_RUN')
-    dotnet = Path(value)
-    if not dotnet.is_file():
-        raise unittest.SkipTest('Configured SDK unavailable; engage opportunities NOT_RUN')
-    return dotnet
+    configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
+    value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
+    if not value or not Path(value).is_file():
+        raise unittest.SkipTest('SDK unavailable; engage opportunities NOT_RUN')
+    return Path(value)
 
 
 def require_success(result):

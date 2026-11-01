@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "profile": "open",
+  "default": true,
+  "runtime_manifest": "../manifest.json",
+  "cue_count": 54,
+  "unique_audio_assets": 47,
+  "licenses": {
+    "recorded_sources": "CC0-1.0; per-source author/URL/SHA in ../sources.json",
+    "project_sound_design": "CC-BY-SA-4.0; see repository LICENSING.md and LICENSE-ASSETS",
+    "tool_code": "GPL-3.0-only"
+  },
+  "rights_scope": "This declaration covers the listed recordings and original sound design; it does not relicense third-party characters or Riot recordings.",
+  "sources": "../sources.json",
+  "credits": "../CREDITS.md",
+  "network_required": false,
+  "private_media_required": false
+}

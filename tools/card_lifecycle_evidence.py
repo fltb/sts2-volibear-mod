@@ -318,10 +318,14 @@ def validate(raw, token, case):
     fresh=reentry['afterReentry']; need(fresh['combatRef']!=reentry['beforeExit']['combatRef'],'native different combat identity')
     for k,v in dict(round=1,turn=1,strength=0,dexterity=0,storm=0,domain=0,permanent=False,temporary=0,lightning=0,block=0,powers=[]).items(): same(fresh[k],v,'raw pre-fixture new combat.'+k)
     if code=='R28':
-        same(len(raw['confirmations']),2,'two real optional start-turn confirmations'); same(len(raw['choiceSync']),2,'two real choice syncs')
-        need(len({c['choiceId'] for c in raw['choiceSync']})==2,'independent native choice identities')
-        for choice in raw['choiceSync']: same(choice['selected'],[],'native optional zero choice')
-        for item in raw['confirmations']: same(item['api'],'Viewport.PushInput','real GUI optional choice input')
+        same(len(raw['confirmations']),2,'two native optional start-turn decisions')
+        same(raw['choiceSync'],[],'selector route does not claim network transport')
+        for item in raw['confirmations']:
+            same(item['api'],'CardSelectCmd.UseSelector','native automated selection interface')
+            same(item['selection'],'optional-zero','explicit optional decision')
+            same(item['min'],0,'optional minimum'); same(item['selected'],[],'zero choice')
+            need(type(item['max']) is int and item['max']>0,'native maximum')
+            need(type(item['options']) is list and len(item['options'])==len(set(item['options'])) and bool(item['options']),'distinct native options')
     else: same(raw['confirmations'],[],'no invented selection'); same(raw['choiceSync'],[],'no invented choice sync')
     same(raw['final'],raw['actions'][-1]['after'],'final is actual last paid boundary')
     need({e['enemyRef'] for e in original['enemies']}.isdisjoint(e['enemyRef'] for e in fresh['enemies']), 'new combat cannot reuse old enemy identities')

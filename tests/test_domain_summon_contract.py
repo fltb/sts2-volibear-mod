@@ -22,9 +22,16 @@ class DomainSummonSourceContract(unittest.TestCase):
     def test_exact_actual_async_body_allowlist(self):
         rows=re.findall(r'Add\(typeof\((\w+)\),\s*(?:"([^"]+)"|nameof\(\w+\.(\w+)\))',self.source)
         self.assertEqual([(a,b or c) for a,b,c in rows],[('Fabricator','SpawnBot'),('Ovicopter','LayEggsMove'),('InfestedPower','AfterDeath'),
-            ('CreatureCmd','KillWithoutCheckingWinCondition'),('Fabricator','FabricateMove'),('Fabricator','FabricatingStrikeMove')])
+            ('CreatureCmd','KillWithoutCheckingWinCondition'),('Fabricator','FabricateMove'),('Fabricator','FabricatingStrikeMove'),
+            ('LivingFog','BloatMove'),('TwoTailedRat','CallForBackup'),('Fogmog','IllusionMove'),('TheObscura','IllusionMove')])
         self.assertIn('transpiler: new HarmonyMethod(typeof(DomainSummonEffects), nameof(Rewrite))',self.source)
         self.assertIn('nameof(InfestedPower.ShouldStopCombatFromEnding)',self.source)
+        additional=(ROOT/'src/Volibear/Core/DomainSummonEffects.Additional.cs').read_text(encoding='utf-8')
+        self.assertIn('RewriteAdditionalBirth(code, frame, kind)',self.source)
+        self.assertIn('code[result + 1].opcode == OpCodes.Pop',additional)
+        self.assertIn('Additional summon caller no longer discards its child result.',additional)
+        self.assertIn('CancelAtGate(frame, "AdditionalBirth.pre-create")',additional)
+        self.assertIn('return CreatureCmd.Add<T>(combat, slot);',additional)
     def test_no_global_creator_or_mixed_attack_replacement(self):
         self.assertNotRegex(self.source,r'CreatureCmd\.Add\s*\(')
         for forbidden in ('Task.FromResult','new Creature(', 'typeof(SurprisePower)','typeof(HeistPower)','nameof(MonsterModel.PerformMove)'):
@@ -88,7 +95,8 @@ class DomainSummonSourceContract(unittest.TestCase):
         config_file=ROOT/'.local/config.json'
         if not config_file.exists():self.skipTest('Local native configuration unavailable; NOT RUN')
         config=json.loads(config_file.read_text(encoding='utf-8'));dotnet=Path(config.get('dotnet',''))
-        data=Path(config.get('game_dir',''))/'data_sts2_windows_x86_64';mod=ROOT/'src/Volibear/bin/Release/net9.0/Volibear.dll'
+        data_name='data_sts2_windows_x86_64' if os.name=='nt' else 'data_sts2_linuxbsd_x86_64'
+        data=Path(config.get('game_dir',''))/data_name;mod=ROOT/'src/Volibear/bin/Release/net9.0/Volibear.dll'
         if not dotnet.is_file() or not(data/'sts2.dll').is_file() or not mod.is_file():self.skipTest('Real native dependencies unavailable; no engine substitutes')
         result=subprocess.run([str(dotnet),'run','--project',str(ROOT/'tests/domain_summon_effects/DomainSummonEffects.Tests.csproj'),'-c','Release','-p:Sts2DataDir='+str(data)],
             cwd=ROOT,capture_output=True,text=True,timeout=120,env=dict(os.environ,DOTNET_NOLOGO='1'))

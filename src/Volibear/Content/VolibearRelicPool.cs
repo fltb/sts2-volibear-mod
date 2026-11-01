@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 
 namespace Volibear.Content;
@@ -31,6 +32,7 @@ public sealed class HuntersHeart : BaseLib.Abstracts.CustomRelicModel, Core.IEng
     protected override string BigIconPath => Presentation.VolibearIcons.LightningHeartBig;
     // BaseLib StarterUpgradePatches feeds the native TouchOfOrobas offer/replace chain.
     public override RelicModel? GetUpgradeReplacement() => ModelDb.Relic<ImmortalHeart>();
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => base.ExtraHoverTips.Concat(MechanicHoverTips.ForText("迎战"));
 
     public async System.Threading.Tasks.Task AfterEngageCompleted(Core.EngageCmd.Completion completion)
     {

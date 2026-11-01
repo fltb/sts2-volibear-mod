@@ -26,18 +26,21 @@ def _role_order_receipt(case,medium='TwigSlimeM'):
     elif case=='CP-expiry':desc += [('target','C10',False,'target',2,(0,0,1),8)]
     else:
         attack=case=='CP-beast-attack'
-        desc += [('convert','R29',False,'convert',3,(1,1,1),5),('target','C10' if attack else 'U28',False,'target',0,(0 if attack else 1,1,1),5 if attack else 14)]
+        desc += [('convert','R29',False,'convert',3,(1,1,1),5),('target-beast','T01' if attack else 'T02',False,'target',0,(0 if attack else 1,1,1),5 if attack else 14)]
     cards=[]
     for i,code in enumerate(['B01']*4+['B02']*4+['B03','B04']):
         cards.append(dict(cardRef=f'starter-{i}',modelId='VOLIBEAR_'+code,upgraded=False,combatCardIndex=100+i,sameObject=True,ownerId=10,masterIndex=i,masterModelId='VOLIBEAR_'+code))
     for role,code,up,*_ in desc:
         if any(c['cardRef']==role for c in cards):continue
         cards.append(dict(cardRef=role,modelId='VOLIBEAR_'+code,upgraded=up,combatCardIndex=100+len(cards),sameObject=True,ownerId=10,masterIndex=-1,masterModelId=None))
+    if case.startswith('CP-beast-'):
+        cards.append(dict(cardRef='target',modelId='VOLIBEAR_C10' if case.endswith('attack') else 'VOLIBEAR_U28',upgraded=False,
+                          combatCardIndex=100+len(cards),sameObject=True,ownerId=10,masterIndex=-1,masterModelId=None))
     originals=[f'starter-{i}' for i in range(10)]
     state=dict(round=1,turn=1,side='Player',energy=30,hp=80,block=0,enemyHp=[500]*3,powers={},hand=[],draw=originals[:],discard=[],play=[],exhaust=[],forms=[])
     r=dict(token='run-token',variant=case,scenario='coupon-contract',completed=True,gameVersion='v0.107.1',gameCommit='59260271',testMode=False,
            acceptance=evidence.ACCEPTANCE,character='VolibearCharacter',playerId=10,enemyIds=[11,12,13],enemyTypes=['LeafSlimeS','TwigSlimeS',medium],
-           fixture='fresh-native-three-slimes-energy30-enemyHp500-created-cards-explicit',cards=cards,generated=[],initial=deepcopy(state),steps=[],transition=None)
+           fixture='fresh-native-three-slimes-energy30-enemyHp500-created-cards-explicit',cards=cards,generated=[],conversions=[],initial=deepcopy(state),steps=[],transition=None)
     present=set(originals)
     def hist():return dict(plays=[],draws=[],moves=[],damage=[],generated=[])
     def hit(target,n,blocked=0,card=None,props=8):return dict(target=target,cardRef=card,hpLost=n,blocked=blocked,props=props)
@@ -60,9 +63,9 @@ def _role_order_receipt(case,medium='TwigSlimeM'):
         if label=='convert':state['hand'].append('target');present.add('target')
         if role not in present:state['hand'].append(role);present.add(role)
         before=deepcopy(state);a0=state['powers'].get('NextAttackDiscount',0);e0=state['powers'].get('NextEngageDiscount',0)
-        shape=('Claw' if case.endswith('attack') else 'Body') if role=='target' and case.startswith('CP-beast-') else 'None'
+        shape=('Claw' if case.endswith('attack') else 'Body') if role=='target-beast' and case.startswith('CP-beast-') else 'None'
         ctype='Attack' if shape=='Claw' or shape=='None' and code in ['B04','C04','C10','C01'] else 'Skill'
-        invalid=label=='invalid-target';target=10 if invalid else 11 if code in ['B04','C04','C10','C11','U28','U35','C01'] and shape!='Body' else None
+        invalid=label=='invalid-target';target=10 if invalid else 11 if code in ['B04','C04','C10','C11','U28','U35','C01','T01'] and shape!='Body' else None
         aid=i;events=[dict(name='before-executed',state='Executing',id=aid,energy=before['energy'])];h=hist();payments=[];effects=[]
         if invalid:events.append(dict(name='cancelled',state='Canceled',id=aid,energy=state['energy']))
         else:
@@ -75,7 +78,15 @@ def _role_order_receipt(case,medium='TwigSlimeM'):
             if attack:state['powers']['NextAttackDiscount']=attack
             if engage:state['powers']['NextEngageDiscount']=engage
             state['block']=block;h['plays']=[dict(cardRef=role,index=0,count=1)]
-            if label=='convert':state['forms']=[dict(cardRef='target',shape='Claw' if case.endswith('attack') else 'Body',type='Attack' if case.endswith('attack') else 'Skill')]
+            if label=='convert':
+                state['hand'].remove('target');state['exhaust'].append('target')
+                state['hand'].append('target-beast');present.add('target-beast')
+                state['forms']=[dict(cardRef='target-beast',shape='Claw' if case.endswith('attack') else 'Body',type='Attack' if case.endswith('attack') else 'Skill')]
+                h['generated'].append(dict(cardRef='target-beast',creatorId=10))
+                source=next(c for c in cards if c['cardRef']=='target');replacement=next(c for c in cards if c['cardRef']=='target-beast')
+                r['conversions'].append(dict(materialRef='target',cardRef='target-beast',sameObject=False,
+                    materialIndex=source['combatCardIndex'],cardIndex=replacement['combatCardIndex'],
+                    materialExhausted=True,originalPile='Hand',generatedPile='Hand'))
             if shape=='Claw':state['enemyHp'][0]-=14;h['damage']=[hit(11,7,card=role),hit(11,7,card=role)]
             elif shape=='Body':state['enemyHp']=[497]*3;h['damage']=[hit(e,3,card=role,props=4) for e in (11,12,13)]
             elif code=='C01':state['enemyHp'][0]-=6;h['damage']=[hit(11,6,card=role)]
@@ -219,9 +230,16 @@ class CouponEvidenceTests(unittest.TestCase):
             self.reject('CP-elig-'+code,[lambda r:r['steps'][-1]['after']['powers'].update(NextAttackDiscount=1)])
         self.reject('CP-elig-R09',[lambda r:r['generated'].clear(),lambda r:r['generated'][0].update(sourceMove='TACKLE_MOVE'),
             lambda r:r['steps'][-1]['history']['generated'].clear(),lambda r:r['steps'][-1]['history']['moves'].pop()])
-    def test_beast_same_identity_actual_type_and_no_underlying_engage(self):
+    def test_beast_new_token_paid_identity_actual_type_and_no_underlying_engage(self):
         for case in ['CP-beast-attack','CP-beast-skill']:
-            self.reject(case,[lambda r:r['steps'][-1]['after']['powers'].pop('NextEngageDiscount'),
+            self.reject(case,[lambda r:r['conversions'].clear(),
+                lambda r:r['conversions'][0].update(sameObject=True),
+                lambda r:r['conversions'][0].update(materialExhausted=False),
+                lambda r:r['conversions'][0].update(cardIndex=r['conversions'][0]['materialIndex']),
+                lambda r:r['steps'][-2]['history']['generated'].clear(),
+                lambda r:r['steps'][-2]['after']['exhaust'].remove('target'),
+                lambda r:r['steps'][-1].update(cardRef='target'),
+                lambda r:r['steps'][-1]['after']['powers'].pop('NextEngageDiscount'),
                 lambda r:r['steps'][-1]['action'].update(sameCard=False),lambda r:r['steps'][-1].update(shape='None'),
                 lambda r:r['steps'][-1]['history']['moves'].append(dict(enemy=11,move='TACKLE_MOVE')),
                 lambda r:r['steps'][-1]['payments'][0].update(amount=1)])

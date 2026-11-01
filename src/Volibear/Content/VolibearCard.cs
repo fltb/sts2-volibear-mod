@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
@@ -39,6 +40,9 @@ public abstract class VolibearCard : BaseLib.Abstracts.CustomCardModel
     public override string BetaPortraitPath => $"{BigPortraitRoot}/{Key}.png";
 
     protected override IEnumerable<DynamicVar> CanonicalVars => Array.Empty<DynamicVar>();
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => base.ExtraHoverTips.Concat(
+        MechanicHoverTips.ForCard(this));
 
     protected T Var<T>(string name) where T : DynamicVar => (T)DynamicVars[name];
 

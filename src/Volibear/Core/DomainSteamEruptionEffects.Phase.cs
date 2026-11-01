@@ -37,11 +37,8 @@ public static partial class DomainSteamEruptionEffects
         if (episode is null) { await monster.TriggerAboutToBlowState(); return; }
         if (Allow(episode))
         {
-            CheckHandoffPrefixes(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState)));
-            var previous = PendingPhase.Value; PendingPhase.Value = new(episode);
             Task native;
-            try { native = monster.TriggerAboutToBlowState(); }
-            finally { PendingPhase.Value = previous; }
+            using (PhaseHandoff.Dispatch(episode)) native = monster.TriggerAboutToBlowState();
             await native;
         }
         if (episode.Decision.Cancelled && IsCurrent(episode)) await RemoveSource(episode);

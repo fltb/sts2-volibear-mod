@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
-using MegaCrit.Sts2.Core.Nodes.Screens.Overlays;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
@@ -26,11 +23,7 @@ using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards.Holders;
-using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using Volibear.Content;
@@ -40,7 +33,7 @@ namespace Volibear;
 
 /// <summary>Finite native paid-play fixtures. Python owns independent reference expectations.
 /// Install ONLY in the isolated card-face-acceptance bootstrap, before the starter combat.
-/// This is controlled queue/viewport input, not OS input and not complete G2 acceptance.</summary>
+/// This uses the native paid queue and native automated selector, without input simulation.</summary>
 internal static class CardFaceAcceptanceProbe
 {
     private static bool started;
@@ -48,7 +41,6 @@ internal static class CardFaceAcceptanceProbe
     private static readonly Harmony Observer = new("Volibear.CardFaceAcceptanceObserver");
     private static readonly Dictionary<CardModel,string> Cards = new(ReferenceEqualityComparer.Instance);
     private static readonly List<object> Payments = [], Effects = [];
-    private static NativeControlledChoice.Request? SimpleRequest;
     private static Action<CardModel,Player?>? Generated;
     internal const string Implemented = "B01 B02 B03 C01 C02 C03 C08 C09 C12 C13 C20 C22 C24 C26 U05 U06 U07 U13 U15 U20 U23 U24 U27 U31 U36 U38 U40 R05 R07 R12 R17 R21 R23 R24 T01 T02 C05 C14 C17 C18 C21 C25 U02 U03 U04 U10 U11 U12 U14 U19 U21 U25 U26 U29 U32 U34 U37 R01 R02 R06 R13 R14 R16 R18 B04 C04 C06 C10 C11 U08 U28 U35 R31 C07 C15 C19 U39 U41 U42 U43 R10 R25 R27 R28 R29 R30 U17 R08 R09";
     private static readonly string[] SelectionIds = "C07 C15 C19 U39 U41 U42 U43 R10 R25 R27 R28 R30".Split(' ');
@@ -87,15 +79,12 @@ internal static class CardFaceAcceptanceProbe
         _ => ["plain"]
     };
     private static string? Ref(CardModel? card) => card is null ? null : Cards.TryGetValue(card,out var id) ? id : throw new InvalidOperationException("Unbound face fixture identity");
-    public static void Install()
+    public static void Install(bool subscribe = true)
     {
         Observer.CreateClassProcessor(typeof(Payment)).Patch();
         Observer.CreateClassProcessor(typeof(Effect)).Patch();
         Observer.CreateClassProcessor(typeof(Generation)).Patch();
-        Observer.CreateClassProcessor(typeof(SimpleGrid)).Patch();
-        Observer.CreateClassProcessor(typeof(SimpleReserve)).Patch();
-        Observer.CreateClassProcessor(typeof(SimpleSync)).Patch();
-        CombatManager.Instance.TurnStarted += Start;
+        if (subscribe) CombatManager.Instance.TurnStarted += Start;
     }
     private static void Start(CombatState state)
     {
@@ -105,7 +94,7 @@ internal static class CardFaceAcceptanceProbe
         else _ = RunBatch(state,batch);
     }
     private static bool Quiet(CombatState state) => NativeAcceptanceRunHost.IsQuiet(state,1);
-    private static async Task RunBatch(CombatState warmup,string selection)
+    internal static async Task RunBatch(CombatState warmup,string selection,bool managed = false)
     {
         var token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
         var completed = new List<string>();var transitions = new List<object>();
@@ -145,14 +134,15 @@ internal static class CardFaceAcceptanceProbe
             }
             GD.Print("[Volibear] CARD_FACE_BATCH_RESULT "+JsonSerializer.Serialize(new { schema=1,token,cases,completed,transitions,
                 lifecycle="EnterRoom(MapRoom)->ReturnToMainMenu->StartNewSingleplayerRun",shouldSave=false }));
-            GD.Print("[Volibear] SHUTDOWN_BEGIN "+token);NGame.Instance!.Quit();((SceneTree)Engine.GetMainLoop()).Quit(0);
+            if (!managed) { GD.Print("[Volibear] SHUTDOWN_BEGIN "+token);NGame.Instance!.Quit();((SceneTree)Engine.GetMainLoop()).Quit(0); }
         }
         catch (Exception error)
         {
             GD.PrintErr("[Volibear] CARD_FACE_BATCH_ERROR "+JsonSerializer.Serialize(new { token,cases,completed,error=error.ToString() }));
+            if (managed) throw;
             ((SceneTree)Engine.GetMainLoop()).Quit(2);
         }
-        finally { player=null;Generated=null;SimpleRequest=null;Observer.UnpatchAll(Observer.Id); }
+        finally { player=null;Generated=null;Observer.UnpatchAll(Observer.Id); }
     }
     private static async Task Frame()
     {
@@ -162,11 +152,6 @@ internal static class CardFaceAcceptanceProbe
     {
         var timer = System.Diagnostics.Stopwatch.StartNew();
         while (!done()) { if (timer.Elapsed > TimeSpan.FromSeconds(30)) throw new TimeoutException(label); await Frame(); }
-    }
-    private static IEnumerable<Node> Descendants(Node node)
-    {
-        yield return node;
-        foreach (var child in node.GetChildren()) foreach (var nested in Descendants(child)) yield return nested;
     }
     private static CardModel Create(CombatState s,Player p,string id) => id switch
     {
@@ -204,7 +189,7 @@ internal static class CardFaceAcceptanceProbe
     };
     private static async Task Run(CombatState state,string? caseOverride=null,bool inBatch=false)
     {
-        NativeControlledChoice? choices = null;
+        NativeAutomationSelector? choices = null;
         try
         {
             var token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
@@ -272,13 +257,27 @@ internal static class CardFaceAcceptanceProbe
                     throw new InvalidOperationException("Missing real starter master link");
             }
             else { source = Create(state,p,branch == "converted" ? id == "T01" ? "B01" : "B02" : id); Cards.Add(source,"source"); }
-            var sourceMasterBefore = source.DeckVersion;
-            var sourceMasterUpgradedBefore = sourceMasterBefore?.IsUpgraded;
+            var conversions = new List<object>();
             if (upgraded) CardCmd.Upgrade(source);
             await CardPileCmd.Add(source,PileType.Hand);
             // Native NetCombatCardDb assigns ids on pile insertion, not CreateCard.
+            if (branch is "converted" or "master")
+            {
+                var original = source; var master = original.DeckVersion; var originalIndex = NetCombatCard.FromModel(original).CombatCardIndex;
+                var pile = original.Pile!.Type.ToString(); var masterUpgrade = master?.IsUpgraded; Cards[original] = "source-material";
+                starterDrawOrder = starterDrawOrder.Select(r => r == "source" ? "source-material" : r).ToArray();
+                source = await BeastForms.Convert(fixtureContext,original) ?? throw new InvalidOperationException("Fixture conversion did not generate a token");
+                if (ReferenceEquals(original,source) || source.DeckVersion is not null || original.Pile?.Type != PileType.Exhaust)
+                    throw new InvalidOperationException("Fixture conversion must exhaust material and create a distinct native token");
+                Cards.Add(source,"source"); NextPlayDiscount.Grant(source);
+                conversions.Add(new { materialRef = Ref(original),cardRef = Ref(source),materialIndex = originalIndex,
+                    cardIndex = NetCombatCard.FromModel(source).CombatCardIndex,sameObject = ReferenceEquals(original,source),
+                    masterUnchanged = ReferenceEquals(master,original.DeckVersion),materialMasterUpgradedBefore = masterUpgrade,materialMasterUpgradedAfter = original.DeckVersion?.IsUpgraded,pileBefore = pile,pileAfter = source.Pile?.Type.ToString(),
+                    originalExhausted = CombatManager.Instance.History.Entries.OfType<CardExhaustedEntry>().Any(e => ReferenceEquals(e.Card,original)) });
+            }
             var sourceIndexBefore = NetCombatCard.FromModel(source).CombatCardIndex;
-            if (branch is "converted" or "master") { await BeastForms.Convert(fixtureContext,source); NextPlayDiscount.Grant(source); }
+            var sourceMasterBefore = source.DeckVersion;
+            var sourceMasterUpgradedBefore = sourceMasterBefore?.IsUpgraded;
             if (branch == "full-hand")
                 foreach (var card in pcs.DrawPile.Cards.Take(9).ToArray()) await CardPileCmd.Add(card,PileType.Hand);
             CardModel? material = null;
@@ -286,7 +285,6 @@ internal static class CardFaceAcceptanceProbe
             {
                 material = state.CreateCard<Volibear_B01>(p); Cards.Add(material,"material"); await CardPileCmd.Add(material,PileType.Hand);
                 var alternate = state.CreateCard<Volibear_B02>(p); Cards.Add(alternate,"alternate"); await CardPileCmd.Add(alternate,PileType.Hand);
-                choices = new NativeControlledChoice(p);
             }
             var tracked = new List<CardModel>();
             async Task AddSelection(string label,string code,PileType pile)
@@ -319,7 +317,6 @@ internal static class CardFaceAcceptanceProbe
                         await AddSelection("selected",id == "U42" ? "B02" : "B01",PileType.Hand);
                         await AddSelection("alternate",id is "C19" or "U41" ? "B01" : "B02",PileType.Hand); break;
                 }
-                if (id != "R29") choices = new NativeControlledChoice(p);
             }
             object Snapshot() => new { round = state.RoundNumber,turn = pcs.TurnNumber,energy = pcs.Energy,hp = owner.CurrentHp,block = owner.Block,
                 enemyHp = enemies.Select(e => e.CurrentHp).ToArray(),enemyBlock = enemies.Select(e => e.Block).ToArray(),
@@ -352,9 +349,26 @@ internal static class CardFaceAcceptanceProbe
                     damage = history.OfType<DamageReceivedEntry>().Select(e => new { target = Array.IndexOf(enemies,e.Receiver),cardRef = Ref(e.CardSource),hpLost = e.Result.UnblockedDamage,blocked = e.Result.BlockedDamage,props = (int)e.Result.Props }).ToArray()
                 };
             }
+            var pendingConversions = new Queue<(CardModel Material,string Pile,CardModel? Master,bool? MasterUpgrade)>();
+            var replacements = new Dictionary<CardModel,CardModel>(ReferenceEqualityComparer.Instance);
+            if (id == "R29") foreach (var card in tracked) pendingConversions.Enqueue((card,card.Pile!.Type.ToString(),card.DeckVersion,card.DeckVersion?.IsUpgraded));
             int generatedCount = 0;
             Generated = (card,creator) =>
             {
+                if (card is Volibear_T01 or Volibear_T02)
+                {
+                    if (!pendingConversions.TryDequeue(out var expected)) throw new InvalidOperationException("Unexpected generated beast token");
+                    var original = expected.Material;
+                    bool exhausted = CombatManager.Instance.History.Entries.OfType<CardExhaustedEntry>().Any(e => ReferenceEquals(e.Card,original));
+                    if (!exhausted || ReferenceEquals(original,card) || !ReferenceEquals(card.Owner,p) || card.DeckVersion is not null ||
+                        (original.Type == CardType.Attack ? card is not Volibear_T01 : card is not Volibear_T02))
+                        throw new InvalidOperationException("Generated token did not follow native material exhaustion");
+                    Cards.Add(card,Ref(original)+"-beast");tracked.Add(card);replacements.Add(original,card);
+                    conversions.Add(new { materialRef = Ref(original),cardRef = Ref(card),materialIndex = NetCombatCard.FromModel(original).CombatCardIndex,
+                        cardIndex = NetCombatCard.FromModel(card).CombatCardIndex,sameObject = ReferenceEquals(original,card),
+                        masterUnchanged = ReferenceEquals(expected.Master,original.DeckVersion),materialMasterUpgradedBefore = expected.MasterUpgrade,materialMasterUpgradedAfter = original.DeckVersion?.IsUpgraded,pileBefore = expected.Pile,pileAfter = card.Pile?.Type.ToString(),originalExhausted = exhausted });
+                    return;
+                }
                 var monster = state.Enemies.Select(e => e.Monster).SingleOrDefault(m => m is { IsPerformingMove:true });
                 if (id != "R09" || card is not Slimed || !ReferenceEquals(card.Owner,p) || creator is not null || card.DeckVersion is not null ||
                     card.Pile?.Type != PileType.Discard || monster is not (LeafSlimeM or TwigSlimeM) ||
@@ -375,61 +389,36 @@ internal static class CardFaceAcceptanceProbe
             var action = new PlayCardAction(source,target); var events = new List<object>();
             void Event(string name,GameAction a) => events.Add(new { name,state = a.State.ToString(),id = a.Id,energy = pcs.Energy });
             action.BeforeExecuted += a => Event("before-executed",a); action.AfterFinished += a => Event("after-finished",a); action.BeforeCancelled += a => Event("cancelled",a);
-            RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(action);
             object? choice = null; var selections = new List<object>();
-            if (choices is not null)
+            if (material is not null || (SelectionIds.Contains(id) || id == "U17") && branch != "empty")
             {
-                int count = id == "U43" ? 2 : 1;
-                for (int n = 0; n < count; n++)
-                {
-                    int index = n;
-                    await Until(() => choices.Requests.Count > index && choices.Requests[index].ChoiceId is not null,"Face choice was not reserved");
-                    var request = choices.Requests[index]; request.RequireWaiting();
-                    if (!ReferenceEquals(request.Action,action)) throw new InvalidOperationException("Wrong native action owns choice");
-                    bool handChoice = request.Pile.Type == PileType.Hand;
-                    Control? Ui() => handChoice ? NPlayerHand.Instance : NOverlayStack.Instance?.Peek() as NCombatPileCardSelectScreen;
-                    var selected = branch == "zero" ? Array.Empty<CardModel>() : material is not null ? new[] { material } : id == "R10" ? tracked.Take(Math.Min(upgraded ? 4 : 3,request.Prefs.MaxSelect)).ToArray() :
-                        id == "R27" ? tracked.Take(upgraded ? 3 : 2).ToArray() : id == "R25" ? tracked.Take(Math.Min(2,request.Prefs.MaxSelect)).ToArray() : new[] { tracked[0] };
-                    await Until(() => Ui() is { } ui && selected.All(c => Descendants(ui).OfType<NCardHolder>().Any(h => h.IsVisibleInTree() && ReferenceEquals(h.CardNode?.Model,c))),"Face choice UI not ready");
-                    var ui = Ui()!;
-                    var holders = Descendants(ui).OfType<NCardHolder>().Where(h => h.IsVisibleInTree() && request.Eligible.Any(c => ReferenceEquals(c,h.CardNode?.Model))).ToArray();
-                    var pending = Snapshot(); var description = request.Describe(); var visible = holders.Select(h => Ref(h.CardNode!.Model)).ToArray();
-                    foreach (var card in selected)
-                        await NativeControlledChoice.SelectVisibleCandidate(request,holders.Single(h => ReferenceEquals(h.CardNode?.Model,card)));
-                    if (request.Synced.Count == 0 && (handChoice || request.Prefs.RequireManualConfirmation))
-                    {
-                        var confirm = ui.GetNode<NClickableControl>(handChoice ? "%SelectModeConfirmButton" : "%Confirm");
-                        await Until(() => confirm.IsEnabled,"Face confirm did not enable"); await NativeControlledChoice.ConfirmIfRequired(request,confirm);
-                    }
-                    await Until(() => request.Synced.Count == 1,"Face choice never synchronized");
-                    var receipt = new { request = description,pending,visible,inputs = request.Inputs.ToArray(),sync = request.Synced.ToArray() };
+                choices = new NativeAutomationSelector(p, request => {
+                    if (!ReferenceEquals(request.Action,action)) throw new InvalidOperationException("Wrong queued action owns selection");
+                    return branch == "zero" ? Array.Empty<CardModel>() : material is not null ? new[] { material } :
+                        id == "U17" ? request.Options.Take(2).ToArray() :
+                        id == "R10" ? tracked.Take(Math.Min(upgraded ? 4 : 3,request.Max)).ToArray() :
+                        id == "R27" ? tracked.Take(upgraded ? 3 : 2).ToArray() :
+                        id == "R25" ? tracked.Take(Math.Min(2,request.Max)).ToArray() : new[] { tracked[0] };
+                }, (request,selected) => {
+                    var receipt = new { api = "CardSelectCmd.UseSelector", pending = Snapshot(), actionId = action.Id,
+                        min = request.Min,max = request.Max, options = request.Options.Select(Ref).ToArray(),
+                        selected = selected.Select(Ref).ToArray(),sameObjects = selected.Select(c => request.Options.Any(o => ReferenceEquals(o,c))).ToArray() };
                     if (material is not null) choice = receipt; else selections.Add(receipt);
-                }
-                if (choices.Requests.Count != count) throw new InvalidOperationException("Unexpected native selection count");
+                    if (id is "U41" or "U42" or "U43" or "R27" or "R28" or "R30")
+                        foreach (var selectedCard in selected)
+                            if (id != "U43" || selections.Count == 2) pendingConversions.Enqueue((selectedCard,selectedCard.Pile!.Type.ToString(),selectedCard.DeckVersion,selectedCard.DeckVersion?.IsUpgraded));
+                });
             }
-            if (id == "U17" && branch != "empty")
-            {
-                await Until(() => SimpleRequest?.ChoiceId is not null && NOverlayStack.Instance?.Peek() is NSimpleCardSelectScreen,"Native scry grid not ready");
-                var request = SimpleRequest!; request.RequireWaiting();
-                if (!ReferenceEquals(request.Action,action)) throw new InvalidOperationException("Wrong action owns scry");
-                var ui = (NSimpleCardSelectScreen)NOverlayStack.Instance!.Peek()!;
-                await Until(() => request.Eligible.All(c => Descendants(ui).OfType<NCardHolder>().Any(h => h.IsVisibleInTree() && ReferenceEquals(h.CardNode?.Model,c))),"Scry candidates not visible");
-                var holders = Descendants(ui).OfType<NCardHolder>().Where(h => h.IsVisibleInTree() && request.Eligible.Any(c => ReferenceEquals(c,h.CardNode?.Model))).ToArray();
-                var pending = Snapshot(); var description = request.Describe(); var visible = holders.Select(h => Ref(h.CardNode!.Model)).ToArray();
-                foreach (var card in request.Eligible.Take(branch == "zero" ? 0 : 2)) await NativeControlledChoice.SelectVisibleCandidate(request,holders.Single(h => ReferenceEquals(h.CardNode?.Model,card)));
-                var confirm = ui.GetNode<NClickableControl>("%Confirm");
-                await Until(() => confirm.IsEnabled,"Scry confirmation not enabled"); await NativeControlledChoice.ConfirmIfRequired(request,confirm);
-                await Until(() => request.Synced.Count == 1,"Scry indices never synchronized");
-                selections.Add(new { request = description,pending,visible,inputs = request.Inputs.ToArray(),sync = request.Synced.ToArray() });
-            }
+            RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(action);
             await Until(() => action.CompletionTask.IsCompleted,"Native face action did not finish"); await action.CompletionTask;
             if (action.Exception is not null) throw new InvalidOperationException("Native face action fault",action.Exception);
+            if (pendingConversions.Count != 0) throw new InvalidOperationException("Expected native beast generation was not observed");
             var entries = CombatManager.Instance.History.Entries.Skip(boundary).ToArray();
             var sourceAfter = Snapshot();var sourcePayments = Payments.ToArray();var sourceEffects = Effects.ToArray();var sourceBatches = batches.ToArray();
             object? response = null;
             if (branch == "second-instance" || id == "U42" && (branch is "status" or "curse"))
             {
-                var follow = id == "U42" ? tracked[0] : Create(state,p,id == "U02" ? "C02" : id == "U21" ? "R23" : "C24");
+                var follow = id == "U42" ? replacements[tracked[0]] : Create(state,p,id == "U02" ? "C02" : id == "U21" ? "R23" : "C24");
                 if (id != "U42") { Cards.Add(follow,"response-card");await CardPileCmd.Add(follow,PileType.Hand); }
                 var responseBefore = Snapshot();int h = CombatManager.Instance.History.Entries.Count(),pi = Payments.Count,ei = Effects.Count,bi = batches.Count;
                 var followAction = new PlayCardAction(follow,follow.TargetType == TargetType.AnyEnemy ? enemies[0] : null);
@@ -445,7 +434,7 @@ internal static class CardFaceAcceptanceProbe
                     payments = Payments.Skip(pi).ToArray(),effects = Effects.Skip(ei).ToArray(),batches = batches.Skip(bi).ToArray(),history = History(CombatManager.Instance.History.Entries.Skip(h)) };
             }
             GD.Print("[Volibear] CARD_FACE_RESULT " + JsonSerializer.Serialize(new {
-                schema = 1,token,variant,scenario = "card-face-acceptance",acceptance = "controlled-native-queue-viewport-not-OS-input",
+                schema = 2,token,variant,scenario = "card-face-acceptance",acceptance = "controlled-native-queue-selector-no-input",
                 version = release.Version,commit = release.Commit,testMode = MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn,
                 character = p.Character.GetType().Name,enemyTypes = enemies.Select(e => e.Monster!.GetType().Name).ToArray(),
                 playerId = owner.CombatId,enemyIds = enemies.Select(e => e.CombatId).ToArray(),enemyOrder,
@@ -454,7 +443,7 @@ internal static class CardFaceAcceptanceProbe
                     ownerId = kv.Key.Owner.Creature.CombatId,masterIndex = Array.FindIndex(p.Deck.Cards.ToArray(),c => ReferenceEquals(c,kv.Key.DeckVersion)),masterModelId = kv.Key.DeckVersion?.Id.Entry }).ToArray(),
                 sourceIdentity = new { indexBefore = sourceIndexBefore,masterIndexBefore = Array.FindIndex(p.Deck.Cards.ToArray(),c => ReferenceEquals(c,sourceMasterBefore)),
                     sameMaster = ReferenceEquals(source.DeckVersion,sourceMasterBefore),masterUpgradedBefore = sourceMasterUpgradedBefore,masterUpgradedAfter = source.DeckVersion?.IsUpgraded },
-                starterDrawOrder,before,after = sourceAfter,choice,selections,
+                starterDrawOrder,before,after = sourceAfter,choice,selections,conversions,
                 action = new { id = action.Id,state = action.State.ToString(),type = action.GetType().Name,context = action.PlayerChoiceContext?.GetType().Name,
                     actionType = action.ActionType.ToString(),target = action.TargetId,sameCard = ReferenceEquals(action.NetCombatCard.ToCardModel(),source),events },
                 payments = sourcePayments,effects = sourceEffects,batches = sourceBatches,
@@ -463,44 +452,7 @@ internal static class CardFaceAcceptanceProbe
             if (!inBatch) { GD.Print("[Volibear] SHUTDOWN_BEGIN " + token); NGame.Instance!.Quit(); ((SceneTree)Engine.GetMainLoop()).Quit(0); }
         }
         catch (Exception error) { GD.PrintErr("[Volibear] CARD_FACE_ERROR " + error); if (inBatch) throw; ((SceneTree)Engine.GetMainLoop()).Quit(2); }
-        finally { choices?.Dispose(); SimpleRequest = null; Generated = null; player = null; CombatManager.Instance.TurnStarted -= Start; if (!inBatch) Observer.UnpatchAll(Observer.Id); }
-    }
-    // U17 alone uses the game's index-valued SimpleGrid protocol, not combat-card transport.
-    // Reuse the native request/input driver; these observers never complete or replace a choice task.
-    [HarmonyPatch(typeof(CardSelectCmd),nameof(CardSelectCmd.FromSimpleGrid))]
-    private static class SimpleGrid
-    {
-        private static void Prefix(PlayerChoiceContext context,IReadOnlyList<CardModel> cardsIn,Player player,CardSelectorPrefs prefs)
-        {
-            if (!ReferenceEquals(player,CardFaceAcceptanceProbe.player)) return;
-            if (context is not GameActionPlayerChoiceContext { Action: PlayCardAction action } || action.NetCombatCard.ToCardModel() is not Volibear_U17 ||
-                SimpleRequest is not null || CardSelectCmd.Selector is not null) throw new InvalidOperationException("Unexpected scry selection path");
-            var cards = cardsIn.ToArray();
-            SimpleRequest = new NativeControlledChoice.Request { Player = player,Action = action,Source = action.NetCombatCard.ToCardModel(),
-                Pile = PileType.Draw.GetPile(player),Prefs = prefs,Filter = c => cards.Any(x => ReferenceEquals(x,c)),Available = cards,Eligible = cards };
-        }
-    }
-    [HarmonyPatch(typeof(PlayerChoiceSynchronizer),nameof(PlayerChoiceSynchronizer.ReserveChoiceId))]
-    private static class SimpleReserve
-    {
-        private static void Postfix(Player player,uint __result)
-        {
-            if (SimpleRequest is not { } request || !ReferenceEquals(player,request.Player)) return;
-            if (request.ChoiceId is not null) throw new InvalidOperationException("Duplicate scry reservation");
-            request.ChoiceId = __result;
-        }
-    }
-    [HarmonyPatch(typeof(PlayerChoiceSynchronizer),nameof(PlayerChoiceSynchronizer.SyncLocalChoice))]
-    private static class SimpleSync
-    {
-        private static void Postfix(Player player,uint choiceId,PlayerChoiceResult result)
-        {
-            if (SimpleRequest is not { } request || !ReferenceEquals(player,request.Player)) return;
-            if (request.ChoiceId != choiceId) throw new InvalidOperationException("Wrong scry reservation");
-            var indices = result.AsIndexes().ToArray(); var selected = indices.Select(i => request.Available[i]).ToArray();
-            request.Synced.Add(new { choiceId,actionId = request.Action.Id,actionState = request.Action.State.ToString(),indices,
-                selected = selected.Select(request.CardIdentity).ToArray(),selectedSameObjects = selected.Select(c => request.Eligible.Any(e => ReferenceEquals(e,c))).ToArray() });
-        }
+        finally { choices?.Dispose(); Generated = null; player = null; CombatManager.Instance.TurnStarted -= Start; if (!inBatch) Observer.UnpatchAll(Observer.Id); }
     }
     [HarmonyPatch(typeof(Hook),nameof(Hook.AfterCardGeneratedForCombat))]
     private static class Generation { private static void Prefix(CardModel card,Player? creator) => Generated?.Invoke(card,creator); }
