@@ -245,7 +245,11 @@ public static class DomainPassiveEffects
                 !ReferenceEquals(receipt.SourceOwner.CombatState, receipt.Combat)) return false;
         }
         else if (!ReferenceEquals(receipt.SourceOwner, target)) return false;
-        return receipt.Decision.Decide(DomainEnemyEffects.ActiveFor(target));
+        bool wasPending = receipt.Decision.State == 0;
+        bool cancelled = receipt.Decision.Decide(DomainEnemyEffects.ActiveFor(target));
+        if (cancelled && wasPending)
+            Volibear.Presentation.PowerPresentationDomain.Suppressed(receipt.SourceOwner, receipt.Source, amount: contribution);
+        return cancelled;
     }
 
     private static IEnumerable<CodeInstruction> SourceCalls(IEnumerable<CodeInstruction> instructions, MethodBase __originalMethod)

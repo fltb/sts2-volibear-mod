@@ -29,7 +29,12 @@ public static partial class DomainEnemySpecialContributions
         combat.ContainsCreature(target) && DomainEnemyEffects.ActiveFor(owner);
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static Task Steal(ThieveryPower power) => SuppressTargeted(power) ? Task.CompletedTask : power.Steal();
+    private static Task Steal(ThieveryPower power)
+    {
+        if (!SuppressTargeted(power)) return power.Steal();
+        Volibear.Presentation.PowerPresentationDomain.Suppressed(power.Owner, power);
+        return Task.CompletedTask;
+    }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static Task AfterRemoved(PowerModel power, Creature oldOwner)
@@ -39,7 +44,10 @@ public static partial class DomainEnemySpecialContributions
         // and force-killing player/Osty. It has no cleanup to replay later.
         // Dead-owner cleanup remains native, including the native early return.
         if (power is SandpitPower && !oldOwner.IsDead && ReferenceEquals(power.Owner, oldOwner) && SuppressTargeted(power))
+        {
+            Volibear.Presentation.PowerPresentationDomain.Suppressed(oldOwner, power);
             return Task.CompletedTask;
+        }
         return power.AfterRemoved(oldOwner);
     }
 
@@ -48,6 +56,7 @@ public static partial class DomainEnemySpecialContributions
     private static bool Flee(FatGremlin __instance, ref Task __result)
     {
         if (!DomainEnemyEffects.ActiveFor(__instance.Creature)) return true;
+        Volibear.Presentation.PowerPresentationDomain.Suppressed(__instance.Creature, __instance);
         __result = Task.CompletedTask;
         return false;
     }

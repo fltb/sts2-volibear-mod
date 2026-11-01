@@ -180,7 +180,9 @@ public static partial class DomainSummonEffects
         if (ownership == GateOwnership.Unknown) return false;
         if (ownership == GateOwnership.StaleKnown) return true;
         // Already consumed cancellation is sticky even if Domain expires. Nothing here mutates an existing child.
-        return batch!.Decision.AtBoundary(false, batch is DeathAttempt ? DomainAtDeathEntry(batch.Combat) : DomainEnemyEffects.ActiveFor(batch.Owner));
+        bool cancelled = batch!.Decision.AtBoundary(false, batch is DeathAttempt ? DomainAtDeathEntry(batch.Combat) : DomainEnemyEffects.ActiveFor(batch.Owner));
+        if (cancelled) Volibear.Presentation.PowerPresentationDomain.Once(batch, batch.Owner, frame.Subject as AbstractModel, sourceCombat: batch.Combat);
+        return cancelled;
     }
     private static Task ForwardAggro(Fabricator source, Frame frame) => Forward(source, frame, Aggro!);
     private static Task ForwardDefensive(Fabricator source, Frame frame) => Forward(source, frame, Defensive!);

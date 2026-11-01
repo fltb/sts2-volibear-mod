@@ -294,10 +294,26 @@ public sealed class Volibear_U24 : VolibearCard
     {
         await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
         if (!DirectEffects.Live(this) || play.Target is not { IsHittable: true } target) return;
-        var hpLost = await LightningCmd.Deal(context, new[] { target }, Value("Lightning"), this);
+        IReadOnlyList<LightningHit> hits = Array.Empty<LightningHit>();
+        var hpLost = await LightningCmd.Deal(context, new[] { target }, Value("Lightning"), this,
+            resolved => hits = resolved);
         // Heal even if this lightning killed the final enemy; native Heal supports players
         // during combat ending. Blocked and overkill damage are not life stolen.
-        if (Owner.Creature.IsAlive && hpLost > 0) await CreatureCmd.Heal(Owner.Creature, hpLost);
+        if (Owner.Creature.IsAlive && hpLost > 0)
+        {
+            var before = Owner.Creature.CurrentHp;
+            await CreatureCmd.Heal(Owner.Creature, hpLost);
+            var recovered = Owner.Creature.CurrentHp - before;
+            // Attribute only the actual recovered HP, in native receiver order (including redirects).
+            foreach (var hit in hits)
+            {
+                var amount = Math.Min(recovered, hit.HpLost);
+                if (amount <= 0) continue;
+                GameplayPresentationReceipts.Publish("lifesteal_health_recovered", Owner.Creature,
+                    this, this, hit.Receiver, amount);
+                recovered -= amount;
+            }
+        }
     }
     protected override void OnUpgrade() => UpgradeVar("Damage", 7m);
 }

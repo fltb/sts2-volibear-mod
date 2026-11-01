@@ -144,18 +144,52 @@ public static class DomainCardContributions
         // The original enemy need NOT remain attached/alive. Its same-combat cause was captured at commit.
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static bool KeywordsContribution(AbstractModel model, CardModel card, ISet<CardKeyword> keywords) =>
-        model is HexPower hex && Suppress(hex, card) ? false : model.TryModifyKeywordsInCombat(card, keywords);
+    private static bool KeywordsContribution(AbstractModel model, CardModel card, ISet<CardKeyword> keywords)
+    {
+        if (model is HexPower hex && Suppress(hex, card))
+        {
+            if (card.Affliction is MegaCrit.Sts2.Core.Models.Afflictions.Hexed && !keywords.Contains(CardKeyword.Ethereal))
+                CaptureCardSuppression(hex);
+            return false;
+        }
+        return model.TryModifyKeywordsInCombat(card, keywords);
+    }
+    private static void CaptureCardSuppression(PowerModel power)
+    {
+        try
+        {
+            if (_origins.TryGetValue(power, out var origin))
+                foreach (var enemy in origin.EnemySources) Volibear.Presentation.PowerPresentationDomainScalars.Capture(enemy, power);
+        }
+        catch { }
+    }
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool CostContribution(AbstractModel model, CardModel card, decimal original, out decimal modified)
     {
-        if (model is TangledPower tangled && Suppress(tangled, card)) { modified = original; return false; }
+        if (model is TangledPower tangled && Suppress(tangled, card))
+        {
+            if (card.Affliction is MegaCrit.Sts2.Core.Models.Afflictions.Entangled) CaptureCardSuppression(tangled);
+            modified = original; return false;
+        }
         return model.TryModifyEnergyCostInCombat(card, original, out modified);
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static bool PlayContribution(AbstractModel model, CardModel card, AutoPlayType autoPlayType) =>
-        (model is SmoggyPower smog && Suppress(smog, card)) || (model is RingingPower ringing && Suppress(ringing, card)) ||
-        model.ShouldPlay(card, autoPlayType);
+    private static bool PlayContribution(AbstractModel model, CardModel card, AutoPlayType autoPlayType)
+    {
+        if ((model is SmoggyPower smog && Suppress(smog, card)) || (model is RingingPower ringing && Suppress(ringing, card)))
+        {
+            // These pinned native predicates only read their per-turn counter/card affliction.
+            // Evaluate for presentation only inside the actual action's admitted ShouldPlay call.
+            try
+            {
+                if (Volibear.Presentation.PowerPresentationDomainScalars.IsCapturing && !model.ShouldPlay(card, autoPlayType))
+                    CaptureCardSuppression((PowerModel)model);
+            }
+            catch { }
+            return true;
+        }
+        return model.ShouldPlay(card, autoPlayType);
+    }
 
     public static void Reset() { _generation++; _origins = new(); }
     private static MethodInfo Method(Type owner, string name, params Type[] parameters) =>

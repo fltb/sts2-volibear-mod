@@ -265,6 +265,8 @@ public static class DomainRevivalEffects
             var executeNative = !cancel || (power is ReattachPower reattach && creature.IsDead &&
                 creature.CombatState is not null && (bool)OtherSegmentsDead.Invoke(reattach, null)!);
             if (executeNative) await source.AfterDeath(context, creature, prevented, length);
+            else if (ticket.Epoch == _epoch && ticket.Decision.Cancelled)
+                Volibear.Presentation.PowerPresentationDomain.Once(ticket, ticket.Owner, source, sourceCombat: ticket.Combat);
             if (AfterDeathContribution is { } observers)
                 foreach (Func<PowerModel, Creature, bool, Task> observer in observers.GetInvocationList()) await observer(power, creature, executeNative);
         }
@@ -275,9 +277,16 @@ public static class DomainRevivalEffects
     {
         var ticket = Find(source);
         if (ticket is null) return true;
-        if (ticket.Epoch != _epoch || ticket.Decision.Cancelled) return false;
+        if (ticket.Epoch != _epoch) return false;
+        if (ticket.Decision.Cancelled)
+        {
+            Volibear.Presentation.PowerPresentationDomain.Once(ticket, ticket.Owner, source, sourceCombat: ticket.Combat);
+            return false;
+        }
         if (ticket.Decision.Committed || source.Owner.IsAlive) return true;
-        return !ticket.Decision.CancelIfRequired(RawDomain(ticket.Combat));
+        bool cancelled = ticket.Decision.CancelIfRequired(RawDomain(ticket.Combat));
+        if (cancelled) Volibear.Presentation.PowerPresentationDomain.Once(ticket, ticket.Owner, source, sourceCombat: ticket.Combat);
+        return !cancelled;
     }
     private static void QueueIllusion(MonsterModel monster, MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine.MoveState state,
         bool force, IllusionPower source)

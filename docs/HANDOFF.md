@@ -6,7 +6,27 @@
 
 用户最新要求：实际缺失必须落成清单、commit/push，之后逐条完成并打勾。以 [IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md) 为当前执行清单，下方长篇记录只作历史背景，不再用“继续收尾”代替明确条目。
 
-## 最新推进（goal revision12，已恢复运行）
+## 换机续作入口：阶段一已完成，下一步T01（2026-11-01）
+
+用户要求先完成阶段一再commit/push，然后在另一台机器继续。当前IMPLEMENTATION_TODO的P/M/V/A实现项已全部完成；T01–T05未开始。不要重开无界实现审计，也不要把编译成功当行为验收。所有作者已冻结，无游戏进程、无待收构建作业。最新冻结后Release构建成功；完整编译仅3处旧EnemyExplorationProbe CS8602，最后增量编译0错误。新领域表现包括已存在适配的实际执行取消门与原生Damage/GainBlock/Power/Play/Draw/关键词/费用实际消费边界，预览不准入。新的Harmony IL安装与运行行为尚未验证，正是T02任务。
+
+另一台机器：
+1. 拉取main，先读IMPLEMENTATION_TODO和本节；本节之后都是历史过程，不得沿用旧未完成或活跃作者状态。
+2. 按README配置本机.local/config.json（game_dir/dotnet），安装匹配StS2 0.107.1/59260271、.NET9、BaseLib3.4.7。游戏程序集、本机配置、存档不在Git，不要为了编译而提交它们。
+3. 直接进入T01：`python -B -m unittest discover -s tests`。修真实失败，已知tests/test_release_package.py旧candidate-not-accepted断言与当前packaged-build状态需要核对维护，不删测试掩盖失败。`python -B tools/dev.py build`为Release入口。
+4. T02验证正常入口新增Harmony安装及组合，再按T03/T04复用现有真实队列hook。保持同一个私有后台游戏实例批量，不用OS键鼠/抢焦点；隔离普通/云存档。正常native-run不装DevelopmentBootstrap。现有headless run_once支持卡批次，但CLI批次参数仍需在T03接好，别扩新测试平台。
+5. .local/packs与.local/release未提交；另一台用`python -B tools/build_assets.py --godot <Godot4.5.1-mono可执行文件>`重建资源包。当前本机新PCK为173580064字节，构建器资源与效果生命周期检查通过，批准图像/音频未改。最终ZIP仍旧版，必须在T05用测试修正后的DLL/PCK重生成，不能直接交旧ZIP。
+6. 持续goal属于会话而不是Git；新会话按此清单恢复两阶段目标（实现阶段已完成，继续T01–T05）。本机在本次提交后不继续改动，方便换机衔接。
+
+## 此前推进过程（goal revision13，历史）
+
+用户明确要求继续。有限M14c核对已完成，21条事件绑定/3类动画处理列入清单并push `c3e0501`。不是94个资源全未写。除V04最后领域表现执行门之外，其余代码已整合；尚未统一勾选/提交代码，不能把清单commit当实现commit。
+
+主新增GameplayPresentationReceipts与Bridge.Semantics，接真实Scry overlay Push、持久咬痕及其余语义消费者；动画作者b87已freeze Bridge/Motion，读取trigger/fallback/segment/timed/arbitration。主已补兽化材料按T01/T02实际形态选择动作，以及transfer在Convert真实提交后、Converted观察者前发布。原LightningCmd/BeastForms公开签名保留重载。aa907生产receipt作者已freeze。10554仍独占V04领域通知尾项（已有适配执行门、真实Damage/GainBlock Hook消费隔离、最后Chains/Artifact/Burrowed），主不并改其文件。
+
+全构建pwsh-40933e562b7f4762、pwsh-8fbd1dbe7c734ad9均成功0错误/3旧probe警告，输出已收；之后主还有上述兽化动作修正，最终需再build。运行effects.gd咆哮目标锚点已修，资源pack重建pwsh-5aaac65005af43af成功，全部输出已收：173580064 bytes，批准图像/音频逐字节不变，构建器资源/生命周期检查通过；不是游戏验收。Godot位于LOCALAPPDATA/Programs/godot-4.5.1-mono/Godot_v4.5.1-stable_mono_win64/下console exe。没有运行完整测试或启动游戏；ZIP仍旧，阶段二T01–T05未开始。接V04 freeze后最终整合编译/diff，勾选实现清单并commit/push，再立即阶段二。
+
+## 此前推进（goal revision12，历史）
 
 清单已push于15aae42，领域补丁已push于ddaf508。用户要求更新goal并开始执行，已edit+resume为revision12/armed。M12四文件已freeze且正常接线完整。M14a/b由主接管Bridge三处机械收口：CanvasItem锚点类型、Tick到期与死亡/终局/退出清理，实际费用receipt已接。全构建先发现该类型错误，修后pwsh-4e4d8f3f733848d3成功0错误/3旧probe警告（输出已收）。当前仅M14c有限表现事件核对及M15最终确认未收口；b03只读核对，不再改Bridge。没有运行测试或游戏，阶段二尚未开始。按IMPLEMENTATION_TODO逐项勾选推进。
 

@@ -120,7 +120,11 @@ public sealed class NextAttackTrainingPower : PreparedPower
     public override async Task BeforeCardPlayed(CardPlay play)
     {
         if (!play.IsFirstInSeries || !Own(play.Card) || play.Card.Type != CardType.Attack) return;
+        var before = CardDamageTraining.Current(play.Card);
         CardModifier.AddModifier<CardDamageTraining>(play.Card, Amount);
+        var added = CardDamageTraining.Current(play.Card) - before;
+        if (added > 0)
+            GameplayPresentationReceipts.Publish("card_enhancement_committed", Owner, this, play.Card, amount: added);
         await PowerCmd.Remove(this);
     }
 }
@@ -162,7 +166,16 @@ public sealed class ThunderGuardPower : PreparedPower
         if (!ReferenceEquals(target, Owner) || !Owner.IsHittable || !props.IsPoweredAttack() || dealer is null ||
             dealer.Side == Owner.Side || !dealer.IsHittable || !LightningBatches.CanUse(Owner, out var combat) ||
             !ReferenceEquals(dealer.CombatState, combat)) return;
-        await LightningCmd.Deal(context, Owner, new[] { dealer }, Amount, null);
+        await LightningCmd.Deal(context, Owner, new[] { dealer }, Amount, null, hits =>
+        {
+            foreach (var hit in hits)
+            {
+                var resolved = hit.HpLost + hit.Blocked;
+                if (resolved > 0)
+                    GameplayPresentationReceipts.Publish("counter_thunder_resolved", Owner, this,
+                        target: hit.Receiver, amount: resolved);
+            }
+        });
     }
     public override async Task BeforeSideTurnStart(PlayerChoiceContext context, CombatSide side,
         IReadOnlyList<Creature> participants, ICombatState combatState)
@@ -232,10 +245,17 @@ public sealed class PreparedAttackBonus : CardModifier, ICustomModel
         completionCard = null;
         if (ReferenceEquals(Owner, card)) RemoveModifier(card, this);
     }
-    public static void Prepare(CardModel card, int amount)
+    public static void Prepare(CardModel card, int amount, CardModel? source = null)
     {
+        var retained = card.Keywords.Contains(CardKeyword.Retain);
         CardCmd.ApplyKeyword(card, CardKeyword.Retain);
+        if (!retained && card.Keywords.Contains(CardKeyword.Retain))
+            GameplayPresentationReceipts.Publish("card_retain_added", card.Owner.Creature, source, card);
+        var before = Modifiers(card).OfType<PreparedAttackBonus>().Sum(modifier => modifier.Amount);
         AddModifier<PreparedAttackBonus>(card, amount);
+        var added = Modifiers(card).OfType<PreparedAttackBonus>().Sum(modifier => modifier.Amount) - before;
+        if (added > 0)
+            GameplayPresentationReceipts.Publish("card_charge_changed", card.Owner.Creature, source, card, amount: added);
     }
 }
 
@@ -249,6 +269,10 @@ public static class BiteMarks
         if (!owners.TryGetValue(owner, out var targets)) owners.Add(owner, targets = new(ReferenceEqualityComparer.Instance));
         return targets;
     }
+    public static bool Has(Creature owner, Creature target) =>
+        owner.CombatState is { } combat && Marks.TryGetValue(combat, out var owners) &&
+        owners.TryGetValue(owner, out var targets) && targets.ContainsKey(target);
+
     public static bool BeforePlay(CardModel card, Creature target)
     {
         var combat = card.Owner.Creature.CombatState;
@@ -262,6 +286,7 @@ public static class BiteMarks
         var play = CardResolutionHooks.CurrentPlayId(card) ?? throw new InvalidOperationException("Bite requires native play identity.");
         // Record fully-blocked and lethal actual hits even when native powers cannot be added.
         if (!Ledger(card.Owner.Creature, combat).TryAdd(target, play)) return;
+        GameplayPresentationReceipts.Publish("bite_mark_added", card.Owner.Creature, card, card, target);
         if (target.IsHittable && LightningBatches.CanUse(card.Owner.Creature, out _))
             await PowerCmd.Apply<BiteMarkPower>(context, target, 1m, card.Owner.Creature, card);
     }

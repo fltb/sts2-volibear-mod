@@ -30,10 +30,9 @@ namespace Volibear.Presentation;
 /// Read-only bridge from committed native history/production receipts to presentation.
 /// Never patches private card hooks, changes an original Task, or awaits cosmetic playback.
 /// </summary>
-public static class VolibearPresentationBridge
+public static partial class VolibearPresentationBridge
 {
     private const string HarmonyId = "Volibear.Presentation.SemanticBridge";
-    private sealed record Motion(string Clip, string? DomainClip);
     private sealed record DamageMotion(string Clip);
     private static readonly Dictionary<string, Motion> Motions = new(StringComparer.OrdinalIgnoreCase);
     private static readonly Dictionary<string, string> StartVoices = new(StringComparer.Ordinal);
@@ -98,6 +97,9 @@ public static class VolibearPresentationBridge
         harmony.Patch(engage, prefix: Handler(nameof(BeforeEngage)),
             postfix: Handler(nameof(AfterEngage)), finalizer: Handler(nameof(FinishEngageInvocation)));
         harmony.Patch(intent, prefix: Handler(nameof(BeforeIntent)));
+        harmony.Patch(Required(typeof(EngageCmd), nameof(EngageCmd.PerformAll), typeof(PlayerChoiceContext), typeof(CardModel)),
+            prefix: Handler(nameof(BeforeEngageGroup)), postfix: Handler(nameof(AfterEngageGroup)),
+            finalizer: Handler(nameof(FinishEngageGroupInvocation)));
         harmony.Patch(Required(typeof(Creature), nameof(Creature.HealInternal), typeof(decimal)),
             prefix: Handler(nameof(BeforeHeal)), postfix: Handler(nameof(AfterHeal)));
         harmony.Patch(Required(typeof(PlayerCombatState), nameof(PlayerCombatState.GainEnergy), typeof(decimal)),
@@ -119,6 +121,8 @@ public static class VolibearPresentationBridge
         BeastForms.Converted += BeastConverted;
         PowerAudioReceipts.Install();
         CardPresentationReceipts.Committed += CardCommitted;
+        GameplayPresentationReceipts.Committed += GameplayCommitted;
+        InstallSemanticHooks();
         _historyState = CombatManager.Instance.DebugOnlyGetState();
         _historyIndex = CombatManager.Instance.History.Entries.Count();
         _installed = true;
@@ -181,9 +185,7 @@ public static class VolibearPresentationBridge
         foreach (var row in cards.RootElement.GetProperty("cards").EnumerateArray())
         {
             var motion = row.GetProperty("primary_motion");
-            Motions[row.GetProperty("asset_key").GetString()!] = new Motion(
-                motion.GetProperty("clip").GetString()!,
-                motion.TryGetProperty("domain_variant", out var domain) ? domain.GetString() : null);
+            Motions[row.GetProperty("asset_key").GetString()!] = ReadMotion(motion);
         }
         using var voicesFile = Godot.FileAccess.Open("res://VolibearArt/audio/action_cues.json", Godot.FileAccess.ModeFlags.Read)
             ?? throw new InvalidOperationException("Missing approved action voice bindings");
@@ -201,12 +203,13 @@ public static class VolibearPresentationBridge
     }
     private static string MotionFor(CardModel? card, Creature owner)
     {
-        if (card is VolibearCard bearCard && Motions.TryGetValue(bearCard.Key, out var motion))
-            return DomainPower.IsActive(owner) && motion.DomainClip is not null ? motion.DomainClip : motion.Clip;
+        if (MotionKey(card) is { } key && Motions.TryGetValue(key, out var motion))
+            return motion.Clip; // Contact semantics survive domain fallback (counter != ordinary attack).
         return "attack";
     }
     private static string ContactEffect(string clip) => clip switch
     {
+        "counter" => "counter_release",
         "bite" => "bite_hit",
         "attack_heavy" or "storm_leap" or "domain_storm_leap" => "heavy_impact",
         _ => "claw_slash"
@@ -274,6 +277,9 @@ public static class VolibearPresentationBridge
             case CardPlayStartedEntry play:
                 room.GetOwner(play.Actor)?.CardStarted(play.CardPlay, id);
                 break;
+            case CardPlayFinishedEntry finished:
+                room.GetOwner(finished.Actor)?.CardFinished(finished.CardPlay);
+                break;
             case DamageReceivedEntry damage:
                 if (Bear(damage.Dealer))
                     DamageMotions.GetValue(damage.Result, _ => new DamageMotion(MotionFor(damage.CardSource, damage.Dealer!)));
@@ -292,6 +298,7 @@ public static class VolibearPresentationBridge
                 break;
             case BlockGainedEntry block when block.Amount > 0:
                 room.GetOwner(block.Receiver)?.AtOwner(id, "guard_gain");
+                room.GetOwner(block.Receiver)?.BlockMotion(block.CardPlay);
                 break;
             case CardDrawnEntry draw:
                 room.GetOwner(draw.Actor)?.AtCard(id, "card_draw", draw.Card);
@@ -345,6 +352,8 @@ public static class VolibearPresentationBridge
         internal readonly Creature Enemy = enemy;
         internal readonly string Id = id;
         internal int IntentSeen;
+        internal OwnerScope.PlayMotion? Motion;
+        internal bool Grouped;
     }
     private static void BeforeEngage(Creature target, CardModel card, out EngageObservation? __state)
     {
@@ -353,7 +362,8 @@ public static class VolibearPresentationBridge
         {
             var owner = card.Owner.Creature;
             if (!Bear(owner) || owner.CombatState is not { } state) return;
-            __state = new EngageObservation(ActiveEngage.Value, state, owner, target, Next("engage"));
+            __state = new EngageObservation(ActiveEngage.Value, state, owner, target, Next("engage"))
+            { Motion = Owner(owner)?.FindMotion(card), Grouped = ReferenceEquals(ActiveEngageGroup.Value?.Card, card) };
             ActiveEngage.Value = __state;
         }
         catch (Exception error) { Warn("engage_invocation", error); }
@@ -367,7 +377,10 @@ public static class VolibearPresentationBridge
         Dispatch("engage_telegraph", () =>
         {
             if (ReferenceEquals(invocation.Receiver.CombatState, invocation.Combat))
+            {
                 Owner(invocation.Receiver)?.EngageTelegraph();
+                Owner(invocation.Receiver)?.AtTarget(invocation.Id + ":roar", "roar_wave", invocation.Enemy);
+            }
         });
     }
     private static void AfterEngage(Task<EngageCmd.Result> __result, EngageObservation? __state)
@@ -377,9 +390,11 @@ public static class VolibearPresentationBridge
         var invocation = __state;
         Observe(__result, "engage_completion", result =>
         {
-            if (!result.Performed || !result.Completed || result.Absorbed <= 0 ||
+            if (!result.Performed || !result.Completed ||
                 !ReferenceEquals(invocation.Receiver.CombatState, invocation.Combat)) return;
-            Owner(invocation.Receiver)?.AtOwner(invocation.Id + ":absorbed", "absorb");
+            var scope = Owner(invocation.Receiver);
+            if (!invocation.Grouped) scope?.ForcedMotion(invocation.Motion);
+            if (result.Absorbed > 0) scope?.AtOwner(invocation.Id + ":absorbed", "absorb");
         });
     }
     private static Exception? FinishEngageInvocation(Exception? __exception, EngageObservation? __state)
@@ -479,7 +494,7 @@ public static class VolibearPresentationBridge
         }
     }
 
-    private sealed class OwnerScope : IDisposable
+    private sealed partial class OwnerScope : IDisposable
     {
         private readonly RoomScope _room;
         private readonly Creature _owner;
@@ -525,7 +540,7 @@ public static class VolibearPresentationBridge
         private EffectAnchors Anchors(NCreature? target = null, CanvasItem? card = null) =>
             new(_node.Visuals, Target: target?.Visuals, Source: _node.Visuals.VfxSpawnPosition,
                 Card: card, Energy: _room.Room.Ui.EnergyCounterContainer,
-                OwnerMouth: _node.Visuals.TalkPosition);
+                OwnerMouth: _node.Visuals.TalkPosition, OwnerHand: _node.Visuals.VfxSpawnPosition);
         internal void EnsureLightning() => SubscribeLightning();
         private void SubscribeLightning()
         {
@@ -575,21 +590,15 @@ public static class VolibearPresentationBridge
         }
         private void Pose(string clip)
         {
+            StopMotionVisual();
             if (Valid(_node) && Valid(_node.Visuals)) VolibearPresentation.Play(_node.Visuals, clip);
         }
         internal void CardStarted(CardPlay play, string id)
         {
             if (!Live) return;
-            if (play.PlayIndex > 0) { AtCard(id, "card_replay", play.Card); return; }
-            // Other characters' cards do not acquire Volibear pose bindings by string resemblance.
-            if (play.Card is not VolibearCard) return;
-            string clip = MotionFor(play.Card, _owner);
-            Pose(clip);
-            if (StartVoices.TryGetValue(clip, out var cue))
-            {
-                if (cue == "voice.attack_01" && ++_voiceCounter % 2 == 0) cue = "voice.attack_02";
-                _effects.PlaySound(id, cue);
-            }
+            if (play.PlayIndex > 0) AtCard(id, "card_replay", play.Card);
+            BeginMotion(play, id);
+            if (MotionKey(play.Card) == "u23") AtOwner(id + ":roar", "roar_wave");
         }
         internal void Incoming(DamageResult result, string id)
         {
@@ -725,6 +734,7 @@ public static class VolibearPresentationBridge
             VolibearPresentation.SetIdle(_node.Visuals, clip);
             var sprite = _node.Visuals.GetNode<AnimatedSprite2D>("Visuals/AnimatedSprite2D");
             string current = sprite.Animation.ToString();
+            if (_motionSprite is not null && !_lowHealth) return;
             if (current != clip && current is "idle_loop" or "relaxed_loop" or "weak_loop" or "domain_idle" or "domain_weak_loop")
                 sprite.Play(clip);
         }
@@ -741,8 +751,7 @@ public static class VolibearPresentationBridge
                 RefreshIdle();
                 if (announce)
                 {
-                    Pose("domain_enter");
-                    _effects.PlaySound(id, "voice.roar");
+                    if (DomainEntryMotion()) _effects.PlaySound(id, "voice.roar");
                 }
             }
             else
@@ -780,6 +789,7 @@ public static class VolibearPresentationBridge
             if (!Valid(_node) && _room.NodeFor(_owner) is { } rebound) _node = rebound;
             if (!_owner.IsAlive) { if (!_dead) Died(_owner); return; }
             if (!Live) return;
+            TickSemanticVisuals();
             SubscribeLightning();
             UpdateDomain(announce: false);
             if (_domain && !_effects.RenewLoop(_domainKey, 2f))
@@ -789,6 +799,8 @@ public static class VolibearPresentationBridge
         {
             if (_disposed || _dead) return;
             _dead = true;
+            StopSemanticVisuals(false);
+            ClearMotions();
             _domainEligible = false;
             bool domain = _domain;
             _domain = false;
@@ -816,6 +828,8 @@ public static class VolibearPresentationBridge
         });
         internal void SuspendEnding()
         {
+            StopSemanticVisuals(false);
+            ClearMotions();
             _domain = false;
             _effects.StopAll();
             ReleaseCapturedAnchors(all: true);
@@ -824,6 +838,8 @@ public static class VolibearPresentationBridge
         {
             if (_combatStopped) return;
             _combatStopped = true;
+            StopSemanticVisuals(true);
+            ClearMotions();
             _domain = false;
             _lightning?.Dispose();
             _lightning = null;

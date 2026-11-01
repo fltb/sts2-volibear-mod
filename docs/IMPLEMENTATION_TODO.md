@@ -28,35 +28,35 @@
 - [x] M11：Stock／Adaptable／TestSubject复活阶段及PainfulStabs保尸取消；已接正常Install与领域开启通知。
 - [x] M12：ToughEgg孵化生命重置／清负面贡献，以及复活相关原生投票的组合接线。四文件已冻结，已核对HatchMove／Hatch、InstallDispatch及领域开启通知；运行验证归T02。
 - [x] M13：低血形态与语音、选角／胜利语音、实际治疗／返能及已提交能力特效。
-- [ ] M14：收口净化卡真实历史锚点、实际目标减费特效及剩余已批准表现事件。
+- [x] M14：净化卡真实历史锚点、实际目标减费特效及有限核对发现的V01–V21/A01–A03均已实现并接正常入口；运行正确性归阶段二。
   - [x] M14a：净化前捕获真实可见卡坐标，提交后播放；锚点缓存按owner/room隔离并在到期、死亡、战斗结束清理。
   - [x] M14b：真实local优惠写入与原生成功支付的目标减费receipt已接入，保留原支付Task；使用实际费用标签或其已捕获坐标，不冒充目标。
   - [x] M14c：已完成40 VFX／54 cue有限映射核对：确认以下21条事件绑定与3类动画处理需补。lightning_chain为可选连线，feral_aura音频默认关闭，footstep无批准实际事件，不计缺失；U15旧净化绑定不用于创造新玩法。
-  - [ ] V01：R31实际移除目标格挡→guard_break。
-  - [ ] V02：C10迎战后实际反击→counter_release。
-  - [ ] V03：C14实际反雷结算→counter_release。
-  - [ ] V04：已知敌方有利效果实际被领域压制→domain_suppress，不能在预览查询时伪报。
-  - [ ] V05：兽化目标确认→feral_transfer。
-  - [ ] V06：确认兽化批次→owner feral_aura一次性视觉，不开启默认关闭音频循环。
-  - [ ] V07：实际新增咬痕→mark_bite及实体生命周期。
-  - [ ] V08：实际施加易伤→wound。
-  - [ ] V09：实际施加虚弱→weakness。
-  - [ ] V10：实际卡牌蓄力→charge。
-  - [ ] V11：U24实际吸血恢复→lifesteal回流。
-  - [ ] V12：实际迎战开始→roar_wave。
-  - [ ] V13：U23咆哮展示请求→roar_wave。
-  - [ ] V14：实际能力实例部署→cast_charge。
-  - [ ] V15：C19实际给牌保留→armor_retain。
-  - [ ] V16：U10实际强化卡牌→strength；R06当前Unify不是逐卡强化，不造事件。
-  - [ ] V17：U12及Unify实际雷伤修正→lightning_growth；U29现StormCharge已有路径，不重复。
-  - [ ] V18：U33每完整雷伤批实际获盾→thunder_armor，不以部署时播放替代。
-  - [ ] V19：R15实际敏捷增加→armor_retain。
-  - [ ] V20：U17真实预览选择开启→card_retrieve，不冒充入手。
-  - [ ] V21：U17实际选牌移至弃牌堆→card_discard。
-  - [ ] A01：消费primary_motion.trigger，反击与兽化不统一提前在CardStarted播放。
-  - [ ] A02：接入批准domain_fallback_clip。
-  - [ ] A03：接入批准分段动作、临时姿态保持与领域入场优先级，不用动画计时驱动玩法。
-- [ ] M15：核对M12/M14最终接线，统一Release编译并检查实际diff，明确宣布阶段一完成。不是运行正确性验收。
+  - [x] V01：R31实际移除目标格挡→guard_break。
+  - [x] V02：C10迎战后实际反击→counter_release。
+  - [x] V03：C14实际反雷结算→counter_release。
+  - [x] V04：已知敌方有利效果实际被领域压制→domain_suppress，不能在预览查询时伪报。
+  - [x] V05：兽化目标确认→feral_transfer。
+  - [x] V06：确认兽化批次→owner feral_aura一次性视觉，不开启默认关闭音频循环。
+  - [x] V07：实际新增咬痕→mark_bite及实体生命周期。
+  - [x] V08：实际施加易伤→wound。
+  - [x] V09：实际施加虚弱→weakness。
+  - [x] V10：实际卡牌蓄力→charge。
+  - [x] V11：U24实际吸血恢复→lifesteal回流。
+  - [x] V12：实际迎战开始→roar_wave。
+  - [x] V13：U23咆哮展示请求→roar_wave。
+  - [x] V14：实际能力实例部署→cast_charge。
+  - [x] V15：C19实际给牌保留→armor_retain。
+  - [x] V16：U10实际强化卡牌→strength；R06当前Unify不是逐卡强化，不造事件。
+  - [x] V17：U12及Unify实际雷伤修正→lightning_growth；U29现StormCharge已有路径，不重复。
+  - [x] V18：U33每完整雷伤批实际获盾→thunder_armor，不以部署时播放替代。
+  - [x] V19：R15实际敏捷增加→armor_retain。
+  - [x] V20：U17真实预览选择开启→card_retrieve，不冒充入手。
+  - [x] V21：U17实际选牌移至弃牌堆→card_discard。
+  - [x] A01：消费primary_motion.trigger，反击与兽化不统一提前在CardStarted播放。
+  - [x] A02：接入批准domain_fallback_clip。
+  - [x] A03：接入批准分段动作、临时姿态保持与领域入场优先级，不用动画计时驱动玩法。
+- [x] M15：已核对M12/M14最终生产接线与实际diff；所有作者冻结后Release编译通过，资源包已重建且批准资产字节校验通过。阶段一实现清单完成；不是运行正确性验收，阶段二T01–T05仍全部待执行。
 
 ## 阶段二：实现确认后验证正确性
 

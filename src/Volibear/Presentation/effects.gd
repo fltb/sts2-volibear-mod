@@ -103,7 +103,9 @@ func _anchor_bundle(effect: Dictionary, anchors: Dictionary) -> Dictionary:
 		"damaged_target_to_owner":
 			a = target
 			b = owner
-		"owner_mouth_to_targets": a = anchors.get("mouth")
+		"owner_mouth_to_targets":
+			a = anchors.get("mouth")
+			b = target if _valid(target) else owner
 		"selected_card", "owner_to_selected_card", "converted_attack_card", "converted_other_card", "exhausted_card", "played_card":
 			b = card
 			target_position = true

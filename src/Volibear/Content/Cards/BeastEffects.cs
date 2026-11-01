@@ -34,16 +34,21 @@ internal static class BeastSelection
         var selected = all ? candidates : (await CardSelectCmd.FromHand(context, source.Owner,
             new CardSelectorPrefs(new LocString("cards", source.Id.Entry + ".beastSelectionPrompt"), optional ? 0 : count, count),
             c => candidates.Contains(c), source)).ToArray();
+        var committed = 0;
         foreach (var card in selected)
         {
             if (!Live(source)) break;
             if (!ReferenceEquals(card.Pile, hand)) continue;
-            var shape = await BeastForms.Convert(context, card);
+            var previous = BeastForms.Shape(card);
+            var shape = await BeastForms.Convert(context, card, source);
+            if (previous == BeastShape.None && BeastForms.IsConverted(card)) committed++;
             // Display-only set-zero wording does NOT replace the shared -1 coupon.
             if (discount && (!oldDays || shape == BeastShape.Claw)) NextPlayDiscount.Grant(card);
             if (oldDays && shape == BeastShape.Body && Live(source))
                 await CreatureCmd.GainBlock(source.Owner.Creature, 4m, ValueProp.Move, play);
         }
+        if (committed > 0)
+            GameplayPresentationReceipts.Publish("feral_batch_committed", source.Owner.Creature, source, amount: committed);
     }
 
     internal static async Task Search(PlayerChoiceContext context, CardModel source)

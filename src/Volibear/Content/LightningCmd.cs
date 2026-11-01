@@ -31,10 +31,14 @@ public static class LightningCmd
     }
 
     public static Task<int> Deal(PlayerChoiceContext choiceContext, IEnumerable<Creature> targets,
-                                 decimal amount, CardModel? card)
+                                 decimal amount, CardModel? card) => Deal(choiceContext, targets, amount, card, null);
+
+    public static Task<int> Deal(PlayerChoiceContext choiceContext, IEnumerable<Creature> targets,
+                                 decimal amount, CardModel? card,
+                                 Action<IReadOnlyList<LightningHit>>? onResolved)
     {
         ArgumentNullException.ThrowIfNull(card);
-        return DealCore(choiceContext, card.Owner.Creature, targets, amount, card, nativeCardOrigin: true);
+        return DealCore(choiceContext, card.Owner.Creature, targets, amount, card, nativeCardOrigin: true, onResolved);
     }
 
     public static Task<int> DealAllEnemies(PlayerChoiceContext choiceContext, Creature owner,
@@ -47,11 +51,17 @@ public static class LightningCmd
     }
 
     public static Task<int> Deal(PlayerChoiceContext choiceContext, Creature owner,
-                                       IEnumerable<Creature> targets, decimal amount, CardModel? card = null) =>
+                                 IEnumerable<Creature> targets, decimal amount, CardModel? card = null) =>
         DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false);
 
+    public static Task<int> Deal(PlayerChoiceContext choiceContext, Creature owner,
+                                       IEnumerable<Creature> targets, decimal amount, CardModel? card,
+                                        Action<IReadOnlyList<LightningHit>>? onResolved) =>
+        DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false, onResolved);
+
     private static async Task<int> DealCore(PlayerChoiceContext choiceContext, Creature owner,
-        IEnumerable<Creature> targets, decimal amount, CardModel? card, bool nativeCardOrigin)
+        IEnumerable<Creature> targets, decimal amount, CardModel? card, bool nativeCardOrigin,
+        Action<IReadOnlyList<LightningHit>>? onResolved = null)
     {
         ArgumentNullException.ThrowIfNull(owner);
         ArgumentNullException.ThrowIfNull(targets);
@@ -86,6 +96,9 @@ public static class LightningCmd
             var results = nativeResults.Select(result => new LightningHit(result.Receiver,
                 result.UnblockedDamage, result.BlockedDamage, result.OverkillDamage)).ToArray();
             var dealt = results.Sum(result => result.HpLost);
+            // Read-only presentation receipt; never let an observer fail settlement.
+            try { onResolved?.Invoke(Array.AsReadOnly(results)); }
+            catch { /* Optional presentation cannot change the native result. */ }
 
             // A reset/end during native awaits closes this scope; don't recreate it
             // or announce post-combat effects. A turn transition invalidates the ticket.

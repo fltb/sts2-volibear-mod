@@ -68,7 +68,9 @@ public static class BeastForms
 
     public static bool IsConverted(CardModel card) => forms.TryGetValue(card, out _);
 
-    public static async Task<BeastShape> Convert(PlayerChoiceContext context, CardModel card)
+    public static Task<BeastShape> Convert(PlayerChoiceContext context, CardModel card) => Convert(context, card, null);
+
+    public static async Task<BeastShape> Convert(PlayerChoiceContext context, CardModel card, CardModel? source)
     {
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(card);
@@ -103,6 +105,9 @@ public static class BeastForms
         form.Vars.InitializeWithOwner(card);
         if (card.IsUpgraded) UpgradeVars(form);
         Refresh(card);
+        // Confirm only the committed same-entity conversion, before its claw/body
+        // observers. This preserves the transfer-prelude ordering without waiting for VFX.
+        GameplayPresentationReceipts.Publish("feral_target_confirmed", card.Owner.Creature, source, card);
         var listeners = Converted;
         if (listeners is not null)
             foreach (Func<PlayerChoiceContext, BeastChange, Task> listener in listeners.GetInvocationList())

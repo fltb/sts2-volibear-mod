@@ -25,6 +25,7 @@ public static partial class DomainPlayerDebuffContributions
         internal readonly Creature Owner = owner;
         internal int Actual = actual;
         internal int Retained = retained;
+        internal readonly System.Collections.Generic.HashSet<Creature> PresentationSources = [];
     }
     private static ConditionalWeakTable<PowerModel, Receipt> receipts = new();
     private static bool installed;
@@ -58,6 +59,7 @@ public static partial class DomainPlayerDebuffContributions
         int actual = Math.Clamp((int)amount, -999999999, 999999999);
         receipts.Remove(power);
         receipts.Add(power, new Receipt(combat, target, actual, Enemy(power, target, applier, card, context) ? 0 : actual));
+        RememberPresentationSource(power, target, applier, card, context);
     }
 
     /// <summary>Call immediately before the real SetAmount, including decrements.</summary>
@@ -87,6 +89,30 @@ public static partial class DomainPlayerDebuffContributions
         else if (delta > 0 && !Enemy(power, power.Owner, applier, card, context))
             receipt.Retained = Math.Min(next, receipt.Retained + delta);
         receipt.Actual = next;
+        if (delta > 0 || power is ShrinkPower && delta != 0) RememberPresentationSource(power, power.Owner, applier, card, context);
+    }
+
+    private static void RememberPresentationSource(PowerModel power, Creature target, Creature? applier, CardModel? card, PlayerChoiceContext context)
+    {
+        try
+        {
+            if (!Enemy(power, target, applier, card, context) || !receipts.TryGetValue(power, out var receipt)) return;
+            var enemy = applier;
+            if (enemy is null && nullSources.TryGetValue(context, out var known)) enemy = known.Source;
+            if (enemy is not null) receipt.PresentationSources.Add(enemy);
+        }
+        catch { }
+    }
+    private static void PresentSuppressedContribution(PowerModel power, bool scalar)
+    {
+        try
+        {
+            if (!receipts.TryGetValue(power, out var receipt)) return;
+            foreach (var enemy in receipt.PresentationSources)
+                if (scalar) Volibear.Presentation.PowerPresentationDomainScalars.Capture(enemy, power);
+                else Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, power, sourceCombat: receipt.Combat);
+        }
+        catch { }
     }
 
     private static void Reconcile(PowerModel power, Receipt receipt)

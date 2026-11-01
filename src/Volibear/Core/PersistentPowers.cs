@@ -218,9 +218,15 @@ public sealed class ThunderArmorPower : InstancedPersistentPower
         Data.Subscription = LightningBatches.Subscribe(Owner, AfterBatch);
         return Task.CompletedTask;
     }
-    private Task AfterBatch(PlayerChoiceContext context, LightningBatch receipt) =>
-        Live && ReferenceEquals(receipt.Owner, Owner)
-            ? CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, null) : Task.CompletedTask;
+    private async Task AfterBatch(PlayerChoiceContext context, LightningBatch receipt)
+    {
+        if (!Live || !ReferenceEquals(receipt.Owner, Owner)) return;
+        var before = Owner.Block;
+        var granted = await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Move, null);
+        var added = Math.Min(granted, Owner.Block - before);
+        if (added > 0)
+            GameplayPresentationReceipts.Publish("thunder_armor_block_committed", Owner, this, amount: added);
+    }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_IMMOVABLE_BODY")]

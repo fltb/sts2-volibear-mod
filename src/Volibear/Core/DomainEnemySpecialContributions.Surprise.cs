@@ -49,9 +49,11 @@ public static partial class DomainEnemySpecialContributions
         // Each Add commits synchronously before its first await (native CreateCreature/AddCreature).
         // A late domain cancels only the next child. Already committed children are never removed.
         if (!SurpriseGate(receipt, generation)) await CreatureCmd.Add<SneakyGremlin>(receipt.Combat, "sneaky");
+        else if (generation == specialGeneration) Volibear.Presentation.PowerPresentationDomain.Once(receipt, power.Owner, power, sourceCombat: receipt.Combat);
         if (generation != specialGeneration) return;
         Creature? fat = null;
         if (!SurpriseGate(receipt, generation)) fat = await CreatureCmd.Add<FatGremlin>(receipt.Combat, "fat");
+        else if (generation == specialGeneration) Volibear.Presentation.PowerPresentationDomain.Once(receipt, power.Owner, power, sourceCombat: receipt.Combat);
         if (generation != specialGeneration) return;
         int total = 0;
         foreach (var theft in power.Owner.GetPowerInstances<ThieveryPower>())

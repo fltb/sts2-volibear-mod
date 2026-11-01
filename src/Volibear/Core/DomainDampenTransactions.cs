@@ -209,6 +209,7 @@ public static class DomainDampenTransactions
         bool domain = source && DomainEnemyEffects.ActiveFor(apply!.Request.Move.Outer.Combat);
         int before = card.CurrentUpgradeLevel, count = ledger.Count;
         if (!domain) { ledger.Add(card, oldLevel); CardCmd.Downgrade(card); }
+        else Volibear.Presentation.PowerPresentationDomain.Suppressed(apply!.Request.Caster, invocation.Power, card);
         PairObserved?.Invoke(new(invocation.Power, card, apply?.Request.Caster, apply?.Request.Move.Outer.Combat,
             invocation.Nonce, apply?.Life.Nonce ?? 0, apply?.Request.Move.Life.Nonce ?? 0, apply?.Request.Move.Outer.Life.Nonce ?? 0,
             before, card.CurrentUpgradeLevel, count, ledger.Count, domain, domain, provenance, ledger.ToArray()));

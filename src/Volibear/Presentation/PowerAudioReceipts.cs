@@ -25,7 +25,7 @@ internal sealed record PowerAudioReceipt(long Transaction, ICombatState Combat, 
 /// because the first suspension can replace its original promise. Completion closes the
 /// frame BEFORE SetResult/SetException can execute a caller continuation. No gameplay Task
 /// is wrapped/replaced/awaited, and nested commands never inherit an outer source ticket.</summary>
-internal static class PowerAudioReceipts
+internal static partial class PowerAudioReceipts
 {
     private sealed class Ticket(PowerModel power, Creature? owner, CardModel? card, Creature? applier, bool silent)
     {
@@ -38,6 +38,7 @@ internal static class PowerAudioReceipts
         internal readonly bool Silent = silent;
         internal readonly AudioCommitGate Gate = new();
         internal bool Invalid;
+        internal bool PresentationCommitted;
     }
     private sealed class Frame(Ticket? ticket, Frame? previous)
     {
@@ -59,6 +60,7 @@ internal static class PowerAudioReceipts
         {
             foreach (var method in NativeBodies())
                 h.Patch(method, transpiler: new(typeof(PowerAudioReceipts), nameof(CommandBody)));
+            InstallPresentationCommits(h);
             installed = true;
         }
         catch { h.UnpatchAll(h.Id); throw; }
@@ -79,7 +81,7 @@ internal static class PowerAudioReceipts
         Ticket? ticket = null;
         try
         {
-            if (state == -1 && Cue(power) is not null)
+            if (state == -1 && (Cue(power) is not null || TracksPresentation(power, card)))
             {
                 ticket = new(power, target ?? (power.IsMutable ? power.Owner : null), card, applier, silent);
                 var bound = Tickets.GetValue(native, _ => ticket);
@@ -133,7 +135,7 @@ internal static class PowerAudioReceipts
     }
     private static string? Cue(PowerModel power) => power switch
     {
-        StandingPower => "armor_retain", ImmovableBodyPower => "armor_iron", ThunderArmorPower => "thunder_armor",
+        StandingPower => "armor_retain", ImmovableBodyPower => "armor_iron",
         PendingCostPower or EndlessHuntPower => "cost_reduce", StrengthPower => "strength", _ => null
     };
     private static MethodInfo Handler(string name) => AccessTools.Method(typeof(PowerAudioReceipts), name);

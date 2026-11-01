@@ -128,14 +128,22 @@ public static class DomainEnemyEffects
     // run: notably Flutter's decrement/stun, Slippery's charge loss, and Intangible's expiry.
     private static void NeutralMultiplier(PowerModel __instance, Creature? __0, ref decimal __result)
     {
-        if (ProtectsTarget(__instance, __0)) __result = 1m;
+        if (ProtectsTarget(__instance, __0))
+        {
+            if (__result != 1m) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
+            __result = 1m;
+        }
     }
 
     private static void NeutralEnemyAttackBonus(PowerModel __instance, Creature? __3, ref decimal __result)
     {
         // Vigor's attack registration and AfterAttack consumption still run. Only
         // its positive additive contribution is suppressed; negative values survive.
-        if (__result > 0m && ReferenceEquals(__instance.Owner, __3) && ActiveFor(__3)) __result = 0m;
+        if (__result > 0m && ReferenceEquals(__instance.Owner, __3) && ActiveFor(__3))
+        {
+            Volibear.Presentation.PowerPresentationDomainScalars.Capture(__3, __instance);
+            __result = 0m;
+        }
     }
 
     private static void NeutralBackAttackBonus(PowerModel __instance, Creature? __0, Creature? __3, ref decimal __result)
@@ -143,30 +151,47 @@ public static class DomainEnemyEffects
         // Facing/markers are combat facts and remain intact. This exact native
         // multiplier is the enemy benefit, even though its power lives on a player.
         if (__result > 1m && __0 is { IsPlayer: true } && ReferenceEquals(__instance.Owner, __0) &&
-            __3 is not null && ReferenceEquals(__0.CombatState, __3.CombatState) && ActiveFor(__3)) __result = 1m;
+            __3 is not null && ReferenceEquals(__0.CombatState, __3.CombatState) && ActiveFor(__3))
+        {
+            Volibear.Presentation.PowerPresentationDomainScalars.Capture(__3, __instance);
+            __result = 1m;
+        }
     }
 
     private static void AllowBlockClear(PowerModel __instance, Creature __0, ref bool __result)
     {
         // Do not strip current/direct block on domain entry. Suppress only this
         // passive veto when the normal lifecycle actually requests block clearing.
-        if (ProtectsTarget(__instance, __0)) __result = true;
+        if (ProtectsTarget(__instance, __0))
+        {
+            if (!__result && __0.Block > 0) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
+            __result = true;
+        }
     }
 
     private static void NeutralHpLoss(PowerModel __instance, Creature? __0, decimal __1, ref decimal __result)
     {
-        if (ProtectsTarget(__instance, __0)) __result = __1;
+        if (ProtectsTarget(__instance, __0))
+        {
+            if (__result != __1) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
+            __result = __1;
+        }
     }
 
     private static void NeutralCap(PowerModel __instance, Creature? __0, ref decimal __result)
     {
-        if (ProtectsTarget(__instance, __0)) __result = decimal.MaxValue;
+        if (ProtectsTarget(__instance, __0))
+        {
+            if (__result != decimal.MaxValue) Volibear.Presentation.PowerPresentationDomainScalars.CaptureCap(__0, __instance, __result);
+            __result = decimal.MaxValue;
+        }
     }
 
     private static void NeutralShell(PowerModel __instance, Creature? __0, decimal __1, ref decimal __result)
     {
         if (ProtectsTarget(__instance, __0))
         {
+            if (__result != __1) Volibear.Presentation.PowerPresentationDomainScalars.Capture(__0, __instance);
             __result = __1;
             if (__1 > 0m)
             {
@@ -194,22 +219,29 @@ public static class DomainEnemyEffects
         SuppressedShells.Remove(__instance);
     }
 
-    private static bool AllowArtifactDebuff(PowerModel __instance, Creature __1, decimal __2,
+    private static bool AllowArtifactDebuff(PowerModel __instance, PowerModel __0, Creature __1, decimal __2,
                                             ref decimal __4, ref bool __result)
     {
         if (!ProtectsTarget(__instance, __1)) return true;
         // false means this listener did not modify the amount: no Artifact consumption hook.
         // Leave visibility/type classification and all other listeners to the original engine.
+        try
+        {
+            if (__2 != 0 && __0.IsVisible && __0.GetTypeForAmount(__2) == MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff)
+                Volibear.Presentation.PowerPresentationDomainScalars.Capture(__1, __instance);
+        }
+        catch { }
         __4 = __2;
         __result = false;
         return false;
     }
 
-    private static bool SuppressRetaliation(PowerModel __instance, Creature __1, ref Task __result)
+    private static bool SuppressRetaliation(PowerModel __instance, Creature __1, object[] __args, ref Task __result)
     {
         if (!ProtectsTarget(__instance, __1)) return true;
         // Only exact Thorns.BeforeDamageReceived / Reflect.AfterDamageReceived are installed.
         // They contain retaliation alone. Reflect.AfterSideTurnStart (expiry) is NOT patched.
+        Volibear.Presentation.PowerPresentationDomain.RetaliationCancelled(__instance, __args);
         __result = Task.CompletedTask;
         return false;
     }
@@ -220,6 +252,7 @@ public static class DomainEnemyEffects
         // enemy origin from CurrentSide: Engage also runs enemy actions in the player phase.
         // Dead-target heals are resurrection transactions and intentionally outside this slice.
         if (__1 <= 0m || !__0.IsAlive || !ActiveFor(__0)) return true;
+        Volibear.Presentation.PowerPresentationDomain.Suppressed(__0, amount: __1);
         __result = Task.CompletedTask;
         return false;
     }

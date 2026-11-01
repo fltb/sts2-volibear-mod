@@ -19,10 +19,30 @@ public static partial class DomainPlayerDebuffContributions
     internal static Func<PowerModel, Creature, decimal, Creature?, CardModel?, PlayerChoiceContext, bool>? StatCancellation;
 
     private static bool CancelCommit(PowerModel power, Creature target, decimal amount,
-        Creature? applier, CardModel? card, PlayerChoiceContext context) =>
-        ShouldCancel(power, target, amount, applier, card, context) ||
-        DomainEnemyStatusContributions.ShouldCancelTainted(power, target, amount, applier, card, context) ||
-        StatCancellation?.Invoke(power, target, amount, applier, card, context) == true;
+        Creature? applier, CardModel? card, PlayerChoiceContext context)
+    {
+        bool cancelled = ShouldCancel(power, target, amount, applier, card, context) ||
+            DomainEnemyStatusContributions.ShouldCancelTainted(power, target, amount, applier, card, context) ||
+            StatCancellation?.Invoke(power, target, amount, applier, card, context) == true;
+        if (cancelled) PublishCancellation(power, target, amount, applier, card, context);
+        return cancelled;
+    }
+
+    private static void PublishCancellation(PowerModel power, Creature target, decimal amount,
+        Creature? applier, CardModel? card, PlayerChoiceContext context)
+    {
+        try
+        {
+            var enemy = applier;
+            if (enemy is null && power is MegaCrit.Sts2.Core.Models.Powers.WeakPower &&
+                nullSources.TryGetValue(context, out var known) && known.Targets.Contains(target) &&
+                ReferenceEquals(known.Combat, target.CombatState)) enemy = known.Source;
+            if (enemy is null && power is MegaCrit.Sts2.Core.Models.Powers.TaintedPower &&
+                context.LastInvolvedModel is MegaCrit.Sts2.Core.Models.Powers.VitalSparkPower spark) enemy = spark.Owner;
+            Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, power, card, amount);
+        }
+        catch { /* Presentation must not affect the precommit veto. */ }
+    }
 
     private static void InstallCommitGates(Harmony harmony)
     {

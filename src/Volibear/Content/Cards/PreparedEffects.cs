@@ -50,7 +50,7 @@ public sealed class Volibear_C19 : VolibearCard
             card => card.Type == CardType.Attack && !ReferenceEquals(card, this), this);
         foreach (var card in selected)
             if (DirectEffects.Live(this) && card.Pile?.Type == PileType.Hand)
-                PreparedAttackBonus.Prepare(card, (int)Value("Prepared"));
+                PreparedAttackBonus.Prepare(card, (int)Value("Prepared"), this);
     }
     protected override void OnUpgrade() => UpgradeVar("Prepared", 2m);
 }

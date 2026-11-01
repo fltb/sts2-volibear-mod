@@ -83,19 +83,72 @@ public static partial class DomainPlayerDebuffContributions
     private static decimal DamageMultiplier(AbstractModel model, Creature? target, decimal amount, ValueProp props,
         Creature? dealer, CardModel? card)
     {
-        if (model is PowerModel power && power is WeakPower or VulnerablePower or ShrinkPower && Suppressed(power)) return 1m;
+        if (model is PowerModel power && power is WeakPower or VulnerablePower or ShrinkPower && Suppressed(power))
+        {
+            if (amount > 0 && props.IsPoweredAttack() && ReferenceEquals(power.Owner, power is VulnerablePower ? target : dealer))
+                PresentSuppressedContribution(power, scalar: true);
+            return 1m;
+        }
         return model.ModifyDamageMultiplicative(target, amount, props, dealer, card);
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static decimal BlockMultiplier(AbstractModel model, Creature target, decimal amount, ValueProp props,
-        CardModel? card, CardPlay? play) => model is FrailPower frail && Suppressed(frail) ? 1m :
-        model.ModifyBlockMultiplicative(target, amount, props, card, play);
+        CardModel? card, CardPlay? play)
+    {
+        if (model is FrailPower frail && Suppressed(frail))
+        {
+            if (amount > 0 && ReferenceEquals(frail.Owner, target) && props.IsPoweredCardOrMonsterMoveBlock())
+                PresentSuppressedContribution(frail, scalar: true);
+            return 1m;
+        }
+        return model.ModifyBlockMultiplicative(target, amount, props, card, play);
+    }
 
-    private static IEnumerable<CodeInstruction> ChainsDrawContribution(IEnumerable<CodeInstruction> input) => Replace(input,
-        AccessTools.PropertyGetter(typeof(PowerModel), nameof(PowerModel.Amount)), Own(nameof(EffectiveAmount)), 2);
+    private static IEnumerable<CodeInstruction> ChainsDrawContribution(IEnumerable<CodeInstruction> input, MethodBase __originalMethod)
+    {
+        var getter = AccessTools.PropertyGetter(typeof(PowerModel), nameof(PowerModel.Amount));
+        var card = AccessTools.Field(__originalMethod.DeclaringType, "card");
+        if (card?.FieldType != typeof(CardModel)) throw new InvalidOperationException("Chains draw card field drift");
+        int count = 0;
+        foreach (var old in input)
+        {
+            var instruction = new CodeInstruction(old);
+            if (instruction.Calls(getter))
+            {
+                if (++count == 1)
+                {
+                    var load = new CodeInstruction(OpCodes.Ldarg_0);
+                    load.labels.AddRange(instruction.labels); instruction.labels.Clear();
+                    yield return load;
+                    yield return new CodeInstruction(OpCodes.Ldfld, card);
+                }
+                instruction.opcode = OpCodes.Call;
+                instruction.operand = Own(count == 1 ? nameof(ChainsExecutionAmount) : nameof(EffectiveAmount));
+            }
+            yield return instruction;
+        }
+        if (count != 2) throw new InvalidOperationException("Chains draw amount sites drift");
+    }
+    private static int ChainsExecutionAmount(PowerModel power, CardModel card)
+    {
+        int effective = EffectiveAmount(power);
+        try
+        {
+            if (effective < power.Amount && MegaCrit.Sts2.Core.Combat.CombatManager.Instance.History.Entries
+                .OfType<MegaCrit.Sts2.Core.Combat.History.Entries.CardAfflictedEntry>().Count(e => e.HappenedThisTurn(power.CombatState) &&
+                    ReferenceEquals(e.Actor, power.Owner) && e.Affliction is MegaCrit.Sts2.Core.Models.Afflictions.Bound) < power.Amount)
+                PresentSuppressedContribution(power, scalar: false);
+        }
+        catch { }
+        return effective;
+    }
     private static void ChainsPlayContribution(ChainsOfBindingPower __instance, ref bool __result)
     {
-        if (Suppressed(__instance)) __result = true;
+        if (Suppressed(__instance))
+        {
+            if (!__result) PresentSuppressedContribution(__instance, scalar: true);
+            __result = true;
+        }
     }
 
     private static IEnumerable<CodeInstruction> ConstrictContribution(IEnumerable<CodeInstruction> input, MethodBase __originalMethod)
@@ -125,7 +178,12 @@ public static partial class DomainPlayerDebuffContributions
         decimal amount, ValueProp props, Creature? dealer, CardModel? card, ConstrictPower source)
     {
         int effective = EffectiveAmount(source);
-        if (Suppressed(source)) return Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>());
+        if (Suppressed(source))
+        {
+            if (amount > 0) PresentSuppressedContribution(source, scalar: false);
+            return Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>());
+        }
+        if (effective < amount) PresentSuppressedContribution(source, scalar: false);
         // Only this exact native contribution reads the retained amount; Amount itself,
         // death-triggered removal and every unrelated damage command are untouched.
         return CreatureCmd.Damage(choices, target, effective, props, dealer, card);

@@ -114,7 +114,11 @@ public static partial class DomainHopperEffects
         if (!context.Root.Cards.TryAdd(card, theft)) throw new InvalidOperationException("Hopper selected same card twice.");
         if (!Matches(theft) || card.Pile?.Type is not (PileType.Draw or PileType.Discard) || theft.Master.Pile?.Type != PileType.Deck)
             throw new InvalidOperationException("Hopper selected card identity/pile changed.");
-        if (!theft.Decision.AdmitCombat(Current(context.Root), Domain(context.Root))) return Task.CompletedTask;
+        if (!theft.Decision.AdmitCombat(Current(context.Root), Domain(context.Root)))
+        {
+            if (Current(context.Root)) Volibear.Presentation.PowerPresentationDomain.Once(theft, context.Root.Source.Creature, context.Root.Source, card);
+            return Task.CompletedTask;
+        }
         return CardPileCmd.RemoveFromCombat(card, visuals);
     }
     private static void Enqueue(List<CardModel> cards, CardModel card, Frame frame)
@@ -133,7 +137,11 @@ public static partial class DomainHopperEffects
         if (!context.Root.Cards.TryGetValue(card, out var theft) || !Matches(theft)) throw new InvalidOperationException("Hopper Steal lacks exact card.");
         if (theft.Swipe is not null) throw new InvalidOperationException("Hopper Swipe reused.");
         theft.Swipe = swipe;
-        if (!theft.Decision.AdmitMaster(Current(theft.Root), Domain(theft.Root))) return Task.CompletedTask;
+        if (!theft.Decision.AdmitMaster(Current(theft.Root), Domain(theft.Root)))
+        {
+            if (Current(theft.Root)) Volibear.Presentation.PowerPresentationDomain.Once(theft, theft.Root.Source.Creature, theft.Root.Source, card);
+            return Task.CompletedTask;
+        }
         return Forward(Kind.Steal, swipe, new Context(theft.Root, theft), () => swipe.Steal(card));
     }
     private static Task MasterSingle(CardModel card, bool preview, Frame frame)
@@ -156,7 +164,11 @@ public static partial class DomainHopperEffects
         if (!ReferenceEquals(card, theft.Master) || !Matches(theft) || card.Pile?.Type != PileType.Deck)
             throw new InvalidOperationException("Hopper master precommit identity/pile changed.");
         // This callsite is after the ORIGINAL BeforeCardRemoved await/GetResult, not Steal entry.
-        if (!theft.Decision.AdmitMaster(Current(theft.Root), Domain(theft.Root))) return;
+        if (!theft.Decision.AdmitMaster(Current(theft.Root), Domain(theft.Root)))
+        {
+            if (Current(theft.Root)) Volibear.Presentation.PowerPresentationDomain.Once(theft, theft.Root.Source.Creature, theft.Root.Source, card);
+            return;
+        }
         try { card.RemoveFromCurrentPile(silent); }
         finally
         {

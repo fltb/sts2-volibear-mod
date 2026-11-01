@@ -147,7 +147,11 @@ public static partial class DomainEnemyStatusContributions
         {
             Player player = target.Player ?? target.PetOwner!;
             if (player.Creature.IsDead) continue;
-            if (EnemySource(source, player.Creature, out _) && DomainPower.IsActive(player.Creature)) continue;
+            if (EnemySource(source, player.Creature, out var enemy) && DomainPower.IsActive(player.Creature))
+            {
+                Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, amount: count, domainOwner: player.Creature);
+                continue;
+            }
             var results = new CardPileAddResult[count];
             for (int i = 0; i < count; i++)
             {
@@ -179,6 +183,7 @@ public static partial class DomainEnemyStatusContributions
                 // Direct native sites already created the card. Undo that registration
                 // before it can enter a pile/history; unsuccessful previews are ignored.
                 combat.RemoveCard(card);
+                Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, card, domainOwner: receiver);
                 return Task.FromResult(new CardPileAddResult { success = false, cardAdded = card });
             }
             _origins.Remove(card);
@@ -194,9 +199,12 @@ public static partial class DomainEnemyStatusContributions
         for (CardModel? current = card; current is not null && seen.Add(current); current = current.CloneOf)
         {
             if (!_origins.TryGetValue(current, out var origin)) continue;
-            return origin.Generation == _generation && ReferenceEquals(origin.Receiver, receiver) &&
+            bool suppressed = origin.Generation == _generation && ReferenceEquals(origin.Receiver, receiver) &&
                 ReferenceEquals(origin.Combat, receiver.CombatState) && ReferenceEquals(card.Owner.Creature, receiver) &&
                 ReferenceEquals(card.CombatState, origin.Combat);
+            // This private gate is used only by the two concrete StatusDamage commands below, not previews.
+            if (suppressed) Volibear.Presentation.PowerPresentationDomain.Suppressed(origin.Enemy, card, card, domainOwner: receiver);
+            return suppressed;
         }
         return false;
     }

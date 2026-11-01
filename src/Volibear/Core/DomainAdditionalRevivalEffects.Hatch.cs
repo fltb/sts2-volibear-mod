@@ -57,7 +57,11 @@ public static partial class DomainAdditionalRevivalEffects
     {
         // Removal of buffs remains an enemy cost. Negative Strength etc use the
         // native amount-sensitive classification, not only PowerModel.Type.
-        if (power is not null && HatchBlocked(frame) && power.TypeForCurrentAmount == PowerType.Debuff) return Task.CompletedTask;
+        if (power is not null && HatchBlocked(frame) && power.TypeForCurrentAmount == PowerType.Debuff)
+        {
+            PublishHatchCancellation(frame);
+            return Task.CompletedTask;
+        }
         return PowerCmd.Remove(power);
     }
     private static Task HatchFromMove(ToughEgg egg, Frame frame)
@@ -73,7 +77,18 @@ public static partial class DomainAdditionalRevivalEffects
         // Same two native commands and order as SetMaxAndCurrentHp, with a fresh
         // gate between them. Preserve decreases; never manufacture a new HP value.
         if (!HatchBlocked(frame) || amount <= owner.MaxHp) await CreatureCmd.SetMaxHp(owner, amount);
+        else PublishHatchCancellation(frame);
         if (!HatchBlocked(frame) || amount <= owner.CurrentHp) await CreatureCmd.SetCurrentHp(owner, amount);
+        else PublishHatchCancellation(frame);
+    }
+    private static void PublishHatchCancellation(Frame frame)
+    {
+        try
+        {
+            if (frame.Hatch?.Payload is { Cancelled: true } t && t.Epoch == epoch)
+                Volibear.Presentation.PowerPresentationDomain.Once(t, t.Owner, t.Egg, sourceCombat: t.Combat);
+        }
+        catch { }
     }
     private static void CancelOpenHatches(ICombatState combat)
     {

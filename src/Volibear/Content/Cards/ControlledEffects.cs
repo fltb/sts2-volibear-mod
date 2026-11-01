@@ -118,14 +118,20 @@ internal static class ControlledEffects
         // In this engine top is index 0 (CardPileCmd.Draw); no shuffle/refill here.
         var looked = draw.Cards.Take(count).ToArray();
         if (looked.Length == 0) return;
-        var selected = (await CardSelectCmd.FromSimpleGrid(context, looked, source.Owner,
-            new CardSelectorPrefs(prompt, 0, looked.Length))).ToHashSet();
+        HashSet<CardModel> selected;
+        using (new ScryPresentationScope(context, source, looked))
+            selected = (await CardSelectCmd.FromSimpleGrid(context, looked, source.Owner,
+                new CardSelectorPrefs(prompt, 0, looked.Length))).ToHashSet();
         foreach (var card in looked)
         {
             if (!DirectEffects.Live(source)) break;
             if (selected.Contains(card) && ReferenceEquals(card.Pile, draw))
+            {
                 // A pile move, not CardCmd.Discard: no hand-discard event is invented.
                 await CardPileCmd.Add(card, PileType.Discard);
+                if (card.Pile?.Type == PileType.Discard)
+                    GameplayPresentationReceipts.Publish("selected_card_discarded", source.Owner.Creature, source, card);
+            }
         }
     }
 }
@@ -395,7 +401,13 @@ public sealed class Volibear_R31 : VolibearCard
         await DirectEffects.Block(this, play, Value("Block"));
         await DomainPower.Open(context, Owner.Creature, (int)Value("Domain"), this);
         if (DirectEffects.Live(this) && play.Target is { IsHittable: true } target)
+        {
+            var before = target.Block;
             await CreatureCmd.LoseBlock(target, target.Block);
+            var removed = before - target.Block;
+            if (removed > 0)
+                GameplayPresentationReceipts.Publish("target_block_removed", Owner.Creature, this, this, target, removed);
+        }
         await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
         await LightningCmd.DealAllEnemies(context, Value("Lightning"), this);
     }

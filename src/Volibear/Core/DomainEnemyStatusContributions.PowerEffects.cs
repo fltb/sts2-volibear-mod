@@ -26,6 +26,7 @@ public static partial class DomainEnemyStatusContributions
         internal readonly Creature Receiver = receiver;
         internal int Actual = actual;
         internal int Retained = retained;
+        internal readonly HashSet<Creature> PresentationSources = [];
     }
     private static ConditionalWeakTable<PlayerChoiceContext, SparkTicket> _sparkTickets = new();
     private static ConditionalWeakTable<PowerModel, TaintedReceipt> _taintedReceipts = new();
@@ -80,8 +81,13 @@ public static partial class DomainEnemyStatusContributions
         if (matched != 1) throw new InvalidOperationException($"Enemy status power contribution count changed: {__originalMethod}: {matched}");
     }
 
-    private static bool SuppressPowerContribution(PowerModel source, Creature receiver) =>
-        EnemySource(source, receiver, out _) && DomainPower.IsActive(receiver);
+    private static bool SuppressPowerContribution(PowerModel source, Creature receiver)
+    {
+        bool suppressed = EnemySource(source, receiver, out var enemy) && DomainPower.IsActive(receiver);
+        // Only concrete afflict/damage/max-HP execution calls use this gate.
+        if (suppressed) Volibear.Presentation.PowerPresentationDomain.Suppressed(enemy, source, domainOwner: receiver);
+        return suppressed;
+    }
     private static Task<T?> EnemyAfflict<T>(CardModel card, decimal amount, PowerModel source) where T : AfflictionModel =>
         SuppressPowerContribution(source, card.Owner.Creature) ? Task.FromResult<T?>(null) : CardCmd.Afflict<T>(card, amount);
     private static Task<IEnumerable<DamageResult>> GalvanicDamage(PlayerChoiceContext context, Creature target, decimal amount,
@@ -131,6 +137,7 @@ public static partial class DomainEnemyStatusContributions
         int actual = Math.Clamp((int)amount, -999999999, 999999999);
         _taintedReceipts.Remove(power);
         _taintedReceipts.Add(power, new TaintedReceipt(combat, target, actual, EnemyTainted(target, applier, card, context) ? 0 : actual));
+        RememberTaintedSource(power, target, applier, card, context);
     }
     internal static void TaintedAmountChanged(PowerModel power, int amount,
         Creature? applier, CardModel? card, PlayerChoiceContext context)
@@ -146,6 +153,18 @@ public static partial class DomainEnemyStatusContributions
         if (delta < 0) receipt.Retained = Math.Max(0, receipt.Retained + delta);
         else if (delta > 0 && !EnemyTainted(power.Owner, applier, card, context)) receipt.Retained = Math.Min(next, receipt.Retained + delta);
         receipt.Actual = next;
+        if (delta > 0) RememberTaintedSource(power, power.Owner, applier, card, context);
+    }
+    private static void RememberTaintedSource(PowerModel power, Creature target, Creature? applier, CardModel? card, PlayerChoiceContext context)
+    {
+        try
+        {
+            if (!EnemyTainted(target, applier, card, context) || !_taintedReceipts.TryGetValue(power, out var receipt)) return;
+            var enemy = applier;
+            if (enemy is null && _sparkTickets.TryGetValue(context, out var ticket)) enemy = ticket.Source.Owner;
+            if (enemy is not null) receipt.PresentationSources.Add(enemy);
+        }
+        catch { }
     }
     private static void ReconcileTainted(PowerModel power, TaintedReceipt receipt)
     {
@@ -158,7 +177,14 @@ public static partial class DomainEnemyStatusContributions
         if (!_taintedReceipts.TryGetValue(power, out var receipt) || !ReferenceEquals(receipt.Receiver, power.Owner) ||
             !ReferenceEquals(receipt.Combat, power.Owner.CombatState) || !power.Owner.Powers.Contains(power)) return power.Amount;
         ReconcileTainted(power, receipt);
-        return DomainPower.IsActive(power.Owner) ? receipt.Retained : power.Amount;
+        bool domain = DomainPower.IsActive(power.Owner);
+        try
+        {
+            if (domain && receipt.Retained < power.Amount)
+                foreach (var enemy in receipt.PresentationSources) Volibear.Presentation.PowerPresentationDomainScalars.Capture(enemy, power);
+        }
+        catch { }
+        return domain ? receipt.Retained : power.Amount;
     }
     private static IEnumerable<CodeInstruction> TaintedDamageContribution(IEnumerable<CodeInstruction> instructions)
     {

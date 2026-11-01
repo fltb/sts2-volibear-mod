@@ -20,6 +20,7 @@ public static partial class DomainPlayerStatContributions
         internal int StrengthDebt;
         internal int DexterityDebt;
         internal int StrengthEpoch, DexterityEpoch;
+        internal readonly System.Collections.Generic.HashSet<Creature> StrengthPresentationSources = [], DexterityPresentationSources = [];
     }
     private static ConditionalWeakTable<Creature, Ledger> ledgers = new();
     private static ConditionalWeakTable<TenderPower, TenderReceipt> tenders = new();
@@ -41,7 +42,11 @@ public static partial class DomainPlayerStatContributions
     {
         bool cancel = ((Handles(power) && delta < 0 && (Enemy(target, applier, card) || IsTenderDebit(context, target))) ||
             (power is TenderPower && delta > 0 && Enemy(target, applier, card))) && DomainEnemyEffects.ActiveFor(target.CombatState);
-        if (cancel && context is TenderContext tender) tender.Receipt.DomainTouched = true;
+        if (cancel && context is TenderContext tender)
+        {
+            tender.Receipt.DomainTouched = true;
+            if (applier is null) Volibear.Presentation.PowerPresentationDomain.Suppressed(tender.Receipt.PresentationEnemy, power, card, delta, sourceCombat: tender.Receipt.Combat);
+        }
         return cancel;
     }
 
@@ -52,7 +57,7 @@ public static partial class DomainPlayerStatContributions
         if (power is TenderPower tender && amount != 0 && Enemy(target, applier, card))
         {
             tenders.Remove(tender);
-            tenders.Add(tender, new TenderReceipt(target.CombatState!, target));
+            tenders.Add(tender, new TenderReceipt(target.CombatState!, target) { PresentationEnemy = applier });
         }
         Commit(power, target, Math.Clamp((int)amount, -999999999, 999999999), applier, card, context);
     }
@@ -78,6 +83,7 @@ public static partial class DomainPlayerStatContributions
             {
                 debt = checked(debt - delta);
                 outstanding = checked(outstanding - delta);
+                RememberStatPresentationSource(ledger, strength, receipt.PresentationEnemy);
             }
             else if (!tender.Debit && delta > 0)
             {
@@ -89,16 +95,30 @@ public static partial class DomainPlayerStatContributions
         else if (delta < 0 && Enemy(target, applier, card))
         {
             debt = checked(debt - delta);
+            RememberStatPresentationSource(ledger, strength, applier);
             PossessDebit(target, applier!, strength, -delta, ledger);
         }
         // Player costs/gains are independent signed contributions, not erasers of enemy debt.
+    }
+    private static void RememberStatPresentationSource(Ledger ledger, bool strength, Creature? enemy)
+    {
+        try { if (enemy is not null) (strength ? ledger.StrengthPresentationSources : ledger.DexterityPresentationSources).Add(enemy); }
+        catch { }
     }
     private static int Debt(Creature target, bool strength)
     {
         if (!target.IsPlayer || !ledgers.TryGetValue(target, out var ledger) ||
             !ReferenceEquals(ledger.Combat, target.CombatState) || !ledger.Combat.ContainsCreature(target) ||
             !DomainEnemyEffects.ActiveFor(ledger.Combat)) return 0;
-        return strength ? ledger.StrengthDebt : ledger.DexterityDebt;
+        int debt = strength ? ledger.StrengthDebt : ledger.DexterityDebt;
+        try
+        {
+            if (debt > 0)
+                foreach (var enemy in strength ? ledger.StrengthPresentationSources : ledger.DexterityPresentationSources)
+                    if (enemy.Monster is { } source) Volibear.Presentation.PowerPresentationDomainScalars.Capture(enemy, source, ledger.Combat);
+        }
+        catch { }
+        return debt;
     }
     public static int EffectiveStrength(Creature target) => target.GetPowerAmount<StrengthPower>() + Debt(target, true);
     public static int EffectiveDexterity(Creature target) => target.GetPowerAmount<DexterityPower>() + Debt(target, false);

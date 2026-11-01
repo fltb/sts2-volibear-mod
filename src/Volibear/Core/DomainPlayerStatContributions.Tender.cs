@@ -26,6 +26,7 @@ public static partial class DomainPlayerStatContributions
         internal int StrengthOutstanding, DexterityOutstanding;
         internal int StrengthEpoch, DexterityEpoch;
         internal bool DomainTouched;
+        internal Creature? PresentationEnemy;
     }
     // An invocation-owned receipt, not ambient side/AsyncLocal attribution. Choice operations
     // still delegate to the original context. Nested unrelated calls fail target/stat checks.
@@ -50,12 +51,16 @@ public static partial class DomainPlayerStatContributions
             !ReferenceEquals(receipt.Owner, target))
         {
             if (!Enemy(target, applier, card)) return await PowerCmd.Apply<T>(context, target, amount, applier, card, silent);
-            receipt = new TenderReceipt(target.CombatState!, target);
+            receipt = new TenderReceipt(target.CombatState!, target) { PresentationEnemy = applier };
             tenders.Remove(tender); tenders.Add(tender, receipt);
         }
         bool active = DomainEnemyEffects.ActiveFor(target.CombatState);
         receipt.DomainTouched |= active;
-        if (debit && active) return null;
+        if (debit && active)
+        {
+            Volibear.Presentation.PowerPresentationDomain.Suppressed(receipt.PresentationEnemy, tender, card, amount, sourceCombat: receipt.Combat);
+            return null;
+        }
         int paid = strength ? receipt.StrengthPaid : receipt.DexterityPaid;
         // Until domain participates, preserve even native modifier/refund quirks verbatim.
         // Once it does, only a debit which really committed can earn a refund.

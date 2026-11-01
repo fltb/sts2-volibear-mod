@@ -83,7 +83,10 @@ public static partial class DomainAdditionalRevivalEffects
     {
         if (frame.Binding is { Closed: true }) return true;
         if (frame.Binding?.Payload is not { } invocation) return false;
-        return Observe(invocation.Ticket);
+        bool blocked = Observe(invocation.Ticket);
+        if (blocked && Current(invocation.Ticket) && invocation.Ticket.Cancelled)
+            Volibear.Presentation.PowerPresentationDomain.Once(invocation.Ticket, invocation.Ticket.Owner, invocation.Ticket.Source, sourceCombat: invocation.Ticket.Combat);
+        return blocked;
     }
     private static void QueueDead(MonsterModel monster, MoveState state, bool force, Frame frame)
     {

@@ -27,12 +27,13 @@ public static partial class DomainSteamEruptionEffects
         if (episode is null) return await command.Execute(choice);
         if (!ReferenceEquals(command.Attacker, episode.Owner)) throw new InvalidOperationException("Steam attack owner mismatch.");
         Attacks.Remove(command); Attacks.Add(command, episode); episode.Commands.Add(command);
-        if (!Allow(episode)) { Observed?.Invoke(episode.Owner, "explosion-not-started-cancelled"); return command; }
+        if (!Allow(episode)) { PublishSteamCancellation(episode); Observed?.Invoke(episode.Owner, "explosion-not-started-cancelled"); return command; }
         return await command.Execute(choice);
     }
     private static bool CompleteStaleAttack(AttackCommand command, ref int state, ref AsyncTaskMethodBuilder<AttackCommand> builder)
     {
         if (state != -1 || !Attacks.TryGetValue(command, out var episode) || Allow(episode)) return false;
+        PublishSteamCancellation(episode);
         state = -2; builder.SetResult(command); return true;
     }
     private static Task<IEnumerable<DamageResult>> DamageFromCommand(PlayerChoiceContext choice, IEnumerable<Creature> targets,
@@ -61,7 +62,18 @@ public static partial class DomainSteamEruptionEffects
         // A known stale command is not an untagged ordinary attack.
         if (!IsCurrent(episode) || !ReferenceEquals(receiver.CombatState, episode.Combat)) return 0;
         _ = Allow(episode);
-        return episode.Decision.GatePositiveDamage(amount, sourceMatched: true, harmsOpposingSide: true);
+        var gated = episode.Decision.GatePositiveDamage(amount, sourceMatched: true, harmsOpposingSide: true);
+        if (gated < amount) PublishSteamCancellation(episode);
+        return gated;
+    }
+    private static void PublishSteamCancellation(Episode episode)
+    {
+        try
+        {
+            if (IsCurrent(episode) && episode.Decision.Cancelled)
+                Volibear.Presentation.PowerPresentationDomain.Once(episode, episode.Owner, episode.Source, sourceCombat: episode.Combat);
+        }
+        catch { }
     }
     private static decimal BlockCommit(Creature receiver, decimal amount, ValueProp props)
     {
