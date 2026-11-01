@@ -15,12 +15,14 @@ import native_suite_evidence as gate
 import test_acceptance_runner as routing_helpers
 STOCK = dict(routing_helpers.STOCK,runtime_errors=[])
 from test_save_load_evidence import fixture as save_fixture
+from test_native_product_flow import fixture as flow_fixture
+from test_character_integration_evidence import fixture as character_fixture
 
 
 class SuiteRouting(unittest.TestCase):
     setUp = routing_helpers.AcceptanceRunnerTests.setUp
     run_scenario = routing_helpers.AcceptanceRunnerTests.run_scenario
-    def test_same_process_all_four_stages_route_once_and_clear_old_inputs(self):
+    def test_same_process_all_five_stages_route_once_and_clear_old_inputs(self):
         faces = tuple(suite.h.CARD_FACE_CASES[:2]); lifecycle = ('U07-base',)
         report, env, command, oracle, _, shell = self.run_scenario('native-suite',
             initial_env={'VOLIBEAR_TEST_DATA_ROOT':str(self.directory/'data'),
@@ -79,7 +81,7 @@ class SuiteRouting(unittest.TestCase):
                 launch.assert_not_called()
 
     def test_suite_reachable_drivers_have_no_input_simulation(self):
-        names=('NativeVerificationSuite','NativeAcceptanceRunHost','NativeAutomationSelector',
+        names=('NativeVerificationSuite','NativeAcceptanceRunHost','NativeAutomationSelector','NativeProductFlowProbe','CharacterIntegrationProbe',
                'CardFaceAcceptanceProbe','CardLifecycleAcceptanceProbe','PresentationAcceptanceProbe','SaveLoadContractProbe')
         for name in names:
             source=(ROOT/'src/Volibear'/f'{name}.cs').read_text(encoding='utf-8')
@@ -88,8 +90,12 @@ class SuiteRouting(unittest.TestCase):
         driver=(ROOT/'src/Volibear/NativeVerificationSuite.cs').read_text()
         self.assertEqual(driver.count('NGame.Instance!.Quit()'),1)
         for name in ('CardFaceAcceptanceProbe.RunBatch','CardLifecycleAcceptanceProbe.RunBatch',
-                     'PresentationAcceptanceProbe.Run','SaveLoadContractProbe.Run'):
+                     'PresentationAcceptanceProbe.Run','NativeProductFlowProbe.Run','SaveLoadContractProbe.Run'):
             self.assertIn(name,driver)
+        flow=(ROOT/'src/Volibear/NativeProductFlowProbe.cs').read_text()
+        for forbidden in ('EnterRoomDebug(', 'DebugWin(', 'CreateCard(', 'CardPileCmd.Add(',
+                          'SetDebugTravelEnabled(', 'OnRelease(', 'OptionButtonClicked('):
+            self.assertNotIn(forbidden,flow)
 
     def test_source_zip_without_git_keeps_native_verdict_and_report(self):
         unavailable=dict(git_commit=None,dirty=None,git_metadata='unavailable:FileNotFoundError')
@@ -121,16 +127,21 @@ class SuiteEnvelope(unittest.TestCase):
         saved.update(pair='suite-test',userRoot=str(self.root),checkpointPath=str(self.checkpoint))
         self.checkpoint.write_text(json.dumps(saved['afterLoad']))
         self.saved=saved
-        self.final=dict(schema=1,token='suite-test',pid=100,completed=gate.STAGES,finished=True,
+        self.final=dict(schema=2,token='suite-test',pid=100,completed=gate.STAGES,finished=True,
                         osInput=False,simulatedClicks=False,processRestarts=0,selector='CardSelectCmd.UseSelector',
+                        rewardDecisionBoundary='NCardRewardSelectionScreen.OptionSelected',
                         cleanup=dict(RunNull=True,CombatNull=True,InProgress=False,QueueEmpty=True,ActionNull=True,HistoryVisible=0),
-                        scope='native-paid-card-faces-lifecycle-presentation-and-checkpoint',
+                        scope='native-paid-card-faces-lifecycle-presentation-product-flow-and-checkpoint',
                         exclusions=['live-multiplayer-peers','physical-input','human-visual-listening-review','disk-process-restart'])
 
     def log(self):
+        character = character_fixture()
+        character.update(token='suite-test', pid=100)
         return '\n'.join([gate.BEGIN+json.dumps(dict(token='suite-test',pid=100)),
+            '[Volibear] CHARACTER_INTEGRATION_RESULT '+json.dumps(character),
             '[Volibear] CARD_FACE_BATCH_RESULT {}','[Volibear] CARD_LIFECYCLE_BATCH_RESULT {}',
-            '[Volibear] PRESENTATION_ACCEPTANCE_RESULT {}','[Volibear] SAVE_LOAD_RESULT '+json.dumps(self.saved),
+            '[Volibear] PRESENTATION_ACCEPTANCE_RESULT {}','[Volibear] NATIVE_PRODUCT_FLOW_RESULT '+json.dumps(flow_fixture()),
+            '[Volibear] SAVE_LOAD_RESULT '+json.dumps(self.saved),
             gate.RESULT+json.dumps(self.final),'[Volibear] SHUTDOWN_BEGIN suite-test'])
 
     def evaluate(self,log=None,*,face_error=False,lifecycle_ok=True,presentation_errors=()):

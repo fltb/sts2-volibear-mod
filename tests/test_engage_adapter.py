@@ -13,6 +13,8 @@ CASES = {
     'shared-opportunity-original-targets': 6,
     'normal-enemy-phase-only': 6,
     'stale-round': 6,
+    'concurrent-reservation': 6,
+    'suspended-run-reset': 14,
     'nested-failure-cleanup': 5,
     'death-boundaries': 4,
     'stable-group-snapshot': 5,

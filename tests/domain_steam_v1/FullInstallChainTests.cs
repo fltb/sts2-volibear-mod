@@ -55,7 +55,7 @@ internal static class SteamFullInstallChainTests
             Need(dispatch>=0&&domain>dispatch&&responders>domain,"native dispatch then complete Domain/ordinary responder pipeline");
             var wrapper=PatchProcessor.GetOriginalInstructions(Method(steam,"DamageFromCommand")).ToArray();
             Need(wrapper.Count(c=>c.Calls(Method(cards,"OrdinaryAttackPipelineV1")))==1,"Steam always enters complete ordinary pipeline");
-            Need(!wrapper.Any(c=>c.operand is FieldInfo field&&field.Name=="PendingDamage"),"no handoff ticket spans ordinary pipeline");
+            Need(!wrapper.Any(c=>c.operand is FieldInfo field&&field.Name=="DamageHandoff"),"no handoff ticket spans ordinary pipeline");
             var draw=typeof(MegaCrit.Sts2.Core.Commands.CardPileCmd).GetMethods().Single(m=>m.Name=="Draw"&&m.GetParameters().Length==4);
             var drawCode=PatchProcessor.GetCurrentInstructions(Machine(draw)).ToArray();
             Need(drawCode.Count(c=>c.Calls(Method(cards,"AddDrawnCard")))==1&&drawCode.Count(c=>c.Calls(Method(cards,"DispatchDrawHooks")))==1,"draw and purification wrappers retained");

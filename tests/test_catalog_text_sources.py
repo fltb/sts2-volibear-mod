@@ -23,6 +23,24 @@ def localized_face(body, upgraded):
 
 
 class CatalogTextSourceContracts(unittest.TestCase):
+    def test_dusty_tome_uses_existing_rare_without_changing_the_frozen_pool(self):
+        sources = [(path, path.read_text(encoding='utf-8')) for path in
+                   (ROOT / 'src/Volibear/Content/Cards').glob('*.cs')]
+        marked = [(name, body) for _, source in sources for name, body in re.findall(
+            r'public sealed class (Volibear_[BCURT]\d\d)\s*:\s*VolibearCard, ITomeCard\s*\{(.*?)(?=\n\[BaseLib|\Z)',
+            source, re.S)]
+        self.assertEqual([name for name, _ in marked], ['Volibear_R18'])
+        body = marked[0][1]
+        self.assertIn('base(2, CardType.Power, CardRarity.Rare, TargetType.AllEnemies, "r18")', body)
+        self.assertIn('ModelDb.Character<VolibearCharacter>()', body)
+        self.assertIn('new DynamicVar("Lightning", 6m)', body)
+        self.assertIn('new DynamicVar("Pool", 4m)', body)
+        self.assertIn('UpgradeVar("Lightning", 3m); UpgradeVar("Pool", 2m);', body)
+        classes = [name for _, source in sources for name in re.findall(
+            r'public sealed class (Volibear_[BCURT]\d\d)\s*:', source)]
+        self.assertEqual(len(classes), 89)
+        self.assertEqual(len(set(classes)), 89)
+
     def test_native_starter_tags_and_formula_block_metadata(self):
         # Native starter/enchantment consumers inspect metadata, not the Chinese
         # name or OnPlay body. BaseLib 3.4.7 infers GainsBlock only from BlockVar or

@@ -1,5 +1,5 @@
 """Delivery fail-closed ordering, pinned toolchain and source-overlay migration contracts."""
-from contextlib import ExitStack, redirect_stdout
+from contextlib import ExitStack, redirect_stderr, redirect_stdout
 import hashlib
 import io
 import json
@@ -164,7 +164,8 @@ class DeliveryTests(unittest.TestCase):
                 return result
             stack.enter_context(patch.object(owner, name, side_effect=invoke))
         def command(args, env):
-            name = 'suite' if any(str(arg).endswith('native_suite.py') for arg in args) else 'regression'
+            name = ('suite' if any(str(arg).endswith('native_suite.py') for arg in args) else
+                    'multiplayer' if any(str(arg).endswith('multiplayer_suite.py') for arg in args) else 'regression')
             events.append((name, args, env))
             if name == fail:
                 raise subprocess.CalledProcessError(1, args)
@@ -178,6 +179,36 @@ class DeliveryTests(unittest.TestCase):
                          ['cleanup', 'config', 'python', 'audio', 'dependency', 'build', 'regression', 'pck', 'zip'])
         build = next(event for event in events if event[0] == 'build')
         self.assertEqual(build[2], {'fresh': True})
+        regression = next(event for event in events if event[0] == 'regression')
+        self.assertIn('--require-native', regression[1])
+
+    def test_release_gate_includes_restart_real_peers_and_full_presentation(self):
+        args, events = self.pipeline(['--verify-release', '--audio-driver', 'PulseAudio'])
+        delivery.deliver(args)
+        self.assertEqual([event[0] for event in events][-6:],
+                         ['pck', 'install', 'deploy', 'suite', 'multiplayer', 'zip'])
+        native = next(event[1] for event in events if event[0] == 'suite')
+        self.assertIn('--verify-restart', native)
+        self.assertEqual(native[native.index('--presentation-mode') + 1], 'all')
+        peer = next(event[1] for event in events if event[0] == 'multiplayer')
+        self.assertIn('--execute-native', peer)
+        self.assertIn('--use-deployed', peer)
+
+    def test_release_gate_does_not_package_failed_restart_or_peers(self):
+        for stage in ('suite', 'multiplayer'):
+            with self.subTest(stage=stage):
+                args, events = self.pipeline(['--verify-release', '--audio-driver', 'PulseAudio'], fail=stage)
+                with self.assertRaises(subprocess.CalledProcessError):
+                    delivery.deliver(args)
+                self.assertNotIn('zip', [event[0] for event in events])
+
+    def test_release_gate_cannot_silently_downgrade_audio_or_resource_scope(self):
+        for options in (['--verify-release'], ['--verify-release', '--audio-driver', 'Dummy'],
+                        ['--verify-release', '--presentation-mode', 'cards', '--audio-driver', 'PulseAudio'],
+                        ['--verify-release', '--resources-only', '--audio-driver', 'PulseAudio']):
+            with self.subTest(options=options), redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit):
+                    delivery.arguments(options)
 
     def test_requested_native_validation_runs_exactly_one_suite_with_no_os_input_runner(self):
         args, events = self.pipeline(['--verify-native', '--display', 'xvfb', '--presentation-mode', 'all',

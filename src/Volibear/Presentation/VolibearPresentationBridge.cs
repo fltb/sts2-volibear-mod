@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Combat.History;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -71,7 +72,7 @@ public static partial class VolibearPresentationBridge
             ["beast.converted"] = "feral_claw / feral_body",
             ["native.owner_died"] = "stop owned playback, death voice/pose",
             ["native.heal_internal_positive_commit"] = "heal at actual owner",
-            ["native.gain_energy_positive_commit"] = "energy_gain at actual energy counter",
+            ["native.gain_energy_positive_commit"] = "energy_gain at local energy counter or actual remote owner",
             ["native.health_ratio_state_transition"] = "weak/domain_weak pose and entry-only low_health voice",
             ["native.local_character_selected"] = "select voice attached to selected native background",
             ["native.combat_won"] = "victory voice attached to still-visible native room",
@@ -111,6 +112,7 @@ public static partial class VolibearPresentationBridge
             prefix: Handler(nameof(BeforeCardExhaust)));
         harmony.Patch(Required(typeof(CardModel), nameof(CardModel.SpendResources)), prefix: Handler(nameof(BeforeCardPayment)));
         CostPresentationReceipts.Committed += receipt => Dispatch("cost_committed", () => Owner(receipt.Owner)?.CostReduced(receipt));
+        VolibearNativeAudio.Install();
         VolibearPresentationCues.Install();
         CombatManager.Instance.CombatSetUp += state => Dispatch("setup", () =>
         {
@@ -550,10 +552,41 @@ public static partial class VolibearPresentationBridge
             CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding &&
             ReferenceEquals(_room, VolibearPresentationBridge._room) &&
             ReferenceEquals(_owner.CombatState, _room.Combat) && Valid(_node) && Valid(_node.Visuals);
-        private EffectAnchors Anchors(NCreature? target = null, CanvasItem? card = null) =>
-            new(_node.Visuals, Target: target?.Visuals, Source: _node.Visuals.VfxSpawnPosition,
-                Card: card, Energy: _room.Room.Ui.EnergyCounterContainer,
+        private bool OwnsLocalHud()
+        {
+            // The combat UI belongs to this client's player, not every creature in the room.
+            return _owner.Player is { } player && ReferenceEquals(LocalContext.GetMe(_room.Combat), player);
+        }
+        private EffectAnchors Anchors(NCreature? target = null, CanvasItem? card = null)
+        {
+            return new(_node.Visuals, Target: target?.Visuals, Source: _node.Visuals.VfxSpawnPosition,
+                Card: card, Energy: OwnsLocalHud() ? _room.Room.Ui.EnergyCounterContainer : _node.Visuals.VfxSpawnPosition,
                 OwnerMouth: _node.Visuals.TalkPosition, OwnerHand: _node.Visuals.VfxSpawnPosition);
+        }
+        private bool TryCardAnchors(CanvasItem card, PileType? from, bool toDiscard, out EffectAnchors anchors)
+        {
+            anchors = Anchors(card: card);
+            // Remote visible cards still have real view anchors, but their private piles have
+            // no corresponding UI here. Keep the sound instead of borrowing this client's piles.
+            if ((from is not null || toDiscard) && !OwnsLocalHud()) return false;
+            if (from is not null)
+            {
+                CanvasItem? source = from switch
+                {
+                    PileType.Draw => _room.Room.Ui.DrawPile,
+                    PileType.Discard => _room.Room.Ui.DiscardPile,
+                    _ => null
+                };
+                if (!Valid(source)) return false;
+                anchors = anchors with { Source = source };
+            }
+            if (toDiscard)
+            {
+                if (!Valid(_room.Room.Ui.DiscardPile)) return false;
+                anchors = anchors with { Target = _room.Room.Ui.DiscardPile };
+            }
+            return true;
+        }
         internal void EnsureLightning() => SubscribeLightning();
         private void SubscribeLightning()
         {
@@ -579,7 +612,9 @@ public static partial class VolibearPresentationBridge
         }
         internal void AtOwner(string id, string effect)
         {
-            if (Live) _effects.Emit(id, effect, Anchors());
+            if (!Live) return;
+            if (!_effects.Emit(id, effect, Anchors()) && effect == "energy_gain")
+                _effects.PlaySound(id, "sfx.energy_gain");
         }
         internal void AtTarget(string id, string effect, Creature target)
         {
@@ -593,13 +628,9 @@ public static partial class VolibearPresentationBridge
             // Reuse a measured same-card anchor; never invent a hidden card position.
             var node = CardAnchor(card);
             var cardId = CardId(card);
-            if (Valid(node) && cardId is not null)
-            {
-                var anchors = Anchors(card: node);
-                if (effect == "card_draw") anchors = anchors with { Source = _room.Room.Ui.DrawPile };
-                if (effect == "card_discard") anchors = anchors with { Target = _room.Room.Ui.DiscardPile };
+            if (Valid(node) && cardId is not null && TryCardAnchors(node!,
+                    effect == "card_draw" ? PileType.Draw : null, effect == "card_discard", out var anchors))
                 _effects.Emit(id, effect, anchors, cardId);
-            }
             // Missing remote/hidden cards never cause fake card nodes or guessed screen positions.
             _effects.PlaySound(id, "sfx." + effect);
         }
@@ -680,13 +711,9 @@ public static partial class VolibearPresentationBridge
             if (!Live || !ReferenceEquals(receipt.Combat, _room.Combat) || !ReferenceEquals(receipt.Owner, _owner)) return;
             string id = $"card_receipt:{receipt.Id}";
             var node = CardAnchor(receipt.Card);
-            if (Valid(node) && CardId(receipt.Card) is { } cardId)
-            {
-                var anchors = Anchors(card: node);
-                if (receipt.Effect == "card_retrieve")
-                    anchors = anchors with { Source = receipt.From == PileType.Draw ? _room.Room.Ui.DrawPile : _room.Room.Ui.DiscardPile };
+            if (Valid(node) && CardId(receipt.Card) is { } cardId && TryCardAnchors(node!,
+                    receipt.Effect == "card_retrieve" ? receipt.From : null, false, out var anchors))
                 _effects.Emit(id, receipt.Effect, anchors, cardId);
-            }
             // Hidden/removed native cards have no invented card or guessed screen position.
             _effects.PlaySound(id, "sfx." + receipt.Effect);
         }

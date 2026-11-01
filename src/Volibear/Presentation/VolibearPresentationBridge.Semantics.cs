@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -112,14 +113,12 @@ public static partial class VolibearPresentationBridge
             {
                 if (receipt.Card is not { } card) return;
                 var anchor = CardAnchor(card);
-                if (anchor is not null && CardId(card) is { } cardId)
+                if (anchor is not null && CardId(card) is { } cardId && TryCardAnchors(anchor,
+                        fromDraw ? PileType.Draw : null, toDiscard, out var anchors))
                 {
-                    var anchors = Anchors(card: anchor);
                     // Generic owner/status textures are intentionally attached to
                     // the actual enhanced/retained card for these card-only events.
                     if (onCard) anchors = anchors with { Owner = anchor, OwnerHand = anchor };
-                    if (fromDraw) anchors = anchors with { Source = _room.Room.Ui.DrawPile };
-                    if (toDiscard) anchors = anchors with { Target = _room.Room.Ui.DiscardPile };
                     _effects.Emit(id, effect, anchors, cardId);
                 }
                 _effects.PlaySound(id, "sfx." + effect);

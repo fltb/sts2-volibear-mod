@@ -18,7 +18,11 @@ IDS = set("U02 U03 U04 U19 U21 U25 U26 U32 U34 R02 R16 R18".split())
 
 
 def classes(text: str) -> dict[str, str]:
-    return dict(re.findall(r"public sealed class Volibear_([UR]\d\d) : VolibearCard\s*\{(.*?)(?=\n\[BaseLib|\Z)", text, re.S))
+    # A card may implement supported contracts such as ITomeCard after its
+    # exact VolibearCard base; keep the card identity and body captures intact.
+    interfaces = r"(?:\s*,\s*(?:global::)?[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)*"
+    return dict(re.findall(r"public sealed class Volibear_([UR]\d\d) : VolibearCard" +
+                           interfaces + r"\s*\{(.*?)(?=\n\[BaseLib|\Z)", text, re.S))
 
 
 def render(body: str, upgraded: bool) -> str:

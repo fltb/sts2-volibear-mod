@@ -1,4 +1,13 @@
-# 沃利贝尔完整 Mod 实施方案（已批准实施）
+# 历史方案：沃利贝尔完整 Mod 实施
+
+> **本方案已由 [RELEASE_PLAN.md](RELEASE_PLAN.md) 取代，不再作为当前执行指令。**
+> 下文保留早期范围、审批方式、起点和阶段计划的历史记录，其中“仅单人”“联机不在范围”
+> 以及旧验收步骤均已被用户后续要求覆盖，不能据此缩减当前产品或测试范围。
+> 当前目标包含正常单人/多人、完整原生验收与存档恢复；入口为
+> [LOCAL_WORKFLOW.md](LOCAL_WORKFLOW.md) 的 `tools/local_delivery.py --verify-release`。
+> 接续状态见 [HANDOFF.md](HANDOFF.md)，具体进程与无输入政策见
+> [HEADLESS_TESTING.md](HEADLESS_TESTING.md)。持续实施、提交和更新现有 PR 已获授权；
+> 本历史页不引入新的逐阶段审批，也不证明当前候选已有原生运行结果。
 
 日期：2026-11-01（Asia/Shanghai）
 

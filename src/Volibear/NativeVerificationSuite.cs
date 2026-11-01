@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
@@ -34,6 +35,11 @@ internal static class NativeVerificationSuite
             await NativeAcceptanceRunHost.WaitForQuiet(initial, 1);
             GD.Print("[Volibear] NATIVE_SUITE_BEGIN " + JsonSerializer.Serialize(new { token, pid }));
 
+            // Resource/localization/ancient contracts may consume fixture RNG.
+            // Keep them before the separate untouched ordinary seeded run.
+            var character = CharacterIntegrationProbe.Verify(initial.Players.Single());
+            GD.Print("[Volibear] CHARACTER_INTEGRATION_RESULT " + JsonSerializer.Serialize(new { token, pid, result = character }));
+
             CardFaceAcceptanceProbe.Install(subscribe: false);
             await CardFaceAcceptanceProbe.RunBatch(initial,
                 Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_FACE_BATCH") ?? "", managed: true);
@@ -48,6 +54,9 @@ internal static class NativeVerificationSuite
             await PresentationAcceptanceProbe.Run(presentation, managed: true);
             await NativeAcceptanceRunHost.ExitToMainMenu(); completed.Add("presentation");
 
+            await NativeProductFlowProbe.Run();
+            NativeAcceptanceRunHost.RequireClean(); completed.Add("product-flow");
+
             SaveLoadContractProbe.Install(start: false);
             await SaveLoadContractProbe.Run(managed: true);
             // Do not enter another room and create a different checkpoint after the
@@ -56,10 +65,11 @@ internal static class NativeVerificationSuite
             completed.Add("save-load-same-process");
 
             GD.Print("[Volibear] NATIVE_SUITE_RESULT " + JsonSerializer.Serialize(new {
-                schema = 1,token,pid,completed,finished = true,osInput = false,simulatedClicks = false,
+                schema = 2,token,pid,completed,finished = true,osInput = false,simulatedClicks = false,
                 processRestarts = 0,selector = "CardSelectCmd.UseSelector",
+                rewardDecisionBoundary = "NCardRewardSelectionScreen.OptionSelected",
                 cleanup = NativeAcceptanceRunHost.CleanState(),
-                scope = "native-paid-card-faces-lifecycle-presentation-and-checkpoint",
+                scope = "native-paid-card-faces-lifecycle-presentation-product-flow-and-checkpoint",
                 exclusions = new[] { "live-multiplayer-peers", "physical-input", "human-visual-listening-review", "disk-process-restart" }
             }));
             GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);

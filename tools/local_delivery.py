@@ -32,13 +32,20 @@ def arguments(argv=None):
     parser.add_argument('--doctor', action='store_true', help='Check versions and paths without modifying files')
     parser.add_argument('--resources-only', action='store_true', help='Build and verify PCK only; no game or DLL required')
     parser.add_argument('--verify-native', action='store_true', help='Deploy owned mod files and run one background game suite')
+    parser.add_argument('--verify-release', action='store_true',
+                        help='Run native gameplay/presentation, disk restart and real two-peer acceptance before packaging')
     parser.add_argument('--audio-profile', choices=('open', 'riot_en'), default='open')
     parser.add_argument('--display', choices=('background', 'xvfb'),
                         default='background' if os.name == 'nt' else 'xvfb')
-    parser.add_argument('--presentation-mode', choices=('cards', 'actions', 'all'), default='cards')
+    parser.add_argument('--presentation-mode', choices=('cards', 'actions', 'all'), default=None)
     parser.add_argument('--audio-driver', help='Real Godot audio driver; required for actions/all native presentation')
     parser.add_argument('--output', type=Path, help='Installer ZIP path; resource-only output must be a .pck beneath .local')
     args = parser.parse_args(argv)
+    if args.verify_release:
+        args.verify_native = True
+        if args.presentation_mode is not None and args.presentation_mode != 'all':
+            parser.error('--verify-release requires --presentation-mode all')
+    args.presentation_mode = args.presentation_mode or ('all' if args.verify_release else 'cards')
     if args.resources_only and args.verify_native:
         parser.error('--resources-only cannot run --verify-native; a current mod DLL is required')
     if args.verify_native and args.presentation_mode != 'cards' and (
@@ -147,7 +154,14 @@ def native_command(args, python):
                '--card-face-cases', 'all', '--card-lifecycle-cases', 'all']
     if args.audio_driver:
         command.extend(['--audio-driver', args.audio_driver])
+    if args.verify_release:
+        command.append('--verify-restart')
     return command
+
+
+def multiplayer_command(args, python):
+    return [python, ROOT / 'tools/multiplayer_suite.py', '--execute-native', '--use-deployed',
+            '--display', args.display]
 
 
 def deliver(args):
@@ -177,7 +191,7 @@ def deliver(args):
     dll = dev.build_mod(settings, fresh=True)
     # The native-metadata harness reads this newly rebuilt DLL. Run the full regression
     # only once, after compilation; a failing stage cannot continue to packaging.
-    run([python, '-m', 'unittest', 'discover', '-s', 'tests', '-v'], env)
+    run([python, ROOT / 'tools/regression.py', '--require-native'], env)
     pack = build_assets.build(Path(settings['godot']), audio_profile=args.audio_profile,
                               dotnet=settings['dotnet'])
     if args.verify_native:
@@ -186,6 +200,10 @@ def deliver(args):
         dev.deploy(game, [dll, ROOT / 'src/Volibear/Volibear.json', pack])
         # The suite owns the single installed-game process and controlled in-process queue.
         run(native_command(args, python), env)
+        if args.verify_release:
+            # These are actual independent clients. A shared-combat fixture cannot satisfy
+            # the network gate, and neither a failed restart nor peer check may package.
+            run(multiplayer_command(args, python), env)
     output = args.output or (ROOT / '.local/release' /
                             ('Volibear-0.1.0-StS2-0.107.1'
                              + ('-riot_en-private' if args.audio_profile == 'riot_en' else '') + '.zip'))
@@ -195,7 +213,8 @@ def deliver(args):
                                      output, audio_profile=args.audio_profile)
     print('INSTALLER BUILT: ' + str(result), flush=True)
     print('Evidence: current DLL build + regression + ordinary-Godot packed-resource checks passed; '
-          + ('single-process native suite passed (see its recorded scope).'
+          + ('native gameplay/presentation, process restart and two-peer suites passed (see each recorded scope).'
+             if args.verify_release else 'single-process native suite passed (see its recorded scope).'
              if args.verify_native else 'native game suite was not requested and is not claimed.'), flush=True)
     return result
 

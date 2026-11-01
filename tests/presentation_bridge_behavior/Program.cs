@@ -95,6 +95,164 @@ static class Program
             owner.AtCard("closed", "card_exhaust", card);
             Need(owner.Visuals.Count == count && owner.Sounds.Count == sounds, "Foreign/closed owners must not emit card presentation");
         }
+        else if (name == "owner-anchors")
+        {
+            var room = new SceneRoomScope();
+            var local = new OwnerScope(80, 100, room) { Playable = true };
+            var remote = new OwnerScope(80, 100, room) { Playable = true };
+            var localCard = new CardModel("c13") { View = new NCard() };
+            var remoteCard = new CardModel("c13") { View = new NCard() };
+            local.Own(localCard); remote.Own(remoteCard);
+
+            local.AtOwner("local-energy", "energy_gain");
+            Need(ReferenceEquals(local.Visuals[^1].Anchors.Energy, room.Room.Ui.EnergyCounterContainer),
+                "Local energy must use the actual local HUD");
+            remote.AtOwner("remote-energy", "energy_gain");
+            Need(ReferenceEquals(remote.Visuals[^1].Anchors.Energy, remote.WorldAnchor) &&
+                ReferenceEquals(remote.Visuals[^1].Anchors.Owner, remote.CreatureVisuals),
+                "Remote energy must use its own actual creature anchor");
+
+            int count = remote.Visuals.Count;
+            remote.AtCard("remote-draw", "card_draw", remoteCard);
+            remote.AtCard("remote-discard", "card_discard", remoteCard);
+            Need(remote.Visuals.Count == count, "Remote draw and discard must not borrow local pile UI");
+            Need(remote.Sounds.SequenceEqual(["sfx.card_draw", "sfx.card_discard"]),
+                "Remote private piles retain committed draw/discard sound");
+            local.AtCard("local-draw", "card_draw", localCard);
+            Need(ReferenceEquals(local.Visuals[^1].Anchors.Source, local.DrawPile) &&
+                ReferenceEquals(local.Visuals[^1].Anchors.Card, localCard.View),
+                "Local draw retains the actual source and visible card");
+            local.AtCard("local-discard", "card_discard", localCard);
+            Need(ReferenceEquals(local.Visuals[^1].Anchors.Target, local.DiscardPile),
+                "Local discard retains the actual destination");
+
+            foreach (var from in new[] { PileType.Draw, PileType.Discard })
+            {
+                var id = 100 + (int)from;
+                local.CardAudio(new(id, room.Combat, local.Player.Creature, localCard, localCard, "card_retrieve", from));
+                Need(ReferenceEquals(local.Visuals[^1].Anchors.Source,
+                        from == PileType.Draw ? local.DrawPile : local.DiscardPile),
+                    "Local retrieval uses the actual recorded source pile");
+                int sounds = remote.Sounds.Count;
+                remote.CardAudio(new(id, room.Combat, remote.Player.Creature, remoteCard, remoteCard, "card_retrieve", from));
+                Need(remote.Visuals.Count == count && remote.Sounds.Count == sounds + 1,
+                    "Remote retrieval is sound-only for either private source pile");
+            }
+            foreach (var kind in new[] { "scry_selection_opened", "selected_card_discarded" })
+            {
+                var id = kind == "scry_selection_opened" ? 200 : 201;
+                local.Gameplay(new(id, room.Combat, local.Player.Creature, kind, localCard, localCard, null, 1));
+                Need(ReferenceEquals(kind == "scry_selection_opened" ? local.Visuals[^1].Anchors.Source : local.Visuals[^1].Anchors.Target,
+                        kind == "scry_selection_opened" ? local.DrawPile : local.DiscardPile),
+                    "Local selection semantics keep their actual pile endpoints");
+                int sounds = remote.Sounds.Count;
+                remote.Gameplay(new(id, room.Combat, remote.Player.Creature, kind, remoteCard, remoteCard, null, 1));
+                Need(remote.Visuals.Count == count && remote.Sounds.Count == sounds + 1,
+                    "Remote selection semantics must not borrow the local HUD");
+            }
+
+            remote.AtCard("remote-exhaust", "card_exhaust", remoteCard);
+            Need(ReferenceEquals(remote.Visuals[^1].Anchors.Card, remoteCard.View) &&
+                ReferenceEquals(remote.Visuals[^1].Anchors.Owner, remote.CreatureVisuals),
+                "Remote visible exhaust uses its actual card and creature");
+            remote.CardAudio(new(300, room.Combat, remote.Player.Creature, remoteCard, remoteCard, "card_purify", PileType.Hand));
+            Need(ReferenceEquals(remote.Visuals[^1].Anchors.Card, remoteCard.View),
+                "Remote purification still renders on the actual visible card");
+            remote.Gameplay(new(301, room.Combat, remote.Player.Creature, "card_charge_changed", remoteCard, remoteCard, null, 1));
+            Need(ReferenceEquals(remote.Visuals[^1].Anchors.Owner, remoteCard.View),
+                "Remote committed card enhancement keeps its real card anchor");
+
+            count = remote.Visuals.Count;
+            int previousSounds = remote.Sounds.Count;
+            remoteCard.View = null;
+            remote.AtCard("remote-hidden", "card_exhaust", remoteCard);
+            Need(remote.Visuals.Count == count && remote.Sounds.Count == previousSounds + 1,
+                "Hidden remote cards remain sound-only without invented coordinates");
+            remoteCard.View = new NCard();
+            previousSounds = remote.Sounds.Count;
+            remote.CardAudio(new(302, new CombatState(), remote.Player.Creature, remoteCard, remoteCard, "card_purify", PileType.Hand));
+            remote.Gameplay(new(303, room.Combat, local.Player.Creature, "card_charge_changed", localCard, localCard, null, 1));
+            Need(remote.Visuals.Count == count && remote.Sounds.Count == previousSounds,
+                "Other combat/owner receipts cannot emit in this scope");
+
+            room.Combat.LocalPlayer = remote.Player;
+            remote.AtOwner("switched-local", "energy_gain");
+            local.AtOwner("switched-remote", "energy_gain");
+            Need(ReferenceEquals(remote.Visuals[^1].Anchors.Energy, room.Room.Ui.EnergyCounterContainer) &&
+                ReferenceEquals(local.Visuals[^1].Anchors.Energy, local.WorldAnchor),
+                "The local player's identity is resolved from this combat for each event");
+            remote.AtCard("switched-draw", "card_draw", remoteCard);
+            Need(ReferenceEquals(remote.Visuals[^1].Anchors.Source, remote.DrawPile),
+                "The newly local owner receives the real draw pile");
+            count = local.Visuals.Count;
+            local.AtCard("switched-old-draw", "card_draw", localCard);
+            Need(local.Visuals.Count == count, "The previous local owner no longer owns the local piles");
+
+            room.Combat.LocalPlayer = null;
+            count = remote.Visuals.Count;
+            remote.AtCard("no-local-draw", "card_draw", remoteCard);
+            Need(remote.Visuals.Count == count, "An absent local player cannot donate the local HUD to any owner");
+            remote.AllowVisuals = false;
+            previousSounds = remote.Sounds.Count;
+            remote.AtOwner("missing-energy-node", "energy_gain");
+            Need(remote.Visuals.Count == count && remote.Sounds.Count == previousSounds + 1 &&
+                remote.Sounds[^1] == "sfx.energy_gain", "Unlocatable energy visuals retain the committed sound");
+        }
+        else if (name == "native-audio")
+        {
+            var fabricated = new[]
+            {
+                "event:/sfx/characters/volibear_character/volibear_character_select",
+                "event:/sfx/characters/volibear_character/volibear_character_attack",
+                "event:/sfx/characters/volibear_character/volibear_character_cast",
+                "event:/sfx/characters/volibear_character/volibear_character_die",
+                "event:/sfx/ui/wipe_volibear_character"
+            };
+            foreach (string path in fabricated)
+            {
+                Need(!NativeAudioPolicy.BeforeNativeOneShot(path), "Nonexistent Volibear default must not reach FMOD");
+                Need(NativeAudioPolicy.BeforeNativeOneShot(path + "_legitimate_extension"),
+                    "A legitimate added event must not be suppressed by prefix matching");
+                Need(NativeAudioPolicy.BeforeNativeOneShot(path.Replace("volibear_character", "ironclad")),
+                    "Other characters' native voices must remain unchanged");
+            }
+            foreach (string? path in new[] { null, "", "event:/sfx/ui/card_play", "event:/sfx/characters/volibear_character/roar",
+                "res://VolibearArt/audio/ogg/voice_select.ogg", "res://another_mod/attack.ogg", "user://custom.ogg", "uid://example" })
+                Need(NativeAudioPolicy.BeforeNativeOneShot(path), "Only the exact missing defaults belong to this filter");
+        }
+        else if (name == "character-compat")
+        {
+            var table = new MegaCrit.Sts2.Core.Localization.LocTable();
+            table.Values["OTHER_CHARACTER.title"] = "Unrelated character";
+            Volibear.Content.VolibearLoc.AfterGetTable("characters", ref table);
+            foreach (string key in new[] { "title", "titleObject", "description", "pronounSubject", "pronounObject",
+                "pronounPossessive", "possessiveAdjective", "cardsModifierTitle", "cardsModifierDescription",
+                "eventDeathPrevention", "aromaPrinciple", "goldMonologue", "banter.alive.endTurnPing", "banter.dead.endTurnPing" })
+                Need(table.Values.TryGetValue("VOLIBEAR_CHARACTER." + key, out var text) && !string.IsNullOrWhiteSpace(text),
+                    "Actual native character key must resolve: " + key);
+            Need(table.Values["OTHER_CHARACTER.title"] == "Unrelated character", "Localization must preserve other characters");
+            Need(!table.Values["VOLIBEAR_CHARACTER.eventDeathPrevention"].Contains("{0}"),
+                "The native death-prevention getter supplies no unnamed format argument");
+            var reloaded = new MegaCrit.Sts2.Core.Localization.LocTable();
+            Volibear.Content.VolibearLoc.AfterGetTable("characters", ref reloaded);
+            Need(reloaded.Values["VOLIBEAR_CHARACTER.cardsModifierTitle"] == table.Values["VOLIBEAR_CHARACTER.cardsModifierTitle"],
+                "A newly loaded native language table receives the same complete character text");
+            var relics = new MegaCrit.Sts2.Core.Localization.LocTable();
+            Volibear.Content.VolibearLoc.AfterGetTable("relics", ref relics);
+            Need(relics.Values.ContainsKey("SEA_GLASS.VOLIBEAR_CHARACTER.title"), "The native character-specific Sea Glass title resolves");
+            var ancients = new MegaCrit.Sts2.Core.Localization.LocTable();
+            Volibear.Content.VolibearLoc.AfterGetTable("ancients", ref ancients);
+            string[] expected = ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient",
+                "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char", "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"];
+            Need(ancients.Values.Keys.Order().SequenceEqual(expected.Order()),
+                "The finale has one contiguous conversation, with the native repeat suffix on every line");
+            Need(ancients.Values.Values.All(text => !string.IsNullOrWhiteSpace(text)), "Every finale line contains finished text");
+            var character = new CharacterAssets();
+            string[] paths = [character.CustomArmPointingTexturePath, character.CustomArmRockTexturePath,
+                character.CustomArmPaperTexturePath, character.CustomArmScissorsTexturePath];
+            Need(paths.Distinct().Count() == 4 && paths.All(p => p.StartsWith("res://VolibearArt/ui/images/multiplayer_hand_volibear_")),
+                "Every native hand state resolves its own explicit character resource");
+        }
         else if (name == "contact-bindings")
         {
             Godot.FileAccess.Repository = args[1];
@@ -149,52 +307,83 @@ static class Program
     }
 }
 
-sealed record CardModel(string Key)
+abstract record AbstractModel;
+sealed record CardModel(string Key) : AbstractModel
 {
-    internal readonly Player Owner = new();
+    internal Player Owner = new();
     internal NCard? View;
     internal NativeNode? Captured;
 }
 sealed record CardPlay(CardModel Card, int PlayIndex);
 sealed class Player { internal Creature Creature = null!; }
-interface ICombatState;
-sealed class CombatState : ICombatState;
+interface ICombatState { Player? LocalPlayer { get; set; } }
+sealed class CombatState : ICombatState { public Player? LocalPlayer { get; set; } }
+static class LocalContext { internal static Player? GetMe(ICombatState combat) => combat.LocalPlayer; }
+enum PileType { None, Draw, Discard, Hand, Exhaust }
+sealed record CommittedCardPresentation(long Id, ICombatState Combat, Creature Owner,
+    CardModel Card, AbstractModel Source, string Effect, PileType From);
+sealed record GameplayPresentationReceipt(long Id, ICombatState Combat, Creature Owner,
+    string Kind, AbstractModel? Source, CardModel? Card, Creature? Target, decimal Amount);
 sealed class Creature(int hp, int maxHp)
 {
     internal int CurrentHp = hp, MaxHp = maxHp;
     internal bool IsAlive = true;
     internal ICombatState? CombatState = new CombatState();
     internal OwnerScope? Presentation;
+    internal Player? Player;
 }
-class NativeNode;
+class CanvasItem { internal bool Alive = true; }
+class NativeNode : CanvasItem;
 sealed class NCard : NativeNode { internal static NCard? FindOnTable(CardModel card) => card.View; }
-sealed class NCreature(Creature entity) { internal readonly Creature Entity = entity; }
-sealed record EffectAnchors(NativeNode? Card = null, NativeNode? Source = null, NativeNode? Target = null);
+sealed class NativeVisuals : NativeNode { internal readonly NativeNode VfxSpawnPosition = new(), TalkPosition = new(); }
+sealed class NCreature(Creature entity) : NativeNode
+{
+    internal readonly Creature Entity = entity;
+    internal readonly NativeVisuals Visuals = new();
+}
+sealed record EffectAnchors(CanvasItem Owner, CanvasItem? Target = null, CanvasItem? Source = null,
+    CanvasItem? Card = null, CanvasItem? Energy = null, CanvasItem? OwnerHand = null,
+    CanvasItem? OwnerMouth = null, CanvasItem? CardCost = null);
 sealed record Visual(string Effect, EffectAnchors Anchors);
-sealed class NativeUi { internal readonly NativeNode DrawPile = new(), DiscardPile = new(); }
+sealed class NativeUi { internal readonly NativeNode DrawPile = new(), DiscardPile = new(), EnergyCounterContainer = new(); }
 sealed class CombatRoom { internal readonly NativeUi Ui = new(); }
 sealed class SceneRoomScope
 {
     internal readonly CombatRoom Room = new();
-    internal NativeNode? NodeFor(Creature _) => null;
+    internal readonly CombatState Combat = new();
+    internal NCreature? NodeFor(Creature _) => null;
 }
 sealed class Effects
 {
     internal readonly List<string> Sounds = [];
     internal readonly List<Visual> Visuals = [];
+    internal bool AllowVisuals = true;
     private readonly HashSet<string> heard = [];
     internal void PlaySound(string id, string cue) { if (heard.Add(id + ":" + cue)) Sounds.Add(cue); }
     internal bool RenewLoop(string _, float seconds) => true;
-    internal void Emit(string id, string effect, EffectAnchors anchors, string? targetId = null, string? persistentKey = null, float leaseSeconds = 0) =>
+    internal bool Emit(string id, string effect, EffectAnchors anchors, string? targetId = null,
+        string? persistentKey = null, float leaseSeconds = 0, bool sound = true)
+    {
+        if (!AllowVisuals) return false;
         Visuals.Add(new(effect, anchors));
+        return true;
+    }
 }
 
-sealed class OwnerScope(int hp, int maxHp)
+sealed class OwnerScope
 {
-    private readonly Creature _owner = new(hp, maxHp);
-    private readonly SceneRoomScope _room = new();
+    private readonly Creature _owner;
+    private readonly SceneRoomScope _room;
     private readonly Effects _effects = new();
-    private NativeNode _node = new();
+    private NCreature _node;
+    internal OwnerScope(int hp, int maxHp, SceneRoomScope? room = null)
+    {
+        _room = room ?? new();
+        _owner = new(hp, maxHp) { CombatState = _room.Combat };
+        _owner.Player = new() { Creature = _owner };
+        _room.Combat.LocalPlayer ??= _owner.Player;
+        _node = new(_owner);
+    }
     private bool _disposed = false, _combatStopped = false, _dead = false, _domain = false, _lowHealth;
     private readonly string _domainKey = "domain";
     internal bool Playable;
@@ -203,17 +392,22 @@ sealed class OwnerScope(int hp, int maxHp)
     internal List<string> Sounds => _effects.Sounds;
     internal List<Visual> Visuals => _effects.Visuals;
     internal readonly List<string> Poses = [];
-    internal int PrimaryStarts, Roars;
+    private readonly Dictionary<Creature, string> _markTargets = [];
+    internal int PrimaryStarts;
+    internal int Roars => Visuals.Count(v => v.Effect == "roar_wave");
     internal int ReplayMarkers => Visuals.Count(v => v.Effect == "card_replay");
     internal NativeNode DrawPile => _room.Room.Ui.DrawPile;
     internal NativeNode DiscardPile => _room.Room.Ui.DiscardPile;
-    internal void Own(CardModel card) { card.Owner.Creature = _owner; _owner.Presentation = this; }
+    internal NativeNode WorldAnchor => _node.Visuals.VfxSpawnPosition;
+    internal NativeNode CreatureVisuals => _node.Visuals;
+    internal Player Player => _owner.Player!;
+    internal bool AllowVisuals { set => _effects.AllowVisuals = value; }
+    internal void Own(CardModel card) { card.Owner = _owner.Player!; _owner.Presentation = this; }
     internal sealed class PlayMotion;
     internal PlayMotion? FindMotion(CardModel _) => null;
     internal void InitialSnapshot() => UpdateLowHealth(announce: false);
     internal void HealthChanged(int hp) { _owner.CurrentHp = hp; UpdateLowHealth(); }
-    private static bool Valid(NativeNode? node) => node is not null;
-    private static EffectAnchors Anchors(NativeNode? card = null) => new(Card: card);
+    private static bool Valid(CanvasItem? node) => node is { Alive: true };
     private static string? CardId(CardModel card) => card.Key;
     private static NativeNode? CardAnchor(CardModel card) => card.View ?? card.Captured;
     private static string Next(string value) => value;
@@ -225,9 +419,11 @@ sealed class OwnerScope(int hp, int maxHp)
     private void RefreshIdle() { }
     private static string MotionKey(CardModel card) => card.Key;
     private void BeginMotion(CardPlay _, string id) => PrimaryStarts++;
-    private void AtOwner(string id, string effect) { if (effect == "roar_wave") Roars++; }
     internal void AtTarget(string id, string effect, Creature _) { }
     private void Pose(string clip) => Poses.Add(clip);
+    private void BatchingBeastMotion(CardModel? _) { }
+    private void BindMark(Creature _, string key, string id, bool sound) { }
+    private static string CreatureId(Creature creature) => creature.GetHashCode().ToString();
 
     // PRODUCTION_METHODS
 }
@@ -273,8 +469,49 @@ static class EngageRouting
     // PRODUCTION_ENGAGE
 }
 
+static class NativeAudioPolicy
+{
+    // PRODUCTION_AUDIO
+}
+
+sealed class CharacterAssets
+{
+    // PRODUCTION_ARMS
+}
+
+namespace Volibear.Content
+{
+    static class MechanicGlossary { internal static Dictionary<string, string> Localization() => []; }
+    static class InlineModelLocalization
+    {
+        internal static void Merge(string _, MegaCrit.Sts2.Core.Localization.LocTable table) { }
+    }
+}
+
+namespace MegaCrit.Sts2.Core.Localization
+{
+    public sealed class LocTable
+    {
+        internal readonly Dictionary<string, string> Values = [];
+        internal void MergeWith(Dictionary<string, string> entries)
+        {
+            foreach (var pair in entries) Values[pair.Key] = pair.Value;
+        }
+    }
+    sealed class LocManager
+    {
+        internal static LocManager Instance { get; } = new();
+        internal LocTable GetTable(string _) => new();
+    }
+}
+
 namespace Godot
 {
+    static class GD
+    {
+        internal static void Print(string _) { }
+        internal static void PrintErr(string message) => throw new InvalidOperationException(message);
+    }
     // Only resource reading is substituted. Metadata parsing/routing above is the
     // exact production method body; this is not a native Godot scene-graph test.
     sealed class FileAccess(string path) : IDisposable

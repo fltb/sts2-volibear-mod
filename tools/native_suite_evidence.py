@@ -4,10 +4,12 @@ import json
 from card_face_evidence import extract_card_face_batch
 from card_lifecycle_evidence import card_lifecycle_batch_evidence
 from presentation_acceptance_evidence import check_log as presentation_evidence
+from native_product_flow_evidence import check_log as product_flow_evidence
+from character_integration_evidence import check_log as character_evidence
 
 BEGIN = '[Volibear] NATIVE_SUITE_BEGIN '
 RESULT = '[Volibear] NATIVE_SUITE_RESULT '
-STAGES = ['card-faces', 'card-lifecycle', 'presentation', 'save-load-same-process']
+STAGES = ['card-faces', 'card-lifecycle', 'presentation', 'product-flow', 'save-load-same-process']
 
 
 def check_log(log, token, faces, lifecycle, presentation_mode, artifact_dir, user_root):
@@ -34,26 +36,34 @@ def check_log(log, token, faces, lifecycle, presentation_mode, artifact_dir, use
         if (type(begin.get('pid')) is not int or begin['pid'] <= 0 or begin.get('token') != token
                 or not token or final.get('token') != token or final.get('pid') != begin['pid']):
             raise ValueError('invocation token / native process identity differs')
-        expected = dict(schema=1, token=token, pid=begin['pid'], completed=STAGES, finished=True,
+        expected = dict(schema=2, token=token, pid=begin['pid'], completed=STAGES, finished=True,
                         osInput=False, simulatedClicks=False, processRestarts=0,
                         selector='CardSelectCmd.UseSelector',
+                        rewardDecisionBoundary='NCardRewardSelectionScreen.OptionSelected',
                         cleanup=dict(RunNull=True, CombatNull=True, InProgress=False,
                                      QueueEmpty=True, ActionNull=True, HistoryVisible=0),
-                        scope='native-paid-card-faces-lifecycle-presentation-and-checkpoint',
+                        scope='native-paid-card-faces-lifecycle-presentation-product-flow-and-checkpoint',
                         exclusions=['live-multiplayer-peers', 'physical-input',
                                     'human-visual-listening-review', 'disk-process-restart'])
         # bool is an int in Python: compare typed JSON values, not Python dict equality.
         from card_lifecycle_evidence import same
         same(final, expected, 'suite envelope')
-        boundaries = [BEGIN, '[Volibear] CARD_FACE_BATCH_RESULT ',
+        boundaries = [BEGIN, '[Volibear] CHARACTER_INTEGRATION_RESULT ', '[Volibear] CARD_FACE_BATCH_RESULT ',
                       '[Volibear] CARD_LIFECYCLE_BATCH_RESULT ',
-                      '[Volibear] PRESENTATION_ACCEPTANCE_RESULT ', '[Volibear] SAVE_LOAD_RESULT ', RESULT,
+                      '[Volibear] PRESENTATION_ACCEPTANCE_RESULT ', '[Volibear] NATIVE_PRODUCT_FLOW_RESULT ',
+                      '[Volibear] SAVE_LOAD_RESULT ', RESULT,
                       '[Volibear] SHUTDOWN_BEGIN ' + token]
         positions = [log.index(marker) for marker in boundaries]
         if positions != sorted(positions) or any(log.count(marker) != 1 for marker in boundaries):
             raise ValueError('suite stages or the single shutdown are incomplete/out of order')
         if '[Volibear] NATIVE_SUITE_ERROR ' in log:
             raise ValueError('native coordinator reported an error')
+        character = character_evidence(log, token, begin['pid'])
+        results['character-integration'] = character
+        errors.extend('character-integration: ' + error for error in character['errors'])
+        flow = product_flow_evidence(log, token, begin['pid'])
+        results['product-flow'] = flow
+        errors.extend('product-flow: ' + error for error in flow['errors'])
         from pathlib import Path
         import save_load_evidence as save
         checkpoint_path = Path(user_root) / 'default/1/modded/profile1/saves/current_run.save'

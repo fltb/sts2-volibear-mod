@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "tool": "built-in image_gen",
+  "style": "Original-skin LoL Volibear paw anatomy; StS2 native dorsal gesture view, long forearm and simplified matte painterly brushwork.",
+  "processing": "prepare_multiplayer_hands.gd: proportional Lanczos resize only, onto 422x1200 transparent canvas. No nonuniform scaling. Native NHandImage pivots are Control coordinates, not PNG pixels; preserve native long-forearm composition.",
+  "native_reference": "Native hand PNG reference 422x1200 RGBA; TextureRect 383x1072 KEEP_ASPECT_CENTERED. Reference mirror build unknown, runtime consumer separately checked against StS2 0.107.1 / 59260271.",
+  "source_assets": [
+    {
+      "file": "source/multiplayer_hands/pointing.png",
+      "sha256": "a54ada6157cef3c53e60866828f39a11334c0ebc35bb17371b6e0c8687eb6736"
+    },
+    {
+      "file": "source/multiplayer_hands/rock.png",
+      "sha256": "e66b86432de9fcc3015a81d9c60cb1b625ff9340d051d906912e9cb2987fe517"
+    },
+    {
+      "file": "source/multiplayer_hands/paper.png",
+      "sha256": "c21a312cb0b9003823ddd3b660e2af3ed7548ec2e87a9f2b4876ced42c7f38f7"
+    },
+    {
+      "file": "source/multiplayer_hands/scissors.png",
+      "sha256": "95a7d30191e74b6af92221a05afcb8f77905ac4d3a4a945eb4f2fc7a7e737659"
+    }
+  ],
+  "runtime_assets": [
+    {
+      "id": "multiplayer_hand_volibear_pointing",
+      "file": "images/multiplayer_hand_volibear_pointing.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: pointing",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "9442cf4e5343aa0f0baf275c8b4c8e231ce6747f620c69f8e339602357348e6c",
+      "native_control_pivot_px": [
+        163,
+        10
+      ]
+    },
+    {
+      "id": "multiplayer_hand_volibear_rock",
+      "file": "images/multiplayer_hand_volibear_rock.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: rock",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "14a1039c0d9d66fe5a61572dd02e2af20a40db75ba1454d489d2d785a8022448",
+      "native_control_pivot_px": [
+        197,
+        600
+      ]
+    },
+    {
+      "id": "multiplayer_hand_volibear_paper",
+      "file": "images/multiplayer_hand_volibear_paper.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: paper",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "40b269bad95238b7c4dc198549d5ba549a8007db46b501d8728d9733c83dd5bf",
+      "native_control_pivot_px": [
+        197,
+        600
+      ]
+    },
+    {
+      "id": "multiplayer_hand_volibear_scissors",
+      "file": "images/multiplayer_hand_volibear_scissors.png",
+      "size": [
+        422,
+        1200
+      ],
+      "mode": "RGBA",
+      "role": "multiplayer treasure hand: scissors",
+      "basis": "New Volibear gesture referenced against actual Riot model and native StS2 hand art; shared pointing forearm reference, alpha-faded lower edge, 422x1200 proportions; proportional Godot resize only",
+      "sha256": "b2c41ab611348b4d7f22148a76c4b1a3a7160f798b1fb2bf9b98bc47a13ff198",
+      "native_control_pivot_px": [
+        197,
+        600
+      ]
+    }
+  ],
+  "prompts_file": "source/multiplayer_hands/prompts.json",
+  "visual_review": {
+    "structure": "Agent inspected dorsal paw, one pointing digit, fully closed fist, open paw, and two-digit scissors; first set rejected by user and fully replaced.",
+    "style": "Referenced native Ironclad hand textures and gameplay screenshot; reduced fur detail and specular claws.",
+    "user_approval": "not_claimed",
+    "native_in_game_overlay": "not_run_here",
+    "continuity": "All gestures edited from one pointing-arm master to align forearm landmarks; this is an imagegen reference lock, not a claim of pixel-identical lower arms. Native-sized Godot rendering reviewed separately.",
+    "lower_edge": "Imagegen alpha fade; runtime validator requires bottom-row alpha <= 4/255 to reject a visible flat cut."
+  },
+  "references": [
+    {
+      "purpose": "actual Volibear base model anatomy",
+      "page": "https://www.leagueoflegends.com/en-us/news/dev/dev-a-storm-is-brewing/",
+      "image": "https://cmsassets.rgpub.io/sanity/images/dsfx7636/news_live/ff253a5939cf32f8347a336d4e158a6783b7e1d6-1520x1074.jpg",
+      "owner": "Riot Games"
+    },
+    {
+      "purpose": "native StS2 hand poses and painterly style",
+      "page": "https://github.com/hongyipan152/STS2SourceCode/tree/d3db818409984371aa5582b94c55877ee2f72e3e/images/ui/hands",
+      "owner": "Mega Crit",
+      "note": "Public third-party extracted reference, build unknown; reference files stay outside Git and the runtime PCK."
+    },
+    {
+      "purpose": "pinned native NHandImage texture/pivot consumption",
+      "page": "https://github.com/zhiyue/sts2-rl-agent/blob/5d874e855ae1d0550d5c30416fadd7dbb0d133b7/decompiled/MegaCrit.Sts2.Core.Nodes.Screens.TreasureRoomRelic/NHandImage.cs",
+      "build": "0.107.1 / 59260271"
+    }
+  ]
+}

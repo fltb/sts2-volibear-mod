@@ -184,7 +184,8 @@ class ReleasePackageTests(unittest.TestCase):
 
     def test_shipping_instructions_require_safe_manual_install_and_uninstall(self):
         text = (release.ROOT / 'docs/INSTALL_ZH.md').read_text(encoding='utf-8')
-        for required in ('59260271', '3.4.7', '停止', 'SHA-256', '不删除或修改 BaseLib', '存档', '未宣称通过全部旧验收矩阵'):
+        for required in ('59260271', '3.4.7', '停止', 'SHA-256', '不删除或修改 BaseLib', '存档',
+                         'NOT_RUN', 'PCK 通过不代表这些结果已通过', '原生房间检查点'):
             self.assertIn(required, text)
         self.assertNotIn(str(Path.home()), text)
 

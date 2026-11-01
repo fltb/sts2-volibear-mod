@@ -28,7 +28,8 @@ internal static class SteamOrdinaryCooperationTests
     }
     // Explicit managed stub: exercises the real handoff/Enter bookkeeping, not native
     // damage or Godot. Never report this as a native task/box or gameplay proof.
-    static Task<IEnumerable<DamageResult>> ManagedNativeStub(PlayerChoiceContext context,IEnumerable<Creature> targets,decimal amount,ValueProp props,Creature? dealer,CardModel? card)
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    static async Task<IEnumerable<DamageResult>> ManagedNativeStub(PlayerChoiceContext context,IEnumerable<Creature> targets,decimal amount,ValueProp props,Creature? dealer,CardModel? card)
     {
         NativeCalls++; var flow=Enum.Parse(Adapter.GetNestedType("Flow",F)!,"Damage");
         var done=new TaskCompletionSource<IEnumerable<DamageResult>>();
@@ -39,7 +40,7 @@ internal static class SteamOrdinaryCooperationTests
         Need(Field(child.GetType().GetProperty("Frame")!.GetValue(child)!,"Episode") is null,"nested same-dealer native entry cannot reuse consumed ticket");
         Call("BeforeSignal",child,true);nested.SetResult();
         var result=new DamageResult(dealer!,props);
-        Call("BeforeSignal",step,true);done.SetResult(new[]{result});return done.Task;
+        Call("BeforeSignal",step,true);done.SetResult(new[]{result});return await done.Task;
     }
     static readonly List<string> PaidTrace=[];
     static Task PaidDomainTask=Task.CompletedTask;
@@ -90,7 +91,8 @@ internal static class SteamOrdinaryCooperationTests
     internal static void Run()
     {
         var cards=typeof(CardResolutionHooks);var slot=cards.GetField("Current",F)!.GetValue(null)!;var value=slot.GetType().GetProperty("Value")!;
-        var oldScope=value.GetValue(slot);var current=Ambient("Current");var origin=Ambient("Origin");var pending=Ambient("PendingDamage");
+        var oldScope=value.GetValue(slot);var current=Ambient("Current");var origin=Ambient("Origin");
+        var handoff=(SteamNativeEntryBinding)Adapter.GetField("DamageHandoff",F)!.GetValue(null)!;
         var harmony=new Harmony("Volibear.SteamStage.OrdinaryCooperation");
         try
         {
@@ -107,6 +109,7 @@ internal static class SteamOrdinaryCooperationTests
             var cancel=new CancellationToken(true);
             try{CardResolutionHooks.OrdinaryAttackPipelineV1(null!,ValueProp.Unpowered,null,null,()=>Task.FromCanceled<IEnumerable<DamageResult>>(cancel)).GetAwaiter().GetResult();throw new Exception("lost native cancellation");}
             catch(OperationCanceledException){Checks++;}
+            handoff.Install(harmony,typeof(SteamOrdinaryCooperationTests).GetMethod(nameof(ManagedNativeStub),F)!);
             harmony.Patch(Adapter.GetMethod("DispatchNativeDamage",F)!,transpiler:new HarmonyMethod(typeof(SteamOrdinaryCooperationTests),nameof(StubDispatch)));
             foreach(var tagged in new[]{false,true})
             {
@@ -119,14 +122,17 @@ internal static class SteamOrdinaryCooperationTests
                 var root=Activator.CreateInstance(Adapter.GetNestedType("Frame",F)!,F,null,new object?[]{Task.CompletedTask,flow,command,ExpectedEpisode,null},null)!;
                 Ambient("Current",root);
                 var invocation=Activator.CreateInstance(Adapter.GetNestedType("DamageInvocation",F)!,F,null,new object?[]{ep,RuntimeHelpers.GetUninitializedObject(typeof(AttackCommand))},null)!;
-                var binding=Activator.CreateInstance(typeof(SteamSingleUseBinding<>).MakeGenericType(invocation.GetType()),invocation)!;
-                Ambient("PendingDamage",binding);
-                var results=((Task<IEnumerable<DamageResult>>)Call("DamageFromCommand",null,new[]{receiver},2m,ValueProp.Unpowered,receiver,null,command)!).GetAwaiter().GetResult();
-                Need(results.Count()==1&&ReferenceEquals(Ambient("PendingDamage"),binding),"untagged/tagged ordinary pipeline preserves outer handoff scope");
-                Need(ReferenceEquals(binding.GetType().GetMethod("Consume")!.Invoke(binding,null),invocation),"untagged nested call cannot steal an outer pending ticket");
-                Ambient("Current",current);Ambient("Origin",origin);Ambient("PendingDamage",pending);
+                using(handoff.Dispatch(invocation))
+                {
+                    var results=((Task<IEnumerable<DamageResult>>)Call("DamageFromCommand",null,new[]{receiver},2m,ValueProp.Unpowered,receiver,null,command)!).GetAwaiter().GetResult();
+                    Need(results.Count()==1,"untagged/tagged ordinary pipeline returns actual result");
+                    ExpectedEpisode=ep;ExpectedCommand=Field(invocation,"Command");
+                    var outer=ManagedNativeStub(null!,new[]{receiver},2m,ValueProp.Unpowered,receiver,null).GetAwaiter().GetResult();
+                    Need(outer.Count()==1,"outer ticket remains consumable after nested dispatch masking");
+                }
+                Ambient("Current",current);Ambient("Origin",origin);
             }
-            Need(NativeCalls==2,"one exact native dispatch per ordinary invocation");
+            Need(NativeCalls==4,"one exact native dispatch per ordinary invocation");
             var attack=AccessTools.Method(AccessTools.Method(typeof(AttackCommand),nameof(AttackCommand.Execute)).GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType,"MoveNext");
             foreach(var mutation in new[]{"missing","duplicate-native","duplicate-v1","opaque-helper","mixed-v1-native"})
             {
@@ -145,7 +151,7 @@ internal static class SteamOrdinaryCooperationTests
                 catch(TargetInvocationException caught)when(caught.InnerException is InvalidOperationException){Checks++;}
             }
         }
-        finally{harmony.UnpatchAll(harmony.Id);value.SetValue(slot,oldScope);Ambient("Current",current);Ambient("Origin",origin);Ambient("PendingDamage",pending);ExpectedEpisode=ExpectedCommand=null;}
+        finally{harmony.UnpatchAll(harmony.Id);value.SetValue(slot,oldScope);Ambient("Current",current);Ambient("Origin",origin);handoff.Reset();ExpectedEpisode=ExpectedCommand=null;}
         Console.WriteLine($"STEAM_ORDINARY_COOPERATION_PASS checks={Checks} managed-dispatch-domain-combat-stubs=true native-gameplay=NOT_RUN");
     }
 }

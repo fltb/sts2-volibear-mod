@@ -28,22 +28,26 @@ public static class DomainCardContributions
     private static readonly Dictionary<MethodBase, string> Sites = new();
     [Flags] internal enum Cause { Unknown = 1, Enemy = 2, Player = 4 }
 
-    // No contribution allocation is invented for mixed stacks. Even Single powers really add amounts.
+    // Native shared amounts stay untouched. Tangled uses a positive-cost counterfactual;
+    // the other three predicates ignore Amount and combine independent causes by OR.
     internal sealed class StackReceipt(Cause cause, int amount)
     {
+        private readonly DomainCardContributionLedger _scalar = new(amount, cause == Cause.Enemy);
         internal Cause Causes { get; private set; } = cause;
-        internal int ExpectedAmount { get; private set; } = amount;
+        internal int ExpectedAmount => _scalar.Actual;
+        internal int EffectiveAmount => _scalar.Effective;
+        internal bool HasRetainedPredicate => (Causes & (Cause.Player | Cause.Unknown)) != 0;
         internal string State => (Causes & Cause.Unknown) != 0 ? "unknown" : Causes switch
         { Cause.Enemy => "enemy", Cause.Player => "player", _ => "mixed" };
         internal void Change(Cause addedCause, int before, int after)
         {
             if (before != ExpectedAmount) Causes |= Cause.Unknown;
             if (after > before) Causes |= addedCause;
-            ExpectedAmount = after;
+            _scalar.Change(before, after, addedCause == Cause.Enemy);
         }
         internal void Check(int actual)
         {
-            if (actual != ExpectedAmount) { Causes |= Cause.Unknown; ExpectedAmount = actual; }
+            if (_scalar.Reconcile(actual)) Causes |= Cause.Unknown;
         }
     }
     private sealed class Origin(ICombatState combat, Creature owner, Cause cause, int amount, int generation)
@@ -54,10 +58,11 @@ public static class DomainCardContributions
         internal readonly StackReceipt Receipt = new(cause, amount);
         internal readonly HashSet<string> EnemyIds = new();
         internal readonly HashSet<Creature> EnemySources = new(ReferenceEqualityComparer.Instance);
-        internal string ReportedUnsupported = "";
+        internal bool ReportedUnknown;
     }
     public sealed record SourceAudit(string State, int ExpectedAmount, int ActualAmount,
-        bool SameCombat, bool SameOwner, string[] EnemyIds, string UnsupportedReason);
+        bool SameCombat, bool SameOwner, string[] EnemyIds, string UnsupportedReason,
+        int RetainedAmount = 0, bool RetainedPredicate = false);
 
     private static bool Whitelisted(PowerModel power) => power.GetType() == typeof(HexPower) ||
         power.GetType() == typeof(TangledPower) || power.GetType() == typeof(SmoggyPower) || power.GetType() == typeof(RingingPower);
@@ -95,8 +100,16 @@ public static class DomainCardContributions
         DomainPlayerDebuffContributions.AmountChanged(power, amount, applier, card, context);
         DomainPlayerStatContributions.AmountChanged(power, amount, applier, card, context);
         Origin? changed = null;
-        if (Whitelisted(power) && _origins.TryGetValue(power, out var origin))
+        if (Whitelisted(power) && power.Owner.IsPlayer && power.Owner.CombatState is { } combat)
         {
+            if (!_origins.TryGetValue(power, out var origin) || origin.Generation != _generation ||
+                !ReferenceEquals(origin.Owner, power.Owner) || !ReferenceEquals(origin.Combat, combat))
+            {
+                // Observe a new enemy addition even when the prior value came from
+                // another mod or restoration. Only the prior value stays unattributed.
+                origin = new Origin(combat, power.Owner, Cause.Unknown, power.Amount, _generation);
+                _origins.Remove(power); _origins.Add(power, origin);
+            }
             changed = origin;
             var cause = Classify(origin.Combat, applier, card);
             // A previously proven actual argument remains attributable after departure, but never after reuse in another combat.
@@ -110,39 +123,40 @@ public static class DomainCardContributions
         }
         // Native negative ticks/removal are never filtered. Unknown/untracked mutations never gain enemy attribution.
         power.SetAmount(amount, silent);
-        if (changed is not null) ReportUnsupported(power, changed);
+        if (changed is not null) ReportUnknown(power, changed);
     }
-    private static void ReportUnsupported(PowerModel power, Origin origin)
+    private static void ReportUnknown(PowerModel power, Origin origin)
     {
-        string state = origin.Receipt.State;
-        if (state is not ("mixed" or "unknown") || origin.ReportedUnsupported == state) return;
-        origin.ReportedUnsupported = state;
-        Godot.GD.Print("[Volibear] DOMAIN_CARD_SOURCE_UNSUPPORTED " + power.GetType().Name + " " + state +
-            " contributor allocation unproven; native contribution retained");
+        if (origin.Receipt.State != "unknown" || origin.ReportedUnknown) return;
+        origin.ReportedUnknown = true;
+        Godot.GD.Print("[Volibear] DOMAIN_CARD_SOURCE_UNATTRIBUTED " + power.GetType().Name +
+            " unobserved contributions retained; observed enemy cost additions remain isolated");
     }
     public static SourceAudit Audit(PowerModel power)
     {
         if (!_origins.TryGetValue(power, out var origin) || origin.Generation != _generation)
             return new("untracked", power.Amount, power.Amount, false, false, [], "no-observed-native-commit");
         origin.Receipt.Check(power.Amount);
-        ReportUnsupported(power, origin);
+        ReportUnknown(power, origin);
         var state = origin.Receipt.State;
         return new(state, origin.Receipt.ExpectedAmount, power.Amount,
             ReferenceEquals(origin.Combat, power.Owner.CombatState), ReferenceEquals(origin.Owner, power.Owner),
-            origin.EnemyIds.Order().ToArray(), state is "mixed" or "unknown" ? "contributor-allocation-not-proven;native-contribution-preserved" : "");
+            origin.EnemyIds.Order().ToArray(), state == "unknown" ? "unattributed-contributions-preserved" : "",
+            origin.Receipt.EffectiveAmount, origin.Receipt.HasRetainedPredicate);
     }
-    private static bool Suppress(PowerModel power, CardModel card)
+    private static Origin? ActiveOrigin(PowerModel power, CardModel card)
     {
-        if (!_origins.TryGetValue(power, out var origin) || origin.Generation != _generation) return false;
+        if (!_origins.TryGetValue(power, out var origin) || origin.Generation != _generation) return null;
         origin.Receipt.Check(power.Amount);
-        ReportUnsupported(power, origin);
-        // Tangled's negative cost delta is favorable to the player; the other three predicates ignore Amount entirely.
-        return origin.Receipt.State == "enemy" && (power is not TangledPower || power.Amount > 0) && origin.Owner.IsPlayer &&
+        ReportUnknown(power, origin);
+        return origin.Owner.IsPlayer &&
             ReferenceEquals(power.Owner, origin.Owner) && ReferenceEquals(card.Owner.Creature, origin.Owner) &&
             ReferenceEquals(origin.Owner.CombatState, origin.Combat) && origin.Combat.ContainsCreature(origin.Owner) &&
-            origin.Owner.Powers.Contains(power) && DomainEnemyEffects.ActiveFor(origin.Combat);
+            origin.Owner.Powers.Contains(power) && DomainEnemyEffects.ActiveFor(origin.Combat) ? origin : null;
         // The original enemy need NOT remain attached/alive. Its same-combat cause was captured at commit.
     }
+    private static bool Suppress(PowerModel power, CardModel card) =>
+        ActiveOrigin(power, card) is { } origin && !origin.Receipt.HasRetainedPredicate;
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool KeywordsContribution(AbstractModel model, CardModel card, ISet<CardKeyword> keywords)
     {
@@ -166,12 +180,21 @@ public static class DomainCardContributions
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool CostContribution(AbstractModel model, CardModel card, decimal original, out decimal modified)
     {
-        if (model is TangledPower tangled && Suppress(tangled, card))
+        bool changed = model.TryModifyEnergyCostInCombat(card, original, out modified);
+        if (changed && model is TangledPower tangled && tangled.Amount > 0 &&
+            ActiveOrigin(tangled, card) is { } origin && card.Affliction is MegaCrit.Sts2.Core.Models.Afflictions.Entangled)
         {
-            if (card.Affliction is MegaCrit.Sts2.Core.Models.Afflictions.Entangled) CaptureCardSuppression(tangled);
-            modified = original; return false;
+            int suppressed = tangled.Amount - origin.Receipt.EffectiveAmount;
+            if (suppressed > 0)
+            {
+                // Subtract only this observed positive enemy part. Foreign modifiers on
+                // the native contribution and independent player cost additions survive.
+                modified -= suppressed;
+                CaptureCardSuppression(tangled);
+                return modified != original;
+            }
         }
-        return model.TryModifyEnergyCostInCombat(card, original, out modified);
+        return changed;
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool PlayContribution(AbstractModel model, CardModel card, AutoPlayType autoPlayType)

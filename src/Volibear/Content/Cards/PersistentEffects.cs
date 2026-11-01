@@ -172,9 +172,14 @@ public sealed class Volibear_R16 : VolibearCard
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_R18")]
-public sealed class Volibear_R18 : VolibearCard
+public sealed class Volibear_R18 : VolibearCard, ITomeCard
 {
     public Volibear_R18() : base(2, CardType.Power, CardRarity.Rare, TargetType.AllEnemies, "r18") { }
+    // Dusty Tome has no default Ancient-rarity candidate in this fixed 89-card
+    // design. BaseLib's supported interface selects this existing card; the
+    // native relic still owns its upgrade, permanent-deck add and save identity.
+    public MegaCrit.Sts2.Core.Models.CharacterModel TomeCharacter =>
+        MegaCrit.Sts2.Core.Models.ModelDb.Character<VolibearCharacter>();
     public override List<(string, string)> Localization => new CardLoc("雷池", "对全体造成{Lightning:diff()}雷伤。回合结束及每回合首次迎战后，对全体造成{Pool:diff()}雷伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 6m), new DynamicVar("Pool", 4m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)

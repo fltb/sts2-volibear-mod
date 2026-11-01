@@ -119,6 +119,58 @@ internal static class Program
         Check(enemy.Monster!.BodyCalls == 0, "The stale player action cannot race the native enemy scheduler");
     }
 
+    private static async Task ConcurrentPlayersWhileReserved()
+    {
+        var f = new Fixture(); var enemy = f.Enemy();
+        var gate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        enemy.Node!.Intent = () => gate.Task;
+        var first = f.Engage(enemy, f.CardA);
+        Check(!first.IsCompleted && EngageCmd.Consumed(enemy), "Reservation is committed before the first native await");
+        var second = await f.Engage(enemy, f.CardB);
+        Check(second is { Performed: false, Completed: false, Absorbed: 0 }, "Concurrent teammate cannot reserve the pending opportunity");
+        Check(enemy.Monster!.BodyCalls == 0, "Neither intent completion nor teammate request fabricated an action");
+        gate.SetResult(); var result = await first;
+        Check(result.Performed && result.Completed && enemy.Monster.BodyCalls == 1, "Exactly one native body executes after the gate");
+        Check(f.ResponseA.Calls.Count == 1 && f.ResponseB.Calls.Count == 0, "Only the actual initiator gets a completion response");
+        Check(EngageCmd.EarlyOpportunityEntryCount == 1 && EngageCmd.NaturalOpportunityEntryCount == 1,
+            "Both observations describe the same shared enemy opportunity");
+    }
+
+    private static async Task SuspendedActionAcrossRunReset()
+    {
+        foreach (bool reuseCombatObject in new[] { false, true })
+        {
+            var old = new Fixture(); var enemy = old.Enemy();
+            var gate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            enemy.Monster!.Body = async _ =>
+            {
+                old.A.Creature.DamageBlockInternal(2m);
+                await gate.Task;
+                old.A.Creature.DamageBlockInternal(100m);
+            };
+            var pending = old.Engage(enemy);
+            Check(!pending.IsCompleted && EngageCmd.Consumed(enemy), "A real body is suspended with a spent opportunity");
+            CombatManager.Instance.Reset(false);
+            Check(EngageCmd.EarlyOpportunityEntryCount == 0 && EngageCmd.NaturalOpportunityEntryCount == 0,
+                "Native reset clears shared opportunity facts");
+            var fresh = reuseCombatObject ? old : new Fixture();
+            if (reuseCombatObject) CombatManager.Instance.Setup(fresh.State);
+            var newEnemy = fresh.Enemy();
+            Check(!EngageCmd.Consumed(newEnemy) && !EngageCmd.Consumed(enemy), "Restored combat starts with unspent opportunities");
+            newEnemy.Monster!.Body = _ => { fresh.A.Creature.DamageBlockInternal(3m); return Task.CompletedTask; };
+            var current = await fresh.Engage(newEnemy);
+            Check(current.Completed && current.Absorbed == 3m && fresh.ResponseA.Calls.Count == 1,
+                "New combat action works before the old async continuation resumes");
+            gate.SetResult(); var stale = await pending;
+            Check(stale is { Performed: true, Completed: false, Absorbed: 2m },
+                "Old native continuation cannot accumulate absorption or award completion after reset");
+            Check(fresh.ResponseA.Calls.Count == 1 && (reuseCombatObject || old.ResponseA.Calls.Count == 0),
+                "No delayed reward is delivered to either incarnation");
+            Check(EngageCmd.Consumed(newEnemy) && EngageCmd.EarlyOpportunityEntryCount == 1,
+                "The stale continuation cannot erase or add to the fresh combat opportunity");
+        }
+    }
+
     private static async Task NestedAndFailureCleanup()
     {
         var f = new Fixture(); var outer = f.Enemy(); var inner = f.Enemy();
@@ -197,6 +249,8 @@ internal static class Program
         ["shared-opportunity-original-targets"] = SharedOpportunityAndOriginalTargets,
         ["normal-enemy-phase-only"] = OnlyNormalEnemyPhaseSkips,
         ["stale-round"] = StaleRoundCannotResume,
+        ["concurrent-reservation"] = ConcurrentPlayersWhileReserved,
+        ["suspended-run-reset"] = SuspendedActionAcrossRunReset,
         ["nested-failure-cleanup"] = NestedAndFailureCleanup,
         ["death-boundaries"] = DeathBoundaries,
         ["stable-group-snapshot"] = StableGroupSnapshot,

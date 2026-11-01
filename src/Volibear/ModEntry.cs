@@ -9,6 +9,7 @@ public static class ModEntry
 {
     public static void Initialize()
     {
+        Core.SupportedGameBuild.EnsureInstalled(OS.GetExecutablePath());
         DomainSteamNativeObservation.PrepareForTestScenario();
         Presentation.VolibearPresentation.RegisterSceneConversions();
         ContentRegistry.Register();
@@ -134,6 +135,12 @@ public static class ModEntry
             {
                 DevelopmentBootstrap.Install(installDriver: false);
                 NativeVerificationSuite.Install();
+            }
+            else if (scenario == "multiplayer-suite")
+            {
+                // Two native network sessions create their own lobby/run. The single-player
+                // bootstrap must not create a competing run or advance either peer.
+                MultiplayerAcceptanceProbe.Install();
             }
             else if (scenario == "card-face-acceptance")
             {

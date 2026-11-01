@@ -13,6 +13,23 @@ Type T(string name) => assembly.GetType(name) ?? host.GetType(name, throwOnError
 object? Call(Type t, string name, params object?[] args) => t.GetMethod(name, flags)!.Invoke(null, args);
 int checks = 0;
 void Check(bool condition, string label) { checks++; if (!condition) throw new Exception(label); }
+var nativeAudio = T("Volibear.Presentation.VolibearNativeAudio");
+var nativeOneShot = (MethodInfo)Call(nativeAudio, "NativeOneShot")!;
+Check(nativeOneShot.DeclaringType == typeof(MegaCrit.Sts2.Core.Nodes.Audio.NAudioManager) &&
+    nativeOneShot.ReturnType == typeof(void) && nativeOneShot.GetParameters().Select(p => p.ParameterType).SequenceEqual(
+        new[] { typeof(string), typeof(Dictionary<string, float>), typeof(float) }),
+    "native audio filter resolves the locked public convergence overload");
+Call(nativeAudio, "Install");
+try
+{
+    var audioId = (string)nativeAudio.GetField("HarmonyId", flags)!.GetValue(null)!;
+    Check(Harmony.GetPatchInfo(nativeOneShot)!.Prefixes.Count(p => p.owner == audioId) == 1,
+        "missing-default filter patches the actual native audio method exactly once");
+    Call(nativeAudio, "Install");
+    Check(Harmony.GetPatchInfo(nativeOneShot)!.Prefixes.Count(p => p.owner == audioId) == 1,
+        "repeated audio installation is idempotent");
+}
+finally { new Harmony("Volibear.AudioDefaults.NativeTest").UnpatchAll((string)nativeAudio.GetField("HarmonyId", flags)!.GetValue(null)!); }
 var gateType = T("Volibear.Presentation.AudioCommitGate");
 object Gate() => Activator.CreateInstance(gateType, nonPublic: true)!;
 bool Commit(object gate, params bool[] facts) => (bool)gateType.GetMethod("TryCommit", flags)!.Invoke(gate, facts.Cast<object>().ToArray())!;

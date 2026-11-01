@@ -37,11 +37,14 @@ namespace MegaCrit.Sts2.Core.Runs
 }
 namespace MegaCrit.Sts2.Core.TestSupport
 {
+    // Independent pinned-API boundary: 0.107.1 returns the reward selection
+    // struct, not the nullable CardModel used by pre-0.105 implementations.
+    public readonly record struct CardRewardSelection;
     public static class TestMode { public static bool IsOn { get; set; } }
     public interface ICardSelector
     {
         Task<IEnumerable<MegaCrit.Sts2.Core.Models.CardModel>> GetSelectedCards(IEnumerable<MegaCrit.Sts2.Core.Models.CardModel> cards, int min, int max);
-        MegaCrit.Sts2.Core.Models.CardModel? GetSelectedCardReward(IReadOnlyList<MegaCrit.Sts2.Core.Entities.Cards.CardCreationResult> cards,
+        CardRewardSelection GetSelectedCardReward(IReadOnlyList<MegaCrit.Sts2.Core.Entities.Cards.CardCreationResult> cards,
             IReadOnlyList<MegaCrit.Sts2.Core.Entities.CardRewardAlternatives.CardRewardAlternative> alternatives);
     }
 }

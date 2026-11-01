@@ -98,11 +98,3 @@ public sealed record SteamWriteReceipt(string Part, object Receiver, decimal Bef
 {
     public decimal Delta => After - Before;
 }
-
-/// <summary>A single-use handoff at a supported public entry. Foreign public-entry prefixes
-/// can steal a next-MoveNext binding; the adapter explicitly rejects that composition.</summary>
-public sealed class SteamSingleUseBinding<T>(T value) where T : class
-{
-    private T? _value = value;
-    public T? Consume() { var value = _value; _value = null; return value; }
-}

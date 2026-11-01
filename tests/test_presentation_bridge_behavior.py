@@ -15,6 +15,10 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'src/Volibear/Presentation/VolibearPresentationBridge.cs'
 MOTION = SOURCE.with_name('VolibearPresentationBridge.Motion.cs')
+SEMANTICS = SOURCE.with_name('VolibearPresentationBridge.Semantics.cs')
+NATIVE_AUDIO = SOURCE.with_name('VolibearNativeAudio.cs')
+LOCALIZATION = ROOT / 'src/Volibear/Content/VolibearLoc.cs'
+CHARACTER = ROOT / 'src/Volibear/Content/VolibearCharacter.cs'
 
 
 def method(source, signature):
@@ -64,10 +68,17 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
         bodies = '\n'.join(method(source, signature) for signature in (
             'internal void Tick()',
             'private void UpdateLowHealth(bool announce = true)',
+            'private bool OwnsLocalHud()',
+            'private EffectAnchors Anchors(',
+            'private bool TryCardAnchors(',
+            'internal void AtOwner(string id, string effect)',
             'internal void CardStarted(CardPlay play, string id)',
             'internal void AtCard(string id, string effect, CardModel card)',
+            'internal void CardAudio(CommittedCardPresentation receipt)',
             'internal void EngageTelegraph(string id)',
         ))
+        bodies += '\n' + method(SEMANTICS.read_text(encoding='utf-8'),
+                                'internal void Gameplay(GameplayPresentationReceipt receipt)')
         metadata = '\n'.join(method(source, signature) for signature in (
             'private static void ReadMetadata()',
             'private static string? ReadContactEffect(JsonElement row)',
@@ -84,9 +95,14 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
             method(source, 'private static Exception? FinishEngageInvocation('),
         ])
         template = (ROOT / 'tests/presentation_bridge_behavior/Program.cs').read_text(encoding='utf-8')
+        audio = method(NATIVE_AUDIO.read_text(encoding='utf-8'), 'internal static bool BeforeNativeOneShot(')
+        arms = '\n'.join(re.findall(r'public override string CustomArm\w+TexturePath\s*=>\s*"[^"]+";',
+                                    CHARACTER.read_text(encoding='utf-8'))).replace('public override', 'internal')
         (directory / 'Program.cs').write_text(template.replace('// PRODUCTION_METHODS', bodies)
                                             .replace('// PRODUCTION_METADATA', metadata)
-                                            .replace('// PRODUCTION_ENGAGE', engage), encoding='utf-8')
+                                            .replace('// PRODUCTION_ENGAGE', engage)
+                                            .replace('// PRODUCTION_AUDIO', audio)
+                                            .replace('// PRODUCTION_ARMS', arms), encoding='utf-8')
         project = directory / 'PresentationBehavior.csproj'
         project.write_text('''<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
@@ -94,6 +110,7 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <NuGetAudit>false</NuGetAudit><RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
   </PropertyGroup>
+  <ItemGroup><Compile Include="''' + str(LOCALIZATION) + '''" Link="VolibearLoc.cs" /></ItemGroup>
 </Project>''', encoding='utf-8')
         result = cls.invoke('build', str(project), '-c', 'Release', '--nologo')
         if result.returncode:
@@ -114,6 +131,15 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
 
     def test_removed_card_view_uses_its_captured_anchor(self):
         self.run_case('card-anchor')
+
+    def test_multiplayer_hud_and_pile_anchors_belong_to_actual_local_owner(self):
+        self.run_case('owner-anchors')
+
+    def test_native_audio_suppresses_only_this_characters_nonexistent_defaults(self):
+        self.run_case('native-audio')
+
+    def test_character_localization_merges_on_reload_and_has_complete_native_keys(self):
+        self.run_case('character-compat')
 
     def test_physical_contacts_follow_all_approved_card_cues(self):
         self.run_case('contact-bindings')
@@ -152,6 +178,24 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
                 dll = self.build('old-' + case, changed)
                 result = self.invoke(str(dll), case, str(ROOT))
                 self.assertNotEqual(result.returncode, 0, 'Old behavior passed: ' + case)
+                self.assertIn(expected, result.stdout + result.stderr)
+
+    def test_shared_hud_and_pile_regressions_are_rejected(self):
+        mutants = [
+            ('energy', self.source.replace(
+                'Energy: OwnsLocalHud() ? _room.Room.Ui.EnergyCounterContainer : _node.Visuals.VfxSpawnPosition',
+                'Energy: _room.Room.Ui.EnergyCounterContainer', 1),
+             'Remote energy must use its own actual creature anchor'),
+            ('piles', self.source.replace(
+                'if ((from is not null || toDiscard) && !OwnsLocalHud()) return false;', '', 1),
+             'Remote draw and discard must not borrow local pile UI'),
+        ]
+        for name, changed, expected in mutants:
+            with self.subTest(regression=name):
+                self.assertNotEqual(changed, self.source)
+                dll = self.build('shared-' + name, changed)
+                result = self.invoke(str(dll), 'owner-anchors', str(ROOT))
+                self.assertNotEqual(result.returncode, 0, 'Shared HUD regression passed: ' + name)
                 self.assertIn(expected, result.stdout + result.stderr)
 
 

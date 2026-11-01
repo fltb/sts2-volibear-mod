@@ -70,7 +70,9 @@ internal sealed class NativeAutomationSelector : ICardSelector, IDisposable
         return Task.FromResult<IEnumerable<CardModel>>(selected);
     }
 
-    public CardModel? GetSelectedCardReward(IReadOnlyList<CardCreationResult> options,
+    // The pinned 0.107.1 interface returns CardRewardSelection (changed in
+    // 0.105), even when this combat-only driver rejects the reward request.
+    public CardRewardSelection GetSelectedCardReward(IReadOnlyList<CardCreationResult> options,
         IReadOnlyList<CardRewardAlternative> alternatives) =>
         throw new InvalidOperationException("Combat suite must not resolve an unplanned card reward");
 
