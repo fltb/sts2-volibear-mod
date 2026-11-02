@@ -5,7 +5,9 @@
 当前工作在 [PR #1](https://github.com/fltb/sts2-volibear-mod/pull/1) 的
 `codex/mode7-completion` 分支，完整产品范围见 [交付标准](docs/RELEASE_PLAN.md)。
 
-**当前本地环境已有锁版本体与工具链，正在执行完整发布验收；分段通过不代表最终包已通过。**
+**2026-11-03：完整发布验收已通过，完整安装 ZIP 已生成。**
+当前候选完成1198项回归（8项Windows专用检查跳过）、单机完整批次、跨进程保存恢复、双端ENet及最终ZIP安装/更新/卸载验证。
+默认包使用open音频；人工听感、Steam传输及跨公网体验另行验证。
 独立回归、Godot 资源检查、原生引用检查、实际游戏和人工视觉/听感分别记录；详细状态见 [实现清单](docs/IMPLEMENTATION_TODO.md) 与
 [当前交接](docs/HANDOFF.md)。
 
