@@ -27,6 +27,7 @@ static class Program
             low.Playable = true;
             low.Tick();
             Need(low.IsLow, "Starting low HP must select weak pose once playable");
+            Need(low.SpiritTicks == 1, "Only the playable tick must advance spirit rendering");
             Need(low.Sounds.Count == 0, "Initial snapshot must not announce a fresh low-HP transition");
             low.Tick();
             Need(low.IsLow && low.Sounds.Count == 0, "Repeated snapshots must stay idempotent");
@@ -243,7 +244,8 @@ static class Program
             var ancients = new MegaCrit.Sts2.Core.Localization.LocTable();
             Volibear.Content.VolibearLoc.AfterGetTable("ancients", ref ancients);
             string[] expected = ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient",
-                "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char", "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"];
+                "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char", "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient",
+                "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-3r.char"];
             Need(ancients.Values.Keys.Order().SequenceEqual(expected.Order()),
                 "The finale has one contiguous conversation, with the native repeat suffix on every line");
             Need(ancients.Values.Values.All(text => !string.IsNullOrWhiteSpace(text)), "Every finale line contains finished text");
@@ -414,6 +416,9 @@ sealed class OwnerScope
     private void Died(Creature _) => _dead = true;
     private void ReleaseCapturedAnchors() { }
     private void TickSemanticVisuals() { }
+    // Scene renderer boundary; shader and ring implementation are tested separately.
+    internal int SpiritTicks;
+    private void TickSpiritForm() => SpiritTicks++;
     private void SubscribeLightning() { }
     private void UpdateDomain(bool announce) { }
     private void RefreshIdle() { }

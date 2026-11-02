@@ -72,8 +72,8 @@ public abstract class InstancedPersistentPower : PersistentPower
 public sealed class StormConductionPower : InstancedPersistentPower, IOrdinarySegmentResponder
 {
     public override List<(string, string)> Localization => new PowerLoc("狂雷渐起",
-        "每段普通攻击结算后，对全体造成{Amount}雷伤。每次部署独立结算。",
-        "每段普通攻击结算后，对全体造成{Amount}雷伤。各部署独立结算，多段与重演逐段触发，全体一段只触发一次。");
+        "每段普通攻击后，对全体造成{Amount}雷伤。",
+        "每段普通攻击后，对全体造成{Amount}雷伤。");
     public Task AfterOrdinarySegment(PlayerChoiceContext context, CardModel source, IReadOnlyList<DamageResult> results) =>
         Live && Own(source) ? LightningCmd.DealAllEnemies(context, Owner, Amount, null) : Task.CompletedTask;
 }
@@ -84,8 +84,8 @@ public sealed class StandingPower : PersistentPower
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/retain_armor.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/retain_armor.png";
     public override List<(string, string)> Localization => new PowerLoc("留甲",
-        "回合开始时，格挡只减少{Amount}。重复获得取较小损耗。",
-        "回合开始时，格挡只减少{Amount}。重复获得取较小损耗；不是获得格挡，不受敏捷或脆弱影响。");
+        "回合开始时，格挡最多减少{Amount}。",
+        "回合开始时，格挡最多减少{Amount}。");
     public static async Task Deploy(PlayerChoiceContext context, Creature owner, int decay, CardModel source)
     {
         if (decay <= 0) throw new ArgumentOutOfRangeException(nameof(decay));
@@ -110,8 +110,8 @@ public sealed class StandingPower : PersistentPower
 public sealed class BattleScarsPower : InstancedPersistentPower, IEngageResponder
 {
     public override List<(string, string)> Localization => new PowerLoc("战痕",
-        "每回合首次完成迎战后，获得{Amount}力量和1雷势。每次部署独立计次。",
-        "每回合首次完成迎战后，获得{Amount}力量和1雷势。每次部署独立计次。");
+        "每回合首次完成迎战后，获得{Amount}力量和1雷势。",
+        "每回合首次完成迎战后，获得{Amount}力量和1雷势。");
     public async Task AfterEngageCompleted(EngageCmd.Completion completion)
     {
         if (!ReferenceEquals(completion.Receiver, Owner) || !TryFirstThisTurn()) return;
@@ -124,8 +124,8 @@ public sealed class BattleScarsPower : InstancedPersistentPower, IEngageResponde
 public sealed class LingeringStormPower : InstancedPersistentPower, IEngageResponder
 {
     public override List<(string, string)> Localization => new PowerLoc("风暴不散",
-        "每次完成迎战后，抽1张牌并获得领域1。每次部署独立结算。",
-        "每次完成迎战后，先抽1张牌，再获得领域1。每次部署独立结算。");
+        "每次完成迎战后，抽1张牌，再获得领域1。",
+        "每次完成迎战后，抽1张牌，再获得领域1。");
     public async Task AfterEngageCompleted(EngageCmd.Completion completion)
     {
         if (!Live || !ReferenceEquals(completion.Receiver, Owner)) return;
@@ -140,8 +140,8 @@ public sealed class ThunderAftershockPower : InstancedPersistentPower
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/energy.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/energy.png";
     public override List<(string, string)> Localization => new PowerLoc("雷霆余威",
-        "本回合第2、4、6…次雷伤后获得1能量。部署时已有至少2次雷伤，立即获得1能量。",
-        "本回合第2、4、6…次雷伤后获得1能量。部署时已有至少2次雷伤，立即获得1能量。各部署独立响应，不补发历史次数。");
+        "每回合第2、4、6……次雷伤后，获得1能量。获得此能力时，若本回合已造成至少2次雷伤，立即获得1能量。",
+        "每回合第2、4、6……次雷伤后，获得1能量。获得此能力时，若本回合已造成至少2次雷伤，立即获得1能量。");
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         Data.Subscription = LightningBatches.Subscribe(Owner, AfterBatch);
@@ -158,7 +158,7 @@ public sealed class PreyStillStandsPower : InstancedPersistentPower
 {
     public override List<(string, string)> Localization => new PowerLoc("猎物未倒",
         "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。",
-        "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。各部署独立计次，重演不另计实际出牌。");
+        "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。");
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsLastInSeries) return;
@@ -179,8 +179,8 @@ public sealed class PreyStillStandsPower : InstancedPersistentPower
 public sealed class GrowingFuryPower : InstancedPersistentPower
 {
     public override List<(string, string)> Localization => new PowerLoc("愈战愈烈",
-        "每回合第2张实际攻击支付后、牌效前，获得{Amount}力量和{Amount}雷势。",
-        "每回合第2张实际攻击支付后、牌效前，获得{Amount}力量和{Amount}雷势。各部署独立计次，重演不另计实际出牌。");
+        "每回合打出第2张攻击时，先获得{Amount}力量和{Amount}雷势。",
+        "每回合打出第2张攻击时，先获得{Amount}力量和{Amount}雷势。");
     public override async Task BeforeCardPlayed(CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsFirstInSeries ||
@@ -196,8 +196,8 @@ public sealed class GrowingFuryPower : InstancedPersistentPower
 public sealed class WelcomeThunderPower : InstancedPersistentPower, IEngageResponder
 {
     public override List<(string, string)> Localization => new PowerLoc("迎雷",
-        "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。每次部署独立计次。",
-        "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。各部署独立计次，同类待用减费取最大值，不相加，使用后消费。");
+        "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。",
+        "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。");
     public static Task Prepare(PlayerChoiceContext context, Creature owner, int amount, CardModel? source) =>
         NextAttackDiscount.Grant(context, owner, amount);
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
@@ -211,8 +211,8 @@ public sealed class ThunderArmorPower : InstancedPersistentPower
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/thunder_armor.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/thunder_armor.png";
     public override List<(string, string)> Localization => new PowerLoc("雷甲",
-        "每次雷伤后获得{Amount}格挡。每次部署独立结算。",
-        "每次雷伤后获得{Amount}格挡。各部署独立结算，全体雷伤一批只触发一次，完全格挡的雷伤也触发。");
+        "每造成一次雷伤，获得{Amount}格挡。",
+        "每造成一次雷伤，获得{Amount}格挡。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         Data.Subscription = LightningBatches.Subscribe(Owner, AfterBatch);
@@ -243,8 +243,8 @@ public sealed class ImmovableBodyPower : PersistentPower
     }
     public override PowerStackType StackType => PowerStackType.Single;
     public override List<(string, string)> Localization => new PowerLoc("坚甲",
-        "承受攻击时不消耗格挡，溢出伤害仍扣生命。不会阻止回合开始的格挡清除。",
-        "承受攻击时不消耗格挡，溢出伤害仍扣生命。不会阻止回合开始的格挡清除。");
+        "承受攻击后，格挡保持原值；超过格挡的伤害仍扣生命。",
+        "承受攻击后，格挡保持原值；超过格挡的伤害仍扣生命。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         PersistentBlockHooks.Install();
@@ -257,7 +257,7 @@ public sealed class BattleBodyPower : PersistentPower
 {
     public override List<(string, string)> Localization => new PowerLoc("愈战神躯",
         "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。",
-        "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。重演共享一次实际出牌，被动雷甲不算本牌格挡。");
+        "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。");
     public override Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
         if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null && Own(cardSource) &&
@@ -279,8 +279,8 @@ public sealed class BattleBodyPower : PersistentPower
 public sealed class ThunderPoolPower : InstancedPersistentPower, IEngageResponder
 {
     public override List<(string, string)> Localization => new PowerLoc("雷池",
-        "回合结束及每回合首次完成迎战后，对全体造成{Amount}雷伤。每次部署独立结算。",
-        "回合结束及每回合首次完成迎战后，对全体造成{Amount}雷伤。各部署独立结算，回合结束不会消费首次迎战机会。");
+        "回合结束时，以及每回合首次完成迎战后，对全体造成{Amount}雷伤。",
+        "回合结束时，以及每回合首次完成迎战后，对全体造成{Amount}雷伤。");
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
         ReferenceEquals(completion.Receiver, Owner) && TryFirstThisTurn()
             ? LightningCmd.DealAllEnemies(completion.Choices, Owner, Amount, null) : Task.CompletedTask;

@@ -50,7 +50,7 @@ public static partial class DomainPlayerStatContributions
         if (!tenders.TryGetValue(tender, out var receipt) || !ReferenceEquals(receipt.Combat, target.CombatState) ||
             !ReferenceEquals(receipt.Owner, target))
         {
-            if (!Enemy(target, applier, card)) return await PowerCmd.Apply<T>(context, target, amount, applier, card, silent);
+            if (!target.IsPlayer || target.CombatState is null) return await PowerCmd.Apply<T>(context, target, amount, applier, card, silent);
             receipt = new TenderReceipt(target.CombatState!, target) { PresentationEnemy = applier };
             tenders.Remove(tender); tenders.Add(tender, receipt);
         }

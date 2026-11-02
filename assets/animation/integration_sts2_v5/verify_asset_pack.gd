@@ -2,7 +2,7 @@ extends SceneTree
 ## Run in an otherwise empty project. No unpacked VolibearArt directory is permitted.
 
 var failures:Array[String]=[]
-var counts:Dictionary={"character_atlases":0,"character_frames":0,"vfx_atlases":0,"vfx_frames":0,"audio_cues":0,"ui_textures":0,"icon_pngs":0,"icon_svgs":0}
+var counts:Dictionary={"character_atlases":0,"character_frames":0,"vfx_atlases":0,"vfx_frames":0,"audio_cues":0,"ui_textures":0,"icon_pngs":0,"icon_svgs":0,"painted_icons":0}
 var pack_path:String
 var report_path:String
 
@@ -75,14 +75,19 @@ func run() -> void:
             var pixels:=int(dimension)
             if size!=Vector2i(pixels,pixels):fail("Icon dimension mismatch "+str(item["id"]))
             counts.icon_pngs+=1
-        if image_size(root+"/vfx/"+str(item["editable_svg"]))!=Vector2i.ZERO:counts.icon_svgs+=1
+        if item.has("editable_svg"):
+            if image_size(root+"/vfx/"+str(item["editable_svg"]))!=Vector2i.ZERO:counts.icon_svgs+=1
+        elif item.has("raster_source"):
+            counts.painted_icons+=1
+        else:
+            fail("Icon missing authoring source "+str(item["id"]))
     read_json(root+"/audio/action_cues.json")
     read_json(root+"/vfx/card_vfx_bindings.json")
     var staged:=read_json(root+"/STAGED_ASSETS.json")
     for item in staged.get("files",[]):
         if str(item["file"]).ends_with(".json"):
             if FileAccess.get_sha256(root+"/"+str(item["file"]))!=str(item["sha256"]):fail("Packed JSON hash mismatch "+str(item["file"]))
-    var expected_counts={"character_atlases":26,"character_frames":940,"vfx_atlases":40,"vfx_frames":1070,"audio_cues":54,"ui_textures":14,"icon_pngs":64,"icon_svgs":16}
+    var expected_counts={"character_atlases":26,"character_frames":940,"vfx_atlases":40,"vfx_frames":1070,"audio_cues":54,"ui_textures":18,"icon_pngs":64,"icon_svgs":6,"painted_icons":10}
     for key in expected_counts:
         if counts[key]!=expected_counts[key]:fail("Unexpected count "+str(key))
     finish()

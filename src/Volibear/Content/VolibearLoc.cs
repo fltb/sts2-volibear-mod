@@ -17,18 +17,18 @@ public static class VolibearLoc
             ["cards"] = new()
             {
                 ["VOLIBEAR_B01.title"] = "打击",
-                ["VOLIBEAR_B01.description"] = "造成{Damage}伤害。",
+                ["VOLIBEAR_B01.description"] = "造成{Damage:diff()}伤害。",
                 ["VOLIBEAR_B02.title"] = "防御",
-                ["VOLIBEAR_B02.description"] = "获得{Block}格挡。",
+                ["VOLIBEAR_B02.description"] = "获得{Block:diff()}格挡。",
                 ["VOLIBEAR_B03.title"] = "霆爪",
-                ["VOLIBEAR_B03.description"] = "造成{Damage}伤害。对全体造成{Lightning}雷伤。",
+                ["VOLIBEAR_B03.description"] = "造成{Damage:diff()}伤害。对所有敌人造成{Lightning:diff()}雷伤。",
                 ["VOLIBEAR_B04.title"] = "挺身迎战",
-                ["VOLIBEAR_B04.description"] = "获得{Block}格挡。造成{Damage}伤害。迎战。",
+                ["VOLIBEAR_B04.description"] = "获得{Block:diff()}格挡。造成{Damage:diff()}伤害。迎战。",
             },
             ["characters"] = new()
             {
                 ["VOLIBEAR_CHARACTER.title"] = "沃利贝尔",
-                ["VOLIBEAR_CHARACTER.description"] = "不灭狂雷。以雷霆与兽性碾碎敌人。",
+                ["VOLIBEAR_CHARACTER.description"] = "弗雷尔卓德的雷霆半神。主动迎战敌人，以雷伤与兽化作战。",
                 ["VOLIBEAR_CHARACTER.titleObject"] = "沃利贝尔",
                 ["VOLIBEAR_CHARACTER.pronounSubject"] = "他",
                 ["VOLIBEAR_CHARACTER.pronounObject"] = "他",
@@ -36,20 +36,20 @@ public static class VolibearLoc
                 ["VOLIBEAR_CHARACTER.possessiveAdjective"] = "他的",
                 ["VOLIBEAR_CHARACTER.cardsModifierTitle"] = "不灭狂雷",
                 ["VOLIBEAR_CHARACTER.cardsModifierDescription"] = "沃利贝尔的卡牌会出现在奖励和商店中。",
-                ["VOLIBEAR_CHARACTER.eventDeathPrevention"] = "雷霆拒绝了死亡。",
-                ["VOLIBEAR_CHARACTER.aromaPrinciple"] = "风暴只服从自己的意志",
-                ["VOLIBEAR_CHARACTER.goldMonologue"] = "这些金属，终将被雷霆熔铸。",
-                ["VOLIBEAR_CHARACTER.banter.alive.endTurnPing"] = "风暴不会等待。",
-                ["VOLIBEAR_CHARACTER.banter.dead.endTurnPing"] = "雷声尚未消散……",
+                ["VOLIBEAR_CHARACTER.eventDeathPrevention"] = "沃利贝尔撑起身体，伤口间仍冒着电光。",
+                ["VOLIBEAR_CHARACTER.aromaPrinciple"] = "雨水、泥土，还有猎物的气味。",
+                ["VOLIBEAR_CHARACTER.goldMonologue"] = "这些够换什么？",
+                ["VOLIBEAR_CHARACTER.banter.alive.endTurnPing"] = "该你了。",
+                ["VOLIBEAR_CHARACTER.banter.dead.endTurnPing"] = "别管我，继续打。",
             },
             ["relics"] = new()
             {
                 ["HUNTERS_HEART.title"] = "不灭狂雷",
                 ["HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
-                ["HUNTERS_HEART.flavor"] = "雷霆不会熄灭。",
+                ["HUNTERS_HEART.flavor"] = "握住它时，指间会跳起细小的电火花。",
                 ["VOLIBEAR_HUNTERS_HEART.title"] = "不灭狂雷",
                 ["VOLIBEAR_HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
-                ["VOLIBEAR_HUNTERS_HEART.flavor"] = "雷霆不会熄灭。",
+                ["VOLIBEAR_HUNTERS_HEART.flavor"] = "握住它时，指间会跳起细小的电火花。",
                 ["SEA_GLASS.VOLIBEAR_CHARACTER.title"] = "风暴海玻璃",
             },
             // BaseLib adds these lines to TheArchitect's actual dialogue set.
@@ -57,9 +57,10 @@ public static class VolibearLoc
             // have a valid character-specific conversation in the native finale.
             ["ancients"] = new()
             {
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient"] = "你的风暴，已经震动了这里的根基。",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char"] = "石墙会崩塌。雷霆不会。",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"] = "那就让我看看，这场风暴还能持续多久。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient"] = "你把下面砸得一团糟。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char"] = "那些墙挡了我的路。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"] = "所以你就一路拆到这里？",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-3r.char"] = "我是来找你的。别再派那些东西送死了。",
             },
             ["powers"] = new(),
             ["static_hover_tips"] = MechanicGlossary.Localization(),

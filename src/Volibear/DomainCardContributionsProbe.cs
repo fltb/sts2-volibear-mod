@@ -26,7 +26,7 @@ using Volibear.Core;
 namespace Volibear;
 
 /// <summary>Actual native encounters/moves and native card queries. Not ordinary input acceptance.
-/// Mixed rows check retained player predicates and the isolated enemy share of Tangled cost.</summary>
+/// Mixed/player rows check temporary self-debuff suppression and restoration on exit.</summary>
 internal static class DomainCardContributionsProbe
 {
     private static bool _started, _installed;
@@ -168,7 +168,8 @@ internal static class DomainCardContributionsProbe
             // Hex has death cleanup rather than duration expiry; explicitly remove this escaped-caster instance.
             if (Family == "hex") { await PowerCmd.Remove(original); Snapshot("removed-cleanup"); }
             int round = state.RoundNumber;
-            PlayerCmd.EndTurn(player, canBackOut: false);
+            MegaCrit.Sts2.Core.Runs.RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(
+                new MegaCrit.Sts2.Core.GameActions.EndPlayerTurnAction(player, player.PlayerCombatState.TurnNumber));
             await Until(() => state.RoundNumber > round && state.CurrentSide == CombatSide.Player && player.PlayerCombatState.Phase == PlayerTurnPhase.Play);
             Snapshot("native-next-turn");
             // Smoggy persists while its per-turn affliction clears. Remove it before the separate player-applied control.
@@ -194,15 +195,16 @@ internal static class DomainCardContributionsProbe
             await PowerCmd.Apply(choices, control, owner, 1m, owner, null);
             if (Family is "smoggy" or "ringing") await PlayDefend("activate-player-control");
             Snapshot("player-control");
+            await PowerCmd.Remove<DomainPower>(owner); Snapshot("player-control-off");
             GD.Print("[Volibear] DOMAIN_CARD_CONTRIBUTIONS_RESULT " + JsonSerializer.Serialize(new
             {
-                schema = 2, token, scenario = "domain-card-contributions", family = Family,
+                schema = 3, token, scenario = "domain-card-contributions", family = Family,
                 acceptance = "four-native-contributions-not-affliction-writes-or-ordinary-input", testMode = false,
                 version = release.Version, commit = release.Commit, encounter = Encounter.GetType().Name,
                 sourceType = SourceType.Name, sourceId, ownerId, initialRoster, keeperAdded,
                 nativeMoveCalls = moves.Length, deathSourceId, directPowerCallbackCalls = 0, warmupQueriesPerApi = 16,
                 ilSites = DomainCardContributions.VerifyNativeIl(), moves, received, plays, steps,
-                mixedStackPolicy = "retained-player-predicate-and-cost-counterfactual", insertionCoverage = false,
+                mixedStackPolicy = "all-player-debuffs-temporarily-muted", insertionCoverage = false,
                 afflictionWriteSuppression = false, hexCleanupKind = Family == "hex" ? "native-PowerCmd.Remove-after-escape" : null
             }));
             GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);

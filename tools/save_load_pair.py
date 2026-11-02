@@ -17,7 +17,7 @@ from save_load_profile import create_owned_profile, shader_directory_budget
 
 
 def phase_command(game,directory,display,frames,token=None,audio_driver=None):
-    if display=='window':raise ValueError('Native save acceptance requires an isolated display; foreground windows are forbidden')
+    if display=='window' and h.IS_WINDOWS:raise ValueError('Windows native save acceptance forbids foreground windows')
     command=[str(h.game_executable(game)),'--headless','--audio-driver','Dummy',
              '--force-steam=off','--quit-after',str(frames),'--log-file',str(directory/'game.log')]
     if display=='xvfb':
@@ -62,7 +62,7 @@ def launch_phase(game,pair_dir,base_env,case,mode,phase,seed,stock,stock_evidenc
         if not unwind.is_file():raise RuntimeError('Native Harmony checks require host libgcc_s.so.1')
         env['LD_PRELOAD']=str(unwind)+(' '+env['LD_PRELOAD'] if env.get('LD_PRELOAD') else '')
     command=phase_command(game,directory,display,frames,token,env.get('VOLIBEAR_SAVE_AUDIO_DRIVER'))
-    with (directory/'stdout.log').open('w',encoding='utf-8') as output:
+    with h.window_input_guard(game,display), (directory/'stdout.log').open('w',encoding='utf-8') as output:
         process,job=h.spawn_owned(command,game,env,output,window=h.IS_WINDOWS and display in ('window','background'))
         pid=process.pid
         try:code,timed_out=h.wait_owned_process(process,timeout,job)
@@ -110,7 +110,7 @@ def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_contr
     if case not in ('S1','S2') or mode not in ('same-process','restart'):raise ValueError('Unsupported case/mode')
     if type(timeout) is not int or not 30<=timeout<=1800:raise ValueError('timeout must be an integer in 30..1800')
     if type(frames) is not int or not 1000<=frames<=108000:raise ValueError('frames must be an integer in 1000..108000')
-    if display=='window':raise ValueError('Native save acceptance requires an isolated display; foreground windows are forbidden')
+    if display=='window' and h.IS_WINDOWS:raise ValueError('Windows native save acceptance forbids foreground windows')
     h.display_command([],display)
     h.with_audio_driver([],audio_driver)
     game=Path(game).expanduser().resolve()
@@ -127,11 +127,11 @@ def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_contr
         shaderDirectoryBudget=shader_directory_budget(root) if h.IS_WINDOWS else None),indent=2)+'\n',encoding='utf-8')
     settings=root/'default/1/settings.save';settings.parent.mkdir(parents=True)
     settings.write_text(json.dumps(dict(schema_version=5,mod_settings={'mods_enabled':True},seen_ea_disclaimer=True,
-        skip_intro_logo=True,fullscreen=False,language='zhs',limit_fps_in_background=False))+'\n',encoding='utf-8')
+        skip_intro_logo=True,fullscreen=False,window_size={'X':1280,'Y':720},window_position={'X':64,'Y':64},language='zhs',limit_fps_in_background=False,vsync='off',fps_limit=60))+'\n',encoding='utf-8')
     # The unified delivery may share its freshly launched control in memory.
     # No CLI/report-path option can inject a cached verdict.
     stock,stock_evidence=(_stock_control if _stock_control is not None else
-                          h.stock_teardown(game,60,600,display,audio_driver=audio_driver))
+                          h.stock_teardown(game,300,600,display,audio_driver=audio_driver))
     if not successful_stock(stock_evidence):
         return dict(pair=pair_dir.name,passed=False,reason='stock-control-failed',stock=stock_evidence,phases=[])
     seed='VOLIBEAR-SAVE-'+case
@@ -156,7 +156,7 @@ def main():
     parser.add_argument('--execute-native',action='store_true',help='Explicitly authorize bounded native game launches; never deploys')
     parser.add_argument('--case',choices=['S1','S2'],default='S1')
     parser.add_argument('--mode',choices=['same-process','restart'],default='restart')
-    parser.add_argument('--display',choices=['headless','background','xvfb'],default='background' if h.IS_WINDOWS else 'xvfb')
+    parser.add_argument('--display',choices=['headless','background','xvfb','window'],default='background' if h.IS_WINDOWS else 'xvfb')
     parser.add_argument('--audio-driver',help='Use the same explicit Godot driver for the stock control and both persistence processes')
     parser.add_argument('--timeout',type=int,default=180);parser.add_argument('--frames',type=int,default=30000)
     args=parser.parse_args()

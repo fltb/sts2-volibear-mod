@@ -29,7 +29,7 @@ public sealed class ImmortalHeart : CustomRelicModel, IEngageResponder
     protected override string BigIconPath => Presentation.VolibearIcons.StormCrownBig;
     protected override IEnumerable<IHoverTip> ExtraHoverTips => base.ExtraHoverTips.Concat(MechanicHoverTips.ForText("迎战"));
     public override List<(string, string)> Localization => new RelicLoc(
-        "万古不灭", "每回合首次完成迎战后，抽2张牌。", "风暴不会遗忘，雷霆永不止息。");
+        "万古不灭", "每回合首次完成迎战后，抽2张牌。", "表面布满焦痕，拿在手中仍然发烫。");
 
     public override async Task AfterObtained()
     {

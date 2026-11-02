@@ -1,0 +1,17 @@
+{
+  "id": "B01",
+  "revision": "20261102_downward_strike",
+  "decision": "implemented_user_requested_redraw",
+  "human_approval": false,
+  "reviewer": "artwork implementation agent",
+  "independent_from_generator": false,
+  "raw_sha256": "a0ab4690aedfed1015aba6d541c39b9bbe2b1b2f8d5065869943e8336e95fb13",
+  "master_sha256": "e88ae2eab7f1cc9a94efee54992c7296143dfa2fa658c8a3622c0d9c151354cb",
+  "observations": "One connected forearm descends from upper left; three cyan claws point down and descending motion trails express the requested swipe. Same flat ivory/navy/cyan facets as actual B01/B03 inputs. Other 88 approved portraits remain byte-identical.",
+  "checks": [
+    "actual generated image inspected",
+    "export dimensions verified",
+    "small portrait inspected separately"
+  ],
+  "previous_review": "previous/cards/reviews/B01.json"
+}

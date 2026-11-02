@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net9.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><NuGetAudit>false</NuGetAudit><RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/Volibear/Presentation/PowerPresentationDisabled*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="../../src/Volibear/Content/Mechanic*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="../../src/Volibear/Content/VolibearLoc.cs" Link="VolibearLoc.cs" />
+    <Compile Include="../../src/Volibear/Content/VolibearCard.cs" Link="VolibearCard.cs" />
+    <Compile Include="../../src/Volibear/Content/VolibearCardPool.cs" Link="VolibearCardPool.cs" />
+    <Compile Include="../../src/Volibear/Content/InlineModelLocalization.cs" Link="InlineModelLocalization.cs" />
+    <Compile Include="../hover_tips_canonical/EngagementLedgerDouble.cs" Link="EngagementLedgerDouble.cs" />
+    <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

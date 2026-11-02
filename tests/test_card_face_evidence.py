@@ -80,16 +80,53 @@ def synthetic(variant):
             if c=='R25':return model=='VOLIBEAR_B02'
             return True
         allowed=[ref for ref in available if eligible(ref)]
+        if pile=='Draw' and c!='U17':allowed.sort(key=lambda ref:lookup[ref]['modelId'])
         result['selections'].append(selection(pending,minimum,maximum,allowed,selected))
     return result
 
 
 class CardFaceEvidenceTests(unittest.TestCase):
+    def test_random_intents_are_fixed_with_real_native_moves(self):
+        source = (Path(__file__).resolve().parents[1] / 'src/Volibear/CardFaceAcceptanceProbe.cs').read_text()
+        self.assertIn('leafMonster.SetMoveImmediate(tackle, forceTransition: true)', source)
+        self.assertIn('monster.SetMoveImmediate(move, forceTransition: true)', source)
+        self.assertIn('monster.IntendsToAttack != (i < 2)', source)
+        self.assertIn('id == "R09" ? 180 : 30', source)
+        self.assertIn('await action.CompletionTask', source)
+        self.assertNotIn('Expected native LeafSlimeS first TACKLE_MOVE', source)
+
     def valid(self,r): return gate.validate_card_face_result(r,'unit-fixture-not-native',r['variant'])
 
     def test_all_explicit_oracle_examples_are_well_formed(self):
         for case in gate.CARD_FACE_CASES:
             with self.subTest(case=case): self.assertTrue(self.valid(synthetic(case)))
+
+    def test_draw_search_options_use_stable_model_order_not_draw_order(self):
+        # Independent explicit native presentation order; physical pile remains
+        # starter-0..9 followed by the injected candidates.
+        for face in ('base','upgrade'):
+            for card,expected in (
+                ('C07',['starter-0','starter-1','starter-2','starter-3','selected','alternate','starter-8','starter-9']),
+                ('U43',['starter-0','starter-1','starter-2','starter-3','selected','starter-4','starter-5','starter-6','starter-7','third','starter-8','starter-9']),
+            ):
+                r=synthetic(f'{card}-{face}-plain')
+                self.assertEqual(r['selections'][0]['options'],expected)
+                self.assertTrue(self.valid(r))
+                # Do not accept permutations, duplicates, omitted identities,
+                # a reordered physical pile, or a different selected object.
+                for mutation in ('physical','tie','duplicate','missing','pending','selected'):
+                    bad=deepcopy(r);s=bad['selections'][0]
+                    if mutation=='physical':s['options']=sorted(expected,key=s['pending']['draw'].index)
+                    elif mutation=='tie':s['options'][0],s['options'][1]=s['options'][1],s['options'][0]
+                    elif mutation=='duplicate':s['options'][1]=s['options'][0]
+                    elif mutation=='missing':s['options'].pop()
+                    elif mutation=='pending':s['pending']['draw'].reverse()
+                    else:s['selected']=['starter-0']
+                    with self.subTest(card=card,face=face,mutation=mutation):self.assertFalse(self.valid(bad))
+                if card=='U43':
+                    self.assertEqual(r['selections'][1]['options'],['alternate','selected'])
+                    bad=deepcopy(r);bad['selections'][1]['options'].reverse()
+                    self.assertFalse(self.valid(bad))
 
     def test_release_denominator_matches_reference(self):
         text=Path(gate.REFERENCE).read_text(encoding='utf-8')

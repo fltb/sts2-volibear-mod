@@ -2,8 +2,12 @@
 """Bounded real-game discovery runner; no combat pass without driver evidence."""
 import argparse
 import ctypes
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
+import hashlib
+import shutil
+import tempfile
 import os
 from pathlib import Path
 import re
@@ -23,6 +27,7 @@ from native_run_evidence import MODES as NATIVE_RUN_MODES, native_run_evidence
 from native_suite_evidence import check_log as native_suite_evidence
 from presentation_acceptance_evidence import check_log as presentation_acceptance_evidence
 from domain_hopper_evidence import VARIANTS as HOPPER_CASES, domain_hopper_evidence
+from domain_suppression_evidence import CASES as DOMAIN_SUPPRESSION_CASES, check_log as domain_suppression_evidence
 from enemy_catalog_evidence import catalog_evidence as enemy_catalog_evidence
 from domain_summon_evidence import check_log as domain_summon_evidence
 from domain_summon_d17_evidence import VARIANTS as SUMMON_D17_CASES, check_log as summon_d17_evidence
@@ -93,8 +98,9 @@ def error_lines(text):
 
 def is_teardown(line):
     return (any(tag in line for tag in TEARDOWN_TAGS)
-            or re.search(r'\b\d+ shaders of type (?:CanvasShaderRD|ParticlesShaderRD) were never freed\b',
-                         line) is not None)
+            or re.search(r'\b\d+ shaders of type (?:CanvasShaderRD|ParticlesShaderRD|CanvasShaderGLES3|ParticlesShaderGLES3) were never freed\b',
+                         line) is not None
+            or re.fullmatch(r'ERROR: Texture with GL ID of \d+: leaked \d+ bytes\.', line.strip()) is not None)
 
 
 def teardown_categories(lines):
@@ -572,6 +578,43 @@ def _terminate(process, job, force):
         pass
 
 
+def build_window_startup_hint():
+    """Small tool-only pre-map hint; never a dependency of the distributed Mod."""
+    if not sys.platform.startswith('linux') or os.uname().machine != 'x86_64':
+        raise RuntimeError('Normal X11 test windows require the Linux x86_64 startup hint')
+    compiler = shutil.which('cc')
+    if not compiler:
+        raise RuntimeError('cc is required for the non-activating X11 test-window hint')
+    source = ROOT / 'tools/window_startup_hint.c'
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()[:20]
+    cache = ROOT / 'artifacts/window-startup-hint'
+    cache.mkdir(parents=True, exist_ok=True)
+    target = cache / (digest + '.so')
+    if not target.is_file():
+        with tempfile.TemporaryDirectory(dir=cache) as temporary:
+            output = Path(temporary) / 'hint.so'
+            result = subprocess.run([compiler, '-std=c11', '-shared', '-fPIC', '-Wall', '-Wextra', '-Werror',
+                                     str(source), '-o', str(output), '-ldl'], capture_output=True, text=True, timeout=30)
+            if result.returncode:
+                raise RuntimeError('X11 startup hint build failed: ' + result.stdout + result.stderr)
+            output.replace(target)
+    return target.resolve()
+
+
+def window_startup_environment(command, cwd, env):
+    if '--windowed' not in command or '--display-driver' not in command or command[command.index('--display-driver') + 1] != 'x11':
+        return env
+    game = (ROOT / '.local/game').resolve()
+    if Path(cwd).resolve() != game or Path(command[0]).resolve() != game_executable(game).resolve():
+        raise RuntimeError('X11 startup hint only supports the owned isolated game process')
+    result = dict(env)
+    hint = str(build_window_startup_hint())
+    result['LD_PRELOAD'] = hint + (':' + result['LD_PRELOAD'] if result.get('LD_PRELOAD') else '')
+    # Child tools/crash reporters inherit env but cannot activate the interposer.
+    result['VOLIBEAR_X11_STARTUP_HINT_EXE'] = str(Path(command[0]).resolve())
+    return result
+
+
 def spawn_owned(command, cwd, env, stdout, window=False):
     """Start a process in its own ownership boundary and return (process, job)."""
     if IS_WINDOWS:
@@ -595,6 +638,7 @@ def spawn_owned(command, cwd, env, stdout, window=False):
             close_owned(job)
             job = None
         return process, job
+    env = window_startup_environment(command, cwd, env)
     process = subprocess.Popen(command, cwd=cwd, env=env, stdout=stdout,
                                stderr=subprocess.STDOUT, start_new_session=True)
     return process, None
@@ -630,15 +674,62 @@ def new_run_id():
     return datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '-' + uuid.uuid4().hex[:8]
 
 
+# NO_FOCUS at creation makes Godot 4.5.1 X11 choose UTILITY, not NORMAL.
+WINDOW_OVERRIDE = (b'[display]\nwindow/size/no_focus=false\nwindow/size/mode=0\n'
+                   b'window/size/always_on_top=false\nwindow/size/borderless=false\n'
+                   b'window/size/window_width_override=1280\nwindow/size/window_height_override=720\n')
+
+
+@contextmanager
+def window_input_guard(game, display):
+    """Own a temporary pre-window override only in the isolated game copy."""
+    if IS_WINDOWS or display != 'window':
+        yield
+        return
+    intended = (ROOT / '.local/game').absolute()
+    game = Path(game).absolute()
+    if game != intended or game.resolve() != intended or not game.is_dir():
+        raise ValueError('Window input protection requires the exact isolated .local/game directory')
+    path = game / 'override.cfg'
+    if path.is_symlink() or path.resolve() != path.absolute():
+        raise ValueError('Window override path is redirected')
+    # Exclusive creation refuses even a pre-existing override with identical bytes.
+    with path.open('xb') as stream:
+        stream.write(WINDOW_OVERRIDE)
+        identity = os.fstat(stream.fileno())
+    try:
+        yield
+    finally:
+        # Never remove a file replaced or modified by another actor.
+        if path.is_symlink() or path.resolve() != intended / 'override.cfg':
+            raise RuntimeError('Window override redirected during test; preserved')
+        if path.exists():
+            current = path.stat()
+            if ((current.st_dev, current.st_ino) != (identity.st_dev, identity.st_ino)
+                    or path.read_bytes() != WINDOW_OVERRIDE):
+                raise RuntimeError('Window override changed during test; preserved')
+            path.unlink()
+
+
 def display_command(command, display):
     if display == 'headless':
         return command
     if display in ('window', 'background'):
-        if not IS_WINDOWS:
-            raise RuntimeError('window/background are Windows native display options; use xvfb on POSIX')
+        if not IS_WINDOWS and display == 'background':
+            raise RuntimeError('background requires Windows; use window or xvfb on POSIX')
+        if not IS_WINDOWS and not os.environ.get('DISPLAY', '').strip():
+            raise RuntimeError('POSIX window mode requires an existing DISPLAY')
         native = [arg for arg in command if arg not in ('--headless', '--audio-driver', 'Dummy')]
         if display == 'background':
             native.extend(['--audio-driver', 'Dummy'])
+        elif not IS_WINDOWS:
+            # Use the operator-authorized existing X11/XWayland display directly.
+            # Match the established compatibility renderer, but keep the real GPU.
+            # No virtual display or software rasterizer is forced in this mode.
+            native.extend(['--display-driver', 'x11', '--rendering-method', 'gl_compatibility',
+                           '--windowed', '--resolution', '1280x720'])
+            if '--script' not in native:
+                native.extend(['--script', str(ROOT / 'tools/window_guard.gd')])
         return native
     if display == 'xvfb':
         if IS_WINDOWS:
@@ -685,6 +776,7 @@ def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
     if _profile_env is None:
         env['VOLIBEAR_TEST_DATA_ROOT'] = str(user_data_root(directory))
     env['VOLIBEAR_TEST_FAST_MODE'] = 'Fast'
+    env.pop('VOLIBEAR_TEST_WINDOW_GUARD', None)
     if display == 'background':
         env['VOLIBEAR_TEST_PRIVATE_DESKTOP'] = '1'
     # Only this fresh, offline test profile opts into loading mods.
@@ -695,7 +787,10 @@ def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
         settings.write_text(json.dumps({
             'schema_version': 5, 'mod_settings': {'mods_enabled': True},
             'seen_ea_disclaimer': True, 'skip_intro_logo': True,
-            'fullscreen': False, 'language': 'zhs', 'limit_fps_in_background': False,
+            'fullscreen': False, 'window_size': {'X': 1280, 'Y': 720},
+            'window_position': {'X': 64, 'Y': 64},
+            'language': 'zhs', 'limit_fps_in_background': False,
+            'vsync': 'off', 'fps_limit': 60,
         }) + '\n')
     env['VOLIBEAR_TEST_TOKEN'] = run_id
     env['VOLIBEAR_TEST_ARTIFACT_DIR'] = str(directory)
@@ -705,8 +800,8 @@ def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
     return directory, env, display_command(command, display)
 
 
-def launch(game, directory, env, command, timeout):
-    with (directory / 'stdout.log').open('w') as output:
+def launch(game, directory, env, command, timeout, display='headless'):
+    with window_input_guard(game, display), (directory / 'stdout.log').open('w') as output:
         process, job = spawn_owned(command, game, env, output,
                                    window=IS_WINDOWS and '--headless' not in command)
         try:
@@ -718,17 +813,28 @@ def launch(game, directory, env, command, timeout):
 def stock_teardown(game, timeout, frames, display='headless', audio_driver=None):
     """Measure the shipped game's own exit signature with mod initialization disabled."""
     run_id = new_run_id()
-    # Native Common texture preload can still be uploading at frame300. Give the
-    # same clean control longer to finish; errors remain strict and are never waived.
-    control_frames = min(frames, 900)
+    # Frame-count quits race asynchronous native preloading. The no-mod controller
+    # launches the original main scene, waits for the real loader to drain, then
+    # invokes native NGame.Quit; its deadline/outer watchdog remain failures.
+    control_frames = 0
     directory, env, command = prepare_run(game, run_id, control_frames, display)
     command = with_audio_driver(command, audio_driver)
-    command.append('--nomods')
-    code, timed_out = launch(game, directory, env, command, timeout)
+    if '--script' in command:
+        index = command.index('--script')
+        if command[index + 1] != str(ROOT / 'tools/window_guard.gd'):
+            raise ValueError('Stock control cannot replace an unknown startup script')
+        command[index + 1] = str(ROOT / 'tools/stock_ready.gd')
+        env['VOLIBEAR_TEST_WINDOW_GUARD'] = '1'
+        command.append('--nomods')
+    else:
+        command.extend(['--nomods', '--script', str(ROOT / 'tools/stock_ready.gd')])
+    code, timed_out = launch(game, directory, env, command, timeout, display=display)
     log = combined_log(directory)
     errors = error_lines(log)
     runtime = [line for line in errors if not is_teardown(line)]
     successful = (code == 0 and not timed_out and not runtime
+                  and log.count('STOCK_CONTROLLER_READY_NATIVE_QUIT') == 1
+                  and 'STOCK_CONTROLLER_ERROR' not in log
                   and 'Steam initialization skipped' in log
                   and 'write saves to steam storage' not in log)
     categories = teardown_categories(errors) if successful else set()
@@ -777,7 +883,9 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
              matrix_catalog=None, matrix_prerequisite_report=None,
              coupon_case='CP-max-preserve', domain_card_case='hex', primal_case='U12-paid-snapshot', dampen_case='off', standing_case='U03-base-extra-turn', steam_case='off', card_face_case='B01-base-plain', hopper_case='off', card_face_batch=None,
              card_lifecycle_cases=None, native_run_mode='three-battle-save', native_run_pair=None,
-             presentation_mode='cards', audio_driver=None, _profile_env=None):
+             presentation_mode='cards', audio_driver=None, _profile_env=None, domain_suppression_family='all'):
+    if scenario == 'domain-suppression' and domain_suppression_family not in DOMAIN_SUPPRESSION_CASES:
+        raise RuntimeError('Unknown domain suppression family: ' + str(domain_suppression_family))
     if card_face_batch is not None:
         if scenario not in ('card-face-acceptance', 'native-suite'):
             raise RuntimeError('Card face batch requires the card-face-acceptance or native-suite scenario')
@@ -798,10 +906,12 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Presentation capture requires a rendered background/xvfb display')
         if presentation_mode != 'cards' and (not audio_driver or audio_driver.lower() == 'dummy'):
             raise RuntimeError('Action/audio capture requires an explicit non-Dummy --audio-driver')
+    if scenario == 'domain-visual' and display == 'headless':
+        raise RuntimeError('Domain visual development capture requires a rendered display')
     if scenario == 'native-suite' and card_face_batch is None:
         raise RuntimeError('Native suite requires an explicit finite card-face batch')
     if (IS_WINDOWS and display == 'window'
-            and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'))):
+            and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite', 'domain-suppression'))):
         raise RuntimeError('Acceptance runs must use a private background desktop, not a foreground window')
     run_id = new_run_id()
     directory, env, command = (prepare_run(game, run_id, frames, display)
@@ -833,8 +943,12 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Audio diagnostic game alias points elsewhere')
         env['LD_PRELOAD'] = ':'.join([str(adapter), str(alias / 'libGodotFmod.linux.template_release.x86_64.so')]) + (':' + env['LD_PRELOAD'] if env.get('LD_PRELOAD') else '')
     if scenario in ('content', 'engage-contract', 'domain-contract', 'beast-contract',
-                    'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper'):
+                    'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'domain-suppression', 'domain-visual', 'architect-ending'):
         env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
+    if scenario == 'domain-visual':
+        env['VOLIBEAR_TEST_DOMAIN_VISUAL_OUTPUT'] = str(directory / 'domain-visual')
+    if scenario == 'domain-suppression':
+        env['VOLIBEAR_TEST_DOMAIN_SUPPRESSION_CASE'] = domain_suppression_family
     if scenario == 'domain-hopper':
         if hopper_case not in HOPPER_CASES:
             raise RuntimeError('Unknown Hopper acceptance case: ' + hopper_case)
@@ -948,7 +1062,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Unknown persistent contract case: ' + persistent_case)
         env['VOLIBEAR_TEST_PERSISTENT_CASE'] = persistent_case
     if scenario in ('baseline', 'api', 'content', 'engage-contract', 'domain-contract',
-                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'):
+                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'domain-suppression', 'domain-visual', 'architect-ending', 'card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'):
         # MonoMod's native exception helper needs globally visible libgcc unwind symbols.
         # This is scoped to the child; it changes no system loader configuration.
         if not IS_WINDOWS:
@@ -959,7 +1073,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         env['VOLIBEAR_TEST_SCENARIO'] = scenario
         if scenario != 'native-run':
             command.append('--bootstrap')
-    code, timed_out = launch(game, directory, env, command, timeout)
+    code, timed_out = launch(game, directory, env, command, timeout, display=display)
     log = combined_log(directory)
     checks = evaluate(code, timed_out, log, stock)
     checks['stock_control_success'] = (isinstance(stock_evidence, dict)
@@ -987,6 +1101,18 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         scenario_result = {'mode': presentation_mode, 'errors': errors,
                            'scope': 'native-capture-not-human-visual-or-listening-review'}
         checks['presentation_acceptance_assertions'] = not errors
+    elif scenario == 'architect-ending':
+        from architect_ending_evidence import check_log
+        scenario_result = check_log(log, run_id)
+        checks['architect_ending_assertions'] = not scenario_result['errors']
+        self_result, checks['domain_suppression_assertions'] = domain_suppression_evidence(log, run_id, 'self')
+        scenario_result['self_debuff'] = self_result
+    elif scenario == 'domain-visual':
+        from domain_visual_evidence import check_log
+        scenario_result = check_log(log, run_id, directory / 'domain-visual')
+        checks['domain_visual_assertions'] = not scenario_result['errors']
+    elif scenario == 'domain-suppression':
+        scenario_result, checks['domain_suppression_assertions'] = domain_suppression_evidence(log, run_id, domain_suppression_family)
     elif scenario == 'domain-hopper':
         scenario_result, checks['domain_hopper_assertions'] = domain_hopper_evidence(log, run_id, hopper_case)
     elif scenario == 'card-face-acceptance':
@@ -1104,8 +1230,10 @@ def main():
                                               'domain-summon-contract', 'relic-contract',
                                               'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp',
                                               'domain-revival', 'prepared-choice', 'power-presentation',
-                                              'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper',
+                                              'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'domain-suppression', 'domain-visual', 'architect-ending',
                                               'card-lifecycle', 'native-run', 'presentation-acceptance'], default='discovery')
+    parser.add_argument('--domain-suppression-family', choices=DOMAIN_SUPPRESSION_CASES, default='all',
+                        help='all runs sandpit, knights and self in three fresh battles within one game process')
     parser.add_argument('--hopper-case', choices=HOPPER_CASES, default='off')
     parser.add_argument('--card-face-case', choices=CARD_FACE_CASES, default='B01-base-plain')
     parser.add_argument('--card-face-batch', help='all or comma-separated cases, in one game process')
@@ -1141,14 +1269,16 @@ def main():
     parser.add_argument('--timeout', type=int)
     parser.add_argument('--frames', type=int)
     args = parser.parse_args()
-    batch = args.card_face_batch is not None or args.scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance')
-    args.repeat = args.repeat if args.repeat is not None else (1 if batch else 2)
-    args.timeout = args.timeout if args.timeout is not None else (900 if batch else 45)
-    args.frames = args.frames if args.frames is not None else (60000 if batch else 300)
+    batch = args.card_face_batch is not None or args.scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'domain-suppression')
+    short_fixture = args.scenario in ('domain-visual', 'architect-ending')
+    single_run = batch or short_fixture
+    args.repeat = args.repeat if args.repeat is not None else 1
+    args.timeout = args.timeout if args.timeout is not None else (90 if short_fixture else 900 if batch else 45)
+    args.frames = args.frames if args.frames is not None else (5400 if short_fixture else 60000 if batch else 300)
     limit_timeout, limit_frames = (1800, 300000) if batch else (300, 10000)
     if not 1 <= args.repeat <= 10 or not 5 <= args.timeout <= limit_timeout or not 1 <= args.frames <= limit_frames:
         parser.error(f'repeat 1..10, timeout 5..{limit_timeout}, frames 1..{limit_frames} required')
-    if batch and args.repeat != 1:
+    if single_run and args.repeat != 1:
         parser.error('Batched/acceptance cases run continuously in one process; use --repeat 1')
     if args.card_face_batch is not None and args.scenario != 'card-face-acceptance':
         parser.error('--card-face-batch requires --scenario card-face-acceptance')
@@ -1187,7 +1317,7 @@ def main():
                         args.coupon_case, args.domain_card_case, args.primal_case, args.dampen_case, args.standing_case, args.steam_case, args.card_face_case, args.hopper_case,
                         card_face_batch=card_face_batch, card_lifecycle_cases=lifecycle_cases,
                         native_run_mode=args.native_run_mode, presentation_mode=args.presentation_mode,
-                        audio_driver=args.audio_driver) for _ in range(args.repeat)]
+                        audio_driver=args.audio_driver, domain_suppression_family=args.domain_suppression_family) for _ in range(args.repeat)]
     return 0 if all(r['status'] == 'passed' for r in reports) else 1
 
 

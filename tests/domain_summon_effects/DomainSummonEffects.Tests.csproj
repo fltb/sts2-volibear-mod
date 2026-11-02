@@ -20,6 +20,8 @@
     <Compile Include="$(SummonDecisionSource)" Link="DomainSummonDecision.cs" Condition="'$(SummonDecisionSource)' != ''"/>
     <Compile Include="$(RevivalDecisionSource)" Link="RevivalDecision.cs" Condition="'$(RevivalDecisionSource)' != ''"/>
     <Compile Include="$(SummonSource)" Link="DomainSummonEffects.cs"/>
+    <Compile Include="../../src/Volibear/Core/DomainSummonEffects.Additional.cs" Link="DomainSummonEffects.Additional.cs"/>
+    <Compile Include="../../src/Volibear/Presentation/PowerPresentationDomain.cs" Link="PowerPresentationDomain.cs"/>
     <Compile Include="$(RevivalSource)" Link="DomainRevivalEffects.cs"/>
     <Compile Include="$(SummonProbeSource)" Link="DomainSummonD17Probe.cs"/>
     <Compile Include="Program.cs"/>

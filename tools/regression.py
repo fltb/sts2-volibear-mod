@@ -66,6 +66,9 @@ def main(argv=None):
     sys.path.insert(0, str(ROOT))
     began = time.monotonic()
     suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
+    # This scoped native fixture directory is intentionally not a discovery package.
+    suite.addTests(unittest.defaultTestLoader.loadTestsFromName(
+        'tests.domain_disabled_presentation.test_native.DomainDisabledPresentationTests'))
     result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult).run(suite)
     report = summarize(result, require_native=args.require_native)
     report.update(elapsed_seconds=round(time.monotonic() - began, 3),

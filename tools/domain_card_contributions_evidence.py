@@ -33,11 +33,11 @@ def validate(payload, token, family):
     def require(ok, path):
         if not ok: errors.append(path)
     source, encounter, move, power, affliction, amount = SOURCES[family]
-    meta = dict(schema=2, token=token, scenario='domain-card-contributions', family=family,
+    meta = dict(schema=3, token=token, scenario='domain-card-contributions', family=family,
         acceptance='four-native-contributions-not-affliction-writes-or-ordinary-input', testMode=False,
         version='v0.107.1', commit='59260271', encounter=encounter, sourceType=source,
         nativeMoveCalls=2 if family == 'hex' else 1, directPowerCallbackCalls=0, warmupQueriesPerApi=16,
-        mixedStackPolicy='retained-player-predicate-and-cost-counterfactual', insertionCoverage=False,
+        mixedStackPolicy='all-player-debuffs-temporarily-muted', insertionCoverage=False,
         afflictionWriteSuppression=False, hexCleanupKind='native-PowerCmd.Remove-after-escape' if family == 'hex' else None)
     for key, value in meta.items(): eq(payload.get(key), value, key)
     owner, enemy = payload.get('ownerId'), payload.get('sourceId')
@@ -71,7 +71,7 @@ def validate(payload, token, family):
                 eq(row, dict(Method=kinds.get(row.get('Kind')), Kind=row.get('Kind'), NativeCalls=1, ReplacedCalls=1), 'native IL row')
     phases = BASE_PHASES + (['removed-cleanup'] if family == 'hex' else []) + ['native-next-turn']
     if family == 'hex': phases += ['death-before', 'death-after']
-    phases += ['player-control']
+    phases += ['player-control', 'player-control-off']
     rows = payload.get('steps')
     if not isinstance(rows, list) or not all(isinstance(row, dict) for row in rows): return errors + ['raw native snapshots required']
     eq([row.get('phase') for row in rows], phases, 'exact ordered snapshots')
@@ -107,11 +107,11 @@ def validate(payload, token, family):
         if other and family == 'tangled': expected_cost += 2
         eq(row.get('cost'), expected_cost, phase + '.cost')
         eq(row.get('ethereal'), family == 'hex' and (not suppressed or other), phase + '.ethereal')
-        veto = family in ('smoggy', 'ringing') and (not suppressed or other)
+        veto = family in ('smoggy', 'ringing') and not suppressed
         eq(row.get('canPlay'), not veto, phase + '.canPlay')
         eq(row.get('preventer'), 'SlothPower' if other and veto else power if veto else None, phase + '.preventer')
         eq(row.get('reason'), 'BlockedByHook' if veto else 'None', phase + '.reason')
-    for phase in BASE_PHASES[1:]: effect(phase, phase in ('on', 'other-source', 'other-removed', 'departed-on'), phase == 'other-source')
+    for phase in BASE_PHASES[1:]: effect(phase, phase in ('on', 'other-source', 'other-removed', 'departed-on', 'mixed-native'), phase == 'other-source')
     for phase in ('removed-cleanup', 'native-next-turn', 'death-after'):
         if phase not in snapshots: continue
         row = snapshots[phase]
@@ -133,7 +133,11 @@ def validate(payload, token, family):
     eq(control.get('power'), power, 'player control power'); eq(control.get('applierId'), owner, 'player control actual applier')
     eq(control.get('applierIsPlayer'), True, 'player control source'); eq(control.get('amount'), 1, 'player control amount')
     eq(control.get('origin'), dict(State='player', ExpectedAmount=1, ActualAmount=1, SameCombat=True, SameOwner=True, EnemyIds=[], UnsupportedReason='', RetainedAmount=1, RetainedPredicate=True), 'player control origin')
-    effect('player-control', player=True)
+    effect('player-control', suppressed=True, player=True)
+    off_control = snapshots['player-control-off']
+    for key in ('powerRef', 'power', 'powerPresent', 'amount', 'applierId', 'applierIsPlayer', 'origin', 'affliction', 'afflictionRef'):
+        eq(off_control.get(key), control.get(key), 'player-control-off.' + key)
+    effect('player-control-off', player=True)
     plays = payload.get('plays')
     expected_play_phases = ['activate-native-restriction', 'activate-other-native-veto', 'activate-player-control'] if family in ('smoggy', 'ringing') else []
     if not isinstance(plays, list) or not all(isinstance(row, dict) for row in plays): errors.append('native play history missing')

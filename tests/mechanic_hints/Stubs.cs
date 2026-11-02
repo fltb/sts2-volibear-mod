@@ -73,9 +73,11 @@ namespace MegaCrit.Sts2.Core.Models
     public abstract class CardModel
     {
         public Player? Owner { get; set; }
+        public bool IsCanonical { get; set; }
         public bool IsUpgraded { get; set; }
         public virtual string PortraitPath => "";
         public virtual string BetaPortraitPath => "";
+        public LocString TitleLocString => new("cards", "VOLIBEAR_B01.title");
         public virtual LocString Description => new("cards", "VOLIBEAR_B04.description");
         protected virtual IEnumerable<DynamicVar> CanonicalVars => [];
         public Dictionary<string, DynamicVar> DynamicVars { get; } = [];

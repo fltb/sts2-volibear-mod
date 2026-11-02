@@ -85,8 +85,8 @@ def launch_peer(game, directory, env, command, timeout, display, stock, stock_ev
 
 def run_suite(game, *, display=None, timeout=900, frames=108000):
     display = display or ('background' if h.IS_WINDOWS else 'xvfb')
-    if display not in (('background',) if h.IS_WINDOWS else ('xvfb',)):
-        raise ValueError('Multiplayer suite requires a private background desktop on Windows or xvfb on Linux')
+    if display not in (('background',) if h.IS_WINDOWS else ('xvfb', 'window')):
+        raise ValueError('Multiplayer suite requires a private background desktop on Windows or xvfb/window on POSIX')
     if type(timeout) is not int or not 120 <= timeout <= 14400:
         raise ValueError('timeout must be an integer in 120..14400 seconds per peer')
     if type(frames) is not int or not 7200 <= frames <= 864000:
@@ -95,7 +95,8 @@ def run_suite(game, *, display=None, timeout=900, frames=108000):
     game = Path(game).expanduser().resolve()
     h.validate_game(game)
     hashes = deployed_hashes(game)
-    stock, stock_evidence = h.stock_teardown(game, 60, 600, display)
+    # Match the single-player cold-cache startup budget without relaxing exit gates.
+    stock, stock_evidence = h.stock_teardown(game, 300, 600, display)
     if not successful_stock(stock_evidence):
         raise RuntimeError('Stock no-mod control failed; neither native multiplayer peer was launched')
     pair = h.new_run_id() + '-multiplayer'
@@ -112,7 +113,7 @@ def run_suite(game, *, display=None, timeout=900, frames=108000):
     peers, logs, errors = {}, {}, []
     # Both native executables exist at the same time. Tests assert this scheduling
     # boundary; sequential host/client runs cannot satisfy the readiness protocol.
-    with ThreadPoolExecutor(max_workers=2, thread_name_prefix='native-enet-peer') as pool:
+    with h.window_input_guard(game, display), ThreadPoolExecutor(max_workers=2, thread_name_prefix='native-enet-peer') as pool:
         tasks = {role: pool.submit(launch_peer, game, directory, env, command, timeout,
                                   display, stock, stock_evidence)
                  for role, (directory, env, command) in prepared.items()}
@@ -147,7 +148,7 @@ def main(argv=None):
     parser.add_argument('--execute-native', action='store_true')
     parser.add_argument('--use-deployed', action='store_true')
     parser.add_argument('--game-dir', type=Path)
-    parser.add_argument('--display', choices=['background', 'xvfb'])
+    parser.add_argument('--display', choices=['background', 'xvfb', 'window'])
     parser.add_argument('--timeout', type=int, default=900)
     parser.add_argument('--frames', type=int, default=108000)
     args = parser.parse_args(argv)

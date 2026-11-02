@@ -40,8 +40,8 @@ public sealed class Volibear_C14 : VolibearCard
 public sealed class Volibear_C19 : VolibearCard
 {
     public Volibear_C19() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, "c19") { }
-    public override List<(string, string)> Localization => new CardLoc("追猎准备", "使1张手牌攻击获得保留与蓄势{Prepared:diff()}。",
-        ("selectionScreenPrompt", "选择1张攻击获得保留与蓄势。"));
+    public override List<(string, string)> Localization => new CardLoc("追猎准备", "选择1张手牌中的攻击牌，使其获得保留和蓄势{Prepared:diff()}。",
+        ("selectionScreenPrompt", "选择1张攻击，使其获得保留与蓄势。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Prepared", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -122,7 +122,7 @@ public sealed class Volibear_U11 : VolibearCard
 public sealed class Volibear_U12 : VolibearCard
 {
     public Volibear_U12() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u12") { }
-    public override List<(string, string)> Localization => new CardLoc("原始力量", "本轮雷伤增加当前力量。抽{Cards:diff()}张牌。");
+    public override List<(string, string)> Localization => new CardLoc("原始力量", "本轮雷伤增加等同于当前力量的数值。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -170,7 +170,7 @@ public sealed class Volibear_U39 : VolibearCard
 public sealed class Volibear_R06 : VolibearCard
 {
     public Volibear_R06() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self, "r06") { }
-    public override List<(string, string)> Localization => new CardLoc("天人合一", "获得{Strength:diff()}力量和{Block:diff()}格挡。本战攻击与雷法强化{Training:diff()}。");
+    public override List<(string, string)> Localization => new CardLoc("天人合一", "获得{Strength:diff()}力量和{Block:diff()}格挡。本场战斗中，所有攻击牌与雷法强化{Training:diff()}。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>("Strength", 3m), new BlockVar(10m, Move), new DynamicVar("Training", 3m)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)

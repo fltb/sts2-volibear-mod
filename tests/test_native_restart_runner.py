@@ -96,7 +96,7 @@ class NativeRestartRouting(unittest.TestCase):
             self.assertFalse(pair.successful_stock(broken))
 
     def test_foreground_restart_is_rejected_before_profile_or_launch(self):
-        with mock.patch.object(pair, 'create_owned_profile') as profile, mock.patch.object(pair.h, 'stock_teardown') as stock:
+        with mock.patch.object(pair.h, 'IS_WINDOWS', True), mock.patch.object(pair, 'create_owned_profile') as profile, mock.patch.object(pair.h, 'stock_teardown') as stock:
             with self.assertRaisesRegex(ValueError, 'foreground'):
                 pair.run_pair(self.root, 'S2', 'restart', display='window')
         profile.assert_not_called(); stock.assert_not_called()

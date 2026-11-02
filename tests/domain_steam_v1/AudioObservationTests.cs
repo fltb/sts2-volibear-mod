@@ -69,7 +69,14 @@ internal static class SteamAudioObservationTests
             Need(owner.GetPatchedMethods().Count() == 3, "early phase installs only three non-conflicting audio methods");
             AudioShape();
             var startup = PatchProcessor.GetOriginalInstructions(AccessTools.Method(typeof(ModEntry), "Initialize")).ToArray();
-            Need(startup.First(c => c.operand is MethodInfo).Calls(Own("PrepareForTestScenario")), "preparation precedes real main installation/registration");
+            // The contract is ordering against real registration/installation, not being the
+            // first call in Initialize: the native build gate may legitimately precede it.
+            var mainCalls = startup.Select(c => c.operand).OfType<MethodInfo>().ToArray();
+            var preparation = Own("PrepareForTestScenario");
+            int preparedAt = Array.FindIndex(mainCalls, call => call == preparation);
+            int registeredAt = Array.FindIndex(mainCalls, call => call.IsStatic &&
+                call.Name is "Install" or "Register" or "RegisterSceneConversions");
+            Need(preparedAt >= 0 && registeredAt > preparedAt, "preparation precedes real main installation/registration");
             installChain();
             AudioShape();
             DomainSteamNativeObservation.InstallPatches(owner);
@@ -112,7 +119,7 @@ internal static class SteamAudioObservationTests
             subscriptions.SetValue(disposable, Activator.CreateInstance(subscriptions.FieldType));
             disposable.Dispose();
             Need(!owner.GetPatchedMethods().Any() && Harmony.GetPatchInfo(music)!.Owners.Contains(foreign.Id), "actual Dispose removes only observer owner, preserving foreign audio hooks");
-            Console.WriteLine($"STEAM_EARLY_AUDIO_OBSERVER_EMISSION_PASS checks={checks} main-installers=21 expected-sequences=UNCHANGED core-calls=STATICALLY-PRESERVED pre-JIT-cause=NOT_PROVEN native-gameplay=NOT_RUN");
+            Console.WriteLine($"STEAM_EARLY_AUDIO_OBSERVER_EMISSION_PASS checks={checks} main-installers=24 expected-sequences=UNCHANGED core-calls=STATICALLY-PRESERVED pre-JIT-cause=NOT_PROVEN native-gameplay=NOT_RUN");
         }
         finally
         {

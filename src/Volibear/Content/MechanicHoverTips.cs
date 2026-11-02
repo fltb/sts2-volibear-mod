@@ -14,10 +14,15 @@ internal static class MechanicHoverTips
 {
     internal static IEnumerable<IHoverTip> ForCard(VolibearCard card)
     {
-        var text = card.Description.GetRawText();
+        // Named mechanics such as Thunder Armor occur in the title, not the body.
+        // Raw localization also includes upgrade branches without touching mutable state.
+        var text = card.TitleLocString.GetRawText() + "\n" + card.Description.GetRawText();
         foreach (var tip in ForText(text)) yield return tip;
         // Read the existing shared ledger only. Inspecting a card cannot reserve,
         // reset or consume an action, and is not a second eligibility engine.
+        // Native relic/catalog previews query canonical cards, which have no owner.
+        // Keep their static glossary tips, but never request mutable combat state.
+        if (card.IsCanonical) yield break;
         var owner = card.Owner?.Creature;
         var combat = owner?.CombatState;
         if (!text.Contains("迎战", StringComparison.Ordinal) || owner is not { IsAlive: true } ||

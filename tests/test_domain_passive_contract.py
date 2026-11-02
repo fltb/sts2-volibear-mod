@@ -83,7 +83,7 @@ class DomainPassiveContractTests(unittest.TestCase):
             '-p:Sts2DataDir=' + str(data)], cwd=ROOT, capture_output=True, text=True,
             timeout=120, env=dict(os.environ, DOTNET_NOLOGO='1'))
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('PASS 26 production-decision/native-IL checks', result.stdout)
+        self.assertIn('PASS 38 production-decision/native-IL checks', result.stdout)
         self.assertIn('native passive behavior and D17 gameplay NOT RUN', result.stdout)
 
 

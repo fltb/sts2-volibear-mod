@@ -13,6 +13,7 @@ internal static class SteamFullInstallChainTests
         const BindingFlags flags=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Static;
         Type[] expectedInstallers =
         [
+            typeof(Volibear.Presentation.VolibearMerchantIntegration),
             typeof(EngageCmd), typeof(CardResolutionHooks), typeof(DomainEnemyEffects),
             typeof(DomainHopperEffects), typeof(BeastForms), typeof(AttackHistory),
             typeof(TargetCosts), typeof(PersistentBlockHooks), typeof(DomainSummonEffects),
@@ -21,6 +22,8 @@ internal static class SteamFullInstallChainTests
             typeof(DomainPlayerStatContributions), typeof(DomainPlayerDebuffContributions),
             typeof(DomainEnemyStatusContributions), typeof(DomainEnemySpecialContributions),
             typeof(DomainAdditionalRevivalEffects), typeof(Volibear.Presentation.VolibearPresentationBridge),
+            typeof(Volibear.Presentation.PowerPresentationDisabled),
+            typeof(Volibear.Presentation.VolibearArchitectEnding),
             typeof(Volibear.Presentation.VolibearInspectPortraits),
         ];
         var main=typeof(Volibear.ModEntry).GetMethod("Initialize")!;
@@ -38,6 +41,24 @@ internal static class SteamFullInstallChainTests
         var baseline=Harmony.GetAllPatchedMethods().SelectMany(m=>Harmony.GetPatchInfo(m)!.Owners).ToHashSet();
         void Check()
         {
+            var disabled = typeof(Volibear.Presentation.PowerPresentationDisabled);
+            foreach (var (target, callback) in new[] {
+                (AccessTools.PropertyGetter(typeof(PowerModel), nameof(PowerModel.HoverTips)), "PowerHover"),
+                (AccessTools.PropertyGetter(typeof(MegaCrit.Sts2.Core.Entities.Creatures.Creature), "HoverTips"), "CreatureHover"),
+                (AccessTools.DeclaredMethod(typeof(MegaCrit.Sts2.Core.Nodes.Combat.NPower), "_Ready"), "PowerReady"),
+                (AccessTools.DeclaredMethod(typeof(MegaCrit.Sts2.Core.Nodes.Combat.NCreature), "_Ready"), "CreatureReady") })
+            {
+                var patches = Harmony.GetPatchInfo(target)?.Postfixes.Where(p => p.owner == "Volibear.PowerPresentationDisabled").ToArray();
+                Need(patches is { Length: 1 } && patches[0].PatchMethod == Method(disabled, callback),
+                    "disabled presentation retains exact native postfix " + callback);
+            }
+            var ending = typeof(Volibear.Presentation.VolibearArchitectEnding);
+            var winBody = Volibear.Presentation.VolibearArchitectEnding.NativeBody();
+            Need(Harmony.GetPatchInfo(winBody)!.Transpilers.Count(p => p.owner == "Volibear.ArchitectEnding" && p.PatchMethod == Method(ending, "Rewrite")) == 1,
+                "exact Architect victory body adapter retained");
+            var terminal = AccessTools.PropertyGetter(typeof(MegaCrit.Sts2.Core.Runs.RunState), "IsGameOver");
+            Need(Harmony.GetPatchInfo(terminal)!.Postfixes.Count(p => p.owner == "Volibear.ArchitectEnding" && p.PatchMethod == Method(ending, "TerminalState")) == 1,
+                "exact living victory terminal predicate retained");
             var code=PatchProcessor.GetCurrentInstructions(attack).ToArray();
             Need(code.Count(c=>c.Calls(Method(steam,"DamageFromCommand")))==1,"one cooperative AttackCommand callsite");
             Need(!code.Any(c=>c.Calls(CardResolutionHooks.OrdinaryAttackCallsiteV1)),"canonical ordinary call replaced exactly once");
@@ -59,6 +80,17 @@ internal static class SteamFullInstallChainTests
             var draw=typeof(MegaCrit.Sts2.Core.Commands.CardPileCmd).GetMethods().Single(m=>m.Name=="Draw"&&m.GetParameters().Length==4);
             var drawCode=PatchProcessor.GetCurrentInstructions(Machine(draw)).ToArray();
             Need(drawCode.Count(c=>c.Calls(Method(cards,"AddDrawnCard")))==1&&drawCode.Count(c=>c.Calls(Method(cards,"DispatchDrawHooks")))==1,"draw and purification wrappers retained");
+            var paidBody=Machine(Method(typeof(MegaCrit.Sts2.Core.GameActions.PlayCardAction),"ExecuteAction"));
+            var paid=PatchProcessor.GetCurrentInstructions(paidBody).ToList();
+            var scalar=typeof(Volibear.Presentation.PowerPresentationDomainScalars);
+            var resolved=Method(typeof(TargetCosts),"CanPlayResolved");
+            var receipt=Method(scalar,"ConsumedBoolean");
+            Need(paid.Count(c=>c.Calls(resolved))==1 && paid.Count(c=>c.Calls(receipt))==1,
+                "paid play retains both resolved-target and scalar receipt calls");
+            Need(paid.FindIndex(c=>c.Calls(receipt))>paid.FindIndex(c=>c.Calls(resolved)),
+                "scalar receipt observes the resolved-target result");
+            Need(Harmony.GetPatchInfo(paidBody)!.Transpilers.Single(p=>p.PatchMethod.DeclaringType==scalar)
+                .before.Contains("Volibear.TargetCosts"),"scalar binds before target replacement");
             var audio=typeof(Volibear.Presentation.PowerAudioReceipts);
             var bodies=(IEnumerable<MethodInfo>)audio.GetMethod("NativeBodies",flags)!.Invoke(null,null)!;
             foreach(var body in bodies)
@@ -80,7 +112,7 @@ internal static class SteamFullInstallChainTests
         }
         try
         {
-            Need(installs.Select(m=>m.DeclaringType).SequenceEqual(expectedInstallers),"current ModEntry normal Install manifest matches all 21 production adapters in order");
+            Need(installs.Select(m=>m.DeclaringType).SequenceEqual(expectedInstallers),"current ModEntry normal Install manifest matches all 24 production adapters in order");
             foreach(var method in installs)
             {
                 Console.WriteLine("STEAM_MAIN_INSTALL_EMIT "+method.DeclaringType!.FullName+"."+method.Name);

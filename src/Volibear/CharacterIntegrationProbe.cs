@@ -88,9 +88,9 @@ internal static class CharacterIntegrationProbe
                     !seaTitle.Contains(seaKey, StringComparison.Ordinal), "unresolved native Sea Glass title");
                 textRows.Add(new { language, table = "relics", key = seaKey, text = seaTitle });
 
-                // A new native event also exercises BaseLib's localization-driven
-                // PopulateLocKeys prefix after each language reload.
-                var dialogueSet = new TheArchitect().DialogueSet;
+                // Resolve the registered canonical event; native models prohibit calling
+                // their constructors once ModelDb has registered the canonical instance.
+                var dialogueSet = ModelDb.Event<TheArchitect>().DialogueSet;
                 foreach (int visits in new[] { 0, 1, 25 })
                 {
                     var candidates = dialogueSet.GetValidDialogues(character.Id, visits, visits,

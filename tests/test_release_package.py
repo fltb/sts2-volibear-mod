@@ -184,9 +184,31 @@ class ReleasePackageTests(unittest.TestCase):
 
     def test_shipping_instructions_require_safe_manual_install_and_uninstall(self):
         text = (release.ROOT / 'docs/INSTALL_ZH.md').read_text(encoding='utf-8')
-        for required in ('59260271', '3.4.7', '停止', 'SHA-256', '不删除或修改 BaseLib', '存档',
-                         'NOT_RUN', 'PCK 通过不代表这些结果已通过', '原生房间检查点'):
+        # Check actionable shipping requirements in their relevant sections,
+        # rather than requiring a particular defensive sentence about PCKs.
+        def section(heading):
+            self.assertIn('## ' + heading + '\n', text)
+            return text.split('## ' + heading + '\n', 1)[1].split('\n## ', 1)[0]
+
+        for required in ('0.107.1', '59260271', 'BaseLib 3.4.7', 'PACKAGE.json',
+                         'tools/local_delivery.py --verify-release', '完整发布验收'):
             self.assertIn(required, text)
+        requirements = {
+            '包内内容': ('Volibear.dll', 'Volibear.pck', 'Volibear.json',
+                      'BaseLib.dll', 'BaseLib.pck', 'BaseLib.json', 'SHA-256'),
+            '安装': ('退出游戏', '游戏版本', 'SHA-256', '不一致则停止', '符号链接',
+                   '目录联接', '不覆盖或合并', '旧包清单和旧哈希', '保留其他 Mod', '存档'),
+            '多人版本一致与保存恢复': ('59260271', '3.4.7', 'PACKAGE.json', '原生多人大厅',
+                              '原生房间检查点', 'checkpoint', '发布门禁', 'Steam', '跨公网'),
+            '卸载': ('退出游戏', '原包清单', 'SHA-256', '仅删除', '哈希未变',
+                   '来源不明时停止', '完全为空', '不递归删除', '不删除或修改 BaseLib',
+                   '其他 Mod', '游戏原文件', '存档', '云端数据'),
+        }
+        for heading, required_terms in requirements.items():
+            content = section(heading)
+            for required in required_terms:
+                with self.subTest(section=heading, requirement=required):
+                    self.assertIn(required, content)
         self.assertNotIn(str(Path.home()), text)
 
 

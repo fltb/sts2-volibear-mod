@@ -126,7 +126,10 @@ def run_pair(game, timeout=300, frames=60000, display=None):
     with settings.open('x', encoding='utf-8') as stream:
         json.dump({'schema_version': 5, 'mod_settings': {'mods_enabled': True},
                    'seen_ea_disclaimer': True, 'skip_intro_logo': True,
-                   'fullscreen': False, 'language': 'zhs', 'limit_fps_in_background': False}, stream)
+                   'fullscreen': False, 'window_size': {'X': 1280, 'Y': 720},
+                   'window_position': {'X': 64, 'Y': 64},
+                   'language': 'zhs', 'limit_fps_in_background': False,
+                   'vsync': 'off', 'fps_limit': 60}, stream)
         stream.write('\n')
     profile_record = {'pair': pair_dir.name, 'profile': str(profile), 'userRoot': str(user_root),
                       'checkpointPath': str(checkpoint),

@@ -51,10 +51,10 @@ internal static class Program
     {
         var type=typeof(DomainSummonEffects);type.GetMethod("Prepare",Flags)!.Invoke(null,null);
         var bodies=(IDictionary)type.GetField("Bodies",Flags)!.GetValue(null)!;
-        Check(bodies.Count==6,"Exact six async native bodies");
+        Check(bodies.Count==10,"Exact ten async native bodies");
         DomainDampenTransactions.VerifyNativeIl();
         var dampen=(IDictionary)typeof(DomainDampenTransactions).GetField("Sites",Flags)!.GetValue(null)!;
-        Check(!bodies.Keys.Cast<MethodBase>().Intersect(dampen.Keys.Cast<MethodBase>()).Any(),"six Summon registration targets do not overlap existing Dampen rewriter");
+        Check(!bodies.Keys.Cast<MethodBase>().Intersect(dampen.Keys.Cast<MethodBase>()).Any(),"ten Summon registration targets do not overlap existing Dampen rewriter");
         foreach(DictionaryEntry pair in bodies)
         {
             var method=(MethodBase)pair.Key;int kind=(int)pair.Value!;
@@ -67,7 +67,14 @@ internal static class Program
                 Check(index>0&&Call(output[index-1],type,"Close"),"close immediately before original signal "+kind);
             Check(output.Count(i=>Call(i,type,"RetiredGate"))==(kind is 0 or 1?1:0),"only pinned pre-dereference retired guards "+kind);
             Check(output.Count(i=>Call(i,type,"Enter"))==1&&output.Count(i=>Call(i,type,"Leave"))==1,"Native task enter/leave "+kind);
-            Check(output.Count(i=>Call(i,typeof(CreatureCmd),"Add"))==input.Count(i=>Call(i,typeof(CreatureCmd),"Add")),"Original Add call retained "+kind);
+            if(kind<=3)
+                Check(output.Count(i=>Call(i,typeof(CreatureCmd),"Add"))==input.Count(i=>Call(i,typeof(CreatureCmd),"Add")),"Original Add call retained "+kind);
+            else if(kind>=6)
+                Check(output.Count(i=>Call(i,typeof(CreatureCmd),"Add"))==0&&output.Count(i=>i.operand is MethodInfo m&&m.Name=="AdditionalBirth")==1,"Discarded child Add replaced by the additional-birth bridge "+kind);
+            else if(kind==4)
+                Check(output.Count(i=>i.operand is MethodInfo m&&m.Name=="ForwardDefensive")==1&&output.Count(i=>i.operand is MethodInfo m&&m.Name=="ForwardAggro")==1,"Both Fabricator helpers forward through the actual summon bridge "+kind);
+            else
+                Check(output.Count(i=>i.operand is MethodInfo m&&m.Name=="ForwardAggro")==1,"Fabricator helper forwards through the actual summon bridge "+kind);
             foreach(var name in new[]{"GetAwaiter","GetResult"})
                 Check(input.Where(i=>i.operand is MethodInfo m&&m.Name==name).Select(i=>i.operand).SequenceEqual(output.Where(i=>i.operand is MethodInfo m&&m.Name==name).Select(i=>i.operand)),"original await/result calls remain once and ordered "+kind+" "+name);
             Reject(method,c=>c.RemoveAll(i=>Call(i,typeof(AsyncTaskMethodBuilder),"SetResult")),"missing native success epilogue "+kind);

@@ -17,12 +17,14 @@ STOCK = dict(routing_helpers.STOCK,runtime_errors=[])
 from test_save_load_evidence import fixture as save_fixture
 from test_native_product_flow import fixture as flow_fixture
 from test_character_integration_evidence import fixture as character_fixture
+from test_domain_suppression_evidence import receipt as suppression_receipt, log_for as suppression_log
+from test_architect_ending_evidence import fixture as ending_fixture
 
 
 class SuiteRouting(unittest.TestCase):
     setUp = routing_helpers.AcceptanceRunnerTests.setUp
     run_scenario = routing_helpers.AcceptanceRunnerTests.run_scenario
-    def test_same_process_all_five_stages_route_once_and_clear_old_inputs(self):
+    def test_same_process_all_seven_stages_route_once_and_clear_old_inputs(self):
         faces = tuple(suite.h.CARD_FACE_CASES[:2]); lifecycle = ('U07-base',)
         report, env, command, oracle, _, shell = self.run_scenario('native-suite',
             initial_env={'VOLIBEAR_TEST_DATA_ROOT':str(self.directory/'data'),
@@ -61,7 +63,7 @@ class SuiteRouting(unittest.TestCase):
         self.assertEqual(launch.call_args.kwargs['display'],'background')
 
     def test_bad_options_and_failed_stock_never_launch_mod(self):
-        for invalid in (dict(display='window'),dict(timeout=True),dict(frames=2),dict(face_cases=[]),
+        for invalid in (dict(display='window'),dict(timeout=True),dict(timeout=28801),dict(frames=1728001),dict(frames=2),dict(face_cases=[]),
                         dict(lifecycle_cases=['U07-base','U07-base']),dict(presentation_mode='all')):
             with ExitStack() as stack:
                 stack.enter_context(mock.patch.object(suite.h,'IS_WINDOWS',True))
@@ -80,16 +82,29 @@ class SuiteRouting(unittest.TestCase):
                 with self.assertRaises(RuntimeError):suite.run_suite(self.directory)
                 launch.assert_not_called()
 
+    def test_native_case_timings_are_observations_not_speed_overrides(self):
+        host=(ROOT/'src/Volibear/NativeAcceptanceRunHost.cs').read_text()
+        cards=(ROOT/'src/Volibear/CardFaceAcceptanceProbe.cs').read_text()
+        for stage in ('start-run','start-room-quiet','exit-map','exit-menu'):
+            self.assertIn('Timing("'+stage+'",timing)',host)
+        self.assertIn('System.Diagnostics.Stopwatch.StartNew()',host)
+        self.assertIn('CARD_FACE_TIMING case=',cards)
+        self.assertIn('actionClock.ElapsedMilliseconds',cards)
+        for source in (host,cards):
+            self.assertIn('Engine.GetFramesPerSecond()',source)
+            self.assertNotIn('Engine.TimeScale =',source)
+
     def test_suite_reachable_drivers_have_no_input_simulation(self):
         names=('NativeVerificationSuite','NativeAcceptanceRunHost','NativeAutomationSelector','NativeProductFlowProbe','CharacterIntegrationProbe',
-               'CardFaceAcceptanceProbe','CardLifecycleAcceptanceProbe','PresentationAcceptanceProbe','SaveLoadContractProbe')
+               'CardFaceAcceptanceProbe','CardLifecycleAcceptanceProbe','PresentationAcceptanceProbe','SaveLoadContractProbe',
+               'DomainSuppressionAcceptanceProbe', 'ArchitectEndingAcceptanceProbe')
         for name in names:
             source=(ROOT/'src/Volibear'/f'{name}.cs').read_text(encoding='utf-8')
             for forbidden in ('ForceClick(', 'PushInput(', 'InputEvent', 'EmitSignal(', 'SendInput(', 'UiHelper.Click('):
                 self.assertNotIn(forbidden,source,name)
         driver=(ROOT/'src/Volibear/NativeVerificationSuite.cs').read_text()
         self.assertEqual(driver.count('NGame.Instance!.Quit()'),1)
-        for name in ('CardFaceAcceptanceProbe.RunBatch','CardLifecycleAcceptanceProbe.RunBatch',
+        for name in ('DomainSuppressionAcceptanceProbe.RunManaged','ArchitectEndingAcceptanceProbe.RunManaged','CardFaceAcceptanceProbe.RunBatch','CardLifecycleAcceptanceProbe.RunBatch',
                      'PresentationAcceptanceProbe.Run','NativeProductFlowProbe.Run','SaveLoadContractProbe.Run'):
             self.assertIn(name,driver)
         flow=(ROOT/'src/Volibear/NativeProductFlowProbe.cs').read_text()
@@ -137,19 +152,39 @@ class SuiteEnvelope(unittest.TestCase):
     def log(self):
         character = character_fixture()
         character.update(token='suite-test', pid=100)
-        return '\n'.join([gate.BEGIN+json.dumps(dict(token='suite-test',pid=100)),
+        from test_character_integration_evidence import BaseLibRuntimeOracle
+        framework = BaseLibRuntimeOracle()
+        framework.setUp()
+        return '\n'.join(framework.lines + [gate.BEGIN+json.dumps(dict(token='suite-test',pid=100)),
             '[Volibear] CHARACTER_INTEGRATION_RESULT '+json.dumps(character),
+            suppression_log([dict(suppression_receipt(name), token='suite-test')
+                             for name in ('sandpit', 'knights', 'self')]),
+            '[Volibear] ARCHITECT_ENDING_RESULT ' + json.dumps(dict(ending_fixture(), token='suite-test')),
             '[Volibear] CARD_FACE_BATCH_RESULT {}','[Volibear] CARD_LIFECYCLE_BATCH_RESULT {}',
             '[Volibear] PRESENTATION_ACCEPTANCE_RESULT {}','[Volibear] NATIVE_PRODUCT_FLOW_RESULT '+json.dumps(flow_fixture()),
             '[Volibear] SAVE_LOAD_RESULT '+json.dumps(self.saved),
             gate.RESULT+json.dumps(self.final),'[Volibear] SHUTDOWN_BEGIN suite-test'])
+
+    def test_missing_failed_or_misordered_suppression_receipt_fails_suite(self):
+        lines = self.log().splitlines()
+        index = next(i for i, line in enumerate(lines) if 'DOMAIN_SUPPRESSION_RESULT ' in line)
+        missing = lines[:index] + lines[index + 1:]
+        self.assertTrue(self.evaluate('\n'.join(missing))['errors'])
+        # Mutate an independently required boolean, not just the top-level passed flag.
+        row = json.loads(lines[index].split('DOMAIN_SUPPRESSION_RESULT ', 1)[1])
+        row['checks'][next(iter(row['checks']))] = False
+        corrupted = list(lines)
+        corrupted[index] = '[Volibear] DOMAIN_SUPPRESSION_RESULT ' + json.dumps(row)
+        self.assertTrue(self.evaluate('\n'.join(corrupted))['errors'])
+        moved = missing + [lines[index]]
+        self.assertTrue(self.evaluate('\n'.join(moved))['errors'])
 
     def evaluate(self,log=None,*,face_error=False,lifecycle_ok=True,presentation_errors=()):
         # Existing face/lifecycle/presentation oracles have their own receipt tests.
         # Keep the save oracle and actual disk JSON validation live here.
         with mock.patch.object(gate,'extract_card_face_batch',side_effect=ValueError('missing case') if face_error else None), \
              mock.patch.object(gate,'card_lifecycle_batch_evidence',return_value=({},lifecycle_ok)), \
-             mock.patch.object(gate,'presentation_evidence',return_value=list(presentation_errors)):
+             mock.patch.object(gate,'presentation_media_report',return_value={'errors': list(presentation_errors)}):
             return gate.check_log(self.log() if log is None else log,'suite-test',('B01-base-plain',),
                                   ('U07-base',),'cards',self.root/'presentation',self.root)
 

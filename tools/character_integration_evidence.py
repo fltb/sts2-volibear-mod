@@ -14,17 +14,18 @@ LANGUAGES = ('zhs', 'eng', 'zhs')
 TEXT = (
     ('characters', 'VOLIBEAR_CHARACTER.cardsModifierTitle', '不灭狂雷'),
     ('characters', 'VOLIBEAR_CHARACTER.cardsModifierDescription', '沃利贝尔的卡牌会出现在奖励和商店中。'),
-    ('characters', 'VOLIBEAR_CHARACTER.eventDeathPrevention', '雷霆拒绝了死亡。'),
-    ('characters', 'VOLIBEAR_CHARACTER.aromaPrinciple', '风暴只服从自己的意志'),
-    ('characters', 'VOLIBEAR_CHARACTER.goldMonologue', '这些金属，终将被雷霆熔铸。'),
-    ('characters', 'VOLIBEAR_CHARACTER.banter.alive.endTurnPing', '风暴不会等待。'),
-    ('characters', 'VOLIBEAR_CHARACTER.banter.dead.endTurnPing', '雷声尚未消散……'),
+    ('characters', 'VOLIBEAR_CHARACTER.eventDeathPrevention', '沃利贝尔撑起身体，伤口间仍冒着电光。'),
+    ('characters', 'VOLIBEAR_CHARACTER.aromaPrinciple', '雨水、泥土，还有猎物的气味。'),
+    ('characters', 'VOLIBEAR_CHARACTER.goldMonologue', '这些够换什么？'),
+    ('characters', 'VOLIBEAR_CHARACTER.banter.alive.endTurnPing', '该你了。'),
+    ('characters', 'VOLIBEAR_CHARACTER.banter.dead.endTurnPing', '别管我，继续打。'),
     ('relics', 'SEA_GLASS.VOLIBEAR_CHARACTER.title', '风暴海玻璃'),
 )
 DIALOGUE = (
-    ('Ancient', '你的风暴，已经震动了这里的根基。'),
-    ('Character', '石墙会崩塌。雷霆不会。'),
-    ('Ancient', '那就让我看看，这场风暴还能持续多久。'),
+    ('Ancient', '你把下面砸得一团糟。'),
+    ('Character', '那些墙挡了我的路。'),
+    ('Ancient', '所以你就一路拆到这里？'),
+    ('Character', '我是来找你的。别再派那些东西送死了。'),
 )
 AUDIO = (
     'event:/sfx/characters/volibear_character/volibear_character_select',
@@ -132,7 +133,14 @@ def validate(raw, token, pid):
          integer(tome['relic']['floor_added_to_deck'], expected=0) and
          tome['relic']['props'] == {'model_ids': [{'name': 'AncientCard', 'value': 'CARD.VOLIBEAR_R18'}]},
          'native Tome JSON must persist its AncientCard ModelId')
-    shape(tome['card'], ('id', 'current_upgrade_level'), 'native transient reward JSON shape')
+    # BaseLib 3.4.7 CardModifier.RegisterSave extends SerializableCard even
+    # when the reward has no modifiers. Require that exact empty save payload;
+    # do not ignore extension fields or accept a modified reward.
+    modifier_save = 'save_dict_List[BaseLib.Abstracts.CardModifier+ModifierSave]'
+    shape(tome['card'], ('id', 'current_upgrade_level', modifier_save), 'native transient reward JSON shape')
+    shape(tome['card'][modifier_save], ('BaseLibCardModifiers',), 'native reward modifier save shape')
+    need(tome['card'][modifier_save]['BaseLibCardModifiers'] == [],
+         'native transient reward must have no BaseLib card modifiers')
     need(tome['card']['id'] == 'CARD.VOLIBEAR_R18' and integer(tome['card']['current_upgrade_level'], expected=1),
          'native reward JSON must persist R18 upgrade')
 
@@ -154,6 +162,54 @@ def strict_object(pairs):
 
 def invalid_constant(value):
     raise ValueError('nonfinite JSON number: ' + value)
+
+
+def check_baselib_runtime(log):
+    """Observed pinned framework/owned registration only, not arbitrary mod compatibility.
+
+    The caller must supply the same fresh process log as the native suite and
+    retain its runtime-error, artifact, version and isolation gates.
+    """
+    errors, patches = [], None
+    scope = 'runtime-baselib-3.4.7-volibear-registration-and-owned-conversions'
+    try:
+        need(type(log) is str, 'BaseLib runtime log text required')
+        lines = log.splitlines()
+
+        def one(line):
+            positions = [i for i, value in enumerate(lines) if value == line]
+            need(len(positions) == 1, 'exactly one runtime marker required: ' + line)
+            return positions[0]
+
+        initialized = one('[INFO] Calling initializer method of type BaseLib.BaseLibMain for BaseLib, Version=3.4.7.0, Culture=neutral, PublicKeyToken=null')
+        patch_start = one('[INFO] [BaseLib] Starting PatchAll for assembly BaseLib, Version=3.4.7.0, Culture=neutral, PublicKeyToken=null')
+        summaries = [(i, re.fullmatch(r'\[INFO\] \[BaseLib\] Applied ([0-9]+) patches successfully, ([0-9]+) failed', line))
+                     for i, line in enumerate(lines) if line.startswith('[INFO] [BaseLib] Applied ')]
+        need(len(summaries) == 1 and summaries[0][1] is not None, 'one well-formed BaseLib patch result required')
+        patch_end, summary = summaries[0]
+        patches, failures = map(int, summary.groups())
+        need(patches > 0 and failures == 0, 'BaseLib must apply positive patches with zero failures')
+        finished = one("[INFO] Finished mod initialization for 'BaseLib' (BaseLib).")
+        content = one('[Volibear] CONTENT_OK cards=89 character=VolibearCharacter framework=BaseLib-3.4.7')
+        need(initialized < patch_start < patch_end < finished < content, 'BaseLib/Volibear initialization order')
+
+        scenes = {'combat': ('NCreatureVisuals', 'Node2D'),
+                  'rest': ('NRestSiteCharacter', None),
+                  'merchant': ('NMerchantCharacter', None),
+                  'energy': ('NEnergyCounter', 'Control'),
+                  'trail': ('NCardTrailVfx', 'Node2D')}
+        for scene, (target, source) in scenes.items():
+            path = f'res://VolibearArt/scenes/volibear_{scene}.tscn'
+            registered = one(f"[INFO] [BaseLib] Registered scene '{path}' for auto-conversion to {target}")
+            need(registered > finished, 'owned scene registered before BaseLib initialization')
+            if source is not None:
+                converted = f"[INFO] [BaseLib] Auto-converted '{path}' from {source} to {target}"
+                positions = [i for i, line in enumerate(lines) if line == converted]
+                need(bool(positions) and min(positions) > max(registered, content),
+                     'missing/out-of-order actual owned scene conversion: ' + scene)
+    except (ValueError, TypeError, IndexError) as error:
+        errors.append(str(error))
+    return {'errors': errors, 'scope': scope, 'patchesApplied': patches}
 
 
 def check_log(log, token, pid):

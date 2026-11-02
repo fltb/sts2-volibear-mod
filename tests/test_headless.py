@@ -110,13 +110,28 @@ class HeadlessRunnerTests(unittest.TestCase):
         self.assertFalse(headless.evaluate(0, False, canvas + '\nERROR: gameplay broke', stock)['no_runtime_errors'])
         self.assertFalse(headless.is_teardown('ERROR: shaders failed compiling CanvasShaderRD'))
 
+    def test_opengl_teardown_is_category_matched_not_blanket_ignored(self):
+        canvas = 'ERROR: 5 shaders of type CanvasShaderGLES3 were never freed'
+        texture = 'ERROR: Texture with GL ID of 15: leaked 20 bytes.'
+        stock = headless.teardown_categories([canvas, texture])
+        log = canvas + '\nERROR: Texture with GL ID of 260: leaked 1020 bytes.'
+        self.assertTrue(headless.evaluate(0, False, log, stock)['no_runtime_errors'])
+        self.assertTrue(headless.evaluate(0, False, log, stock)['teardown_matches_stock'])
+        self.assertFalse(headless.evaluate(0, False, log, set())['teardown_matches_stock'])
+        particles = 'ERROR: 1 shaders of type ParticlesShaderGLES3 were never freed'
+        self.assertFalse(headless.evaluate(0, False, particles, stock)['teardown_matches_stock'])
+        for error in ('ERROR: Texture upload failed', 'ERROR: shaders failed compiling CanvasShaderGLES3',
+                      'ERROR: Texture with GL ID of 15: corrupted data.'):
+            self.assertFalse(headless.is_teardown(error))
+            self.assertFalse(headless.evaluate(0, False, log + '\n' + error, stock)['no_runtime_errors'])
+
     def test_stock_control_timeout_never_supplies_accepted_categories(self):
-        leak = 'Steam initialization skipped\nERROR: 3 shaders of type CanvasShaderRD were never freed'
+        leak = 'Steam initialization skipped\nSTOCK_CONTROLLER_READY_NATIVE_QUIT\nERROR: 3 shaders of type CanvasShaderRD were never freed'
         with mock.patch.object(headless, 'prepare_run', return_value=(Path('fixture'), {}, ['game'])) as prepare, \
                 mock.patch.object(headless, 'launch', return_value=(0, True)), \
                 mock.patch.object(headless, 'combined_log', return_value=leak):
             categories, evidence = headless.stock_teardown(Path('game'), 180, 3600, 'window')
-            self.assertEqual(prepare.call_args.args[2], 900)
+            self.assertEqual(prepare.call_args.args[2], 0)
             self.assertFalse(evidence['successful'])
             self.assertEqual(categories, set())
         with mock.patch.object(headless, 'prepare_run', return_value=(Path('fixture'), {}, ['game'])), \
@@ -124,8 +139,21 @@ class HeadlessRunnerTests(unittest.TestCase):
                 mock.patch.object(headless, 'combined_log', return_value=leak):
             categories, evidence = headless.stock_teardown(Path('game'), 180, 100, 'window')
             self.assertTrue(evidence['successful'])
-            self.assertEqual(evidence['frames'], 100)
+            self.assertEqual(evidence['frames'], 0)
             self.assertEqual(categories, headless.teardown_categories(headless.error_lines(leak)))
+
+    def test_stock_requires_readiness_and_native_quit_marker(self):
+        for marker in ('', 'STOCK_CONTROLLER_ERROR readiness timeout',
+                       'STOCK_CONTROLLER_READY_NATIVE_QUIT\nSTOCK_CONTROLLER_READY_NATIVE_QUIT'):
+            with mock.patch.object(headless, 'prepare_run', return_value=(Path('fixture'), {}, ['game'])), \
+                 mock.patch.object(headless, 'launch', return_value=(0, False)) as launch, \
+                 mock.patch.object(headless, 'combined_log', return_value='Steam initialization skipped\n' + marker):
+                categories, evidence = headless.stock_teardown(Path('game'), 300, 600, 'window')
+                self.assertFalse(evidence['successful'])
+                self.assertEqual(categories, set())
+                command = launch.call_args.args[3]
+                self.assertIn('--nomods', command)
+                self.assertIn('--script', command)
 
     def content_record(self):
         return dict(token='current', scenario='content', passed=True, testMode=False,
@@ -183,8 +211,19 @@ class HeadlessRunnerTests(unittest.TestCase):
             self.assertIn('gl_compatibility', virtual)
             self.assertNotIn('--headless', virtual)
             self.assertIn('--force-steam=off', virtual)
+            with mock.patch.dict(headless.os.environ, {'DISPLAY': ':77'}):
+                window = headless.display_command(command, 'window')
+                self.assertEqual(window, ['game', '--force-steam=off', '--display-driver', 'x11',
+                                          '--rendering-method', 'gl_compatibility',
+                                          '--windowed', '--resolution', '1280x720',
+                                          '--script', str(headless.ROOT / 'tools/window_guard.gd')])
+                self.assertNotIn('xvfb-run', window)
+                self.assertNotIn('llvmpipe', window)
+            with mock.patch.dict(headless.os.environ, {'DISPLAY': ''}):
+                with self.assertRaisesRegex(RuntimeError, 'DISPLAY'):
+                    headless.display_command(command, 'window')
             with self.assertRaisesRegex(RuntimeError, 'Windows'):
-                headless.display_command(command, 'window')
+                headless.display_command(command, 'background')
         with mock.patch.object(headless, 'IS_WINDOWS', True):
             window = headless.display_command(command, 'window')
             self.assertEqual(window, ['game', '--force-steam=off'])
@@ -595,7 +634,7 @@ class DomainEvidenceTests(unittest.TestCase):
              mock.patch.object(headless, 'launch', return_value=(0, False)), \
              mock.patch.object(headless, 'combined_log', return_value='Steam initialization skipped\nERROR: Parameter t is null'):
             categories, evidence = headless.stock_teardown(Path('game'), 180, 5000, 'window')
-        self.assertEqual(prepare.call_args.args[2], 900)
+        self.assertEqual(prepare.call_args.args[2], 0)
         self.assertEqual(categories, set())
         self.assertFalse(evidence['successful'])
         self.assertEqual(evidence['runtime_errors'], ['ERROR: Parameter t is null'])

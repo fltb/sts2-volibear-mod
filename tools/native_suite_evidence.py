@@ -1,19 +1,30 @@
 """Aggregate the existing native oracles; this never turns parser tests into game evidence."""
 import json
 
+from architect_ending_evidence import check_log as architect_ending_evidence
+from domain_suppression_evidence import check_log as domain_suppression_evidence
 from card_face_evidence import extract_card_face_batch
 from card_lifecycle_evidence import card_lifecycle_batch_evidence
-from presentation_acceptance_evidence import check_log as presentation_evidence
+from presentation_media_checks import check_log as presentation_media_report
 from native_product_flow_evidence import check_log as product_flow_evidence
-from character_integration_evidence import check_log as character_evidence
+from character_integration_evidence import check_log as character_evidence, check_baselib_runtime
 
 BEGIN = '[Volibear] NATIVE_SUITE_BEGIN '
 RESULT = '[Volibear] NATIVE_SUITE_RESULT '
-STAGES = ['card-faces', 'card-lifecycle', 'presentation', 'product-flow', 'save-load-same-process']
+STAGES = ['domain-suppression', 'architect-ending', 'card-faces', 'card-lifecycle', 'presentation', 'product-flow', 'save-load-same-process']
 
 
 def check_log(log, token, faces, lifecycle, presentation_mode, artifact_dir, user_root):
     errors, results = [], {}
+    suppression, suppression_passed = domain_suppression_evidence(log, token, 'all')
+    results['domain-suppression'] = suppression
+    if suppression_passed is not True:
+        errors.append('domain-suppression: independent native receipt oracle failed')
+    ending = architect_ending_evidence(log, token)
+    results['architect-ending'] = ending
+    errors.extend('architect-ending: ' + error for error in ending['errors'])
+    results['baselib-runtime'] = check_baselib_runtime(log)
+    errors.extend('baselib-runtime: ' + error for error in results['baselib-runtime']['errors'])
     try:
         results['card-faces'] = extract_card_face_batch(log, token, faces)
     except (ValueError, TypeError, KeyError, IndexError) as error:
@@ -22,9 +33,10 @@ def check_log(log, token, faces, lifecycle, presentation_mode, artifact_dir, use
     results['card-lifecycle'] = result
     if passed is not True:
         errors.append('card-lifecycle: independent native receipt oracle failed')
-    presentation = presentation_evidence(log, token, presentation_mode, artifact_dir)
+    media = presentation_media_report(log, token, presentation_mode, artifact_dir)
+    presentation = media['errors']
     results['presentation'] = {'mode': presentation_mode, 'errors': presentation,
-                               'humanReview': 'required'}
+                               'media': media, 'humanReview': 'required'}
     errors.extend('presentation: ' + error for error in presentation)
     try:
         def one(prefix):
@@ -56,6 +68,14 @@ def check_log(log, token, faces, lifecycle, presentation_mode, artifact_dir, use
         positions = [log.index(marker) for marker in boundaries]
         if positions != sorted(positions) or any(log.count(marker) != 1 for marker in boundaries):
             raise ValueError('suite stages or the single shutdown are incomplete/out of order')
+        domain_positions = [log.index(line) for line in log.splitlines()
+                            if line.startswith('[Volibear] DOMAIN_SUPPRESSION_RESULT ')]
+        if (len(domain_positions) != 3 or
+                not positions[1] < min(domain_positions) <= max(domain_positions) < positions[2]):
+            raise ValueError('domain suppression families must complete before card faces')
+        ending_position = log.index('[Volibear] ARCHITECT_ENDING_RESULT ')
+        if not max(domain_positions) < ending_position < positions[2]:
+            raise ValueError('Architect ending must complete between suppression and card faces')
         if '[Volibear] NATIVE_SUITE_ERROR ' in log:
             raise ValueError('native coordinator reported an error')
         character = character_evidence(log, token, begin['pid'])

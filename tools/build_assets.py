@@ -35,10 +35,14 @@ ICON_EXPORTS = {
     'relics/storm_crown.png': ('relics/storm_crown.png', 64),
     'relics/big/storm_crown.png': ('relics/big/storm_crown.png', 256),
     'relics/outline/storm_crown.png': ('relics/outline/storm_crown.png', 64),
-    'powers/thunder_force.svg': ('thunder_force.svg', 64),
-    'powers/big/thunder_force.svg': ('thunder_force.svg', 256),
-    'powers/domain.svg': ('domain.svg', 64),
-    'powers/big/domain.svg': ('domain.svg', 256),
+    'powers/thunder_force.png': ('powers/thunder_force.png', 64),
+    'powers/big/thunder_force.png': ('powers/big/thunder_force.png', 256),
+    'powers/domain.png': ('powers/domain.png', 64),
+    'powers/big/domain.png': ('powers/big/domain.png', 256),
+    'powers/bear_spirit.png': ('powers/bear_spirit.png', 64),
+    'powers/big/bear_spirit.png': ('powers/big/bear_spirit.png', 256),
+    'powers/wilderness.png': ('powers/wilderness.png', 64),
+    'powers/big/wilderness.png': ('powers/big/wilderness.png', 256),
 }
 NATIVE_RESOURCES = (
     'volibear_icon.tscn', 'volibear_energy.tscn', 'volibear_rest.tscn',
@@ -141,14 +145,14 @@ def stage_icons(art):
         destination = art / 'icons' / path
         destination.parent.mkdir(parents=True, exist_ok=True)
         if source_path.suffix == '.png':
-            # These checked-in game-sized exports are produced by export_relic_icons.py.
+            # Checked-in game-sized RGBA exports for painted relic and status icons.
             # Decode/dimension/alpha checks also run in the real Godot pack verifier.
             import struct
             header = source_path.read_bytes()[:29]
             if (header[:8] != b'\x89PNG\r\n\x1a\n' or header[12:16] != b'IHDR'
                     or struct.unpack('>II', header[16:24]) != (size, size)
                     or header[25] != 6):
-                raise ValueError('Painted relic export must be correctly sized RGBA PNG: ' + source)
+                raise ValueError('Painted icon export must be correctly sized RGBA PNG: ' + source)
             shutil.copyfile(source_path, destination)
             continue
         svg = source_path.read_text(encoding='utf-8')
@@ -300,7 +304,8 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None):
     profile_expected = {'profile': 'open', 'overrides': []}
     if audio_profile == 'riot_en':
         # Fixed source/processed hashes are checked here; the actual packed streams are
-        # decoded and played by Godot below. A prepared private ZIP needs no FFmpeg install.
+        # decoded and played by Godot below. A private source overlay containing both
+        # pinned originals and prepared clips needs no FFmpeg install.
         runtime_profile = audio_profiles.verify_prepared(full_decode=False)
         profile_expected = {'profile': 'riot_en', 'overrides': runtime_profile['overrides']}
     snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',

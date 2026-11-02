@@ -16,9 +16,12 @@ class EngageHarmony(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         config = ROOT / '.local/config.json'
-        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-        cls.dotnet = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
+        settings = json.loads(config.read_text(encoding='utf-8')) if config.is_file() else {}
+        cls.dotnet = settings.get('dotnet') or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
         harmony = Path(os.environ.get('VOLIBEAR_HARMONY', str(ROOT / '.local/dependencies/Harmony-2.4.2/0Harmony.dll')))
+        if not harmony.is_file() and 'VOLIBEAR_HARMONY' not in os.environ and settings.get('game_dir'):
+            data = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+            harmony = Path(settings['game_dir']) / data / '0Harmony.dll'
         if not cls.dotnet or not Path(cls.dotnet).is_file() or not harmony.is_file():
             raise unittest.SkipTest('SDK or upstream Harmony unavailable; real patch fixture NOT_RUN')
         result = cls.invoke('build', str(ROOT / 'tests/engage_adapter/harmony/RealHarmony.csproj'),

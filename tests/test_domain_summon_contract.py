@@ -101,7 +101,7 @@ class DomainSummonSourceContract(unittest.TestCase):
         result=subprocess.run([str(dotnet),'run','--project',str(ROOT/'tests/domain_summon_effects/DomainSummonEffects.Tests.csproj'),'-c','Release','-p:Sts2DataDir='+str(data)],
             cwd=ROOT,capture_output=True,text=True,timeout=120,env=dict(os.environ,DOTNET_NOLOGO='1'))
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
-        self.assertIn('PASS 142 summon D17 decision/native IL/mutation/combined checks',result.stdout)
+        self.assertIn('PASS 198 summon D17 decision/native IL/mutation/combined checks',result.stdout)
         self.assertIn('Summon->Revival',result.stdout);self.assertIn('Revival->Summon',result.stdout)
         self.assertIn('native gameplay NOT RUN',result.stdout)
 if __name__=='__main__':unittest.main()

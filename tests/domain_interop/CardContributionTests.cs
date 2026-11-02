@@ -35,37 +35,38 @@ internal static class CardContributionTests
             var context = new PlayerChoiceContext();
             var power = new TangledPower();
             Invoke("ApplyCommit", power, player, enemyFirst ? 2m : 3m, false, enemyFirst ? enemy : player, null, context);
-            Check(Cost(power, card) == (enemyFirst ? 1m : 4m), "initial cost preserves only the independently applied player amount");
+            Check(Cost(power, card) == 1m, "Domain suppresses initial player or enemy sourced cost");
             Invoke("AmountCommit", power, 5, false, enemyFirst ? player : enemy, null, context);
-            Check(Cost(power, card) == 4 && power.Amount == 5, "mixed 2 enemy + 3 player costs only 3 in Domain and never rewrites native amount");
+            Check(Cost(power, card) == 1 && power.Amount == 5, "mixed debuff cost is muted without rewriting native amount");
             var audit = DomainCardContributions.Audit(power);
             Check(audit.State == "mixed" && audit.RetainedAmount == 3 && audit.UnsupportedReason == "", "mixed source is supported, with an explicit retained amount");
             DomainEnemyEffects.Active = false;
             Check(Cost(power, card) == 6, "ending Domain restores complete native cost without rewriting the power");
             DomainEnemyEffects.Active = true;
             power.OtherModOffset = 4;
-            Check(Cost(power, card) == 8, "foreign adjustment on the native contribution remains in effect");
+            Check(Cost(power, card) == 1, "the debuff contribution including its adjusted magnitude is muted");
+            DomainEnemyEffects.Active = false;
+            Check(Cost(power, card) == 10, "foreign contribution adjustment returns with the native debuff");
             power.OtherModOffset = 0;
-            var otherCard = new CardModel(new Player(teammate)) { Affliction = new Entangled() };
-            Check(Cost(power, otherCard) == 6, "another owner cannot use this ledger");
+            DomainEnemyEffects.Active = true;
             combat.Creatures.Remove(enemy); enemy.CombatState = null;
-            Check(Cost(power, card) == 4, "source departure does not erase actual same-combat provenance");
+            Check(Cost(power, card) == 1, "source departure does not end player protection");
             Invoke("AmountCommit", power, 6, false, null, null, context);
-            Check(Cost(power, card) == 5, "unknown positive contribution is retained without resurrecting the known enemy cost");
+            Check(Cost(power, card) == 1 && power.Amount == 6, "unattributed stacks commit and remain suppressed");
             power.SetAmount(8, false);
-            Check(Cost(power, card) == 7, "direct external write is retained while prior observed enemy contribution remains isolated");
+            Check(Cost(power, card) == 1, "direct native amount writes remain suppressed");
             Invoke("AmountCommit", power, 7, false, null, null, context);
-            Check(Cost(power, card) == 6, "native decrement advances the retained counterfactual");
+            Check(Cost(power, card) == 1 && power.Amount == 7, "native decrement retains lifetime while contribution stays muted");
             card.Affliction = null;
             Check(Cost(power, card) == 1, "non-entangled card never gains an invented discount");
             card.Affliction = new Entangled();
             power.SetAmount(-2, false);
             Check(Cost(power, card) == -1, "favorable native negative cost remains unchanged");
             DomainCardContributions.Reset(); power.SetAmount(4, false);
-            Check(Cost(power, card) == 5, "untracked old power remains native after reset");
+            Check(Cost(power, card) == 1, "existing untracked debuff is suppressed without provenance receipts");
             enemy.CombatState = combat; combat.Creatures.Add(enemy);
             Invoke("AmountCommit", power, 6, false, enemy, null, context);
-            Check(Cost(power, card) == 5, "new observed enemy addition is isolated even on a previously untracked power");
+            Check(Cost(power, card) == 1, "new enemy stacks retain temporary suppression");
 
             foreach (var pair in new (PowerModel Power, object Affliction)[]
                 { (new HexPower(), new Hexed()), (new SmoggyPower(), new Smog()), (new RingingPower(), new Ringing()) })
@@ -84,7 +85,10 @@ internal static class CardContributionTests
                 }
                 Check(!Effect(), "enemy-only boolean restriction is suppressed");
                 Invoke("AmountCommit", pair.Power, 2, false, player, null, context);
-                Check(Effect(), "independent player boolean restriction survives enemy suppression");
+                Check(!Effect(), "player-sourced restriction is also suppressed");
+                DomainEnemyEffects.Active = false;
+                Check(Effect(), "mixed restriction resumes on Domain exit");
+                DomainEnemyEffects.Active = true;
                 Check(DomainCardContributions.Audit(pair.Power).UnsupportedReason == "", "idempotent mixed boolean contribution is supported");
             }
         }

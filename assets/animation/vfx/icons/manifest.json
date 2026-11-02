@@ -15,23 +15,25 @@
       "files": {
         "256": {
           "path": "icons/256/thunder_growth.png",
-          "sha256": "453d6a80509b12d2509ebdd12ef44dab5f4362f5be61ed7048bec882cd2894b9"
+          "sha256": "afa76cdd9922b6862b46662452a49ead236f8db72d5a16634ce4b9c318226474"
         },
         "128": {
           "path": "icons/128/thunder_growth.png",
-          "sha256": "87f28e0a53d22066d84554ad037368f8f836d7c8ce7bf034a414ce4c231ec55c"
+          "sha256": "30c4fe113c047d01dfcaad4d448a1b9c892a1c520661e890f855dc720f42e293"
         },
         "64": {
           "path": "icons/64/thunder_growth.png",
-          "sha256": "6851403d86c7649fa7b8aa48ead9fe2ef281f90cf440e16ba833cd10122d4aec"
+          "sha256": "7786c02cd98e202cab79b3276d94d25f5ece48fecc2ccc5264633fe2f70436a7"
         },
         "32": {
           "path": "icons/32/thunder_growth.png",
-          "sha256": "61466e66417ef82ff6aab695ca2388e38c83013c7e9d2453cd0996c36db23f4f"
+          "sha256": "001a651dd829452cedf30419a0676632891206979a2cc81614ab47fb80bf762f"
         }
       },
-      "editable_svg": "icons/svg/thunder_growth.svg",
-      "svg_sha256": "1e0866a52096059cd23f414841da85cc099197169417de7066d1ba5b07f759f6"
+      "legacy_svg": "icons/svg/thunder_growth.svg",
+      "legacy_svg_sha256": "1e0866a52096059cd23f414841da85cc099197169417de7066d1ba5b07f759f6",
+      "raster_source": "assets/art-refresh/20261102/status-masters/thunder_growth.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "domain",
@@ -90,23 +92,25 @@
       "files": {
         "256": {
           "path": "icons/256/bite_mark.png",
-          "sha256": "2f8dcb89840db7e14352688f0db62ac4d44beb68057f934ff276ed8c332d64aa"
+          "sha256": "d1403acf0011bea0b74c03af483dee1ed385e50cf5af0ce60fc517ea915e7a8c"
         },
         "128": {
           "path": "icons/128/bite_mark.png",
-          "sha256": "5249d2bf81f2070df66054411240e6f398d3038e980fe055cfee39f6e5cc3377"
+          "sha256": "5e04630177c6e942060b34e5c2db2452b281241dc2d5f05342729a29d19a7946"
         },
         "64": {
           "path": "icons/64/bite_mark.png",
-          "sha256": "fbc4ee6915c9fa045a0252861c3c5c588a9a17f11811a4eb33d46ee24e2558d8"
+          "sha256": "fad9b8f3a61586d7522ab0857e2e79ef380650bb0bd5adad1789d0e11c17eb97"
         },
         "32": {
           "path": "icons/32/bite_mark.png",
-          "sha256": "b8e867e3a8a7dd8fe24a76e8c292c2e3729590c3f3ceac4eb352b537043d0c5f"
+          "sha256": "503f84bf76163f028768eaf3aa5f46ae367a483f82a6ecb10c8237848ecf42dd"
         }
       },
-      "editable_svg": "icons/svg/bite_mark.svg",
-      "svg_sha256": "58a20fbff5ae2b1b21f5c5f983bbc74b420e86a6931454d61ce719c3840de474"
+      "legacy_svg": "icons/svg/bite_mark.svg",
+      "legacy_svg_sha256": "58a20fbff5ae2b1b21f5c5f983bbc74b420e86a6931454d61ce719c3840de474",
+      "raster_source": "assets/art-refresh/20261102/status-masters/bite_mark.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "counter_thunder",
@@ -115,23 +119,25 @@
       "files": {
         "256": {
           "path": "icons/256/counter_thunder.png",
-          "sha256": "1e39ae0c1e6f16e92446c35c7879e9e073719940efc5ff60cdd7e82f058b1869"
+          "sha256": "d1c2f4cd637b4ddaceaa3416db32c00bca6f79cd2854709076cab8f984602687"
         },
         "128": {
           "path": "icons/128/counter_thunder.png",
-          "sha256": "12741aeff2b02ff63b2f244a1433fc5d7754353fb52bf901db0df4e4feff665f"
+          "sha256": "1e7c11a6e56ef92eaf0e851527118ed298b9f9182908087be201f946ec0fb2b5"
         },
         "64": {
           "path": "icons/64/counter_thunder.png",
-          "sha256": "9038ce07fff5800145129b849a6643260dd2fc6665fbf7545cb9af6bd7effb37"
+          "sha256": "512206e4d5e2c69b800e54b9cf5a9c27e69d985896675236d6279b1a4924f447"
         },
         "32": {
           "path": "icons/32/counter_thunder.png",
-          "sha256": "5a68d031d06409a7cfadbd018bb17ef4792b842c2126d5679b574aa853cc9ff7"
+          "sha256": "78716cf4bb25ba1f8e9261168d405af7006931806b9e1bb8aadfa855ad6d3912"
         }
       },
-      "editable_svg": "icons/svg/counter_thunder.svg",
-      "svg_sha256": "003604d603dc2d876536d0714b7b983f566a7b62e96211ed824bbf162353ba43"
+      "legacy_svg": "icons/svg/counter_thunder.svg",
+      "legacy_svg_sha256": "003604d603dc2d876536d0714b7b983f566a7b62e96211ed824bbf162353ba43",
+      "raster_source": "assets/art-refresh/20261102/status-masters/counter_thunder.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "charge",
@@ -165,23 +171,25 @@
       "files": {
         "256": {
           "path": "icons/256/enhance.png",
-          "sha256": "eacebb8f65814fa529ea36396cc23717bed7e3627f4493dfcd73527be184d34f"
+          "sha256": "235cd53708445eb8db67964cc5a8328ce8b08292565ef527e967b061a65d6d24"
         },
         "128": {
           "path": "icons/128/enhance.png",
-          "sha256": "629d3d3a9fe148965b3755da0aed1c9e0f36f1fe69c60e2299c57c479cbb1bee"
+          "sha256": "63c14db3fe5b3ce07a49db9b53d3f0975c8133807ca595444a413b52368bd665"
         },
         "64": {
           "path": "icons/64/enhance.png",
-          "sha256": "e50231901e1948db488ed5a1f6bffa91300945a9218a4e97c09ff1c25325232e"
+          "sha256": "55747795780d9050ff04d7ee06e2b7a6462c43df99a0a5ca8eaa050533e10d87"
         },
         "32": {
           "path": "icons/32/enhance.png",
-          "sha256": "09dfb465d5add7823568c5405a5a7eaf8870027e5ced9d074f856436bcec4a78"
+          "sha256": "8fe93c2c439210bb854b2363fa1d311595ccb953962f83b1f9c300ff5de0d97b"
         }
       },
-      "editable_svg": "icons/svg/enhance.svg",
-      "svg_sha256": "0ec207da3fc253a0a3b1eca0b1cc9aa2f2c6b6ca8dc91cbc0c69d7cb438f9a57"
+      "legacy_svg": "icons/svg/enhance.svg",
+      "legacy_svg_sha256": "0ec207da3fc253a0a3b1eca0b1cc9aa2f2c6b6ca8dc91cbc0c69d7cb438f9a57",
+      "raster_source": "assets/art-refresh/20261102/status-masters/enhance.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "retain_armor",
@@ -190,23 +198,25 @@
       "files": {
         "256": {
           "path": "icons/256/retain_armor.png",
-          "sha256": "42ac8043fdd08c7ca5f0ddf7a103a88bd3dcfac67fc5d6813806069006501f2c"
+          "sha256": "98a5767ecfcea8b0128f19b0f0b5e4881dbc97f4854bfc14022c5f3e4359e2ab"
         },
         "128": {
           "path": "icons/128/retain_armor.png",
-          "sha256": "213d6e092908c13c91dce354a6a35c85838c4cc3a902f36d7a676bb04faa1634"
+          "sha256": "f9c8d6241d2499b5e2d695639704c9afeb8b52a16e3a94ed4c5beff9e2956789"
         },
         "64": {
           "path": "icons/64/retain_armor.png",
-          "sha256": "d9f62fe40cb5efecd4c0b8081f07aad9f9eb26e65a63ba70bc6311a3a4b7cede"
+          "sha256": "c1bdf9c24984ec4fbee7387d1c95733a314a3aad4f7ee6c3cf31d1b326977936"
         },
         "32": {
           "path": "icons/32/retain_armor.png",
-          "sha256": "6d8386b7310635ba11ad7fc45d22b1b6082c4551a1b1dbd6dffe1a4ce7406c01"
+          "sha256": "d76415ce3ae3813fc9c9403debef707f80aed5ae6a52e2b6f13dcfb88c8e48d5"
         }
       },
-      "editable_svg": "icons/svg/retain_armor.svg",
-      "svg_sha256": "1d17ac6f65abd609b397b413bc6540d591c9ff7151bcb18bb7fd52ad5c7d28b1"
+      "legacy_svg": "icons/svg/retain_armor.svg",
+      "legacy_svg_sha256": "1d17ac6f65abd609b397b413bc6540d591c9ff7151bcb18bb7fd52ad5c7d28b1",
+      "raster_source": "assets/art-refresh/20261102/status-masters/retain_armor.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "iron_armor",
@@ -215,23 +225,25 @@
       "files": {
         "256": {
           "path": "icons/256/iron_armor.png",
-          "sha256": "ed46a43378ddd36163ceb3f6439724d560029e4781a6a0c09ee031570287dffe"
+          "sha256": "d417d74be93ef67bd15e4c3c92d7aeba5dd4a3a0216ede934bfa5a1496eba95a"
         },
         "128": {
           "path": "icons/128/iron_armor.png",
-          "sha256": "48b57ebc81377a2348dc7f962a9281227c922be9dd024d37857cb553a08206c4"
+          "sha256": "35cca858f8d5a68d1183f5ef76333532a37fb8afaf7d3654125068e6cc88a0a0"
         },
         "64": {
           "path": "icons/64/iron_armor.png",
-          "sha256": "01963864352eeea74ccc08f3e1ea5c831781fc109ed3af427f393208b1a5af18"
+          "sha256": "20deb7d89d4ac9367b138108cb3feb54c6e25c6a5bb3ac449408f1c94ad9c3ec"
         },
         "32": {
           "path": "icons/32/iron_armor.png",
-          "sha256": "a31db6b3ed70f5fe2be370da6b2dab3f3cc2b86b73cf682a33faf8cf67e35a67"
+          "sha256": "cbeea82b234d7c1f55e1bf60308d2b2bd869377d2ba29ed2af19038ad15da43f"
         }
       },
-      "editable_svg": "icons/svg/iron_armor.svg",
-      "svg_sha256": "062835c17d3f87e1796cf49d4b3e08b937a310bfc8322b135ef2c3ce99f910a1"
+      "legacy_svg": "icons/svg/iron_armor.svg",
+      "legacy_svg_sha256": "062835c17d3f87e1796cf49d4b3e08b937a310bfc8322b135ef2c3ce99f910a1",
+      "raster_source": "assets/art-refresh/20261102/status-masters/iron_armor.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "purify",
@@ -265,23 +277,25 @@
       "files": {
         "256": {
           "path": "icons/256/thunder_armor.png",
-          "sha256": "5c79075a2650cdb615a87718706ecfc8aff1adef039aa00be4e1fa2e9a1cdd96"
+          "sha256": "9cb99edf0d7a15e43627842014ef7484fc089cab0e76d89a1f3515a6a5b05c59"
         },
         "128": {
           "path": "icons/128/thunder_armor.png",
-          "sha256": "b5e32559d64244b5164124334f206152a7a7b0ee7b03a4797fc5cac947901d1a"
+          "sha256": "3eb50fe8cf58e9e867d56a06a536fd0010f1734d3180eac5208fb45883eacbf6"
         },
         "64": {
           "path": "icons/64/thunder_armor.png",
-          "sha256": "6097e16e6f299ede3ee15c62f761d7d41c05a4c28b1994747e50502007a6639e"
+          "sha256": "c56a8572c92426d7849775de4b49449019c3825277d0733d43183a6492fcaf42"
         },
         "32": {
           "path": "icons/32/thunder_armor.png",
-          "sha256": "84a713b89b25cbfb725a7ecb392f70df3430f8be8f57f85ba98fefe803efa670"
+          "sha256": "81dc81843801d494870feccfdb67ca8e35b54ace0eb929a511ae0e83d35a185c"
         }
       },
-      "editable_svg": "icons/svg/thunder_armor.svg",
-      "svg_sha256": "f5f27b6bbe9c17e450bfdac0479fe666de3896e43a70df7eaabf026975c80ded"
+      "legacy_svg": "icons/svg/thunder_armor.svg",
+      "legacy_svg_sha256": "f5f27b6bbe9c17e450bfdac0479fe666de3896e43a70df7eaabf026975c80ded",
+      "raster_source": "assets/art-refresh/20261102/status-masters/thunder_armor.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "replay",
@@ -290,23 +304,25 @@
       "files": {
         "256": {
           "path": "icons/256/replay.png",
-          "sha256": "31770112f4fff744995520314b8e98af4696c7fcd2f41abeff13d8b61ed37e63"
+          "sha256": "6340d75e31e1c2015fb65c1481e33d15588ae1b31ddbe6c374f9e60a11dd98a7"
         },
         "128": {
           "path": "icons/128/replay.png",
-          "sha256": "9262cc3d8a02fe1f5ba7650bb76e44d2881864b69c40273a980cf18b122c8c6c"
+          "sha256": "b94756873a1dba117efe40a1e43f4a90cba4a21918067734afa3a98df844b015"
         },
         "64": {
           "path": "icons/64/replay.png",
-          "sha256": "36e63b406b5d8a3fc7926a854113a0047adc36341a8909286a03a217e6e7c56e"
+          "sha256": "a79e7a6aa155be60d2501e702cd8901da7d10ae200342fd675fdc3fcf33f030f"
         },
         "32": {
           "path": "icons/32/replay.png",
-          "sha256": "22ce5c1659d8cd95792b50f784ae4fc718ef48ae6225746d2ddc0e43e510f04a"
+          "sha256": "7323d0fe7ee4246e10e7fe1048e3ee191cfb8448687cee922432b51cc8cf9aa6"
         }
       },
-      "editable_svg": "icons/svg/replay.svg",
-      "svg_sha256": "e0f8d6c98b8abfc619190482c549f19720de8e13b01b77c0414d9618199a2914"
+      "legacy_svg": "icons/svg/replay.svg",
+      "legacy_svg_sha256": "e0f8d6c98b8abfc619190482c549f19720de8e13b01b77c0414d9618199a2914",
+      "raster_source": "assets/art-refresh/20261102/status-masters/replay.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "lifesteal",
@@ -340,23 +356,25 @@
       "files": {
         "256": {
           "path": "icons/256/cost_reduce.png",
-          "sha256": "eb671b84c4fdb98a82b118e342fb4d16edd5f6a703fb5115be911b8c04c13ce0"
+          "sha256": "718d69978113c9fea8093d33489d2fe4f0ddf2c06032610ced7fc3808e65bd5d"
         },
         "128": {
           "path": "icons/128/cost_reduce.png",
-          "sha256": "ac38a5dc43722df28cc901e45ad1a9e2069b13730dbeff5d8236f2e3d6a0e818"
+          "sha256": "a93178d8e02901a3dc21481b5db2c64df24d7a25e75f9388b50b67ddaf887b29"
         },
         "64": {
           "path": "icons/64/cost_reduce.png",
-          "sha256": "61d5276f2795579d84ababce159c66273960a231e3418b47b78f37825805ea7e"
+          "sha256": "28f47b847fbf3e838e1fd01d2c43e1ff5ef9fd0d073fe4e95574d50dfb2b4275"
         },
         "32": {
           "path": "icons/32/cost_reduce.png",
-          "sha256": "86cee0fb673f32119864ed4e9c28211966772f2ce8b3202947edb4c7b3307efa"
+          "sha256": "c8ea3056558eede6b27e6ac99f86833ca256e8f215912ade93e4f60d4bb4b58c"
         }
       },
-      "editable_svg": "icons/svg/cost_reduce.svg",
-      "svg_sha256": "00345cf72be627a60f4e1caf112d4f2df6d0047bfa87209eddb23f62aa89bbbb"
+      "legacy_svg": "icons/svg/cost_reduce.svg",
+      "legacy_svg_sha256": "00345cf72be627a60f4e1caf112d4f2df6d0047bfa87209eddb23f62aa89bbbb",
+      "raster_source": "assets/art-refresh/20261102/status-masters/cost_reduce.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "energy",
@@ -365,23 +383,25 @@
       "files": {
         "256": {
           "path": "icons/256/energy.png",
-          "sha256": "e04873fd9b8353680cca3dcf532229784bc381baba3316dd593124457959b0e5"
+          "sha256": "cc701f14ce5089160ea8e891d62cbcf43d38ece49e5ce0bcc98ef5ac9d446a7a"
         },
         "128": {
           "path": "icons/128/energy.png",
-          "sha256": "6b5877e7802be8e3b5e02e806dab1c60e63b5982545865d7970bcf88e521a489"
+          "sha256": "aa46265bca118f8cd09d4d6049c8950444a7b1fc6e62d4ad97ef81b36935e4e2"
         },
         "64": {
           "path": "icons/64/energy.png",
-          "sha256": "704eff8fd9913b27c36c5f3d4c8c39e23722ae223e78d4a065ac3f9995e6b808"
+          "sha256": "ea0c7343da5a624659e2916535e656834b352dd38ae57f19b38e5cefc27f3150"
         },
         "32": {
           "path": "icons/32/energy.png",
-          "sha256": "9b26be186625c06bae27696d9c66f1e87353e3ee107dda504dfb12bf5b4170fe"
+          "sha256": "ade91b662b8deceaada2ca50b8ff4eff0a847bd634f528875d563b8442896163"
         }
       },
-      "editable_svg": "icons/svg/energy.svg",
-      "svg_sha256": "12bdb211f7c2b722be4d8c6371e9f60eacd64cf82b84f8bc5d8e05b0776903e7"
+      "legacy_svg": "icons/svg/energy.svg",
+      "legacy_svg_sha256": "12bdb211f7c2b722be4d8c6371e9f60eacd64cf82b84f8bc5d8e05b0776903e7",
+      "raster_source": "assets/art-refresh/20261102/status-masters/energy.png",
+      "provenance": "assets/art-refresh/20261102/provenance.json"
     },
     {
       "id": "domain_suppress",
@@ -410,5 +430,5 @@
     }
   ],
   "source": "scripts/build_icons.py",
-  "note": "Original code-authored editable vectors; no font glyphs, official game icons or text baked into PNG."
+  "note": "20261102: 10 runtime status icons redrawn with actual native strength/block/intangible references. Their old SVGs are historical only. Remaining six non-status VFX icons are unchanged."
 }

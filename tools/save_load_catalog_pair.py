@@ -25,7 +25,7 @@ def launch_phase(game,pair_dir,base_env,case,mode,phase,seed,stock,stock_evidenc
         VOLIBEAR_SAVE_PAIR=pair_dir.name,VOLIBEAR_SAVE_PHASE=phase,VOLIBEAR_SAVE_MODE=mode,VOLIBEAR_SAVE_CASE=case,VOLIBEAR_SAVE_SEED=seed)
     root=Path(env['VOLIBEAR_TEST_DATA_ROOT']);checkpoint=root/'default/1/modded/profile1/saves/current_run.save'
     command=phase_command(game,directory,display,frames)
-    with (directory/'stdout.log').open('w',encoding='utf-8') as output:
+    with h.window_input_guard(game,display), (directory/'stdout.log').open('w',encoding='utf-8') as output:
         process,job=h.spawn_owned(command,game,env,output,window=h.IS_WINDOWS and display=='window');pid=process.pid
         try:code,timed_out=h.wait_owned_process(process,timeout,job)
         finally:h.close_owned(job)
@@ -69,7 +69,7 @@ def run_pair(game,case,mode,timeout=240,frames=30000,display='headless',seed=Non
         shaderDirectoryBudget=shader_directory_budget(root) if h.IS_WINDOWS else None),indent=2)+'\n',encoding='utf-8')
     settings=root/'default/1/settings.save';settings.parent.mkdir(parents=True)
     settings.write_text(json.dumps(dict(schema_version=5,mod_settings={'mods_enabled':True},seen_ea_disclaimer=True,skip_intro_logo=True,
-        fullscreen=False,language='zhs',limit_fps_in_background=False))+'\n',encoding='utf-8')
+        fullscreen=False,window_size={'X':1280,'Y':720},window_position={'X':64,'Y':64},language='zhs',limit_fps_in_background=False,vsync='off',fps_limit=60))+'\n',encoding='utf-8')
     stock,stock_evidence=h.stock_teardown(game,timeout,frames,display)
     if not stock_evidence.get('successful'):return dict(pair=pair_dir.name,passed=False,reason='stock-control-failed',stock=stock_evidence,phases=[])
     a=launch_phase(game,pair_dir,env,case,mode,'same' if mode=='same-process' else 'prepare',seed,stock,stock_evidence,timeout,frames,display);phases=[a]

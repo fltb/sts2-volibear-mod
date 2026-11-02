@@ -196,11 +196,21 @@ class AcceptanceRunnerTests(unittest.TestCase):
         self.assertEqual(run.call_args.kwargs['audio_driver'], 'WASAPI')
         run.assert_called_once()
 
+    def test_short_development_fixtures_run_once_without_rebuilding(self):
+        for scenario in ('domain-visual', 'architect-ending'):
+            with self.subTest(scenario=scenario):
+                result, _, _, shell, _, run = self.main_call([
+                    '--scenario', scenario, '--display', 'background', '--use-deployed'])
+                self.assertEqual(result, 0)
+                shell.assert_not_called()
+                run.assert_called_once()
+                self.assertEqual(run.call_args.args[1:3], (90, 5400))
+
     def test_stock_launch_replaces_default_driver_without_losing_nomods(self):
         command = ['game', '--audio-driver', 'Dummy', '--force-steam=off']
         with (mock.patch.object(headless, 'prepare_run', return_value=(self.directory, {}, command)),
               mock.patch.object(headless, 'launch', return_value=(0, False)) as launch,
-              mock.patch.object(headless, 'combined_log', return_value='Steam initialization skipped\n')):
+              mock.patch.object(headless, 'combined_log', return_value='Steam initialization skipped\nSTOCK_CONTROLLER_READY_NATIVE_QUIT\n')):
             _, evidence = headless.stock_teardown(Path('game'), 900, 60000, 'background', 'WASAPI')
         launched = launch.call_args.args[3]
         self.assertEqual(launched.count('--audio-driver'), 1)
@@ -223,6 +233,8 @@ class AcceptanceRunnerTests(unittest.TestCase):
             ['--scenario', 'card-lifecycle', '--repeat', '2'],
             ['--scenario', 'card-face-acceptance', '--card-face-batch', 'all', '--repeat', '2'],
             ['--scenario', 'native-run', '--repeat', '2'],
+            ['--scenario', 'domain-visual', '--repeat', '2'],
+            ['--scenario', 'architect-ending', '--repeat', '2'],
             ['--scenario', 'card-face-acceptance', '--card-face-batch', 'all', '--display', 'window'],
             ['--scenario', 'card-lifecycle', '--display', 'window'],
             ['--scenario', 'native-run', '--display', 'window'],

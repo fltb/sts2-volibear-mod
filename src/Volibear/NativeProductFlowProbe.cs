@@ -36,6 +36,7 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.TestSupport;
+using ICardSelector = MegaCrit.Sts2.Core.TestSupport.ICardSelector;
 using Volibear.Content;
 
 namespace Volibear;

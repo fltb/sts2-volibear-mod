@@ -120,6 +120,7 @@ public static partial class DomainEnemySpecialContributions
                 foreach (var site in Sites.Keys) harmony.Patch(site, transpiler: new HarmonyMethod(Handler(nameof(Rewrite))));
                 harmony.Patch(flee, prefix: new HarmonyMethod(Handler(nameof(Flee))));
                 InstallSurprise(harmony);
+                DomainSandpitEffects.Install(harmony);
                 installed = true;
             }
             catch { harmony.UnpatchAll(HarmonyId); throw; }

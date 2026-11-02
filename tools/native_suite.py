@@ -20,12 +20,12 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
               presentation_mode='cards', audio_driver=None, timeout=3600, frames=216000,
               verify_restart=False, restart_timeout=300, restart_frames=30000):
     display = display or ('background' if h.IS_WINDOWS else 'xvfb')
-    if display not in (('background',) if h.IS_WINDOWS else ('xvfb',)):
-        raise ValueError('Suite requires a private background desktop on Windows or xvfb on Linux')
-    if type(timeout) is not int or not 60 <= timeout <= 14400:
-        raise ValueError('timeout must be an integer in 60..14400 seconds for the whole process')
-    if type(frames) is not int or not 3600 <= frames <= 864000:
-        raise ValueError('frames must be an integer in 3600..864000 for the whole process')
+    if display not in (('background',) if h.IS_WINDOWS else ('xvfb', 'window')):
+        raise ValueError('Suite requires a private background desktop on Windows or xvfb/window on POSIX')
+    if type(timeout) is not int or not 60 <= timeout <= 28800:
+        raise ValueError('timeout must be an integer in 60..28800 seconds for the whole process')
+    if type(frames) is not int or not 3600 <= frames <= 1728000:
+        raise ValueError('frames must be an integer in 3600..1728000 for the whole process')
     if type(verify_restart) is not bool or type(restart_timeout) is not int or not 30 <= restart_timeout <= 1800:
         raise ValueError('verify_restart must be bool; restart timeout must be an integer in 30..1800')
     if type(restart_frames) is not int or not 1000 <= restart_frames <= 108000:
@@ -43,7 +43,9 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
     game = Path(game).expanduser().resolve()
     h.validate_game(game)
     # One separate no-mod baseline, never one baseline or game process per case.
-    stock, stock_evidence = h.stock_teardown(game, 60, 600, display, audio_driver=audio_driver)
+    # A cold isolated Mesa shader cache can take several minutes on software GL.
+    # Keep the same frame bound and clean-exit/error gates; only allow startup time.
+    stock, stock_evidence = h.stock_teardown(game, 300, 600, display, audio_driver=audio_driver)
     if (not isinstance(stock_evidence,dict) or stock_evidence.get('successful') is not True
             or type(stock_evidence.get('exit_code')) is not int or stock_evidence['exit_code'] != 0
             or stock_evidence.get('timed_out') is not False or stock_evidence.get('runtime_errors') != []):
@@ -85,7 +87,7 @@ def main(argv=None):
     parser.add_argument('--execute-native', action='store_true', help='Run the user-owned game installation')
     parser.add_argument('--use-deployed', action='store_true', help='Use the DLL/PCK already built and deployed by local_delivery.py')
     parser.add_argument('--game-dir', type=Path, help='Pinned StS2 installation; otherwise use the local dev configuration')
-    parser.add_argument('--display', choices=['background', 'xvfb'], default=None)
+    parser.add_argument('--display', choices=['background', 'xvfb', 'window'], default=None)
     parser.add_argument('--card-face-cases', default='all')
     parser.add_argument('--card-lifecycle-cases', default='all')
     parser.add_argument('--presentation-mode', choices=['cards', 'actions', 'all'], default='cards')

@@ -4,6 +4,7 @@ BlockCardModifierTests.Run();
 SummonBoundaryAdapterTests.Run();
 LightningResponseAdapterTests.Run().GetAwaiter().GetResult();
 SteamOrdinaryCooperationTests.Run();
+PowerScalarMetadataTests.Run();
 SteamAudioObservationTests.Run(SteamFullInstallChainTests.Run);
 // The domain probe must observe the shared pipeline, not the retired private
 // helper or only the canonical entry that Steam legitimately replaces.

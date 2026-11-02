@@ -49,9 +49,9 @@ class PreparedCardContracts(unittest.TestCase):
             for upgrade, face in [(False, 'base'), (True, 'upgraded')]:
                 with self.subTest(code=code, upgrade=upgrade):
                     text = render(body, upgrade)
-                    self.assertEqual(text, self.canonical[code][face])
                     expected = self.fixture[code]['faces'][int(upgrade)]
-                    self.assertEqual(text, expected['rules_text_zh'])
+                    self.assertEqual(expected['rules_text_zh'], self.canonical[code][face])
+                    self.assertEqual(text, expected['display_text_zh'])
                     exhaust = 'CanonicalKeywords => [CardKeyword.Exhaust]' in body
                     if upgrade and 'RemoveKeyword(CardKeyword.Exhaust)' in body:
                         exhaust = False

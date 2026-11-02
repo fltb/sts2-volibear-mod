@@ -6,7 +6,9 @@ import re
 
 MARKER = "[Volibear] DOMAIN_DAMPEN_TRANSACTIONS_RESULT "
 LEVELS = {"off": [0, 0], "on": [1, 1], "enter-await": [1, 1], "exit-await": [0, 0],
-          "enter-pair": [0, 1], "exit-pair": [1, 0], "departure": [1, 1]}
+          "enter-pair": [1, 1], "exit-pair": [0, 0], "departure": [1, 1]}
+ADMISSIONS = {"off": [False, False], "on": [True, True], "enter-await": [True, True],
+              "exit-await": [False, False], "enter-pair": [False, True], "exit-pair": [True, False], "departure": [True, True]}
 NUMERIC = {"schema", "sourceId", "ownerId", "id", "oldLevel", "level", "value", "cost", "amount",
            "nativeMoveCalls", "directPowerCallbackCalls", "invocationNonce", "applyNonce", "moveNonce", "outerNonce",
            "ledgerBefore", "ledgerAfter", "SourceCalls", "SuccessCloses", "FailureCloses", "EntryBindings", "ReturnBindings", "AwaitRegistrations", "epoch", "outer", "applies", "powerSlots"}
@@ -37,7 +39,8 @@ def validate(payload, token: str, variant: str) -> list[str]:
             return errors
         numeric_tree(p)
         need(type(token) is str and bool(token.strip()), "nonempty isolation token")
-        for key, expected in {"schema": 1, "token": token, "scenario": "domain-dampen-transactions", "variant": variant,
+        for key, expected in {"schema": 2, "token": token, "scenario": "domain-dampen-transactions", "variant": variant,
+            "suppressionPolicy": "native-debt-temporary-upgrade-loan",
             "version": "v0.107.1", "commit": "59260271", "encounter": "KnightsElite",
             "acceptance": "native-source-ledger-card-pairs-not-power-admission-or-ordinary-input", "directPowerCallbackCalls": 0}.items():
             need(p.get(key) == expected, "root " + key)
@@ -130,18 +133,11 @@ def validate(payload, token: str, variant: str) -> list[str]:
             attached = step["name"] == "baseline" or (variant != "departure" and step["name"] in ("source", "off-no-replay", "joined", "independent"))
             need(step["sourceAttached"] is attached and step["sourceCombat"] == (combat if attached else None), "native source departure continuity")
         after = LEVELS[variant]
-        debt = {refs[i]: 1 for i, level in enumerate(after) if level == 0}
-        skipped = [i for i, level in enumerate(after) if level == 1]
-        independent = skipped[0] if skipped else None
-        expected_independent = None if independent is None else refs[independent]
-        need(p["independentCard"] == expected_independent, "independent downgrade chooses skipped card")
-        modified = after.copy()
-        if independent is not None:
-            modified[independent] = 0
-        restored = modified.copy()
-        for i, ref in enumerate(refs):
-            if ref in debt:
-                restored[i] = 1
+        debt = {ref: 1 for ref in refs}
+        independent = 0
+        need(p["independentCard"] == refs[0], "independent downgrade chooses temporarily restored first card")
+        modified = [0, 1]
+        restored = [1, 1]
         need(levels(steps["baseline"]) == [1, 1] and not steps["baseline"]["present"] and steps["baseline"]["power"] is None and not ledger(steps["baseline"]) and steps["baseline"]["domain"] is False, "upgraded native baseline")
         need(steps["baseline"]["casters"] == [] and steps["baseline"]["applier"] is None and steps["baseline"]["amount"] is None and steps["baseline"]["present"] is False, "baseline has no power data")
         source_power = steps["source"]["power"]
@@ -151,7 +147,7 @@ def validate(payload, token: str, variant: str) -> list[str]:
             need(step["power"] == source_power and step["amount"] == 1 and step["applier"] == source, "source power continuity " + name)
             need(ledger(step) == debt, "only genuinely admitted card debt " + name)
             need(step["present"] is (name != "restored"), "native power lifetime " + name)
-            expected = restored if name == "restored" else modified if name in ("independent", "first-death") else after
+            expected = restored if name == "restored" else modified if name in ("independent", "first-death") else after if name == "source" else [0, 0]
             need(levels(step) == expected, "card result " + name)
             expected_casters = ([source] if count == 1 else [] if name == "restored" else [second] if name == "first-death" else [source, second] if name in ("joined", "independent") else [source])
             need(sorted(step["casters"]) == sorted(expected_casters), "native caster lifetime " + name)
@@ -164,7 +160,7 @@ def validate(payload, token: str, variant: str) -> list[str]:
         for name in ("player-control", "player-restored"):
             row = steps[name]
             need(row["power"] == control_power and control_power != source_power and row["applier"] == owner and row["amount"] == 1 and row["domain"] is True and row["casters"] == [], "untracked player control identity")
-            need(row["present"] is (name == "player-control") and ledger(row) == control_debt and levels(row) == ([0, 0] if name == "player-control" else restored), "native player downgrade/restitution")
+            need(row["present"] is (name == "player-control") and ledger(row) == control_debt and levels(row) == restored, "player-source temporary restoration and native restitution")
         need(len(p["received"]) == len(p["nativeReceived"]) == 2, "native admission and application history preserved")
         for i, (power, applier) in enumerate(((source_power, source), (control_power, owner))):
             event, history = p["received"][i], p["nativeReceived"][i]
@@ -183,35 +179,48 @@ def validate(payload, token: str, variant: str) -> list[str]:
         running = {}
         for i, row in enumerate(source_pairs):
             need(row["power"] == source_power and row["source"] == source and row["combat"] == combat and row["card"] == refs[i] and row["id"] == ids[i] and row["provenance"] == "native-magi", "exact source pair identity")
-            need(integer(row["before"]) and integer(row["after"]) and row["before"] == 1 and row["after"] == after[i], "actual per-card result")
-            need(row["suppressed"] is bool(after[i]) and row["sourceDomainAtAdmission"] is bool(after[i]), "live admission per card")
+            admitted = ADMISSIONS[variant][i]
+            pair_level = 1 if variant == "enter-pair" else int(admitted)
+            need(integer(row["before"]) and integer(row["after"]) and row["before"] == 1 and row["after"] == pair_level, "actual per-card result after loan")
+            need(row["suppressed"] is admitted and row["sourceDomainAtAdmission"] is admitted, "source admission receipt remains separate from loan result")
             need(row["ledgerBefore"] == len(running), "ledger before pair")
-            if after[i] == 0:
-                running[refs[i]] = 1
+            running[refs[i]] = 1
             need(row["ledgerAfter"] == len(running) and row["sameNativeLedger"] is True and ledger({"ledger": row["nativeLedger"]}) == running, "atomic native ledger pair")
             need(row["sourceAttached"] is (variant != "departure"), "captured departed source remains proven")
-            need(row["domainAfter"] is (True if variant == "enter-pair" else bool(after[i])), "actual domain after native card callback")
+            need(row["domainAfter"] is (True if variant == "enter-pair" else admitted), "actual domain after native card callback")
         need([r["card"] for r in player_pairs] == [ref for ref in refs if ref in control_debt], "ordered player native pairs")
         need(all(integer(r["invocationNonce"]) and r["invocationNonce"] > first_source["invocationNonce"] for r in player_pairs) and len({r["invocationNonce"] for r in player_pairs}) == 1, "separate player callback invocation")
         running = {}
         for row in player_pairs:
             need(integer(row["before"]) and integer(row["after"]), "player levels are integers")
             need(row["id"] == ids[refs.index(row["card"])] and row["sourceDomainAtAdmission"] is False and row["sourceAttached"] is False, "player pair typed card identity and no source eligibility")
-            need(row["card"] in control_debt and row["power"] == control_power and row["provenance"] == "player" and row["suppressed"] is False and row["domainAfter"] is True and row["before"] == 1 and row["after"] == 0, "player contribution not suppressed")
+            need(row["card"] in control_debt and row["power"] == control_power and row["provenance"] == "player" and row["suppressed"] is False and row["domainAfter"] is True and row["before"] == 1 and row["after"] == 1, "player debit temporarily restored without borrowing enemy provenance")
             need(row["applyNonce"] == row["moveNonce"] == row["outerNonce"] == 0 and row["source"] is None and row["combat"] is None, "player cannot inherit source capability")
             need(row["ledgerBefore"] == len(running), "player ledger before")
             running[row["card"]] = 1
             need(row["ledgerAfter"] == len(running) and row["sameNativeLedger"] is True and ledger({"ledger": row["nativeLedger"]}) == running, "native player ledger")
-        expected_events = [("source", refs[i], 1, 0) for i in range(2) if after[i] == 0]
-        if independent is not None:
-            expected_events.append(("independent", refs[independent], 1, 0))
-        expected_events += [("restoration", ref, 0, 1) for ref in refs if ref in debt]
-        expected_events += [("player", ref, 1, 0) for ref in refs if ref in control_debt]
-        expected_events += [("player", ref, 0, 1) for ref in refs if ref in control_debt]
-        need([(e["phase"], e["card"], e["before"], e["after"]) for e in p["cardEvents"]] == expected_events, "real native Upgraded events including downgrade and debt-only restitution")
+        expected_events = []
+        for i, ref in enumerate(refs):
+            live = ADMISSIONS[variant][i]
+            expected_events.append(("source", ref, 1, 0, live))
+            if live or variant == "enter-pair":
+                expected_events.append(("source", ref, 0, 1, True))
+            if variant == "exit-pair" and i == 0:
+                expected_events.append(("source", ref, 1, 0, False))
+        if after == [1, 1]:
+            expected_events += [("no-replay", ref, 1, 0, False) for ref in refs]
+        expected_events += [("no-replay", ref, 0, 1, True) for ref in refs]
+        expected_events.append(("independent", refs[0], 1, 0, True))
+        expected_events += [("restoration", refs[0], 0, 0, True), ("restoration", refs[1], 1, 0, True)]
+        expected_events += [("restoration", ref, 0, 1, True) for ref in refs]
+        for ref in refs:
+            expected_events += [("player", ref, 1, 0, True), ("player", ref, 0, 1, True)]
+        expected_events += [("player", ref, 1, 0, True) for ref in refs]
+        expected_events += [("player", ref, 0, 1, True) for ref in refs]
+        need([(e["phase"], e["card"], e["before"], e["after"], e["domain"]) for e in p["cardEvents"]] == expected_events,
+             "exact native downgrade/loan/exit/independent/restitution event sequence")
         for event in p["cardEvents"]:
-            need(integer(event["before"]) and integer(event["after"]) and event["id"] == ids[refs.index(event["card"])], "raw card event numeric identity")
-            need(event["domain"] is (event["phase"] != "source"), "event domain before probe boundary: source downgrade occurs off, independent/restoration/player on")
+            need(integer(event["before"]) and integer(event["after"]) and type(event["domain"]) is bool and event["id"] == ids[refs.index(event["card"])], "raw card event numeric identity")
         boundaries = p["boundaries"]
         need(len(boundaries) == (0 if variant in ("off", "on") else 1), "explicit instrumentation boundaries")
         if boundaries:

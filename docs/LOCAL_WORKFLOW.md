@@ -13,7 +13,7 @@
 | .NET | **SDK 9.0.320**；`global.json` 固定选择 |
 | Python | **3.10+**；Windows 建议 python.org 发行版 |
 | BaseLib | **3.4.7**；工具下载并核对固定发行包摘要 |
-| Linux显示 | `xvfb-run`，运行器使用独立虚拟显示 |
+| Linux显示 | 完整表现验收使用有硬件 GPU 的 `--display window`；`xvfb` 仅作有限诊断，不以软件渲染替代硬件验收 |
 | 音频 | 完整表现验收需要本机可用的 Godot 音频后端；Dummy 不计此项通过 |
 
 工具来源：[Godot 4.5.1](https://godotengine.org/download/archive/4.5.1-stable/)、
@@ -38,7 +38,7 @@ python -B tools/local_delivery.py --game-dir "D:\SteamLibrary\steamapps\common\S
 Linux：
 
 ```sh
-python3 -B tools/local_delivery.py --game-dir "/path/to/Slay the Spire 2" --godot "/path/to/Godot_v4.5.1-stable_mono_linux.x86_64" --dotnet "/path/to/dotnet" --verify-release --audio-driver PulseAudio --display xvfb
+python3 -B tools/local_delivery.py --game-dir "/path/to/Slay the Spire 2" --godot "/path/to/Godot_v4.5.1-stable_mono_linux.x86_64" --dotnet "/path/to/dotnet" --verify-release --audio-driver PulseAudio --display window
 ```
 
 音频驱动名称使用本机实际可用的值。路径检查成功后保存到 `.local/config.json`，
@@ -63,9 +63,15 @@ Linux 换为对应音频驱动即可。`--verify-release` 自动选择 `presenta
 7. 一次无 Mod 退出对照后，在一个后台游戏实例内执行角色契约、牌面、生命周期、表现、正常流程和同进程恢复。
 8. 同一候选进行 S2 跨进程 prepare/resume，复用刚才的无 Mod 对照。
 9. 再执行两个真实 ENet 客户端的多人批次，包含独立无 Mod 对照、断开与原生检查点重联。
-10. 只有所选阶段都成功才生成完整安装 ZIP，附 DLL/PCK/JSON、BaseLib、许可、安装说明与摘要清单。
+10. 只有前述阶段都成功才生成完整安装 ZIP，附 DLL/PCK/JSON、BaseLib、许可、安装说明与摘要清单。
+11. 在专用最小本体文件副本内，对该 ZIP 自动执行安装、同包更新、卸载，核对其他 Mod/存档哨兵、BaseLib 和本体文件摘要不变；失败不打印成功交付。
+12. 无论成功失败，`.local/release-acceptance/run-*/summary.json` 和 `summary.md` 汇总 A1–A9 状态、失败原因及最终包摘要。自动检查不冒充人工听感或审美认可。
 
-Windows 使用未切到前台的私有桌面，Linux 使用 xvfb。单人批次不会逐卡重启，
+正常验收只运行这条命令并读取最终报告；失败才修复、重跑，不需要 Agent 手动操作游戏。隔离profile固定 `vsync=off`、`fps_limit=60`；POSIX窗口启动30秒后每10秒采样，连续3次低于10FPS自动失败，避免异常低帧率长跑。该设置不修改日常存档，也不改变游戏时间倍率。
+
+Windows 使用未切到前台的私有桌面；Linux 完整验收使用已验证 GPU 的窗口路径。
+窗口输入防护须经短批验证后再跑全套；最新状态见交接，不把普通窗口等同于独立桌面。
+单人批次不会逐卡重启，
 真正的磁盘恢复使用两个进程，多人使用同时存在的两个进程。所有测试使用新建隔离 profile，
 不发送系统键鼠、Viewport 输入或按钮伪信号，不读取普通/云端存档。
 
@@ -162,7 +168,15 @@ python tools/local_delivery.py --resources-only --godot "/path/to/Godot4.5.1Mono
 私有包输出到 `.local/release/*-riot_en-private.zip`，两方案均使用一个完整 PCK。
 来源和回退表见 [音频说明](../assets/animation/audio/profiles/README.md)。
 
-玩家安装与卸载见 [INSTALL_ZH.md](INSTALL_ZH.md)。研发部署回收使用
+玩家安装与卸载见 [INSTALL_ZH.md](INSTALL_ZH.md)。最终 ZIP 的研发隔离验收使用
+`python tools/package_lifecycle.py --package <ZIP> --game-dir <隔离游戏副本> --action install`：
+默认仅检查/规划，加 `--execute` 才落盘；随后以 `update`、`verify`、`uninstall` 验证生命周期。
+`--save-sentinel <存档>` 可重复指定要保持字节不变的文件。拒绝不明归属开发部署，不覆盖其他 Mod。
+安装/更新异常会恢复本工具已写入的文件和原始归属状态；如外部改动导致不能安全回滚，保留
+报错路径中的 `volibear-recovery-*/RECOVERY.json` 和旧字节供恢复。此机制不是断电/强杀的多文件原子提交。
+不要删除恢复备份或用失败的新清单认领旧文件；成功卸载只删匹配归属的三个 Mod 文件，不卸 BaseLib。
+
+研发部署回收使用
 `python tools/dev.py undeploy`，只删除归属可证且未修改的 Volibear 文件，保留 BaseLib 和其他数据。
 
 若此前使用源码覆盖 ZIP，旧文件删除清单在 `.local/delivery/obsolete-files.json`。
@@ -172,6 +186,6 @@ python tools/local_delivery.py --resources-only --godot "/path/to/Godot4.5.1Mono
 ## 本次维护环境的证据边界
 
 独立生产逻辑、真实 Harmony、普通 Godot 的两套资源构建可在维护环境执行。
-当前维护环境缺少 StS2 0.107.1 / 59260271；完整工程实际在游戏程序集检查处停止，
-没有本轮完整 DLL、完整安装 ZIP 或实机/联网通过记录。以上原生入口和测试已经写入仓库，
-由本地 Agent 实际执行后确定是否通过；新的绑定或行为问题按首个错误修复。
+当前本地已提供锁版游戏，已完成实际编译、资源、跨进程冷恢复及两端 ENet 的分段实测。
+统一完整发布门禁和最终包生命周期尚未完成；最新批次及剩余项见 [HANDOFF.md](HANDOFF.md)。
+分段通过不等于最终包通过，新的绑定或行为问题按首个错误修复。

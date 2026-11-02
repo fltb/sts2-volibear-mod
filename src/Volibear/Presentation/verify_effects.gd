@@ -220,9 +220,20 @@ func verify_energy() -> bool:
 		label.text = step[0]
 		await process_frame
 		await process_frame
-		if ring.get("_energy_value") != step[1] or ring.get("_pulse_direction") != step[2] or ring.get("_pulse") <= 0.0 or label.text != step[0]:
+		var pulse_ok = ring.get("_pulse") == 0.0 if step[1] == 0 else ring.get("_pulse") > 0.0
+		if ring.get("_energy_value") != step[1] or ring.get("_pulse_direction") != step[2] or not pulse_ok or label.text != step[0]:
 			fail("Energy spend/depletion/recovery did not follow the native label")
 			return false
+		var emblem = energy.get_node("Layers/Emblem").texture.resource_path
+		if not emblem.ends_with("big_energy_empty.png" if step[1] == 0 else "energy_master.png"):
+			fail("Energy must use distinct empty and charged emblems")
+			return false
+		if step[1] == 0:
+			var empty_phase = ring.get("_phase")
+			await create_timer(0.1).timeout
+			if ring.get("_phase") != empty_phase:
+				fail("Empty energy must stop charged rotation")
+				return false
 	await create_timer(0.5).timeout
 	label.text = "4/4"
 	await process_frame

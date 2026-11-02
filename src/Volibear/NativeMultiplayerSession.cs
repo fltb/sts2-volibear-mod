@@ -34,12 +34,12 @@ internal sealed class NativeMultiplayerSession(bool host, ushort port, Func<stri
         if (service is not null && !nativeJoinLoop) NativeLobbyApi.Call(service, "Update");
     }
 
-    internal async Task Until(Func<bool> condition, string stage)
+    internal async Task Until(Func<bool> condition, string stage, int timeoutSeconds = 90)
     {
         var clock = Stopwatch.StartNew();
         while (!condition())
         {
-            if (clock.Elapsed.TotalSeconds > 90) throw new TimeoutException(stage);
+            if (clock.Elapsed.TotalSeconds > timeoutSeconds) throw new TimeoutException(stage);
             Pump();
             var tree = (SceneTree)Engine.GetMainLoop();
             await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
@@ -50,7 +50,11 @@ internal sealed class NativeMultiplayerSession(bool host, ushort port, Func<stri
     internal async Task<object?> Await(object? result, string stage)
     {
         if (result is not Task task) throw new InvalidOperationException(stage + " must return a native Task");
-        await Until(() => task.IsCompleted, stage);
+        // Native scene loads include cold Common/character GPU preloads (measured
+        // over 200s even in singleplayer). Keep network handshakes at 90s; only
+        // actual run scene-loading Tasks receive the bounded loading budget.
+        int timeout = stage is "native StartNewMultiplayerRun" or "native saved multiplayer load" ? 360 : 90;
+        await Until(() => task.IsCompleted, stage, timeout);
         await task;
         return task.GetType().GetProperty("Result")?.GetValue(task);
     }
@@ -177,7 +181,9 @@ internal sealed class NativeMultiplayerSession(bool host, ushort port, Func<stri
         if (host) throw new InvalidOperationException("Only the client is intentionally disconnected");
         if (listener is not null) listener.AllowDisconnect = true;
         var quit = Enum.Parse(NativeType("Entities.Multiplayer.NetError"), "Quit");
-        Call(service!, "Disconnect", quit, true);
+        // Orderly native quit sends the game's Disconnection packet before
+        // closing ENet. Immediate transport teardown leaves host membership stale.
+        Call(service!, "Disconnect", quit, false);
     }
 
     internal void AllowDisconnect() { if (listener is not null) listener.AllowDisconnect = true; }

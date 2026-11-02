@@ -123,7 +123,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成8伤害。对全体造成3雷伤。",
-          "display_text_zh": "造成8伤害。对全体造成3雷伤。",
+          "display_text_zh": "造成8伤害。对所有敌人造成3雷伤。",
           "numeric_literals": [
             8,
             3
@@ -138,7 +138,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成11伤害。对全体造成5雷伤。",
-          "display_text_zh": "造成11伤害。对全体造成5雷伤。",
+          "display_text_zh": "造成11伤害。对所有敌人造成5雷伤。",
           "numeric_literals": [
             11,
             5
@@ -252,7 +252,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成5伤害，重复2次。",
-          "display_text_zh": "造成5伤害，重复2次。",
+          "display_text_zh": "造成5伤害，共2次。",
           "numeric_literals": [
             5,
             2
@@ -265,7 +265,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成7伤害，重复2次。",
-          "display_text_zh": "造成7伤害，重复2次。",
+          "display_text_zh": "造成7伤害，共2次。",
           "numeric_literals": [
             7,
             2
@@ -293,7 +293,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "造成20伤害。对全体造成5雷伤。",
-          "display_text_zh": "造成20伤害。对全体造成5雷伤。",
+          "display_text_zh": "造成20伤害。对所有敌人造成5雷伤。",
           "numeric_literals": [
             20,
             5
@@ -308,7 +308,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "造成26伤害。对全体造成7雷伤。",
-          "display_text_zh": "造成26伤害。对全体造成7雷伤。",
+          "display_text_zh": "造成26伤害。对所有敌人造成7雷伤。",
           "numeric_literals": [
             26,
             7
@@ -430,7 +430,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
-          "display_text_zh": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
+          "display_text_zh": "造成8伤害。若目标打算攻击，获得6格挡；否则抽1张牌。",
           "numeric_literals": [
             8,
             6,
@@ -444,7 +444,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。",
-          "display_text_zh": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。",
+          "display_text_zh": "造成11伤害。若目标打算攻击，获得8格挡；否则抽1张牌。",
           "numeric_literals": [
             11,
             8,
@@ -563,7 +563,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "对全体造成6伤害和3雷伤。",
-          "display_text_zh": "对全体造成6伤害和3雷伤。",
+          "display_text_zh": "对所有敌人造成6伤害和3雷伤。",
           "numeric_literals": [
             6,
             3
@@ -578,7 +578,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "对全体造成8伤害和4雷伤。",
-          "display_text_zh": "对全体造成8伤害和4雷伤。",
+          "display_text_zh": "对所有敌人造成8伤害和4雷伤。",
           "numeric_literals": [
             8,
             4
@@ -608,7 +608,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "获得8格挡。迎战。造成6＋吸收的伤害。",
-          "display_text_zh": "获得8格挡。迎战。造成6＋吸收的伤害。",
+          "display_text_zh": "获得8格挡。迎战。造成伤害，数值为6加上本次吸收。",
           "numeric_literals": [
             8,
             6
@@ -624,7 +624,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "获得11格挡。迎战。造成9＋吸收的伤害。",
-          "display_text_zh": "获得11格挡。迎战。造成9＋吸收的伤害。",
+          "display_text_zh": "获得11格挡。迎战。造成伤害，数值为9加上本次吸收。",
           "numeric_literals": [
             11,
             9
@@ -698,7 +698,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "获得10＋力量的格挡。",
-          "display_text_zh": "获得10＋力量的格挡。",
+          "display_text_zh": "获得格挡，数值为10加上当前力量。",
           "numeric_literals": [
             10
           ],
@@ -712,7 +712,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得13＋力量的格挡。",
-          "display_text_zh": "获得13＋力量的格挡。",
+          "display_text_zh": "获得格挡，数值为13加上当前力量。",
           "numeric_literals": [
             13
           ],
@@ -923,7 +923,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "领域1。对全体施加2虚弱。",
-          "display_text_zh": "领域1。对全体施加2虚弱。",
+          "display_text_zh": "领域1。对所有敌人施加2虚弱。",
           "numeric_literals": [
             1,
             2
@@ -939,7 +939,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "领域1。对全体施加3虚弱。",
-          "display_text_zh": "领域1。对全体施加3虚弱。",
+          "display_text_zh": "领域1。对所有敌人施加3虚弱。",
           "numeric_literals": [
             1,
             3
@@ -970,7 +970,7 @@
           "upgrade": false,
           "cost": 0,
           "rules_text_zh": "使1张手牌攻击获得保留与蓄势3。",
-          "display_text_zh": "使1张手牌攻击获得保留与蓄势3。",
+          "display_text_zh": "选择1张手牌中的攻击牌，使其获得保留和蓄势3。",
           "numeric_literals": [
             1,
             3
@@ -986,7 +986,7 @@
           "upgrade": true,
           "cost": 0,
           "rules_text_zh": "使1张手牌攻击获得保留与蓄势5。",
-          "display_text_zh": "使1张手牌攻击获得保留与蓄势5。",
+          "display_text_zh": "选择1张手牌中的攻击牌，使其获得保留和蓄势5。",
           "numeric_literals": [
             1,
             5
@@ -1017,7 +1017,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
-          "display_text_zh": "造成10伤害。本回合此前打出过攻击时，抽2张牌。",
+          "display_text_zh": "造成10伤害。若本回合此前打出过攻击牌，抽2张牌。",
           "numeric_literals": [
             10,
             2
@@ -1030,7 +1030,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成14伤害。本回合此前打出过攻击时，抽2张牌。",
-          "display_text_zh": "造成14伤害。本回合此前打出过攻击时，抽2张牌。",
+          "display_text_zh": "造成14伤害。若本回合此前打出过攻击牌，抽2张牌。",
           "numeric_literals": [
             14,
             2
@@ -1105,7 +1105,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "对全体造成5伤害和2雷伤，重复2次。",
-          "display_text_zh": "对全体造成5伤害和2雷伤，重复2次。",
+          "display_text_zh": "对所有敌人造成5伤害和2雷伤，重复2次。",
           "numeric_literals": [
             5,
             2,
@@ -1121,7 +1121,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "对全体造成7伤害和3雷伤，重复2次。",
-          "display_text_zh": "对全体造成7伤害和3雷伤，重复2次。",
+          "display_text_zh": "对所有敌人造成7伤害和3雷伤，重复2次。",
           "numeric_literals": [
             7,
             3,
@@ -1152,7 +1152,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "对全体造成6雷伤。抽1张牌。",
-          "display_text_zh": "对全体造成6雷伤。抽1张牌。",
+          "display_text_zh": "对所有敌人造成6雷伤。抽1张牌。",
           "numeric_literals": [
             6,
             1
@@ -1167,7 +1167,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "对全体造成9雷伤。抽1张牌。",
-          "display_text_zh": "对全体造成9雷伤。抽1张牌。",
+          "display_text_zh": "对所有敌人造成9雷伤。抽1张牌。",
           "numeric_literals": [
             9,
             1
@@ -1287,7 +1287,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "对全体造成6雷伤。每段普通攻击结算后，对全体造成3雷伤。",
-          "display_text_zh": "对全体造成6雷伤。每段普通攻击结算后，对全体造成3雷伤。",
+          "display_text_zh": "对所有敌人造成6雷伤。此后每段普通攻击后，对所有敌人造成3雷伤。",
           "numeric_literals": [
             6,
             3
@@ -1302,7 +1302,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "对全体造成9雷伤。每段普通攻击结算后，对全体造成4雷伤。",
-          "display_text_zh": "对全体造成9雷伤。每段普通攻击结算后，对全体造成4雷伤。",
+          "display_text_zh": "对所有敌人造成9雷伤。此后每段普通攻击后，对所有敌人造成4雷伤。",
           "numeric_literals": [
             9,
             4
@@ -1463,7 +1463,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "造成8伤害，重复3次。",
-          "display_text_zh": "造成8伤害，重复3次。",
+          "display_text_zh": "造成8伤害，共3次。",
           "numeric_literals": [
             8,
             3
@@ -1476,7 +1476,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "造成11伤害，重复3次。",
-          "display_text_zh": "造成11伤害，重复3次。",
+          "display_text_zh": "造成11伤害，共3次。",
           "numeric_literals": [
             11,
             3
@@ -1678,7 +1678,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "本轮雷伤增加当前力量。抽1张牌。消耗。",
-          "display_text_zh": "本轮雷伤增加当前力量。抽1张牌。消耗。",
+          "display_text_zh": "本轮雷伤增加等同于当前力量的数值。抽1张牌。消耗。",
           "numeric_literals": [
             1
           ],
@@ -1693,7 +1693,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "本轮雷伤增加当前力量。抽2张牌。消耗。",
-          "display_text_zh": "本轮雷伤增加当前力量。抽2张牌。消耗。",
+          "display_text_zh": "本轮雷伤增加等同于当前力量的数值。抽2张牌。消耗。",
           "numeric_literals": [
             2
           ],
@@ -1723,7 +1723,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "获得2力量。将临时力量转为力量。",
-          "display_text_zh": "获得2力量。将临时力量转为力量。",
+          "display_text_zh": "获得2力量。将临时力量转为本场战斗持续生效的力量。",
           "numeric_literals": [
             2
           ],
@@ -1737,7 +1737,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得3力量。将临时力量转为力量。",
-          "display_text_zh": "获得3力量。将临时力量转为力量。",
+          "display_text_zh": "获得3力量。将临时力量转为本场战斗持续生效的力量。",
           "numeric_literals": [
             3
           ],
@@ -1987,7 +1987,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
-          "display_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+          "display_text_zh": "每回合每累计造成2次雷伤，获得1能量。打出时，若本回合已造成至少2次雷伤，立即获得1能量。",
           "numeric_literals": [
             2,
             1,
@@ -2004,7 +2004,7 @@
           "upgrade": true,
           "cost": 0,
           "rules_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
-          "display_text_zh": "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。",
+          "display_text_zh": "每回合每累计造成2次雷伤，获得1能量。打出时，若本回合已造成至少2次雷伤，立即获得1能量。",
           "numeric_literals": [
             2,
             1,
@@ -2036,7 +2036,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "对全体施加1虚弱。获得9格挡。",
-          "display_text_zh": "对全体施加1虚弱。获得9格挡。",
+          "display_text_zh": "对所有敌人施加1虚弱。获得9格挡。",
           "numeric_literals": [
             1,
             9
@@ -2051,7 +2051,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "对全体施加2虚弱。获得12格挡。",
-          "display_text_zh": "对全体施加2虚弱。获得12格挡。",
+          "display_text_zh": "对所有敌人施加2虚弱。获得12格挡。",
           "numeric_literals": [
             2,
             12
@@ -2081,7 +2081,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "造成21伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
-          "display_text_zh": "造成21伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+          "display_text_zh": "造成21伤害，再造成3雷伤，恢复等同于这次雷伤所造成生命损失的生命。消耗。",
           "numeric_literals": [
             21,
             3
@@ -2096,7 +2096,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "造成28伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
-          "display_text_zh": "造成28伤害，再造成3雷伤，恢复造成雷伤的生命。消耗。",
+          "display_text_zh": "造成28伤害，再造成3雷伤，恢复等同于这次雷伤所造成生命损失的生命。消耗。",
           "numeric_literals": [
             28,
             3
@@ -2126,7 +2126,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
-          "display_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽1张牌，其中的攻击减费1。",
+          "display_text_zh": "抽1张牌。每回合首次向同一目标打出第2张单体攻击牌后，抽1张牌，其中的攻击牌本回合减费1。",
           "numeric_literals": [
             1,
             2,
@@ -2143,7 +2143,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。",
-          "display_text_zh": "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽2张牌，其中的攻击减费1。",
+          "display_text_zh": "抽1张牌。每回合首次向同一目标打出第2张单体攻击牌后，抽2张牌，其中的攻击牌本回合减费1。",
           "numeric_literals": [
             1,
             2,
@@ -2226,7 +2226,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成8伤害。获得本回合雷伤次数×2的格挡。",
-          "display_text_zh": "造成8伤害。获得本回合雷伤次数×2的格挡。",
+          "display_text_zh": "造成8伤害。本回合每造成过1次雷伤，便获得2格挡。",
           "numeric_literals": [
             8,
             2
@@ -2241,7 +2241,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成11伤害。获得本回合雷伤次数×2的格挡。",
-          "display_text_zh": "造成11伤害。获得本回合雷伤次数×2的格挡。",
+          "display_text_zh": "造成11伤害。本回合每造成过1次雷伤，便获得2格挡。",
           "numeric_literals": [
             11,
             2
@@ -2271,7 +2271,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "获得12格挡。迎战。对全体造成4＋吸收的雷伤。",
-          "display_text_zh": "获得12格挡。迎战。对全体造成4＋吸收的雷伤。",
+          "display_text_zh": "获得12格挡。迎战。对所有敌人造成雷伤，数值为4加上本次吸收。",
           "numeric_literals": [
             12,
             4
@@ -2288,7 +2288,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "获得17格挡。迎战。对全体造成6＋吸收的雷伤。",
-          "display_text_zh": "获得17格挡。迎战。对全体造成6＋吸收的雷伤。",
+          "display_text_zh": "获得17格挡。迎战。对所有敌人造成雷伤，数值为6加上本次吸收。",
           "numeric_literals": [
             17,
             6
@@ -2363,7 +2363,7 @@
           "upgrade": false,
           "cost": "X",
           "rules_text_zh": "造成5伤害和3全体雷伤，重复X次。",
-          "display_text_zh": "造成5伤害和3全体雷伤，重复X次。",
+          "display_text_zh": "重复X次：造成5伤害，再对所有敌人造成3雷伤。",
           "numeric_literals": [
             5,
             3
@@ -2378,7 +2378,7 @@
           "upgrade": true,
           "cost": "X",
           "rules_text_zh": "造成7伤害和3全体雷伤，重复X次。",
-          "display_text_zh": "造成7伤害和3全体雷伤，重复X次。",
+          "display_text_zh": "重复X次：造成7伤害，再对所有敌人造成3雷伤。",
           "numeric_literals": [
             7,
             3
@@ -2506,7 +2506,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "获得8格挡。对全体造成3雷伤。迎战。",
-          "display_text_zh": "获得8格挡。对全体造成3雷伤。迎战。",
+          "display_text_zh": "获得8格挡。对所有敌人造成3雷伤。迎战。",
           "numeric_literals": [
             8,
             3
@@ -2522,7 +2522,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得11格挡。对全体造成5雷伤。迎战。",
-          "display_text_zh": "获得11格挡。对全体造成5雷伤。迎战。",
+          "display_text_zh": "获得11格挡。对所有敌人造成5雷伤。迎战。",
           "numeric_literals": [
             11,
             5
@@ -2553,7 +2553,7 @@
           "upgrade": false,
           "cost": 0,
           "rules_text_zh": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
-          "display_text_zh": "获得1能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+          "display_text_zh": "获得1能量。若本回合此前造成过雷伤，抽1张牌。消耗。",
           "numeric_literals": [
             1,
             1
@@ -2568,7 +2568,7 @@
           "upgrade": true,
           "cost": 0,
           "rules_text_zh": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
-          "display_text_zh": "获得2能量。本回合此前造成过雷伤时，抽1张牌。消耗。",
+          "display_text_zh": "获得2能量。若本回合此前造成过雷伤，抽1张牌。消耗。",
           "numeric_literals": [
             2,
             1
@@ -2598,7 +2598,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "对全体造成12雷伤。领域1。",
-          "display_text_zh": "对全体造成12雷伤。领域1。",
+          "display_text_zh": "对所有敌人造成12雷伤。领域1。",
           "numeric_literals": [
             12,
             1
@@ -2614,7 +2614,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "对全体造成16雷伤。领域1。",
-          "display_text_zh": "对全体造成16雷伤。领域1。",
+          "display_text_zh": "对所有敌人造成16雷伤。领域1。",
           "numeric_literals": [
             16,
             1
@@ -2743,7 +2743,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
-          "display_text_zh": "造成8雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+          "display_text_zh": "造成8雷伤。若本回合在此之前已造成至少2次雷伤，获得2能量。",
           "numeric_literals": [
             8,
             2,
@@ -2759,7 +2759,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
-          "display_text_zh": "造成12雷伤。本回合此前已造成至少2次雷伤时，获得2能量。",
+          "display_text_zh": "造成12雷伤。若本回合在此之前已造成至少2次雷伤，获得2能量。",
           "numeric_literals": [
             12,
             2,
@@ -2790,7 +2790,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成3伤害。兽化1张攻击手牌，减费1。",
-          "display_text_zh": "造成3伤害。兽化1张攻击手牌，其本回合下次打出时设为0费。",
+          "display_text_zh": "造成3伤害。兽化1张攻击手牌。本回合该兽形下次打出时为0费。",
           "numeric_literals": [
             3,
             1,
@@ -2807,7 +2807,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成6伤害。兽化1张攻击手牌，减费1。",
-          "display_text_zh": "造成6伤害。兽化1张攻击手牌，其本回合下次打出时设为0费。",
+          "display_text_zh": "造成6伤害。兽化1张攻击手牌。本回合该兽形下次打出时为0费。",
           "numeric_literals": [
             6,
             1,
@@ -2839,7 +2839,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "获得3格挡。兽化1张非攻击手牌，减费1。",
-          "display_text_zh": "获得3格挡。兽化1张非攻击手牌，其本回合下次打出时设为0费。",
+          "display_text_zh": "获得3格挡。兽化1张非攻击手牌。本回合该兽形下次打出时为0费。",
           "numeric_literals": [
             3,
             1,
@@ -2856,7 +2856,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得6格挡。兽化1张非攻击手牌，减费1。",
-          "display_text_zh": "获得6格挡。兽化1张非攻击手牌，其本回合下次打出时设为0费。",
+          "display_text_zh": "获得6格挡。兽化1张非攻击手牌。本回合该兽形下次打出时为0费。",
           "numeric_literals": [
             6,
             1,
@@ -2888,7 +2888,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "检索1张牌，兽化1张手牌，减费1。消耗。",
-          "display_text_zh": "检索1张牌，兽化1张手牌，其本回合下次打出时设为0费。消耗。",
+          "display_text_zh": "检索1张牌，再兽化1张手牌。本回合该兽形下次打出时为0费。消耗。",
           "numeric_literals": [
             1,
             1,
@@ -2906,7 +2906,7 @@
           "upgrade": true,
           "cost": 0,
           "rules_text_zh": "检索1张牌，兽化1张手牌，减费1。消耗。",
-          "display_text_zh": "检索1张牌，兽化1张手牌，其本回合下次打出时设为0费。消耗。",
+          "display_text_zh": "检索1张牌，再兽化1张手牌。本回合该兽形下次打出时为0费。消耗。",
           "numeric_literals": [
             1,
             1,
@@ -3064,7 +3064,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
-          "display_text_zh": "获得3力量和10格挡。本战攻击与雷法强化3。消耗。",
+          "display_text_zh": "获得3力量和10格挡。本场战斗中，所有攻击牌与雷法强化3。消耗。",
           "numeric_literals": [
             3,
             10,
@@ -3082,7 +3082,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。",
-          "display_text_zh": "获得4力量和14格挡。本战攻击与雷法强化3。消耗。",
+          "display_text_zh": "获得4力量和14格挡。本场战斗中，所有攻击牌与雷法强化3。消耗。",
           "numeric_literals": [
             4,
             14,
@@ -3115,7 +3115,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "对全体造成等同当前格挡的雷伤。",
-          "display_text_zh": "对全体造成等同当前格挡的雷伤。",
+          "display_text_zh": "对所有敌人造成等同当前格挡的雷伤。",
           "numeric_literals": [],
           "self_exhaust": false,
           "keywords": [
@@ -3127,7 +3127,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "对全体造成等同当前格挡的雷伤。",
-          "display_text_zh": "对全体造成等同当前格挡的雷伤。",
+          "display_text_zh": "对所有敌人造成等同当前格挡的雷伤。",
           "numeric_literals": [],
           "self_exhaust": false,
           "keywords": [
@@ -3201,7 +3201,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "获得15格挡。迎战全体。对全体造成等同吸收的雷伤。",
-          "display_text_zh": "获得15格挡。迎战全体。对全体造成等同吸收的雷伤。",
+          "display_text_zh": "获得15格挡。迎战所有敌人。对所有敌人造成等同于本次吸收的雷伤。",
           "numeric_literals": [
             15
           ],
@@ -3217,7 +3217,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "获得21格挡。迎战全体。对全体造成等同吸收的雷伤。",
-          "display_text_zh": "获得21格挡。迎战全体。对全体造成等同吸收的雷伤。",
+          "display_text_zh": "获得21格挡。迎战所有敌人。对所有敌人造成等同于本次吸收的雷伤。",
           "numeric_literals": [
             21
           ],
@@ -3334,7 +3334,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
-          "display_text_zh": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
+          "display_text_zh": "若处于领域内，恢复4生命；否则获得领域1。获得2力量。消耗。",
           "numeric_literals": [
             4,
             1,
@@ -3351,7 +3351,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。",
-          "display_text_zh": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。",
+          "display_text_zh": "若处于领域内，恢复6生命；否则获得领域1。获得3力量。消耗。",
           "numeric_literals": [
             6,
             1,
@@ -3383,7 +3383,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "每打出1张攻击后，本回合对同一目标的攻击费用−1。",
-          "display_text_zh": "每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+          "display_text_zh": "每打出1张攻击牌后，本回合对同一目标的攻击牌费用降低1。",
           "numeric_literals": [
             1,
             1
@@ -3396,7 +3396,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "抽1张牌。每打出1张攻击后，本回合对同一目标的攻击费用−1。",
-          "display_text_zh": "抽1张牌。每打出1张攻击后，本回合对同一目标的攻击费用−1。",
+          "display_text_zh": "抽1张牌。每打出1张攻击牌后，本回合对同一目标的攻击牌费用降低1。",
           "numeric_literals": [
             1,
             1,
@@ -3425,7 +3425,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
-          "display_text_zh": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+          "display_text_zh": "每打出1张攻击牌后，获得1力量；若该牌提供了格挡，再获得1敏捷。",
           "numeric_literals": [
             1,
             1,
@@ -3442,7 +3442,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
-          "display_text_zh": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
+          "display_text_zh": "获得8格挡。每打出1张攻击牌后，获得1力量；若该牌提供了格挡，再获得1敏捷。",
           "numeric_literals": [
             8,
             1,
@@ -3475,7 +3475,7 @@
           "upgrade": false,
           "cost": "X",
           "rules_text_zh": "获得X雷势。造成6雷伤，重复X次。消耗。",
-          "display_text_zh": "获得X雷势。造成6雷伤，重复X次。消耗。",
+          "display_text_zh": "获得X雷势。造成6雷伤，共X次。消耗。",
           "numeric_literals": [
             6
           ],
@@ -3490,7 +3490,7 @@
           "upgrade": true,
           "cost": "X",
           "rules_text_zh": "获得X＋1雷势。造成6雷伤，重复X＋1次。消耗。",
-          "display_text_zh": "获得X＋1雷势。造成6雷伤，重复X＋1次。消耗。",
+          "display_text_zh": "获得X＋1雷势。造成6雷伤，共X＋1次。消耗。",
           "numeric_literals": [
             1,
             6,
@@ -3522,7 +3522,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
-          "display_text_zh": "对全体造成6雷伤。回合结束及每回合首次迎战后，对全体造成4雷伤。",
+          "display_text_zh": "对所有敌人造成6雷伤。回合结束及每回合首次迎战后，对所有敌人造成4雷伤。",
           "numeric_literals": [
             6,
             4
@@ -3538,7 +3538,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。",
-          "display_text_zh": "对全体造成9雷伤。回合结束及每回合首次迎战后，对全体造成6雷伤。",
+          "display_text_zh": "对所有敌人造成9雷伤。回合结束及每回合首次迎战后，对所有敌人造成6雷伤。",
           "numeric_literals": [
             9,
             6
@@ -3569,7 +3569,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
-          "display_text_zh": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+          "display_text_zh": "本回合每造成过1次雷伤，便获得4格挡。抽2张牌。消耗。",
           "numeric_literals": [
             4,
             2
@@ -3584,7 +3584,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。",
-          "display_text_zh": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。",
+          "display_text_zh": "本回合每造成过1次雷伤，便获得5格挡。抽2张牌。消耗。",
           "numeric_literals": [
             5,
             2
@@ -3614,7 +3614,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "造成8雷伤，重复3次。",
-          "display_text_zh": "造成8雷伤，重复3次。",
+          "display_text_zh": "造成8雷伤，共3次。",
           "numeric_literals": [
             8,
             3
@@ -3629,7 +3629,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "造成11雷伤，重复3次。",
-          "display_text_zh": "造成11雷伤，重复3次。",
+          "display_text_zh": "造成11雷伤，共3次。",
           "numeric_literals": [
             11,
             3
@@ -3749,7 +3749,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "兽化至多2张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
-          "display_text_zh": "兽化至多2张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。消耗。",
+          "display_text_zh": "兽化至多2张手牌。这些兽形中，爪形本回合下次打出时为0费；每张躯形使你获得4格挡。消耗。",
           "numeric_literals": [
             2,
             1,
@@ -3766,7 +3766,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "兽化至多3张手牌。每张爪形减费1；每张躯形使你获得4格挡。消耗。",
-          "display_text_zh": "兽化至多3张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。消耗。",
+          "display_text_zh": "兽化至多3张手牌。这些兽形中，爪形本回合下次打出时为0费；每张躯形使你获得4格挡。消耗。",
           "numeric_literals": [
             3,
             1,
@@ -3798,7 +3798,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽1张牌。每回合首次打出兽形时，获得1雷势。",
-          "display_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽1张牌。每回合首次打出兽形时，获得1雷势。",
+          "display_text_zh": "打出时及每回合开始时，你可以兽化1张手牌。每回合首次兽化后，抽1张牌。每回合首次打出兽形时，获得1雷势。",
           "numeric_literals": [
             1,
             1,
@@ -3816,7 +3816,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽2张牌。每回合首次打出兽形时，获得1雷势。",
-          "display_text_zh": "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽2张牌。每回合首次打出兽形时，获得1雷势。",
+          "display_text_zh": "打出时及每回合开始时，你可以兽化1张手牌。每回合首次兽化后，抽2张牌。每回合首次打出兽形时，获得1雷势。",
           "numeric_literals": [
             1,
             2,
@@ -3849,7 +3849,7 @@
           "upgrade": false,
           "cost": 3,
           "rules_text_zh": "兽化所有手牌并减费1。消耗。",
-          "display_text_zh": "兽化所有手牌，其本回合下次打出时设为0费。消耗。",
+          "display_text_zh": "兽化所有手牌。本回合这些兽形下次打出时为0费。消耗。",
           "numeric_literals": [
             1
           ],
@@ -3864,7 +3864,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "兽化所有手牌并减费1。消耗。",
-          "display_text_zh": "兽化所有手牌，其本回合下次打出时设为0费。消耗。",
+          "display_text_zh": "兽化所有手牌。本回合这些兽形下次打出时为0费。消耗。",
           "numeric_literals": [
             1
           ],
@@ -3894,7 +3894,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "兽化1张手牌，减费1。每回合首次打出爪形时，获得6格挡；每次打出躯形时，获得1能量。",
-          "display_text_zh": "兽化1张手牌，其本回合下次打出时设为0费。每回合首次打出爪形时，获得6格挡；每次打出躯形时，获得1能量。",
+          "display_text_zh": "兽化1张手牌。本回合该兽形下次打出时为0费。每回合首次打出爪形时，获得6格挡；每次打出躯形时，获得1能量。",
           "numeric_literals": [
             1,
             1,
@@ -3912,7 +3912,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "兽化1张手牌，减费1。每回合首次打出爪形时，获得9格挡；每次打出躯形时，获得1能量。",
-          "display_text_zh": "兽化1张手牌，其本回合下次打出时设为0费。每回合首次打出爪形时，获得9格挡；每次打出躯形时，获得1能量。",
+          "display_text_zh": "兽化1张手牌。本回合该兽形下次打出时为0费。每回合首次打出爪形时，获得9格挡；每次打出躯形时，获得1能量。",
           "numeric_literals": [
             1,
             1,
@@ -3996,7 +3996,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "造成7伤害2次。消耗。",
-          "display_text_zh": "造成7伤害2次。消耗。",
+          "display_text_zh": "造成7伤害，共2次。消耗。",
           "numeric_literals": [
             7,
             2
@@ -4009,7 +4009,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "造成11伤害2次。消耗。",
-          "display_text_zh": "造成11伤害2次。消耗。",
+          "display_text_zh": "造成11伤害，共2次。消耗。",
           "numeric_literals": [
             11,
             2
@@ -4037,7 +4037,7 @@
           "upgrade": false,
           "cost": 1,
           "rules_text_zh": "获得9格挡。对全体造成2雷伤。消耗。",
-          "display_text_zh": "获得9格挡。对全体造成2雷伤。消耗。",
+          "display_text_zh": "获得9格挡。对所有敌人造成2雷伤。消耗。",
           "numeric_literals": [
             9,
             2
@@ -4052,7 +4052,7 @@
           "upgrade": true,
           "cost": 1,
           "rules_text_zh": "获得12格挡。对全体造成3雷伤。消耗。",
-          "display_text_zh": "获得12格挡。对全体造成3雷伤。消耗。",
+          "display_text_zh": "获得12格挡。对所有敌人造成3雷伤。消耗。",
           "numeric_literals": [
             12,
             3

@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/Volibear/Core/DomainHopper*.cs" />
+    <Compile Include="../../src/Volibear/Presentation/PowerPresentationDomain.cs" />
     <Compile Include="../../src/Volibear/Core/SummonRegistration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="AdapterTests.cs" />

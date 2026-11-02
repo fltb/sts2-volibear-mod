@@ -5,9 +5,8 @@
 当前工作在 [PR #1](https://github.com/fltb/sts2-volibear-mod/pull/1) 的
 `codex/mode7-completion` 分支，完整产品范围见 [交付标准](docs/RELEASE_PLAN.md)。
 
-**当前源码已补齐本地构建与验收入口。维护环境没有目标游戏本体，当前完整 Mod DLL、原生
-游戏流程和真实网络仍需在本机执行验证。** 独立回归、Godot 资源检查、原生引用检查、实际游戏
-和人工视觉/听感分别记录；详细状态见 [实现清单](docs/IMPLEMENTATION_TODO.md) 与
+**当前本地环境已有锁版本体与工具链，正在执行完整发布验收；分段通过不代表最终包已通过。**
+独立回归、Godot 资源检查、原生引用检查、实际游戏和人工视觉/听感分别记录；详细状态见 [实现清单](docs/IMPLEMENTATION_TODO.md) 与
 [当前交接](docs/HANDOFF.md)。
 
 ## 本地构建与完整验收
@@ -26,10 +25,10 @@
 python -B tools/local_delivery.py --game-dir "D:\SteamLibrary\steamapps\common\Slay the Spire 2" --godot "C:\Tools\Godot\Godot_v4.5.1-stable_mono_win64.exe" --dotnet "C:\Program Files\dotnet\dotnet.exe" --verify-release --audio-driver WASAPI
 ```
 
-Linux 使用本机 Godot 音频后端和虚拟显示，例如：
+Linux 使用已有桌面的 GPU 窗口与本机音频后端；测试窗口禁止抢焦点与鼠标输入，隔离配置关闭垂直同步并保留 60 FPS 上限。例如：
 
 ```sh
-python3 -B tools/local_delivery.py --game-dir "/path/to/Slay the Spire 2" --godot "/path/to/Godot_v4.5.1-stable_mono_linux.x86_64" --dotnet "/path/to/dotnet" --verify-release --audio-driver PulseAudio --display xvfb
+python3 -B tools/local_delivery.py --game-dir "/path/to/Slay the Spire 2" --godot "/path/to/Godot_v4.5.1-stable_mono_linux.x86_64" --dotnet "/path/to/dotnet" --verify-release --audio-driver PulseAudio --display window
 ```
 
 入口核对版本，重新编译当前 DLL，执行严格回归，导出并检查完整 PCK，部署当前候选，

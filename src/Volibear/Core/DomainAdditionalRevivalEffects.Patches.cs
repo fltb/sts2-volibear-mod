@@ -124,6 +124,24 @@ public static partial class DomainAdditionalRevivalEffects
     }
     private static bool LoadReceiver(CodeInstruction i) => i.opcode == OpCodes.Ldloc || i.opcode == OpCodes.Ldloc_S ||
         i.opcode == OpCodes.Ldloc_0 || i.opcode == OpCodes.Ldloc_1 || i.opcode == OpCodes.Ldloc_2 || i.opcode == OpCodes.Ldloc_3 || i.opcode == OpCodes.Ldarg_0;
+    private static int RespawnGuardIndex(List<CodeInstruction> code)
+    {
+        // Locked TestSubject.RespawnMove reads <>4__this once, stores the counter,
+        // then reloads <>4__this and the counter for the setter. Anchor the guard
+        // before that first receiver load, while the evaluation stack is empty.
+        int setter = Unique(code, m => m.DeclaringType == typeof(TestSubject) && m.Name == "set_Respawns");
+        int increment = setter - 6;
+        Require(increment >= 2 && code[increment - 2].opcode == OpCodes.Switch &&
+            code[increment].operand is MethodInfo get &&
+            get.DeclaringType == typeof(TestSubject) && get.Name == "get_Respawns" &&
+            code[increment - 1].opcode == OpCodes.Ldloc_1 &&
+            code[increment + 1].opcode == OpCodes.Stloc_2 &&
+            code[increment + 2].opcode == OpCodes.Ldloc_1 &&
+            code[increment + 3].opcode == OpCodes.Ldloc_2 &&
+            code[increment + 4].LoadsConstant(1) &&
+            code[increment + 5].opcode == OpCodes.Add, "respawn counter update");
+        return increment - 1;
+    }
     private static void Transfer(CodeInstruction from, CodeInstruction to)
     { to.labels.AddRange(from.labels); from.labels.Clear(); to.blocks.AddRange(from.blocks); from.blocks.Clear(); }
     private static IEnumerable<CodeInstruction> Rewrite(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase __originalMethod)
@@ -171,11 +189,7 @@ public static partial class DomainAdditionalRevivalEffects
         else
         {
             if (kind == BodyKind.Respawn)
-            {
-                int increment = code.FindIndex(i => i.operand is MethodInfo m && m.DeclaringType == typeof(TestSubject) && m.Name == "get_Respawns");
-                Require(increment >= 2 && LoadReceiver(code[increment - 2]) && (LoadReceiver(code[increment - 1]) || code[increment - 1].opcode == OpCodes.Dup), "respawn counter entry");
-                guards.Add(increment - 2);
-            }
+                guards.Add(RespawnGuardIndex(code));
             else
             {
                 int assertion = Unique(code, m => m.Name == nameof(AbstractModel.AssertMutable));
@@ -184,8 +198,17 @@ public static partial class DomainAdditionalRevivalEffects
             }
             var results = code.Select((instruction, index) => (instruction, index)).Where(p => p.instruction.operand is MethodInfo m &&
                 m.DeclaringType == typeof(TaskAwaiter) && m.Name == nameof(TaskAwaiter.GetResult)).Select(p => p.index + 1).ToArray();
-            Require(results.Length >= (kind == BodyKind.Respawn ? 3 : 2), "native post-await boundaries");
+            Require(results.Length == (kind == BodyKind.Respawn ? 7 : 1), "native post-await boundaries: " + kind);
             foreach (var index in results) guards.Add(index); // Original GetResult always executes first.
+            if (kind == BodyKind.Revive)
+            {
+                // SetMaxHp returns Task<decimal>; native code discards that result.
+                // Cancellation must run after Pop, never with the decimal on the stack.
+                int maximum = Unique(code, m => m == AccessTools.Method(typeof(TaskAwaiter<decimal>), nameof(TaskAwaiter.GetResult)));
+                Require(maximum + 2 < code.Count && code[maximum + 1].opcode == OpCodes.Pop &&
+                    maximum < results[0] - 1, "revive max-HP await result discard/order");
+                guards.Add(maximum + 2);
+            }
         }
         var output = new List<CodeInstruction>
         {

@@ -6,64 +6,66 @@
     "B01": {
       "id": "B01",
       "asset_key": "b01",
-      "revision": "revised_v7",
+      "revision": "20261102_downward_strike",
       "master": "cards/masters/B01.png",
-      "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd",
-      "source_record_sha256": "81eb50d543db6793684d9ae8b76ffb06044345a2bcf26f9f0c8a6c11cb1b31f5",
-      "prompt": "cards/prompts/B01.txt",
-      "prompt_sha256": "2eb1e57f7361935896ad0c7ef7a8465c48c7a19f93f8b4ad03b5e43432192450",
-      "review": "reviews/B01.json",
-      "review_sha256": "eda9a344aa6a47c969eed649630e00dd5b19f858cad47e76b9d750deecb6ad86",
+      "master_sha256": "e88ae2eab7f1cc9a94efee54992c7296143dfa2fa658c8a3622c0d9c151354cb",
+      "source_record_sha256": "4b5e4533bb476648ebcab47fc4b50d27431d56e15be3a65d3043d7d9bf7c2199",
+      "prompt": "../art-refresh/20261102/B01-prompt.txt",
+      "prompt_sha256": "da9c730c20bd5997fcc5aaa2f7066c59572eb73391f59354374086669351b2d1",
+      "review": "../art-refresh/20261102/B01-review.json",
+      "review_sha256": "733633f283263b1e666d6281a3b2bc08ecee290abf96bc0d35980132ecf58f50",
       "exports": [
         {
           "profile": "sts2_big",
           "path": "production/sts2/Volibear/images/card_portraits/big/b01.png",
-          "sha256": "41487a72294c13f60c2753afc52dd586424ca249be62313d9beee95e67624636",
+          "sha256": "e121afb89159c0dbcf4b45499419c9cd04abee94d4e4326a971595f8df898f93",
           "size": [
             1000,
             760
           ],
           "mode": "RGB",
-          "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+          "master_sha256": "e88ae2eab7f1cc9a94efee54992c7296143dfa2fa658c8a3622c0d9c151354cb"
         },
         {
           "profile": "sts2_small",
           "path": "production/sts2/Volibear/images/card_portraits/b01.png",
-          "sha256": "444e7701365b6f59e18962a978c5118a0d5df6bb2b057b43ba6b1110c3b1f497",
+          "sha256": "71a8fa30820b55e833e22d54bc53720f40e3ce57c3283def16805247a1e77d9a",
           "size": [
             250,
             190
           ],
           "mode": "RGB",
-          "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+          "master_sha256": "e88ae2eab7f1cc9a94efee54992c7296143dfa2fa658c8a3622c0d9c151354cb"
         },
         {
           "profile": "sts1_large",
           "path": "production/sts1/VolibearResources/images/cards/b01_p.png",
-          "sha256": "725b83cd9eac807fb9f5417b41db34a5fb732da31f374aae63de4adc2b972d35",
+          "sha256": "13860be3e1db5316bdda4061dff4833811c2f9ccc529eb0e6e1ef08c37606519",
           "size": [
             500,
             380
           ],
           "mode": "RGBA",
-          "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+          "master_sha256": "e88ae2eab7f1cc9a94efee54992c7296143dfa2fa658c8a3622c0d9c151354cb"
         },
         {
           "profile": "sts1_small",
           "path": "production/sts1/VolibearResources/images/cards/b01.png",
-          "sha256": "bf8240a289af1286dbed3371cb81bc4792b9cbad362dbc5671377aed21f5054c",
+          "sha256": "89e5786d1a8d8a09693db46cd10b66b1dc1b188e8d6a6c68d1063353b4522bb9",
           "size": [
             250,
             190
           ],
           "mode": "RGBA",
-          "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+          "master_sha256": "e88ae2eab7f1cc9a94efee54992c7296143dfa2fa658c8a3622c0d9c151354cb"
         }
       ],
       "provenance": {
         "provider": "chatgpt-sub",
-        "raw_path": "cards/source_v7/B01.png",
-        "selected_source_sha256": "db7ec1478ebca91f77a49941548ad93b7e49482129bf8d618f2dca78108cce5c",
+        "model": "gpt-image-2.5-flare",
+        "operation": "edit_image",
+        "raw_path": "../art-refresh/20261102/B01-candidate-01.png",
+        "selected_source_sha256": "a0ab4690aedfed1015aba6d541c39b9bbe2b1b2f8d5065869943e8336e95fb13",
         "selected_source_size": [
           1448,
           1086
@@ -75,9 +77,15 @@
           1084
         ],
         "resized_for_master": false,
-        "attempt": 21,
-        "crop_area_removed_fraction": 0.01860253044778848,
-        "generation_record": "reviews/v7/generation_B01.json"
+        "generation_record": "../art-refresh/20261102/provenance.json",
+        "reference_paths": [
+          "cards/masters/B01.png (prior revision)",
+          "cards/masters/B03.png"
+        ],
+        "reference_sha256": [
+          "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd",
+          "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc"
+        ]
       }
     },
     "B02": {
