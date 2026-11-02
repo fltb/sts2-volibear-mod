@@ -5,7 +5,16 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
-## 当前最终验收（2026-11-03 03:30，最新）
+## 已完成交付（2026-11-03，最新）
+
+- 生产源码提交`9e1db8d92c8e1d0fb86d4f5fcbef922d3a26ff80`已推送既有PR分支。之后仅更新完成说明，产品字节不再改变。
+- [完整安装包](<../.local/release/Volibear-0.1.0-StS2-0.107.1-20261103.zip>)已生成：172114199字节，含Volibear DLL/PCK/JSON、BaseLib 3.4.7及许可/安装说明。ZIP CRC、包内Volibear三文件与最终部署字节一致。
+- [统一验收摘要](<../.local/release-acceptance/run-ghenodyt/summary.json>)A1–A9全部passed；[最终日志](<../.local/logs/final-release-20261103-r4.log>)exit0。1198项回归完成（8项Windows专用skip）；全部单机7阶段、跨进程保存恢复、两端ENet真实付费/状态一致/断线恢复、最终ZIP安装/同包更新/卸载全部通过。两端无新增runtime error。
+- 最终单机`20261102T211825Z-2b5e0231`、多人`20261102T222137Z-48b87fb7-multiplayer`。r4 job`bash-703b9df4aab8475b`已收集exit0，不得重复启动。
+- 雷圈/能量实机图已向用户展示；人工听感、Steam传输及公网体验未执行。默认包为open音频，可选riot_en保留既有构建支持。
+- [全怪物支持清单](<DOMAIN_MONSTER_SUPPORT.md>)保留明确未实现边界：Hopper逃脱/倒数、木桩事件超时离场、TheForgotten新增敌方Dex收益，以及未配置直接贡献的持续badge。调查完整，不宣称全特殊机制均已支持。
+
+## 前序收口记录（2026-11-03 03:30）
 
 - 最新视觉已在真实游戏检查：`20261102T191032Z-06b62561/domain-visual` 原图显示大范围电光带/竖电弧、血条状态前置、纯色中心费用图、明显能量空满。旧细圈已被替换。原report保留首次oracle错误，不篡改历史；按energy.gd语义修正_has_value是“已解析”而非“满能量”，既有7原图独立重验通过（`.local/logs/domain-energy-existing-capture-recheck.json`），无需重新开游戏。域三阶段全部16/16区；能量空/满均亮31.92/103.70、蓝像素0/1631。
 - 最新定向`20261102T192430Z-5218e581` passed：单游戏进程自身减益12项+熊/铁甲两种真实建筑师结局均通过，exit0/无runtime_errors。终局节点改显式初始化，并在native结算移出视图时仅解绑帧循环、不撤销最终领域状态；重入可恢复帧循环。熊80HP不变、无死亡、领域6弧/1.22倍/半透明与胜利快照一致，普通角色保留原路径。
