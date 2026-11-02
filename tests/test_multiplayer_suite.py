@@ -305,9 +305,20 @@ class PeerRunner(unittest.TestCase):
                 self.assertNotIn(forbidden, source)
         source = (ROOT / 'src/Volibear/MultiplayerAcceptanceProbe.cs').read_text(encoding='utf-8')
         self.assertIn('RequestEnqueue(new PlayCardAction', source)
+        self.assertIn('new EndPlayerTurnAction(Local, Local.PlayerCombatState!.TurnNumber)', source)
+        self.assertNotIn('PlayerCmd.EndTurn(', source)
         self.assertNotIn('action.CompletionTask', source)
         self.assertIn('LoadAndCanonicalizeMultiplayerRunSave', source)
         self.assertIn('multiplayerRunSaveFileName', source)
+
+    def test_cold_scene_budget_does_not_relax_network_handshakes(self):
+        source = (ROOT / 'src/Volibear/NativeMultiplayerSession.cs').read_text(encoding='utf-8')
+        self.assertIn('int timeoutSeconds = 90', source)
+        self.assertIn('clock.Elapsed.TotalSeconds > timeoutSeconds', source)
+        self.assertIn('stage is "native StartNewMultiplayerRun" or "native saved multiplayer load" ? 360 : 90', source)
+        self.assertIn('await Until(() => task.IsCompleted, stage, timeout)', source)
+        self.assertIn('Call(service!, "Disconnect", quit, false)', source)
+        self.assertNotIn('Call(service!, "Disconnect", quit, true)', source)
 
     def test_cli_requires_both_explicit_native_flags(self):
         for flags in ([], ['--execute-native'], ['--use-deployed']):

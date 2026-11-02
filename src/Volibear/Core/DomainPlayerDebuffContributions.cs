@@ -47,9 +47,9 @@ public static partial class DomainPlayerDebuffContributions
 
     /// <summary>Call after native precommit awaits, before history or mutation.</summary>
     internal static bool ShouldCancel(PowerModel power, Creature target, decimal delta,
-        Creature? applier, CardModel? card, PlayerChoiceContext context) => Handles(power) &&
-        (power is ShrinkPower ? delta != 0m : delta > 0m) && Enemy(power, target, applier, card, context) &&
-        DomainEnemyEffects.ActiveFor(target.CombatState);
+        Creature? applier, CardModel? card, PlayerChoiceContext context) => false;
+    // Debuffs now commit normally: Domain temporarily mutes their contributions while
+    // native duration ticks/removal continue, so leaving Domain resumes only live state.
 
     /// <summary>Call immediately before the real ApplyInternal. Zero is a native no-op.</summary>
     internal static void Applied(PowerModel power, Creature target, decimal amount,
@@ -128,6 +128,7 @@ public static partial class DomainPlayerDebuffContributions
 
     internal static int EffectiveAmount(PowerModel power)
     {
+        if (DomainSelfDebuffEffects.IsSuppressed(power)) return 0;
         if (!receipts.TryGetValue(power, out var receipt)) return power.Amount;
         if (!ReferenceEquals(receipt.Owner, power.Owner) || !ReferenceEquals(receipt.Combat, power.Owner.CombatState) ||
             !receipt.Combat.ContainsCreature(receipt.Owner) || !receipt.Owner.Powers.Contains(power)) return power.Amount;
@@ -135,7 +136,7 @@ public static partial class DomainPlayerDebuffContributions
         return DomainEnemyEffects.ActiveFor(receipt.Combat) ? receipt.Retained : power.Amount;
     }
 
-    private static bool Suppressed(PowerModel power) => receipts.TryGetValue(power, out var receipt) &&
+    private static bool Suppressed(PowerModel power) => DomainSelfDebuffEffects.IsSuppressed(power) || receipts.TryGetValue(power, out var receipt) &&
         DomainEnemyEffects.ActiveFor(receipt.Combat) && EffectiveAmount(power) == 0;
     public static void Reset() { receipts = new(); nullSources = new(); }
 }

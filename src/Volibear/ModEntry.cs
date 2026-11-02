@@ -12,6 +12,7 @@ public static class ModEntry
         Core.SupportedGameBuild.EnsureInstalled(OS.GetExecutablePath());
         DomainSteamNativeObservation.PrepareForTestScenario();
         Presentation.VolibearPresentation.RegisterSceneConversions();
+        Presentation.VolibearMerchantIntegration.Install();
         ContentRegistry.Register();
         Core.EngageCmd.Install();
         Core.CardResolutionHooks.Install();
@@ -34,6 +35,8 @@ public static class ModEntry
         Core.DomainEnemySpecialContributions.Install();
         Core.DomainAdditionalRevivalEffects.Install();
         Presentation.VolibearPresentationBridge.Install();
+        Presentation.PowerPresentationDisabled.Install();
+        Presentation.VolibearArchitectEnding.Install();
         Presentation.VolibearInspectPortraits.Install();
         var expectedDirectory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT");
         if (!string.IsNullOrEmpty(expectedDirectory))
@@ -64,6 +67,21 @@ public static class ModEntry
             {
                 DevelopmentBootstrap.Install(installDriver: false);
                 EngageContractProbe.Install();
+            }
+            else if (scenario == "architect-ending")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                ArchitectEndingAcceptanceProbe.Install();
+            }
+            else if (scenario == "domain-visual")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                DomainVisualDevelopmentProbe.Install();
+            }
+            else if (scenario == "domain-suppression")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                DomainSuppressionAcceptanceProbe.Install();
             }
             else if (scenario == "domain-hopper")
             {

@@ -156,6 +156,7 @@ public static class DomainCardContributions
         // The original enemy need NOT remain attached/alive. Its same-combat cause was captured at commit.
     }
     private static bool Suppress(PowerModel power, CardModel card) =>
+        DomainSelfDebuffEffects.IsSuppressed(power) ||
         ActiveOrigin(power, card) is { } origin && !origin.Receipt.HasRetainedPredicate;
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool KeywordsContribution(AbstractModel model, CardModel card, ISet<CardKeyword> keywords)
@@ -180,6 +181,11 @@ public static class DomainCardContributions
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool CostContribution(AbstractModel model, CardModel card, decimal original, out decimal modified)
     {
+        if (model is PowerModel power && DomainSelfDebuffEffects.IsSuppressed(power))
+        {
+            modified = original;
+            return false;
+        }
         bool changed = model.TryModifyEnergyCostInCombat(card, original, out modified);
         if (changed && model is TangledPower tangled && tangled.Amount > 0 &&
             ActiveOrigin(tangled, card) is { } origin && card.Affliction is MegaCrit.Sts2.Core.Models.Afflictions.Entangled)
@@ -199,7 +205,8 @@ public static class DomainCardContributions
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static bool PlayContribution(AbstractModel model, CardModel card, AutoPlayType autoPlayType)
     {
-        if ((model is SmoggyPower smog && Suppress(smog, card)) || (model is RingingPower ringing && Suppress(ringing, card)))
+        if ((model is PowerModel power && DomainSelfDebuffEffects.IsSuppressed(power)) ||
+            (model is SmoggyPower smog && Suppress(smog, card)) || (model is RingingPower ringing && Suppress(ringing, card)))
         {
             // These pinned native predicates only read their per-turn counter/card affliction.
             // Evaluate for presentation only inside the actual action's admitted ShouldPlay call.

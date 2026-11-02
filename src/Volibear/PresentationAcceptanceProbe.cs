@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.Debug;
@@ -105,13 +106,33 @@ internal static class PresentationAcceptanceProbe
             screenshot=Image($"card-{card.GetType().Name}-{(upgraded?1:0)}-{kind}")});
         if(kind=="large") { NGame.Instance!.GetInspectCardScreen().Close(); await Pause(.3); }
     }
-    private static VolibearEffects? Effects(Creature owner)
+    private static object? OwnerPresentation(Creature owner)
     {
         var room=typeof(VolibearPresentationBridge).GetField("_room",Fields)!.GetValue(null);
         if(room is null)return null;
         var owners=(IDictionary)room.GetType().GetField("_owners",Fields)!.GetValue(room)!;
-        var scope=owners[owner];
+        return owners[owner];
+    }
+    private static VolibearEffects? Effects(Creature owner)
+    {
+        var scope=OwnerPresentation(owner);
         return scope is null?null:(VolibearEffects)scope.GetType().GetField("_effects",Fields)!.GetValue(scope)!;
+    }
+    private static async Task CaptureDomainSpirit(Creature owner)
+    {
+        var scope=OwnerPresentation(owner)??throw new InvalidOperationException("Missing domain owner view");
+        var type=scope.GetType();
+        var visuals=type.GetField("_spiritVisuals",Fields)!.GetValue(scope) as Node2D;
+        var sprite=type.GetField("_spiritSprite",Fields)!.GetValue(scope) as AnimatedSprite2D;
+        var ring=type.GetField("_stormRing",Fields)!.GetValue(scope) as Node2D;
+        var original=(Vector2)type.GetField("_spiritScale",Fields)!.GetValue(scope)!;
+        Need(visuals is not null&&visuals.Scale.IsEqualApprox(original*1.22f),"Domain must enlarge authored foot-origin visuals");
+        Need(sprite?.Material is ShaderMaterial material&&material.Shader.Code.Contains("tex.a * 0.72"),"Domain must use transparent spirit shader");
+        Need(ring is not null&&ring.IsInsideTree()&&ring.GetChildren().OfType<Line2D>().Count()==6,"Domain must display six lightning arcs");
+        var arc=ring!.GetChildren().OfType<Line2D>().Last();var before=arc.Points;
+        await Pause(.25);
+        Need(!before.SequenceEqual(arc.Points),"Domain lightning must animate while active");
+        Screens.Add(new {phase="domain-spirit",enlarged=true,transparentBlue=true,animatedRing=true,screenshot=Image("domain-spirit-"+Tree.Root.Size.X)});
     }
     private static Node? EffectRoot(Creature owner)
     { var effects=Effects(owner);return effects is null?null:(Node)typeof(VolibearEffects).GetField("_root",Fields)!.GetValue(effects)!; }
@@ -131,6 +152,33 @@ internal static class PresentationAcceptanceProbe
         discarded=(long)capture.GetDiscardedFrames();
         Need(Pcm.Count < AudioServer.GetMixRate()*2*180,"Audio capture exceeded finite 180 second budget");
     }
+    // Observe immediately after the production call returns as well as on frames.
+    // On llvmpipe a short source can finish between two rendered frames; sampling
+    // only then records a stopped node, not whether its original play succeeded.
+    private static void ObserveEmission(VolibearEffects __instance)
+    {
+        if (!observing) return;
+        try
+        {
+            var root=(Node)typeof(VolibearEffects).GetField("_root",Fields)!.GetValue(__instance)!;
+            if(GodotObject.IsInstanceValid(root)&&root.IsInsideTree()) ObserveVoices(root);
+        }
+        catch(Exception error) { samplingError=error; }
+    }
+    private static HashSet<ulong> ObserveVoices(Node root)
+    {
+        var live=new HashSet<ulong>();
+        foreach(var item in root.Get("_voices").AsGodotDictionary().Values)
+        {
+            var record=item.AsGodotDictionary();var player=record["node"].AsGodotObject() as AudioStreamPlayer;
+            if(player is null||!GodotObject.IsInstanceValid(player))continue;
+            var cue=record["cue"].AsGodotDictionary();ulong id=player.GetInstanceId();live.Add(id);
+            if(!Voices.TryGetValue(id,out var row)) Voices.Add(id,row=new Voice {node=id,cue=cue["id"].AsString(),file=cue["file"].AsString(),phase=phase,first=Clock.Elapsed.TotalSeconds,bus=player.Bus.ToString(),volume=player.VolumeLinear,playing=player.Playing});
+            row.last=Clock.Elapsed.TotalSeconds;row.volume=Math.Max(row.volume,player.VolumeLinear);
+            row.playing |= player.Playing;
+        }
+        return live;
+    }
     private static async Task Sample(Creature owner)
     {
         try
@@ -140,14 +188,7 @@ internal static class PresentationAcceptanceProbe
                 Drain();var live=new HashSet<ulong>();var visual=new List<object>();var root=EffectRoot(owner);
                 if(root is not null&&GodotObject.IsInstanceValid(root)&&root.IsInsideTree())
                 {
-                    foreach(var item in root.Get("_voices").AsGodotDictionary().Values)
-                    {
-                        var record=item.AsGodotDictionary();var player=record["node"].AsGodotObject() as AudioStreamPlayer;
-                        if(player is null||!GodotObject.IsInstanceValid(player))continue;
-                        var cue=record["cue"].AsGodotDictionary();ulong id=player.GetInstanceId();live.Add(id);
-                        if(!Voices.TryGetValue(id,out var row)) Voices.Add(id,row=new Voice {node=id,cue=cue["id"].AsString(),file=cue["file"].AsString(),phase=phase,first=Clock.Elapsed.TotalSeconds,bus=player.Bus.ToString(),volume=player.VolumeLinear,playing=player.Playing});
-                        row.last=Clock.Elapsed.TotalSeconds;row.volume=Math.Max(row.volume,player.VolumeLinear);
-                    }
+                    live=ObserveVoices(root);
                     foreach(var item in root.Get("_visuals").AsGodotDictionary().Values)
                     {
                         var record=item.AsGodotDictionary();var effect=record["effect"].AsGodotDictionary();var bundle=record["bundle"].AsGodotDictionary();
@@ -237,6 +278,9 @@ internal static class PresentationAcceptanceProbe
                 Need(!driver.Contains("Dummy",StringComparison.OrdinalIgnoreCase),"Dummy audio cannot prove playback");
                 Need(!AudioServer.IsBusMute(0),"Master audio bus muted; probe never forces unmute");
                 capture=new AudioEffectCapture {BufferLength=4};captureIndex=AudioServer.GetBusEffectCount(0);AudioServer.AddBusEffect(0,capture,captureIndex);
+                var observer=new Harmony("Volibear.PresentationAcceptance.AudioObserver");
+                foreach(string method in new[]{nameof(VolibearEffects.Emit),nameof(VolibearEffects.PlaySound)})
+                    observer.Patch(AccessTools.Method(typeof(VolibearEffects),method),postfix:new HarmonyMethod(typeof(PresentationAcceptanceProbe),nameof(ObserveEmission)));
                 observing=true;sampling=Sample(owner);
                 foreach(var enemy in state.Enemies.ToArray())await CreatureCmd.SetMaxAndCurrentHp(enemy,1000);
                 await CreatureCmd.SetMaxAndCurrentHp(owner,1000);
@@ -246,7 +290,12 @@ internal static class PresentationAcceptanceProbe
                     Screens.Add(new {phase,screenshot=Image(phase)});
                     foreach(string code in new[]{"B01","B02","B03","B04","C03","C05"})
                     {var card=await Create(state,player,code);await Paid(card,card.TargetType==TargetType.AnyEnemy?state.Enemies.First():null,player,$"{size.X}-{code}");}
+                    await CaptureDomainSpirit(owner);
                 }
+                // R29 converts every eligible hand card, including cards drawn by earlier
+                // demonstrations. Isolate the two intended materials using native pile moves.
+                foreach(var leftover in player.PlayerCombatState!.Hand.Cards.ToArray())
+                    await CardPileCmd.Add(leftover,PileType.Discard);
                 var clawMaterial=await Create(state,player,"B01");var bodyMaterial=await Create(state,player,"B02");
                 await Paid(await Create(state,player,"R29"),null,player,"beast-convert");
                 var claw=player.PlayerCombatState!.Hand.Cards.OfType<Volibear_T01>().Single();
@@ -257,8 +306,23 @@ internal static class PresentationAcceptanceProbe
                 await Paid(claw,state.Enemies.First(),player,"converted-claw");await Paid(body,null,player,"converted-body");
                 phase="native-combat-end";var effects=Effects(owner);var root=EffectRoot(owner);
                 int beforeVisuals=effects?.ActiveVisuals??0,beforeVoices=effects?.ActiveVoices??0;
+                var spiritScope=OwnerPresentation(owner)!;
+                var spiritType=spiritScope.GetType();
+                var spiritVisuals=(Node2D?)spiritType.GetField("_spiritVisuals",Fields)!.GetValue(spiritScope);
+                var spiritSprite=(AnimatedSprite2D?)spiritType.GetField("_spiritSprite",Fields)!.GetValue(spiritScope);
+                var spiritOriginalScale=(Vector2)spiritType.GetField("_spiritScale",Fields)!.GetValue(spiritScope)!;
+                var spiritOriginalMaterial=(Material?)spiritType.GetField("_spiritMaterial",Fields)!.GetValue(spiritScope);
                 foreach(var enemy in state.Enemies.ToArray())await CreatureCmd.Kill(enemy,force:true);
-                await Pause(2);
+                // These fixture kills run outside the action executor. Native Kill
+                // does not check victory; invoke its normal completion safe point so
+                // the native CombatEnded event (not direct disposal) releases ownership.
+                Need(await CombatManager.Instance.CheckWinCondition(),"Native victory after last enemy death");
+                await Until(()=>Effects(owner) is null && (root is null || !GodotObject.IsInstanceValid(root) || !root.IsInsideTree()),"native combat-end owned node cleanup");
+                Need(spiritType.GetField("_stormRing",Fields)!.GetValue(spiritScope) is null,"Combat end must release domain ring ownership");
+                if(spiritVisuals is not null&&GodotObject.IsInstanceValid(spiritVisuals))
+                    Need(spiritVisuals.Scale.IsEqualApprox(spiritOriginalScale),"Combat end must restore original actor scale");
+                if(spiritSprite is not null&&GodotObject.IsInstanceValid(spiritSprite))
+                    Need(spiritSprite.Material==spiritOriginalMaterial,"Combat end must restore original actor material");
                 cleanup=new {cause="native-last-enemy-death",beforeVisuals,beforeVoices,afterVisuals=effects?.ActiveVisuals??0,afterVoices=effects?.ActiveVoices??0,
                     oldRootAlive=root is not null&&GodotObject.IsInstanceValid(root)&&root.IsInsideTree(),roomAttached=Effects(owner) is not null};
                 observing=false;await sampling;
@@ -272,6 +336,7 @@ internal static class PresentationAcceptanceProbe
                 acceptance="native-viewport-paid-actions-game-bus-pcm-not-sensory-or-full-G5",osInput=false,syntheticScreenshots=false,directCosmeticPlayback=false,
                 display=DisplayServer.GetName(),views=Views,actions=Actions,frames=Frames,screens=Screens,audio,cleanup,
                 authoredEffects=Manifest("res://VolibearArt/vfx/manifest.json"),authoredAudio=Manifest("res://VolibearArt/audio/manifest.json"),
+                audioProfile=Manifest("res://VolibearArt/audio/profiles/runtime.json"),
                 primitiveRoutes=VolibearPresentationBridge.PrimitiveRoutes,
                 matrix=Enumerable.Range(1,10).Select(i=>new {id=$"V{i:D2}",status=i==9?"NOTRUN":i==1?(mode=="actions"?"NOTRUN":"captured-awaiting-manual-review"):i==5?"inventory-only":mode=="cards"?"NOTRUN":"partial-evidence-manual-review-required"}).ToArray(),
                 manualReviewRequired=new[]{"readability/crop/black-background/occlusion/flicker","animation continuity and aesthetics","heard loudness/mix/synchronization",
@@ -281,7 +346,9 @@ internal static class PresentationAcceptanceProbe
         catch(Exception error){GD.PrintErr("[Volibear] PRESENTATION_ACCEPTANCE_ERROR "+token+" "+error);if(managed)throw;Tree.Quit(2);}
         finally
         {
-            observing=false;if(sampling is not null)await sampling;
+            observing=false;
+            new Harmony("Volibear.PresentationAcceptance.AudioObserver").UnpatchAll("Volibear.PresentationAcceptance.AudioObserver");
+            if(sampling is not null)await sampling;
             if(captureIndex>=0&&capture is not null&&AudioServer.GetBusEffectCount(0)>captureIndex&&AudioServer.GetBusEffect(0,captureIndex)==capture)AudioServer.RemoveBusEffect(0,captureIndex);
             capture?.Dispose();Tree.Root.Size=originalSize;
         }

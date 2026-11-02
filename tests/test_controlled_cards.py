@@ -59,8 +59,9 @@ class ControlledCardSourceContracts(unittest.TestCase):
             for upgraded, key in [(False, "base"), (True, "upgraded")]:
                 with self.subTest(card=code, upgraded=upgraded):
                     actual = render(body, upgraded)
-                    self.assertEqual(actual, self.canonical[code][key])
-                    self.assertEqual(actual, self.fixture[code]["faces"][int(upgraded)]["rules_text_zh"])
+                    face = self.fixture[code]["faces"][int(upgraded)]
+                    self.assertEqual(face["rules_text_zh"], self.canonical[code][key])
+                    self.assertEqual(actual, face["display_text_zh"])
                     self.assertEqual("CardKeyword.Exhaust" in body, self.fixture[code]["faces"][int(upgraded)]["self_exhaust"])
 
     def test_native_selections_capacity_identity_and_scry_order(self):

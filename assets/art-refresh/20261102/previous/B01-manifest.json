@@ -1,0 +1,77 @@
+{
+  "id": "B01",
+  "asset_key": "b01",
+  "revision": "revised_v7",
+  "master": "cards/masters/B01.png",
+  "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd",
+  "source_record_sha256": "81eb50d543db6793684d9ae8b76ffb06044345a2bcf26f9f0c8a6c11cb1b31f5",
+  "prompt": "cards/prompts/B01.txt",
+  "prompt_sha256": "2eb1e57f7361935896ad0c7ef7a8465c48c7a19f93f8b4ad03b5e43432192450",
+  "review": "reviews/B01.json",
+  "review_sha256": "eda9a344aa6a47c969eed649630e00dd5b19f858cad47e76b9d750deecb6ad86",
+  "exports": [
+    {
+      "profile": "sts2_big",
+      "path": "production/sts2/Volibear/images/card_portraits/big/b01.png",
+      "sha256": "41487a72294c13f60c2753afc52dd586424ca249be62313d9beee95e67624636",
+      "size": [
+        1000,
+        760
+      ],
+      "mode": "RGB",
+      "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+    },
+    {
+      "profile": "sts2_small",
+      "path": "production/sts2/Volibear/images/card_portraits/b01.png",
+      "sha256": "444e7701365b6f59e18962a978c5118a0d5df6bb2b057b43ba6b1110c3b1f497",
+      "size": [
+        250,
+        190
+      ],
+      "mode": "RGB",
+      "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+    },
+    {
+      "profile": "sts1_large",
+      "path": "production/sts1/VolibearResources/images/cards/b01_p.png",
+      "sha256": "725b83cd9eac807fb9f5417b41db34a5fb732da31f374aae63de4adc2b972d35",
+      "size": [
+        500,
+        380
+      ],
+      "mode": "RGBA",
+      "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+    },
+    {
+      "profile": "sts1_small",
+      "path": "production/sts1/VolibearResources/images/cards/b01.png",
+      "sha256": "bf8240a289af1286dbed3371cb81bc4792b9cbad362dbc5671377aed21f5054c",
+      "size": [
+        250,
+        190
+      ],
+      "mode": "RGBA",
+      "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd"
+    }
+  ],
+  "provenance": {
+    "provider": "chatgpt-sub",
+    "raw_path": "cards/source_v7/B01.png",
+    "selected_source_sha256": "db7ec1478ebca91f77a49941548ad93b7e49482129bf8d618f2dca78108cce5c",
+    "selected_source_size": [
+      1448,
+      1086
+    ],
+    "crop_box": [
+      11,
+      1,
+      1436,
+      1084
+    ],
+    "resized_for_master": false,
+    "attempt": 21,
+    "crop_area_removed_fraction": 0.01860253044778848,
+    "generation_record": "reviews/v7/generation_B01.json"
+  }
+}

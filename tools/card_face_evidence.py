@@ -654,6 +654,15 @@ def _validate_selections(selections,cards,aid,e,c,up,branch):
             if c=='R25':return model=='VOLIBEAR_B02'
             return True
         allowed=[ref for ref in available if eligible(ref)]
+        # Locked native FromCombatPile selector IL sorts Draw by Rarity then Id
+        # (stable LINQ OrderBy/ThenBy), not physical draw order. These fixtures
+        # contain equal-rarity candidates (Basic, or U39's two Rares). Reject
+        # expansion without a rarity oracle.
+        # U17's top-N inspection is not a pile search.
+        if pile=='Draw' and c!='U17':
+            equal_rarity = ('VOLIBEAR_R07','VOLIBEAR_R23') if c=='U39' else ('VOLIBEAR_B01','VOLIBEAR_B02','VOLIBEAR_B03','VOLIBEAR_B04')
+            _need(all(cards[ref]['modelId'] in equal_rarity for ref in allowed), 'draw-search fixture candidates must have equal rarity')
+            allowed.sort(key=lambda ref:cards[ref]['modelId'])
         _validate_selector(receipt,pending,aid,minimum,maximum,allowed,selected)
 
 
@@ -691,7 +700,11 @@ def extract_card_face_batch(text,token,cases):
     records=[json.loads(line.split(PREFIX,1)[1]) for line in text.splitlines() if PREFIX in line]
     summaries=[json.loads(line.split(BATCH_PREFIX,1)[1]) for line in text.splitlines() if BATCH_PREFIX in line]
     _need(len(records)==len(cases) and len(summaries)==1,'complete unique batch receipts')
-    for record,case in zip(records,cases):_need(validate_card_face_result(record,token,case),'full native case in requested order')
+    for record,case in zip(records,cases):
+        try:
+            _validate(record,token,case)
+        except (ValueError,TypeError,KeyError,IndexError,AttributeError) as error:
+            raise ValueError(f'full native case {case}: {error}') from error
     summary=summaries[0]
     _need(type(summary) is dict and set(summary)=={'schema','token','cases','completed','transitions','lifecycle','shouldSave'},'batch summary fields')
     _same({k:v for k,v in summary.items() if k!='transitions'},dict(schema=1,token=token,cases=cases,completed=cases,

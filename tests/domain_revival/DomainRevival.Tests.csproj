@@ -9,7 +9,8 @@
     <Compile Include="Program.cs" /><Compile Include="HostAlias.cs" />
     <Compile Include="../../src/Volibear/Core/DomainRevivalEffects.cs" Link="DomainRevivalEffects.cs" />
     <Compile Include="../../src/Volibear/Core/RevivalDecision.cs" Link="RevivalDecision.cs" />
-    <Reference Include="Volibear"><HintPath>$(HostAssembly)</HintPath><Aliases>VolibearHost</Aliases></Reference>
+    <Compile Include="../../src/Volibear/Presentation/PowerPresentationDomain.cs" />
+    <Reference Include="Volibear"><HintPath>$(HostAssembly)</HintPath><Aliases>global,VolibearHost</Aliases></Reference>
     <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
     <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
     <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>

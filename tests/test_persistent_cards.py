@@ -71,7 +71,9 @@ class PersistentCardContracts(unittest.TestCase):
         for code, body in self.cards.items():
             for upgraded, key in [(False, "base"), (True, "upgraded")]:
                 with self.subTest(card=code, upgraded=upgraded):
-                    self.assertEqual(render(body, upgraded), self.canonical[code][key])
+                    face = self.fixture[code]['faces'][int(upgraded)]
+                    self.assertEqual(face['rules_text_zh'], self.canonical[code][key])
+                    self.assertEqual(render(body, upgraded), face['display_text_zh'])
 
     def test_executable_source_order_not_prose_order(self):
         # Hand-selected from cards/{uncommon,rare,domain,storm}.ts compositions.

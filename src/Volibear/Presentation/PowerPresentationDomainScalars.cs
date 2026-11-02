@@ -28,6 +28,9 @@ internal static class PowerPresentationDomainScalars
         internal readonly List<Entry> Entries = [];
         internal bool Claimed;
     }
+    private sealed record NativeSite(MethodInfo Target, int Count);
+    private sealed record NativeManifest(string Label, NativeSite[] Sites);
+    private static readonly Dictionary<MethodBase, NativeManifest> Manifests = [];
     private static readonly HashSet<MethodBase> KeywordBodies = [];
     [ThreadStatic] private static Frame? pending;
     [ThreadStatic] private static Frame? active;
@@ -52,11 +55,41 @@ internal static class PowerPresentationDomainScalars
         var spend = AccessTools.Method(typeof(CardModel), nameof(CardModel.SpendResources));
         var turnEndCard = AccessTools.Method(typeof(CardModel), nameof(CardModel.OnTurnEndInHandWrapper));
         var turnEnd = AccessTools.Method(typeof(MegaCrit.Sts2.Core.Combat.CombatManager), "DoTurnEnd");
-        foreach (var method in new[] { damage, block, apply, modify, clear, auto, play, spend, turnEndCard, turnEnd })
+        // Exact locked-game manifest: every admitted scalar receipt site, in native order.
+        // AutoPlay has two distinct real sites (ShouldPlay then GetAmountToSpend); Damage
+        // has one damage query and three independent hp-loss queries. A new, removed,
+        // reordered or substituted call must fail rather than be counted loosely.
+        var hookDamage = AccessTools.Method(typeof(Hook), nameof(Hook.ModifyDamage));
+        var hookHpLost = AccessTools.Method(typeof(Hook), nameof(Hook.ModifyHpLost));
+        var hookBlock = AccessTools.Method(typeof(Hook), nameof(Hook.ModifyBlock));
+        var hookPower = AccessTools.Method(typeof(Hook), nameof(Hook.ModifyPowerAmountReceived));
+        var hookClear = AccessTools.Method(typeof(Hook), nameof(Hook.ShouldClearBlock));
+        var hookPlay = AccessTools.Method(typeof(Hook), nameof(Hook.ShouldPlay));
+        var canPlay = AccessTools.Method(typeof(CardModel), nameof(CardModel.CanPlay),
+            [typeof(UnplayableReason).MakeByRefType(), typeof(AbstractModel).MakeByRefType()]);
+        var energyToSpend = AccessTools.Method(typeof(CardEnergyCost), nameof(CardEnergyCost.GetAmountToSpend));
+        var keywords = AccessTools.PropertyGetter(typeof(CardModel), nameof(CardModel.Keywords));
+        foreach (var (method, label, sites) in new (MethodInfo Method, string Label, NativeSite[] Sites)[]
+        {
+            (damage, "CreatureCmd.Damage", [new(hookDamage, 1), new(hookHpLost, 3)]),
+            (block, "CreatureCmd.GainBlock", [new(hookBlock, 1)]),
+            (apply, "PowerCmd.Apply", [new(hookPower, 1)]),
+            (modify, "PowerCmd.ModifyAmount", [new(hookPower, 1)]),
+            (clear, "Creature.ClearBlock", [new(hookClear, 1)]),
+            (auto, "CardCmd.AutoPlay", [new(hookPlay, 1), new(energyToSpend, 1)]),
+            (play, "PlayCardAction.ExecuteAction", [new(canPlay, 1)]),
+            (spend, "CardModel.SpendResources", [new(energyToSpend, 1)]),
+            (turnEndCard, "CardModel.OnTurnEndInHandWrapper", [new(keywords, 1)]),
+            (turnEnd, "CombatManager.DoTurnEnd", [new(keywords, 1)]),
+        })
         {
             var body = AccessTools.Method(method.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType, "MoveNext");
             if (method == turnEndCard || method == turnEnd) KeywordBodies.Add(body);
-            h.Patch(body, transpiler: new(typeof(PowerPresentationDomainScalars), nameof(NativeCalls)));
+            Manifests[body] = new(label, sites);
+            // Bind the native call before TargetCosts replaces it with its resolved-target
+            // wrapper. The receipt remains after the replacement call in the final body.
+            h.Patch(body, transpiler: new(typeof(PowerPresentationDomainScalars), nameof(NativeCalls))
+                { before = ["Volibear.TargetCosts"] });
         }
     }
     private static Frame Begin(string hook)
@@ -116,10 +149,21 @@ internal static class PowerPresentationDomainScalars
         catch { }
         finally { pending = frame.Previous; }
     }
+    private static void ValidateSites(MethodBase original, List<MethodInfo> actual)
+    {
+        if (!Manifests.TryGetValue(original, out var manifest))
+            throw new InvalidOperationException($"Unpinned native domain scalar method: {original.DeclaringType?.FullName}.{original.Name}");
+        var expected = manifest.Sites.SelectMany(site => Enumerable.Repeat(site.Target, site.Count)).ToArray();
+        if (!actual.SequenceEqual(expected))
+            throw new InvalidOperationException(
+                $"Native domain scalar consumption sites drifted: {manifest.Label}; expected [{Describe(expected)}], actual [{Describe(actual)}]");
+    }
+    private static string Describe(IEnumerable<MethodInfo> methods) =>
+        string.Join(", ", methods.Select(m => $"{m.DeclaringType?.Name}.{m.Name}"));
     private static IEnumerable<CodeInstruction> NativeCalls(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase __originalMethod)
     {
         var frame = generator.DeclareLocal(typeof(Frame));
-        int count = 0;
+        var actual = new List<MethodInfo>();
         foreach (var old in instructions)
         {
             var instruction = new CodeInstruction(old);
@@ -132,7 +176,7 @@ internal static class PowerPresentationDomainScalars
                 method.Name is not (nameof(Hook.ModifyDamage) or nameof(Hook.ModifyHpLost) or nameof(Hook.ModifyBlock) or
                     nameof(Hook.ModifyPowerAmountReceived) or nameof(Hook.ShouldClearBlock) or nameof(Hook.ShouldPlay))))
             { yield return instruction; continue; }
-            count++;
+            actual.Add(method);
             var begin = new CodeInstruction(OpCodes.Ldstr, canPlay ? nameof(Hook.ShouldPlay) : spend ? nameof(Hook.ModifyEnergyCostInCombat) :
                 keywords ? nameof(Hook.ModifyKeywordsInCombat) : method.Name);
             begin.labels.AddRange(instruction.labels); instruction.labels.Clear();
@@ -147,6 +191,6 @@ internal static class PowerPresentationDomainScalars
                 keywords ? nameof(ConsumedKeywords) : spend ? nameof(ConsumedInteger) :
                 method.ReturnType == typeof(bool) ? nameof(ConsumedBoolean) : nameof(Consumed)));
         }
-        if (count is not (1 or 4)) throw new InvalidOperationException("Native domain scalar consumption sites drifted");
+        ValidateSites(__originalMethod, actual);
     }
 }

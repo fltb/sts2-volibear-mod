@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -54,11 +56,11 @@ public sealed class BearSpiritPower : CustomPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
     public CardModel SourceCard => IsMutable ? State.Source ?? ModelDb.Card<Volibear_R28>() : ModelDb.Card<Volibear_R28>();
-    public override string CustomPackedIconPath => VolibearCard.PortraitRoot + "/r28.png";
-    public override string CustomBigIconPath => VolibearCard.BigPortraitRoot + "/r28.png";
+    public override string CustomPackedIconPath => Presentation.VolibearIcons.BearSpirit;
+    public override string CustomBigIconPath => Presentation.VolibearIcons.BearSpiritBig;
     public override List<(string, string)> Localization => new PowerLoc("熊灵侵染",
-        "每回合首次兽化后抽{Amount}张牌；首次实际打出兽形时获得1雷势。正常起手抽牌及领域扣时后，可选兽化1张手牌。",
-        "每回合首次兽化后抽{Amount}张牌；首次实际打出兽形时获得1雷势。正常起手抽牌及领域扣时后，可选兽化1张手牌。各实例独立计次，重演不增加实际出牌次数。");
+        "每回合首次兽化后抽{Amount}张牌，首次打出兽形时获得1雷势。回合开始抽牌后，可以兽化1张手牌。",
+        "每回合首次兽化后抽{Amount}张牌，首次打出兽形时获得1雷势。回合开始抽牌后，可以兽化1张手牌。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         State.Source = cardSource ?? throw new InvalidOperationException("Bear Spirit requires its originating card.");
@@ -77,7 +79,22 @@ public sealed class BearSpiritPower : CustomPowerModel
         if (!ReferenceEquals(Owner.Player, player) || !BeastPowers.Active(this)) return;
         // Domain's Early hook has already consumed its normal-draw duration.
         var source = State.Source ?? throw new InvalidOperationException("Missing Bear Spirit source.");
-        await BeastSelection.Transform(context, source, 1, optional: true, discount: false);
+        // A resolved Power card has no pile, so native CardModel.CombatState is null.
+        // The installed power owns this later effect's lifetime, not its source card.
+        var hand = PileType.Hand.GetPile(player);
+        var candidates = hand.Cards.Where(c => !ReferenceEquals(c, source)).ToArray();
+        if (candidates.Length == 0) return;
+        var selected = (await CardSelectCmd.FromHand(context, player,
+            new CardSelectorPrefs(new LocString("cards", source.Id.Entry + ".beastSelectionPrompt"), 0, 1),
+            c => candidates.Contains(c), source)).ToArray();
+        foreach (var card in selected.Distinct(ReferenceEqualityComparer.Instance).Cast<CardModel>())
+        {
+            if (!BeastPowers.Active(this)) break;
+            if (!ReferenceEquals(card.Pile, hand)) continue;
+            var replacement = await BeastForms.Convert(context, card, source);
+            if (replacement is not null && !ReferenceEquals(replacement, card))
+                GameplayPresentationReceipts.Publish("feral_batch_committed", Owner, source, amount: 1);
+        }
     }
     public override async Task BeforeCardPlayed(CardPlay play)
     {
@@ -104,11 +121,11 @@ public sealed class WildernessPower : CustomPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
     public CardModel SourceCard => IsMutable ? State.Source ?? ModelDb.Card<Volibear_R30>() : ModelDb.Card<Volibear_R30>();
-    public override string CustomPackedIconPath => VolibearCard.PortraitRoot + "/r30.png";
-    public override string CustomBigIconPath => VolibearCard.BigPortraitRoot + "/r30.png";
+    public override string CustomPackedIconPath => Presentation.VolibearIcons.Wilderness;
+    public override string CustomBigIconPath => Presentation.VolibearIcons.WildernessBig;
     public override List<(string, string)> Localization => new PowerLoc("我即荒野",
-        "每回合首次实际打出爪形时，获得{Amount}格挡；每次实际打出躯形时，获得1能量。",
-        "每回合首次实际打出爪形时，获得{Amount}格挡；每次实际打出躯形时，获得1能量。各实例独立计次，重演不增加实际出牌次数。");
+        "每回合首次打出爪形时，获得{Amount}格挡；每次打出躯形时，获得1能量。",
+        "每回合首次打出爪形时，获得{Amount}格挡；每次打出躯形时，获得1能量。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         State.Source = cardSource ?? throw new InvalidOperationException("Wilderness requires its originating card.");

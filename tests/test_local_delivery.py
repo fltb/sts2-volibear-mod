@@ -184,11 +184,17 @@ class DeliveryTests(unittest.TestCase):
 
     def test_release_gate_includes_restart_real_peers_and_full_presentation(self):
         args, events = self.pipeline(['--verify-release', '--audio-driver', 'PulseAudio'])
-        delivery.deliver(args)
+        from tools import package_lifecycle_acceptance
+        with patch.object(package_lifecycle_acceptance, 'accept', return_value={'package_sha256': 'fixture'}) as lifecycle:
+            delivery.deliver(args)
+        lifecycle.assert_called_once()
+        self.assertEqual(lifecycle.call_args.args[:2], (Path('/built/result.zip'), Path('/game path')))
         self.assertEqual([event[0] for event in events][-6:],
                          ['pck', 'install', 'deploy', 'suite', 'multiplayer', 'zip'])
         native = next(event[1] for event in events if event[0] == 'suite')
         self.assertIn('--verify-restart', native)
+        self.assertEqual(native[native.index('--timeout') + 1], '28800')
+        self.assertEqual(native[native.index('--frames') + 1], '1728000')
         self.assertEqual(native[native.index('--presentation-mode') + 1], 'all')
         peer = next(event[1] for event in events if event[0] == 'multiplayer')
         self.assertIn('--execute-native', peer)

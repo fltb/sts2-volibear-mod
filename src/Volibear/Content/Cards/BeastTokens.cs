@@ -17,7 +17,7 @@ namespace Volibear.Content;
 public sealed class Volibear_T01 : VolibearCard
 {
     public Volibear_T01() : base(1, CardType.Attack, CardRarity.Token, TargetType.AnyEnemy, "t01", false) { }
-    public override List<(string, string)> Localization => new CardLoc("裂骨之爪", "造成{Damage:diff()}伤害{Hits:diff()}次。");
+    public override List<(string, string)> Localization => new CardLoc("裂骨之爪", "造成{Damage:diff()}伤害，共{Hits:diff()}次。");
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override bool CanBeGeneratedInCombat => false;
     public override bool CanBeGeneratedByModifiers => false;
@@ -31,7 +31,7 @@ public sealed class Volibear_T01 : VolibearCard
 public sealed class Volibear_T02 : VolibearCard, INativeLightningSpell
 {
     public Volibear_T02() : base(1, CardType.Skill, CardRarity.Token, TargetType.AllEnemies, "t02", false) { }
-    public override List<(string, string)> Localization => new CardLoc("风暴之躯", "获得{Block:diff()}格挡。对全体造成{Lightning:diff()}雷伤。");
+    public override List<(string, string)> Localization => new CardLoc("风暴之躯", "获得{Block:diff()}格挡。对所有敌人造成{Lightning:diff()}雷伤。");
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     public override bool CanBeGeneratedInCombat => false;
     public override bool CanBeGeneratedByModifiers => false;

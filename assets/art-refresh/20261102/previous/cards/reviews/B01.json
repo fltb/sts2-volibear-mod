@@ -1,0 +1,55 @@
+{
+  "id": "B01",
+  "attempt": 21,
+  "decision": "approve",
+  "reviewer": {
+    "name": "review-four",
+    "role": "independent visual reviewer",
+    "independent_from_generator": true
+  },
+  "actual_reviewer": "review-four",
+  "inspected_actual_images": true,
+  "raw_sha256": "db7ec1478ebca91f77a49941548ad93b7e49482129bf8d618f2dca78108cce5c",
+  "master_sha256": "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd",
+  "comparison_sha256": "c70999a0631d0e4e4fc1e3de1137c47d87322111e2e81c70059f12b65e55592d",
+  "views_inspected": [
+    "raw_full",
+    "comparison_anchors",
+    "250",
+    "125",
+    "grayscale",
+    "sts1_masks"
+  ],
+  "observations": "实际查看attempt21原图和完整stage21对照板。近肩、上臂、前臂与掌连续，头肩比例自然，前景掌没有旧版极端透视膨胀。宽大环绕动作弧已删除，仅爪端后方留两道短迹；背景收为安静灰紫山形，没有雷或爆点。身体毛面明显并为较大的白、灰、深蓝区域，暗前臂在缩图中成为单一连续动作块。125彩色和灰度均能读到向右伸挥的掌、青爪与熊头，面部不滑稽，基础打击语气克制。动作不是最大幅度的攻击姿态，但足以读作一次普通爪击，符合初始卡定位。两种遮罩不切断头脸或爪端。",
+  "baseline_comparison": "白肩、灰影、深蓝前臂及青色身份线与U17/U23统一。内部仍有少数毛尖和局部面部细节，但不再像attempt20那样遍布小切面，缩图组织层级已与基准兼容；背景比两基准更安静，适合高频初始打击。",
+  "paw_orientation_observation": "近侧肩与臂相接，前臂到掌背没有额外关节；三个可见爪从各自指端向前下弯。掌不是翻转的掌面，爪根没有长在腕侧。远侧手未强行补画，胸辫在胸前并被近臂自然遮住下段。",
+  "quality_axes": {
+    "main_read": 18,
+    "large_shapes": 17,
+    "tone": 18,
+    "finish": 17,
+    "distinctiveness": 17
+  },
+  "gates": {
+    "limb_connections": true,
+    "joints_and_paws": true,
+    "head_and_torso": true,
+    "occlusion": true,
+    "action_causality": true,
+    "thumbnail_readability": true,
+    "series_identity": true,
+    "crop_and_mask": true,
+    "paw_orientation": true
+  },
+  "defects": [],
+  "recorded_at": "2026-10-29T21:15:46+00:00",
+  "master": "cards/masters/B01.png",
+  "revision": "V7",
+  "unresolved_defects": [],
+  "comparison_file": "reviews/v7/comparisons/B01.jpg",
+  "anchors": [
+    "U17",
+    "U23"
+  ],
+  "scope": "Visual judgment from actual images, not a guarantee of user preference."
+}

@@ -17,13 +17,13 @@ def fixture(family):
         'smoggy': ('LivingFog', 'LivingFogNormal', 'ADVANCED_GAS_MOVE', 'SmoggyPower', 'Smog', 1),
         'ringing': ('CeremonialBeast', 'CeremonialBeastBoss', 'BEAST_CRY_MOVE', 'RingingPower', 'Ringing', 1)}
     source, encounter, move, power, affliction, amount = defs[family]
-    p = dict(schema=2, token='unit-token', scenario='domain-card-contributions', family=family,
+    p = dict(schema=3, token='unit-token', scenario='domain-card-contributions', family=family,
         acceptance='four-native-contributions-not-affliction-writes-or-ordinary-input', testMode=False,
         version='v0.107.1', commit='59260271', encounter=encounter, sourceType=source, sourceId=1, ownerId=0,
         initialRoster=[dict(id=1, type=source)], keeperAdded=True, nativeMoveCalls=2 if family == 'hex' else 1,
         deathSourceId=3 if family == 'hex' else None, directPowerCallbackCalls=0, warmupQueriesPerApi=16,
         moves=[dict(sourceId=1, type=source, move=move)], received=[dict(type=power, amount=amount, applierId=1, targetId=0)],
-        mixedStackPolicy='retained-player-predicate-and-cost-counterfactual', insertionCoverage=False,
+        mixedStackPolicy='all-player-debuffs-temporarily-muted', insertionCoverage=False,
         afflictionWriteSuppression=False, hexCleanupKind='native-PowerCmd.Remove-after-escape' if family == 'hex' else None)
     if family == 'hex': p['moves'].append(dict(sourceId=3, type=source, move=move))
     p['ilSites'] = [dict(Method=name, Kind=kind, NativeCalls=1, ReplacedCalls=1) for kind, name in [
@@ -36,24 +36,24 @@ def fixture(family):
     if family == 'hex': phases += ['removed-cleanup']
     phases += ['native-next-turn']
     if family == 'hex': phases += ['death-before', 'death-after']
-    phases += ['player-control']
+    phases += ['player-control', 'player-control-off']
     rows = []
     for phase in phases:
-        active = phase not in ('warm', 'off', 'off-again', 'departed-off')
+        active = phase not in ('warm', 'off', 'off-again', 'departed-off', 'player-control-off')
         native_power = phase != 'warm' and phase not in ('removed-cleanup', 'death-after') and (phase != 'native-next-turn' or family == 'smoggy')
         has_affliction = native_power and phase != 'native-next-turn'
-        player = phase == 'player-control'; died = phase == 'death-before'; mixed = phase == 'mixed-native' or phase == 'native-next-turn'
+        player = phase in ('player-control', 'player-control-off'); died = phase == 'death-before'; mixed = phase == 'mixed-native' or phase == 'native-next-turn'
         n = 1 if player else amount + (phase == 'mixed-native' or phase == 'native-next-turn' and family == 'smoggy')
         kind = 'player' if player else 'mixed' if mixed else 'enemy'
         origin = dict(State=kind, ExpectedAmount=n, ActualAmount=n, SameCombat=True, SameOwner=True,
             EnemyIds=[] if player else ['3'] if died else ['1'],
             UnsupportedReason='', RetainedAmount=1 if kind in ('player', 'mixed') else 0,
             RetainedPredicate=kind in ('player', 'mixed')) if native_power else None
-        suppressed = phase in ('on', 'other-source', 'other-removed', 'departed-on', 'death-before')
+        suppressed = phase in ('on', 'other-source', 'other-removed', 'departed-on', 'death-before', 'mixed-native', 'player-control')
         other = phase == 'other-source'
-        veto = has_affliction and family in ('smoggy', 'ringing') and (not suppressed or other)
+        veto = has_affliction and family in ('smoggy', 'ringing') and not suppressed
         cost = 1 + ((1 if phase == 'mixed-native' else n) if has_affliction and family == 'tangled' and not suppressed else 0) + (2 if other and family == 'tangled' else 0)
-        rows.append(dict(phase=phase, round=2 if phase in ('native-next-turn', 'death-before', 'death-after', 'player-control') else 1,
+        rows.append(dict(phase=phase, round=2 if phase in ('native-next-turn', 'death-before', 'death-after', 'player-control', 'player-control-off') else 1,
             domain=5 if active else 0, sourceAttached=phase in ('warm', 'off', 'on', 'other-source', 'other-removed', 'off-again'),
             sourceAlive=True, ownerId=0, sourceId=1, cardId=20, cardType='StrikeIronclad' if family == 'tangled' else 'DefendIronclad',
             cardRef='c1', pile='Hand', affliction=affliction if has_affliction else None,
@@ -90,22 +90,30 @@ class EvidenceTests(unittest.TestCase):
                 p = fixture(family); row(p, 'on')[key] = value; self.assertTrue(gate.validate(p, 'unit-token', family))
 
     def test_other_source_cannot_be_erased(self):
-        for family, key, value in [('hex', 'ethereal', False), ('tangled', 'cost', 1), ('smoggy', 'canPlay', True), ('ringing', 'preventer', None)]:
+        for family, key, value in [('hex', 'ethereal', False), ('tangled', 'cost', 1), ('smoggy', 'canPlay', False), ('ringing', 'preventer', 'SlothPower')]:
             with self.subTest(family=family):
                 p = fixture(family); row(p, 'other-source')[key] = value; self.assertTrue(gate.validate(p, 'unit-token', family))
 
-    def test_player_source_cannot_be_suppressed(self):
-        for family, key, value in [('hex', 'ethereal', False), ('tangled', 'cost', 1), ('smoggy', 'canPlay', True), ('ringing', 'canPlay', True)]:
+    def test_player_source_is_temporarily_suppressed(self):
+        for family, key, value in [('hex', 'ethereal', True), ('tangled', 'cost', 2), ('smoggy', 'canPlay', False), ('ringing', 'canPlay', False)]:
             with self.subTest(family=family):
                 p = fixture(family); row(p, 'player-control')[key] = value; self.assertTrue(gate.validate(p, 'unit-token', family))
+
+    def test_player_source_resumes_without_reapplication(self):
+        for family, key, value in [('hex', 'ethereal', False), ('tangled', 'cost', 1), ('smoggy', 'canPlay', True), ('ringing', 'canPlay', True)]:
+            with self.subTest(family=family):
+                p = fixture(family); row(p, 'player-control-off')[key] = value
+                self.assertTrue(gate.validate(p, 'unit-token', family))
+        p = fixture('hex'); row(p, 'player-control-off')['powerRef'] = 'replacement'
+        self.assertTrue(gate.validate(p, 'unit-token', 'hex'))
 
     def test_mixed_source_is_not_old_applier_inference(self):
         for family in gate.CASES:
             p = fixture(family); row(p, 'mixed-native')['origin']['State'] = 'enemy'
             with self.subTest(family=family): self.assertTrue(gate.validate(p, 'unit-token', family))
 
-    def test_mixed_cost_excludes_enemy_without_erasing_player(self):
-        for wrong_cost in (1, 3):
+    def test_mixed_cost_is_muted_without_changing_stacks(self):
+        for wrong_cost in (2, 3):
             p = fixture('tangled'); row(p, 'mixed-native')['cost'] = wrong_cost
             with self.subTest(cost=wrong_cost): self.assertTrue(gate.validate(p, 'unit-token', 'tangled'))
 

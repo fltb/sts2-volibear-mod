@@ -215,7 +215,9 @@ internal static class DomainDampenTransactionsProbe
                 second = await CreatureCmd.Add<MagiKnight>(state); await NativeMove(second); Snapshot("joined");
             }
             await SetDomain(true); _phase = "independent";
-            var independent = cards.FirstOrDefault(c => c.CurrentUpgradeLevel > 0 && !Ledger(_sourcePower!).ContainsKey(c));
+            // All native downgrade debt remains recorded. Exercise an unrelated
+            // downgrade while the original upgrade is temporarily loaned back.
+            var independent = cards[0];
             if (independent is not null) CardCmd.Downgrade(independent);
             Snapshot("independent");
             _phase = "restoration";
@@ -227,7 +229,8 @@ internal static class DomainDampenTransactionsProbe
             await PowerCmd.Remove(control); Snapshot("player-restored", control);
             GD.Print("[Volibear] DOMAIN_DAMPEN_TRANSACTIONS_RESULT " + JsonSerializer.Serialize(new
             {
-                schema = 1, token, scenario = "domain-dampen-transactions", variant = Case,
+                schema = 2, token, scenario = "domain-dampen-transactions", variant = Case,
+                suppressionPolicy = "native-debt-temporary-upgrade-loan",
                 acceptance = "native-source-ledger-card-pairs-not-power-admission-or-ordinary-input", testMode = false,
                 version = release.Version, commit = release.Commit, encounter = (state.Encounter ?? throw new InvalidOperationException("actual combat encounter missing")).GetType().Name,
                 sourceId, ownerId, sourceRef, ownerRef = Ref(_owner), combatRef, nativeMoveCalls = moves.Count, directPowerCallbackCalls = 0,

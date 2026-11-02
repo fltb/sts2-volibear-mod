@@ -7,6 +7,16 @@ import argparse, hashlib, json, shutil
 
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
+
+def icon_runtime_paths(row):
+    paths = [version['path'] for version in row['files'].values()]
+    if row.get('editable_svg'):
+        paths.append(row['editable_svg'])
+    elif not row.get('raster_source'):
+        raise ValueError('Icon requires editable_svg or raster_source: ' + row['id'])
+    # Painted icons ship their raster exports, not old SVGs or authoring masters.
+    return paths
+
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--output',type=Path,required=True,help='Destination Godot project resource directory ending in VolibearArt')
@@ -65,8 +75,7 @@ def main():
         icons=json.loads(icon_manifest.read_text())
         copy('vfx','icons/manifest.json')
         for row in icons['icons']:
-            for version in row['files'].values():copy('vfx',version['path'])
-            copy('vfx',row['editable_svg'])
+            for path in icon_runtime_paths(row):copy('vfx',path)
     for path,expected in input_manifests.items():
         if sha(Path(path))!=expected:raise RuntimeError(f'Input manifest changed during staging: {path}')
     report={'scope':'Runtime resource staging only; not a compiled or game-tested mod','input_manifest_sha256':input_manifests,'files':copied,'file_count':len(copied),'total_bytes':sum(r['bytes'] for r in copied)}

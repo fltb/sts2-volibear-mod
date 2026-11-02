@@ -287,18 +287,19 @@ class CardFixtureContractTests(unittest.TestCase):
         for cid, card in self.cards.items():
             for face in card["faces"]:
                 raw, display = face["rules_text_zh"], face["display_text_zh"]
-                if raw != display:
+                if cid in TEXT_OVERRIDE_IDS:
                     changed.add(cid)
-                    self.assertIn("本回合下次打出时设为0费", display)
+                    self.assertRegex(display, r"本回合[^。；]*下次打出时为0费")
                     self.assertNotIn("减费1", display)
-                    # Only presentation differs. The independent raw rule remains.
+                    # Approved display grammar changes, independent rule remains.
                     self.assertIn("减费1", raw)
                     if cid == "R27":
-                        self.assertIn("每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡", display)
+                        self.assertIn("爪形本回合下次打出时为0费；每张躯形使你获得4格挡", display)
                     if cid == "R30":
-                        self.assertEqual(display.split("。", 1)[1], raw.split("。", 1)[1])
+                        self.assertIn("每回合首次打出爪形时", display)
+                        self.assertIn("每次打出躯形时，获得1能量", display)
                 else:
-                    self.assertNotIn(cid, TEXT_OVERRIDE_IDS)
+                    self.assertNotIn("下次打出时为0费", display)
         self.assertEqual(changed, TEXT_OVERRIDE_IDS)
         for cid in ("C15", "R10", "U25", "U32"):
             self.assertIn("减费", self.cards[cid]["faces"][0]["display_text_zh"])

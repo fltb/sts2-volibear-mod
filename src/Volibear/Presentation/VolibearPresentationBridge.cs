@@ -793,6 +793,8 @@ public static partial class VolibearPresentationBridge
             bool active = Live && _domainEligible && DomainPower.IsActive(_owner);
             if (active == _domain) return;
             _domain = active;
+            UpdateSpiritForm(active);
+            if (active) TickSpiritForm();
             if (active)
             {
                 string id = Next("domain_enter");
@@ -842,6 +844,7 @@ public static partial class VolibearPresentationBridge
             TickSemanticVisuals();
             SubscribeLightning();
             UpdateDomain(announce: false);
+            TickSpiritForm();
             // Setup can create this scope while IsStarting, before Live admits a snapshot.
             // Reconcile starting/restored low HP silently once the battle is playable.
             UpdateLowHealth(announce: false);
@@ -857,6 +860,7 @@ public static partial class VolibearPresentationBridge
             _domainEligible = false;
             bool domain = _domain;
             _domain = false;
+            ReleaseSpiritForm();
             _lightning?.Dispose();
             _lightning = null;
             _effects.StopAll();
@@ -884,6 +888,7 @@ public static partial class VolibearPresentationBridge
             StopSemanticVisuals(false);
             ClearMotions();
             _domain = false;
+            ReleaseSpiritForm();
             _effects.StopAll();
             ReleaseCapturedAnchors(all: true);
         }
@@ -894,6 +899,7 @@ public static partial class VolibearPresentationBridge
             StopSemanticVisuals(true);
             ClearMotions();
             _domain = false;
+            ReleaseSpiritForm();
             _lightning?.Dispose();
             _lightning = null;
             _effects.StopAll();

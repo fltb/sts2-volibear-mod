@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -40,8 +41,9 @@ public static partial class DomainPlayerStatContributions
     internal static bool ShouldCancel(PowerModel power, Creature target, decimal delta,
         Creature? applier, CardModel? card, PlayerChoiceContext context)
     {
-        bool cancel = ((Handles(power) && delta < 0 && (Enemy(target, applier, card) || IsTenderDebit(context, target))) ||
-            (power is TenderPower && delta > 0 && Enemy(target, applier, card))) && DomainEnemyEffects.ActiveFor(target.CombatState);
+        // Signed native amounts remain authoritative across Domain exit and temporary
+        // restitution. Compensation removes their penalty only while Domain is active.
+        bool cancel = false;
         if (cancel && context is TenderContext tender)
         {
             tender.Receipt.DomainTouched = true;
@@ -54,7 +56,7 @@ public static partial class DomainPlayerStatContributions
     internal static void Applied(PowerModel power, Creature target, decimal amount,
         Creature? applier, CardModel? card, PlayerChoiceContext context)
     {
-        if (power is TenderPower tender && amount != 0 && Enemy(target, applier, card))
+        if (power is TenderPower tender && amount != 0 && target.IsPlayer && target.CombatState is not null)
         {
             tenders.Remove(tender);
             tenders.Add(tender, new TenderReceipt(target.CombatState!, target) { PresentationEnemy = applier });
@@ -107,10 +109,16 @@ public static partial class DomainPlayerStatContributions
     }
     private static int Debt(Creature target, bool strength)
     {
-        if (!target.IsPlayer || !ledgers.TryGetValue(target, out var ledger) ||
-            !ReferenceEquals(ledger.Combat, target.CombatState) || !ledger.Combat.ContainsCreature(target) ||
-            !DomainEnemyEffects.ActiveFor(ledger.Combat)) return 0;
-        int debt = strength ? ledger.StrengthDebt : ledger.DexterityDebt;
+        if (!DomainEnemyEffects.ProtectsPlayer(target)) return 0;
+        int negative = Math.Max(0, -(strength ? target.GetPowerAmount<StrengthPower>() : target.GetPowerAmount<DexterityPower>()));
+        var temporary = target.Powers.Where(p => (strength ? p is TemporaryStrengthPower : p is TemporaryDexterityPower) &&
+            p.Type == MegaCrit.Sts2.Core.Entities.Powers.PowerType.Debuff).ToArray();
+        int temporaryDebt = temporary.Sum(p => Math.Max(0, p.Amount));
+        if (!ledgers.TryGetValue(target, out var ledger) ||
+            !ReferenceEquals(ledger.Combat, target.CombatState) || !ledger.Combat.ContainsCreature(target)) return Math.Max(negative, temporaryDebt);
+        int tracked = strength ? ledger.StrengthDebt : ledger.DexterityDebt;
+        int independentTemporary = temporary.Where(p => p.Applier is not { IsEnemy: true, IsPlayer: false }).Sum(p => Math.Max(0, p.Amount));
+        int debt = Math.Max(negative, Math.Max(temporaryDebt, tracked + independentTemporary));
         try
         {
             if (debt > 0)

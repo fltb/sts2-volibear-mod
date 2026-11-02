@@ -30,7 +30,7 @@ internal static class HistoryEffects
 public sealed class Volibear_C20 : VolibearCard
 {
     public Volibear_C20() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c20") { }
-    public override List<(string, string)> Localization => new CardLoc("乘势追击", "造成{Damage:diff()}伤害。本回合此前打出过攻击时，抽{Cards:diff()}张牌。");
+    public override List<(string, string)> Localization => new CardLoc("乘势追击", "造成{Damage:diff()}伤害。若本回合此前打出过攻击牌，抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, Move), new CardsVar(2)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -98,7 +98,7 @@ public sealed class Volibear_U38 : VolibearCard
 public sealed class Volibear_R14 : VolibearCard
 {
     public Volibear_R14() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, "r14") { }
-    public override List<(string, string)> Localization => new CardLoc("不休之猎", "{Cards:cond:>0?抽{Cards:diff()}张牌。|}每打出1张攻击后，本回合对同一目标的攻击费用−1。");
+    public override List<(string, string)> Localization => new CardLoc("不休之猎", "{Cards:cond:>0?抽{Cards:diff()}张牌。|}每打出1张攻击牌后，本回合对同一目标的攻击牌费用降低1。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(0)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -120,8 +120,8 @@ public sealed class EndlessHuntPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     public override List<(string, string)> Localization => new PowerLoc("不休之猎",
-        "每次实际打出单体攻击，使本回合对该目标的非X费攻击费用再降低{Amount}。",
-        "每次实际打出单体攻击，使本回合对该目标的非X费攻击费用再降低{Amount}。实际出牌计一次，多段与重演不重复累计，每回合重新累计。");
+        "每打出一张单体攻击，本回合对该目标的非X费攻击再减费{Amount}。",
+        "每打出一张单体攻击，本回合对该目标的非X费攻击再减费{Amount}。");
 
     public override Task BeforeCardPlayed(CardPlay play)
     {

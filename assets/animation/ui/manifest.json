@@ -99,8 +99,8 @@
       ],
       "mode": "RGBA",
       "role": "energy emblem",
-      "basis": "template 74/24; scalable custom bolt/bronze hexagon",
-      "sha256": "8a46c6e7ed18d5bee00d0db0057fc5350612a838a2006a54d6f6aadd086dc86b"
+      "basis": "card cost frame: solid ink-blue numeric center; rim-only lightning",
+      "sha256": "bca0d703bbd901fe1c231c3fb840f926534155c4d59691d556cbc93136acaa5c"
     },
     {
       "id": "text_energy",
@@ -123,8 +123,8 @@
       ],
       "mode": "RGBA",
       "role": "energy emblem",
-      "basis": "template 74/24; scalable custom bolt/bronze hexagon",
-      "sha256": "5adf52b339647bf46c7f5d6b779e628a6e8c627604d619ed0fdd54ca26905456"
+      "basis": "charged HUD emblem: bright blue-white energy",
+      "sha256": "5443295ca84358357ff362fa2be55aaa78f5124b414450a6b387e51a9b5de19f"
     },
     {
       "id": "big_energy_empty",
@@ -135,8 +135,8 @@
       ],
       "mode": "RGBA",
       "role": "energy disabled UI state",
-      "basis": "same emblem, unlit",
-      "sha256": "c22a87f7b39d92b79b6f9a3c60c50499202743f995264826f1875c1de2d15b37"
+      "basis": "empty HUD emblem: cold dark metal, no charge light",
+      "sha256": "adecec966da7230887981a01addd7385394446f30052d1be27c11369e39995b5"
     },
     {
       "id": "character_fallback",

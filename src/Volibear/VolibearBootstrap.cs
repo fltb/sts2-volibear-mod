@@ -19,7 +19,8 @@ public sealed class VolibearBootstrap : IBootstrapSettings
     private static string? SummonCase => Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DOMAIN_SUMMON_CASE");
     private static string? PassiveCase => Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DOMAIN_PASSIVE_CASE");
     private static string? RevivalCase => Environment.GetEnvironmentVariable("VOLIBEAR_TEST_VARIANT");
-    public RoomType RoomType => Scenario == "domain-steam" ? RoomType.Boss : Scenario == "domain-card-contributions"
+    public RoomType RoomType => Scenario == "domain-suppression" ? DomainSuppressionAcceptanceProbe.Encounter.RoomType
+        : Scenario == "domain-steam" ? RoomType.Boss : Scenario == "domain-card-contributions"
         ? DomainCardContributionsProbe.Family switch { "hex" => RoomType.Elite, "ringing" => RoomType.Boss, _ => RoomType.Monster }
         : Scenario == "domain-dampen-transactions" || (Scenario == "domain-summon-contract" &&
         SummonCase?.StartsWith("infested-", StringComparison.Ordinal) == true) ||
@@ -37,6 +38,7 @@ public sealed class VolibearBootstrap : IBootstrapSettings
             if (Scenario == "card-face-acceptance" &&
                 System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_FACE_CASE") is "R09-base-summon" or "R09-upgrade-summon")
                 return ModelDb.Encounter<OvicopterNormal>();
+            if (Scenario == "domain-suppression") return DomainSuppressionAcceptanceProbe.Encounter;
             if (Scenario == "domain-hopper") return ModelDb.Encounter<ThievingHopperWeak>();
             if (Scenario == "domain-steam") return ModelDb.Encounter<WaterfallGiantBoss>();
             if (Scenario == "domain-dampen-transactions") return DomainDampenTransactionsProbe.Encounter;

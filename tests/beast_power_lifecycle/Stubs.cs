@@ -1,0 +1,28 @@
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+namespace BaseLib.Abstracts { public abstract class CustomPowerModel : PowerModel { object? data; protected virtual object InitInternalData()=>new(); protected T GetInternalData<T>()=>(T)(data??=InitInternalData()); public virtual string CustomPackedIconPath=>""; public virtual string CustomBigIconPath=>""; public virtual List<(string,string)> Localization=>new(); } }
+namespace MegaCrit.Sts2.Core.Models {
+ public class CardModel { public Player Owner=null!; public object? Pile; public object? CombatState=>Pile is null?null:Owner.Creature.CombatState; public ModelId Id=new(); }
+ public class ModelId { public string Entry="R28"; }
+ public static class ModelDb { public static T Card<T>() where T:new()=>new(); }
+ public class PowerModel { public Creature Owner=null!; public int Amount=1; public bool IsMutable=true; public virtual MegaCrit.Sts2.Core.Entities.Powers.PowerType Type=>default; public virtual MegaCrit.Sts2.Core.Entities.Powers.PowerStackType StackType=>default; public virtual MegaCrit.Sts2.Core.Entities.Powers.PowerInstanceType InstanceType=>default; public virtual Task AfterApplied(Creature? a,CardModel? s)=>Task.CompletedTask; public virtual Task AfterPlayerTurnStart(PlayerChoiceContext c,Player p)=>Task.CompletedTask; public virtual Task BeforeCardPlayed(MegaCrit.Sts2.Core.Entities.Cards.CardPlay p)=>Task.CompletedTask; public void Flash(){} }
+}
+namespace MegaCrit.Sts2.Core.Entities.Powers { public enum PowerType { Buff } public enum PowerStackType { Counter } public enum PowerInstanceType { Instanced } }
+namespace MegaCrit.Sts2.Core.Entities.Players { public class Player { public Creature Creature=null!; public PlayerCombatState? PlayerCombatState=new(); public MegaCrit.Sts2.Core.Entities.Cards.CardPile Hand=new(); } public class PlayerCombatState { public int TurnNumber=2; } }
+namespace MegaCrit.Sts2.Core.Entities.Creatures { public class Creature { public bool IsAlive=true; public Player? Player; public MegaCrit.Sts2.Core.Combat.CombatState? CombatState=new(); public List<PowerModel> Powers=new(); } }
+namespace MegaCrit.Sts2.Core.Combat { public class CombatState { public int RoundNumber=2; } public class CombatManager { public static CombatManager Instance=new(); public bool IsInProgress=true; public bool IsOverOrEnding; } }
+namespace MegaCrit.Sts2.Core.Entities.Cards { public enum PileType { Hand } public class CardPile { public List<CardModel> Cards=new(); } public static class Piles { public static CardPile GetPile(this PileType p,Player owner)=>owner.Hand; } public class CardPlay { public CardModel Card=null!; public int PlayIndex; } }
+namespace MegaCrit.Sts2.Core.GameActions.Multiplayer { public class PlayerChoiceContext {} }
+namespace MegaCrit.Sts2.Core.Localization { public class LocString { public LocString(string t,string k){} } }
+namespace MegaCrit.Sts2.Core.CardSelection { public record CardSelectorPrefs(MegaCrit.Sts2.Core.Localization.LocString Prompt,int Min,int Max); }
+namespace MegaCrit.Sts2.Core.Commands {
+ public static class CardSelectCmd { public static int Count; public static Func<IEnumerable<CardModel>,IEnumerable<CardModel>> Choose=_=>[]; public static Task<IEnumerable<CardModel>> FromHand(PlayerChoiceContext c,Player p,MegaCrit.Sts2.Core.CardSelection.CardSelectorPrefs prefs,Func<CardModel,bool> filter,CardModel source) { if(prefs.Min!=0||prefs.Max!=1)throw new Exception("optional cardinality"); Count++; return Task.FromResult(Choose(p.Hand.Cards.Where(filter))); } }
+ public static class CardPileCmd { public static Task Draw(PlayerChoiceContext c,int a,Player p)=>Task.CompletedTask; }
+ public static class CreatureCmd { public static Task GainBlock(Creature c,int a,MegaCrit.Sts2.Core.ValueProps.ValueProp v,object? p)=>Task.CompletedTask; }
+ public static class PlayerCmd { public static Task GainEnergy(int a,Player p)=>Task.CompletedTask; }
+}
+namespace MegaCrit.Sts2.Core.ValueProps { public enum ValueProp { Move } }
+namespace Volibear.Content { public class Volibear_R28:CardModel{} public class Volibear_R30:CardModel{} public class VolibearCard { public const string PortraitRoot="",BigPortraitRoot=""; } public class PowerLoc:List<(string,string)> { public PowerLoc(string a,string b,string c){} } public static class BeastSelection { public static Task Transform(PlayerChoiceContext c,CardModel source,int max,bool optional,bool discount) { if(source.CombatState is null)return Task.CompletedTask; return MegaCrit.Sts2.Core.Commands.CardSelectCmd.FromHand(c,source.Owner,new(new("cards","prompt"),0,1),_=>true,source); } } }
+namespace Volibear.Core { public enum BeastShape { None,Claw,Body } public record BeastChange(CardModel Card,object Combat); public static class BeastForms { public static event Func<PlayerChoiceContext,BeastChange,Task>? Converted; public static CardModel? LastSource; public static int Converts; public static BeastShape Shape(CardModel c)=>BeastShape.None; public static Task<CardModel?> Convert(PlayerChoiceContext c,CardModel card,CardModel source) { Converts++; LastSource=source; return Task.FromResult<CardModel?>(new CardModel{Owner=card.Owner}); } } public static class StormChargePower { public static Task Gain(PlayerChoiceContext c,Creature owner,int amount,CardModel? source)=>Task.CompletedTask; } public static class CardResolutionHooks { public static PlayerChoiceContext CurrentChoices(CardModel c)=>new(); } public static class GameplayPresentationReceipts { public static void Publish(string kind,Creature owner,CardModel source,int amount){} } }

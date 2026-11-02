@@ -40,8 +40,16 @@ internal static class NativeVerificationSuite
             var character = CharacterIntegrationProbe.Verify(initial.Players.Single());
             GD.Print("[Volibear] CHARACTER_INTEGRATION_RESULT " + JsonSerializer.Serialize(new { token, pid, result = character }));
 
+            await NativeAcceptanceRunHost.ExitToMainMenu(enterMapFirst: false);
+            await DomainSuppressionAcceptanceProbe.RunManaged();
+            NativeAcceptanceRunHost.RequireClean(); completed.Add("domain-suppression");
+
+            await ArchitectEndingAcceptanceProbe.RunManaged();
+            NativeAcceptanceRunHost.RequireClean(); completed.Add("architect-ending");
+
             CardFaceAcceptanceProbe.Install(subscribe: false);
-            await CardFaceAcceptanceProbe.RunBatch(initial,
+            var faces = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>(), "VOLIBEARTEST");
+            await CardFaceAcceptanceProbe.RunBatch(faces,
                 Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_FACE_BATCH") ?? "", managed: true);
             NativeAcceptanceRunHost.RequireClean(); completed.Add("card-faces");
 

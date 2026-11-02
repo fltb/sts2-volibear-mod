@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <NuGetAudit>false</NuGetAudit>
+    <RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
+    <RepositoryRoot Condition="'$(RepositoryRoot)' == ''">$(MSBuildProjectDirectory)/../..</RepositoryRoot>
+    <BaseLibPath Condition="'$(BaseLibPath)' == ''">$(RepositoryRoot)/.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
+  </PropertyGroup>
+  <!-- Focused canonical-preview regression. The production hover-tip composition,
+       card model, glossary and localization data are compiled from current source
+       against the real pinned sts2/BaseLib assemblies; only the combat engagement
+       ledger is a test double, and it fails loudly if canonical preview ever reads
+       it. No Godot launch, no ModelDb registration, no prebuilt Volibear.dll. -->
+  <ItemGroup>
+    <Compile Include="$(RepositoryRoot)/src/Volibear/Content/MechanicGlossary.cs" Link="MechanicGlossary.cs" />
+    <Compile Include="$(RepositoryRoot)/src/Volibear/Content/MechanicHoverTips.cs" Link="MechanicHoverTips.cs" />
+    <Compile Include="$(RepositoryRoot)/src/Volibear/Content/VolibearCard.cs" Link="VolibearCard.cs" />
+    <Compile Include="$(RepositoryRoot)/src/Volibear/Content/VolibearCardPool.cs" Link="VolibearCardPool.cs" />
+    <Compile Include="$(RepositoryRoot)/src/Volibear/Content/VolibearLoc.cs" Link="VolibearLoc.cs" />
+    <Compile Include="$(RepositoryRoot)/src/Volibear/Content/InlineModelLocalization.cs" Link="InlineModelLocalization.cs" />
+    <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
+    <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>$(BaseLibPath)</HintPath></Reference>
+  </ItemGroup>
+</Project>

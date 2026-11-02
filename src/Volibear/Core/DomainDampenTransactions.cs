@@ -208,8 +208,12 @@ public static class DomainDampenTransactions
         { invocation.Reported = true; GD.Print("[Volibear] DOMAIN_DAMPEN_SOURCE_UNSUPPORTED exact active invocation not proven; native pair retained"); }
         bool domain = source && DomainEnemyEffects.ActiveFor(apply!.Request.Move.Outer.Combat);
         int before = card.CurrentUpgradeLevel, count = ledger.Count;
-        if (!domain) { ledger.Add(card, oldLevel); CardCmd.Downgrade(card); }
-        else Volibear.Presentation.PowerPresentationDomain.Suppressed(apply!.Request.Caster, invocation.Power, card);
+        ledger.Add(card, oldLevel);
+        CardCmd.Downgrade(card);
+        // Keep the native debt so the penalty resumes when Domain expires. The loan
+        // is returned before native removal restores that debt, avoiding double upgrades.
+        DomainDampenRestoration.Refresh(invocation.Power);
+        if (domain) Volibear.Presentation.PowerPresentationDomain.Suppressed(apply!.Request.Caster, invocation.Power, card);
         PairObserved?.Invoke(new(invocation.Power, card, apply?.Request.Caster, apply?.Request.Move.Outer.Combat,
             invocation.Nonce, apply?.Life.Nonce ?? 0, apply?.Request.Move.Life.Nonce ?? 0, apply?.Request.Move.Outer.Life.Nonce ?? 0,
             before, card.CurrentUpgradeLevel, count, ledger.Count, domain, domain, provenance, ledger.ToArray()));

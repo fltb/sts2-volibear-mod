@@ -20,6 +20,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Monsters;
+using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Rooms;
@@ -125,8 +126,10 @@ internal static class CardFaceAcceptanceProbe
                     throw new InvalidOperationException("Native run/player/creature/deck identity reused");
                 int runId=Identity(runState),playerIdentity=Identity(freshOwner),creatureIdentity=Identity(freshOwner.Creature),deckIdentity=Identity(freshOwner.Deck);
                 Cards.Clear();Payments.Clear();Effects.Clear();
+                var actionClock=System.Diagnostics.Stopwatch.StartNew();
                 await Run(state,cases[index],inBatch:true);
                 await Until(() => Quiet(state),"Completed case not quiet before native exit");
+                GD.Print($"[Volibear] CARD_FACE_TIMING case={cases[index]} actionMs={actionClock.ElapsedMilliseconds} fps={Engine.GetFramesPerSecond()}");
                 var exit = await NativeAcceptanceRunHost.ExitToMainMenu();
                 transitions.Add(new { variant=cases[index],runIdentity=runId,playerIdentity,creatureIdentity,deckIdentity,
                     runNull=exit.RunNull,combatNull=exit.CombatNull,inProgress=exit.InProgress,queueEmpty=exit.QueueEmpty,actionNull=exit.ActionNull,historyVisible=exit.HistoryVisible });
@@ -148,10 +151,10 @@ internal static class CardFaceAcceptanceProbe
     {
         var tree = (SceneTree)Engine.GetMainLoop(); await tree.ToSignal(tree,SceneTree.SignalName.ProcessFrame);
     }
-    private static async Task Until(Func<bool> done,string label)
+    private static async Task Until(Func<bool> done,string label,int timeoutSeconds = 30)
     {
         var timer = System.Diagnostics.Stopwatch.StartNew();
-        while (!done()) { if (timer.Elapsed > TimeSpan.FromSeconds(30)) throw new TimeoutException(label); await Frame(); }
+        while (!done()) { if (timer.Elapsed > TimeSpan.FromSeconds(timeoutSeconds)) throw new TimeoutException(label); await Frame(); }
     }
     private static CardModel Create(CombatState s,Player p,string id) => id switch
     {
@@ -210,9 +213,34 @@ internal static class CardFaceAcceptanceProbe
                 enemies[1].Monster is not TwigSlimeS || enemies[2].Monster is not (LeafSlimeM or TwigSlimeM) || enemies.Any(e => e.Block != 0 || e.Powers.Any()))
                 throw new InvalidOperationException("Expected untouched three-slime starter fixture");
             var leafMonster = enemies[0].Monster ?? throw new InvalidOperationException("Fixture leaf has no native monster");
-            if ((id is "B04" or "C04" or "C06" or "C10" or "C11" or "U28" or "U35") &&
-                (leafMonster.NextMove.Id != "TACKLE_MOVE" || !leafMonster.IntendsToAttack))
-                throw new InvalidOperationException("Expected native LeafSlimeS first TACKLE_MOVE");
+            if (id is "B04" or "C04" or "C06" or "C10" or "C11" or "U28" or "U35")
+            {
+                // LeafSlimeS starts on its native RAND branch (TACKLE_MOVE or GOOP_MOVE), so the
+                // first intent is combat-RNG dependent. Engage and intent-branch faces need the
+                // real attacking move; select that existing native state explicitly.
+                var leafMachine = leafMonster.MoveStateMachine ?? throw new InvalidOperationException("Fixture leaf has no native move machine");
+                if (leafMachine.States["TACKLE_MOVE"] is not MoveState tackle)
+                    throw new InvalidOperationException("Missing native TACKLE_MOVE");
+                leafMonster.SetMoveImmediate(tackle, forceTransition: true);
+                if (!ReferenceEquals(leafMonster.NextMove, tackle) || !leafMonster.IntendsToAttack)
+                    throw new InvalidOperationException("Native TACKLE_MOVE fixture was not selected");
+            }
+            if (id == "R09")
+            {
+                // The all-enemy fixture exercises two real attacks and one real status move;
+                // do not let randomized initial intents change that independently checked case.
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    var monster = enemies[i].Monster!;
+                    string moveId = i < 2 ? "TACKLE_MOVE" : monster is LeafSlimeM ? "STICKY_SHOT" : "STICKY_SHOT_MOVE";
+                    var machine = monster.MoveStateMachine ?? throw new InvalidOperationException("Missing native R09 move machine");
+                    if (!machine.States.TryGetValue(moveId, out var selected) || selected is not MoveState move)
+                        throw new InvalidOperationException("Missing native R09 fixture move: " + moveId);
+                    monster.SetMoveImmediate(move, forceTransition: true);
+                    if (!ReferenceEquals(monster.NextMove, move) || monster.IntendsToAttack != (i < 2))
+                        throw new InvalidOperationException("Native R09 fixture move was not selected: " + moveId);
+                }
+            }
             foreach (var c in pcs.AllPiles.SelectMany(pile => pile.Cards).Distinct()) Cards.Add(c,"starter-"+Cards.Count);
             if (Cards.Count != 10) throw new InvalidOperationException("Expected ten original cards");
             foreach (var c in pcs.Hand.Cards.ToArray()) await CardPileCmd.Add(c,PileType.Draw);
@@ -410,7 +438,9 @@ internal static class CardFaceAcceptanceProbe
                 });
             }
             RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(action);
-            await Until(() => action.CompletionTask.IsCompleted,"Native face action did not finish"); await action.CompletionTask;
+            // R09 serially runs three native enemies and cold status-card atlas loading;
+            // llvmpipe exceeded 30 seconds while still progressing. Keep a finite budget.
+            await Until(() => action.CompletionTask.IsCompleted,"Native face action did not finish",id == "R09" ? 180 : 30); await action.CompletionTask;
             if (action.Exception is not null) throw new InvalidOperationException("Native face action fault",action.Exception);
             if (pendingConversions.Count != 0) throw new InvalidOperationException("Expected native beast generation was not observed");
             var entries = CombatManager.Instance.History.Entries.Skip(boundary).ToArray();

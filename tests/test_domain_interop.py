@@ -16,6 +16,9 @@ class DomainInterop(unittest.TestCase):
         config = json.loads(config_path.read_text(encoding='utf-8')) if config_path.is_file() else {}
         dotnet = config.get('dotnet') or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
         harmony = Path(os.environ.get('VOLIBEAR_HARMONY', ROOT / '.local/dependencies/Harmony-2.4.2/0Harmony.dll'))
+        if not harmony.is_file() and 'VOLIBEAR_HARMONY' not in os.environ and config.get('game_dir'):
+            data = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+            harmony = Path(config['game_dir']) / data / '0Harmony.dll'
         if not dotnet or not Path(dotnet).is_file() or not harmony.is_file():
             self.skipTest('SDK or upstream Harmony unavailable; production interop fixtures NOT_RUN')
         result = subprocess.run([str(dotnet), 'run', '--project', 'tests/domain_interop/DomainInterop.csproj',

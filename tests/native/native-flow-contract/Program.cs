@@ -13,6 +13,7 @@ using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.TestSupport;
+using ICardSelector = MegaCrit.Sts2.Core.TestSupport.ICardSelector;
 
 // This project references the user's actual sts2.dll and GodotSharp.dll. It has
 // no copied ICardSelector, reward, room, or synchronizer declarations. Do not

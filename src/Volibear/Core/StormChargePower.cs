@@ -22,8 +22,8 @@ public sealed class StormChargePower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     public override List<(string, string)> Localization => new PowerLoc(
-        "雷势", "每段雷伤增加{Amount}。持续本战，不自动消耗。",
-        "每段雷伤增加{Amount}。持续本战，不自动消耗。");
+        "雷势", "每层使每段雷伤增加1。",
+        "每层使每段雷伤增加1。");
 
     public static int Current(Creature owner) => Math.Max(0, owner.GetPowerAmount<StormChargePower>());
 

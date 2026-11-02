@@ -7,6 +7,11 @@
 ## 可复现命令
 
 在仓库根目录运行；准备/验证需要 Python、NumPy、ffmpeg、ffprobe。PCK 构建沿用现有 Godot 4.5.1 Mono 和 .NET 9 配置。
+完整交付入口 `tools/local_delivery.py --verify-release --audio-profile riot_en` 会按需在
+`.local/build-python` 创建独立 Python 环境，不修改全局 Python；直接运行下面的准备/验证命令时，
+可使用该环境的 Python（Linux：`.local/build-python/bin/python3`）。
+离线源码构建须同时保留 `.local/audio-profiles/originals/` 与 `prepared/riot_en/`，仅处理后的音频
+不足以通过原始来源摘要校验。已打包的玩家安装 ZIP 不需要这两份构建目录或 FFmpeg。
 
 ```bash
 # 完整核对默认音源、授权记录、哈希和解码，不联网。
@@ -51,7 +56,8 @@ ZIP 是**音频资源替换包**，包含 `mods/Volibear/Volibear.pck`；仍需�
 | `voice.low_health` | **开放音频回退** | 已确认的 Original 英文集合未提供专用低血录音，不伪造一条 |
 | `voice.hurt_01/02`、`voice.feral` | **开放音频回退** | 未取得对应专用录音；不以死亡声或无关英雄互动替代 |
 
-这些是基于事件来源和现有动画入口的初始可用映射，不声称已经人工听审、完成口型同步或通过游戏内混音验收。工作副本做单声道 48 kHz 转换、首尾静音整理、峰值衰减及短淡入淡出；原始字节保持完整。私有 `build.json` 保存处理后实际 SHA256/时长，重新处理会重新生成记录。
+这些是基于事件来源和现有动画入口的初始可用映射，不声称已经人工听审、完成口型同步或通过游戏内混音验收。工作副本做单声道 48 kHz 转换、首尾静音整理、峰值衰减及短淡入淡出；原始字节保持完整。私有 `build.json` 保存处理后实际 SHA256/时长，重新处理会重新生成记录。Ogg 容器序号由编码器随机生成，
+因此重新处理不能保证逐字节一致；摘要属于本次产物，而非跨次固定值。复用已核验副本即可避免无谓重编码。
 
 ## Q / W / E / R 音效来源
 

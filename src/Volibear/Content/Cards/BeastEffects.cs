@@ -80,7 +80,7 @@ internal static class BeastSelection
 public sealed class Volibear_U41 : VolibearCard
 {
     public Volibear_U41() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u41") { }
-    public override List<(string, string)> Localization => new CardLoc("破皮见骨", "造成{Damage:diff()}伤害。兽化1张攻击手牌，其本回合下次打出时设为0费。",
+    public override List<(string, string)> Localization => new CardLoc("破皮见骨", "造成{Damage:diff()}伤害。兽化1张攻击手牌。本回合该兽形下次打出时为0费。",
         ("beastSelectionPrompt", "选择1张攻击手牌兽化。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -96,7 +96,7 @@ public sealed class Volibear_U41 : VolibearCard
 public sealed class Volibear_U42 : VolibearCard
 {
     public Volibear_U42() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u42") { }
-    public override List<(string, string)> Localization => new CardLoc("蛮荒护体", "获得{Block:diff()}格挡。兽化1张非攻击手牌，其本回合下次打出时设为0费。",
+    public override List<(string, string)> Localization => new CardLoc("蛮荒护体", "获得{Block:diff()}格挡。兽化1张非攻击手牌。本回合该兽形下次打出时为0费。",
         ("beastSelectionPrompt", "选择1张非攻击手牌兽化。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(3m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -111,7 +111,7 @@ public sealed class Volibear_U42 : VolibearCard
 public sealed class Volibear_U43 : VolibearCard
 {
     public Volibear_U43() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u43") { }
-    public override List<(string, string)> Localization => new CardLoc("循着本能", "检索1张牌，兽化1张手牌，其本回合下次打出时设为0费。",
+    public override List<(string, string)> Localization => new CardLoc("循着本能", "检索1张牌，再兽化1张手牌。本回合该兽形下次打出时为0费。",
         ("selectionScreenPrompt", "选择1张牌加入手牌。"), ("beastSelectionPrompt", "选择1张手牌兽化。"));
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -127,7 +127,7 @@ public sealed class Volibear_R27 : VolibearCard
 {
     public Volibear_R27() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r27") { }
     public override bool GainsBlock => true;
-    public override List<(string, string)> Localization => new CardLoc("旧日重临", "兽化至多{Convert:diff()}张手牌。每张爪形本回合下次打出时设为0费；每张躯形使你获得4格挡。",
+    public override List<(string, string)> Localization => new CardLoc("旧日重临", "兽化至多{Convert:diff()}张手牌。这些兽形中，爪形本回合下次打出时为0费；每张躯形使你获得4格挡。",
         ("beastSelectionPrompt", "选择至多{Amount}张手牌兽化。"));
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Convert", 2m)];
@@ -140,7 +140,7 @@ public sealed class Volibear_R27 : VolibearCard
 public sealed class Volibear_R28 : VolibearCard
 {
     public Volibear_R28() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, "r28") { }
-    public override List<(string, string)> Localization => new CardLoc("熊灵侵染", "打出及每回合开始，可选兽化1张手牌。每回合首次兽化后，抽{Cards:diff()}张牌。每回合首次打出兽形时，获得1雷势。",
+    public override List<(string, string)> Localization => new CardLoc("熊灵侵染", "打出时及每回合开始时，你可以兽化1张手牌。每回合首次兽化后，抽{Cards:diff()}张牌。每回合首次打出兽形时，获得1雷势。",
         ("beastSelectionPrompt", "可以选择1张手牌兽化。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -158,7 +158,7 @@ public sealed class Volibear_R28 : VolibearCard
 public sealed class Volibear_R29 : VolibearCard
 {
     public Volibear_R29() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self, "r29") { }
-    public override List<(string, string)> Localization => new CardLoc("不再为人", "兽化所有手牌，其本回合下次打出时设为0费。");
+    public override List<(string, string)> Localization => new CardLoc("不再为人", "兽化所有手牌。本回合这些兽形下次打出时为0费。");
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
         BeastSelection.Transform(context, this, CardPile.MaxCardsInHand, all: true);
@@ -169,7 +169,7 @@ public sealed class Volibear_R29 : VolibearCard
 public sealed class Volibear_R30 : VolibearCard
 {
     public Volibear_R30() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self, "r30") { }
-    public override List<(string, string)> Localization => new CardLoc("我即荒野", "兽化1张手牌，其本回合下次打出时设为0费。每回合首次打出爪形时，获得{Block:diff()}格挡；每次打出躯形时，获得1能量。",
+    public override List<(string, string)> Localization => new CardLoc("我即荒野", "兽化1张手牌。本回合该兽形下次打出时为0费。每回合首次打出爪形时，获得{Block:diff()}格挡；每次打出躯形时，获得1能量。",
         ("beastSelectionPrompt", "选择1张手牌兽化。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)

@@ -173,8 +173,8 @@ class CatalogEvidenceTests(unittest.TestCase):
             with self.subTest(code=code):
                 self.result = synthetic_observation()
                 face = self.face(code)
-                self.assertIn('设为0费', face['text']['description'])
-                face['text']['description'] = face['text']['description'].replace('设为0费', '减费1')
+                self.assertIn('下次打出时为0费', face['text']['description'])
+                face['text']['description'] = face['text']['description'].replace('下次打出时为0费', '下次打出时减费1')
                 self.check_rejected()
 
     def test_language_reload_must_execute_full_sequence(self):

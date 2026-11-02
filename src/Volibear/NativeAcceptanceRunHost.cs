@@ -16,6 +16,8 @@ namespace Volibear;
 /// <summary>Only native run/room lifetime for isolated acceptance; no rules or observers.</summary>
 internal static class NativeAcceptanceRunHost
 {
+    private static void Timing(string stage, System.Diagnostics.Stopwatch clock) =>
+        GD.Print($"[Volibear] NATIVE_HOST_TIMING stage={stage} elapsedMs={clock.ElapsedMilliseconds} fps={Engine.GetFramesPerSecond()}");
     internal sealed record ExitReceipt(bool RunNull,bool CombatNull,bool InProgress,bool QueueEmpty,bool ActionNull,int HistoryVisible);
     private static async Task Frame()
     {
@@ -49,6 +51,7 @@ internal static class NativeAcceptanceRunHost
     }
     internal static async Task<ExitReceipt> ExitToMainMenu(bool enterMapFirst = true)
     {
+        var timing=System.Diagnostics.Stopwatch.StartNew();
         var state=CombatManager.Instance.DebugOnlyGetState();
         if (state is not null && CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsOverOrEnding)
         {
@@ -59,7 +62,9 @@ internal static class NativeAcceptanceRunHost
                 await Frame();
             }
         }
-        await NGame.Instance!.ReturnToMainMenu();await Frame();RequireClean();return CleanState();
+        Timing("exit-map",timing);timing.Restart();
+        await NGame.Instance!.ReturnToMainMenu();await Frame();RequireClean();
+        Timing("exit-menu",timing);return CleanState();
     }
     internal static async Task<CombatState> StartFresh(EncounterModel encounter,string seed="volibear-native-acceptance")
     {
@@ -67,8 +72,10 @@ internal static class NativeAcceptanceRunHost
         var character=ModelDb.Character<VolibearCharacter>();
         // Same prerequisite as the native lobby; no explicit progress save.
         SaveManager.Instance.Progress.GetOrCreateCharacterStats(character.Id);
+        var timing=System.Diagnostics.Stopwatch.StartNew();
         await NGame.Instance!.StartNewSingleplayerRun(character,shouldSave:false,ActModel.GetDefaultList().ToArray(),
             Array.Empty<ModifierModel>(),seed,GameMode.Standard,ascensionLevel:0);
+        Timing("start-run",timing);timing.Restart();
         CombatState? state=null;
         void OnTurn(CombatState current) => state=current;
         CombatManager.Instance.TurnStarted+=OnTurn;
@@ -81,7 +88,7 @@ internal static class NativeAcceptanceRunHost
                 if (clock.Elapsed>TimeSpan.FromSeconds(40)) throw new TimeoutException("Native fresh combat never started");
                 await Frame();
             }
-            await WaitForQuiet(state,1);return state;
+            await WaitForQuiet(state,1);Timing("start-room-quiet",timing);return state;
         }
         finally { CombatManager.Instance.TurnStarted-=OnTurn; }
     }

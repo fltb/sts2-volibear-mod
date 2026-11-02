@@ -1,0 +1,369 @@
+{
+  "date": "2026-11-02",
+  "provider": "chatgpt-sub",
+  "model": "gpt-image-2.5-flare",
+  "operation": "edit_image",
+  "B01": {
+    "provider": "chatgpt-sub",
+    "model": "gpt-image-2.5-flare",
+    "operation": "edit_image",
+    "raw_path": "../art-refresh/20261102/B01-candidate-01.png",
+    "selected_source_sha256": "a0ab4690aedfed1015aba6d541c39b9bbe2b1b2f8d5065869943e8336e95fb13",
+    "selected_source_size": [
+      1448,
+      1086
+    ],
+    "crop_box": [
+      11,
+      1,
+      1436,
+      1084
+    ],
+    "resized_for_master": false,
+    "generation_record": "../art-refresh/20261102/provenance.json",
+    "reference_paths": [
+      "cards/masters/B01.png (prior revision)",
+      "cards/masters/B03.png"
+    ],
+    "reference_sha256": [
+      "c3a92c1dc8d4f626ad3313f8ec36ed1779d1c2c9987a6406c53e0c82ae934bfd",
+      "2c0ea39a4e40624515d4412cd48bbac36caf7aeb3508e32f53dda72e1a3243dc"
+    ]
+  },
+  "status_sheet": {
+    "path": "status-candidate-01.png",
+    "sha256": "8053538c5a2be6dd55fc166accadbb689b7940406c1c307919de6f237b131974",
+    "size": [
+      1254,
+      1254
+    ],
+    "real_alpha": true,
+    "layout": "4x4 row major; last two cells empty",
+    "ids": [
+      "domain",
+      "thunder_force",
+      "thunder_armor",
+      "iron_armor",
+      "retain_armor",
+      "energy",
+      "cost_reduce",
+      "replay",
+      "enhance",
+      "thunder_growth",
+      "counter_thunder",
+      "bite_mark",
+      "bear_spirit",
+      "wilderness"
+    ],
+    "references": [
+      {
+        "name": "strength",
+        "local_only_path": ".local/art-refresh/native-references/strength.png",
+        "sha256": "48da913a7c514cb3371e78bf3f6b093305e003576074322a8f404615d0fc4bae"
+      },
+      {
+        "name": "block",
+        "local_only_path": ".local/art-refresh/native-references/block.png",
+        "sha256": "4ae1fa867d4ebcaf99d03b09ffb97949a01091b97969345569cb8ac6bdb2b659"
+      },
+      {
+        "name": "intangible",
+        "local_only_path": ".local/art-refresh/native-references/intangible.png",
+        "sha256": "86a5e8b901cba8f28e1c761a47cc7afec3cadc608b90d7ac148c18850d6ae462"
+      }
+    ],
+    "native_source": "local installed SlayTheSpire2.pck 0.107.1; extracted native reference textures remain ignored/local only",
+    "processing": "Equal-cell crop; alpha threshold 50% removes generated translucent specks; trim; Lanczos fit to 224px; center on transparent 256px canvas; RGBA PNG exports. No checkerboard fabricated. After resize, clear the outermost 1px canvas border to remove Lanczos alpha ringing (content remains inside the 88% inset)."
+  },
+  "exports": [
+    {
+      "id": "domain",
+      "path": "src/Volibear/Presentation/icons/powers/domain.png",
+      "size": 64,
+      "sha256": "36ea45135b07c9f0994fd07d566b45f8fae52f227705a3fcc47d9a8cda294b26"
+    },
+    {
+      "id": "domain",
+      "path": "src/Volibear/Presentation/icons/powers/big/domain.png",
+      "size": 256,
+      "sha256": "88f3b45616b2d43f6c8e60ffaaca93bcf62e73825b9f5991610af2d551d29901"
+    },
+    {
+      "id": "thunder_force",
+      "path": "src/Volibear/Presentation/icons/powers/thunder_force.png",
+      "size": 64,
+      "sha256": "1e3e0f7746236f8d3150e3f80d9a3b79a3ab884b8575570978c534de080d3dd2"
+    },
+    {
+      "id": "thunder_force",
+      "path": "src/Volibear/Presentation/icons/powers/big/thunder_force.png",
+      "size": 256,
+      "sha256": "0f5523677da5adc61c508fa2125418dc955ec1744e0dc4e51272b43db84afc9f"
+    },
+    {
+      "id": "thunder_armor",
+      "path": "assets/animation/vfx/icons/32/thunder_armor.png",
+      "size": 32,
+      "sha256": "81dc81843801d494870feccfdb67ca8e35b54ace0eb929a511ae0e83d35a185c"
+    },
+    {
+      "id": "thunder_armor",
+      "path": "assets/animation/vfx/icons/64/thunder_armor.png",
+      "size": 64,
+      "sha256": "c56a8572c92426d7849775de4b49449019c3825277d0733d43183a6492fcaf42"
+    },
+    {
+      "id": "thunder_armor",
+      "path": "assets/animation/vfx/icons/128/thunder_armor.png",
+      "size": 128,
+      "sha256": "3eb50fe8cf58e9e867d56a06a536fd0010f1734d3180eac5208fb45883eacbf6"
+    },
+    {
+      "id": "thunder_armor",
+      "path": "assets/animation/vfx/icons/256/thunder_armor.png",
+      "size": 256,
+      "sha256": "9cb99edf0d7a15e43627842014ef7484fc089cab0e76d89a1f3515a6a5b05c59"
+    },
+    {
+      "id": "iron_armor",
+      "path": "assets/animation/vfx/icons/32/iron_armor.png",
+      "size": 32,
+      "sha256": "cbeea82b234d7c1f55e1bf60308d2b2bd869377d2ba29ed2af19038ad15da43f"
+    },
+    {
+      "id": "iron_armor",
+      "path": "assets/animation/vfx/icons/64/iron_armor.png",
+      "size": 64,
+      "sha256": "20deb7d89d4ac9367b138108cb3feb54c6e25c6a5bb3ac449408f1c94ad9c3ec"
+    },
+    {
+      "id": "iron_armor",
+      "path": "assets/animation/vfx/icons/128/iron_armor.png",
+      "size": 128,
+      "sha256": "35cca858f8d5a68d1183f5ef76333532a37fb8afaf7d3654125068e6cc88a0a0"
+    },
+    {
+      "id": "iron_armor",
+      "path": "assets/animation/vfx/icons/256/iron_armor.png",
+      "size": 256,
+      "sha256": "d417d74be93ef67bd15e4c3c92d7aeba5dd4a3a0216ede934bfa5a1496eba95a"
+    },
+    {
+      "id": "retain_armor",
+      "path": "assets/animation/vfx/icons/32/retain_armor.png",
+      "size": 32,
+      "sha256": "d76415ce3ae3813fc9c9403debef707f80aed5ae6a52e2b6f13dcfb88c8e48d5"
+    },
+    {
+      "id": "retain_armor",
+      "path": "assets/animation/vfx/icons/64/retain_armor.png",
+      "size": 64,
+      "sha256": "c1bdf9c24984ec4fbee7387d1c95733a314a3aad4f7ee6c3cf31d1b326977936"
+    },
+    {
+      "id": "retain_armor",
+      "path": "assets/animation/vfx/icons/128/retain_armor.png",
+      "size": 128,
+      "sha256": "f9c8d6241d2499b5e2d695639704c9afeb8b52a16e3a94ed4c5beff9e2956789"
+    },
+    {
+      "id": "retain_armor",
+      "path": "assets/animation/vfx/icons/256/retain_armor.png",
+      "size": 256,
+      "sha256": "98a5767ecfcea8b0128f19b0f0b5e4881dbc97f4854bfc14022c5f3e4359e2ab"
+    },
+    {
+      "id": "energy",
+      "path": "assets/animation/vfx/icons/32/energy.png",
+      "size": 32,
+      "sha256": "ade91b662b8deceaada2ca50b8ff4eff0a847bd634f528875d563b8442896163"
+    },
+    {
+      "id": "energy",
+      "path": "assets/animation/vfx/icons/64/energy.png",
+      "size": 64,
+      "sha256": "ea0c7343da5a624659e2916535e656834b352dd38ae57f19b38e5cefc27f3150"
+    },
+    {
+      "id": "energy",
+      "path": "assets/animation/vfx/icons/128/energy.png",
+      "size": 128,
+      "sha256": "aa46265bca118f8cd09d4d6049c8950444a7b1fc6e62d4ad97ef81b36935e4e2"
+    },
+    {
+      "id": "energy",
+      "path": "assets/animation/vfx/icons/256/energy.png",
+      "size": 256,
+      "sha256": "cc701f14ce5089160ea8e891d62cbcf43d38ece49e5ce0bcc98ef5ac9d446a7a"
+    },
+    {
+      "id": "cost_reduce",
+      "path": "assets/animation/vfx/icons/32/cost_reduce.png",
+      "size": 32,
+      "sha256": "c8ea3056558eede6b27e6ac99f86833ca256e8f215912ade93e4f60d4bb4b58c"
+    },
+    {
+      "id": "cost_reduce",
+      "path": "assets/animation/vfx/icons/64/cost_reduce.png",
+      "size": 64,
+      "sha256": "28f47b847fbf3e838e1fd01d2c43e1ff5ef9fd0d073fe4e95574d50dfb2b4275"
+    },
+    {
+      "id": "cost_reduce",
+      "path": "assets/animation/vfx/icons/128/cost_reduce.png",
+      "size": 128,
+      "sha256": "a93178d8e02901a3dc21481b5db2c64df24d7a25e75f9388b50b67ddaf887b29"
+    },
+    {
+      "id": "cost_reduce",
+      "path": "assets/animation/vfx/icons/256/cost_reduce.png",
+      "size": 256,
+      "sha256": "718d69978113c9fea8093d33489d2fe4f0ddf2c06032610ced7fc3808e65bd5d"
+    },
+    {
+      "id": "replay",
+      "path": "assets/animation/vfx/icons/32/replay.png",
+      "size": 32,
+      "sha256": "7323d0fe7ee4246e10e7fe1048e3ee191cfb8448687cee922432b51cc8cf9aa6"
+    },
+    {
+      "id": "replay",
+      "path": "assets/animation/vfx/icons/64/replay.png",
+      "size": 64,
+      "sha256": "a79e7a6aa155be60d2501e702cd8901da7d10ae200342fd675fdc3fcf33f030f"
+    },
+    {
+      "id": "replay",
+      "path": "assets/animation/vfx/icons/128/replay.png",
+      "size": 128,
+      "sha256": "b94756873a1dba117efe40a1e43f4a90cba4a21918067734afa3a98df844b015"
+    },
+    {
+      "id": "replay",
+      "path": "assets/animation/vfx/icons/256/replay.png",
+      "size": 256,
+      "sha256": "6340d75e31e1c2015fb65c1481e33d15588ae1b31ddbe6c374f9e60a11dd98a7"
+    },
+    {
+      "id": "enhance",
+      "path": "assets/animation/vfx/icons/32/enhance.png",
+      "size": 32,
+      "sha256": "8fe93c2c439210bb854b2363fa1d311595ccb953962f83b1f9c300ff5de0d97b"
+    },
+    {
+      "id": "enhance",
+      "path": "assets/animation/vfx/icons/64/enhance.png",
+      "size": 64,
+      "sha256": "55747795780d9050ff04d7ee06e2b7a6462c43df99a0a5ca8eaa050533e10d87"
+    },
+    {
+      "id": "enhance",
+      "path": "assets/animation/vfx/icons/128/enhance.png",
+      "size": 128,
+      "sha256": "63c14db3fe5b3ce07a49db9b53d3f0975c8133807ca595444a413b52368bd665"
+    },
+    {
+      "id": "enhance",
+      "path": "assets/animation/vfx/icons/256/enhance.png",
+      "size": 256,
+      "sha256": "235cd53708445eb8db67964cc5a8328ce8b08292565ef527e967b061a65d6d24"
+    },
+    {
+      "id": "thunder_growth",
+      "path": "assets/animation/vfx/icons/32/thunder_growth.png",
+      "size": 32,
+      "sha256": "001a651dd829452cedf30419a0676632891206979a2cc81614ab47fb80bf762f"
+    },
+    {
+      "id": "thunder_growth",
+      "path": "assets/animation/vfx/icons/64/thunder_growth.png",
+      "size": 64,
+      "sha256": "7786c02cd98e202cab79b3276d94d25f5ece48fecc2ccc5264633fe2f70436a7"
+    },
+    {
+      "id": "thunder_growth",
+      "path": "assets/animation/vfx/icons/128/thunder_growth.png",
+      "size": 128,
+      "sha256": "30c4fe113c047d01dfcaad4d448a1b9c892a1c520661e890f855dc720f42e293"
+    },
+    {
+      "id": "thunder_growth",
+      "path": "assets/animation/vfx/icons/256/thunder_growth.png",
+      "size": 256,
+      "sha256": "afa76cdd9922b6862b46662452a49ead236f8db72d5a16634ce4b9c318226474"
+    },
+    {
+      "id": "counter_thunder",
+      "path": "assets/animation/vfx/icons/32/counter_thunder.png",
+      "size": 32,
+      "sha256": "78716cf4bb25ba1f8e9261168d405af7006931806b9e1bb8aadfa855ad6d3912"
+    },
+    {
+      "id": "counter_thunder",
+      "path": "assets/animation/vfx/icons/64/counter_thunder.png",
+      "size": 64,
+      "sha256": "512206e4d5e2c69b800e54b9cf5a9c27e69d985896675236d6279b1a4924f447"
+    },
+    {
+      "id": "counter_thunder",
+      "path": "assets/animation/vfx/icons/128/counter_thunder.png",
+      "size": 128,
+      "sha256": "1e7c11a6e56ef92eaf0e851527118ed298b9f9182908087be201f946ec0fb2b5"
+    },
+    {
+      "id": "counter_thunder",
+      "path": "assets/animation/vfx/icons/256/counter_thunder.png",
+      "size": 256,
+      "sha256": "d1c2f4cd637b4ddaceaa3416db32c00bca6f79cd2854709076cab8f984602687"
+    },
+    {
+      "id": "bite_mark",
+      "path": "assets/animation/vfx/icons/32/bite_mark.png",
+      "size": 32,
+      "sha256": "503f84bf76163f028768eaf3aa5f46ae367a483f82a6ecb10c8237848ecf42dd"
+    },
+    {
+      "id": "bite_mark",
+      "path": "assets/animation/vfx/icons/64/bite_mark.png",
+      "size": 64,
+      "sha256": "fad9b8f3a61586d7522ab0857e2e79ef380650bb0bd5adad1789d0e11c17eb97"
+    },
+    {
+      "id": "bite_mark",
+      "path": "assets/animation/vfx/icons/128/bite_mark.png",
+      "size": 128,
+      "sha256": "5e04630177c6e942060b34e5c2db2452b281241dc2d5f05342729a29d19a7946"
+    },
+    {
+      "id": "bite_mark",
+      "path": "assets/animation/vfx/icons/256/bite_mark.png",
+      "size": 256,
+      "sha256": "d1403acf0011bea0b74c03af483dee1ed385e50cf5af0ce60fc517ea915e7a8c"
+    },
+    {
+      "id": "bear_spirit",
+      "path": "src/Volibear/Presentation/icons/powers/bear_spirit.png",
+      "size": 64,
+      "sha256": "9e6f73d651bcb54cbe54492e0925b6bba5b396980cbad3cd675463b7f52d7085"
+    },
+    {
+      "id": "bear_spirit",
+      "path": "src/Volibear/Presentation/icons/powers/big/bear_spirit.png",
+      "size": 256,
+      "sha256": "25e11e1a860f92d5467b2977058bf40c25f8d2c90e310069be9fa3c77efcdf32"
+    },
+    {
+      "id": "wilderness",
+      "path": "src/Volibear/Presentation/icons/powers/wilderness.png",
+      "size": 64,
+      "sha256": "6c46a4c2e9d04c71b9a768d4896ca6b174f007ab9a5b3380b070a592b7d0b62b"
+    },
+    {
+      "id": "wilderness",
+      "path": "src/Volibear/Presentation/icons/powers/big/wilderness.png",
+      "size": 256,
+      "sha256": "0328fd73630e10482c2394fd63fdcaf4de568edc9cf316ad7818f628fe6af0f5"
+    }
+  ],
+  "preservation": "Prior B01 and replaced status raster exports retained under previous/. Other 88 card rows and all animation/VFX atlases unchanged."
+}

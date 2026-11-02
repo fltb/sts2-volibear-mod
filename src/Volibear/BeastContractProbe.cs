@@ -240,7 +240,7 @@ internal static class BeastContractProbe
 
     private static async Task<object> F02(Fixture f)
     {
-        var card = f.Combat.CreateCard<Bludgeon>(f.Player);
+        CardModel card = f.Combat.CreateCard<Bludgeon>(f.Player);
         f.Name(card, "native-bludgeon");
         await CardPileCmd.Add(card, PileType.Hand);
         card.AddKeyword(CardKeyword.Retain);

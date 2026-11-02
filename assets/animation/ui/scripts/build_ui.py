@@ -32,6 +32,49 @@ def energy(size,dim=False):
     bolt=[(.54,.19),(.28,.52),(.46,.52),(.38,.81),(.72,.43),(.54,.43),(.64,.19)]
     d.polygon([(a*z,b*z) for a,b in bolt],fill=(97,204,228,255) if not dim else (76,103,118,255))
     return im.resize((size,size),Image.Resampling.LANCZOS)
+def cost_badge(size):
+    """Quiet numeric center; all electric ornament stays in the outer frame."""
+    scale=4;z=size*scale;im=Image.new('RGBA',(z,z));d=ImageDraw.Draw(im);center=z/2
+    def hexagon(radius):
+        return [(center+math.cos(i*math.pi/3-math.pi/6)*z*radius,center+math.sin(i*math.pi/3-math.pi/6)*z*radius) for i in range(6)]
+    d.polygon(hexagon(.47),fill=(24,48,62,255),outline=(166,143,104,255),width=round(z*.035))
+    d.line(hexagon(.415)+[hexagon(.415)[0]],fill=(83,181,210,255),width=max(2,round(z*.012)),joint='curve')
+    # Small broken lightning in the left/right rim, never across the cost glyph.
+    for side in (-1,1):
+        points=[(center+side*z*x,z*y) for x,y in [(.35,.28),(.39,.38),(.35,.44),(.39,.52),(.35,.58),(.35,.72)]]
+        d.line(points,fill=(167,233,248,255),width=max(2,round(z*.016)),joint='curve')
+    d.polygon(hexagon(.355),fill=(16,33,49,255),outline=(44,80,97,255),width=max(1,round(z*.009)))
+    return im.resize((size,size),Image.Resampling.LANCZOS)
+
+def energy_state_emblem(size,charged):
+    scale=4;z=size*scale;im=Image.new('RGBA',(z,z));d=ImageDraw.Draw(im);center=z/2
+    colors=((12,58,85,255),(148,222,241,255),(44,161,208,255),(207,248,255,255)) if charged else ((13,17,22,255),(61,67,75,255),(31,37,44,255),(49,56,64,255))
+    points=lambda radius:[(center+math.cos(i*math.pi/3-math.pi/6)*z*radius,center+math.sin(i*math.pi/3-math.pi/6)*z*radius) for i in range(6)]
+    d.polygon(points(.45),fill=colors[0],outline=colors[1],width=max(2,round(z*.035)))
+    d.line(points(.36)+[points(.36)[0]],fill=colors[2],width=max(2,round(z*.017)),joint='curve')
+    bolt=[(.54,.19),(.28,.52),(.46,.52),(.38,.81),(.72,.43),(.54,.43),(.64,.19)]
+    d.polygon([(x*z,y*z) for x,y in bolt],fill=colors[3])
+    return im.resize((size,size),Image.Resampling.LANCZOS)
+
+def energy_only():
+    """Update only the three authorized assets and their existing manifest rows."""
+    manifest_path=ROOT/'manifest.json';manifest=json.loads(manifest_path.read_text())
+    before={p:sha(p) for p in (ROOT/'images').glob('*.png')}
+    outputs={
+        'big_energy.png':(cost_badge(74),'card cost frame: solid ink-blue numeric center; rim-only lightning'),
+        'energy_master.png':(energy_state_emblem(256,True),'charged HUD emblem: bright blue-white energy'),
+        'big_energy_empty.png':(energy_state_emblem(74,False),'empty HUD emblem: cold dark metal, no charge light'),
+    }
+    for name,(image,basis) in outputs.items():
+        path=ROOT/'images'/name;image.save(path)
+        row=next(row for row in manifest['assets'] if row['file']=='images/'+name)
+        row.update(sha256=sha(path),size=list(image.size),mode=image.mode,basis=basis)
+    for path,digest in before.items():
+        if path.name not in outputs:assert sha(path)==digest, 'Unapproved image changed: '+str(path)
+    manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+    (ROOT/'manifest.js').write_text('window.VOLIBEAR_UI='+json.dumps(manifest,ensure_ascii=False,separators=(',',':'))+';\n')
+    print('Updated only:', ', '.join(outputs))
+
 def main():
     src=Image.open(SRC).convert('RGBA')
     assert sha(SRC)=='870b2ad6670b3adf7b319710b883f8e3b6319a7715ac68fb5628cbe6c64e3e5d'
@@ -45,8 +88,10 @@ def main():
     save(outline,'character_icon_volibear_outline.png','multiplayer portrait outline','128x128 silhouette, no new anatomy')
     marker=Image.new('RGBA',(128,128));d=ImageDraw.Draw(marker);d.polygon([(64,124),(40,101),(88,101)],fill=(187,161,118,255));d.ellipse((8,4,120,116),fill=(19,34,49,255),outline=(187,161,118,255),width=5)
     crop=head.resize((103,103),Image.Resampling.LANCZOS);marker.alpha_composite(crop,(12,8));save(marker,'map_marker_volibear.png','map position marker','author template 128x128; character face on a map pin')
-    for size,name in [(74,'big_energy.png'),(24,'text_energy.png'),(256,'energy_master.png')]:save(energy(size),name,'energy emblem','template 74/24; scalable custom bolt/bronze hexagon')
-    save(energy(74,True),'big_energy_empty.png','energy disabled UI state','same emblem, unlit')
+    save(cost_badge(74),'big_energy.png','card cost frame','solid numeric center; rim-only lightning')
+    save(energy(24),'text_energy.png','energy emblem','template 24; original inline energy symbol')
+    save(energy_state_emblem(256,True),'energy_master.png','energy emblem','charged HUD emblem')
+    save(energy_state_emblem(74,False),'big_energy_empty.png','energy disabled UI state','empty HUD emblem; no charge light')
     canvas=Image.new('RGBA',(512,512));fit=ImageOps.contain(src,(460,460),Image.Resampling.LANCZOS);canvas.alpha_composite(fit,((512-fit.width)//2,480-fit.height));save(canvas,'character_fallback.png','fallback static creature visual','approved original, uniform scale, no anatomy repaint')
     full=plate((1920,1080));d=ImageDraw.Draw(full);d.polygon([(0,0),(760,0),(900,1080),(0,1080)],fill=(14,24,36,255));person=ImageOps.contain(src,(1120,1020),Image.Resampling.LANCZOS);full.alpha_composite(person,(780,1070-person.height));save(full,'character_select_background.png','character select backdrop','1920x1080 project layout; exact character painting at uniform scale, clear left UI area')
     transition=Image.new('RGBA',(1920,1080));transition.alpha_composite(person,(780,1070-person.height));save(transition,'character_select_transition.png','transition character cutout','same registered position as select background; engine scene controls transition')
@@ -70,4 +115,9 @@ def main():
     bg=Image.open(ROOT/'images/character_select_background.png');bg.thumbnail((660,250));proof.paste(bg,(530,590));d.text((540,575),'1920 x 1080 selection composition',fill=(220,230,233))
     (ROOT/'previews').mkdir(exist_ok=True);proof.save(ROOT/'previews/ui_contact.png')
     print('UI',len(REC),'PNG assets and 1 native SVG')
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--energy-only',action='store_true',help='Update only approved energy/cost images and their manifest rows')
+    args=parser.parse_args()
+    energy_only() if args.energy_only else main()

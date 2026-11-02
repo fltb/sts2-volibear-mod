@@ -1,6 +1,6 @@
 # 多人、存档和断线恢复验收
 
-本 Mod 的生产玩法使用原生有序动作、原生玩家选择同步、原生卡牌身份与原生房间存档。这里的双端入口已实现有限验收的全部阶段；本会话没有游戏本体，因此 **原生两端运行结果仍为 `NOT_RUN`**。Python 反例测试和 C# 适配器测试的通过不能替代这项结果。发布检查必须在用户本地运行此入口并保留它生成的报告。
+本 Mod 的生产玩法使用原生有序动作、原生玩家选择同步、原生卡牌身份与原生房间存档。这里的双端入口已实现有限验收的全部阶段；本地已提供锁版游戏并实际运行两端；**本机双端分段批次已通过，最终候选统一发布门禁仍待完成**，成功及失败原始报告均保留在本机，最新接续状态见 [HANDOFF.md](./HANDOFF.md)。Python 反例测试和 C# 适配器测试的通过不能替代这项结果。发布检查必须在用户本地运行此入口并保留它生成的报告。
 
 ## 本地运行
 
@@ -15,10 +15,10 @@ python tools/multiplayer_suite.py --execute-native --use-deployed --display back
 Linux：
 
 ```bash
-python tools/multiplayer_suite.py --execute-native --use-deployed --display xvfb
+python tools/multiplayer_suite.py --execute-native --use-deployed --display window
 ```
 
-整个批次使用一个独立无 Mod 退出基线，以及同时存在的两个游戏进程。主机和客户端各使用一个新的隔离 profile，禁用 Steam，两端通过游戏自带 ENet 在 `127.0.0.1` 上连接；每端在同一进程里完成新局、断线、回主菜单和多人存档恢复。默认每端 900 秒总进程上限、108000 帧退出上限，单阶段最多等待 90 秒。没有逐用例重启，没有键鼠、Viewport 输入、按钮信号或伪造点击。
+整个批次使用一个独立无 Mod 退出基线，以及同时存在的两个游戏进程。主机和客户端各使用一个新的隔离 profile，禁用 Steam，两端通过游戏自带 ENet 在 `127.0.0.1` 上连接；每端在同一进程里完成新局、断线、回主菜单和多人存档恢复。默认每端 900 秒总进程上限、108000 帧退出上限，网络阶段最多等待 90 秒；只有新局/恢复场景加载 Task 因冷资源预载使用 360 秒上限。客户端使用正常 `Disconnect(Quit, false)` 发送原生断线通知；本入口不证明突然断网或进程崩溃恢复。没有逐用例重启，没有键鼠、Viewport 输入、按钮信号或伪造点击。
 
 退出码 `0` 仅表示该次报告所有门禁通过；`1` 表示原生进程或证据失败；`2` 表示参数、环境、基线或启动前条件不满足。最终控制台打印 `report` 的绝对路径。完整报告位于 `artifacts/multiplayer/<run_id>/report.json`；每端的原始日志、独立 profile 和 PID 回执保存在对应的 `artifacts/headless/<run_id>-host|client/`。日志和存档属于本机证据，不提交到 Git。
 
@@ -30,7 +30,7 @@ python tools/multiplayer_suite.py --execute-native --use-deployed --display xvfb
 | `simultaneous-engage` | 两端只提交各自拥有的 B04，均走 `ActionQueueSynchronizer.RequestEnqueue(new PlayCardAction(...))` | 两次实际付费、两条实际执行回执；共享敌人只行动一次；起始遗物只给实际先完成迎战的发起者抽一张；两端完整快照一致 |
 | `owner-scoped-domain-lightning` | 主机付费 C05，客户端付费 B03 | 领域轮数为 `[1, 0]`，各持有者雷伤批次计数为 `[1, 1]`；客户端不会继承另一名玩家的攻击附雷；两端能量、效果与状态一致 |
 | `native-beast-identities` | 两端各付费 R29；生产 `BeastForms` 经 `CardCmd.Exhaust` 和 `AddGeneratedCardToCombat` 创建实体 | 四个材料真实消耗、四个原生生成历史；每名玩家的材料与 T01/T02 使用四个不同 combat-card ID；升级和共享下一次费用优惠保留；新卡无 `DeckVersion`；两份永久牌组不变 |
-| `normal-turn-boundary` | 每端各调用自己玩家的原生 `PlayerCmd.EndTurn` | 原生共同结束回合；已经提前使用的敌人行动不再重复；下一正常轮迎战恢复；领域在正常起手抽牌后到期；雷伤计数归零 |
+| `normal-turn-boundary` | 每端提交自己玩家的原生 `EndPlayerTurnAction`，经动作同步队列送至双方 | 原生共同结束回合；已经提前使用的敌人行动不再重复；下一正常轮迎战恢复；领域在正常起手抽牌后到期；雷伤计数归零 |
 | `engage-before-disconnect` | 下一轮再次提交两端 B04 | 确实存在已经使用的共享机会，随后才进行真实断线；防止用全新空状态冒充恢复验收 |
 | `native-checkpoint-rejoin` | 客户端真实 `NetClientGameService.Disconnect`；主机观察 peer 数降为零；原生清理；主机 `LoadAndCanonicalizeMultiplayerRunSave(1)`；新建 `LoadRunLobby`；客户端重新 `JoinFlow.Begin`，由主机发送原生 load-join 存档；`RunState.FromSerializable`、`RunManager.SetUpSavedMultiplayer`、`NGame.LoadRun` | 保留原玩家 ID；恢复原磁盘房间断点的完整状态；迎战账本没有旧机会残留；不是第二端另开一个自己的单机存档；检查原生磁盘写回与最终清理 |
 
@@ -79,4 +79,4 @@ python tools/multiplayer_suite.py --execute-native --use-deployed --display xvfb
 - `tests/test_engage_adapter.py`：9 个有限用例、60 个断言通过，直接编译生产 `EngageCmd` 与账本；新增“第一人挂起时第二人预留失败”和“真实动作已开始后重置，旧 continuation 在新战斗后恢复”两组。后者覆盖新战斗对象与复用战斗对象两种 generation 边界。
 - 新增的三个 C# 入口文件通过 Roslyn 语法检查。这不是游戏程序集引用检查。
 
-以上均如实保留 `native-network=NOT_RUN` 或同等标记。待本地门禁实际通过后，保留两端原始回执及报告，才能把本次候选构建的 ENet 双端范围标为已验收。
+以上为早期无本体阶段检查，不替代当前双端实测。当前已执行原生双端并逐项修复探针路由缺陷；只有完整门禁通过且保留两端原始回执及报告后，才能把最终候选构建的 ENet 双端范围标为已验收。

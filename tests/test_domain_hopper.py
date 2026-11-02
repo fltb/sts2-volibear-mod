@@ -25,7 +25,8 @@ class DomainHopperTests(unittest.TestCase):
             self.skipTest('Local SDK/native configuration absent; Hopper NOT_RUN')
         values = json.loads(config.read_text(encoding='utf-8'))
         sdk = Path(values.get('dotnet', ''))
-        data = Path(values.get('game_dir', '')) / 'data_sts2_windows_x86_64'
+        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
+        data = Path(values.get('game_dir', '')) / data_name
         host = ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll'
         if not sdk.is_file() or not (data / 'sts2.dll').is_file() or not host.is_file():
             self.skipTest('Pinned SDK/native assemblies/host unavailable; Hopper NOT_RUN')

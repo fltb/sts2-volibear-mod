@@ -7,11 +7,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DomainCardContributionsProof.cs" />
-    <Compile Include="../../../src/Volibear/Core/DomainCardContributions.cs" />
-    <Compile Include="../../../src/Volibear/Core/DomainCardContributionLedger.cs" />
-    <Compile Include="../../../src/Volibear/Core/DomainPassiveEffects.cs" />
-    <Compile Include="../../../src/Volibear/DomainCardContributionsProbe.cs" />
-    <Reference Include="Volibear"><HintPath>../../../src/Volibear/bin/Release/net9.0/Volibear.dll</HintPath></Reference>
+    <!-- Compile the cooperating adapters in one assembly so internal receipt and
+         presentation callbacks are the current production implementations. -->
+    <Compile Include="../../../src/Volibear/**/*.cs" Exclude="../../../src/Volibear/bin/**;../../../src/Volibear/obj/**" />
     <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
     <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
     <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>

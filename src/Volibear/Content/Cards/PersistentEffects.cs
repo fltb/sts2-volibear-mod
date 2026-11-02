@@ -22,7 +22,7 @@ internal static class PersistentEffects
 public sealed class Volibear_U02 : VolibearCard
 {
     public Volibear_U02() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.AllEnemies, "u02") { }
-    public override List<(string, string)> Localization => new CardLoc("狂雷渐起", "对全体造成{Lightning:diff()}雷伤。每段普通攻击结算后，对全体造成{Conduction:diff()}雷伤。");
+    public override List<(string, string)> Localization => new CardLoc("狂雷渐起", "对所有敌人造成{Lightning:diff()}雷伤。此后每段普通攻击后，对所有敌人造成{Conduction:diff()}雷伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 6m), new DynamicVar("Conduction", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -79,7 +79,7 @@ public sealed class Volibear_U19 : VolibearCard
 public sealed class Volibear_U21 : VolibearCard
 {
     public Volibear_U21() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, "u21") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆余威", "本回合每累计2次雷伤，获得1能量。部署时本回合已有至少2次雷伤，立即获得1能量。");
+    public override List<(string, string)> Localization => new CardLoc("雷霆余威", "每回合每累计造成2次雷伤，获得1能量。打出时，若本回合已造成至少2次雷伤，立即获得1能量。");
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => PersistentEffects.Deploy<ThunderAftershockPower>(context, this, 1);
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
@@ -88,7 +88,7 @@ public sealed class Volibear_U21 : VolibearCard
 public sealed class Volibear_U25 : VolibearCard
 {
     public Volibear_U25() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, "u25") { }
-    public override List<(string, string)> Localization => new CardLoc("猎物未倒", "抽1张牌。每回合首次对同一目标打出第2张单体攻击后，抽{Draw:diff()}张牌，其中的攻击减费1。");
+    public override List<(string, string)> Localization => new CardLoc("猎物未倒", "抽1张牌。每回合首次向同一目标打出第2张单体攻击牌后，抽{Draw:diff()}张牌，其中的攻击牌本回合减费1。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Draw", 1m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -161,7 +161,7 @@ public sealed class Volibear_R02 : VolibearCard
 public sealed class Volibear_R16 : VolibearCard
 {
     public Volibear_R16() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, "r16") { }
-    public override List<(string, string)> Localization => new CardLoc("愈战神躯", "{IfUpgraded:show:获得{Block:diff()}格挡。}每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。");
+    public override List<(string, string)> Localization => new CardLoc("愈战神躯", "{IfUpgraded:show:获得{Block:diff()}格挡。}每打出1张攻击牌后，获得1力量；若该牌提供了格挡，再获得1敏捷。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(0m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -180,7 +180,7 @@ public sealed class Volibear_R18 : VolibearCard, ITomeCard
     // native relic still owns its upgrade, permanent-deck add and save identity.
     public MegaCrit.Sts2.Core.Models.CharacterModel TomeCharacter =>
         MegaCrit.Sts2.Core.Models.ModelDb.Character<VolibearCharacter>();
-    public override List<(string, string)> Localization => new CardLoc("雷池", "对全体造成{Lightning:diff()}雷伤。回合结束及每回合首次迎战后，对全体造成{Pool:diff()}雷伤。");
+    public override List<(string, string)> Localization => new CardLoc("雷池", "对所有敌人造成{Lightning:diff()}雷伤。回合结束及每回合首次迎战后，对所有敌人造成{Pool:diff()}雷伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 6m), new DynamicVar("Pool", 4m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {

@@ -40,6 +40,7 @@ public static partial class DomainPlayerDebuffContributions
                 postfix: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(ChainsPlayContribution)));
             InstallNullSource(harmony);
             InstallCommitGates(harmony);
+            DomainSelfDebuffEffects.Install(harmony);
             harmony.Patch(AccessTools.Method(typeof(CombatManager), nameof(CombatManager.Reset), [typeof(bool)]),
                 prefix: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(Reset)));
             CombatManager.Instance.CombatSetUp += _ => Reset();
@@ -83,7 +84,8 @@ public static partial class DomainPlayerDebuffContributions
     private static decimal DamageMultiplier(AbstractModel model, Creature? target, decimal amount, ValueProp props,
         Creature? dealer, CardModel? card)
     {
-        if (model is PowerModel power && power is WeakPower or VulnerablePower or ShrinkPower && Suppressed(power))
+        if (model is PowerModel power && (DomainSelfDebuffEffects.IsSuppressed(power) ||
+            power is WeakPower or VulnerablePower or ShrinkPower && Suppressed(power)))
         {
             if (amount > 0 && props.IsPoweredAttack() && ReferenceEquals(power.Owner, power is VulnerablePower ? target : dealer))
                 PresentSuppressedContribution(power, scalar: true);
@@ -95,7 +97,7 @@ public static partial class DomainPlayerDebuffContributions
     private static decimal BlockMultiplier(AbstractModel model, Creature target, decimal amount, ValueProp props,
         CardModel? card, CardPlay? play)
     {
-        if (model is FrailPower frail && Suppressed(frail))
+        if (model is PowerModel frail && (DomainSelfDebuffEffects.IsSuppressed(frail) || frail is FrailPower && Suppressed(frail)))
         {
             if (amount > 0 && ReferenceEquals(frail.Owner, target) && props.IsPoweredCardOrMonsterMoveBlock())
                 PresentSuppressedContribution(frail, scalar: true);

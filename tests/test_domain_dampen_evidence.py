@@ -9,7 +9,7 @@ from domain_dampen_evidence import MARKER, validate, check_log
 
 # Independent literal rules oracle: never derive fixture results from the validator's expected table.
 RULE_LEVELS = {"off": (0, 0), "on": (1, 1), "enter-await": (1, 1), "exit-await": (0, 0),
-               "enter-pair": (0, 1), "exit-pair": (1, 0), "departure": (1, 1)}
+               "enter-pair": (1, 1), "exit-pair": (0, 0), "departure": (1, 1)}
 
 TOKEN = "synthetic-dampen-gate-token"
 
@@ -17,13 +17,10 @@ TOKEN = "synthetic-dampen-gate-token"
 def fixture(variant):
     after = list(RULE_LEVELS[variant])
     refs = ["c0", "c1"]
-    debt = {refs[i]: 1 for i in range(2) if after[i] == 0}
-    skipped = [i for i in range(2) if after[i] == 1]
-    independent = skipped[0] if skipped else None
-    modified = after.copy()
-    if independent is not None:
-        modified[independent] = 0
-    restored = [1 if refs[i] in debt else modified[i] for i in range(2)]
+    debt = {"c0": 1, "c1": 1}
+    independent = 0
+    modified = [0, 1]
+    restored = [1, 1]
     control_debt = {refs[i]: 1 for i in range(2) if restored[i] == 1}
     departed = variant == "departure"
     def entries(mapping):
@@ -37,7 +34,7 @@ def fixture(variant):
     for name in names:
         baseline = name == "baseline"
         player = name.startswith("player-")
-        level = [1, 1] if baseline else [0, 0] if name == "player-control" else restored if name in ("restored", "player-restored") else modified if name in ("independent", "first-death") else after
+        level = [1, 1] if baseline or name in ("player-control", "restored", "player-restored") else modified if name in ("independent", "first-death") else after if name == "source" else [0, 0]
         attached = baseline or (not departed and name in ("source", "off-no-replay", "joined", "independent"))
         casters = [] if baseline or player else ["source"] if departed else [] if name == "restored" else ["second"] if name == "first-death" else ["source", "second"] if name in ("joined", "independent") else ["source"]
         domain = variant in ("on", "enter-await", "enter-pair", "departure") if name == "source" else name in ("independent", "first-death", "restored", "player-control", "player-restored")
@@ -50,25 +47,34 @@ def fixture(variant):
     running = {}
     for i in range(2):
         before = len(running)
-        if after[i] == 0:
-            running[refs[i]] = 1
+        running[refs[i]] = 1
+        live = variant in ("on", "enter-await", "departure") or (variant == "enter-pair" and i == 1) or (variant == "exit-pair" and i == 0)
+        pair_level = 1 if variant == "enter-pair" or live else 0
         pairs.append(dict(phase="source", power="power", card=refs[i], id=i+10, source="source", combat="combat",
-            invocationNonce=4, applyNonce=3, moveNonce=2, outerNonce=1, before=1, after=after[i], ledgerBefore=before,
-            ledgerAfter=len(running), sourceDomainAtAdmission=bool(after[i]), domainAfter=True if variant == "enter-pair" else bool(after[i]),
-            suppressed=bool(after[i]), provenance="native-magi", sourceAttached=not departed, nativeLedger=entries(running), sameNativeLedger=True))
+            invocationNonce=4, applyNonce=3, moveNonce=2, outerNonce=1, before=1, after=pair_level, ledgerBefore=before,
+            ledgerAfter=len(running), sourceDomainAtAdmission=live, domainAfter=True if variant == "enter-pair" else live,
+            suppressed=live, provenance="native-magi", sourceAttached=not departed, nativeLedger=entries(running), sameNativeLedger=True))
     running = {}
     for ref in control_debt:
         before = len(running); running[ref] = 1
         pairs.append(dict(phase="player", power="control", card=ref, id=refs.index(ref)+10, source=None, combat=None,
-            invocationNonce=7, applyNonce=0, moveNonce=0, outerNonce=0, before=1, after=0, ledgerBefore=before, ledgerAfter=len(running),
+            invocationNonce=7, applyNonce=0, moveNonce=0, outerNonce=0, before=1, after=1, ledgerBefore=before, ledgerAfter=len(running),
             sourceDomainAtAdmission=False, domainAfter=True, suppressed=False, provenance="player", sourceAttached=False,
             nativeLedger=entries(running), sameNativeLedger=True))
-    events = [("source", refs[i], 1, 0) for i in range(2) if after[i] == 0]
-    if independent is not None:
-        events.append(("independent", refs[independent], 1, 0))
-    events += [("restoration", ref, 0, 1) for ref in debt]
-    events += [("player", ref, 1, 0) for ref in control_debt] + [("player", ref, 0, 1) for ref in control_debt]
-    events = [dict(phase=phase, card=ref, id=refs.index(ref)+10, before=before, after=after_, domain=phase != "source") for phase, ref, before, after_ in events]
+    down_off = [(0, 1, 0, False), (1, 1, 0, False)]
+    loans = [(0, 1, 0, True), (0, 0, 1, True), (1, 1, 0, True), (1, 0, 1, True)]
+    source_tape = {"off": down_off, "exit-await": down_off, "on": loans, "enter-await": loans, "departure": loans,
+                   "enter-pair": [(0, 1, 0, False), (0, 0, 1, True), (1, 1, 0, True), (1, 0, 1, True)],
+                   "exit-pair": [(0, 1, 0, True), (0, 0, 1, True), (0, 1, 0, False), (1, 1, 0, False)]}[variant]
+    events = [("source", refs[index], before, after_, live) for index, before, after_, live in source_tape]
+    if variant in ("on", "enter-await", "enter-pair", "departure"):
+        events += [("no-replay", "c0", 1, 0, False), ("no-replay", "c1", 1, 0, False)]
+    events += [("no-replay", "c0", 0, 1, True), ("no-replay", "c1", 0, 1, True),
+               ("independent", "c0", 1, 0, True), ("restoration", "c0", 0, 0, True), ("restoration", "c1", 1, 0, True),
+               ("restoration", "c0", 0, 1, True), ("restoration", "c1", 0, 1, True)]
+    events += [("player", refs[index], before, after_, live) for index, before, after_, live in loans]
+    events += [("player", "c0", 1, 0, True), ("player", "c1", 1, 0, True), ("player", "c0", 0, 1, True), ("player", "c1", 0, 1, True)]
+    events = [dict(phase=phase, card=ref, id=refs.index(ref)+10, before=before, after=after_, domain=live) for phase, ref, before, after_, live in events]
     boundaries = []
     if departed:
         boundaries.append(dict(kind="instrumented-native-outer-wait-departure", attachedBefore=True, attachedAfter=False, sourceCombatNull=True, after=True, originalWaitCompleted=True))
@@ -85,7 +91,7 @@ def fixture(variant):
              "Apply": "MegaCrit.Sts2.Core.Commands.PowerCmd+<Apply>d__2.MoveNext", "Pair": "MegaCrit.Sts2.Core.Models.Powers.DampenPower.AfterApplied", "Reset": "MegaCrit.Sts2.Core.Combat.CombatManager.Reset(System.Boolean)"}
     received = [dict(phase=phase, power=power, target="owner", applier=applier, amount=1, domain=phase == "player" or variant in ("on","exit-await","exit-pair","departure"))
                 for phase, power, applier in (("source", "power", "source"), ("player", "control", "owner"))]
-    return dict(schema=1, token=TOKEN, scenario="domain-dampen-transactions", variant=variant, version="v0.107.1", commit="59260271", encounter="KnightsElite",
+    return dict(schema=2, suppressionPolicy="native-debt-temporary-upgrade-loan", token=TOKEN, scenario="domain-dampen-transactions", variant=variant, version="v0.107.1", commit="59260271", encounter="KnightsElite",
         acceptance="native-source-ledger-card-pairs-not-power-admission-or-ordinary-input", testMode=False, sourceId=2, ownerId=1,
         sourceRef="source", ownerRef="owner", combatRef="combat", nativeMoveCalls=len(sources), directPowerCallbackCalls=0,
         initialCards=[{key: card[key] for key in ("id", "reference", "type")} for card in cards([1, 1])], independentCard=None if independent is None else refs[independent],
@@ -117,13 +123,13 @@ class GateTests(unittest.TestCase):
     def test_negative_mutations(self):
         mutations = [
             ("fake phantom debt", "on", lambda p: p["steps"][1]["ledger"].append(dict(card="c0",id=10,oldLevel=1))),
-            ("only downgrade veto", "on", lambda p: p["pairs"][0].update(ledgerAfter=1,nativeLedger=[dict(card="c0",id=10,oldLevel=1)])),
-            ("free upgrade after independent downgrade", "on", lambda p: next(s for s in p["steps"] if s["name"]=="restored")["cards"][0].update(level=1,value=9)),
+            ("debt omitted during suppression", "on", lambda p: p["pairs"][0].update(ledgerAfter=0,nativeLedger=[])),
+            ("double restoration", "on", lambda p: next(s for s in p["steps"] if s["name"]=="restored")["cards"][0].update(level=2,value=12)),
             ("global downgrade veto", "on", lambda p: next(s for s in p["steps"] if s["name"]=="independent")["cards"][0].update(level=1,value=9)),
             ("entry cache instead of per-card live", "enter-pair", lambda p: p["pairs"][1].update(suppressed=False,sourceDomainAtAdmission=False,after=0)),
-            ("rollback admitted first card", "enter-pair", lambda p: p["steps"][1]["cards"][0].update(level=1,value=9)),
-            ("backfill skipped first card", "exit-pair", lambda p: p["steps"][1]["cards"][0].update(level=0,value=6)),
-            ("domain exit replay", "on", lambda p: p["steps"][2]["cards"][0].update(level=0,value=6)),
+            ("entry fails to restore first card", "enter-pair", lambda p: p["steps"][1]["cards"][0].update(level=0,value=6)),
+            ("exit fails to return first loan", "exit-pair", lambda p: p["steps"][1]["cards"][0].update(level=1,value=9)),
+            ("domain exit retains loan", "on", lambda p: p["steps"][2]["cards"][0].update(level=1,value=9)),
             ("second caster reapplies", "on", lambda p: p["pairs"].append(copy.deepcopy(p["pairs"][0]))),
             ("first death restores", "off", lambda p: next(s for s in p["steps"] if s["name"]=="first-death")["cards"][0].update(level=1,value=9)),
             ("cleanup blocked by Domain", "off", lambda p: next(s for s in p["steps"] if s["name"]=="restored")["cards"][0].update(level=0,value=6)),

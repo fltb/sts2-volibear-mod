@@ -26,6 +26,44 @@ def number(value):
     return type(value) is int or (type(value) is float and math.isfinite(value))
 
 
+def _effective_audio_files(authored, runtime):
+    """Resolve only a verified packaged profile, never a producer-selected path.
+
+    The authored manifest is the open inventory even in private builds. The PCK
+    runtime overlay must match the locally verified pinned profile preparation.
+    No media decoding or playback is inferred from this identity check.
+    """
+    try:
+        from . import audio_profiles
+    except ImportError:
+        import audio_profiles
+    # stage_assets.py removes only authoring WAV paths from runtime cue rows.
+    approved = [{k: v for k, v in row.items() if k != 'wav'}
+                for row in audio_profiles.read_json(audio_profiles.AUDIO / 'manifest.json')['cues']]
+    if authored['cues'] != approved:
+        raise ValueError('authored audio cue inventory differs from approved manifest')
+    files = {cue['id']: cue['file'] for cue in approved}
+    if runtime == {'schema_version': 1, 'profile': 'open', 'overrides': []}:
+        return files
+    if not isinstance(runtime, dict) or runtime.get('profile') != 'riot_en':
+        raise ValueError('unknown/malformed runtime audio profile')
+    expected = audio_profiles.verify_prepared(full_decode=False)
+    if runtime != expected:
+        raise ValueError('runtime audio profile differs from verified pinned preparation')
+    for row in expected['overrides']:
+        files[row['cue']] = row['file']
+    return files
+
+
+def _source_audio_errors(voices, files):
+    errors = []
+    for voice in voices:
+        if (voice['cue'] not in files or voice['file'] != files.get(voice['cue'])
+                or voice['playing'] is not True or not number(voice['volume']) or voice['volume'] <= 0):
+            errors.append('actual source cue identity/playback/gain')
+    return errors
+
+
 def _structure(p, token, mode):
     errors=[]
     def need(ok, why):
@@ -45,6 +83,7 @@ def _structure(p, token, mode):
         cues=p["authoredAudio"]["cues"]
         cue_ids={r["id"] for r in cues}
         need(len(cues)==len(cue_ids)==54, "54 distinct authored cues, not 54 heard claims")
+        effective_files = _effective_audio_files(p['authoredAudio'], p['audioProfile'])
         if mode in ("cards","all"):
             rows=p["views"]
             need(len(rows)==356 and {(r["code"],r["upgraded"],r["kind"]) for r in rows}=={(c,u,k) for c in CODES for u in (False,True) for k in ("small","large")}, "89 x base/upgrade x hand/Inspect")
@@ -85,14 +124,13 @@ def _structure(p, token, mode):
             need(number(audio["rms"]) and number(audio["peak"]) and 0<audio["rms"]<=audio["peak"]<=1, "nonzero finite bus mix, not per-cue audibility")
             voices=audio["voices"]
             need(bool(voices) and len({v["node"] for v in voices})==len(voices), "actual unique source audio nodes")
+            errors.extend(_source_audio_errors(voices, effective_files))
             for v in voices:
-                authored=next(c for c in cues if c["id"]==v["cue"])
-                need(v["file"]==authored["file"] and v["cue"] in cue_ids and v["playing"] is True and v["volume"]>0, "actual source cue identity/playback/gain")
                 need(all(number(v[k]) for k in ("first","last","ended")) and 0<=v["first"]<=v["last"]<=v["ended"], "voice start/overlap/end timeline")
             cleanup=p["cleanup"]
             need(cleanup["cause"]=="native-last-enemy-death" and cleanup["afterVisuals"]==cleanup["afterVoices"]==0 and cleanup["oldRootAlive"] is False and cleanup["roomAttached"] is False, "native combat-end owned node cleanup")
         else: need(p["actions"]==[] and p["audio"] is None and p["cleanup"] is None, "cards-only not audio/cleanup evidence")
-    except (KeyError,TypeError,ValueError,IndexError,StopIteration,AttributeError) as exc:
+    except (OSError,KeyError,TypeError,ValueError,IndexError,StopIteration,AttributeError) as exc:
         errors.append("malformed capture: "+str(exc))
     return errors
 

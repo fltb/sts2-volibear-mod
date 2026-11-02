@@ -22,7 +22,7 @@ Check((int)gen.GetValue(null)! == prior + 1, "reset advances generation");
 t.GetMethod("Prepare", flags)!.Invoke(null, null);
 var sources = (IDictionary)t.GetField("Sources", flags)!.GetValue(null)!;
 var commands = (IDictionary)t.GetField("Commands", flags)!.GetValue(null)!;
-Check(sources.Count == 6 && commands.Count == 3, "exact six source and three command bodies");
+Check(sources.Count == 12 && commands.Count == 3, "exact twelve source and three command bodies");
 var harmony = new Harmony("Volibear.Passive.NativeIlTest");
 try
 {

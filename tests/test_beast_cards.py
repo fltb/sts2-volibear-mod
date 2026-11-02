@@ -87,10 +87,12 @@ class BeastCardStaticContracts(unittest.TestCase):
         changed = set()
         for code in IDS:
             for face in self.fixture[code]['faces']:
-                if face['display_text_zh'] != face['rules_text_zh']:
+                if code in OVERRIDES:
                     changed.add(code)
                     self.assertIn('减费1', face['rules_text_zh'])
-                    self.assertIn('本回合下次打出时设为0费', face['display_text_zh'])
+                    self.assertRegex(face['display_text_zh'], r'本回合[^。；]*下次打出时为0费')
+                else:
+                    self.assertNotIn('下次打出时为0费', face['display_text_zh'])
         self.assertEqual(changed, OVERRIDES)
         self.assertEqual(self.text.count('NextPlayDiscount.Grant(replacement)'), 1)
         self.assertIn('if (discount && (!oldDays || shape == BeastShape.Claw))', self.text)
@@ -145,6 +147,19 @@ class BeastCardStaticContracts(unittest.TestCase):
         self.assertIn('case BeastShape.Body:', self.powers)
         self.assertIn('await PlayerCmd.GainEnergy(1, Owner.Player!)', self.powers)
         self.assertIn('change.Card.Owner.Creature.Powers.OfType<BearSpiritPower>().ToArray()', self.powers)
+
+    def test_bear_spirit_turn_choice_uses_power_lifetime_not_resolved_card_pile(self):
+        turn = self.powers.split('public override async Task AfterPlayerTurnStart(', 1)[1].split('public override async Task BeforeCardPlayed(', 1)[0]
+        self.assertNotIn('BeastSelection.Transform', turn)
+        self.assertNotIn('source.CombatState', turn)
+        self.assertIn('BeastPowers.Active(this)', turn)
+        self.assertIn('CardSelectCmd.FromHand(context, player,', turn)
+        self.assertIn('.beastSelectionPrompt"), 0, 1)', turn)
+        self.assertIn('c => candidates.Contains(c), source)', turn)
+        self.assertIn('if (!BeastPowers.Active(this)) break;', turn)
+        self.assertIn('if (!ReferenceEquals(card.Pile, hand)) continue;', turn)
+        self.assertIn('await BeastForms.Convert(context, card, source)', turn)
+        self.assertNotIn('NextPlayDiscount.Grant', turn)
 
     def test_body_lightning_uses_card_facing_training_overload(self):
         source = (ROOT / 'src/Volibear/Core/BeastForms.cs').read_text(encoding='utf-8')

@@ -104,6 +104,13 @@ namespace Volibear.Core
 {
     internal static class DomainEnemyEffects
     { internal static bool Active; internal static bool ActiveFor(ICombatState? state) => Active && state is not null; }
+    // Boundary policy double. The real IsSuppressed implementation is exercised by
+    // domain_self_debuff against the locked native model types.
+    internal static class DomainSelfDebuffEffects
+    {
+        internal static bool IsSuppressed(PowerModel power) => power.Amount >= 0 && power.Owner.IsPlayer &&
+            power.Owner.CombatState is { } combat && combat.ContainsCreature(power.Owner) && DomainEnemyEffects.ActiveFor(combat);
+    }
     internal static class DomainEnemyStatusContributions
     {
         internal static void AppliedTainted(PowerModel p, Creature t, decimal a, Creature? s, CardModel? c, PlayerChoiceContext x) { }

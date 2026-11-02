@@ -14,17 +14,18 @@ def fixture():
     text = [
         ('characters', 'VOLIBEAR_CHARACTER.cardsModifierTitle', '不灭狂雷'),
         ('characters', 'VOLIBEAR_CHARACTER.cardsModifierDescription', '沃利贝尔的卡牌会出现在奖励和商店中。'),
-        ('characters', 'VOLIBEAR_CHARACTER.eventDeathPrevention', '雷霆拒绝了死亡。'),
-        ('characters', 'VOLIBEAR_CHARACTER.aromaPrinciple', '风暴只服从自己的意志'),
-        ('characters', 'VOLIBEAR_CHARACTER.goldMonologue', '这些金属，终将被雷霆熔铸。'),
-        ('characters', 'VOLIBEAR_CHARACTER.banter.alive.endTurnPing', '风暴不会等待。'),
-        ('characters', 'VOLIBEAR_CHARACTER.banter.dead.endTurnPing', '雷声尚未消散……'),
+        ('characters', 'VOLIBEAR_CHARACTER.eventDeathPrevention', '沃利贝尔撑起身体，伤口间仍冒着电光。'),
+        ('characters', 'VOLIBEAR_CHARACTER.aromaPrinciple', '雨水、泥土，还有猎物的气味。'),
+        ('characters', 'VOLIBEAR_CHARACTER.goldMonologue', '这些够换什么？'),
+        ('characters', 'VOLIBEAR_CHARACTER.banter.alive.endTurnPing', '该你了。'),
+        ('characters', 'VOLIBEAR_CHARACTER.banter.dead.endTurnPing', '别管我，继续打。'),
         ('relics', 'SEA_GLASS.VOLIBEAR_CHARACTER.title', '风暴海玻璃'),
     ]
     lines = [
-        dict(speaker='Ancient', text='你的风暴，已经震动了这里的根基。'),
-        dict(speaker='Character', text='石墙会崩塌。雷霆不会。'),
-        dict(speaker='Ancient', text='那就让我看看，这场风暴还能持续多久。'),
+        dict(speaker='Ancient', text='你把下面砸得一团糟。'),
+        dict(speaker='Character', text='那些墙挡了我的路。'),
+        dict(speaker='Ancient', text='所以你就一路拆到这里？'),
+        dict(speaker='Character', text='我是来找你的。别再派那些东西送死了。'),
     ]
     inventory = dict(deck=[dict(instance=i + 1, id='VOLIBEAR_' + name, upgrade=0)
                           for i, name in enumerate(['B01'] * 4 + ['B02'] * 4 + ['B03', 'B04'])],
@@ -45,7 +46,9 @@ def fixture():
                   restoredUpgrade=1, restoredRelicCard='VOLIBEAR_R18', lightning=9, pool=6,
                   relic=dict(id='RELIC.DUSTY_TOME', floor_added_to_deck=0,
                              props=dict(model_ids=[dict(name='AncientCard', value='CARD.VOLIBEAR_R18')])),
-                  card=dict(id='CARD.VOLIBEAR_R18', current_upgrade_level=1)),
+                  card={'id': 'CARD.VOLIBEAR_R18', 'current_upgrade_level': 1,
+                        'save_dict_List[BaseLib.Abstracts.CardModifier+ModifierSave]':
+                            {'BaseLibCardModifiers': []}}),
         suppressedNativeAudio=[
             'event:/sfx/characters/volibear_character/volibear_character_select',
             'event:/sfx/characters/volibear_character/volibear_character_attack',
@@ -163,6 +166,28 @@ class CharacterIntegrationOracle(unittest.TestCase):
         self.raw['result']['tome']['card']['floor_added_to_deck'] = 0
         self.assertTrue(self.evaluate()['errors'], 'Probe must not claim it added the transient reward to master deck')
 
+    def test_transient_reward_requires_exact_empty_baselib_347_modifier_save(self):
+        key = 'save_dict_List[BaseLib.Abstracts.CardModifier+ModifierSave]'
+        prefix = ('result', 'tome', 'card')
+        for value in (None, [], {}, {'BaseLibCardModifiers': None},
+                      {'BaseLibCardModifiers': {}}, {'BaseLibCardModifiers': False},
+                      {'BaseLibCardModifiers': ''}, {'BaseLibCardModifiers': [None]},
+                      {'BaseLibCardModifiers': [{'Id': 'CARD_MODIFIER.UNEXPECTED'}]},
+                      {'BaseLibCardModifiers': [], 'unexpected': []}):
+            with self.subTest(value=value):
+                self.assertTrue(self.evaluate(self.change((*prefix, key), value))['errors'])
+        for field in self.raw['result']['tome']['card']:
+            raw = deepcopy(self.raw)
+            del raw['result']['tome']['card'][field]
+            with self.subTest(missing=field):
+                self.assertTrue(self.evaluate(raw)['errors'])
+        for field, value in [('unexpected', {}), ('props', {}), ('enchantment', None),
+                             ('floor_added_to_deck', None), ('floor_added_to_deck', 0),
+                             ('save_dict_List[BaseLib.Abstracts.CardModifier.ModifierSave]',
+                              {'BaseLibCardModifiers': []})]:
+            with self.subTest(extra=field, value=value):
+                self.assertTrue(self.evaluate(self.change((*prefix, field), value))['errors'])
+
     def test_inventory_flag_cannot_hide_added_removed_replaced_reordered_or_upgraded_items(self):
         for mutate in (
             lambda inv: inv['deck'].append(dict(instance=12, id='VOLIBEAR_R18', upgrade=1)),
@@ -208,6 +233,62 @@ class CharacterIntegrationOracle(unittest.TestCase):
             self.assertTrue(gate.check_log(log, 'character-test', 101)['errors'])
         self.assertEqual(gate.check_log('unrelated native log\n' + receipt + '\nnormal exit',
                                        'character-test', 101)['errors'], [])
+
+
+class BaseLibRuntimeOracle(unittest.TestCase):
+    def setUp(self):
+        # Synthetic controls only, modelled on the pinned runtime's actual log grammar.
+        self.lines = [
+            '[INFO] Calling initializer method of type BaseLib.BaseLibMain for BaseLib, Version=3.4.7.0, Culture=neutral, PublicKeyToken=null',
+            '[INFO] [BaseLib] Starting PatchAll for assembly BaseLib, Version=3.4.7.0, Culture=neutral, PublicKeyToken=null',
+            '[INFO] [BaseLib] Applied 282 patches successfully, 0 failed',
+            "[INFO] Finished mod initialization for 'BaseLib' (BaseLib).",
+            '[Volibear] CONTENT_OK cards=89 character=VolibearCharacter framework=BaseLib-3.4.7',
+        ]
+        for scene, target, source in (
+            ('combat', 'NCreatureVisuals', 'Node2D'), ('rest', 'NRestSiteCharacter', None),
+            ('merchant', 'NMerchantCharacter', None), ('energy', 'NEnergyCounter', 'Control'),
+            ('trail', 'NCardTrailVfx', 'Node2D'),
+        ):
+            path = f'res://VolibearArt/scenes/volibear_{scene}.tscn'
+            self.lines.append(f"[INFO] [BaseLib] Registered scene '{path}' for auto-conversion to {target}")
+            if source:
+                self.lines.append(f"[INFO] [BaseLib] Auto-converted '{path}' from {source} to {target}")
+
+    def check(self, lines=None):
+        return gate.check_baselib_runtime('\n'.join(self.lines if lines is None else lines))
+
+    def test_complete_runtime_markers_and_variable_positive_patch_counts(self):
+        self.assertEqual(self.check()['errors'], [])
+        for count in (1, 281, 283):
+            lines = [line.replace('282 patches', f'{count} patches') for line in self.lines]
+            self.assertEqual(self.check(lines)['errors'], [])
+            self.assertEqual(self.check(lines)['patchesApplied'], count)
+
+    def test_every_required_marker_is_required(self):
+        for index in range(len(self.lines)):
+            with self.subTest(index=index):
+                self.assertTrue(self.check(self.lines[:index] + self.lines[index + 1:])['errors'])
+
+    def test_wrong_version_count_failed_patch_and_foreign_scene_rejected(self):
+        for old, new in [('3.4.7.0', '3.4.8.0'), ('282 patches', '0 patches'),
+                         ('0 failed', '1 failed'), ('0 failed', '-1 failed'),
+                         ('cards=89', 'cards=88'), ('VolibearArt', 'OtherModArt'),
+                         ('to NEnergyCounter', 'to Control')]:
+            with self.subTest(old=old, new=new):
+                self.assertTrue(self.check([line.replace(old, new) for line in self.lines])['errors'])
+
+    def test_order_and_duplicate_initialization_rejected(self):
+        self.assertTrue(self.check(list(reversed(self.lines)))['errors'])
+        for index in range(5):
+            self.assertTrue(self.check(self.lines + [self.lines[index]])['errors'])
+        # Repeated conversion is expected when another owned combat room is entered.
+        conversions = [line for line in self.lines if 'Auto-converted' in line]
+        self.assertEqual(self.check(self.lines + conversions)['errors'], [])
+
+    def test_missing_or_nontext_runtime_fails(self):
+        for log in ('', None, 12):
+            self.assertTrue(gate.check_baselib_runtime(log)['errors'])
 
 
 if __name__ == '__main__':

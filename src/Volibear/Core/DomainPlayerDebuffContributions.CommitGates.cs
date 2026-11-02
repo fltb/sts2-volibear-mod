@@ -67,6 +67,28 @@ public static partial class DomainPlayerDebuffContributions
         }
     }
 
+    // The audio receipt adapter owns one exact terminal observer in the SAME native
+    // MoveNext: it emits "ldloc <Frame>; call Close(Frame)" immediately before the
+    // builder's SetResult so a caller continuation cannot run before the frame closes.
+    // It does not produce or replace the result value; the int result is still local 1.
+    private static readonly MethodInfo? AudioCompletionClose = AccessTools.Method(
+        typeof(Volibear.Presentation.PowerAudioReceipts), "Close");
+    private static readonly Type? AudioFrame = typeof(Volibear.Presentation.PowerAudioReceipts)
+        .GetNestedType("Frame", BindingFlags.NonPublic);
+
+    private static bool IsAudioCompletionObserver(CodeInstruction load, CodeInstruction close)
+    {
+        if (AudioCompletionClose is null || AudioFrame is null) return false;
+        if (close.opcode != OpCodes.Call || close.blocks.Count != 0 || close.labels.Count != 0 ||
+            !Equals(close.operand, AudioCompletionClose)) return false;
+        if (load.blocks.Count != 0 || load.labels.Count != 0) return false;
+        bool loadsLocal = load.opcode == OpCodes.Ldloc || load.opcode == OpCodes.Ldloc_S ||
+            load.opcode == OpCodes.Ldloc_0 || load.opcode == OpCodes.Ldloc_1 ||
+            load.opcode == OpCodes.Ldloc_2 || load.opcode == OpCodes.Ldloc_3;
+        if (!loadsLocal) return false;
+        return load.operand is LocalBuilder local && local.LocalType == AudioFrame;
+    }
+
     private static IEnumerable<CodeInstruction> CommitGate(IEnumerable<CodeInstruction> input,
         ILGenerator generator, MethodBase __originalMethod)
     {
@@ -92,9 +114,17 @@ public static partial class DomainPlayerDebuffContributions
         if (end < 0 || end + 3 >= finish || code[end + 1].opcode != OpCodes.Ldarg_0 ||
             !code[end + 2].LoadsConstant(-2) || code[end + 3].opcode != OpCodes.Stfld || !Equals(code[end + 3].operand, state))
             throw new InvalidOperationException("Debuff native successful epilogue changed.");
-        if (!apply && (code[finish - 1].opcode != OpCodes.Ldloc_1 ||
-            __originalMethod.GetMethodBody()!.LocalVariables[1].LocalType != typeof(int)))
-            throw new InvalidOperationException("Debuff native amount result local changed.");
+        if (!apply)
+        {
+            // Walk back over only the exact audio terminal observer. Any other instruction
+            // between the int result load and SetResult still fails the binding check.
+            int value = finish - 1;
+            if (value >= 2 && IsAudioCompletionObserver(code[value - 1], code[value])) value -= 2;
+            if (value < 0 || code[value].opcode != OpCodes.Ldloc_1 || code[value].labels.Count != 0 ||
+                code[value].blocks.Count != 0 ||
+                __originalMethod.GetMethodBody()!.LocalVariables[1].LocalType != typeof(int))
+                throw new InvalidOperationException("Debuff native amount result local changed.");
+        }
         var done = generator.DefineLabel(); code[end + 1].labels.Add(done);
         int anchor;
         if (apply)

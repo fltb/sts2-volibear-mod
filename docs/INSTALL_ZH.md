@@ -5,8 +5,10 @@
 
 本说明用于含 `PACKAGE.json` 和 `mods/` 的完整安装 ZIP。若拿到的是源码覆盖包，先按
 [LOCAL_WORKFLOW.md](https://github.com/fltb/sts2-volibear-mod/blob/codex/mode7-completion/docs/LOCAL_WORKFLOW.md) 执行 `tools/local_delivery.py --verify-release`，
-从当前源码构建并验收完整包。当前 PR 在维护环境的完整游戏编译、实机与双端网络结果仍为
-**`NOT_RUN`**；已有离线检查或 PCK 通过不代表这些结果已通过。
+从当前源码构建并验收完整包。完整发布验收覆盖卡牌、领域与终局剧情、表现、存读档和双客户端。
+本轮更新包含向下挥爪的打击卡图、重绘状态图标、蓝色灵体与立体雷电领域、领域禁用反馈、
+清晰区分空满的能量外观、纯色中心的卡牌费用底图及整理后的全部文案。
+最终剧情中，沃利贝尔进入领域后进入胜利结算。
 
 仅面向《Slay the Spire 2》**0.107.1 / 构建 59260271**。固定依赖为 **BaseLib 3.4.7**，
 完整包随附该依赖；不要混用其他 BaseLib 版本或另一套注册框架。游戏版本不符时先停止安装，
@@ -66,8 +68,8 @@ Godot 编辑器或测试启动参数。
 本 Mod 没有添加另一套中途快照或网络协议来改变这个边界。
 
 发布流程中的多人验收已实现两端原生 ENet、真实付费、状态一致、断线和 checkpoint 恢复检查，
-详情见 [MULTIPLAYER_ACCEPTANCE.md](https://github.com/fltb/sts2-volibear-mod/blob/codex/mode7-completion/docs/MULTIPLAYER_ACCEPTANCE.md)。维护环境尚未执行该游戏批次；
-本机 loopback 验收也不等于 Steam 传输、跨公网或人工操作体验已获得验证。
+详情见 [MULTIPLAYER_ACCEPTANCE.md](https://github.com/fltb/sts2-volibear-mod/blob/codex/mode7-completion/docs/MULTIPLAYER_ACCEPTANCE.md)。统一发布门禁包含两端有序退出及检查点恢复。
+Steam 传输、跨公网及人工操作体验需要在对应环境另行验证。
 
 ## 卸载
 
@@ -85,6 +87,10 @@ Godot 编辑器或测试启动参数。
 完整安装包默认使用 `open`：47 个开放声音覆盖 54 个声音事件。可选 `riot_en` 的英文原声来源、
 自动获取和构建命令见 [音频说明](https://github.com/fltb/sts2-volibear-mod/blob/codex/mode7-completion/assets/animation/audio/profiles/README.md)；公开源码不包含
 Riot 录音。两套方案都按事件保留开放音频回退。
+
+若包名含 `riot_en-private` 且附有 `AUDIO_PROFILE.txt`，该完整包已经内置 Riot 音频，直接按上文
+安装即可，无需另行下载、转码或替换 PCK。本次配置为 11 条固定来源覆盖（9 条英文语音和
+2 条官方 Q 开发示例声音），其余 43 个声音事件使用 open 回退；并非完整当前客户端技能音效集。
 
 资源替换包只替换 `mods/Volibear/Volibear.pck`。退出游戏、保留原 PCK 后，使用与当前 DLL
 同一版源码构建的目标 PCK 替换；切回 `open` 时恢复对应默认 PCK。资源替换包没有 DLL 和

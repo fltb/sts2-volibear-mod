@@ -204,7 +204,7 @@ internal static class MultiplayerAcceptanceProbe
     {
         var machine = target.Monster!.MoveStateMachine;
         Need(machine.States["TACKLE_MOVE"] is MoveState, "Native LeafSlimeS TACKLE_MOVE missing");
-        machine.SetMoveImmediate((MoveState)machine.States["TACKLE_MOVE"], forceTransition: true);
+        target.Monster.SetMoveImmediate((MoveState)machine.States["TACKLE_MOVE"], forceTransition: true);
     }
 
     private static string CheckpointPath()
@@ -319,7 +319,10 @@ internal static class MultiplayerAcceptanceProbe
 
             int previousRound = State.RoundNumber, targetMoves = Moves(target);
             await Barrier("normal-turn-submit");
-            PlayerCmd.EndTurn(Local, canBackOut: false);
+            // Follow NEndTurnButton's native synchronized action route. PlayerCmd
+            // alone changes only this peer's readiness and never informs its partner.
+            RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(
+                new EndPlayerTurnAction(Local, Local.PlayerCombatState!.TurnNumber));
             await session.Until(() => Quiet() && State.RoundNumber == previousRound + 1, "both native end-turn actions");
             Need(Moves(target) == targetMoves && !EngageCmd.Consumed(target) && Players.All(p => p.Creature.GetPowerAmount<DomainPower>() == 0)
                 && Players.All(p => LightningBatches.GetTurnCount(p.Creature) == 0), "Normal turn did not skip spent action / reset domain and counters");
