@@ -18,6 +18,7 @@ import zipfile
 
 from tools import package_lifecycle as lifecycle
 from tools import release_package
+from tools.runtime_platform import create_directory_redirect
 
 
 def sha(data):
@@ -314,7 +315,7 @@ class PackageLifecycleTests(unittest.TestCase):
         self.assertEqual((self.target() / 'Volibear.dll').read_bytes(), b'external edit')
         recovery, = self.root.glob('volibear-recovery-*')
         record = json.loads((recovery / 'RECOVERY.json').read_text())
-        row = next(r for r in record['files'] if r['path'].endswith('/Volibear.dll'))
+        row = next(r for r in record['files'] if Path(r['path']).name == 'Volibear.dll')
         self.assertEqual((recovery / row['backup']).read_bytes(), old_dll)
         self.assertEqual(self.state.read_bytes(), old_state)
         self.assert_foreign_and_sentinel_unchanged()
@@ -322,38 +323,41 @@ class PackageLifecycleTests(unittest.TestCase):
     def test_state_sentinel_overlap_rejected_before_uninstall(self):
         package, _ = self.build_package()
         self.execute(package)
-        for alias in ('equal', 'symlink', 'hardlink'):
-            with self.subTest(alias=alias):
-                sentinel = self.state
-                if alias != 'equal':
-                    sentinel = self.root / ('sentinel-' + alias)
-                    if alias == 'symlink':
-                        sentinel.symlink_to(self.state)
-                    else:
+        with tempfile.TemporaryDirectory() as aliases:
+            for alias in ('equal', 'parent-redirect', 'hardlink'):
+                with self.subTest(alias=alias):
+                    sentinel = self.state
+                    if alias == 'parent-redirect':
+                        parent = create_directory_redirect(Path(aliases) / 'state-alias', self.root)
+                        sentinel = parent / self.state.name
+                    elif alias == 'hardlink':
+                        sentinel = self.root / 'sentinel-hardlink'
                         os.link(self.state, sentinel)
-                before = self.snapshot_bytes()
-                with self.assertRaisesRegex(lifecycle.LifecycleError, 'overlaps protected input'):
-                    self.execute(package, action='uninstall', save_sentinels=[sentinel])
-                self.assertEqual(self.snapshot_bytes(), before)
+                    self.assertTrue(sentinel.samefile(self.state))
+                    before = self.snapshot_bytes()
+                    with self.assertRaisesRegex(lifecycle.LifecycleError, 'overlaps protected input'):
+                        self.execute(package, action='uninstall', save_sentinels=[sentinel])
+                    self.assertEqual(self.snapshot_bytes(), before)
 
     def test_state_archive_overlap_rejected_before_changes(self):
         package, _ = self.build_package()
         previous, _ = self.build_package('previous.zip')
-        for archive in (package, previous):
-            for alias in ('equal', 'hardlink', 'parent-symlink'):
-                with self.subTest(archive=archive.name, alias=alias):
-                    state = archive
-                    if alias == 'hardlink':
-                        state = self.root / (archive.name + '-state')
-                        os.link(archive, state)
-                    elif alias == 'parent-symlink':
-                        parent = self.root / (archive.name + '-alias')
-                        parent.symlink_to(self.root, target_is_directory=True)
-                        state = parent / archive.name
-                    before = self.snapshot_bytes()
-                    with self.assertRaisesRegex(lifecycle.LifecycleError, 'overlaps protected input'):
-                        self.execute(package, state_path=state, previous_package=previous)
-                    self.assertEqual(self.snapshot_bytes(), before)
+        with tempfile.TemporaryDirectory() as aliases:
+            for archive in (package, previous):
+                for alias in ('equal', 'hardlink', 'parent-redirect'):
+                    with self.subTest(archive=archive.name, alias=alias):
+                        state = archive
+                        if alias == 'hardlink':
+                            state = self.root / (archive.name + '-state')
+                            os.link(archive, state)
+                        elif alias == 'parent-redirect':
+                            parent = create_directory_redirect(Path(aliases) / (archive.name + '-alias'), self.root)
+                            state = parent / archive.name
+                        self.assertTrue(state.samefile(archive))
+                        before = self.snapshot_bytes()
+                        with self.assertRaisesRegex(lifecycle.LifecycleError, 'overlaps protected input'):
+                            self.execute(package, state_path=state, previous_package=previous)
+                        self.assertEqual(self.snapshot_bytes(), before)
 
     def test_apply_rechecks_new_state_sentinel_alias(self):
         package, _ = self.build_package()
@@ -744,16 +748,14 @@ class PackageLifecycleTests(unittest.TestCase):
         self.assertFalse(self.state.exists())
         self.assert_foreign_and_sentinel_unchanged()
 
-    def test_symlinked_target_is_refused_and_outside_is_untouched(self):
+    def test_redirected_target_is_refused_and_outside_is_untouched(self):
         package, _ = self.build_package()
         outside = self.root / 'outside'
         outside.mkdir()
         (outside / 'keep.txt').write_text('outside\n', encoding='utf-8')
         target = self.target()
-        try:
-            target.symlink_to(outside, target_is_directory=True)
-        except OSError:
-            self.skipTest('Host does not permit symlinks')
+        create_directory_redirect(target, outside)
+        self.assertEqual(target.resolve(), outside.resolve())
         with self.assertRaisesRegex(lifecycle.LifecycleError, 'Redirected|redirected'):
             self.execute(package)
         self.assertEqual((outside / 'keep.txt').read_text(encoding='utf-8'), 'outside\n')

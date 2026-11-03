@@ -27,6 +27,17 @@
 GDScript 以源码打包，随后实际挂载 PCK 并核对四个运行脚本字节。
 `Volibear.sln` 可用于 IDE；完整交付仍走这里的发布入口。
 
+## 统一 Windows / Linux 测试运行层
+
+测试共用场景、断言与结果协议；`tools/runtime_platform.py`集中平台目录、游戏程序名和普通窗口参数，`tools/runtime_test.py`统一SDK解析、子进程环境与fixture启动。配置读取`.local/config.json`，显式环境覆盖优先；不再让每个测试猜Linux路径。
+
+- 能力分别声明为`sdk`、`harmony`、`native`、`baselib`、`mod`、`godot`、`game`。独立逻辑测试只需SDK，Harmony替身只需SDK与Harmony；不会因为没有本体而跳过它们。
+- `tests/Directory.Build.props`共享`Sts2DataDir`、`BaseLibPath`、`HarmonyPath`、`ModDll`等输入，不给所有项目强加游戏引用；特殊fixture程序集仍保留自身来源。
+- 子进程临时文件和NuGet锁默认在忽略目录`artifacts/runtime`，不改用户全局缓存的权限，不复用其他启动身份的编译服务器。可用`VOLIBEAR_RUNTIME_TEMP`与`NUGET_SCRATCH`指定自有位置。
+- 定向运行现有unittest模块即可；完整静态/引用回归为`python -B tools/regression.py --require-native`。排错可加`--failfast`，首个失败立即输出完整错误。
+- 严格模式下缺少必要运行依赖直接失败。仅另一个操作系统专有的检查可以明确跳过；Linux缺编译器、Windows缺原生程序集等仍失败。
+- Windows上的双平台路径契约测试不代替Linux实机执行；游戏窗口、隔离存档、恢复和网络仍由原有原生runner验证。
+
 ## 2. 第一次执行
 
 Windows，在游戏没有运行时执行，替换三个实际路径：

@@ -14,7 +14,14 @@
 - 补齐Windows runner显式`--windowed --resolution 1280x720`；状态短测增加只读Win32真实窗口检查，未使用输入/激活调用。窗口实际client=1280×720、outer=1298×767，有标题栏/系统菜单、可见可用、非工具/置顶/禁止激活/穿透、非最小化/最大化；运行于原有未切换私有桌面。
 - 本次短测`20261103T121505Z-2df04bfb`通过：83个聚合UI样本、原生格挡history严格[3,4]、合计+7、悬停主标题唯一、占位节点生命周期及普通付费出牌均通过，无新增runtime error。四张原始截图已逐张查看：雷甲单图标7、多份雷伤说明、坚甲无无意义层数、永久领域“本战”均清晰。报告/截图仅留artifacts。
 - 起初用包名直接调用unittest造成两个测试模块无法导入同目录fixture；改为测试目录的标准导入路径后上述58项两轮通过，没有删除或放宽断言。此前提前启动的完整入口已在编译阶段取消，未进入游戏验收，不计通过。
-- 下一步：定向收口后执行`python -B tools/local_delivery.py --verify-release --audio-driver WASAPI`，生成包含状态聚合的新完整ZIP；当前尚未执行本轮完整发布验收。旧Linux包和旧完整通过记录仍是历史基线。
+- Windows短测改动已提交并推送为fc33db3。随后完整入口在引用回归阶段出现失败，已停止，未进入游戏发布验收，也未生成新包。
+- 用户要求Windows/Linux使用统一runtime test层：当前正在收口`runtime_platform`/`runtime_test`、共享MSBuild属性及现有fixture入口迁移；同一套场景/断言不分叉，SDK-only/Harmony-only不强加本体依赖，必需依赖在严格模式下直接失败。
+- 已修复Windows构建解释器的全局NuGet锁/MSBuildTemp访问冲突：子进程临时目录/锁隔离到artifacts/runtime，禁用跨启动身份的编译服务器复用；父Python文件系统测试保留短临时根，原生长路径fixture使用实际Windows扩展路径，不放宽260字符预算。没有修改全局权限或删除全局缓存。
+- standalone Godot已共用隔离user://与既有可信CA方案，仍严格拒绝错误；能量图使用导入Texture2D API读取。批准源PNG字节/hash与inline字节保持冻结，三张可重建图对不同Pillow/zlib以PNG格式、mode、尺寸及RGBA像素逐字节严格复现，不要求压缩编码字节相同，不使用容差；没有修改批准图。
+- 完整引用回归发现的旧平台假设已定向修复：25个实际安装器清单（含PowerStackVisual八target/九patch）、带转义中文literal的scanner定位、Windows路径分隔符、真实目录重定向和Linux依赖mock。Windows采用真实junction验证重定向拒绝与外部字节保留，POSIX保留symlink；未把Windows目录junction称作文件symlink。
+- 对应定向验证：安装链/文本17项、文件系统/runner 93项、短profile/回归判定14项、Godot/冻结UI 11项全部通过。Riot私有来源11份已按原SHA256下载并处理为11覆盖/43开放回退，完整解码及来源身份9项通过；工具、来源、处理结果仅在忽略目录，人工听感未声称完成。
+- 本轮完整严格引用回归已通过：1227项运行，1225项成功，仅2项Linux专属检查在Windows明确跳过；0失败、0错误、0缺失必需检查，用时167.387秒。报告为artifacts/validation/runtime-migration.json；最终游戏发布验收尚未放行。
+- 下一步：统一层定向及严格引用回归收口后，执行`python -B tools/local_delivery.py --verify-release --audio-driver WASAPI`，生成包含状态聚合的新完整ZIP。旧Linux包和旧完整通过记录仍是历史基线。
 
 ## Windows 原交接：状态单图标聚合（2026-11-03 19:30）
 

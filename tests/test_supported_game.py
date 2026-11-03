@@ -1,11 +1,11 @@
 """Execute the production version guard; no game assemblies or simulated game objects."""
-import os
 from pathlib import Path
-import shutil
-import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 
 
 class SupportedGameTests(unittest.TestCase):
@@ -14,12 +14,8 @@ class SupportedGameTests(unittest.TestCase):
         body = entry.split('public static void Initialize()', 1)[1]
         self.assertLess(body.index('SupportedGameBuild.EnsureInstalled'), body.index('ContentRegistry.Register'))
         self.assertLess(body.index('SupportedGameBuild.EnsureInstalled'), body.index('Core.EngageCmd.Install'))
-        sdk = os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not sdk:
-            self.skipTest('SDK unavailable; production version guard NOT_RUN')
-        result = subprocess.run(
-            [sdk, 'run', '--project', str(ROOT / 'tests/supported_game/SupportedGame.csproj'), '-c', 'Release'],
-            cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=120)
+        runtime = fixture_runtime(self, 'sdk', root=ROOT)
+        result = runtime.run('tests/supported_game/SupportedGame.csproj', timeout=120)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('SUPPORTED_GAME_PASS cases=12 native-gameplay=NOT_RUN', result.stdout)
 

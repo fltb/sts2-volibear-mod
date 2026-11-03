@@ -54,14 +54,39 @@ class TextReviewTests(unittest.TestCase):
         self.assertIn('{IfUpgraded:show:＋1}', self.by_id['cards:VOLIBEAR_R17.upgrade.description'].text)
         self.assertIn('{Cards:cond:>0?', self.by_id['cards:VOLIBEAR_R14.base.description'].text)
 
+    def assert_source_literal(self, entry, text):
+        self.assertGreater(entry.line, 0, entry.id)
+        self.assertLessEqual(entry.line, len(text.splitlines()), entry.id)
+        if entry.source.endswith('.cs'):
+            _, literals = review.scan(text)
+        else:
+            # JSON and Godot resource strings use the exporter's JSON decoding.
+            literals = [review.Literal(m.start(), m.end(), json.loads(m[0]))
+                        for m in re.finditer(r'"(?:\\.|[^"\\])*"', text)]
+        locations = {(text.count('\n', 0, literal.start) + 1, literal.value)
+                     for literal in literals}
+        self.assertIn((entry.line, entry.text), locations, entry.id)
+
     def test_unique_ids_and_all_source_locations_resolve(self):
         self.assertEqual(len(self.by_id), len(self.entries))
         for e in self.entries:
             text = (review.ROOT / e.source).read_text(encoding='utf-8-sig')
-            self.assertGreater(e.line, 0)
-            self.assertLessEqual(e.line, len(text.splitlines()))
-            # Current sources use unescaped single-line Chinese literals.
-            self.assertIn(e.text, text.splitlines()[e.line - 1], e.id)
+            self.assert_source_literal(e, text)
+
+    def test_source_locations_match_decoded_literals_not_substrings_or_comments(self):
+        source = '// "伪造"\nvar a = $"\\n{group.Count()}份：{group.Key}";\nvar b = @"多\n行";\n'
+        valid = [review.Entry('interpolated', 'additional', 'fixture.cs', 2, '\n{group.Count()}份：{group.Key}'),
+                 review.Entry('verbatim', 'additional', 'fixture.cs', 3, '多\n行')]
+        for entry in valid:
+            self.assert_source_literal(entry, source)
+        for line, value in ((1, '伪造'), (3, valid[0].text), (2, '份'),
+                            (2, '\\n{group.Count()}份：{group.Key}'), (4, '多\n行'),
+                            (0, valid[0].text), (6, valid[0].text)):
+            with self.subTest(line=line, value=value), self.assertRaises(AssertionError):
+                self.assert_source_literal(review.Entry('invalid', 'additional', 'fixture.cs', line, value), source)
+        for suffix in ('.json', '.gd', '.tscn', '.tres'):
+            self.assert_source_literal(review.Entry('resource', 'ui', 'fixture' + suffix, 1, '真实\n"文本"'),
+                                       r'"真实\n\"文本\""')
 
     def test_every_chinese_csharp_literal_is_accounted_for(self):
         exported = {(e.source, e.line, e.text) for e in self.entries}
@@ -168,11 +193,11 @@ class TextReviewTests(unittest.TestCase):
             path.parent.mkdir()
             for edited in ('| `id` | source | original | 人工修改 |\n',
                            '| `id` | source | original | 含|竖线 |\n'):
-                path.write_text(edited)
+                path.write_text(edited, encoding='utf-8')
                 with self.assertRaisesRegex(ValueError, '拒绝覆盖'):
                     review.export(directory, replace_final=True)
-                self.assertEqual(path.read_text(), edited)
-            path.write_text('| `id` | source | original |  |\n')
+                self.assertEqual(path.read_text(encoding='utf-8'), edited)
+            path.write_text('| `id` | source | original |  |\n', encoding='utf-8')
             review.export(directory, replace_final=True)
             self.assertEqual(path.read_text(), 'final\n')
 

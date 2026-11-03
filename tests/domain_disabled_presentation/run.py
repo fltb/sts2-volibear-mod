@@ -1,16 +1,18 @@
 """Focused native-reference hover test; never launches a game or release gate."""
-import json
-import os
 from pathlib import Path
-import subprocess
 import sys
+import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
-config = json.loads((ROOT / '.local/config.json').read_text(encoding='utf-8'))
-dotnet = Path(config['dotnet'])
-data = Path(config['game_dir']) / ('data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64')
-env = dict(os.environ, DOTNET_ROOT=str(dotnet.parent), DOTNET_NOLOGO='1', DOTNET_CLI_TELEMETRY_OPTOUT='1')
-env['PATH'] = str(dotnet.parent) + os.pathsep + env.get('PATH', '')
-result = subprocess.run([str(dotnet), 'run', '--project', str(Path(__file__).with_name('DomainDisabledPresentation.Tests.csproj')),
-                         '-c', 'Release', '-p:Sts2DataDir=' + str(data)], cwd=ROOT, env=env, timeout=120)
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
+
+try:
+    runtime = fixture_runtime(unittest.TestCase(), 'sdk', 'native', 'baselib', root=ROOT)
+except unittest.SkipTest as error:
+    print(str(error))
+    sys.exit(0)
+result = runtime.run(Path(__file__).with_name('DomainDisabledPresentation.Tests.csproj'), timeout=120)
+print(result.stdout, end='')
+print(result.stderr, end='', file=sys.stderr)
 sys.exit(result.returncode)

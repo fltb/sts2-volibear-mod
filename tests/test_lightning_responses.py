@@ -1,14 +1,15 @@
 """Direct production response dispatch; native world and subscriptions remain separate."""
-import json
 import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
+import sys
 import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 PROJECT = ROOT / 'tests/lightning_responses/LightningResponses.csproj'
 DLL = ROOT / 'artifacts/lightning-responses/bin/net9.0/LightningResponses.dll'
 CASES = {
@@ -24,13 +25,8 @@ CASES = {
 }
 
 
-def configured_sdk():
-    config = ROOT / '.local/config.json'
-    configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-    value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-    if not value or not Path(value).is_file():
-        raise unittest.SkipTest('SDK unavailable; lightning responses NOT_RUN')
-    return value
+def configured_sdk(test):
+    return fixture_runtime(test, 'sdk', root=ROOT)
 
 
 def require_success(result):
@@ -51,7 +47,8 @@ def validate_case(result, case):
 class LightningResponses(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.dotnet = configured_sdk()
+        cls.runtime = configured_sdk(cls)
+        cls.dotnet = str(cls.runtime.dotnet)
         require_success(cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo'))
         result = cls.invoke(str(DLL), '--list')
         require_success(result)
@@ -62,7 +59,7 @@ class LightningResponses(unittest.TestCase):
     def invoke(cls, *args):
         return subprocess.run([cls.dotnet, *args], cwd=ROOT, capture_output=True,
                               text=True, encoding='utf-8', timeout=180,
-                              env=dict(os.environ, DOTNET_NOLOGO='1'))
+                              env=cls.runtime.environment())
 
     def test_serial_controlled_await(self):
         validate_case(self.invoke(str(DLL), 'serial-controlled-await'), 'serial-controlled-await')
@@ -110,8 +107,12 @@ class LightningResponseContracts(unittest.TestCase):
 
     def test_absent_sdk_is_explicit_not_run(self):
         with patch.object(Path, 'is_file', return_value=False):
-            with self.assertRaisesRegex(unittest.SkipTest, 'NOT_RUN'):
-                configured_sdk()
+            with patch.dict(os.environ, {'VOLIBEAR_REQUIRE_NATIVE': '0'}):
+                with self.assertRaisesRegex(unittest.SkipTest, 'sdk runtime unavailable'):
+                    configured_sdk(self)
+            with patch.dict(os.environ, {'VOLIBEAR_REQUIRE_NATIVE': '1'}):
+                with self.assertRaisesRegex(AssertionError, 'sdk runtime unavailable'):
+                    configured_sdk(self)
 
     def test_failed_build_or_output_does_not_skip(self):
         for result in (subprocess.CompletedProcess([], 1, 'failed build', ''),

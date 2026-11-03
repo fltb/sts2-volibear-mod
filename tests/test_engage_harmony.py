@@ -1,13 +1,13 @@
 """Optional real Harmony on synthetic async types; requires an explicit/local upstream DLL."""
-import json
-import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 CASES = {'normal-reentry': 4, 'await-resume': 4, 'early-veto': 4,
          'late-veto': 4, 'public-veto': 4, 'natural-late-veto': 3}
 
@@ -15,15 +15,9 @@ CASES = {'normal-reentry': 4, 'await-resume': 4, 'early-veto': 4,
 class EngageHarmony(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        config = ROOT / '.local/config.json'
-        settings = json.loads(config.read_text(encoding='utf-8')) if config.is_file() else {}
-        cls.dotnet = settings.get('dotnet') or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        harmony = Path(os.environ.get('VOLIBEAR_HARMONY', str(ROOT / '.local/dependencies/Harmony-2.4.2/0Harmony.dll')))
-        if not harmony.is_file() and 'VOLIBEAR_HARMONY' not in os.environ and settings.get('game_dir'):
-            data = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
-            harmony = Path(settings['game_dir']) / data / '0Harmony.dll'
-        if not cls.dotnet or not Path(cls.dotnet).is_file() or not harmony.is_file():
-            raise unittest.SkipTest('SDK or upstream Harmony unavailable; real patch fixture NOT_RUN')
+        cls.runtime = fixture_runtime(cls, 'sdk', 'harmony', root=ROOT)
+        cls.dotnet = str(cls.runtime.dotnet)
+        harmony = cls.runtime.harmony
         result = cls.invoke('build', str(ROOT / 'tests/engage_adapter/harmony/RealHarmony.csproj'),
                             '-c', 'Release', '--nologo', '-p:HarmonyPath=' + str(harmony.resolve()))
         if result.returncode:
@@ -33,7 +27,7 @@ class EngageHarmony(unittest.TestCase):
     def invoke(cls, *args):
         return subprocess.run([str(cls.dotnet), *args], cwd=ROOT, capture_output=True,
                               text=True, encoding='utf-8', timeout=180,
-                              env=dict(os.environ, DOTNET_NOLOGO='1'))
+                              env=cls.runtime.environment())
 
     def test_actual_patch_install_and_veto(self):
         for name, count in CASES.items():

@@ -4,15 +4,16 @@ The native game/Godot scene graph is not simulated or claimed as verified. Exact
 production method bodies drive observable calls, so setup/replay regressions can
 be exercised without redistributing the game assemblies.
 """
-import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
 import tempfile
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 SOURCE = ROOT / 'src/Volibear/Presentation/VolibearPresentationBridge.cs'
 MOTION = SOURCE.with_name('VolibearPresentationBridge.Motion.cs')
 SEMANTICS = SOURCE.with_name('VolibearPresentationBridge.Semantics.cs')
@@ -38,11 +39,8 @@ def method(source, signature):
 class PresentationBridgeBehaviorTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.dotnet = os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not cls.dotnet and (ROOT / '.local/dotnet/dotnet').is_file():
-            cls.dotnet = str(ROOT / '.local/dotnet/dotnet')
-        if not cls.dotnet:
-            raise unittest.SkipTest('SDK absent; production presentation behavior NOT_RUN')
+        cls.runtime = fixture_runtime(cls, 'sdk', root=ROOT)
+        cls.dotnet = str(cls.runtime.dotnet)
         root = ROOT / 'artifacts/presentation-behavior'
         root.mkdir(parents=True, exist_ok=True)
         cls.temporary = tempfile.TemporaryDirectory(prefix='isolated-', dir=root)
@@ -55,11 +53,7 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
     def invoke(cls, *args):
         return subprocess.run([cls.dotnet, *args], cwd=ROOT, capture_output=True,
                               text=True, timeout=120,
-                              env=dict(os.environ, DOTNET_NOLOGO='1',
-                                       DOTNET_CLI_HOME=str(ROOT / '.local/dotnet-home'),
-                                       NUGET_PACKAGES=str(ROOT / '.local/nuget/packages'),
-                                       DOTNET_SKIP_FIRST_TIME_EXPERIENCE='1',
-                                       DOTNET_CLI_TELEMETRY_OPTOUT='1'))
+                              env=cls.runtime.environment(), encoding='utf-8')
 
     @classmethod
     def build(cls, name, source):

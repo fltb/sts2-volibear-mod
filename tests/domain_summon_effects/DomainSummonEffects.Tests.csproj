@@ -8,8 +8,6 @@
     <SummonSource Condition="'$(SummonSource)' == ''">../../src/Volibear/Core/DomainSummonEffects.cs</SummonSource>
     <RevivalSource Condition="'$(RevivalSource)' == ''">../../src/Volibear/Core/DomainRevivalEffects.cs</RevivalSource>
     <SummonProbeSource Condition="'$(SummonProbeSource)' == ''">../../src/Volibear/DomainSummonD17Probe.cs</SummonProbeSource>
-    <ModAssembly Condition="'$(ModAssembly)' == ''">../../src/Volibear/bin/Release/net9.0/Volibear.dll</ModAssembly>
-    <BaseLibPath Condition="'$(BaseLibPath)' == ''">../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
   </PropertyGroup>
   <Target Name="CheckNativeReferences" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Provide the pinned real game assembly directory."/>

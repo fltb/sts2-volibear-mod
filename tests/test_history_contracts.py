@@ -3,14 +3,14 @@
 The C# project compiles only the three owned files. It does not build/deploy the Mod
 or launch the game. Native IL inspection checks adapter shape, not runtime behavior.
 """
-import json
-import os
 from pathlib import Path
-import re
 import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 
 
 class HistoryCardContracts(unittest.TestCase):
@@ -44,17 +44,10 @@ class HistoryCardContracts(unittest.TestCase):
         self.assertIn('VerifyNativePaymentTiming();', source)
 
     def test_production_ledgers_and_native_il(self):
-        config_path = ROOT / '.local/config.json'
-        parent_build = ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll'
-        if not config_path.is_file() or not parent_build.is_file():
-            self.skipTest('Requires configured native references and existing parent build; never builds the whole Mod here.')
-        config = json.loads(config_path.read_text(encoding='utf-8'))
-        dotnet = config['dotnet']
-        if not Path(dotnet).is_file():
-            self.skipTest('Configured .NET SDK unavailable.')
-        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
-        game_data = Path(config['game_dir']) / data_name
-        env = dict(os.environ, DOTNET_CLI_TELEMETRY_OPTOUT='1')
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', 'mod', root=ROOT)
+        dotnet = str(runtime.dotnet)
+        game_data = runtime.data
+        env = runtime.environment()
         build = subprocess.run([dotnet, 'build', 'tests/history_bookkeeping/HistoryBookkeeping.csproj', '-c', 'Release',
                                 '-p:Sts2DataDir=' + str(game_data), '--nologo'], cwd=ROOT, env=env,
                                capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=90)

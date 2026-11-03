@@ -1,14 +1,14 @@
 """Production summon/revival decisions, not native Add/HP/fullCombatReset acceptance."""
-import json
-import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
+import sys
 import unittest
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 PROJECT = ROOT / 'tests/domain_lifecycle_states/DomainLifecycleStates.csproj'
 DLL = ROOT / 'artifacts/domain-lifecycle-states/bin/net9.0/DomainLifecycleStates.dll'
 CASES = (
@@ -28,12 +28,8 @@ def require_success(result):
 class DomainLifecycleStates(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        config = ROOT / '.local/config.json'
-        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-        value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not value or not Path(value).is_file():
-            raise unittest.SkipTest('SDK unavailable; domain lifecycle states NOT_RUN')
-        cls.dotnet = value
+        cls.runtime = fixture_runtime(cls, 'sdk', root=ROOT)
+        cls.dotnet = str(cls.runtime.dotnet)
         require_success(cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo'))
         result = cls.invoke(str(DLL), '--list')
         require_success(result)
@@ -44,7 +40,7 @@ class DomainLifecycleStates(unittest.TestCase):
     def invoke(cls, *args):
         return subprocess.run([cls.dotnet, *args], cwd=ROOT, capture_output=True,
                               text=True, encoding='utf-8', timeout=180,
-                              env=dict(os.environ, DOTNET_NOLOGO='1'))
+                              env=cls.runtime.environment())
 
     def run_case(self, case):
         result = self.invoke(str(DLL), case)

@@ -1,12 +1,12 @@
 """Published-source receipt routing and actual combined IL emission; not audio playback."""
-import json
-import os
 from pathlib import Path
 import re
-import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 SRC = ROOT / 'src/Volibear'
 
 
@@ -66,26 +66,13 @@ class AudioReceiptTests(unittest.TestCase):
         self.assertIn('case "thunder_armor_block_committed": AtOwner(id, "thunder_armor"); break;', bridge)
 
     def test_published_sources_combined_native_emission(self):
-        config_path = ROOT / '.local/config.json'
-        if not config_path.is_file():
-            self.skipTest('Pinned native assemblies unavailable; native emission NOT RUN')
-        config = json.loads(config_path.read_text(encoding='utf-8'))
-        dotnet = Path(config.get('dotnet', ''))
-        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
-        data = Path(config.get('game_dir', '')) / data_name
-        baselib = ROOT / '.local/dependencies/BaseLib-3.4.7/BaseLib.dll'
-        required = [dotnet, baselib, *(data / name for name in ('sts2.dll', 'GodotSharp.dll', '0Harmony.dll'))]
-        if not all(path.is_file() for path in required):
-            self.skipTest('Actual native assemblies/BaseLib missing; no fake substitution')
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', root=ROOT)
         project = ROOT / 'tests/audio_receipts/AudioReceipts.csproj'
         text = project.read_text(encoding='utf-8')
         self.assertNotIn('.local/audio-receipt-stage', text)
         self.assertIn('$(RepositoryRoot)/src/Volibear/**/*.cs', text)
         self.assertNotIn('Volibear.dll', text)
-        result = subprocess.run([str(dotnet), 'run', '--project', str(project), '-c', 'Release',
-            '-p:RepositoryRoot=' + str(ROOT), '-p:Sts2DataDir=' + str(data),
-            '-p:BaseLibPath=' + str(baselib)], cwd=ROOT, capture_output=True, text=True,
-            timeout=180, env=dict(os.environ, DOTNET_NOLOGO='1'))
+        result = runtime.run(project, args=('-p:RepositoryRoot=' + str(ROOT),), timeout=180)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         match = re.search(r'AUDIO_RECEIPT_RULES_AND_COMBINED_NATIVE_EMISSION_OK checks=(\d+)', result.stdout)
         self.assertIsNotNone(match, result.stdout + result.stderr)

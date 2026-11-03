@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import native_run_pair as pair
 import save_load_profile
+from tools.runtime_platform import create_directory_redirect
 from test_native_run_evidence import fixture, find, log
 
 
@@ -165,18 +166,19 @@ class NativeRunPairTests(unittest.TestCase):
             with self.subTest(key=key):
                 self.assertTrue(pair.checkpoint_gate(evidence, checkpoint, root))
 
-    def test_checkpoint_symlink_cannot_read_a_different_profile(self):
+    def test_checkpoint_redirect_cannot_read_a_different_profile(self):
         root = self.root / 'owned'
         root.mkdir()
-        elsewhere = self.root / 'different-profile.save'
-        elsewhere.write_bytes(self.data)
-        checkpoint = root / 'current_run.save'
-        try:
-            checkpoint.symlink_to(elsewhere)
-        except OSError as error:
-            self.skipTest('Symlinks unavailable in unit-test host: ' + str(error))
+        elsewhere = self.root / 'different-profile'
+        elsewhere.mkdir()
+        target = elsewhere / 'current_run.save'
+        target.write_bytes(self.data)
+        alias = create_directory_redirect(root / 'saves', elsewhere)
+        checkpoint = alias / target.name
+        self.assertEqual(checkpoint.resolve(), target.resolve())
         with self.assertRaisesRegex(ValueError, 'escaped or redirected'):
             pair.read_checkpoint(checkpoint, root)
+        self.assertEqual(target.read_bytes(), self.data)
 
     def test_prepare_checkpoint_must_still_exist(self):
         def remove(mode, row, report, checkpoint, text):

@@ -8,6 +8,11 @@ from pathlib import Path
 import subprocess
 import sys
 
+try:
+    from .runtime_platform import PLATFORMS, platform_for
+except ImportError:
+    from runtime_platform import PLATFORMS, platform_for
+
 ROOT = Path(__file__).resolve().parents[1]
 MOD = 'Volibear'
 GAME_VERSION = 'v0.107.1'
@@ -15,8 +20,8 @@ GAME_COMMIT = '59260271'
 DEPLOY_MARKERS = ROOT / '.local/deploy'
 SOURCES = [ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll',
            ROOT / 'src/Volibear/Volibear.json']
-DATA_DIRECTORIES = {'nt': 'data_sts2_windows_x86_64', 'posix': 'data_sts2_linuxbsd_x86_64'}
-GAME_EXECUTABLES = {'nt': 'SlayTheSpire2.exe', 'posix': 'SlayTheSpire2'}
+DATA_DIRECTORIES = {key: adapter.data_name for key, adapter in PLATFORMS.items()}
+GAME_EXECUTABLES = {key: adapter.executable_name for key, adapter in PLATFORMS.items()}
 
 
 def config():
@@ -29,13 +34,13 @@ def config():
 def data_directory(game):
     if os.name not in DATA_DIRECTORIES:
         raise RuntimeError('Unsupported platform for the game assemblies: ' + os.name)
-    return game / DATA_DIRECTORIES[os.name]
+    return platform_for().data_directory(game)
 
 
 def game_executable(game):
     if os.name not in GAME_EXECUTABLES:
         raise RuntimeError('Unsupported platform for the game executable: ' + os.name)
-    return game / GAME_EXECUTABLES[os.name]
+    return platform_for().executable(game)
 
 
 def validate_game(game):

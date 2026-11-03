@@ -23,6 +23,7 @@ internal static class SteamFullInstallChainTests
             typeof(DomainEnemyStatusContributions), typeof(DomainEnemySpecialContributions),
             typeof(DomainAdditionalRevivalEffects), typeof(Volibear.Presentation.VolibearPresentationBridge),
             typeof(Volibear.Presentation.PowerPresentationDisabled),
+            typeof(Volibear.Presentation.PowerStackVisual),
             typeof(Volibear.Presentation.VolibearArchitectEnding),
             typeof(Volibear.Presentation.VolibearInspectPortraits),
         ];
@@ -52,6 +53,35 @@ internal static class SteamFullInstallChainTests
                 Need(patches is { Length: 1 } && patches[0].PatchMethod == Method(disabled, callback),
                     "disabled presentation retains exact native postfix " + callback);
             }
+            // Observe the UI adapter's real emitted patches, never invoke a Godot node.
+            var stack = typeof(Volibear.Presentation.PowerStackVisual);
+            var container = typeof(MegaCrit.Sts2.Core.Nodes.Combat.NPowerContainer);
+            var powerNode = typeof(MegaCrit.Sts2.Core.Nodes.Combat.NPower);
+            const string stackOwner = "Volibear.PowerStackVisual";
+            foreach (var (target, callback, kind) in new[] {
+                (AccessTools.DeclaredMethod(container, "UpdatePositions"), "LayoutPrefix", HarmonyPatchType.Prefix),
+                (AccessTools.DeclaredMethod(container, "UpdatePositions"), "LayoutTranspiler", HarmonyPatchType.Transpiler),
+                (AccessTools.DeclaredMethod(container, "_EnterTree"), "ContainerEnter", HarmonyPatchType.Postfix),
+                (AccessTools.DeclaredMethod(powerNode, "_Ready"), "PowerReady", HarmonyPatchType.Postfix),
+                (AccessTools.PropertySetter(powerNode, "Model"), "PowerChanged", HarmonyPatchType.Postfix),
+                (AccessTools.DeclaredMethod(powerNode, "RefreshAmount"), "PowerChanged", HarmonyPatchType.Postfix),
+                (AccessTools.DeclaredMethod(powerNode, "OnHovered"), "PowerHovered", HarmonyPatchType.Prefix),
+                (AccessTools.DeclaredMethod(powerNode, "OnUnhovered"), "PowerUnhovered", HarmonyPatchType.Prefix),
+                (AccessTools.DeclaredMethod(typeof(MegaCrit.Sts2.Core.Nodes.Combat.NCreature), "ShowHoverTips"), "CreatureHover", HarmonyPatchType.Prefix) })
+            {
+                var patchInfo = Harmony.GetPatchInfo(target)!;
+                var patches = (kind == HarmonyPatchType.Prefix ? patchInfo.Prefixes :
+                    kind == HarmonyPatchType.Postfix ? patchInfo.Postfixes : patchInfo.Transpilers)
+                    .Where(p => p.owner == stackOwner).ToArray();
+                Need(patches.Length == 1 && patches[0].PatchMethod == Method(stack, callback),
+                    "stack presentation retains exact native " + kind + " " + callback);
+            }
+            Need(Harmony.GetAllPatchedMethods().Count(m => Harmony.GetPatchInfo(m)!.Owners.Contains(stackOwner)) == 8,
+                "stack presentation owns exactly eight native UI targets");
+            var layout = PatchProcessor.GetCurrentInstructions(AccessTools.DeclaredMethod(container, "UpdatePositions")).ToArray();
+            Need(layout.Any(c => c.Calls(Method(stack, "LayoutNodes"))) &&
+                !layout.Any(c => c.opcode == OpCodes.Ldfld && Equals(c.operand, AccessTools.DeclaredField(container, "_powerNodes"))),
+                "stack layout reads the display projection rather than the native model list");
             var ending = typeof(Volibear.Presentation.VolibearArchitectEnding);
             var winBody = Volibear.Presentation.VolibearArchitectEnding.NativeBody();
             Need(Harmony.GetPatchInfo(winBody)!.Transpilers.Count(p => p.owner == "Volibear.ArchitectEnding" && p.PatchMethod == Method(ending, "Rewrite")) == 1,
@@ -112,7 +142,7 @@ internal static class SteamFullInstallChainTests
         }
         try
         {
-            Need(installs.Select(m=>m.DeclaringType).SequenceEqual(expectedInstallers),"current ModEntry normal Install manifest matches all 24 production adapters in order");
+            Need(installs.Select(m=>m.DeclaringType).SequenceEqual(expectedInstallers),"current ModEntry normal Install manifest matches all 25 production adapters in order");
             foreach(var method in installs)
             {
                 Console.WriteLine("STEAM_MAIN_INSTALL_EMIT "+method.DeclaringType!.FullName+"."+method.Name);

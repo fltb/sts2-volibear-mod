@@ -11,6 +11,7 @@ from unittest.mock import patch, Mock
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
 import headless as h
 import multiplayer_suite as multiplayer
+from tools.runtime_platform import create_directory_redirect
 
 
 class WindowInputGuard(unittest.TestCase):
@@ -23,6 +24,13 @@ class WindowInputGuard(unittest.TestCase):
         self.path = self.game / 'override.cfg'
         self.stack.enter_context(patch.object(h, 'ROOT', self.root))
         self.stack.enter_context(patch.object(h, 'IS_WINDOWS', False))
+
+    def linux_unwind_file(self, available=True):
+        """Mock only the Linux library on tests deliberately routing as POSIX."""
+        original = Path.is_file
+        unwind = Path('/lib/x86_64-linux-gnu/libgcc_s.so.1')
+        return patch.object(Path, 'is_file', autospec=True,
+                            side_effect=lambda path: available if path == unwind else original(path))
 
     def test_create_cleanup_and_exception(self):
         for fail in (False, True):
@@ -130,12 +138,18 @@ class WindowInputGuard(unittest.TestCase):
                                  ('window_position', "{'X':64,'Y':64}")]:
                 self.assertTrue("'" + field + "':" + value in compact or field + '=' + value in compact, (name, field))
 
-    def test_refuse_production_and_symlink(self):
+    def test_refuse_production_and_terminal_redirect(self):
         with self.assertRaises(ValueError), h.window_input_guard(self.root, 'window'):
             pass
-        target = self.root / 'existing.cfg'
+        outside = self.root / 'outside'
+        outside.mkdir()
+        target = outside / 'existing.cfg'
         target.write_bytes(b'keep')
-        self.path.symlink_to(target)
+        if os.name == 'nt':
+            # A junction is a terminal directory reparse point, not a file symlink.
+            create_directory_redirect(self.path, outside)
+        else:
+            self.path.symlink_to(target)
         with self.assertRaises(ValueError), h.window_input_guard(self.game, 'window'):
             pass
         self.assertEqual(target.read_bytes(), b'keep')
@@ -165,11 +179,22 @@ class WindowInputGuard(unittest.TestCase):
             self.assertEqual(self.path.read_bytes(), h.WINDOW_OVERRIDE)
             self.assertEqual(command.count('--script'), 1)
             raise OSError('test spawn failure')
-        with patch.dict(os.environ, {'DISPLAY': ':77'}), patch.object(h, 'spawn_owned', side_effect=spawn):
+        with self.linux_unwind_file(), patch.dict(os.environ, {'DISPLAY': ':77'}), patch.object(h, 'spawn_owned', side_effect=spawn):
             with self.assertRaisesRegex(OSError, 'test spawn failure'):
                 save_load_pair.launch_phase(self.game, self.root,
                     {'VOLIBEAR_TEST_DATA_ROOT': str(self.root / 'profile')},
                     'S2', 'restart', 'prepare', 'seed', set(), {}, 1, 1, 'window')
+        self.assertFalse(self.path.exists())
+
+    def test_linux_harmony_missing_unwind_still_refuses_before_spawn(self):
+        import save_load_pair
+        with self.linux_unwind_file(False), patch.dict(os.environ, {'DISPLAY': ':77'}), \
+                patch.object(h, 'spawn_owned') as spawn:
+            with self.assertRaisesRegex(RuntimeError, 'libgcc_s.so.1'):
+                save_load_pair.launch_phase(self.game, self.root,
+                    {'VOLIBEAR_TEST_DATA_ROOT': str(self.root / 'profile')},
+                    'S2', 'restart', 'prepare', 'seed', set(), {}, 1, 1, 'window')
+            spawn.assert_not_called()
         self.assertFalse(self.path.exists())
 
     def test_stock_uses_one_script_and_same_guard(self):
@@ -193,11 +218,11 @@ class WindowInputGuard(unittest.TestCase):
         def peer(game, directory, env, command, *args):
             self.assertEqual(self.path.read_bytes(), h.WINDOW_OVERRIDE)
             self.assertEqual(command.count('--script'), 1)
-            self.assertTrue(command[command.index('--script') + 1].endswith('/window_guard.gd'))
+            self.assertEqual(Path(command[command.index('--script') + 1]).name, 'window_guard.gd')
             barrier.wait(timeout=5)
             seen.append(directory.name)
             return {'pid': 10 if directory.name.endswith('host') else 11, 'checks': {'ok': True}}, ''
-        with patch.dict(os.environ, {'DISPLAY': ':77'}), patch.object(h, 'validate_game'), patch.object(multiplayer, 'deployed_hashes', return_value={}), patch.object(h, 'stock_teardown', return_value=(set(), stock)), patch.object(multiplayer, 'launch_peer', side_effect=peer), patch.object(multiplayer, 'check_pair', return_value={'errors': [], 'scope': 'test'}):
+        with self.linux_unwind_file(), patch.dict(os.environ, {'DISPLAY': ':77'}), patch.object(h, 'validate_game'), patch.object(multiplayer, 'deployed_hashes', return_value={}), patch.object(h, 'stock_teardown', return_value=(set(), stock)), patch.object(multiplayer, 'launch_peer', side_effect=peer), patch.object(multiplayer, 'check_pair', return_value={'errors': [], 'scope': 'test'}):
             result = multiplayer.run_suite(self.game, display='window')
         self.assertEqual(result['status'], 'passed')
         self.assertEqual(len(seen), 2)

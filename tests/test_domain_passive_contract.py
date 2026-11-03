@@ -1,12 +1,12 @@
 """Passive source/commit boundaries + actual native IL emission, not gameplay acceptance."""
-import json
-import os
 import re
 from pathlib import Path
-import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 
 
 class DomainPassiveContractTests(unittest.TestCase):
@@ -69,19 +69,8 @@ class DomainPassiveContractTests(unittest.TestCase):
         self.assertNotIn('AsyncLocal<Receipt', self.source)  # No broad ambient receipt inherited by nested effects.
 
     def test_real_assembly_transpilers_compile_and_reject_drift(self):
-        config_file = ROOT / '.local/config.json'
-        if not config_file.exists(): self.skipTest('Pinned native assemblies unavailable; native IL checks NOT RUN')
-        config = json.loads(config_file.read_text(encoding='utf-8'))
-        dotnet = Path(config.get('dotnet', ''))
-        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
-        data = Path(config.get('game_dir', '')) / data_name
-        mod = ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll'
-        if not dotnet.is_file() or not (data / 'sts2.dll').is_file() or not mod.is_file():
-            self.skipTest('Actual game/built mod missing; no fake model substitution')
-        result = subprocess.run([str(dotnet), 'run', '--project',
-            str(ROOT / 'tests/domain_passive_effects/DomainPassiveEffects.Tests.csproj'), '-c', 'Release',
-            '-p:Sts2DataDir=' + str(data)], cwd=ROOT, capture_output=True, text=True,
-            timeout=120, env=dict(os.environ, DOTNET_NOLOGO='1'))
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', 'mod', root=ROOT)
+        result = runtime.run('tests/domain_passive_effects/DomainPassiveEffects.Tests.csproj', timeout=120)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('PASS 38 production-decision/native-IL checks', result.stdout)
         self.assertIn('native passive behavior and D17 gameplay NOT RUN', result.stdout)

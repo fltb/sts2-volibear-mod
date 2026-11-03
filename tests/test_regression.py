@@ -39,6 +39,14 @@ class RegressionResultTests(unittest.TestCase):
         self.assertEqual(summarize(result, require_native=True, platform='nt')['status'], 'failed')
         self.assertEqual(summarize(self.outcome('unknown skip'), require_native=True)['status'], 'failed')
 
+    def test_linux_only_checks_skip_only_on_windows(self):
+        for reason in ('Linux x86_64 tool', 'Linux C compiler ABI fixture'):
+            result = self.outcome(reason)
+            self.assertEqual(summarize(result, require_native=True, platform='nt')['status'], 'passed')
+            self.assertEqual(summarize(result, require_native=True, platform='posix')['status'], 'failed')
+        self.assertEqual(summarize(self.outcome('sdk runtime unavailable'),
+                                  require_native=True, platform='nt')['status'], 'failed')
+
     def test_executed_failure_or_success_remains_decisive(self):
         failed = summarize(self.outcome(error=True), require_native=True)
         self.assertEqual(failed['status'], 'failed')
