@@ -43,6 +43,7 @@ internal static class PowerStackUiProbe
     }
     internal static async Task<object> Run(CombatState combat, IEnumerable<PowerModel> models)
     {
+        var nativeWindow = NativeWindowProbe.Capture();
         var player = combat.Players.Single();
         var owner = player.Creature;
         var before = owner.Powers.ToArray();
@@ -189,7 +190,7 @@ internal static class PowerStackUiProbe
                 Record("matrix-cleared", canonical.GetType());
             }
             Need(before.SequenceEqual(owner.Powers), "all fixture powers restored");
-            return new { fixture = "native-container-matrix-and-paid-armor", samples, payments,
+            return new { fixture = "native-container-matrix-and-paid-armor", nativeWindow, samples, payments,
                 blockBefore, blockAfter, blockGains, lightningBefore, lightningAfter, powersRestored = true,
                 captures = new[] { "armor-mixed.png", "multiple-lightning.png", "nonstacking.png", "domain-permanent.png" } };
         }

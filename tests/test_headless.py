@@ -226,7 +226,7 @@ class HeadlessRunnerTests(unittest.TestCase):
                 headless.display_command(command, 'background')
         with mock.patch.object(headless, 'IS_WINDOWS', True):
             window = headless.display_command(command, 'window')
-            self.assertEqual(window, ['game', '--force-steam=off'])
+            self.assertEqual(window, ['game', '--force-steam=off', '--windowed', '--resolution', '1280x720'])
             with self.assertRaisesRegex(RuntimeError, 'POSIX'):
                 headless.display_command(command, 'xvfb')
 
@@ -252,7 +252,7 @@ class HeadlessRunnerTests(unittest.TestCase):
     @unittest.skipUnless(headless.IS_WINDOWS, 'Windows private-desktop native renderer')
     def test_background_native_renderer_owns_unselected_desktop(self):
         command = headless.display_command(['game', '--headless', '--audio-driver', 'Dummy', '--force-steam=off'], 'background')
-        self.assertEqual(command, ['game', '--force-steam=off', '--audio-driver', 'Dummy'])
+        self.assertEqual(command, ['game', '--force-steam=off', '--windowed', '--resolution', '1280x720', '--audio-driver', 'Dummy'])
         with mock.patch.object(headless, '_create_job', return_value='owned-job'), \
              mock.patch.object(headless, '_create_private_desktop', return_value=(678, 'fixture-desktop')), \
              mock.patch.object(headless, '_assign_job', return_value=True), \
