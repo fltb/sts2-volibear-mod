@@ -33,6 +33,7 @@ internal static class NativeVerificationSuite
         {
             if (string.IsNullOrWhiteSpace(token)) throw new InvalidOperationException("Native suite token missing");
             await NativeAcceptanceRunHost.WaitForQuiet(initial, 1);
+            PresentationAcceptanceProbe.ValidateAudioEnvironment();
             GD.Print("[Volibear] NATIVE_SUITE_BEGIN " + JsonSerializer.Serialize(new { token, pid }));
 
             // Resource/localization/ancient contracts may consume fixture RNG.

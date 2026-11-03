@@ -53,7 +53,9 @@ class NativeRunPairTests(unittest.TestCase):
         row['pair'] = options['native_run_pair']
         if mode == 'three-battle-save':
             self.assertFalse(checkpoint.exists(), 'The runner must start with no existing checkpoint')
-            checkpoint.parent.mkdir(parents=True)
+            checkpoint.parent.mkdir(parents=True, exist_ok=True)
+            prefs = json.loads((checkpoint.parent / 'prefs.save').read_text(encoding='utf-8'))
+            self.assertEqual(prefs, {'schema_version': 2, 'mute_in_background': False})
             checkpoint.write_bytes(self.data)
         recorded = find(row, 'checkpoint' if mode == 'three-battle-save' else 'checkpoint-before-continue')
         data = checkpoint.read_bytes()

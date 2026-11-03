@@ -125,7 +125,7 @@ def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_contr
     (pair_dir/'profile.json').write_text(json.dumps(dict(pair=pair_dir.name,profile=str(profile),userRoot=str(root),
         checkpointPath=str(root/'default/1/modded/profile1/saves/current_run.save'),
         shaderDirectoryBudget=shader_directory_budget(root) if h.IS_WINDOWS else None),indent=2)+'\n',encoding='utf-8')
-    settings=root/'default/1/settings.save';settings.parent.mkdir(parents=True)
+    settings=root/'default/1/settings.save';settings.parent.mkdir(parents=True,exist_ok=True)
     settings.write_text(json.dumps(dict(schema_version=5,mod_settings={'mods_enabled':True},seen_ea_disclaimer=True,
         skip_intro_logo=True,fullscreen=False,window_size={'X':1280,'Y':720},window_position={'X':64,'Y':64},language='zhs',limit_fps_in_background=False,vsync='off',fps_limit=60))+'\n',encoding='utf-8')
     # The unified delivery may share its freshly launched control in memory.

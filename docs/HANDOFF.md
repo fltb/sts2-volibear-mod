@@ -23,7 +23,11 @@
 - 本轮完整严格引用回归已通过：1227项运行，1225项成功，仅2项Linux专属检查在Windows明确跳过；0失败、0错误、0缺失必需检查。统一层已提交并推送fa61f76。
 - 随后最终入口A1重新编译、1227项引用回归（230.887秒）和175451000字节open PCK全部通过，但无Mod对照20261103T133546Z-fb4e0528在检查venv启动链下出现Windows系统证书库读取错误，suite未开始；失败摘要为.local/release-acceptance/run-wmxo_oqx/summary.json。未过滤该错误或禁用TLS。
 - 已修统一入口：检查/构建仍用隔离venv，原生suite/恢复/双端改由宿主Python启动，依赖通过严格ABI/目录校验后的PYTHONPATH接入，长批前实际导入扩展。68项定向测试通过；相同proxy/dotnet/音频设置、真实桥接与Pillow导入后的无Mod短对照20261103T134948Z-399f6ee0成功，exit0、无运行时错误。失败诊断现在保留stock run_id及错误原文。下一步才是修正后的最终完整放行；旧ZIP仍不是本轮成品。
-- 下一步：统一层定向及严格引用回归收口后，执行`python -B tools/local_delivery.py --verify-release --audio-driver WASAPI`，生成包含状态聚合的新完整ZIP。旧Linux包和旧完整通过记录仍是历史基线。
+- 6a54242最终验收已结束但未放行：1240项引用回归运行，1238通过/2项Linux专属跳过；实机20261103T140306Z-33405c8c正常退出、无运行时错误。410牌面及48生命周期各由原校验器再次验证通过，领域/建筑师/角色/BaseLib/正常流程无校验错误，同进程保存恢复有完成回执。唯一失败为presentation的75条source gain校验：cue/file全部正确、playing全部true，但volume全部0。
+- 根因已定位：新隔离profile没有初始化prefs，实际mute_in_background=true；私有后台桌面没有焦点，生产音频正确遵循后台静音，将源gain置0。总线PCM有声不能替代Mod源音效通过。报告artifacts/headless/20261103T140306Z-33405c8c/report.json，汇总.local/release-acceptance/run-wppowtkt/summary.json；跨进程恢复/联机/安装卸载/新ZIP未执行。
+- 已修测试前置条件：新建owned离线profile的原版/modded prefs均独占创建schema2、mute_in_background=false；恢复保留原字节，不动日常/云存档或生产静音规则。共享profile定向138项通过。只读原生音频预检移到长批前，记录实际焦点/偏好/滑块并提前拒绝静音。
+- 第一次actions短测20261103T152453Z-8ad9fabd证实prefs及滑块正确，但在1920域动画检查失败：生产几何由0.2秒Timer更新，probe仅墙钟等0.25秒，未保证跨到Timer更新；先前1920截图仍有实际动态。只修probe为最多180帧/5秒内必须观测真实点列变化，冻结仍失败，不触发生产Animate或改变批准雷圈。
+- 修改后生产编译0错误/12项既有警告，15项音频/profile定向通过；actions短测20261103T153046Z-c76769c5全部通过、无新增runtime error。76个实际声源全部playing=true且gain>0（最小0.004435169）；两分辨率实际雷弧均跨2帧观察到变化，13/10ms，两张原始域截图已查看。没有重跑410/48长批。补充S2跨进程恢复20261103T153325Z-aa9e899a通过；双端联机20261103T153728Z-e4bc0cb5-multiplayer全部通过，包含真实付费动作、断线、checkpoint和重连，部署候选未变化。至此音频/表现、冷恢复和双端均已定向收口；上一整轮报告仍为failed，必须如实保留，尚不能把补测写成一次完整发布入口通过。下一步是修正后的完整最终放行及新ZIP。
 
 ## Windows 原交接：状态单图标聚合（2026-11-03 19:30）
 

@@ -118,6 +118,29 @@ class ProfileSourceIdentity(unittest.TestCase):
         finalizer = source[source.rindex('finally'):]
         self.assertIn('UnpatchAll("Volibear.PresentationAcceptance.AudioObserver")', finalizer)
 
+    def test_domain_animation_observation_is_bounded_and_requires_real_change(self):
+        source = (ROOT / 'src/Volibear/PresentationAcceptanceProbe.cs').read_text()
+        capture = source.split('private static async Task CaptureDomainSpirit', 1)[1].split('private static Node? EffectRoot', 1)[0]
+        self.assertIn('var before=arc.Points.ToArray()', capture)
+        self.assertIn('observedFrames<180', capture)
+        self.assertIn('Time.GetTicksMsec()-observationStart<5000', capture)
+        self.assertIn('await Frame();observedFrames++', capture)
+        self.assertIn('Need(!before.SequenceEqual(arc.Points)', capture)
+        self.assertNotIn('DomainStormRing.Animate', capture)
+        self.assertNotIn('await Pause(.25)', capture)
+
+    def test_audio_environment_is_checked_before_long_native_batches(self):
+        probe = (ROOT / 'src/Volibear/PresentationAcceptanceProbe.cs').read_text()
+        suite = (ROOT / 'src/Volibear/NativeVerificationSuite.cs').read_text()
+        self.assertLess(suite.index('PresentationAcceptanceProbe.ValidateAudioEnvironment();'),
+                        suite.index('CardFaceAcceptanceProbe.RunBatch'))
+        self.assertLess(probe.index('            ValidateAudioEnvironment();'),
+                        probe.index('phase="catalog"'))
+        self.assertIn('windowFocused=focused,muteInBackground,busMuted', probe)
+        self.assertIn('Need(focused||!muteInBackground', probe)
+        self.assertNotIn('MuteInBackground = false', probe)
+        self.assertNotIn('DisplayServer.WindowMoveToForeground', probe)
+
     def test_local_prepared_runtime_against_pinned_authority(self):
         path = audio_profiles.WORK / 'prepared/riot_en/runtime.json'
         if not path.is_file():

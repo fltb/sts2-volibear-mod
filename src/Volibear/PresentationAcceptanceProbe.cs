@@ -129,10 +129,15 @@ internal static class PresentationAcceptanceProbe
         Need(visuals is not null&&visuals.Scale.IsEqualApprox(original*1.22f),"Domain must enlarge authored foot-origin visuals");
         Need(sprite?.Material is ShaderMaterial material&&material.Shader.Code.Contains("tex.a * 0.72"),"Domain must use transparent spirit shader");
         Need(ring is not null&&ring.IsInsideTree()&&ring.GetChildren().OfType<Line2D>().Count()==6,"Domain must display six lightning arcs");
-        var arc=ring!.GetChildren().OfType<Line2D>().Last();var before=arc.Points;
-        await Pause(.25);
+        var arc=ring!.GetChildren().OfType<Line2D>().Last();var before=arc.Points.ToArray();
+        // Production geometry advances on its 0.2s timer, after ProcessFrame.
+        // Observe an actual change rather than assuming a 0.25s wall-clock pause crossed that timer.
+        ulong observationStart=Time.GetTicksMsec();int observedFrames=0;
+        while(before.SequenceEqual(arc.Points)&&observedFrames<180&&Time.GetTicksMsec()-observationStart<5000)
+        { await Frame();observedFrames++; }
         Need(!before.SequenceEqual(arc.Points),"Domain lightning must animate while active");
-        Screens.Add(new {phase="domain-spirit",enlarged=true,transparentBlue=true,animatedRing=true,screenshot=Image("domain-spirit-"+Tree.Root.Size.X)});
+        Screens.Add(new {phase="domain-spirit",enlarged=true,transparentBlue=true,animatedRing=true,
+            observedFrames,observationMs=Time.GetTicksMsec()-observationStart,screenshot=Image("domain-spirit-"+Tree.Root.Size.X)});
     }
     private static Node? EffectRoot(Creature owner)
     { var effects=Effects(owner);return effects is null?null:(Node)typeof(VolibearEffects).GetField("_root",Fields)!.GetValue(effects)!; }
@@ -240,6 +245,30 @@ internal static class PresentationAcceptanceProbe
     }
     private static JsonElement Manifest(string path)
     { using var file=Godot.FileAccess.Open(path,Godot.FileAccess.ModeFlags.Read)??throw new InvalidOperationException("Missing authored manifest "+path);using var document=JsonDocument.Parse(file.GetAsText());return document.RootElement.Clone(); }
+    internal static void ValidateAudioEnvironment()
+    {
+        string mode=Environment.GetEnvironmentVariable("VOLIBEAR_TEST_PRESENTATION_MODE")??"all";
+        if(mode=="cards")return;
+        var saves=MegaCrit.Sts2.Core.Saves.SaveManager.Instance;
+        var settings=saves.SettingsSave;
+        bool focused=DisplayServer.WindowIsFocused();
+        bool muteInBackground=saves.PrefsSave.MuteInBackground;
+        string driver=AudioServer.GetDriverName();
+        bool busMuted=AudioServer.IsBusMute(0);
+        GD.Print("[Volibear] PRESENTATION_AUDIO_PREFLIGHT "+JsonSerializer.Serialize(new {
+            token=Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN"),driver,
+            display=DisplayServer.GetName(),windowFocused=focused,muteInBackground,busMuted,
+            master=settings.VolumeMaster,sfx=settings.VolumeSfx,ambience=settings.VolumeAmbience,
+            forcedUnmute=false
+        }));
+        Need(!driver.Contains("Dummy",StringComparison.OrdinalIgnoreCase),"Dummy audio cannot prove playback");
+        Need(!busMuted,"Master audio bus muted; probe never forces unmute");
+        Need(focused||!muteInBackground,"Background audio muted in isolated profile; configure prefs before launching");
+        Need(float.IsFinite(settings.VolumeMaster)&&settings.VolumeMaster>0&&
+             float.IsFinite(settings.VolumeSfx)&&settings.VolumeSfx>0&&
+             float.IsFinite(settings.VolumeAmbience)&&settings.VolumeAmbience>0,
+             "Native audio sliders must permit source playback before acceptance");
+    }
     internal static async Task Run(CombatState state, bool managed = false)
     {
         var originalSize=Tree.Root.Size;
@@ -256,6 +285,7 @@ internal static class PresentationAcceptanceProbe
             Need(DisplayServer.GetName()!="headless"&&!MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn,"Real rendered viewport required");
             var release=ReleaseInfoManager.Instance.ReleaseInfo!;
             Need(release.Version=="v0.107.1"&&release.Commit=="59260271","Pinned game version required");
+            ValidateAudioEnvironment();
             Clock.Start();var player=state.Players.Single();var owner=player.Creature;
             await Until(()=>player.PlayerCombatState!.Phase==PlayerTurnPhase.Play&&Effects(owner) is not null,"native play/presentation attach");
             foreach(var card in player.PlayerCombatState!.Hand.Cards.ToArray())await CardPileCmd.Add(card,PileType.Discard);
