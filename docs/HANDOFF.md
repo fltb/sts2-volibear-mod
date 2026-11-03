@@ -20,7 +20,9 @@
 - standalone Godot已共用隔离user://与既有可信CA方案，仍严格拒绝错误；能量图使用导入Texture2D API读取。批准源PNG字节/hash与inline字节保持冻结，三张可重建图对不同Pillow/zlib以PNG格式、mode、尺寸及RGBA像素逐字节严格复现，不要求压缩编码字节相同，不使用容差；没有修改批准图。
 - 完整引用回归发现的旧平台假设已定向修复：25个实际安装器清单（含PowerStackVisual八target/九patch）、带转义中文literal的scanner定位、Windows路径分隔符、真实目录重定向和Linux依赖mock。Windows采用真实junction验证重定向拒绝与外部字节保留，POSIX保留symlink；未把Windows目录junction称作文件symlink。
 - 对应定向验证：安装链/文本17项、文件系统/runner 93项、短profile/回归判定14项、Godot/冻结UI 11项全部通过。Riot私有来源11份已按原SHA256下载并处理为11覆盖/43开放回退，完整解码及来源身份9项通过；工具、来源、处理结果仅在忽略目录，人工听感未声称完成。
-- 本轮完整严格引用回归已通过：1227项运行，1225项成功，仅2项Linux专属检查在Windows明确跳过；0失败、0错误、0缺失必需检查，用时167.387秒。报告为artifacts/validation/runtime-migration.json；最终游戏发布验收尚未放行。
+- 本轮完整严格引用回归已通过：1227项运行，1225项成功，仅2项Linux专属检查在Windows明确跳过；0失败、0错误、0缺失必需检查。统一层已提交并推送fa61f76。
+- 随后最终入口A1重新编译、1227项引用回归（230.887秒）和175451000字节open PCK全部通过，但无Mod对照20261103T133546Z-fb4e0528在检查venv启动链下出现Windows系统证书库读取错误，suite未开始；失败摘要为.local/release-acceptance/run-wmxo_oqx/summary.json。未过滤该错误或禁用TLS。
+- 已修统一入口：检查/构建仍用隔离venv，原生suite/恢复/双端改由宿主Python启动，依赖通过严格ABI/目录校验后的PYTHONPATH接入，长批前实际导入扩展。68项定向测试通过；相同proxy/dotnet/音频设置、真实桥接与Pillow导入后的无Mod短对照20261103T134948Z-399f6ee0成功，exit0、无运行时错误。失败诊断现在保留stock run_id及错误原文。下一步才是修正后的最终完整放行；旧ZIP仍不是本轮成品。
 - 下一步：统一层定向及严格引用回归收口后，执行`python -B tools/local_delivery.py --verify-release --audio-driver WASAPI`，生成包含状态聚合的新完整ZIP。旧Linux包和旧完整通过记录仍是历史基线。
 
 ## Windows 原交接：状态单图标聚合（2026-11-03 19:30）

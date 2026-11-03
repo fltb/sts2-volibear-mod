@@ -16,9 +16,9 @@ import tempfile
 import venv
 
 try:
-    from tools import audio_profiles, build_assets, dependencies, dev, overlay_cleanup, release_package, toolchain
+    from tools import audio_profiles, build_assets, dependencies, dev, native_python, overlay_cleanup, release_package, toolchain
 except ModuleNotFoundError:
-    import audio_profiles, build_assets, dependencies, dev, overlay_cleanup, release_package, toolchain
+    import audio_profiles, build_assets, dependencies, dev, native_python, overlay_cleanup, release_package, toolchain
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = ROOT / '.local/config.json'
@@ -245,6 +245,10 @@ def _deliver(args):
     if not args.resources_only:
         env['VOLIBEAR_HARMONY'] = str(dev.data_directory(Path(settings['game_dir'])) / '0Harmony.dll')
     python = Path(sys.executable) if args.resources_only else python_for_checks(env)
+    host_python, native_env = python, env
+    if args.verify_native:
+        # Bound the host/dependency check before compilation, regression or export.
+        host_python, native_env = native_python.native_runtime(python, env)
     prepare_audio(args.audio_profile, env, python)
     if args.resources_only:
         pack = build_assets.build(Path(settings['godot']), args.output or build_assets.PACK,
@@ -268,13 +272,13 @@ def _deliver(args):
         # The suite owns the single installed-game process and controlled in-process queue.
         if args.verify_release:
             args._active_items = ('A2', 'A3', 'A4', 'A5', 'A7')
-        run(native_command(args, python), env)
+        run(native_command(args, host_python), native_env)
         if args.verify_release:
             mark(args, 'A2', 'A3', 'A4', 'A5', 'A7')
             # These are actual independent clients. A shared-combat fixture cannot satisfy
             # the network gate, and neither a failed restart nor peer check may package.
             args._active_items = ('A6',)
-            run(multiplayer_command(args, python), env)
+            run(multiplayer_command(args, host_python), native_env)
             mark(args, 'A6')
     output = args.output or (ROOT / '.local/release' /
                             ('Volibear-0.1.0-StS2-0.107.1'

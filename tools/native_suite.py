@@ -49,7 +49,8 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
     if (not isinstance(stock_evidence,dict) or stock_evidence.get('successful') is not True
             or type(stock_evidence.get('exit_code')) is not int or stock_evidence['exit_code'] != 0
             or stock_evidence.get('timed_out') is not False or stock_evidence.get('runtime_errors') != []):
-        raise RuntimeError('Stock no-mod control did not complete cleanly; native suite not launched')
+        raise RuntimeError('Stock no-mod control did not complete cleanly; native suite not launched; '
+                           + json.dumps(stock_evidence, ensure_ascii=False, default=str))
     suite = h.run_once(game, timeout, frames, scenario='native-suite', display=display,
                       stock=stock, stock_evidence=stock_evidence, card_face_batch=faces,
                       card_lifecycle_cases=lifecycle, presentation_mode=presentation_mode,
