@@ -36,6 +36,7 @@ public static class ModEntry
         Core.DomainAdditionalRevivalEffects.Install();
         Presentation.VolibearPresentationBridge.Install();
         Presentation.PowerPresentationDisabled.Install();
+        Presentation.PowerStackVisual.Install();
         Presentation.VolibearArchitectEnding.Install();
         Presentation.VolibearInspectPortraits.Install();
         var expectedDirectory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT");
