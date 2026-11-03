@@ -24,6 +24,20 @@ internal static class NativeVerificationSuite
         _ = Run(initial);
     }
 
+    internal static async Task Phase(string name, Func<Task> body)
+    {
+        var clock = System.Diagnostics.Stopwatch.StartNew();
+        bool success = false;
+        try { await body(); success = true; }
+        finally
+        {
+            clock.Stop();
+            GD.Print("[Volibear] NATIVE_SUITE_PHASE " + JsonSerializer.Serialize(new {
+                name, elapsedMs = clock.ElapsedMilliseconds, status = success ? "success" : "failure"
+            }));
+        }
+    }
+
     private static async Task Run(CombatState initial)
     {
         string token = Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN") ?? "";
@@ -41,37 +55,51 @@ internal static class NativeVerificationSuite
             var character = CharacterIntegrationProbe.Verify(initial.Players.Single());
             GD.Print("[Volibear] CHARACTER_INTEGRATION_RESULT " + JsonSerializer.Serialize(new { token, pid, result = character }));
 
-            await NativeAcceptanceRunHost.ExitToMainMenu(enterMapFirst: false);
-            await DomainSuppressionAcceptanceProbe.RunManaged();
-            NativeAcceptanceRunHost.RequireClean(); completed.Add("domain-suppression");
+            await Phase("domain-suppression", async () => {
+                await NativeAcceptanceRunHost.ExitToMainMenu(enterMapFirst: false);
+                await DomainSuppressionAcceptanceProbe.RunManaged();
+                NativeAcceptanceRunHost.RequireClean(); completed.Add("domain-suppression");
+            });
 
-            await ArchitectEndingAcceptanceProbe.RunManaged();
-            NativeAcceptanceRunHost.RequireClean(); completed.Add("architect-ending");
+            await Phase("architect-ending", async () => {
+                await ArchitectEndingAcceptanceProbe.RunManaged();
+                NativeAcceptanceRunHost.RequireClean(); completed.Add("architect-ending");
+            });
 
-            CardFaceAcceptanceProbe.Install(subscribe: false);
-            var faces = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>(), "VOLIBEARTEST");
-            await CardFaceAcceptanceProbe.RunBatch(faces,
-                Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_FACE_BATCH") ?? "", managed: true);
-            NativeAcceptanceRunHost.RequireClean(); completed.Add("card-faces");
+            await Phase("card-faces", async () => {
+                CardFaceAcceptanceProbe.Install(subscribe: false);
+                var faces = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>(), "VOLIBEARTEST");
+                await CardFaceAcceptanceProbe.RunBatch(faces,
+                    Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_FACE_BATCH") ?? "", managed: true);
+                NativeAcceptanceRunHost.RequireClean(); completed.Add("card-faces");
+            });
 
-            CardLifecycleAcceptanceProbe.Install(subscribe: false);
-            var lifecycle = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>());
-            await CardLifecycleAcceptanceProbe.RunBatch(lifecycle, managed: true);
-            NativeAcceptanceRunHost.RequireClean(); completed.Add("card-lifecycle");
+            await Phase("card-lifecycle", async () => {
+                CardLifecycleAcceptanceProbe.Install(subscribe: false);
+                var lifecycle = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>());
+                await CardLifecycleAcceptanceProbe.RunBatch(lifecycle, managed: true);
+                NativeAcceptanceRunHost.RequireClean(); completed.Add("card-lifecycle");
+            });
 
-            var presentation = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>());
-            await PresentationAcceptanceProbe.Run(presentation, managed: true);
-            await NativeAcceptanceRunHost.ExitToMainMenu(); completed.Add("presentation");
+            await Phase("presentation", async () => {
+                var presentation = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>());
+                await PresentationAcceptanceProbe.Run(presentation, managed: true);
+                await NativeAcceptanceRunHost.ExitToMainMenu(); completed.Add("presentation");
+            });
 
-            await NativeProductFlowProbe.Run();
-            NativeAcceptanceRunHost.RequireClean(); completed.Add("product-flow");
+            await Phase("product-flow", async () => {
+                await NativeProductFlowProbe.Run();
+                NativeAcceptanceRunHost.RequireClean(); completed.Add("product-flow");
+            });
 
-            SaveLoadContractProbe.Install(start: false);
-            await SaveLoadContractProbe.Run(managed: true);
-            // Do not enter another room and create a different checkpoint after the
-            // restore receipt. The shared host still awaits native cleanup and a frame.
-            await NativeAcceptanceRunHost.ExitToMainMenu(enterMapFirst: false);
-            completed.Add("save-load-same-process");
+            await Phase("save-load-same-process", async () => {
+                SaveLoadContractProbe.Install(start: false);
+                await SaveLoadContractProbe.Run(managed: true);
+                // Do not enter another room and create a different checkpoint after the
+                // restore receipt. The shared host still awaits native cleanup and a frame.
+                await NativeAcceptanceRunHost.ExitToMainMenu(enterMapFirst: false);
+                completed.Add("save-load-same-process");
+            });
 
             GD.Print("[Volibear] NATIVE_SUITE_RESULT " + JsonSerializer.Serialize(new {
                 schema = 2,token,pid,completed,finished = true,osInput = false,simulatedClicks = false,

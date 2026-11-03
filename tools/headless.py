@@ -14,6 +14,7 @@ import re
 import signal
 import subprocess
 import sys
+import time
 import uuid
 
 from dev import ROOT, config, game_executable, validate_game
@@ -648,9 +649,44 @@ def spawn_owned(command, cwd, env, stdout, window=False):
     return process, None
 
 
-def wait_owned_process(process, timeout, job=None):
+class OwnedProcessCancelled(RuntimeError):
+    """Cooperative runner cancellation; never a successful exit or a timeout."""
+
+
+def check_cancelled(cancel_event):
+    if cancel_event is not None and cancel_event.is_set():
+        raise OwnedProcessCancelled('Native runner cancelled by sibling failure')
+
+
+def _wait_cancellable(process, timeout, cancel_event):
+    deadline = time.monotonic() + timeout
+    while True:
+        check_cancelled(cancel_event)
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise subprocess.TimeoutExpired(process.args, timeout)
+        try:
+            return process.wait(timeout=min(.1, remaining))
+        except subprocess.TimeoutExpired:
+            pass
+
+
+def wait_owned_process(process, timeout, job=None, *, cancel_event=None):
     """Wait for our session leader and always remove surviving group children."""
     timed_out = False
+    if cancel_event is not None:
+        try:
+            if IS_WINDOWS and job is None:
+                raise RuntimeError('Cancellable native process requires an owned Windows Job')
+            try:
+                _wait_cancellable(process, timeout, cancel_event)
+            except subprocess.TimeoutExpired:
+                timed_out = True
+        finally:
+            # One owner and one termination path; the launcher alone closes the Job.
+            _terminate(process, job, force=True)
+            process.wait(timeout=5)
+        return process.returncode, timed_out
     try:
         code = process.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
@@ -807,12 +843,16 @@ def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
     return directory, env, display_command(command, display)
 
 
-def launch(game, directory, env, command, timeout, display='headless'):
+def launch(game, directory, env, command, timeout, display='headless', *, cancel_event=None, process_identity=None):
+    check_cancelled(cancel_event)
     with window_input_guard(game, display), (directory / 'stdout.log').open('w') as output:
         process, job = spawn_owned(command, game, env, output,
                                    window=IS_WINDOWS and '--headless' not in command)
         try:
-            return wait_owned_process(process, timeout, job)
+            if process_identity is not None:
+                process_identity.update(pid=process.pid, token=env['VOLIBEAR_TEST_TOKEN'])
+            return (wait_owned_process(process, timeout, job) if cancel_event is None else
+                    wait_owned_process(process, timeout, job, cancel_event=cancel_event))
         finally:
             close_owned(job)
 
@@ -890,7 +930,9 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
              matrix_catalog=None, matrix_prerequisite_report=None,
              coupon_case='CP-max-preserve', domain_card_case='hex', primal_case='U12-paid-snapshot', dampen_case='off', standing_case='U03-base-extra-turn', steam_case='off', card_face_case='B01-base-plain', hopper_case='off', card_face_batch=None,
              card_lifecycle_cases=None, native_run_mode='three-battle-save', native_run_pair=None,
-             presentation_mode='cards', audio_driver=None, _profile_env=None, domain_suppression_family='all'):
+             presentation_mode='cards', audio_driver=None, _profile_env=None, domain_suppression_family='all',
+             cancel_event=None, record_process_identity=False):
+    check_cancelled(cancel_event)
     if scenario == 'domain-suppression' and domain_suppression_family not in DOMAIN_SUPPRESSION_CASES:
         raise RuntimeError('Unknown domain suppression family: ' + str(domain_suppression_family))
     if card_face_batch is not None:
@@ -1081,7 +1123,12 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         env['VOLIBEAR_TEST_SCENARIO'] = scenario
         if scenario != 'native-run':
             command.append('--bootstrap')
-    code, timed_out = launch(game, directory, env, command, timeout, display=display)
+    launch_options = {} if cancel_event is None else {'cancel_event': cancel_event}
+    process_identity = {}
+    if record_process_identity:
+        launch_options['process_identity'] = process_identity
+    code, timed_out = launch(game, directory, env, command, timeout, display=display, **launch_options)
+    check_cancelled(cancel_event)
     log = combined_log(directory)
     checks = evaluate(code, timed_out, log, stock)
     checks['stock_control_success'] = (isinstance(stock_evidence, dict)
@@ -1104,11 +1151,22 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         scenario_result = native_run_evidence(log, run_id, native_run_mode, env['VOLIBEAR_NATIVE_RUN_PAIR'])
         checks['native_run_assertions'] = scenario_result['errors'] == []
     elif scenario == 'presentation-acceptance':
-        errors = presentation_acceptance_evidence(dampen_protocol_log(log, run_id, checks), run_id,
-                                                  presentation_mode, directory / 'presentation')
+        if record_process_identity and presentation_mode == 'cards':
+            from presentation_media_checks import check_log as catalog_media_check
+            media = catalog_media_check(dampen_protocol_log(log, run_id, checks), run_id,
+                                        presentation_mode, directory / 'presentation')
+            errors = media['errors']
+        else:
+            errors = presentation_acceptance_evidence(dampen_protocol_log(log, run_id, checks), run_id,
+                                                      presentation_mode, directory / 'presentation')
         scenario_result = {'mode': presentation_mode, 'errors': errors,
                            'scope': 'native-capture-not-human-visual-or-listening-review'}
         checks['presentation_acceptance_assertions'] = not errors
+        if record_process_identity and presentation_mode == 'cards':
+            # Retain BOTH original native-suite validators, including CRC/nonblank media checks.
+            scenario_result['media'] = media
+            scenario_result['verified_catalog_views'] = len(media.get('images', [])) if not errors else 0
+            checks['presentation_media_assertions'] = not errors
     elif scenario == 'architect-ending':
         from architect_ending_evidence import check_log
         scenario_result = check_log(log, run_id)
@@ -1224,6 +1282,9 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         'status': 'passed' if all(checks.values()) else 'failed',
         'combat_tests': scenario_result or 'not_run', 'command': command,
     }
+    if record_process_identity:
+        report['process_identity'] = process_identity
+    check_cancelled(cancel_event)  # In-process evidence validation is cooperative, not interruptible mid-decode.
     (directory / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({'report': str(directory / 'report.json'), 'status': report['status'], 'checks': checks}))
     return report

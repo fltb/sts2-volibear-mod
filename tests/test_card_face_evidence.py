@@ -43,7 +43,9 @@ def synthetic(variant):
             pileBefore='Hand',pileAfter='Hand',originalExhausted=True))
     generated=([dict(cardRef=f'generated-{i}',creatorId=None) for i in range(2)] if c=='R09' else
                [dict(cardRef=ref+'-beast',creatorId=0) for ref,model,pile in material_rows])
-    result=dict(schema=2,token='unit-fixture-not-native',variant=variant,scenario='card-face-acceptance',acceptance=gate.ACCEPTANCE,
+    destination=[dict(cardRef=f'starter-{i}',type='Volibear_'+model) for i,model in enumerate(models)]
+    starter_setup=dict(moved=deepcopy(destination[5:]),destination=destination,movedCount=5,target='Draw',position='Bottom',skipVisuals=False)
+    result=dict(starterSetup=starter_setup,schema=2,token='unit-fixture-not-native',variant=variant,scenario='card-face-acceptance',acceptance=gate.ACCEPTANCE,
                 version='v0.107.1',commit='59260271',testMode=False,character='VolibearCharacter',enemyTypes=['LeafSlimeS','TwigSlimeS','LeafSlimeM'],
                 playerId=0,enemyIds=[1,2,3],enemyOrder=[0,1,2],cards=cards,sourceIdentity=identity,starterDrawOrder=originals,
                 response=None,before=e['before'],after=e['after'],choice=None,selections=[],conversions=conversions,
@@ -86,6 +88,32 @@ def synthetic(variant):
 
 
 class CardFaceEvidenceTests(unittest.TestCase):
+    def test_starter_setup_schema_identity_types_and_order_are_strict(self):
+        mutations = [
+            lambda r: r.pop('starterSetup'),
+            lambda r: r.update(unapproved=True),
+            lambda r: r['starterSetup'].update(extra=True),
+            lambda r: r['starterSetup'].update(movedCount=4),
+            lambda r: r['starterSetup'].update(movedCount=5.0),
+            lambda r: r['starterSetup'].update(target='Hand'),
+            lambda r: r['starterSetup'].update(position='Top'),
+            lambda r: r['starterSetup'].update(skipVisuals=True),
+            lambda r: r['starterSetup']['moved'].pop(),
+            lambda r: r['starterSetup']['destination'].pop(),
+            lambda r: r['starterSetup']['destination'][0].update(cardRef='source'),
+            lambda r: r['starterSetup']['destination'][0].update(extra=True),
+            lambda r: r['starterSetup']['moved'].reverse(),
+            lambda r: r['starterSetup']['destination'].reverse(),
+            lambda r: r['starterSetup']['destination'][0].update(type='Volibear_B04'),
+            lambda r: r['starterSetup']['destination'].__setitem__(slice(0,2), r['starterSetup']['destination'][0:2][::-1]),
+        ]
+        for variant in ('B02-upgrade-frail', 'T01-base-master'):
+            for index, mutate in enumerate(mutations):
+                with self.subTest(variant=variant, mutation=index):
+                    row=synthetic(variant);mutate(row)
+                    with self.assertRaises((ValueError,KeyError)):
+                        gate._validate(row,row['token'],variant)
+
     def test_random_intents_are_fixed_with_real_native_moves(self):
         source = (Path(__file__).resolve().parents[1] / 'src/Volibear/CardFaceAcceptanceProbe.cs').read_text()
         self.assertIn('leafMonster.SetMoveImmediate(tackle, forceTransition: true)', source)

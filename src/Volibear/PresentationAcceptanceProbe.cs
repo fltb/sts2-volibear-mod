@@ -88,12 +88,30 @@ internal static class PresentationAcceptanceProbe
         Need(image!.SavePng(path)==Error.Ok,"Viewport PNG write failed");
         return new { path=relative,width=image.GetWidth(),height=image.GetHeight(),at=Clock.Elapsed.TotalSeconds,origin="native-viewport" };
     }
+    private static bool TweenFinished(Tween? tween) => tween is null || !tween.IsValid() || !tween.IsRunning();
     private static async Task View(CardModel card, bool upgraded, string kind)
     {
         NCard? node;
         if(kind=="large")
-        { NGame.Instance!.GetInspectCardScreen().Open([card],0); await Pause(.45); node=Walk(NGame.Instance.GetInspectCardScreen()).OfType<NCard>().Single(); }
-        else { await Until(()=>NCard.FindOnTable(card) is not null,"native hand holder"); await Pause(.25); node=NCard.FindOnTable(card); }
+        {
+            var inspect=NGame.Instance!.GetInspectCardScreen();inspect.Open([card],0);
+            // A singleton inspect hides both navigation arrows. Their delayed 0.35s
+            // tween is not visible; observe every visible endpoint and the real
+            // card tween instead (0.25s). Never advance or kill native animations.
+            var backstop=(CanvasItem)inspect.GetType().GetField("_backstop",Fields)!.GetValue(inspect)!;
+            var left=(CanvasItem)inspect.GetType().GetField("_leftButton",Fields)!.GetValue(inspect)!;
+            var right=(CanvasItem)inspect.GetType().GetField("_rightButton",Fields)!.GetValue(inspect)!;
+            Need(!left.Visible&&!right.Visible,"Singleton inspect navigation must be hidden");
+            await Until(()=>inspect.Modulate.A>=.999f&&backstop.Modulate.A>=.8999f&&
+                TweenFinished((Tween?)inspect.GetType().GetField("_cardTween",Fields)!.GetValue(inspect)),"native visible inspect animation complete");
+            node=Walk(inspect).OfType<NCard>().Single();
+        }
+        else
+        {
+            await Until(()=>NCard.FindOnTable(card) is { } current&&current.IsVisibleInTree()&&
+                current.Modulate.A>=.999f&&TweenFinished(current.PlayPileTween),"native hand card ready");
+            node=NCard.FindOnTable(card);
+        }
         Need(node is not null&&node.IsVisibleInTree(),"Native card is not visible");
         await Tree.ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);
         var textures=Walk(node!).OfType<TextureRect>().Where(n=>n.Texture is not null).Select(n=>new {
@@ -104,7 +122,11 @@ internal static class PresentationAcceptanceProbe
             bigResource=new {path=card.BetaPortraitPath,width=big.GetWidth(),height=big.GetHeight(),usedByNativeView=textures.Any(t=>t.visible&&t.resource==card.BetaPortraitPath)},
             level=card.CurrentUpgradeLevel,view=node!.GetPath().ToString(),sameModel=ReferenceEquals(node.Model,card),viewModel=node.Model?.Id.Entry,viewLevel=node.Model?.CurrentUpgradeLevel,textures,labels,
             screenshot=Image($"card-{card.GetType().Name}-{(upgraded?1:0)}-{kind}")});
-        if(kind=="large") { NGame.Instance!.GetInspectCardScreen().Close(); await Pause(.3); }
+        if(kind=="large")
+        {
+            var inspect=NGame.Instance!.GetInspectCardScreen();inspect.Close();
+            await Until(()=>!inspect.Visible,"native inspect close complete");
+        }
     }
     private static object? OwnerPresentation(Creature owner)
     {

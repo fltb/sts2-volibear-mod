@@ -1,12 +1,27 @@
 import json
 from pathlib import Path
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 from tools import local_delivery as delivery
 
 
 class SummaryTests(unittest.TestCase):
+    def setUp(self):
+        # These tests exercise worker-local summaries, never the CLI process launcher.
+        permit = patch.object(delivery.release_budget, 'worker_permit',
+                              side_effect=lambda: {'deadline': time.monotonic() + 30})
+        permit.start()
+        self.addCleanup(permit.stop)
+        supervisor = patch.object(delivery.release_budget, 'supervise',
+                                  side_effect=AssertionError('Summary fixture must never launch a release worker'))
+        self.supervisor = supervisor.start()
+        self.addCleanup(supervisor.stop)
+
+    def tearDown(self):
+        self.supervisor.assert_not_called()
+
     def test_summary_order_and_honest_scope(self):
         result = delivery.acceptance_summary()
         self.assertEqual(list(result['items']), ['A' + str(n) for n in range(1, 10)])

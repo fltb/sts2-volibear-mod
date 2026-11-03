@@ -39,6 +39,16 @@ GDScript 以源码打包，随后实际挂载 PCK 并核对四个运行脚本字
 - 原生runner由宿主Python启动，检查/构建依赖仍保留在隔离venv。`tools/native_python.py`在长批前核对完整Python ABI、底层解释器与库目录，再通过子进程`PYTHONPATH`加载库并实际导入Pillow扩展；不激活venv，不改全局依赖或权限。单机、恢复与多人共用这一启动策略，避免把构建解释器的启动环境带入游戏。
 - Windows上的双平台路径契约测试不代替Linux实机执行；游戏窗口、隔离存档、恢复和网络仍由原有原生runner验证。
 
+## 发布总预算与复用
+
+`--verify-release` 从CLI入口到构建、回归、实机、打包及报告合计固定600秒；父进程在595秒结束未完成工作，保留5秒清理与报告。Windows使用受控Job，Linux使用subreaper追踪跨session后代。超时退出124，报告明确`package_accepted=false`；不能将阶段各自600秒视为总预算达标。
+
+每阶段实时输出`RELEASE_PHASE`，本轮summary持续落盘`phases`及实测耗时；失败保留已完成/失败阶段，硬截止保留最后running阶段。完整门仅在修复、定向检查及耗时预估支持预算后启动，不用来开发排错。
+
+发布回归使用`--jobs 6`（上限6，28个已审计整模块），独立进程运行已审计的完整模块，未审计模块保留顺序；完整发现/执行ID、退出码、nonce和精确跳过原因均须一致。直接运行回归默认仍串行。受600秒监督的完整发布在DLL构建成功后，将下列第4步回归与第5步资源构建作为两个子进程并行执行，两者均成功才部署；任一失败取消另一入口，由监督父进程清理全部后代，主worker单独记录阶段状态与各自日志，预算不重置。无监督的直接API调用保持串行。部署完成后，仅受监督的Windows/background模式再并行完整NativeSuite（含S2重启链）和完整双客户端多人批次；两支都使用已验证native环境，各自保留stock/profile/报告及全部案例、共7个真实游戏进程，双成功才打包。非Windows、非background和无监督入口仍串行，避免共享窗口配置竞争；受监督Windows入口另传显式`--parallel-restart`，仅本轮stock成功后将单进程主suite与独立profile的S2链并行，prepare→resume仍经过原完整gate串行执行；直接native CLI默认不启用。两线程任一异常或失败报告都会取消另一方当前owned Job，所属线程终止并唯一关闭句柄，主线程收齐后做最终AND。纯Python证据验证只能在验证段前后响应取消，不声称中途强杀解码；外层595秒仍是硬截止，总进程数仍为7、峰值可达4个游戏进程。
+
+资源构建只复用完整输入、工具、实际PCK及原四份校验日志均匹配的成功回执；任一变化/缺失/损坏均重新完整构建。旧PCK不能补写历史成功回执，缓存不复用游戏验收或部署结果。需完整冷构建计时的发布显式加`--force-cold-assets`（默认关闭）；它在并行资源子命令传`--force-cold`，串行调用传`reuse=False`，不会重置600秒预算。本次最终gate必须带该选项，不能复用意外测试产生的PCK预热。
+
 ## 2. 第一次执行
 
 Windows，在游戏没有运行时执行，替换三个实际路径：
@@ -200,3 +210,11 @@ python tools/local_delivery.py --resources-only --godot "/path/to/Godot4.5.1Mono
 独立生产逻辑、真实 Harmony、普通 Godot 的两套资源构建可在维护环境执行。
 2026-11-03，当前源码候选已完成统一完整发布门禁：实际编译与资源验证、全部单机批次、跨进程冷恢复、两端ENet，以及最终ZIP的安装、同包更新、卸载与字节核对。
 最终包与报告入口见 [HANDOFF.md](HANDOFF.md)。人工听感、Steam传输及跨公网体验尚未执行。
+
+## 2026-11-04 完整图册独立并行（新增授权路径）
+
+- 受固定600秒监督的 Windows/background 完整发布、且 presentation mode 为 `all` 时，入口显式传 `--parallel-catalog`。直接 Native CLI 未传该参数、非完整发布或无监督的自动编排均保持原路径；显式参数拒绝非Windows、非background、非all或缺少 `--verify-restart`。
+- 同轮stock成功后，主NativeSuite、完整cards图册、独立S2链共用同一只读内存stock dict并三线程运行；没有报告文件缓存或第二次stock。主suite仍执行全部7阶段，G5只运行原actions，随后原正常流程仍在同一进程。图册为一个独立presentation-acceptance/cards实例，完整覆盖89卡×基础/升级×小/大图=356；S2保留prepare→原完整磁盘/回执gate→resume。
+- 图册沿用原NativeSuite的两层表现验证：原独立receipt oracle和完整PNG CRC/尺寸/可见非空验证。只接受cards模式、实际356张解码记录、当前token、实际owned PID及不同于主suite的身份。报告明确 `main_mode=actions`、`catalog_mode=cards`、PID/token/图册报告与图片目录；不把主actions报告标成full。
+- 完整成功必须主7阶段全部原checks成功 AND 独立356图册成功 AND S2成功，才允许外层与多人汇合后打包。任一异常或正常失败均通知同一个cancel Event；各线程只关闭自己拥有的Job，主线程收齐全部任务。纯Python媒体校验仍仅在段前后协作取消，原外层硬截止不重置。
+- 这一显式路径的真实游戏总数为8（native stock+main+catalog+S2两次=5，MP stock+两端=3），峰值5；没有拆face/lifecycle案例或减少画面、freshRun、断言。旧路径仍为7。并行隐藏静态图册耗时是待原生争用实测的预期，不是已证明600秒通过；最终轮仍必须显式 `--force-cold-assets`。

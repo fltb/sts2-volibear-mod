@@ -129,6 +129,26 @@ class ProfileSourceIdentity(unittest.TestCase):
         self.assertNotIn('DomainStormRing.Animate', capture)
         self.assertNotIn('await Pause(.25)', capture)
 
+    def test_catalog_waits_for_native_completion_without_fixed_sleeps(self):
+        source = (ROOT / 'src/Volibear/PresentationAcceptanceProbe.cs').read_text()
+        view = source.split('private static async Task View(', 1)[1].split('private static object? OwnerPresentation', 1)[0]
+        self.assertNotIn('await Pause(', view)
+        self.assertIn('TweenFinished(current.PlayPileTween)', view)
+        self.assertIn('Need(!left.Visible&&!right.Visible', view)
+        self.assertIn('inspect.Modulate.A>=.999f&&backstop.Modulate.A>=.8999f', view)
+        self.assertIn('GetField("_cardTween",Fields)', view)
+        self.assertNotIn('.Kill()', view)
+        self.assertNotIn('.CustomStep(', view)
+        self.assertIn('await Until(()=>!inspect.Visible', view)
+        self.assertIn('RenderingServer.SignalName.FramePostDraw', view)
+        self.assertNotIn('FastForward', view)
+
+    def test_catalog_retains_normal_native_presentation_pacing(self):
+        source = (ROOT / 'src/Volibear/PresentationAcceptanceProbe.cs').read_text()
+        self.assertNotIn('FastMode=', source)
+        self.assertNotIn('CustomStep(', source)
+        self.assertNotIn('PreloadManager.Enabled=', source)
+
     def test_audio_environment_is_checked_before_long_native_batches(self):
         probe = (ROOT / 'src/Volibear/PresentationAcceptanceProbe.cs').read_text()
         suite = (ROOT / 'src/Volibear/NativeVerificationSuite.cs').read_text()
