@@ -8,7 +8,6 @@
     <NuGetAudit>false</NuGetAudit>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <DefineConstants>$(DefineConstants);REAL_HARMONY</DefineConstants>
-    <HarmonyPath Condition="'$(HarmonyPath)' == ''">../../../.local/dependencies/Harmony-2.4.2/0Harmony.dll</HarmonyPath>
     <OutputPath>../../../artifacts/engage-harmony/bin/</OutputPath>
   </PropertyGroup>
   <ItemGroup>

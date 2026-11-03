@@ -1,13 +1,13 @@
 """Independent gate mutations and real observer IL emission; synthetic rows are NOT native evidence."""
 import copy
 import json
-import os
 from pathlib import Path
-import subprocess
 import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 sys.path.insert(0, str(ROOT / 'tools'))
 import audio_receipt_evidence as gate
 
@@ -143,20 +143,9 @@ class AudioReceiptEvidenceTests(unittest.TestCase):
             self.assertFalse(gate.validate_audio_receipts(report['combat_tests'], report['run_id']))
 
     def test_actual_probe_observer_emission_not_gameplay(self):
-        config_file = ROOT / '.local/config.json'
-        if not config_file.is_file(): self.skipTest('Native refs missing; observer emission NOT RUN')
-        config = json.loads(config_file.read_text(encoding='utf-8'))
-        dotnet = Path(config.get('dotnet', ''))
-        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
-        data = Path(config.get('game_dir', '')) / data_name
-        baselib = ROOT / '.local/dependencies/BaseLib-3.4.7/BaseLib.dll'
-        required = [dotnet, baselib, *(data / name for name in ('sts2.dll', 'GodotSharp.dll', '0Harmony.dll'))]
-        if not all(path.is_file() for path in required):
-            self.skipTest('Actual native/BaseLib references absent; no fake substitution')
-        result = subprocess.run([str(dotnet), 'run', '--project', str(ROOT/'tests/audio_receipt_probe/AudioReceiptProbe.csproj'),
-            '-c', 'Release', '-p:RepositoryRoot='+str(ROOT), '-p:Sts2DataDir='+str(data),
-            '-p:BaseLibPath='+str(baselib)], cwd=ROOT, capture_output=True, text=True,
-            timeout=180, env=dict(os.environ, DOTNET_NOLOGO='1'))
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', root=ROOT)
+        result = runtime.run('tests/audio_receipt_probe/AudioReceiptProbe.csproj',
+                             args=('-p:RepositoryRoot=' + str(ROOT),), timeout=180)
         self.assertEqual(result.returncode, 0, result.stdout+result.stderr)
         self.assertIn('AUDIO_RECEIPT_PROBE_EMISSION_OK checks=20;', result.stdout)
         self.assertIn('native_fixture=NOT_RUN; playback=NOT_RUN; heard=false', result.stdout)

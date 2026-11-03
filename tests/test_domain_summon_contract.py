@@ -1,11 +1,11 @@
 """Exact source-boundary + real native IL checks; native gameplay acceptance is separate."""
 from pathlib import Path
-import json
-import os
 import re
-import subprocess
+import sys
 import unittest
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 SOURCE=ROOT/'src/Volibear/Core/DomainSummonEffects.cs'
 def body(source,name):
     match=re.search(r'(?:private|public|internal) static [^\n]+\b'+re.escape(name)+r'\(',source)
@@ -92,14 +92,8 @@ class DomainSummonSourceContract(unittest.TestCase):
         self.assertIn('Native summon loop bound changed',self.source)
         self.assertIn('Native Create/Add gained a precommit await',self.source)
     def test_real_native_decisions_mutation_and_both_adapter_orders(self):
-        config_file=ROOT/'.local/config.json'
-        if not config_file.exists():self.skipTest('Local native configuration unavailable; NOT RUN')
-        config=json.loads(config_file.read_text(encoding='utf-8'));dotnet=Path(config.get('dotnet',''))
-        data_name='data_sts2_windows_x86_64' if os.name=='nt' else 'data_sts2_linuxbsd_x86_64'
-        data=Path(config.get('game_dir',''))/data_name;mod=ROOT/'src/Volibear/bin/Release/net9.0/Volibear.dll'
-        if not dotnet.is_file() or not(data/'sts2.dll').is_file() or not mod.is_file():self.skipTest('Real native dependencies unavailable; no engine substitutes')
-        result=subprocess.run([str(dotnet),'run','--project',str(ROOT/'tests/domain_summon_effects/DomainSummonEffects.Tests.csproj'),'-c','Release','-p:Sts2DataDir='+str(data)],
-            cwd=ROOT,capture_output=True,text=True,timeout=120,env=dict(os.environ,DOTNET_NOLOGO='1'))
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', 'mod_assembly', root=ROOT)
+        result = runtime.run('tests/domain_summon_effects/DomainSummonEffects.Tests.csproj', timeout=120)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         self.assertIn('PASS 198 summon D17 decision/native IL/mutation/combined checks',result.stdout)
         self.assertIn('Summon->Revival',result.stdout);self.assertIn('Revival->Summon',result.stdout)

@@ -11,6 +11,7 @@ from unittest import mock
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'tools'))
 import native_suite as suite
+from tools.runtime_platform import create_directory_redirect
 import native_suite_evidence as gate
 import test_acceptance_runner as routing_helpers
 STOCK = dict(routing_helpers.STOCK,runtime_errors=[])
@@ -213,12 +214,20 @@ class SuiteEnvelope(unittest.TestCase):
                     original+'\n[Volibear] SHUTDOWN_BEGIN suite-test'):
             self.assertTrue(self.evaluate(bad)['errors'])
 
-    def test_checkpoint_missing_changed_and_symlinked_fail(self):
+    def test_checkpoint_missing_changed_and_redirected_parent_fail(self):
         self.checkpoint.write_text('{}');self.assertTrue(self.evaluate()['errors'])
         self.checkpoint.unlink();self.assertTrue(self.evaluate()['errors'])
-        target=self.root/'actual.json';target.write_text(json.dumps(self.saved['afterLoad']))
-        self.checkpoint.symlink_to(target)
+        target = self.root / 'different-profile'
+        target.mkdir()
+        saved = target / self.checkpoint.name
+        saved.write_text(json.dumps(self.saved['afterLoad']))
+        before = saved.read_bytes()
+        self.assertEqual(self.checkpoint.parent, self.root / 'default/1/modded/profile1/saves')
+        self.checkpoint.parent.rmdir()
+        create_directory_redirect(self.checkpoint.parent, target)
+        self.assertEqual(self.checkpoint.resolve(), saved.resolve())
         self.assertTrue(self.evaluate()['errors'])
+        self.assertEqual(saved.read_bytes(), before)
 
 
 if __name__=='__main__':unittest.main()

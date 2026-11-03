@@ -119,7 +119,7 @@ internal static class SteamAudioObservationTests
             subscriptions.SetValue(disposable, Activator.CreateInstance(subscriptions.FieldType));
             disposable.Dispose();
             Need(!owner.GetPatchedMethods().Any() && Harmony.GetPatchInfo(music)!.Owners.Contains(foreign.Id), "actual Dispose removes only observer owner, preserving foreign audio hooks");
-            Console.WriteLine($"STEAM_EARLY_AUDIO_OBSERVER_EMISSION_PASS checks={checks} main-installers=24 expected-sequences=UNCHANGED core-calls=STATICALLY-PRESERVED pre-JIT-cause=NOT_PROVEN native-gameplay=NOT_RUN");
+            Console.WriteLine($"STEAM_EARLY_AUDIO_OBSERVER_EMISSION_PASS checks={checks} main-installers=25 expected-sequences=UNCHANGED core-calls=STATICALLY-PRESERVED pre-JIT-cause=NOT_PROVEN native-gameplay=NOT_RUN");
         }
         finally
         {

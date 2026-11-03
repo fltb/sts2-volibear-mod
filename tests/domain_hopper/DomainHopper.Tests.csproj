@@ -6,7 +6,6 @@
     <!-- Current linked production sources intentionally supersede the previously built host. -->
     <NoWarn>$(NoWarn);CS0436</NoWarn>
     <OutputPath>../../artifacts/domain-hopper/bin/</OutputPath>
-    <HostAssembly Condition="'$(HostAssembly)' == ''">../../src/Volibear/bin/Release/net9.0/Volibear.dll</HostAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/Volibear/Core/DomainHopper*.cs" />
@@ -18,6 +17,6 @@
     <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
     <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
     <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
-    <Reference Include="BaseLib"><HintPath>../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>$(BaseLibPath)</HintPath></Reference>
   </ItemGroup>
 </Project>

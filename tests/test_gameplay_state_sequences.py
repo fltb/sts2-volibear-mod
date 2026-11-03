@@ -1,15 +1,15 @@
 """Named state sequences over compiled production kernels, not a battle simulator."""
-import json
-import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
 import tempfile
+import sys
 import unittest
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 PROJECT = ROOT / 'tests/gameplay_state_sequences/GameplayStateSequences.csproj'
 DLL = ROOT / 'artifacts/gameplay-state-sequences/bin/net9.0/GameplayStateSequences.dll'
 CASES = {
@@ -23,12 +23,8 @@ CASES = {
 class GameplayStateSequences(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        config = ROOT / '.local/config.json'
-        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-        value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not value or not Path(value).is_file():
-            raise unittest.SkipTest('SDK unavailable; production state sequences NOT_RUN')
-        cls.dotnet = Path(value)
+        cls.runtime = fixture_runtime(cls, 'sdk', root=ROOT)
+        cls.dotnet = cls.runtime.dotnet
         # Missing source/project, compile failure and timeout fail rather than skip.
         result = cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo')
         if result.returncode:
@@ -41,7 +37,7 @@ class GameplayStateSequences(unittest.TestCase):
     def invoke(cls, *arguments):
         return subprocess.run([str(cls.dotnet), *arguments], cwd=ROOT,
                               capture_output=True, text=True, timeout=180,
-                              env=dict(os.environ, DOTNET_NOLOGO='1'))
+                              env=cls.runtime.environment(), encoding='utf-8')
 
     def run_case(self, case):
         result = self.invoke(str(DLL), case)

@@ -1,13 +1,12 @@
 """Compile the production Summon transport; real CLR boxes/TCS, not game acceptance."""
-import json
-import os
 from pathlib import Path
-import shutil
-import subprocess
+import sys
 import unittest
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 PROJECT = ROOT / 'tests/summon_registration/SummonRegistration.Tests.csproj'
 
 class SummonRegistrationTests(unittest.TestCase):
@@ -22,14 +21,8 @@ class SummonRegistrationTests(unittest.TestCase):
         self.assertIn('new TaskCompletionSource', source)
 
     def test_production_real_clr_registration_lifetime_matrix(self):
-        config = ROOT / '.local/config.json'
-        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-        dotnet = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not dotnet or not Path(dotnet).is_file():
-            self.skipTest('SDK unavailable; NOT_RUN')
-        result = subprocess.run([dotnet, 'run', '-c', 'Release', '--project', str(PROJECT)],
-                                cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=180,
-                                env=dict(os.environ, DOTNET_NOLOGO='1'))
+        runtime = fixture_runtime(self, 'sdk', root=ROOT)
+        result = runtime.run(PROJECT, timeout=180)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('PASS 186 production Summon registration/lifetime CLR checks; game NOT_RUN', result.stdout)
 

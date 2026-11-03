@@ -8,6 +8,6 @@
     <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath></Reference>
     <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath></Reference>
     <Reference Include="0Harmony"><HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath></Reference>
-    <Reference Include="BaseLib"><HintPath>../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</HintPath></Reference>
+    <Reference Include="BaseLib"><HintPath>$(BaseLibPath)</HintPath></Reference>
   </ItemGroup>
 </Project>

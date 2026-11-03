@@ -1,12 +1,12 @@
 """Execute the actual retrieval/search bodies against mutable capacity boundaries."""
-import json
-import os
 from pathlib import Path
-import shutil
 import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 
 
 def method_body(path, signature):
@@ -26,11 +26,8 @@ def method_body(path, signature):
 
 class HandCapacityBoundaries(unittest.TestCase):
     def test_foreign_limits_owner_scope_and_changes_during_selection(self):
-        config = ROOT / '.local/config.json'
-        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-        dotnet = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not dotnet or not Path(dotnet).is_file():
-            raise unittest.SkipTest('SDK unavailable; hand-capacity production methods NOT_RUN')
+        runtime = fixture_runtime(self, 'sdk', root=ROOT)
+        dotnet = str(runtime.dotnet)
         output = ROOT / 'artifacts/hand-capacity'
         output.mkdir(parents=True, exist_ok=True)
         body = '''using BaseLib.Patches.Hooks;
@@ -55,10 +52,10 @@ namespace Volibear.Content;
         build = subprocess.run([dotnet, 'build', str(project), '-c', 'Release', '--nologo',
                                 f'-p:ProductionMethods={methods}', f'-p:BaseIntermediateOutputPath={output}/obj/',
                                 f'-p:OutputPath={output}/bin/'], cwd=ROOT, capture_output=True,
-                               text=True, encoding='utf-8', timeout=180)
+                               text=True, encoding='utf-8', timeout=180, env=runtime.environment())
         self.assertEqual(build.returncode, 0, build.stdout + build.stderr)
         result = subprocess.run([dotnet, str(output / 'bin/HandCapacity.dll')], cwd=ROOT,
-                                capture_output=True, text=True, encoding='utf-8', timeout=60)
+                                capture_output=True, text=True, encoding='utf-8', timeout=60, env=runtime.environment())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('HAND_CAPACITY_OK checks=21 engine=STUBBED native-gameplay=NOT_RUN', result.stdout)
 

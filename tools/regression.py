@@ -14,6 +14,7 @@ import subprocess
 import sys
 import time
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 OTHER_PLATFORM_REASONS = frozenset({
@@ -21,6 +22,8 @@ OTHER_PLATFORM_REASONS = frozenset({
     'Windows private-desktop native renderer', 'Windows private-desktop launch failure',
     'Windows owned process flags', 'native Windows chdir regression',
 })
+
+LINUX_PLATFORM_REASONS = frozenset({'Linux x86_64 tool', 'Linux C compiler ABI fixture'})
 
 
 class RunResult(unittest.TextTestResult):
@@ -36,7 +39,8 @@ def summarize(result, *, require_native, platform=None):
     platform = os.name if platform is None else platform
     skipped = [{'test': test.id(), 'reason': reason} for test, reason in result.skipped]
     unavailable = [row for row in skipped if not (
-        platform != 'nt' and row['reason'] in OTHER_PLATFORM_REASONS)]
+        (platform != 'nt' and row['reason'] in OTHER_PLATFORM_REASONS) or
+        (platform == 'nt' and row['reason'] in LINUX_PLATFORM_REASONS))]
     passed = result.wasSuccessful() and not result.expectedFailures and (not require_native or not unavailable)
     return {
         'schema': 1, 'status': 'passed' if passed else 'failed',
@@ -59,17 +63,32 @@ def summarize(result, *, require_native, platform=None):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-native', action='store_true')
+    parser.add_argument('--failfast', action='store_true', help='Stop at the first failure for targeted diagnosis')
     parser.add_argument('--report', type=Path, default=ROOT / 'artifacts/validation/regression.json')
     args = parser.parse_args(argv)
     # unittest discovery imports the modules from tests; repository modules must also
     # resolve when this entrypoint is executed as a script instead of python -m.
     sys.path.insert(0, str(ROOT))
+    from tools.runtime_test import get_runtime
+    runtime = get_runtime(ROOT)
+    environment = runtime.environment()
+    # The suite's Python filesystem fixtures retain the host's short temporary
+    # root. Only launched SDK/Godot children receive the isolated compiler temp;
+    # nesting every Python fixture there can exceed Windows shader path limits.
+    for name in ('TEMP', 'TMP', 'TMPDIR'):
+        if name in os.environ:
+            environment[name] = os.environ[name]
+        else:
+            environment.pop(name, None)
+    if args.require_native:
+        environment['VOLIBEAR_REQUIRE_NATIVE'] = '1'
     began = time.monotonic()
-    suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
-    # This scoped native fixture directory is intentionally not a discovery package.
-    suite.addTests(unittest.defaultTestLoader.loadTestsFromName(
-        'tests.domain_disabled_presentation.test_native.DomainDisabledPresentationTests'))
-    result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult).run(suite)
+    with patch.dict(os.environ, environment):
+        suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
+        # This scoped native fixture directory is intentionally not a discovery package.
+        suite.addTests(unittest.defaultTestLoader.loadTestsFromName(
+            'tests.domain_disabled_presentation.test_native.DomainDisabledPresentationTests'))
+        result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult, failfast=args.failfast).run(suite)
     report = summarize(result, require_native=args.require_native)
     report.update(elapsed_seconds=round(time.monotonic() - began, 3),
                   finished_utc=datetime.now(timezone.utc).isoformat())

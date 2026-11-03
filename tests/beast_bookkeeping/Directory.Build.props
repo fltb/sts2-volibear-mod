@@ -1,4 +1,5 @@
 <Project>
+  <Import Project="../Directory.Build.props" />
   <PropertyGroup>
     <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)../../artifacts/beast-checks/$(MSBuildProjectName)/obj/</BaseIntermediateOutputPath>
   </PropertyGroup>

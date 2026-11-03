@@ -1,0 +1,15 @@
+<Project>
+  <!-- Runtime-test inputs may be supplied as environment or MSBuild properties.
+       Defaults describe paths only: SDK-only fixtures need no game installation. -->
+  <PropertyGroup>
+    <RepositoryRoot Condition="'$(RepositoryRoot)' == ''">$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..'))</RepositoryRoot>
+    <!-- Sts2DataDir intentionally has no guessed platform-specific default. -->
+    <BaseLibPath Condition="'$(BaseLibPath)' == ''">$(RepositoryRoot)/.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
+    <HarmonyPath Condition="'$(HarmonyPath)' == '' and Exists('$(RepositoryRoot)/.local/dependencies/Harmony-2.4.2/0Harmony.dll')">$(RepositoryRoot)/.local/dependencies/Harmony-2.4.2/0Harmony.dll</HarmonyPath>
+    <HarmonyPath Condition="'$(HarmonyPath)' == '' and '$(Sts2DataDir)' != ''">$(Sts2DataDir)/0Harmony.dll</HarmonyPath>
+    <HarmonyPath Condition="'$(HarmonyPath)' == ''">$(RepositoryRoot)/.local/dependencies/Harmony-2.4.2/0Harmony.dll</HarmonyPath>
+    <ModDll Condition="'$(ModDll)' == ''">$(RepositoryRoot)/src/Volibear/bin/Release/net9.0/Volibear.dll</ModDll>
+    <HostAssembly Condition="'$(HostAssembly)' == ''">$(ModDll)</HostAssembly>
+    <ModAssembly Condition="'$(ModAssembly)' == ''">$(ModDll)</ModAssembly>
+  </PropertyGroup>
+</Project>

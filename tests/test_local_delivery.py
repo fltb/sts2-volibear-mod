@@ -3,6 +3,7 @@ from contextlib import ExitStack, redirect_stderr, redirect_stdout
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -11,6 +12,7 @@ import unittest
 from unittest.mock import Mock, patch
 
 from tools import build_assets, local_delivery as delivery, overlay_cleanup, toolchain
+from tools.runtime_platform import create_directory_redirect
 
 
 class OverlayCleanupTests(unittest.TestCase):
@@ -63,15 +65,17 @@ class OverlayCleanupTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Duplicate'):
             overlay_cleanup.cleanup(self.root)
 
-    def test_symlink_file_and_parent_are_never_followed(self):
+    def test_terminal_redirect_and_redirected_parent_are_never_followed(self):
         target = self.root / 'target'
         target.mkdir()
         (target / 'keep.cs').write_bytes(b'old source')
-        for name, destination in [('link.cs', target / 'keep.cs'), ('linked', target)]:
-            try:
-                (self.root / name).symlink_to(destination, target_is_directory=destination.is_dir())
-            except OSError:
-                self.skipTest('Host does not permit test symlinks')
+        # Windows has unprivileged directory junctions, not file symlinks.
+        # Both exercise terminal reparse rejection before regular-file/deletion checks.
+        if os.name == 'nt':
+            create_directory_redirect(self.root / 'link.cs', target)
+        else:
+            (self.root / 'link.cs').symlink_to(target / 'keep.cs')
+        create_directory_redirect(self.root / 'linked', target)
         for relative in ('link.cs', 'linked/keep.cs'):
             self.record([{'path': relative, 'sha256': hashlib.sha256(b'old source').hexdigest()}])
             with self.assertRaisesRegex(ValueError, 'Redirected'):
@@ -89,12 +93,10 @@ class OverlayCleanupTests(unittest.TestCase):
 
     def test_redirect_inside_repository_rejected_even_without_junction_api(self):
         self.file('actual/keep.cs')
-        try:
-            (self.root / 'alias').symlink_to(self.root / 'actual', target_is_directory=True)
-        except OSError:
-            self.skipTest('Host does not permit test symlinks')
+        create_directory_redirect(self.root / 'alias', self.root / 'actual')
         self.record([{'path': 'alias/keep.cs', 'sha256': hashlib.sha256(b'old source').hexdigest()}])
-        with patch.object(Path, 'is_symlink', return_value=False):
+        with patch.object(Path, 'is_symlink', return_value=False), \
+                patch.object(os.path, 'isjunction', return_value=False, create=True):
             with self.assertRaisesRegex(ValueError, 'Redirected'):
                 overlay_cleanup.cleanup(self.root)
         self.assertTrue((self.root / 'actual/keep.cs').exists())

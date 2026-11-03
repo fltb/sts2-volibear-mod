@@ -1,14 +1,15 @@
 """Direct production opportunity-kernel sequences; native gameplay is NOT_RUN."""
-import json
 import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
+import sys
 import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 PROJECT = ROOT / 'tests/engage_opportunities/EngageOpportunities.csproj'
 DLL = ROOT / 'artifacts/engage-opportunities/bin/net9.0/EngageOpportunities.dll'
 CASES = {
@@ -23,13 +24,8 @@ CASES = {
 }
 
 
-def configured_sdk():
-    config = ROOT / '.local/config.json'
-    configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-    value = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-    if not value or not Path(value).is_file():
-        raise unittest.SkipTest('SDK unavailable; engage opportunities NOT_RUN')
-    return Path(value)
+def configured_sdk(test):
+    return fixture_runtime(test, 'sdk', root=ROOT)
 
 
 def require_success(result):
@@ -50,7 +46,8 @@ def validate_case(result, case):
 class EngageOpportunities(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.dotnet = configured_sdk()
+        cls.runtime = configured_sdk(cls)
+        cls.dotnet = cls.runtime.dotnet
         # No prebuilt Mod, native dependencies or fallback to stale output after build failure.
         require_success(cls.invoke('build', str(PROJECT), '-c', 'Release', '--nologo'))
         listed = cls.invoke(str(DLL), '--list')
@@ -63,7 +60,7 @@ class EngageOpportunities(unittest.TestCase):
     def invoke(cls, *arguments):
         return subprocess.run([str(cls.dotnet), *arguments], cwd=ROOT,
                               capture_output=True, text=True, encoding='utf-8', timeout=180,
-                              env=dict(os.environ, DOTNET_NOLOGO='1'))
+                              env=cls.runtime.environment())
 
     def test_reserve_reentry_partial_failure(self):
         validate_case(self.invoke(str(DLL), 'reserve-reentry-partial-failure'), 'reserve-reentry-partial-failure')
@@ -93,8 +90,12 @@ class EngageOpportunities(unittest.TestCase):
 class EngageRunnerContracts(unittest.TestCase):
     def test_absent_sdk_is_explicit_not_run(self):
         with patch.object(Path, 'is_file', return_value=False):
-            with self.assertRaisesRegex(unittest.SkipTest, 'NOT_RUN'):
-                configured_sdk()
+            with patch.dict(os.environ, {'VOLIBEAR_REQUIRE_NATIVE': '0'}):
+                with self.assertRaisesRegex(unittest.SkipTest, 'sdk runtime unavailable'):
+                    configured_sdk(self)
+            with patch.dict(os.environ, {'VOLIBEAR_REQUIRE_NATIVE': '1'}):
+                with self.assertRaisesRegex(AssertionError, 'sdk runtime unavailable'):
+                    configured_sdk(self)
 
     def test_compile_failure_is_not_skip_or_stale_success(self):
         with self.assertRaises(AssertionError):

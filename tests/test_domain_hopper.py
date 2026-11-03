@@ -1,12 +1,13 @@
 """Pinned native IL emission + direct production Hopper decisions/adapters, not gameplay."""
-import json
-import os
 from pathlib import Path
 import re
 import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 PROJECT = ROOT / 'tests/domain_hopper/DomainHopper.Tests.csproj'
 DLL = ROOT / 'artifacts/domain-hopper/bin/net9.0/DomainHopper.Tests.dll'
 
@@ -20,20 +21,13 @@ def require_success(result):
 
 class DomainHopperTests(unittest.TestCase):
     def test_production_decisions_actual_adapters_and_real_native_emission(self):
-        config = ROOT / '.local/config.json'
-        if not config.is_file():
-            self.skipTest('Local SDK/native configuration absent; Hopper NOT_RUN')
-        values = json.loads(config.read_text(encoding='utf-8'))
-        sdk = Path(values.get('dotnet', ''))
-        data_name = 'data_sts2_windows_x86_64' if os.name == 'nt' else 'data_sts2_linuxbsd_x86_64'
-        data = Path(values.get('game_dir', '')) / data_name
-        host = ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll'
-        if not sdk.is_file() or not (data / 'sts2.dll').is_file() or not host.is_file():
-            self.skipTest('Pinned SDK/native assemblies/host unavailable; Hopper NOT_RUN')
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', 'host', root=ROOT)
+        sdk = runtime.dotnet
+        data = runtime.data
         def invoke(*args):
             return subprocess.run([str(sdk), *args], cwd=ROOT, capture_output=True,
                                   text=True, encoding='utf-8', timeout=180,
-                                  env=dict(os.environ, DOTNET_NOLOGO='1'))
+                                  env=runtime.environment())
         require_success(invoke('build', str(PROJECT), '-c', 'Release', '--nologo', '-p:Sts2DataDir=' + str(data)))
         result = invoke(str(DLL)); require_success(result)
         self.assertEqual(re.findall(r'^HOPPER_DECISION_NATIVE_IL_PASS checks=(\d+) gameplay=NOT_RUN$', result.stdout, re.MULTILINE), ['36'])

@@ -1,21 +1,18 @@
 """Compiled production native-replacement orchestration; command boundaries are stubs."""
-import json
-import os
 from pathlib import Path
-import shutil
 import subprocess
+import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
 
 
 class BeastNativeReplacement(unittest.TestCase):
     def test_native_replacement_responses_cost_lifetimes_and_owner_boundaries(self):
-        config = ROOT / '.local/config.json'
-        configured = json.loads(config.read_text(encoding='utf-8')).get('dotnet') if config.is_file() else None
-        dotnet = configured or os.environ.get('VOLIBEAR_DOTNET') or shutil.which('dotnet')
-        if not dotnet or not Path(dotnet).is_file():
-            raise unittest.SkipTest('SDK unavailable; beast replacement production execution NOT_RUN')
+        runtime = fixture_runtime(self, 'sdk', root=ROOT)
+        dotnet = str(runtime.dotnet)
         generated = ROOT / 'artifacts/beast-bookkeeping'
         generated.mkdir(parents=True, exist_ok=True)
         selections = (ROOT / 'src/Volibear/Content/Cards/BeastEffects.cs').read_text(encoding='utf-8')
@@ -30,11 +27,11 @@ class BeastNativeReplacement(unittest.TestCase):
             'namespace Volibear.Content;\npublic sealed class NextPlayDiscount' + coupon, encoding='utf-8')
         project = ROOT / 'tests/beast_bookkeeping/BeastBookkeeping.csproj'
         build = subprocess.run([dotnet, 'build', str(project), '-c', 'Release', '--nologo'],
-                               cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=180)
+                               cwd=ROOT, capture_output=True, text=True, encoding='utf-8', timeout=180, env=runtime.environment())
         self.assertEqual(build.returncode, 0, build.stdout + build.stderr)
         dll = ROOT / 'artifacts/beast-bookkeeping/bin/net9.0/BeastBookkeeping.dll'
         result = subprocess.run([dotnet, str(dll)], cwd=ROOT, capture_output=True,
-                                text=True, encoding='utf-8', timeout=60)
+                                text=True, encoding='utf-8', timeout=60, env=runtime.environment())
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertRegex(result.stdout, r'BEAST_NATIVE_REPLACEMENT_OK assertions=\d+; native-gameplay=NOT_RUN')
         self.assertEqual(result.stdout.count('BEAST_PRODUCTION_CASE_PASS'), 8)

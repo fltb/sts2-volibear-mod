@@ -17,6 +17,7 @@ import sys
 import uuid
 
 from dev import ROOT, config, game_executable, validate_game
+from runtime_platform import platform_for
 from beast_evidence import BEAST_CASES, beast_contract_evidence
 from domain_enemy_evidence import check_log as domain_enemy_evidence
 from persistent_evidence import PERSISTENT_CASES, persistent_contract_evidence
@@ -65,19 +66,11 @@ DOMAIN_ENEMY_CASES = ('flutter', 'soar', 'intangible', 'slippery', 'hard-to-kill
 IS_WINDOWS = os.name == 'nt'
 USER_DATA_NAME = 'SlayTheSpire2'
 # Every directory variable that can redirect user:// is repointed per run.
-ISOLATION_BINDINGS = ([('HOME', 'home'), ('APPDATA', 'appdata'), ('LOCALAPPDATA', 'localappdata')]
-                      if IS_WINDOWS else
-                      [('HOME', 'home'), ('XDG_DATA_HOME', 'data'),
-                       ('XDG_CONFIG_HOME', 'config'), ('XDG_CACHE_HOME', 'cache')])
+ISOLATION_BINDINGS = platform_for('nt' if IS_WINDOWS else 'posix').isolation_bindings()
 
 
 def isolated_env(directory):
-    env = os.environ.copy()
-    for key, child in ISOLATION_BINDINGS:
-        path = directory / child
-        path.mkdir(parents=True)
-        env[key] = str(path)
-    return env
+    return platform_for('nt' if IS_WINDOWS else 'posix').isolated_environment(directory, os.environ)
 
 
 def user_data_root(directory):
@@ -721,15 +714,14 @@ def display_command(command, display):
             raise RuntimeError('POSIX window mode requires an existing DISPLAY')
         native = [arg for arg in command if arg not in ('--headless', '--audio-driver', 'Dummy')]
         if IS_WINDOWS:
-            native.extend(['--windowed', '--resolution', '1280x720'])
+            native.extend(platform_for('nt').window_arguments())
         if display == 'background':
             native.extend(['--audio-driver', 'Dummy'])
         elif not IS_WINDOWS:
             # Use the operator-authorized existing X11/XWayland display directly.
             # Match the established compatibility renderer, but keep the real GPU.
             # No virtual display or software rasterizer is forced in this mode.
-            native.extend(['--display-driver', 'x11', '--rendering-method', 'gl_compatibility',
-                           '--windowed', '--resolution', '1280x720'])
+            native.extend(platform_for('posix').window_arguments())
             if '--script' not in native:
                 native.extend(['--script', str(ROOT / 'tools/window_guard.gd')])
         return native

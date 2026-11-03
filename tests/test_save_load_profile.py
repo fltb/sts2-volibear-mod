@@ -66,16 +66,20 @@ class ShortOwnedProfileTests(unittest.TestCase):
         original=os.getcwd()
         with tempfile.TemporaryDirectory() as directory,patch.object(p,'ROOT',Path(directory)):
             profile=p.create_owned_profile();user_root=p.h.user_data_root(profile)
-            target=user_root/'shader_cache'/p.PINNED_LONGEST_SHADER/('a'*64);target.mkdir(parents=True)
-            marker=target/'retained.txt';marker.write_text('cache retained',encoding='utf-8')
+            target=user_root/'shader_cache'/p.PINNED_LONGEST_SHADER/('a'*64)
             extended='\\\\?\\'+str(target)
+            native_target=Path(extended);native_target.mkdir(parents=True)
+            marker=native_target/'retained.txt';marker.write_text('cache retained',encoding='utf-8')
             try:
                 for phase in ('prepare','resume'):
                     ctypes.set_last_error(0)
                     self.assertEqual(kernel.SetCurrentDirectoryW(extended),1,(phase,ctypes.get_last_error()))
                     self.assertEqual(kernel.SetCurrentDirectoryW(original),1)
-            finally:kernel.SetCurrentDirectoryW(original)
-            self.assertEqual(marker.read_text(encoding='utf-8'),'cache retained')
+                self.assertEqual(marker.read_text(encoding='utf-8'),'cache retained')
+            finally:
+                kernel.SetCurrentDirectoryW(original)
+                marker.unlink(missing_ok=True)
+                native_target.rmdir()
     def test_wrong_root_seed_pid_token_still_rejected(self):
         for field,value in [('userRoot','C:/ordinary'),('checkpointPath','C:/ordinary/current_run.save'),('seed','wrong'),('pid',999),('token','stale')]:
             with self.subTest(field=field):

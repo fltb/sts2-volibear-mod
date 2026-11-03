@@ -1,12 +1,15 @@
 """Focused contracts for runtime domain spirit rendering and lifecycle wiring."""
-import json
 import pathlib
+import sys
 import re
 import subprocess
 import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.runtime_test import fixture_runtime
+from tools.godot_runtime import isolated_tls_settings
 SPIRIT = ROOT / 'src/Volibear/Presentation/VolibearPresentationBridge.DomainSpirit.cs'
 BRIDGE = ROOT / 'src/Volibear/Presentation/VolibearPresentationBridge.cs'
 
@@ -73,20 +76,20 @@ class DomainSpiritTests(unittest.TestCase):
         self.assertIn('spiritVisuals.Scale.IsEqualApprox(spiritOriginalScale)', source)
 
     def test_godot_parses_exact_production_shader(self):
-        config = ROOT / '.local/config.json'
-        if not config.exists():
-            self.skipTest('local Godot path not configured')
-        godot = json.loads(config.read_text()).get('godot')
-        if not godot or not pathlib.Path(godot).is_file():
-            self.skipTest('configured Godot is not installed')
+        runtime = fixture_runtime(self, 'godot', root=ROOT)
         shader = re.search(r'SpiritShader = """\n(.*?)\n\s*""";', SPIRIT.read_text(), re.S).group(1)
         shader = '\n'.join(line.strip() for line in shader.splitlines())
         with tempfile.TemporaryDirectory(prefix='domain-spirit-') as folder:
             path = pathlib.Path(folder)
-            (path / 'project.godot').write_text('[application]\nconfig/name="Domain shader validation"\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n')
+            env = runtime.isolated_environment(path / 'profile')
+            (path / 'project.godot').write_text(
+                '[application]\nconfig/name="Domain shader validation"\n[rendering]\n'
+                'renderer/rendering_method="gl_compatibility"\n' + isolated_tls_settings(path, env),
+                encoding='utf-8')
             (path / 'spirit.gdshader').write_text(shader)
             (path / 'check.gd').write_text('extends SceneTree\nfunc _initialize():\n\tvar shader = Shader.new()\n\tshader.code = FileAccess.get_file_as_string("res://spirit.gdshader")\n\tshader.get_shader_uniform_list()\n\tprint("DOMAIN_SHADER_PARSED")\n\tquit(0)\n')
-            result = subprocess.run([godot, '--headless', '--path', folder, '--script', 'check.gd'], capture_output=True, text=True, timeout=20)
+            result = subprocess.run([str(runtime.godot), '--headless', '--path', folder, '--script', 'check.gd'],
+                                    env=env, capture_output=True, text=True, encoding='utf-8', timeout=20)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn('DOMAIN_SHADER_PARSED', result.stdout)
             self.assertNotIn('SHADER ERROR', result.stdout + result.stderr)
