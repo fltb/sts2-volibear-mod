@@ -91,6 +91,16 @@ class ShortOwnedProfileTests(unittest.TestCase):
         calls=[]
         def fake_phase(game,pair_dir,env,case,mode,phase,seed,stock,stock_evidence,timeout,frames,display):
             calls.append(copy.deepcopy(env));user_root=Path(env['VOLIBEAR_TEST_DATA_ROOT'])
+            prefs=user_root/'default/1/modded/profile1/saves/prefs.save'
+            settings=user_root/'default/1/settings.save'
+            if phase=='prepare':
+                self.assertEqual(json.loads(prefs.read_text(encoding='utf-8')),dict(schema_version=2,mute_in_background=False))
+                prefs.write_text(json.dumps(dict(schema_version=2,mute_in_background=True,show_run_timer=True)),encoding='utf-8')
+                current=json.loads(settings.read_text(encoding='utf-8'));current['volume_sfx']=0.25
+                settings.write_text(json.dumps(current),encoding='utf-8')
+            else:
+                self.assertEqual(json.loads(prefs.read_text(encoding='utf-8')),dict(schema_version=2,mute_in_background=True,show_run_timer=True))
+                self.assertEqual(json.loads(settings.read_text(encoding='utf-8'))['volume_sfx'],0.25)
             path=user_root/'default/1/modded/profile1/saves/current_run.save'
             raw,expected=fixture(case=case,mode=mode,phase=phase,pid=11 if phase=='prepare' else 22,token=phase+'-token')
             for record in (raw,expected):record.update(pair=pair_dir.name,userRoot=str(user_root),checkpointPath=str(path),seed=seed)

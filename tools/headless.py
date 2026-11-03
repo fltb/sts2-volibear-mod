@@ -70,7 +70,18 @@ ISOLATION_BINDINGS = platform_for('nt' if IS_WINDOWS else 'posix').isolation_bin
 
 
 def isolated_env(directory):
-    return platform_for('nt' if IS_WINDOWS else 'posix').isolated_environment(directory, os.environ)
+    env = platform_for('nt' if IS_WINDOWS else 'posix').isolated_environment(directory, os.environ)
+    # This entry creates a fresh owned profile, never a resumed or ordinary save.
+    # Modded and --nomods runs use separate pinned profile namespaces.
+    root = user_data_root(directory)
+    root.mkdir(parents=True, exist_ok=False)
+    for relative in ('default/1/profile1/saves', 'default/1/modded/profile1/saves'):
+        saves = root / relative
+        saves.mkdir(parents=True, exist_ok=False)
+        with (saves / 'prefs.save').open('x', encoding='utf-8') as stream:
+            json.dump({'schema_version': 2, 'mute_in_background': False}, stream)
+            stream.write('\n')
+    return env
 
 
 def user_data_root(directory):
@@ -777,15 +788,17 @@ def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
     # Never read, copy, or edit the operator's normal settings or saves.
     if _profile_env is None:
         settings = user_data_root(directory) / 'default/1/settings.save'
-        settings.parent.mkdir(parents=True)
-        settings.write_text(json.dumps({
-            'schema_version': 5, 'mod_settings': {'mods_enabled': True},
-            'seen_ea_disclaimer': True, 'skip_intro_logo': True,
-            'fullscreen': False, 'window_size': {'X': 1280, 'Y': 720},
-            'window_position': {'X': 64, 'Y': 64},
-            'language': 'zhs', 'limit_fps_in_background': False,
-            'vsync': 'off', 'fps_limit': 60,
-        }) + '\n')
+        settings.parent.mkdir(parents=True, exist_ok=True)
+        with settings.open('x', encoding='utf-8') as stream:
+            json.dump({
+                'schema_version': 5, 'mod_settings': {'mods_enabled': True},
+                'seen_ea_disclaimer': True, 'skip_intro_logo': True,
+                'fullscreen': False, 'window_size': {'X': 1280, 'Y': 720},
+                'window_position': {'X': 64, 'Y': 64},
+                'language': 'zhs', 'limit_fps_in_background': False,
+                'vsync': 'off', 'fps_limit': 60,
+            }, stream)
+            stream.write('\n')
     env['VOLIBEAR_TEST_TOKEN'] = run_id
     env['VOLIBEAR_TEST_ARTIFACT_DIR'] = str(directory)
     command = [str(game_executable(game)), '--headless', '--audio-driver', 'Dummy',
