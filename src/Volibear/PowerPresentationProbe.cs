@@ -68,11 +68,12 @@ internal static class PowerPresentationProbe
             if (!before.SequenceEqual(owner.Powers)) throw new InvalidOperationException("Probe left power instances behind.");
             await NativeAcceptanceRunHost.WaitForQuiet(combat, 1);
             var uiLifecycle = await UiLifecycle(combat);
+            var stackUi = await PowerStackUiProbe.Run(combat, Models());
             GD.Print("[Volibear] POWER_PRESENTATION_RESULT " + JsonSerializer.Serialize(new
             {
                 schema = 1, token, acceptance = "native-tooltip/resource-not-visual-recognition",
                 fixture = "native-ToMutable-ApplyInternal-SetAmount-HoverTips-RemoveInternal",
-                testMode = false, models = 25, rows, uiLifecycle
+                testMode = false, models = 25, rows, uiLifecycle, stackUi
             }));
             GD.Print("[Volibear] SHUTDOWN_BEGIN " + token);
             NGame.Instance!.Quit();

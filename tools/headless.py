@@ -1019,6 +1019,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         env.update(additions)
     if scenario == 'power-presentation':
         env['VOLIBEAR_TEST_POWER_PRESENTATION'] = '1'
+        env['VOLIBEAR_TEST_POWER_STACK_OUTPUT'] = str(directory / 'power-stacks')
     if scenario == 'audio-receipts':
         env['VOLIBEAR_TEST_AUDIO_RECEIPTS'] = '1'
     if scenario == 'domain-revival':

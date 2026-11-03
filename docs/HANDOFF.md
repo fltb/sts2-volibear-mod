@@ -5,7 +5,42 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
-## 已完成交付（2026-11-03，最新）
+## Windows 接续：状态单图标聚合（2026-11-03 19:30，当前）
+
+用户本次要求统计现状、commit/push，转到另一台 Windows 继续开发。本机停止在源码交接，不启动长批发布验收；新状态聚合安装包尚未生成。下方已交付记录属于前一版，不能作为本轮候选通过证据。
+
+### 已实现
+
+- 26种状态展示规则（25种主状态＋临时力量派生）：同一持有者、同模型类型/ID合并一个图标；简单收益求和，复杂独立效果显示份数；取优效果用max/min；不可叠加标志不显示无意义1；永久领域显示“本战”。
+- 雷甲3+4显示7，保留两份模型及分别获得格挡；不改Core、数值、来源、次数、独立首次额度、保存格式和网络结算。
+- 原生状态栏只隐藏重复节点并压紧布局，保留完整原生节点/模型列表；变值、代表移除、最后一份移除、树重入和未绑定多人占位节点均有处理。
+- 悬停在UI出口聚合，不修改全局PowerModel.HoverTips；保留禁用说明和其它关键词，仅删除与主状态同名的本Mod自身词条。单份文案简化为“共1份。”加完整效果。
+- 主要入口：[只读规则](<../src/Volibear/Presentation/PowerStackPresentation.cs>)、[原生UI适配](<../src/Volibear/Presentation/PowerStackVisual.cs>)、[真实短场景](<../src/Volibear/PowerStackUiProbe.cs>)、[独立回执判定](<../tools/power_stack_evidence.py>)。
+
+### 验证统计与准确边界
+
+- 交接前最新源码：44项Python定向测试全部通过（11项stack＋10项原状态呈现＋23项runner）。其中C#内部检查：26模型/257项只读规则、48项UI生命周期替身检查、15项锁版真实程序集ABI检查。不同层级计数不混作真实游戏案例数。
+- 最新生产Release编译通过，0错误、12项nullable警告（11项既有probe，1项新规则Localization可空分析）；未部署该次新DLL。日志仅在本机：[交接检查](<../.local/logs/power-stack-windows-handoff-check.log>)。
+- 首轮实际游戏短测`20261103T050039Z-a1fb090f`通过：25模型/46文本资源行、9阶段原生占位节点生命周期、83个原生聚合UI样本；真实付费普通U34＋升级U34＋C24，保留雷甲[3,4]两份、显示7，一次雷伤总格挡+7。无新增runtime error。原图已检查。
+- 首轮之后新增的“悬停同名去重、单份文案简化、截图等瞬态浮字结束、原生格挡history严格[3,4]及主标题唯一断言”尚未重新在游戏执行。旧报告不能通过新增字段判定，不能补写/伪装新报告。
+- 曾组合运行失败于两个UI测试工程共享obj/bin，已改`--artifacts-path`按工程隔离；两遍专项及本次44项组合回归均过。该失败发生在构建/开游戏之前。
+- 本轮尚未执行完整regression、Windows实机、冷启动恢复/多人最终验收，也未更新ZIP。旧包仍是下方`9e1db8d`版，不含状态聚合。本机无运行中测试/游戏任务，持久交付goal暂停以便换机。
+
+### Windows 接手顺序
+
+1. 拉取`codex/mode7-completion`，先读本节和[AGENTS](<../AGENTS.md>)。既有规格/资产保留，不重生成旧卡图。
+2. 准备StS2 **0.107.1 / 59260271**、普通Godot **4.5.1 stable Mono**、SDK **9.0.320**、BaseLib **3.4.7**；按[本地流程](<LOCAL_WORKFLOW.md>)重新配置本机路径。`.local/`、`artifacts/`、游戏程序集、旧报告、安装包及Linux配置不随Git迁移。
+3. 开发阶段可用`local_delivery.py`带本机三个路径、不带`--verify-release`完成首次构建/资源准备；此时生成的ZIP只是未做原生验收的开发候选。接着运行`python -B tools/dependencies.py install`和`python -B tools/dev.py deploy`部署自有文件。不要把测试工程编译当作生产DLL更新。
+4. 先运行最新短场景（Windows runner的后台模式；先核查本机窗口行为满足当前约束）：
+
+   ```powershell
+   python -B tools/headless.py --use-deployed --scenario power-presentation --repeat 1 --display background --audio-driver WASAPI --timeout 120 --frames 10000
+   ```
+
+   检查83行、history `[3,4]`、同名主标题只出现一次及4张实际截图。失败先定点修复，不启动全量gate调试。
+5. 收口后才执行`python -B tools/local_delivery.py --verify-release --audio-driver WASAPI`，完成当前候选单机/恢复/多人/安装卸载与新ZIP；更新本节结果。已有旧完整验收不必当开发循环反复重跑。
+
+## 前一版已完成交付（2026-11-03，历史基线）
 
 - 生产源码提交`9e1db8d92c8e1d0fb86d4f5fcbef922d3a26ff80`已推送既有PR分支。之后仅更新完成说明，产品字节不再改变。
 - [完整安装包](<../.local/release/Volibear-0.1.0-StS2-0.107.1-20261103.zip>)已生成：172114199字节，含Volibear DLL/PCK/JSON、BaseLib 3.4.7及许可/安装说明。ZIP CRC、包内Volibear三文件与最终部署字节一致。

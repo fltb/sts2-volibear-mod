@@ -10,6 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import power_presentation_evidence as gate
+from power_stack_samples import sample_stack
 
 
 def sample_ui():
@@ -46,7 +47,7 @@ def sample_report():
                 mutable=True, smart=True, iconPath=small, bigIconPath=big,
                 width=64 if exact else 300, height=64 if exact else 400,
                 bigWidth=256 if exact else 600, bigHeight=256 if exact else 800))
-    return dict(schema=1, token='fresh', acceptance=gate.ACCEPTANCE, fixture=gate.FIXTURE, testMode=False, models=25, rows=rows, uiLifecycle=sample_ui())
+    return dict(schema=1, token='fresh', acceptance=gate.ACCEPTANCE, fixture=gate.FIXTURE, testMode=False, models=25, rows=rows, uiLifecycle=sample_ui(), stackUi=sample_stack())
 
 
 class PowerPresentationTests(unittest.TestCase):

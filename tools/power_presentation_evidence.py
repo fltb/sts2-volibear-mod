@@ -1,6 +1,7 @@
 """Independent expected-text gate. Native tooltip/resource evidence, NOT screenshot recognition."""
 import json
 from pathlib import Path
+import power_stack_evidence
 
 EXPECTED = json.loads((Path(__file__).resolve().parents[1] / 'tests/fixtures/power_presentation_expected.json').read_text(encoding='utf-8'))
 PREFIX = '[Volibear] POWER_PRESENTATION_RESULT '
@@ -102,6 +103,7 @@ def power_presentation_errors(report, token):
                 errors.append(label + '.' + field + ': positive integer dimension required')
     if not validate_ui_lifecycle(report.get('uiLifecycle')):
         errors.append('uiLifecycle: expected nine ordered native placeholder/binding/domain/tree stages, stable node identity, immediate setters, release and restoration')
+    errors.extend(power_stack_evidence.errors(report.get('stackUi')))
     return errors
 
 
