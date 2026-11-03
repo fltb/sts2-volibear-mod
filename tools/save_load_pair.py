@@ -47,7 +47,8 @@ def successful_stock(evidence):
             and evidence.get('timed_out') is False and evidence.get('runtime_errors')==[])
 
 
-def launch_phase(game,pair_dir,base_env,case,mode,phase,seed,stock,stock_evidence,timeout,frames,display):
+def launch_phase(game,pair_dir,base_env,case,mode,phase,seed,stock,stock_evidence,timeout,frames,display,*,cancel_event=None):
+    h.check_cancelled(cancel_event)
     directory=pair_dir/('phase-'+phase);directory.mkdir(exist_ok=False)
     token=pair_dir.name+'-'+phase+'-'+uuid.uuid4().hex[:12]
     env=base_env.copy();env.update(VOLIBEAR_TEST_TOKEN=token,VOLIBEAR_TEST_ARTIFACT_DIR=str(directory),
@@ -65,8 +66,11 @@ def launch_phase(game,pair_dir,base_env,case,mode,phase,seed,stock,stock_evidenc
     with h.window_input_guard(game,display), (directory/'stdout.log').open('w',encoding='utf-8') as output:
         process,job=h.spawn_owned(command,game,env,output,window=h.IS_WINDOWS and display in ('window','background'))
         pid=process.pid
-        try:code,timed_out=h.wait_owned_process(process,timeout,job)
+        try:
+            code,timed_out=(h.wait_owned_process(process,timeout,job) if cancel_event is None else
+                            h.wait_owned_process(process,timeout,job,cancel_event=cancel_event))
         finally:h.close_owned(job)
+    h.check_cancelled(cancel_event)
     log=h.combined_log(directory)
     checks=h.evaluate(code,timed_out,log,stock)
     checks['stock_control_success']=successful_stock(stock_evidence)
@@ -105,7 +109,8 @@ def gate_then_resume(a,checkpoint,resume):
     return resume()
 
 
-def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_control=None,audio_driver=None):
+def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_control=None,audio_driver=None,cancel_event=None):
+    h.check_cancelled(cancel_event)
     display=display or ('background' if h.IS_WINDOWS else 'xvfb')
     if case not in ('S1','S2') or mode not in ('same-process','restart'):raise ValueError('Unsupported case/mode')
     if type(timeout) is not int or not 30<=timeout<=1800:raise ValueError('timeout must be an integer in 30..1800')
@@ -136,16 +141,21 @@ def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_contr
         return dict(pair=pair_dir.name,passed=False,reason='stock-control-failed',stock=stock_evidence,phases=[])
     seed='VOLIBEAR-SAVE-'+case
     first='same' if mode=='same-process' else 'prepare'
-    a=launch_phase(game,pair_dir,env,case,mode,first,seed,stock,stock_evidence,timeout,frames,display)
+    options={} if cancel_event is None else {'cancel_event':cancel_event}
+    def launch_current(phase):
+        h.check_cancelled(cancel_event)
+        return launch_phase(game,pair_dir,env,case,mode,phase,seed,stock,stock_evidence,timeout,frames,display,**options)
+    a=launch_current(first)
     phases=[a]
+    h.check_cancelled(cancel_event)
     if mode=='restart':
-        b=gate_then_resume(a,Path(a['expected']['checkpointPath']),lambda:launch_phase(
-            game,pair_dir,env,case,mode,'resume',seed,stock,stock_evidence,timeout,frames,display))
+        b=gate_then_resume(a,Path(a['expected']['checkpointPath']),lambda:launch_current('resume'))
         if b is not None:phases.append(b)
         passed=b is not None and validate_pair(a['raw'],b['raw'],a['expected'],b['expected'],a['passed'],b['passed'])
     else:passed=a['passed']
     report=dict(pair=pair_dir.name,case=case,mode=mode,profile=str(profile),userRoot=str(root),acceptance='native-checkpoint-save-load-apis-no-input',passed=passed,
                 stock=stock_evidence,phases=phases)
+    h.check_cancelled(cancel_event)
     (pair_dir/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     report['report']=str(pair_dir/'report.json')
     return report

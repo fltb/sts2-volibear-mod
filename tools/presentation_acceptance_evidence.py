@@ -3,6 +3,7 @@ Standalone logs remain strict; a runner may pass its independently stock-validat
 """
 from __future__ import annotations
 import array
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import math
@@ -143,23 +144,47 @@ def _artifact(root, relative):
     return path
 
 
+def _decode_screenshot(root, job):
+    shot, preflight_error = job
+    if preflight_error is not None:
+        return None, preflight_error
+    try:
+        path=_artifact(root,shot["path"]);data=path.read_bytes()
+        if data[:8]!=b"\x89PNG\r\n\x1a\n" or len(data)<64:raise ValueError("not a complete PNG")
+        if struct.unpack(">II",data[16:24])!=(shot["width"],shot["height"]):raise ValueError("PNG dimension mismatch")
+        from PIL import Image
+        with Image.open(path) as image:
+            image.load()
+            with image.convert("RGB") as rgb:
+                if all(lo==hi for lo,hi in rgb.getextrema()):raise ValueError("flat/blank viewport")
+        return hashlib.sha256(data).hexdigest(), None
+    except (OSError,ValueError,TypeError,KeyError,struct.error,SyntaxError,AttributeError,EOFError,OverflowError) as exc:
+        return None, "artifact evidence: "+str(exc)
+
+
 def validate(p, token, mode, artifact_dir):
     errors=_structure(p,token,mode)
     try:
         root=Path(artifact_dir).resolve(strict=True)
         shots=[r["screenshot"] for r in p["views"]]+[r["screenshot"] for r in p["screens"]]
-        names=set();catalog_hashes=set()
+        names=set();catalog_hashes=set();jobs=[]
         for shot in shots:
-            if shot["origin"]!="native-viewport" or shot["path"] in names: raise ValueError("duplicate/non-native screenshot")
-            names.add(shot["path"]);path=_artifact(root,shot["path"]);data=path.read_bytes()
-            if data[:8]!=b"\x89PNG\r\n\x1a\n" or len(data)<64:raise ValueError("not a complete PNG")
-            if struct.unpack(">II",data[16:24])!=(shot["width"],shot["height"]):raise ValueError("PNG dimension mismatch")
-            from PIL import Image
-            with Image.open(path) as image:
-                image.load()
-                if all(lo==hi for lo,hi in image.convert("RGB").getextrema()):raise ValueError("flat/blank viewport")
-            if shot in [r["screenshot"] for r in p["views"]]:catalog_hashes.add(hashlib.sha256(data).hexdigest())
-        if p["views"] and len(catalog_hashes)!=356:raise ValueError("catalog screenshots reused/not distinct")
+            preflight_error=None
+            try:
+                if shot["origin"]!="native-viewport" or shot["path"] in names: raise ValueError("duplicate/non-native screenshot")
+                names.add(shot["path"])
+            except (ValueError,TypeError,KeyError) as exc:
+                preflight_error="artifact evidence: "+str(exc)
+            jobs.append((shot,preflight_error))
+        # Independent fresh decodes, fixed cap; reduce in original screenshot order.
+        image_errors=[]
+        with ThreadPoolExecutor(max_workers=4) as workers:
+            for index,(digest,error) in enumerate(workers.map(lambda job: _decode_screenshot(root,job),jobs)):
+                if error is not None:image_errors.append(error)
+                elif index<len(p["views"]):catalog_hashes.add(digest)
+        errors.extend(image_errors)
+        if p["views"] and not image_errors and len(catalog_hashes)!=356:
+            errors.append("artifact evidence: catalog screenshots reused/not distinct")
         if p["audio"] is not None:
             a=p["audio"]
             with wave.open(str(_artifact(root,a["wav"])),"rb") as wav:

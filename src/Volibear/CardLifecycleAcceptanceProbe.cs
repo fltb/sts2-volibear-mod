@@ -69,13 +69,16 @@ internal static class CardLifecycleAcceptanceProbe
             var requested = configured == "all" ? Variants : !string.IsNullOrWhiteSpace(configured) ? JsonSerializer.Deserialize<string[]>(configured)! :
                 new[] { System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_LIFECYCLE_CASE") ?? "" };
             Require(token.Length > 0 && requested.Length > 0 && requested.Distinct().Count() == requested.Length && requested.All(Variants.Contains), "Invalid finite lifecycle batch");
+            using var gameplayBatch = new NativeAcceptanceRunHost.GameplayBatchScope();
             var completed = new List<string>(); var exits = new List<object>(); var runs = new List<string>(); var current = initial;
             foreach (var variant in requested)
             {
                 Require(!RunRefs.ContainsKey(current.RunState), "Each lifecycle case must have a distinct native run");
                 string runRef = "run-" + (RunRefs.Count + 1); RunRefs.Add(current.RunState, runRef); runs.Add(runRef);
                 await NativeAcceptanceRunHost.WaitForQuiet(current, 1);
+                var actionClock = System.Diagnostics.Stopwatch.StartNew();
                 var result = await RunCase(current, variant, token, runRef);
+                GD.Print($"[Volibear] CARD_LIFECYCLE_TIMING case={variant} actionMs={actionClock.ElapsedMilliseconds} fps={Engine.GetFramesPerSecond()}");
                 GD.Print("[Volibear] CARD_LIFECYCLE_RESULT " + result.GetRawText()); completed.Add(variant);
                 var exit = await NativeAcceptanceRunHost.ExitToMainMenu(); exits.Add(new { variant, runRef, receipt = exit });
                 if (completed.Count < requested.Length) current = await NativeAcceptanceRunHost.StartFresh(ModelDb.Encounter<SlimesWeak>());
@@ -154,20 +157,37 @@ internal static class CardLifecycleAcceptanceProbe
                 sameCard = ReferenceEquals(action.NetCombatCard.ToCardModel(), card), events },
             payments = Payments.Skip(payments).ToArray(), effects = Effects.Skip(effects).ToArray(), batches = Batches.Skip(batches).ToArray(), history = History(history) });
     }
-    private static async Task Fixture(string label, Func<Task> native)
+    private static async Task Fixture(string label, Func<Task> native, Func<object?>? starterReceipt = null)
     {
         var before = Snapshot(); int h = CombatManager.Instance.History.Entries.Count(), b = Batches.Count;
-        await native(); Fixtures.Add(new { label, before, after = Snapshot(), history = History(h), batches = Batches.Skip(b).ToArray() });
+        await native(); Fixtures.Add(new { label, before, after = Snapshot(), history = History(h), batches = Batches.Skip(b).ToArray(), starterSetup = starterReceipt?.Invoke() });
     }
-    private static async Task PrepareCombat(string label)
+    private static async Task PrepareCombat(string label, bool untouchedStarter = false)
     {
+        object? starterSetup = null;
         await Fixture(label, async () => {
-            foreach (var card in Pcs.Hand.Cards.ToArray()) await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Bottom);
+            if (untouchedStarter)
+            {
+                NativeAcceptanceStarterFixture.Validate(combat);
+                var starterHand = Pcs.Hand.Cards.ToArray();
+                var starterDestination = Pcs.DrawPile.Cards.Concat(starterHand).ToArray();
+                // First combat only; reentry can retain additional relics and keeps sequential moves.
+                var starterMoves = await CardPileCmd.Add(starterHand, PileType.Draw, CardPilePosition.Bottom);
+                Require(starterMoves.Count == starterHand.Length && starterMoves.Where((move,index) =>
+                    !move.success || !ReferenceEquals(move.cardAdded,starterHand[index])).Any() == false &&
+                    Pcs.Hand.Cards.Count == 0 && Pcs.DrawPile.Cards.SequenceEqual(starterDestination),
+                    "Native starter transfer changed card identity or order");
+                starterSetup = new { moved = starterHand.Select(c => new { cardRef = Ref(c),type = c.GetType().Name }).ToArray(),
+                    destination = starterDestination.Select(c => new { cardRef = Ref(c),type = c.GetType().Name }).ToArray(),
+                    movedCount = starterMoves.Count,target = "Draw",position = "Bottom",skipVisuals = false };
+            }
+            else
+                foreach (var card in Pcs.Hand.Cards.ToArray()) await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Bottom);
             foreach (var enemy in enemies) await CreatureCmd.SetMaxAndCurrentHp(enemy, 1000m);
             await CreatureCmd.SetMaxAndCurrentHp(Owner, 1000m);
             await PlayerCmd.SetEnergy(30, player);
             for (int i = 0; i < 32; i++) await Create(code == "U25" ? "B01" : "B02", pile: PileType.Draw);
-        });
+        }, () => starterSetup);
     }
     private static async Task NormalizeTurn()
     {
@@ -310,7 +330,7 @@ internal static class CardLifecycleAcceptanceProbe
             }, (request,selected) => Confirmations.Add(new { api = "CardSelectCmd.UseSelector", selection = "optional-zero",
                 min = request.Min,max = request.Max,options = request.Options.Select(Ref).ToArray(),selected = selected.Select(Ref).ToArray(),
                 round = combat.RoundNumber,turn = Pcs.TurnNumber }),allowTurnChoice:true);
-            Subscribe(); var original = Snapshot(); await PrepareCombat("native-created-card-and-HP-energy-isolation");
+            Subscribe(); var original = Snapshot(); await PrepareCombat("native-created-card-and-HP-energy-isolation", untouchedStarter: true);
             bool ability = !new[] { "U07", "U08", "U20", "C17", "U13" }.Contains(code);
             if (code == "U26-extra") await Fixture("native-PaelsEye-extra-turn-fixture", async () => { await RelicCmd.Obtain<PaelsEye>(player); });
             if (ability)

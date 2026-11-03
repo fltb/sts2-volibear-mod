@@ -28,7 +28,14 @@ LINUX_PLATFORM_REASONS = frozenset({'Linux x86_64 tool', 'Linux C compiler ABI f
 
 class RunResult(unittest.TextTestResult):
     """Count real successes, including when class skips/subtests change testsRun semantics."""
-    successful_tests = 0
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.successful_tests = 0
+        self.executed_test_ids = []
+
+    def startTest(self, test):
+        self.executed_test_ids.append(test.id())
+        super().startTest(test)
 
     def addSuccess(self, test):
         self.successful_tests += 1
@@ -65,7 +72,13 @@ def main(argv=None):
     parser.add_argument('--require-native', action='store_true')
     parser.add_argument('--failfast', action='store_true', help='Stop at the first failure for targeted diagnosis')
     parser.add_argument('--report', type=Path, default=ROOT / 'artifacts/validation/regression.json')
+    parser.add_argument('--jobs', type=int, choices=range(1, 7), default=1,
+                        help='Independent module worker processes (1 retains serial execution; maximum 6)')
+    parser.add_argument('--worker-plan', type=Path, help=argparse.SUPPRESS)
+    parser.add_argument('--worker-result', type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
+    if bool(args.worker_plan) != bool(args.worker_result):
+        parser.error('--worker-plan and --worker-result must be supplied together')
     # unittest discovery imports the modules from tests; repository modules must also
     # resolve when this entrypoint is executed as a script instead of python -m.
     sys.path.insert(0, str(ROOT))
@@ -84,12 +97,24 @@ def main(argv=None):
         environment['VOLIBEAR_REQUIRE_NATIVE'] = '1'
     began = time.monotonic()
     with patch.dict(os.environ, environment):
+        if args.worker_plan:
+            # Match discover's import path without discovering/running unrelated modules.
+            sys.path.insert(0, str(ROOT / 'tests'))
+            from tools.regression_parallel import worker
+            return worker(args.worker_plan, args.worker_result,
+                          require_native=args.require_native, failfast=args.failfast)
         suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
         # This scoped native fixture directory is intentionally not a discovery package.
         suite.addTests(unittest.defaultTestLoader.loadTestsFromName(
             'tests.domain_disabled_presentation.test_native.DomainDisabledPresentationTests'))
-        result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult, failfast=args.failfast).run(suite)
-    report = summarize(result, require_native=args.require_native)
+        if args.jobs == 1:
+            result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult, failfast=args.failfast).run(suite)
+            report = summarize(result, require_native=args.require_native)
+        else:
+            from tools.regression_parallel import run
+            report = run(suite, jobs=args.jobs, root=ROOT, directory=args.report.parent,
+                         environment=dict(os.environ), require_native=args.require_native,
+                         failfast=args.failfast)
     report.update(elapsed_seconds=round(time.monotonic() - began, 3),
                   finished_utc=datetime.now(timezone.utc).isoformat())
     try:

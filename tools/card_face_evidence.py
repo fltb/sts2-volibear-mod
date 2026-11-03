@@ -512,11 +512,30 @@ def _validate_response(response,c,up,source_after,root_action,enemy_id):
     _same(actual,e['history'],'response history')
 
 
+def validate_starter_setup(setup):
+    """Strict receipt for only the five untouched starter Hand-to-Draw moves."""
+    _need(type(setup) is dict and set(setup)==set('moved destination movedCount target position skipVisuals'.split()), 'starter setup fields')
+    for key,value in dict(movedCount=5,target='Draw',position='Bottom',skipVisuals=False).items():
+        _same(setup[key],value,'starter setup '+key)
+    for key,count in (('moved',5),('destination',10)):
+        rows=setup[key]
+        _need(type(rows) is list and len(rows)==count,'starter setup '+key+' count')
+        for row in rows:
+            _need(type(row) is dict and set(row)=={'cardRef','type'},'starter setup card fields')
+            _need(type(row['cardRef']) is str and bool(row['cardRef']) and row['cardRef']!='null','starter setup reference')
+            _need(row['type'] in ('Volibear_B01','Volibear_B02','Volibear_B03','Volibear_B04'),'starter setup type')
+        _need(len({row['cardRef'] for row in rows})==count,'starter setup distinct references')
+    _same(setup['moved'],setup['destination'][5:],'starter setup bottom order')
+    _need(type(setup['movedCount']) is int, 'starter setup integer moved count')
+    _need(Counter(row['type'] for row in setup['destination']) ==
+          Counter(['Volibear_B01']*4+['Volibear_B02']*4+['Volibear_B03','Volibear_B04']), 'starter setup types')
+
+
 def _validate(r, token, variant):
     _need(type(token) is str and bool(token), 'token required')
     _need(variant in CARD_FACE_CASES, 'unknown case')
     c,face,b = variant.split('-',2)
-    fields = 'schema token variant scenario acceptance version commit testMode character enemyTypes playerId enemyIds enemyOrder cards sourceIdentity starterDrawOrder before after choice selections conversions action payments effects batches history response'.split()
+    fields = 'schema token variant scenario acceptance version commit testMode character enemyTypes playerId enemyIds enemyOrder cards sourceIdentity starterSetup starterDrawOrder before after choice selections conversions action payments effects batches history response'.split()
     _need(type(r) is dict and set(r)==set(fields), 'result fields')
     for k,v in dict(schema=2,token=token,variant=variant,scenario='card-face-acceptance',acceptance=ACCEPTANCE,
                     version='v0.107.1',commit='59260271',testMode=False,character='VolibearCharacter').items(): _same(r[k],v,k)
@@ -557,6 +576,14 @@ def _validate(r, token, variant):
                                    masterUpgradedBefore=None,masterUpgradedAfter=None),'played source identity')
     order=r['starterDrawOrder']
     _need(type(order) is list and len(order)==10 and set(order)==set(originals)|({'source-material'} if b=='master' else set()),'original native draw fixture')
+    setup=r['starterSetup'];validate_starter_setup(setup)
+    _same({row['cardRef'] for row in setup['destination']}, {f'starter-{i}' for i in range(10)}, 'starter setup original refs')
+    missing=[ref for ref in (f'starter-{i}' for i in range(10)) if ref not in lookup]
+    renamed={missing[0]:'source-material'} if b=='master' and len(missing)==1 else {}
+    _same([renamed.get(row['cardRef'],row['cardRef']) for row in setup['destination']], order, 'starter setup draw order')
+    for row in setup['destination']:
+        card=lookup[renamed.get(row['cardRef'],row['cardRef'])]
+        _same(row['type'], 'Volibear_'+card['modelId'].removeprefix('VOLIBEAR_'), 'starter setup native model')
     conversion_pairs=([('source-material','source')] if b in ('converted','master') else []) + [
         (ref,ref+'-beast') for ref,model,pile in beast_materials(c,face=='upgrade',b)]
     expected_conversions=[]

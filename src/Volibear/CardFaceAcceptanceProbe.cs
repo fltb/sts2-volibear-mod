@@ -111,6 +111,7 @@ internal static class CardFaceAcceptanceProbe
             var allowed = Implemented.Split(' ').SelectMany(id => new[] { "base","upgrade" }.SelectMany(face => Branches(id).Select(branch => id+"-"+face+"-"+branch))).ToHashSet();
             if (string.IsNullOrWhiteSpace(token) || cases.Length == 0 || cases.Distinct().Count()!=cases.Length || cases.Any(c => !allowed.Contains(c)))
                 throw new InvalidOperationException("Batch requires unique explicit finite case selection and token");
+            using var gameplayBatch = new NativeAcceptanceRunHost.GameplayBatchScope();
             var warmRun = RunManager.Instance.DebugOnlyGetState() ?? throw new InvalidOperationException("Missing native warmup run");
             Identity(warmRun);Identity(warmup.Players.Single());Identity(warmup.Players.Single().Creature);Identity(warmup.Players.Single().Deck);
             await Frame();await Until(() => Quiet(warmup),"Warmup not quiet");
@@ -243,10 +244,22 @@ internal static class CardFaceAcceptanceProbe
             }
             foreach (var c in pcs.AllPiles.SelectMany(pile => pile.Cards).Distinct()) Cards.Add(c,"starter-"+Cards.Count);
             if (Cards.Count != 10) throw new InvalidOperationException("Expected ten original cards");
-            foreach (var c in pcs.Hand.Cards.ToArray()) await CardPileCmd.Add(c,PileType.Draw);
+            NativeAcceptanceStarterFixture.Validate(state);
+            var starterHand = pcs.Hand.Cards.ToArray();
+            var starterDestination = pcs.DrawPile.Cards.Concat(starterHand).ToArray();
+            // Only untouched starters: all per-card native hooks/VFX remain, with one callback tween.
+            var starterMoves = await CardPileCmd.Add(starterHand,PileType.Draw,CardPilePosition.Bottom);
+            if (starterMoves.Count != starterHand.Length || starterMoves.Where((move,index) =>
+                    !move.success || !ReferenceEquals(move.cardAdded,starterHand[index])).Any() ||
+                pcs.Hand.Cards.Count != 0 || !pcs.DrawPile.Cards.SequenceEqual(starterDestination))
+                throw new InvalidOperationException("Native starter transfer changed card identity or order");
+            var starterSetup = new { moved = starterHand.Select(c => new { cardRef = Ref(c),type = c.GetType().Name }).ToArray(),
+                destination = starterDestination.Select(c => new { cardRef = Ref(c),type = c.GetType().Name }).ToArray(),
+                movedCount = starterMoves.Count,target = "Draw",position = "Bottom",skipVisuals = false };
             var starterDrawOrder = pcs.DrawPile.Cards.Select(Ref).ToArray();
             if (branch == "empty" && (id is "C07" or "U43" or "R25" or "U17" or "R12") || branch == "insufficient" && id == "R25")
-                foreach (var card in pcs.DrawPile.Cards.ToArray()) await CardPileCmd.Add(card,PileType.Exhaust);
+                // Empty-deck fixture only: native pile/state hooks remain; no table node needs exhaust VFX.
+                foreach (var card in pcs.DrawPile.Cards.ToArray()) await CardPileCmd.Add(card,PileType.Exhaust,skipVisuals:true);
             foreach (var enemy in enemies) await CreatureCmd.SetMaxAndCurrentHp(enemy,500m);
             var fixtureContext = new ThrowingPlayerChoiceContext();
             int prior = branch.StartsWith("prior") ? int.Parse(branch[5..]) : 0;
@@ -473,7 +486,7 @@ internal static class CardFaceAcceptanceProbe
                     ownerId = kv.Key.Owner.Creature.CombatId,masterIndex = Array.FindIndex(p.Deck.Cards.ToArray(),c => ReferenceEquals(c,kv.Key.DeckVersion)),masterModelId = kv.Key.DeckVersion?.Id.Entry }).ToArray(),
                 sourceIdentity = new { indexBefore = sourceIndexBefore,masterIndexBefore = Array.FindIndex(p.Deck.Cards.ToArray(),c => ReferenceEquals(c,sourceMasterBefore)),
                     sameMaster = ReferenceEquals(source.DeckVersion,sourceMasterBefore),masterUpgradedBefore = sourceMasterUpgradedBefore,masterUpgradedAfter = source.DeckVersion?.IsUpgraded },
-                starterDrawOrder,before,after = sourceAfter,choice,selections,conversions,
+                starterSetup,starterDrawOrder,before,after = sourceAfter,choice,selections,conversions,
                 action = new { id = action.Id,state = action.State.ToString(),type = action.GetType().Name,context = action.PlayerChoiceContext?.GetType().Name,
                     actionType = action.ActionType.ToString(),target = action.TargetId,sameCard = ReferenceEquals(action.NetCombatCard.ToCardModel(),source),events },
                 payments = sourcePayments,effects = sourceEffects,batches = sourceBatches,

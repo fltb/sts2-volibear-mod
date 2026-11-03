@@ -69,6 +69,13 @@ def u07_fixture():
                             action=dict(type='PlayCardAction',state='Finished',actionType='PlayCard',sameCard=True,events=['before-executed','after-finished']),
                             payments=[dict(cardRef=ref,amount=cost,energy=before['energy']-cost)],effects=effects,batches=batches,history=h))
         current=after
+    destination=[dict(cardRef=f'starter-{i}',type='Volibear_'+model) for i,model in enumerate(['B01']*4+['B02']*4+['B03','B04'])]
+    moved=deepcopy(destination[5:])
+    for fixture in fixtures: fixture['starterSetup']=None
+    fixtures[0]['starterSetup']=dict(moved=moved,destination=destination,movedCount=5,target='Draw',position='Bottom',skipVisuals=False)
+    for snapshot in (original,fixtures[0]['before']):
+        snapshot['hand']=[row['cardRef'] for row in moved]
+        snapshot['handCards']=[dict(row,cost=1) for row in moved]
     return dict(schema=1,token='test',runRef='run-1',scenario='card-lifecycle',variant='U07-base',code='U07',upgraded=False,completed=True,
                 version='v0.107.1',commit='59260271',testMode=False,acceptance=ACCEPTANCE,playerRef='player',ownerRef='owner',original=original,
                 fixtures=fixtures,actions=actions,transitions=transitions,confirmations=[],choiceSync=[],
@@ -83,6 +90,26 @@ def batch_log(raw=None):
 
 
 class CardLifecycleEvidenceTests(unittest.TestCase):
+    def test_starter_setup_is_required_only_at_original_setup_boundary(self):
+        mutations = [
+            lambda r: r['fixtures'][0].pop('starterSetup'),
+            lambda r: r['fixtures'][0]['starterSetup'].update(extra=True),
+            lambda r: r['fixtures'][0]['starterSetup'].update(skipVisuals=True),
+            lambda r: r['fixtures'][0]['starterSetup'].update(position='Top'),
+            lambda r: r['fixtures'][0]['starterSetup'].update(movedCount=5.0),
+            lambda r: r['fixtures'][0]['starterSetup']['destination'].pop(),
+            lambda r: r['fixtures'][0]['starterSetup']['moved'].reverse(),
+            lambda r: r['original']['hand'].reverse(),
+            lambda r: r['fixtures'][0]['before']['handCards'][0].update(type='Volibear_B01'),
+            lambda r: r['fixtures'][0]['starterSetup']['destination'][0].update(cardRef='null'),
+            lambda r: r['fixtures'][1].update(starterSetup=deepcopy(r['fixtures'][0]['starterSetup'])),
+        ]
+        for index, mutate in enumerate(mutations):
+            with self.subTest(mutation=index):
+                row=u07_fixture();mutate(row)
+                with self.assertRaises((ValueError,KeyError)):
+                    validate(row,'test','U07-base')
+
     def reject(self, raw):
         result,valid=card_lifecycle_evidence(PREFIX+json.dumps(raw),'test','U07-base')
         self.assertFalse(valid,result)

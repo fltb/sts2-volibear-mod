@@ -7,6 +7,8 @@ Native receipts/artifacts are checked by the existing independent oracles; their
 absence or any failed stage fails the command. Human sensory review is separate.
 """
 import argparse
+from concurrent.futures import ThreadPoolExecutor
+import threading
 import json
 from pathlib import Path
 import subprocess
@@ -16,10 +18,90 @@ import headless as h
 import save_load_pair
 
 
+def _suite_ok(report):
+    return report.get('status') == 'passed' and bool(report.get('checks')) and all(
+        value is True for value in report['checks'].values())
+
+
+def _catalog_ok(report):
+    identity = report.get('process_identity', {})
+    details = report.get('combat_tests', {})
+    return (_suite_ok(report) and report.get('scenario') == 'presentation-acceptance'
+            and report.get('mode') == 'real-game-background'
+            and report.get('exit_code') == 0 and report.get('timed_out') is False
+            and report.get('checks', {}).get('presentation_acceptance_assertions') is True
+            and report.get('checks', {}).get('presentation_media_assertions') is True
+            and details.get('media', {}).get('status') == 'PASS'
+            and details.get('media', {}).get('errors') == []
+            and details.get('media', {}).get('token') == report.get('run_id')
+            and details.get('media', {}).get('mode') == 'cards'
+            and len(details.get('media', {}).get('images', [])) == 356
+            and details.get('mode') == 'cards' and details.get('errors') == []
+            and type(details.get('verified_catalog_views')) is int and details['verified_catalog_views'] == 356
+            and type(identity.get('pid')) is int and identity['pid'] > 0
+            and bool(report.get('run_id')) and identity.get('token') == report['run_id'])
+
+
+def _split_presentation_ok(main, catalog):
+    identity = main.get('process_identity', {})
+    presentation = main.get('combat_tests', {}).get('stages', {}).get('presentation', {})
+    return (_suite_ok(main) and _catalog_ok(catalog) and main.get('scenario') == 'native-suite'
+            and main.get('mode') == 'real-game-background'
+            and main.get('checks', {}).get('native_suite_assertions') is True
+            and presentation.get('mode') == 'actions' and presentation.get('errors') == []
+            and type(identity.get('pid')) is int and identity['pid'] > 0
+            and identity.get('token') == main.get('run_id')
+            and main.get('run_id') != catalog.get('run_id')
+            and identity['pid'] != catalog['process_identity']['pid'])
+
+
+def _parallel_restart(suite_call, restart_call, catalog_call=None):
+    cancel = threading.Event()
+    def guarded(call, valid):
+        try:
+            result = call(cancel)
+            if not valid(result):
+                cancel.set()
+            return result
+        except BaseException:
+            cancel.set()
+            raise
+    # Cancellation only signals. The thread owning each native Job terminates and
+    # closes it; even a normally returned failed report cancels the sibling.
+    with ThreadPoolExecutor(max_workers=3 if catalog_call is not None else 2,
+                            thread_name_prefix='native-restart') as pool:
+        try:
+            tasks = [pool.submit(guarded, suite_call, _suite_ok),
+                     pool.submit(guarded, restart_call, lambda result: result.get('passed') is True)]
+            if catalog_call is not None:
+                tasks.append(pool.submit(guarded, catalog_call, _catalog_ok))
+        except BaseException:
+            cancel.set()
+            raise
+        results, errors = [], []
+        for task in tasks:
+            try:
+                results.append(task.result())
+            except BaseException as error:
+                cancel.set()
+                errors.append(error)
+                results.append(None)
+        if errors:
+            raise RuntimeError('Native suite/restart failed or cancelled: ' + '; '.join(str(error) for error in errors)) from errors[0]
+        return results
+
+
 def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
               presentation_mode='cards', audio_driver=None, timeout=3600, frames=216000,
-              verify_restart=False, restart_timeout=300, restart_frames=30000):
+              verify_restart=False, restart_timeout=300, restart_frames=30000, parallel_restart=False,
+              parallel_catalog=False):
     display = display or ('background' if h.IS_WINDOWS else 'xvfb')
+    if type(parallel_catalog) is not bool or (parallel_catalog and not (
+            verify_restart and h.IS_WINDOWS and display == 'background' and presentation_mode == 'all')):
+        raise ValueError('Parallel catalog requires Windows/background, all presentation and verify_restart')
+    if type(parallel_restart) is not bool or (parallel_restart and not (
+            verify_restart and h.IS_WINDOWS and display == 'background')):
+        raise ValueError('Parallel restart requires Windows background mode and verify_restart')
     if display not in (('background',) if h.IS_WINDOWS else ('xvfb', 'window')):
         raise ValueError('Suite requires a private background desktop on Windows or xvfb/window on POSIX')
     if type(timeout) is not int or not 60 <= timeout <= 28800:
@@ -51,34 +133,64 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
             or stock_evidence.get('timed_out') is not False or stock_evidence.get('runtime_errors') != []):
         raise RuntimeError('Stock no-mod control did not complete cleanly; native suite not launched; '
                            + json.dumps(stock_evidence, ensure_ascii=False, default=str))
-    suite = h.run_once(game, timeout, frames, scenario='native-suite', display=display,
-                      stock=stock, stock_evidence=stock_evidence, card_face_batch=faces,
-                      card_lifecycle_cases=lifecycle, presentation_mode=presentation_mode,
-                      audio_driver=audio_driver)
+    def suite_call(cancel_event=None):
+        options = {} if cancel_event is None else {'cancel_event': cancel_event}
+        if parallel_catalog:
+            options['record_process_identity'] = True
+        return h.run_once(game, timeout, frames, scenario='native-suite', display=display,
+                          stock=stock, stock_evidence=stock_evidence, card_face_batch=faces,
+                          card_lifecycle_cases=lifecycle, presentation_mode='actions' if parallel_catalog else presentation_mode,
+                          audio_driver=audio_driver, **options)
+    def restart_call(cancel_event=None):
+        options = {} if cancel_event is None else {'cancel_event': cancel_event}
+        return save_load_pair.run_pair(game, 'S2', 'restart', restart_timeout,
+            restart_frames, display, _stock_control=(stock, stock_evidence), audio_driver=audio_driver, **options)
+    def catalog_call(cancel_event):
+        return h.run_once(game, timeout, frames, scenario='presentation-acceptance', display=display,
+                          stock=stock, stock_evidence=stock_evidence, presentation_mode='cards',
+                          audio_driver=audio_driver, cancel_event=cancel_event, record_process_identity=True)
+    catalog = None
+    if parallel_catalog:
+        suite, restart, catalog = _parallel_restart(suite_call, restart_call, catalog_call)
+    elif parallel_restart:
+        suite, restart = _parallel_restart(suite_call, restart_call)
+    else:
+        suite = suite_call()
     if not verify_restart:
         return suite
     # One native process for all finite cases. Only persistence deliberately uses
     # two additional processes, with one retained isolated profile and cold model
     # references. The no-mod baseline is this invocation's in-memory result.
-    suite_ok = suite.get('status') == 'passed' and bool(suite.get('checks')) and all(
-        value is True for value in suite['checks'].values())
-    restart = {'passed': False, 'phases': [], 'reason': 'prior-native-suite-failed'}
-    if suite_ok:
-        try:
-            restart = save_load_pair.run_pair(game, 'S2', 'restart', restart_timeout,
-                restart_frames, display, _stock_control=(stock, stock_evidence), audio_driver=audio_driver)
-        except (OSError, ValueError, RuntimeError, KeyError, subprocess.CalledProcessError) as error:
-            restart = {'passed': False, 'phases': [], 'reason': 'restart-runner-failed', 'error': str(error)}
+    suite_ok = _suite_ok(suite)
+    if not parallel_restart and not parallel_catalog:
+        restart = {'passed': False, 'phases': [], 'reason': 'prior-native-suite-failed'}
+        if suite_ok:
+            try:
+                restart = restart_call()
+            except (OSError, ValueError, RuntimeError, KeyError, subprocess.CalledProcessError) as error:
+                restart = {'passed': False, 'phases': [], 'reason': 'restart-runner-failed', 'error': str(error)}
     # run_pair validates both raw native receipts, actual disk bytes and distinct
     # process identities before awarding this verdict. Cached report files are
     # never accepted as control inputs.
     checks = dict(suite.get('checks', {}), checkpoint_process_restart=restart.get('passed') is True)
+    if parallel_catalog:
+        checks['separate_catalog_complete_356'] = isinstance(catalog, dict) and _split_presentation_ok(suite, catalog)
     report_path = h.ROOT/'artifacts/headless'/suite['run_id']/'native-acceptance-report.json'
     combined = dict(schema=1, run_id=suite['run_id'], status='passed' if suite_ok and all(
         value is True for value in checks.values()) else 'failed', checks=checks,
         suite_report=str(report_path.with_name('report.json')), restart=restart,
         processes=dict(stock=1, suite=1, restart=len(restart.get('phases', []))),
         report=str(report_path), scope='native-single-process-batches-and-cold-checkpoint-restart')
+    if parallel_catalog:
+        combined['processes']['catalog'] = 1
+        combined['scope'] = 'native-actions-product-flow-and-independent-full-catalog-with-cold-checkpoint-restart'
+        combined['presentation'] = {
+            'requested_mode': 'all', 'main_mode': 'actions', 'catalog_mode': 'cards', 'required_catalog_views': 356,
+            'main_process': suite.get('process_identity'), 'catalog_process': catalog.get('process_identity') if catalog else None,
+            'catalog_report': str(h.ROOT/'artifacts/headless'/catalog['run_id']/'report.json') if catalog else None,
+            'catalog_artifacts': str(h.ROOT/'artifacts/headless'/catalog['run_id']/'presentation') if catalog else None,
+            'catalog': catalog,
+        }
     report_path.write_text(json.dumps(combined, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     return combined
 
@@ -97,6 +209,10 @@ def main(argv=None):
     parser.add_argument('--frames', type=int, default=216000, help='Whole suite --quit-after frame safety bound')
     parser.add_argument('--verify-restart', action='store_true',
                         help='After the single-process suite, verify S2 prepare/resume in distinct owned processes; share one stock baseline')
+    parser.add_argument('--parallel-catalog', action='store_true',
+                        help='Explicit Windows/all-mode separate complete catalog alongside actions suite and S2')
+    parser.add_argument('--parallel-restart', action='store_true',
+                        help='Explicit Windows/background overlap of suite and independent S2 chain')
     parser.add_argument('--restart-timeout', type=int, default=300, help='Each persistence process budget in seconds')
     parser.add_argument('--restart-frames', type=int, default=30000)
     args = parser.parse_args(argv)
@@ -112,12 +228,14 @@ def main(argv=None):
         report = run_suite(game, face_cases=faces, lifecycle_cases=lifecycle, display=args.display,
                            presentation_mode=args.presentation_mode, audio_driver=args.audio_driver,
                            timeout=args.timeout, frames=args.frames, verify_restart=args.verify_restart,
-                           restart_timeout=args.restart_timeout, restart_frames=args.restart_frames)
+                           restart_timeout=args.restart_timeout, restart_frames=args.restart_frames,
+                           parallel_restart=args.parallel_restart, parallel_catalog=args.parallel_catalog)
     except (OSError, ValueError, RuntimeError, KeyError, subprocess.CalledProcessError) as error:
         parser.exit(2, 'Native suite failed: ' + str(error) + '\n')
     print(json.dumps({'status':report.get('status'),'run_id':report.get('run_id'),
                       'checks':report.get('checks'),'stock_processes':1,'suite_processes':1,
                       'restart_processes':report.get('processes',{}).get('restart',0),
+                      'catalog_processes':report.get('processes',{}).get('catalog',0),
                       'report':report.get('report') or str(h.ROOT/'artifacts/headless'/report['run_id']/'report.json'),
                       'human_visual_and_listening_review':'required'}, ensure_ascii=False, indent=2))
     return 0 if report.get('status') == 'passed' and report.get('checks') and all(

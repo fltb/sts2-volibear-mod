@@ -14,12 +14,13 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import uuid
 
 try:
-    from tools import audio_profiles, toolchain
+    from tools import audio_profiles, toolchain, asset_pack_cache
 except ModuleNotFoundError:
-    import audio_profiles, toolchain
+    import audio_profiles, toolchain, asset_pack_cache
 
 ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION = ROOT / 'src/Volibear/Presentation'
@@ -292,7 +293,55 @@ def source_export_preset(preset, resources):
     return preset
 
 
-def build(godot, output=PACK, *, audio_profile='open', dotnet=None):
+def pack_input_paths(clips, portraits, ui, effects, audio, audio_profile):
+    """Mirror every source read by staging/export/verification, including optional inputs."""
+    paths = [Path(__file__), Path(asset_pack_cache.__file__), Path(audio_profiles.__file__),
+             Path(toolchain.__file__), ROOT / 'tools/godot_pack_compat.gd', ROOT / 'global.json',
+             ROOT / 'assets/animation/integration_sts2_v5/stage_assets.py',
+             ROOT / 'assets/animation/integration_sts2_v5/export_presets.cfg',
+             ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',
+             UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json',
+             audio_profiles.PROFILES / (audio_profile + '.json'),
+             PRESENTATION / 'actor.gd',
+             *(PRESENTATION / name for name in NATIVE_RESOURCES),
+             *(PRESENTATION / name for name in ('verify_pack.gd', 'verify_effects.gd', 'verify_audio_profile.gd'))]
+    for root, rows in ((ANIMATIONS, clips), (VFX, effects)):
+        paths.extend(safe_source(root, row['atlas'][kind]) for row in rows for kind in ('image', 'json'))
+    paths.extend(safe_source(CARDS, row['path']) for row in portraits)
+    paths.extend(safe_source(UI, row['file']) for row in ui)
+    paths.extend(safe_source(AUDIO, row['file']) for row in audio['assets'])
+    paths.extend(safe_source(PRESENTATION / 'icons', source) for source, _ in ICON_EXPORTS.values())
+    for path in (AUDIO / 'action_cues.json', VFX / 'card_vfx_bindings.json', VFX / 'icons/manifest.json'):
+        if path.is_file():
+            paths.append(path)
+    icon_manifest = VFX / 'icons/manifest.json'
+    if icon_manifest.is_file():
+        for row in json.loads(icon_manifest.read_text(encoding='utf-8'))['icons']:
+            paths.extend(safe_source(VFX, version['path']) for version in row['files'].values())
+            if row.get('editable_svg'):
+                paths.append(safe_source(VFX, row['editable_svg']))
+    if audio_profile == 'riot_en':
+        data = audio_profiles.profile_data(audio_profile)
+        paths.extend(audio_profiles.original_path(row) for row in data['sources'])
+        prepared = audio_profiles.WORK / 'prepared/riot_en'
+        paths.extend((prepared / 'build.json', prepared / 'runtime.json'))
+        paths.extend(prepared / (row['id'] + '.ogg') for row in data['sources'])
+    return paths
+
+
+def validation_markers(audio_profile):
+    count = sum(name.endswith('.gd') for name in ('actor.gd', *NATIVE_RESOURCES))
+    return {
+        'verify-pack-compat': [f'VOLIBEAR_PACK_COMPAT_PASS source_scripts={count} '],
+        'verify': ['VOLIBEAR_RESOURCE_PASS clips=26 frames=940 portraits=178',
+                   'VOLIBEAR_UI_RESOURCE_PASS scenes=5 transition=1'],
+        'verify-effects': ['VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=54 icons=10 lifecycle=PASS'],
+        'verify-audio-profile': [f'VOLIBEAR_AUDIO_PROFILE_PASS profile={audio_profile} '],
+    }
+
+
+def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
+    started = time.monotonic()
     output = output_path(output)
     godot = godot.resolve()
     if not godot.is_file():
@@ -331,6 +380,28 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None):
     version = run([godot, '--version'], work, 'version', env).strip()
     if not version.startswith('4.5.1.stable.mono.'):
         raise ValueError(f'Requires Godot 4.5.1 stable mono; found {version}')
+    dotnet_version = run([dotnet, '--version'], work, 'dotnet-version', env).strip()
+    identity = {'godot_version': version, 'dotnet_version': dotnet_version,
+                'python_version': sys.version, 'platform': sys.platform, 'audio_profile': audio_profile}
+    def current_key():
+        return asset_pack_cache.fingerprint(
+            [*pack_input_paths(clips, portraits, ui, effects, audio, audio_profile),
+             godot, dotnet, Path(sys.executable)], identity)
+    key = current_key()
+    markers = validation_markers(audio_profile)
+    cached = asset_pack_cache.lookup(output, key, markers, ROOT / '.local/asset-build') if reuse else None
+    if cached is not None:
+        try:
+            toolchain.validate_pack_header(output)
+        except (OSError, ValueError):
+            cached = None
+    if cached is not None:
+        print(f'RESOURCE BUILD cached: {output}; audio_profile={audio_profile}; '
+              f'elapsed_seconds={time.monotonic() - started:.3f}; '
+              f'original_cold_seconds={cached["cold_seconds"]:.3f}; '
+              'content and original validation receipts verified; no game acceptance or deployment', flush=True)
+        return output
+    print('RESOURCE BUILD executed: no valid reusable evidence; complete cold build required', flush=True)
     # Reuse the existing runtime-only asset selection, never the legacy build output.
     run([sys.executable, ROOT / 'assets/animation/integration_sts2_v5/stage_assets.py',
          '--output', art], work, 'stage', env)
@@ -445,10 +516,15 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None):
     for row in audio['assets']:
         if sha(art / 'audio' / row['file']) != row['ogg_sha256']:
             raise ValueError('Staged approved audio bytes changed during build')
+    if current_key() != key:
+        raise ValueError('Pack inputs/toolchain changed during build; refusing cache evidence')
     output.parent.mkdir(parents=True, exist_ok=True)
     os.replace(temporary_pack, output)
-    print(f'RESOURCE BUILD ONLY: {output} ({output.stat().st_size} bytes); '
-          f'audio_profile={audio_profile}; no game acceptance or deployment')
+    cold_seconds = time.monotonic() - started
+    asset_pack_cache.publish(output, key, markers, work, cold_seconds)
+    print(f'RESOURCE BUILD ONLY executed: {output} ({output.stat().st_size} bytes); '
+          f'audio_profile={audio_profile}; cold_seconds={cold_seconds:.3f}; '
+          'no game acceptance or deployment')
     return output
 
 
@@ -460,8 +536,9 @@ def main():
                         help='Candidate .pck beneath .local; defaults to .local/packs/Volibear.pck')
     parser.add_argument('--audio-profile', choices=('open', 'riot_en'), default='open',
                         help='Open sounds by default; riot_en requires locally prepared private recordings')
+    parser.add_argument('--force-cold', action='store_true', help='Run all build/verification stages without cache reuse')
     args = parser.parse_args()
-    build(args.godot, args.output, audio_profile=args.audio_profile, dotnet=args.dotnet)
+    build(args.godot, args.output, audio_profile=args.audio_profile, dotnet=args.dotnet, reuse=not args.force_cold)
 
 
 if __name__ == '__main__':

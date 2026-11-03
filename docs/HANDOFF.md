@@ -5,6 +5,30 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
+## 最新约束与在做事项（2026-11-04）
+
+- 用户明确最终完整gate（构建、检查、实机、打包、报告）总墙钟必须≤600秒；禁止把每阶段各限10分钟冒充达标，禁止无修改反复重跑。4a1ade6后的旧长批已由用户取消，不能再执行旧70–90分钟路径。
+- 已实现但尚未证明完整放行：独立父监督595秒工作+5秒清理/报告，Windows Job及Linux subreaper清理跨代子进程；阶段日志/summary持续记录真实耗时。deadline及delivery定向测试通过，Linux内核清理未实测。
+- 回归新增4进程整模块调度，完整发现/执行ID、nonce、退出码及精确skip严格校验；未审计模块仍单桶顺序执行。资产新增按全部输入、工具、PCK及四份校验日志摘要绑定的复用；原有无回执PCK不能追认缓存，下一次真实构建仍为冷构建。并行和缓存单元/短worker测试通过，完整1280+引用回归尚未执行新并行路径。
+- 原生玩法批次仅作用域内用游戏公开Instant速度并关闭预加载，退出还原；发现原生菜单会重置preload，已在新局前重新应用。11case和后续3case原断言通过，但单case仍约3.5–4.5秒，不足10分钟目标。GC新增计时证明它仅占数十毫秒，不能将瓶颈误归GC；没有跳过清理或改Core。
+- 静态目录捕获改为等待真实原生Tween/可见状态及绘制完成而非固定sleep；20261103T163112Z-f60a619b的356张原始截图全部通过，目录实际137秒。曾考虑目录插入/移除使用Instant，但该未验证改动已撤回；整个表现验收保持正常速度，不加速角色/特效/声音或卡片查看Tween。
+- 广泛纹理驻留候选已撤回：初次泛型Array.Dispose接口错误及GetDependencies虚拟资源错误均定位并修复；20261103T165129Z-aed4c3e4单case通过、6次真实wrapper重绑且held归零，但未有效提速，所以不保留复杂度。
+- 新增仅显式VOLIBEAR_TEST_PROFILE_LOADS=1启用的7处同步热点观察（scope结束卸载，不替换任务/结果）。20261103T170136Z-7764087d单case完整通过：场景加载仅自有volibear_combat.tscn占1328ms，其余资产毫秒级；每次新局和进房各有额外约1秒。锁版源码定位NTransition.RoomFadeIn(false)：Instant分支无return，随后仍走0.8秒Tween及并行的0.2秒延迟回调（不是相加1秒），解释两处不必要的视觉等待。
+- 当前仅针对这两项实测热点修复：test-host作用域推进原生RoomFadeIn(false)视觉Tween至真实finished、保留原Task与回调；另只持有已加载且内容指纹严格不变的自有SpriteFrames模板，全部新Node/Model和原生缓存清理仍照常。自有动画为42条、1536帧引用、26底层atlas；读图头的保守RGBA+mip估算约1.52GB，原256MiB广缓存无法覆盖。新方案只持已有一份模板，不复制图像；作用域后释放，不延伸到正常表现验收。两项合并后20261103T171722Z-fcd85a6e单case通过，进房从2396ms到350ms；20261103T172843Z-0c7182d5新增12种复杂组合全部通过，53次完整指纹捕获合计98.854ms、held归零。
+- 仅空牌库fixture的Draw→Exhaust准备使用原生命令skipVisuals，保持逻辑移牌、状态跟踪和AfterCardChangedPiles；实际测试出牌/耗牌不改。R12空分支原5799ms降至169ms（20261103T175036Z-a27b30dc通过）。只读帧指标证明剩余新局/进房耗时主要在同一ProcessFrame内，不是显示帧率等待。
+- 硬件Vulkan对照20261103T174441Z-58817835四case通过但未提速，相关驱动选择代码已撤回，保持默认D3D12。诊断点扩至14处：最新新局651ms、进房336ms，LoadRunAssets仅1.04ms、GenerateMap65.7ms、进房同步节点约10ms；不能凭这些不完整前段观测猜缓存。随后使用本地.NET9兼容dotnet-trace做3case整段采样（20261103T180217Z-af8cff7a，三case通过）；trace在17042ms后尾截断，report topN拒绝，但此前405041条事件有效，12308–16355ms完整批次窗O/C配对无异常。主线程仅0.126ms托管等待，781ms采样落在VolibearEffects.Attach→Node.AddChild→effects._ready，而非C# NCombatRoom._Ready。
+- 据此审计并持有第二个精确只读effects SpriteFrames模板（40批准atlas、1070帧、保守估算459276288 bytes），两模板合计1981808640 bytes，仍小于2GiB总边界。完整指纹、缺cache fail closed、释放全部引用均保留，未保留Node/Material/音频源；4定向tests含真实接口编译及238 doubles断言通过。
+- gameplay-only scope临时MaxFps=240，退出/构造异常均还原（原0/60/144矩阵及普通范围no-op）；没有改时间尺度、physics、VSync或角色Tween时长。最终frame保险216000避免高fps提前quit，总595+5秒墙钟不变。整合后的6case 20261103T181705Z-49f05ac5全部通过：warm新局322.6ms、进房72ms、quiet148.6ms，普通action44–116ms、空牌库87ms；两模板held2→0，最终MaxFps还原60。
+- 有界集成20261103T182643Z-f0d7dc29全部通过：3face+3lifecycle、完整356静态画面/动作、普通流程/同进程保存及真实2进程恢复。静态单卡inspect只观察真实cardTween完成+所有可见端点alpha+FramePostDraw，不等不可见双箭头的额外0.1秒，不推进/kill动画；大卡R01升级及1920领域原图已人工查看。七阶段实测：domain33.354s、architect17.053s、3face7.547s、3life7.010s、presentation157.208s、product47.176s、save9.082s。按完整410/48推算仍超600，未启动最终门；正在审查fixture原生批量准备、领域机械批次作用域和独立网络/恢复阶段的并行边界，正常剧情表现不加速。
+- 新并行预检run-26cqxidz在36.343秒失败并完整清理（非最终门）；20261103T190345Z-64137cc9 domain阶段counter frozen通过但position frozen失败。新增domain gameplay scope已完全撤回，原生产文件/测试净diff为空，保持1px与全部原标准。锁原生Sandpit方法明确await真正Tween，没有证据归因初始Tween未完成，不加猜测sleep。S2/MP真实取消且父Job active归零。诊断wrapper曾在游戏启动前被.local/tools命名空间遮蔽而ImportError，显式加入ROOT修正，不影响正式入口。
+- PNG两层完整校验各最多4线程，无通过/解码缓存；428图完整report与串行完全相同，14.274→7.132秒，30定向测试通过。回归整模块白名单现28、上限6、独立默认1、发布6，16调度测试与48发布/总deadline测试通过，未重开全回归。
+- 两处首回合starter准备只在精确10card类型/唯一HuntersHeart/己敌无Power/无modifier守卫下调用一次原生集合Add，所有逐卡hook/视觉/身份/顺序不减；Lifecycle第二战保留原逐卡。最新192254Z-c630744e真实6face/4life已通过；新增starterSetup最初被严格旧schema拒绝，已明确新增字段并严验5搬运/10目标/身份类型顺序/Draw/Bottom/正常视觉，旧断言不减，90实收据篡改均拒绝。原失败报告不改写，完整原始收据用原生产stock噪声过滤及当前独立oracle离线重验全部通过。
+- product-flow仅公开Instant+240fps，finally恢复、不关preload、不持资源、不patchfade。首次加速揭示原队列动作完成早于TravelToMapCoord尾部，不能忽略disposed TextureRect错误；现精确observer保留原Task，等待完整原旅行与refresh/vote尾部，再记到达/退出。真实普通流程从47.176→9.597秒，最新无runtime error。并行S2与完整MP各自成功，6face/4life/actions整支159.360秒且清理归零，仍非最终全量。
+- 完整引用回归首次6worker/29模块执行1334项（1332通过、2固定Linux-only跳过），71.611秒；串行桶70.359秒为瓶颈。又按独占项目/输出写集审计拆出13 SDK模块，当前白名单42，16纯合成调度测试通过。42布局与catalog集成后的完整引用回归实际1340项（1338通过、同2固定Linux-only跳过、无缺失必需检查）通过，墙钟51.931秒。
+- 新完整Task被动观察保留原Task/异常/执行上下文，1067定向断言通过；194425Z-7e3c0d66三case真实通过。暖LoadAssetSets同步毫秒以下、原Task完成133–141ms，LoadRunAssets总150–157ms；不是HashSet瓶颈。锁版UnloadAssets把Dispose排入CallDeferred，yield间隔可能含真实延后释放，不删yield或清理、不新增缓存。quiet时钟包含room-entered，预算不得双算。
+- 已批准独立完整356静态目录批次与主玩法/actions并行，原主七阶段/付费动作/正常流程集成仍保留，新增一真实进程（共8、峰5），同轮stock仅内存共享，原两层媒体oracle全部保留。90定向测试通过后，一次300秒根Job预检run-y7q29rxk实际275.078秒全部通过并清理归零：136face覆盖全部89模型及重点分支、8长life、完整catalog/actions/S2/MP。主195723Z-c5077f85七阶段依次32.977/16.750/114.592/20.092/37.998/9.610/8.992秒；catalog195723Z-c34f1ebd完整356图及两层原媒体oracle成功。已实看新的R01升级大图及1920领域图，角色/宽雷圈/数字清晰。仅此有界样本通过，正按模型/分支计时推算最终410/48预算。
+- 当前没有600秒内成功的完整发布报告，没有新成品ZIP；以上开发短测不冒充最终gate。
+
 ## Windows 当前接续：状态聚合短测已通过（2026-11-03）
 
 已拉取开发分支031b47c；main只有较早合并内容，后续工作继续提交codex/mode7-completion。按下面19:30交接执行定向验证，不重开已交付旧范围。
@@ -375,3 +399,30 @@ Windows 使用不切换到前台的私有桌面，Linux 使用 Xvfb。禁止 OS 
 默认 `open` 音频完整；可选 `riot_en` 的来源、准备与回退见
 [音频说明](../assets/animation/audio/profiles/README.md)。
 玩家安装/卸载见 [INSTALL_ZH.md](INSTALL_ZH.md)；部署回收只删除归属可证且未改动的自有文件。
+
+## 2026-11-04 并行入口定向测试意外与清理
+
+- 旧summary测试只mock `_deliver`，却调用新增监督后的CLI `main(--verify-release)`，导致跨进程绕过mock，意外执行发布前半段。发现输出后立即停止该受控job；随后全机Python/SDK/Godot/游戏进程查询为零，无相关残留。未取得停止前历史PID，不能补造进程记录。
+- 单次证据保留在 `.local/release-acceptance/run-ic10ngy8`：preflight 0.140秒、工具依赖0.922秒、DLL fresh build 3.360秒；回归与资源并行启动。资源日志明确为executed冷构建，内部43.844秒、阶段44.109秒、exit0，产出175451000字节PCK；不是缓存复用。回归被中断，summary为not_completed、A1–A9均not_run，未进入部署、实机、多人、打包或安装生命周期；此轮不是完整gate通过。
+- 已修两个危险summary测试：mock私有worker permit留在本进程，并将supervisor设为直接AssertionError，tearDown要求从未调用，防止再逃逸为真实发布。已检索tests全部local_delivery引用与main调用：另两处release_budget测试分别mock监督器或worker permit，POSIX路由只构造命令，未发现其它直接main导入或未隔离CLI调用。并行阶段及时记录子进程PID/command与独立日志；隔离修复后，summary/delivery/deadline/cache定向57项在5.601秒内全部通过，未启动真实构建或游戏。
+- 不能把意外冷构建作为最终发布的隐含预热。本次真正600秒完整入口必须显式加 `--force-cold-assets`；该选项默认false，普通可信缓存仍保留。并行子命令转为 `build_assets.py --force-cold`，串行资源调用传 `reuse=False`，确保最终轮重新计入完整资源构建/验证。未经本轮完整报告放行，不生成或宣称新成品通过。
+
+## 2026-11-04 原生阶段并行编排定向收口
+
+- 仅受600秒父监督的Windows/background完整发布，在已验证DLL/PCK部署完成后并行完整NativeSuite与完整多人CLI；两支沿用同一已验证native Python环境，保留全部案例、各自stock/profile/报告及共7个真实游戏进程。两支均成功才打包；其它平台/窗口/无监督调用保持串行，S2内部顺序未改变。
+- 固定2支helper只作name/command/env/验收组薄参数化，主worker独写阶段summary；Native的A2/A3/A4/A5/A7和MP的A6分别记录状态，失败取消另一入口且由外层Job最终清理全树，不把取消写成完成。
+- delivery/deadline/summary定向48项在4.782秒内通过；真实短Python握手验证重叠、两支native环境、任一失败取消对方、期限不重置、平台限制与串行fallback、失败不打包。未启动game、PCK或完整回归，未据此宣称完整600秒gate通过。
+
+## 2026-11-04 S2独立链并行与取消
+
+- 新增显式`--parallel-restart`，仅Windows/background且verify_restart允许；受监督完整发布自动传入，直接native CLI默认仍串行。原stock成功后，同轮内存dict供主suite及独立profile的S2链共用，未新增缓存stock入口或额外stock进程。prepare→resume的完整原gate/磁盘/原始回执校验保留。
+- 两线程任一异常或正常失败报告都触发取消；owned进程按单调截止短poll响应，所属线程finally唯一终止/reap，原launcher finally唯一Close。取消是独立异常，不报timeout或成功；主线程收齐两任务，只有两份完整报告均成功才放行。已进入的纯Python证据验证只能在段前后响应，仍由595秒外层硬截止兜底。
+- 定向151项在5.355秒通过，无skip。真实短Python子孙树覆盖主suite/prepare/resume及spawn竞态取消，确认后代全灭、同一所属线程唯一terminate/close；另覆盖prepare失败不resume、恢复前取消、同轮stock仅一次、两任务重叠/最终AND、命令flag透传、旧串行路由及预算。未运行任何game、PCK或完整回归。与整支MP并行时共7个原游戏进程不变，峰值4个；性能仍待主agent有界原生并行短测。
+
+## 2026-11-04 完整356图册独立并行实现收口
+
+- 新批准的 `--parallel-catalog` 只允许Windows/background、presentation=all且verify_restart；受监督完整发布显式传入，原默认/未监督自动编排不变。成功stock后主suite(actions)、独立完整catalog(cards)、S2 prepare→resume三支共享同轮内存stock和cancel Event，失败取消并join全部线程。主7阶段及actions→正常流程同进程集成完整保留。
+- 独立catalog不能只沿用较弱的standalone receipt入口：本实现保留原NativeSuite的presentation_media_checks完整链（原receipt校验+PNG CRC/尺寸/非空解码），实际images必须356，mode/token/独立owned PID严格一致。组合报告明确main actions与separate cards的PID、token、报告路径、图片目录及checks；main/S2成功但catalog缺失、少图或失败仍为failed/CLI exit1，外层不打包。
+- 此显式方案总真实进程由7增至8、峰值由4增至5，只新增一个完整图册实例、无额外stock；各单人批次仍一个实例，不拆案例。未启用时原进程数/串行默认维持。固定600秒/冷资源计费/全树回收不变。
+- 定向90项在5.683秒通过，无skip，包括新catalog六项和原native/S2取消/runner/delivery/summary/deadline。真实短Python三个owned worker覆盖握手重叠、三支各自正常失败取消另两支并全部回收；还覆盖stock一次/同对象、410与48默认数量、严格356/mode/身份/路径、缺catalog仍AND失败、CLI非零与禁止打包、非支持参数/默认路径。一次新测试fixture遗漏原stock必需字段被正确拒绝，补齐fixture后全通过，生产stock断言未改。
+- 此轮没有启动game、PCK或完整回归；下一步由主agent进行已指定300秒根Job有界预检，以完整356图册及136face/8life加权样本实测新峰值争用，再判断最终600秒是否可行。新增回归分区数以主agent最新42项allowlist为准，不将旧分区耗时当作新配置实测。

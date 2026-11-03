@@ -6,6 +6,7 @@ visible-pixel nonblank checks and exact WAV payload length. No game is launched.
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 from pathlib import Path
@@ -29,6 +30,37 @@ def _unique(pairs):
     return result
 
 
+def _decode_image(root, shot):
+    """One fresh decode; no shared PIL objects or result/error mutations."""
+    from PIL import Image
+    name = None
+    try:
+        name = shot.get('path')
+        path = evidence._artifact(root, name)
+        data = path.read_bytes()
+        with Image.open(path) as image:
+            if image.format != 'PNG':
+                raise ValueError('not PNG')
+            image.verify()  # CRC/chunk integrity, beyond lazy pixel loading.
+        with Image.open(path) as image:
+            image.load()
+            if (type(shot['width']) is not int or type(shot['height']) is not int
+                    or image.size != (shot['width'], shot['height'])
+                    or min(image.size) <= 0):
+                raise ValueError('decoded dimension mismatch')
+            with image.convert('RGBA') as rgba, Image.new('RGBA', image.size, (0, 0, 0, 255)) as visible:
+                visible.alpha_composite(rgba)
+                with visible.convert('RGB') as rgb:
+                    extrema = rgb.getextrema()
+            if all(lo == hi for lo, hi in extrema):
+                raise ValueError('blank visible viewport')
+            return ({'path': name, 'width': image.width, 'height': image.height,
+                     'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                     'decodedNonblank': True}, None)
+    except (OSError, ValueError, TypeError, KeyError, SyntaxError, AttributeError, EOFError, OverflowError) as exc:
+        return None, f'image {name!r}: {exc}'
+
+
 def build_report(payload, token, mode, artifact_dir):
     """Validate one current-run producer payload; return JSON-safe report.
 
@@ -49,32 +81,14 @@ def build_report(payload, token, mode, artifact_dir):
         shots = [r['screenshot'] for r in payload['views']] + [r['screenshot'] for r in payload['screens']]
         if not shots:
             errors.append('no current-run screenshots')
-        for shot in shots:
-            name = shot.get('path')
-            try:
-                path = evidence._artifact(root, name)
-                data = path.read_bytes()
-                with Image.open(path) as image:
-                    if image.format != 'PNG':
-                        raise ValueError('not PNG')
-                    image.verify()  # CRC/chunk integrity, beyond lazy pixel loading.
-                with Image.open(path) as image:
-                    image.load()
-                    if (type(shot['width']) is not int or type(shot['height']) is not int
-                            or image.size != (shot['width'], shot['height'])
-                            or min(image.size) <= 0):
-                        raise ValueError('decoded dimension mismatch')
-                    rgba = image.convert('RGBA')
-                    visible = Image.new('RGBA', image.size, (0, 0, 0, 255))
-                    visible.alpha_composite(rgba)
-                    extrema = visible.convert('RGB').getextrema()
-                    if all(lo == hi for lo, hi in extrema):
-                        raise ValueError('blank visible viewport')
-                    images.append({'path': name, 'width': image.width, 'height': image.height,
-                                   'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
-                                   'decodedNonblank': True})
-            except (OSError, ValueError, TypeError, KeyError, SyntaxError) as exc:
-                errors.append(f'image {name!r}: {exc}')
+        # map yields input order, regardless of completion order. Only this thread
+        # aggregates rows/errors; the second validator's decode remains independent.
+        with ThreadPoolExecutor(max_workers=4) as workers:
+            for image, error in workers.map(lambda shot: _decode_image(root, shot), shots):
+                if image is not None:
+                    images.append(image)
+                if error is not None:
+                    errors.append(error)
         receipt = payload['audio']
         if receipt is not None:
             path = evidence._artifact(root, receipt['wav'])

@@ -4,6 +4,10 @@
 import json
 import math
 from collections import Counter
+try:
+    from .card_face_evidence import validate_starter_setup
+except ImportError:
+    from card_face_evidence import validate_starter_setup
 
 CODES = ('U02','U04','U19','U21','U25','U26','U32','U34','R16','R18',
          'U07','U08','U20','C17','U13','U26-extra','U29','R01','R14','R06','U03','R02','R28','R30')
@@ -111,6 +115,18 @@ def validate(raw, token, case):
     need(raw['playerRef'] != raw['ownerRef'] and raw['ownerRef'] != 'null', 'player/creature identity')
     fixture_rows = raw['fixtures']; labels = [f['label'] for f in fixture_rows]
     need(labels.count('native-created-card-and-HP-energy-isolation')==1 and labels.count('native-second-combat-isolation-no-power-reset')==1 and labels.count('native-next-turn-energy-and-negative-modifier-isolation')==1, 'explicit native setup boundaries')
+    for fixture in fixture_rows:
+        need(type(fixture) is dict and set(fixture)==set('label before after history batches starterSetup'.split()), 'fixture fields')
+        if fixture['label']=='native-created-card-and-HP-energy-isolation':
+            setup=fixture['starterSetup'];validate_starter_setup(setup)
+            moved=[row['cardRef'] for row in setup['moved']]
+            same(moved,original['hand'],'starter setup original hand order')
+            same(moved,fixture['before']['hand'],'starter setup before hand order')
+            for snapshot in (original,fixture['before']):
+                same([{'cardRef':row['cardRef'],'type':row['type']} for row in snapshot['handCards']],setup['moved'],'starter setup hand types')
+            same(fixture['after']['hand'],[],'starter setup empty hand')
+        else:
+            same(fixture['starterSetup'],None,'nonstarter setup not bulk')
     ability = code in POWER_TYPES
     same(labels.count('first-instance-native-PowerCmd-not-paid-card'), int(ability), 'first instance disclosure')
     expected_amount = {'U02':4 if up else 3,'U03':3 if up else 6,'U04':2 if up else 1,'U19':1,'U21':1,'U25':2 if up else 1,

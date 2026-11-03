@@ -21,6 +21,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Events;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
@@ -35,6 +36,7 @@ using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
+using MegaCrit.Sts2.Core.Settings;
 using MegaCrit.Sts2.Core.TestSupport;
 using ICardSelector = MegaCrit.Sts2.Core.TestSupport.ICardSelector;
 using Volibear.Content;
@@ -59,6 +61,35 @@ internal static class NativeProductFlowProbe
     private static Task? pendingEvent, pendingChest;
     private static AbstractRoom? chestRoom;
     private static Selector? flowSelector;
+    private static MapTravelObservation? travelObservation;
+
+    // MoveToMapCoordAction completes before its fire-and-forget travel does.
+    // Observe the original returned Task, including post-entry map refreshes.
+    internal sealed class MapTravelObservation
+    {
+        private readonly List<(NMapScreen Screen, MapCoord Coord, Task Completion)> observed = [];
+        private NMapScreen? expectedScreen;
+        private MapCoord expectedCoord;
+        internal void Expect(NMapScreen screen, MapCoord coord)
+        {
+            Need(expectedScreen is null && observed.Count == 0, "Previous native map travel has not completed");
+            expectedScreen = screen; expectedCoord = coord;
+        }
+        internal void Observe(NMapScreen screen, MapCoord coord, Task completion) => observed.Add((screen, coord, completion));
+        internal async Task CompletePending()
+        {
+            if (expectedScreen is null && observed.Count == 0) return;
+            await Wait(() => observed.Count > 0, "Native map vote did not start travel");
+            await Wait(() => observed.All(t => t.Completion.IsCompleted), "Native map travel did not complete");
+            // WhenAll observes the original Tasks; no native result is replaced.
+            await Task.WhenAll(observed.Select(t => t.Completion));
+            Need(observed.Count == 1 && ReferenceEquals(observed[0].Screen, expectedScreen) &&
+                observed[0].Coord.Equals(expectedCoord), "Native map travel instance or destination differs from the queued vote");
+            observed.Clear(); expectedScreen = null;
+        }
+    }
+    private static void TravelReturned(NMapScreen __instance, MapCoord coord, Task __result) =>
+        travelObservation?.Observe(__instance, coord, __result);
     // These two locked-game members have no public equivalent. They are native
     // room orchestration/read-only state, never button callbacks or input signals.
     private static readonly MethodInfo OpenChest = typeof(NTreasureRoom).GetMethod("OpenChest", BindingFlags.Instance | BindingFlags.NonPublic,
@@ -300,7 +331,9 @@ internal static class NativeProductFlowProbe
         var prior = run.CurrentRoom;
         // Public native entry constructs VoteForMapCoordAction and enqueues it.
         // It does not emit input/pressed signals or teleport to a debug room.
+        travelObservation!.Expect(map, next.Point.coord);
         map.OnMapPointSelectedLocally(next);
+        await travelObservation.CompletePending();
         await Wait(() => run.CurrentRoom is not null && !ReferenceEquals(run.CurrentRoom, prior) &&
             run.CurrentMapCoord == next.Point.coord && RunManager.Instance.ActionQueueSet.IsEmpty &&
             RunManager.Instance.ActionExecutor.CurrentlyRunningAction is null, "Native map vote did not enter the chosen room");
@@ -406,6 +439,42 @@ internal static class NativeProductFlowProbe
         if (room is MapRoom) { NMapScreen.Instance!.Open(); return; }
         await Frame();
     }
+    // Ordinary gameplay with public pacing preferences only. Deliberately not
+    // GameplayBatchScope: keep native preloading, resources and transitions intact.
+    internal sealed class PublicPacingScope : IDisposable
+    {
+        private readonly bool active;
+        private readonly FastModeType previousSpeed;
+        private readonly int previousMaxFps;
+        private bool disposed;
+        internal PublicPacingScope()
+        {
+            if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO") != "native-suite") return;
+            var release = ReleaseInfoManager.Instance.ReleaseInfo;
+            if (string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")) ||
+                release is null || release.Version != "v0.107.1" || release.Commit != "59260271" || TestMode.IsOn)
+                throw new InvalidOperationException("Public flow pacing requires a pinned isolated native suite");
+            previousSpeed = SaveManager.Instance.PrefsSave.FastMode;
+            previousMaxFps = Engine.MaxFps;
+            active = true;
+            try
+            {
+                SaveManager.Instance.PrefsSave.FastMode = FastModeType.Instant;
+                Engine.MaxFps = 240;
+                GD.Print("[Volibear] NATIVE_PRODUCT_FLOW_PACING mode=Instant maxFps=240 publicPreferencesOnly=true");
+            }
+            catch { Dispose(); throw; }
+        }
+        public void Dispose()
+        {
+            if (!active || disposed) return;
+            disposed = true;
+            try { SaveManager.Instance.PrefsSave.FastMode = previousSpeed; }
+            finally { Engine.MaxFps = previousMaxFps; }
+            GD.Print($"[Volibear] NATIVE_PRODUCT_FLOW_PACING restoredSpeed={previousSpeed} restoredMaxFps={previousMaxFps}");
+        }
+    }
+
     internal static async Task Run()
     {
         string token = Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN") ?? "";
@@ -418,10 +487,15 @@ internal static class NativeProductFlowProbe
         {
             Need(token.Length > 0 && !TestMode.IsOn, "Missing controlled flow identity or real native mode");
             NativeAcceptanceRunHost.RequireClean();
+            using var pacing = new PublicPacingScope();
             observer.Patch(AccessTools.Method(typeof(CombatHistory), nameof(CombatHistory.Clear)),
                 prefix: new HarmonyMethod(typeof(NativeProductFlowProbe), nameof(BeforeHistoryClear)));
             observer.Patch(AccessTools.Method(typeof(NCardRewardSelectionScreen), nameof(NCardRewardSelectionScreen.OptionSelected)),
                 prefix: new HarmonyMethod(typeof(NativeProductFlowProbe), nameof(RewardChoicePrefix)));
+            travelObservation = new MapTravelObservation();
+            var travelMethod = AccessTools.Method(typeof(NMapScreen), nameof(NMapScreen.TravelToMapCoord), new[] { typeof(MapCoord) });
+            Need(travelMethod is not null && travelMethod.ReturnType == typeof(Task), "Native map travel signature drift");
+            observer.Patch(travelMethod, postfix: new HarmonyMethod(typeof(NativeProductFlowProbe), nameof(TravelReturned)));
             CombatManager.Instance.CombatWon += Won;
             var character = ModelDb.Character<VolibearCharacter>();
             SaveManager.Instance.Progress.GetOrCreateCharacterStats(character.Id);
@@ -457,12 +531,14 @@ internal static class NativeProductFlowProbe
                 }
                 flowSelector = null;
             }
+            await travelObservation.CompletePending();
             await NativeAcceptanceRunHost.ExitToMainMenu(enterMapFirst: false);
         }
         catch (Exception exception) { error = exception.ToString(); throw; }
         finally
         {
             currentPlay = null; flowSelector = null; CombatManager.Instance.CombatWon -= Won; observer.UnpatchAll(observer.Id);
+            travelObservation = null;
             var release = ReleaseInfoManager.Instance.ReleaseInfo;
             GD.Print("[Volibear] NATIVE_PRODUCT_FLOW_RESULT " + JsonSerializer.Serialize(new {
                 schema = 1, token, pid = Environment.ProcessId, gameVersion = release?.Version.TrimStart('v'), gameCommit = release?.Commit,
