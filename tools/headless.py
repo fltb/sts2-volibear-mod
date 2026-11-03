@@ -720,6 +720,8 @@ def display_command(command, display):
         if not IS_WINDOWS and not os.environ.get('DISPLAY', '').strip():
             raise RuntimeError('POSIX window mode requires an existing DISPLAY')
         native = [arg for arg in command if arg not in ('--headless', '--audio-driver', 'Dummy')]
+        if IS_WINDOWS:
+            native.extend(['--windowed', '--resolution', '1280x720'])
         if display == 'background':
             native.extend(['--audio-driver', 'Dummy'])
         elif not IS_WINDOWS:
