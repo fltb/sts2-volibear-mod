@@ -147,6 +147,8 @@ class DeliveryTests(unittest.TestCase):
         stack.enter_context(redirect_stdout(io.StringIO()))
         settings = {'game_dir': '/game path', 'godot': '/godot path', 'dotnet': '/dotnet path'}
         stack.enter_context(patch.object(delivery, 'preflight', return_value=settings))
+        stack.enter_context(patch.object(delivery.native_python, 'native_runtime',
+            side_effect=lambda python, env: (Path('/host python'), dict(env, PYTHONPATH='/verified libraries'))))
         for owner, name, event, result in (
             (delivery.overlay_cleanup, 'cleanup', 'cleanup', []),
             (delivery, 'save_settings', 'config', None),
@@ -201,6 +203,21 @@ class DeliveryTests(unittest.TestCase):
         peer = next(event[1] for event in events if event[0] == 'multiplayer')
         self.assertIn('--execute-native', peer)
         self.assertIn('--use-deployed', peer)
+        self.assertEqual(native[0], Path('/host python'))
+        self.assertEqual(peer[0], Path('/host python'))
+        for event in events:
+            if event[0] in ('suite', 'multiplayer'):
+                self.assertEqual(event[2]['PYTHONPATH'], '/verified libraries')
+        regression = next(event for event in events if event[0] == 'regression')
+        self.assertEqual(regression[1][0], Path('/python path'))
+
+    def test_native_python_mismatch_stops_before_deployment_or_game(self):
+        args, events = self.pipeline(['--verify-native'])
+        with patch.object(delivery.native_python, 'native_runtime', side_effect=ValueError('ABI mismatch')):
+            with self.assertRaisesRegex(ValueError, 'ABI mismatch'):
+                delivery.deliver(args)
+        for forbidden in ('build', 'regression', 'pck', 'install', 'deploy', 'suite', 'multiplayer', 'zip'):
+            self.assertNotIn(forbidden, [event[0] for event in events])
 
     def test_release_gate_does_not_package_failed_restart_or_peers(self):
         for stage in ('suite', 'multiplayer'):

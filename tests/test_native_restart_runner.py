@@ -42,6 +42,19 @@ class NativeRestartRouting(unittest.TestCase):
             result = native_suite.run_suite(self.root, verify_restart=True, **options)
         return result, baseline, native, restart
 
+    def test_stock_failure_reports_run_and_errors_without_launching_suite(self):
+        failed = dict(STOCK, successful=False, run_id='current-stock',
+                      runtime_errors=['ERROR: Failed to read the root certificate store.'])
+        with mock.patch.object(native_suite.h, 'display_command'), \
+             mock.patch.object(native_suite.h, 'validate_game'), \
+             mock.patch.object(native_suite.h, 'stock_teardown', return_value=(set(), failed)), \
+             mock.patch.object(native_suite.h, 'run_once') as native:
+            with self.assertRaises(RuntimeError) as error:
+                native_suite.run_suite(self.root)
+        self.assertIn('current-stock', str(error.exception))
+        self.assertIn(failed['runtime_errors'][0], str(error.exception))
+        native.assert_not_called()
+
     def test_one_stock_one_continuous_suite_then_two_persistence_processes(self):
         result, baseline, native, restart = self.run_suite()
         self.assertEqual(result['status'], 'passed')

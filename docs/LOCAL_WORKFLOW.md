@@ -36,6 +36,7 @@ GDScript 以源码打包，随后实际挂载 PCK 并核对四个运行脚本字
 - 子进程临时文件和NuGet锁默认在忽略目录`artifacts/runtime`，不改用户全局缓存的权限，不复用其他启动身份的编译服务器。可用`VOLIBEAR_RUNTIME_TEMP`与`NUGET_SCRATCH`指定自有位置。
 - 定向运行现有unittest模块即可；完整静态/引用回归为`python -B tools/regression.py --require-native`。排错可加`--failfast`，首个失败立即输出完整错误。
 - 严格模式下缺少必要运行依赖直接失败。仅另一个操作系统专有的检查可以明确跳过；Linux缺编译器、Windows缺原生程序集等仍失败。
+- 原生runner由宿主Python启动，检查/构建依赖仍保留在隔离venv。`tools/native_python.py`在长批前核对完整Python ABI、底层解释器与库目录，再通过子进程`PYTHONPATH`加载库并实际导入Pillow扩展；不激活venv，不改全局依赖或权限。单机、恢复与多人共用这一启动策略，避免把构建解释器的启动环境带入游戏。
 - Windows上的双平台路径契约测试不代替Linux实机执行；游戏窗口、隔离存档、恢复和网络仍由原有原生runner验证。
 
 ## 2. 第一次执行
