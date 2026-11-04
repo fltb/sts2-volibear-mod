@@ -5,7 +5,16 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
-## 最新约束与在做事项（2026-11-04）
+## 最终交付结果（2026-11-04）
+
+- **当前源码候选700479f完整冷构建发布门通过**：外部CLI总墙钟527.557秒（8分47.56秒），监督回执527.469秒；固定600秒限额内完成，exit0、package_accepted=true、cleanup_complete=true。不是各阶段分别计时达标，也未把资产构建、回归、原生检查、打包或安装卸载挪出CLI。
+- [完整安装ZIP](../.local/release/Volibear-0.1.0-StS2-0.107.1-20261104.zip)：172153337字节，SHA-256 `8689928cb633ec12e715fd2a2400e18de0ae941578868c8ebbe9e48153b78c92`；15项包内容，锁StS2 0.107.1/59260271、BaseLib3.4.7，open音频、不含私有音频。DLL摘要 `a2a3c5aa479fe6bac1ff0286e8887a9cb81b6e5c649dc36a9fe07841cb20a414`。
+- [总验收summary](../.local/release-acceptance/run-1jb7k_cl/summary.json) A1–A9全部passed；[硬截止回执](../.local/release-deadlines/run-_9911m4f/deadline.json)确认清理及包放行。完整引用回归1357项：1355通过、2固定Linux-only跳过，无缺失必需检查。410牌面固定205+205精确once、全48life、356图册、actions、原生正常流程、同进程保存、S2独立进程重启、双本地客户端及文件系统安装/同包更新/卸载全部原检查通过。没有Steam公网或任意第三方Mod兼容认证。
+- 本轮阶段：DLL2.844秒；回归68.437秒与强制冷资产50.922秒并行；部署1.015秒；NativeSuite429.594秒与多人66.516秒并行；打包7.547秒、安装生命周期17.500秒。主进程040931Z-3bd74169、图册040931Z-43405f9f，二者no_runtime_errors=true，完整分片合门true。
+- 已检查本轮升级R01大图与1920领域蓝灵体/宽雷圈截图，未更改用户已批准的视觉或文案。机器summary不冒充人工审美或听觉批准，human_hearing仍not_performed；音频结论只限自动播放/PCM及增益检查。安装生命周期是最终ZIP文件系统验收，没有另起已安装fixture游戏。
+- 以下保留本轮实施及失败证据作为历史，不能把旧包或旧失败轮混作此次交付。本次交付完成后无需再重跑最终门；后续产品变更须另建当前候选证据。
+
+## 本轮实施过程（2026-11-04，历史记录）
 
 - 11:07用户明确批准固定两组并行：完整410按原请求偶/奇索引205+205，复用原主玩法与图册两个进程，总8/峰5不增加。主七阶段保持第一组牌面及全48生命周期/actions/正常流程/保存；图册进程先原356图，再同进程原第二组牌面。原逐案fresh run/付费/身份/清理和两层media oracle不减，总门验证精确once/disjoint union、原顺序、独立token/实际PID及严格完整包络；局部runIdentity不作跨进程比较。
 - 新CatalogFaceSuite协调器、路由及Host守卫已完成，截图段不启用gameplay scope；C#9定向项含原生API/故障边界/1391恢复断言通过。Python100定向项通过；新包络拒重复字段、类型伪装、乱序与尾部错误，现有原oracle未放宽。新SDK测试独占临时目录，回归白名单43；完整引用回归1353项（1351通过、2固定Linux-only跳过）57.980秒通过。独立终审发现并补齐主suite收据与actual owned PID/token绑定，101定向项再次通过，终审闭合。两组有界实机run-rfwj04az实际221.454秒全部通过且root清理归零：68+68牌面/8life/完整356图册与actions/S2/完整MP，主032854Z-7f1a7e83、图册032854Z-f1807f14，card_face_partition_exact_once=true。随后按校正预算执行一次强制冷资源最终门：run-popmtlqk，外部CLI475.553秒/监督475.469秒，exit1，cleanup_complete=true、package_accepted=false，未打包。冷资源47.297秒、完整回归59.172秒、MP66.125秒、native411.797秒；两个205牌面和48life行为断言、356图/S2/MP完成，但主生命周期同run第二战出现3条Godot SwapGCHandleForType“Handle is not initialized”：U20-upgraded(run26)1条、R30-base(run47)同次实例化2条。runtime门正确拒绝；不能过滤或重写失败回执。已核关键Dispose在后续EnterRoomDebug内部，而非MapTask：Map后两帧候选位置无效，已完整撤回且未实机采用。最终只在life第二战原EnterRoomDebug await期间恢复PreloadManager.Enabled=true，保留原NAssetLoader enqueue/dequeue/Process完成点，using finally恢复原值；不改GC/yield/lease/速度/断言。15定向项含70恢复断言/API通过，独立终审通过，回归白名单44。单次全部48life实机040426Z-32af7428在108.784秒通过（含同轮stock），完整旧行为oracle与严格runtime-error门全绿。现据此准备修复后的完整冷构建门，不认领确切stale资源身份，也不改写前次失败报告。
