@@ -13,7 +13,7 @@ def sample_stack():
         if model == 'ThunderArmorPower' and len(amounts) == 2:
             description = f'基础格挡合计{sum(amounts)}，分2次获得。'
         if phase == 'domain-permanent':
-            description = '领域持续本战。'
+            description = stack.PERMANENT
         rows.append(dict(phase=phase, model=model, amounts=amounts, nodeCount=len(amounts), visibleCount=int(bool(amounts)),
                          label=label, visibleNode=node if amounts else 0, tips=[description] if amounts else [],
                          tipTitles=[stack.TITLES[model]] if amounts else []))

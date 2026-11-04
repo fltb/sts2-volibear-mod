@@ -4,6 +4,7 @@ import sys
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 import power_stack_evidence as gate
 from power_stack_samples import sample_stack
 
@@ -13,6 +14,11 @@ class PowerStackEvidenceTests(unittest.TestCase):
         self.assertEqual(gate.errors(sample_stack()), [])
         self.assertEqual(len(gate.ORDER), 25)
         self.assertEqual(len(list(gate.expected_samples())), 83)
+        self.assertNotIn('本战', gate.PERMANENT)
+        self.assertTrue(gate.PERMANENT.startswith('领域持续。'))
+        permanent = next(row for row in sample_stack()['samples'] if row['phase'] == 'domain-permanent')
+        self.assertEqual(permanent['label'], '')
+        self.assertEqual(permanent['tips'], [gate.PERMANENT])
 
     def test_requires_new_complete_receipt(self):
         for value in (None, {}, [], {'fixture': 'wrong'}):
@@ -41,6 +47,7 @@ class PowerStackEvidenceTests(unittest.TestCase):
         for model, phase, label in [('StormConductionPower', 'matrix-updated', '7'),
                                     ('ImmovableBodyPower', 'matrix-single', '1'),
                                     ('DomainPower', 'domain-permanent', '0'),
+                                    ('DomainPower', 'domain-permanent', '本战'),
                                     ('WelcomeThunderPower', 'matrix-updated', '7')]:
             value = sample_stack()
             row = next(r for r in value['samples'] if r['model'] == model and r['phase'] == phase)
@@ -48,6 +55,18 @@ class PowerStackEvidenceTests(unittest.TestCase):
             self.assertTrue(gate.errors(value), model)
         value = sample_stack(); value['samples'][1]['tips'] = ['每次获得3格挡。']
         self.assertTrue(gate.errors(value))
+
+    def test_rejects_permanent_lifetime_marker_and_incomplete_copy(self):
+        def permanent_row():
+            value = sample_stack()
+            return value, next(r for r in value['samples'] if r['phase'] == 'domain-permanent')
+        for tips in (['领域持续本战。禁用敌方特殊能力与全队负面状态。'],
+                     [gate.PERMANENT, '本战'],
+                     ['禁用敌方特殊能力与全队负面状态。每打出一张攻击牌，对全体造成4雷伤。'],
+                     ['领域持续。']):
+            value, row = permanent_row()
+            row['tips'] = tips
+            self.assertTrue(gate.errors(value), tips)
 
     def test_rejects_duplicate_self_glossary(self):
         for model in ('ThunderArmorPower', 'DomainPower', 'ImmovableBodyPower'):

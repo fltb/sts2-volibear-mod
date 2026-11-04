@@ -28,7 +28,7 @@
 | G05 | **未实现：木桩事件超时逃脱压制** | 三个BattleFriend→`BattlewornDummyTimeLimitPower.AfterSideTurnEnd→RanOutOfTime=true / Escape`无领域gate；这是正式事件计时规则，不从全类清单删除。 | **未实现**。三个BattleFriend事件超时倒数、`RanOutOfTime`与Escape没有领域gate，原事件流程继续。 |
 | G06 | **未实现：TheForgotten偷敏捷的敌方收益** | `MiasmaMove`玩家-Dex、8Block、敌方+Dex是独立提交；仅玩家-Dex已拦。`DreadDamage`读敌方Dex增加基础伤害。已有及直接力量/格挡例外不等同于允许新+Dex收益。 | **未实现：敌方新获Dexterity收益取消**。玩家负Dex补偿已有，但`MiasmaMove`敌方+Dex和后续`DreadDamage`读取仍执行；直接Block按规则保留。 |
 | G07 | **未实现：已有Shrink视觉恢复** | `ShrinkPower.AfterApplied→ScaleTo(0.5)`已经发生；现补丁只中和伤害倍率，没有进入时恢复比例。领域后原缩小/到期恢复与新领域灵体比例需组合而非互相覆盖。 | **已实现：Shrink伤害贡献及进入/退出尺度恢复**。`DomainSelfDebuffEffects.RefreshScales`在领域边界切换1/0.5，领域内新施加由`ShrinkApplied`恢复1；原到期移除保留。与灵体呈现的最终叠加效果尚未进行游戏视觉验收。见[S3](#current-self)。 |
-| G08 | **未实现：全机制持续禁用标记/自身debuff悬停** | `PowerPresentationDomain.Suppressed`只接受敌方对象、发实际取消receipt；没有为每个受压制Power持续附加“已被领域禁用”描述的实现。当前动作反馈不等同于玩家自己debuff图标禁用。 | **已实现：玩家减益与已列明贡献的持续标识；未实现：未配置无图标贡献的全面持续标识**。37类enemy Power、8组无图标机制以及玩家减益通过4个原生UI入口显示动态禁用说明、暗化叉线与徽标。未配置的直接贡献仍只有已有取消反馈，不标为全机制持续覆盖。见[S4](#current-presentation)。 |
+| G08 | **未实现：全机制持续禁用标记/自身debuff悬停** | `PowerPresentationDomain.Suppressed`只接受敌方对象、发实际取消receipt；没有为每个受压制Power持续附加“已被领域禁用”描述的实现。当前动作反馈不等同于玩家自己debuff图标禁用。 | **已实现：玩家减益与已列明贡献的持续标识；未实现：未配置无图标贡献的全面持续标识**。37类enemy Power、8组无图标机制以及玩家减益通过4个原生UI入口显示动态禁用说明、暗化符文覆盖与意图符文（无文字）。未配置的直接贡献仍只有已有取消反馈，不标为全机制持续覆盖。见[S4](#current-presentation)。 |
 
 关键依据：[SandpitPower](<../.local/domain-audit/native/MegaCrit.Sts2.Core.Models.Powers/SandpitPower.cs#L58>)；[DomainEnemySpecialContributions](<../src/Volibear/Core/DomainEnemySpecialContributions.cs#L39>)；[DampenPower](<../.local/domain-audit/native/MegaCrit.Sts2.Core.Models.Powers/DampenPower.cs#L29>)；[DomainDampenTransactions](<../src/Volibear/Core/DomainDampenTransactions.cs#L193>)；[DomainPlayerDebuffContributions](<../src/Volibear/Core/DomainPlayerDebuffContributions.cs#L129>)；[TheForgotten](<../.local/domain-audit/native/MegaCrit.Sts2.Core.Models.Monsters/TheForgotten.cs#L24>)；[ShrinkPower](<../.local/domain-audit/native/MegaCrit.Sts2.Core.Models.Powers/ShrinkPower.cs#L48>)；[PowerPresentationDomain](<../src/Volibear/Presentation/PowerPresentationDomain.cs#L41>)。
 
@@ -1026,10 +1026,12 @@ python .local/domain-audit/debuffs.py
 <a id="current-presentation"></a>
 ### S4：逻辑压制与持续展示分别判定
 
+2026-11-04 用户裁决：禁用标记只用图标——状态效果图标覆盖“暗化底+单枚领域压制符文”，生物级标记为按原生意图行居中的无文字符文并盖住意图图标；不再常驻显示“已被领域禁用”，悬停说明保留。永久领域数量标签为空、悬停改为“领域持续。……”，不再显示“本战”。
+
 | 项目 | 当前实现及范围 |
 |---|---|
 | 自定义关键词 | 已实现：[MechanicHoverTips.ForCard](<../src/Volibear/Content/MechanicHoverTips.cs>)从标题及正文匹配26类词条，保留canonical预览保护 |
-| 玩家减益 | 已实现：[PowerPresentationDisabled.PowerTips](<../src/Volibear/Presentation/PowerPresentationDisabled.cs>)调用Core只读判定，附“已被领域禁用”，图标增加暗化叉线，不删除Power |
+| 玩家减益 | 已实现：[PowerPresentationDisabled.PowerTips](<../src/Volibear/Presentation/PowerPresentationDisabled.cs>)调用Core只读判定；状态图标覆盖“暗化底+单枚领域压制符文”，不删除Power。2026-11-04裁决后不再显示常驻“已被领域禁用”文字，悬停说明保留 |
 | 已配置敌方Power | 已实现：37类Power分17类贡献说明；混合Power只说明被压制部分，Strength和敌方负面不笼统禁用 |
 | 已配置无图标行动 | 已实现：[MechanicEnemyHoverTips](<../src/Volibear/Content/MechanicEnemyHoverTips.cs>)覆盖8组：召唤、孵化/变形、FatGremlin逃跑、Hopper偷牌、偷金币、有害状态牌、沙坑、知识限制；Hopper逃跑不混入偷牌支持 |
 | 未配置的直接瞬时贡献，例如泛化敌方Heal | 逻辑压制已实现；专属持续badge未实现。原取消反馈保留；无专属持续badge不改变Heal压制结论，不宣称全121类自动具有专属徽标 |

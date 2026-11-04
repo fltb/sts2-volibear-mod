@@ -9,10 +9,13 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 namespace Volibear.Presentation;
 
 /// <summary>Native UI children refreshed by the native state tracker, never a frame poll.
-/// Overlays do not replace icons, change their materials, or touch gameplay state.</summary>
+/// Overlays do not replace models, change their materials, or touch gameplay state.
+/// A disabled entry is marked by the packed suppression rune only: no persistent words.</summary>
 internal static class PowerPresentationDisabledVisual
 {
     private const string OverlayName = "VolibearDomainDisabled";
+    internal const string SuppressionIconPath = "res://VolibearArt/vfx/icons/128/domain_suppress.png";
+    private const float CreatureIconSize = 56f;
 
     // Pinned NPower permits an unbound multiplayer intent node; its public getter throws.
     private static readonly AccessTools.FieldRef<NPower, PowerModel?> BoundModel =
@@ -29,24 +32,28 @@ internal static class PowerPresentationDisabledVisual
 
     internal static void Attach(NPower power) => PowerBindings.GetValue(power, CreatePowerBinding).Refresh(null);
 
+    private static TextureRect Rune() => new()
+    {
+        Name = "SuppressionRune",
+        Texture = ResourceLoader.Load<Texture2D>(SuppressionIconPath),
+        ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+        StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+        MouseFilter = Control.MouseFilterEnum.Ignore,
+    };
+
     private static PowerBinding CreatePowerBinding(NPower power)
     {
         var overlay = new Control { Name = OverlayName, Visible = false, MouseFilter = Control.MouseFilterEnum.Ignore };
         power.AddChild(overlay);
         overlay.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        var veil = new ColorRect { Color = new Color(0.02f, 0.08f, 0.15f, 0.65f), MouseFilter = Control.MouseFilterEnum.Ignore };
+        // Dim the native effect icon and cover it with the same suppression rune used
+        // for the creature marker: one icon, no text, on every disabled entry.
+        var veil = new ColorRect { Color = new Color(0.02f, 0.08f, 0.15f, 0.55f), MouseFilter = Control.MouseFilterEnum.Ignore };
         overlay.AddChild(veil);
         veil.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        // Two high-contrast diagonal strokes remain legible on every native icon.
-        foreach (var angle in new[] { -Mathf.Pi / 4, Mathf.Pi / 4 })
-        {
-            var slash = new ColorRect { Color = new Color(0.45f, 0.9f, 1f),
-                Size = new Vector2(34, 3), Position = new Vector2(16, 16),
-                PivotOffset = new Vector2(17, 1.5f), Rotation = angle,
-                MouseFilter = Control.MouseFilterEnum.Ignore };
-            slash.Position -= slash.PivotOffset;
-            overlay.AddChild(slash);
-        }
+        var rune = Rune();
+        overlay.AddChild(rune);
+        rune.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         return new PowerBinding(power, overlay);
     }
 
@@ -89,17 +96,13 @@ internal static class PowerPresentationDisabledVisual
     internal static void Attach(NCreature creature)
     {
         if (creature.Hitbox.HasNode(OverlayName)) return;
-        var badge = new PanelContainer { Name = OverlayName, MouseFilter = Control.MouseFilterEnum.Stop,
-            Position = new Vector2(0, -36), ZIndex = 5 };
-        var style = new StyleBoxFlat { BgColor = new Color(0.025f, 0.1f, 0.2f, 0.94f),
-            BorderColor = new Color(0.4f, 0.85f, 1f), BorderWidthLeft = 2, BorderWidthRight = 2,
-            BorderWidthTop = 2, BorderWidthBottom = 2, ContentMarginLeft = 8, ContentMarginRight = 8,
-            ContentMarginTop = 3, ContentMarginBottom = 3 };
-        badge.AddThemeStyleboxOverride("panel", style);
-        var label = new Label { MouseFilter = Control.MouseFilterEnum.Ignore };
-        label.AddThemeColorOverride("font_color", new Color(0.65f, 0.93f, 1f));
-        label.AddThemeFontSizeOverride("font_size", 18);
-        badge.AddChild(label);
+        // Icon-only marker: no label, no words. It is aligned onto the creature's
+        // intent row so the rune covers the intent icons the domain suppresses.
+        var badge = new Control { Name = OverlayName, Visible = false, MouseFilter = Control.MouseFilterEnum.Stop, ZIndex = 5,
+            Size = new Vector2(CreatureIconSize, CreatureIconSize) };
+        var rune = Rune();
+        rune.Size = new Vector2(CreatureIconSize, CreatureIconSize);
+        badge.AddChild(rune);
         creature.Hitbox.AddChild(badge);
         bool hovered = false;
         badge.MouseEntered += () => { hovered = true; creature.ShowHoverTips(creature.Entity.HoverTips); };
@@ -107,7 +110,7 @@ internal static class PowerPresentationDisabledVisual
         void Refresh(CombatState? _)
         {
             badge.Visible = PowerPresentationDisabled.IsCreatureSuppressed(creature.Entity);
-            if (badge.Visible) label.Text = PowerPresentationDisabled.Text("badge").GetFormattedText();
+            badge.Position = BadgePosition(creature);
             if (hovered)
             {
                 if (badge.Visible) creature.ShowHoverTips(creature.Entity.HoverTips);
@@ -117,5 +120,22 @@ internal static class PowerPresentationDisabledVisual
         Refresh(null);
         CombatManager.Instance.StateTracker.CombatStateChanged += Refresh;
         creature.TreeExited += () => CombatManager.Instance.StateTracker.CombatStateChanged -= Refresh;
+    }
+
+    private static Vector2 BadgePosition(NCreature creature)
+    {
+        var intents = creature.IntentContainer;
+        if (intents is { } target && target.IsInsideTree() && creature.Hitbox.IsInsideTree())
+        {
+            // Convert the native intent row centre into the hitbox-local space the
+            // badge lives in; the rune then covers the intent icons on every creature.
+            Rect2 row = target.GetGlobalRect();
+            // NIntent stacks its icon above the value label; bias the rune onto the
+            // icon row so the marker covers the intent glyph rather than the number.
+            Vector2 centre = row.Position + new Vector2(row.Size.X / 2f, 20f);
+            Vector2 local = creature.Hitbox.GetGlobalTransform().AffineInverse() * centre;
+            return local - new Vector2(CreatureIconSize / 2f, CreatureIconSize / 2f);
+        }
+        return new Vector2((creature.Hitbox.Size.X - CreatureIconSize) / 2f, -68f);
     }
 }

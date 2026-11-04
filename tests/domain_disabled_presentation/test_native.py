@@ -28,7 +28,7 @@ class DomainDisabledPresentationTests(unittest.TestCase):
         result = runtime.run(project, timeout=120)
         output = result.stdout + result.stderr
         self.assertEqual(result.returncode, 0, output)
-        self.assertIn('PASS disabled visual lifecycle 16 checks', output)
+        self.assertIn('PASS disabled visual lifecycle 17 checks', output)
 
 
 if __name__ == '__main__':

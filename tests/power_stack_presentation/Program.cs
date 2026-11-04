@@ -79,8 +79,8 @@ internal static class Program
                     AccessTools.Field(typeof(PowerModel), "_amount").SetValue(a, 4);
                     Need(Describe(a).AmountText == "4" && Describe(a).Members.Count == 1, "domain uses its one native duration, not a fabricated second domain");
                     AccessTools.Field(typeof(PowerModel), "_amount").SetValue(a, CardResolutionDuration.Permanent);
-                    Need(Describe(a).AmountText == "本战" && Describe(a).Description.StartsWith("领域持续本战。"), "permanent domain marked explicitly");
-                    Console.WriteLine("STACK_RULE DomainPower single=3 changed=4 permanent=本战");
+                    Need(Describe(a).AmountText == "" && Describe(a).Description.StartsWith("领域持续。") && !Describe(a).Description.Contains("本战"), "permanent domain shows no fabricated counter and explains its lifetime in words");
+                    Console.WriteLine("STACK_RULE DomainPower single=3 changed=4 permanent=\"\"");
                     continue;
                 }
                 var b = Make(type, 4, owner); var before = owner.Powers.ToArray();
@@ -138,7 +138,9 @@ internal static class Program
                 var domain = Make(typeof(DomainPower), 2, owner);
                 AccessTools.Field(typeof(PowerModel), "_amount").SetValue(domain, CardResolutionDuration.Permanent);
                 var result = Describe(domain);
-                Need(result.AmountText == "本战" && result.Description.StartsWith("领域持续本战。") && !result.Description.Contains("剩余"), "permanent domain omits meaningless counter and keeps full lifetime text");
+                Need(result.AmountText == "" && result.Description.StartsWith("领域持续。") && !result.Description.Contains("本战") &&
+                     !result.Description.Contains("剩余") && result.Description.Contains("禁用敌方特殊能力与全队负面状态。") &&
+                     result.Description.Contains("每打出一张攻击牌，对全体造成4雷伤。"), "permanent domain omits meaningless counter and keeps full lifetime text");
                 var tempOwner = Owner(); var temp = Make(typeof(VolibearChargeStrengthPower), -3, tempOwner);
                 Need(Describe(temp).AmountText == "-3" && Describe(temp).Description == "本回合失去3力量，回合结束时恢复3力量。", "temporary strength negative reversal remains correct");
             }

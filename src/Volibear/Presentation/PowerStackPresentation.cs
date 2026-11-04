@@ -65,7 +65,9 @@ internal static class PowerStackPresentation
             case Rule.Domain:
                 bool permanent = ((DomainPower)power).IsPermanent;
                 long rounds = power.Amount;
-                amount = permanent ? "本战" : Number(rounds);
+                // Permanent domain lasts the whole combat; there is no counter worth
+                // showing, and "本战" would only restate the default lifetime.
+                amount = permanent ? "" : Number(rounds);
                 description = permanent ? Template((CustomPowerModel)power, "permanentDescription") : Render(power, rounds);
                 break;
             case Rule.Charge:

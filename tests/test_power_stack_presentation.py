@@ -22,7 +22,7 @@ class PowerStackPresentationTests(unittest.TestCase):
         self.assertIn('STACK_RULE WelcomeThunderPower single=3 pair=4', rules)
         self.assertIn('STACK_RULE StandingPower single=3 pair=3', rules)
         self.assertIn('STACK_RULE StormConductionPower single=1 pair=2', rules)
-        self.assertIn('STACK_RULE DomainPower single=3 changed=4 permanent=本战', rules)
+        self.assertIn('STACK_RULE DomainPower single=3 changed=4 permanent=""', rules)
         print(next(line for line in result.stdout.splitlines() if line.startswith('POWER_STACK_PRESENTATION_PASS')))
 
 

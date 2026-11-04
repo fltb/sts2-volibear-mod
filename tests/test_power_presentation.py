@@ -9,6 +9,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / 'tests'))
 import power_presentation_evidence as gate
 from power_stack_samples import sample_stack
 
@@ -30,7 +31,7 @@ def sample_ui():
     return dict(fixture='native-multiplayer-power-intent-extracted',
         sourceScene='res://scenes/combat/multiplayer_player_intent.tscn', nodeType='MegaCrit.Sts2.Core.Nodes.Combat.NPower',
         freed=True, powersRestored=True, stages=[dict(phase=phase, nodeId=123, boundModel=model,
-            ready=inside, insideTree=inside, overlays=1, children=3, visible=visible, visibleInTree=visible and inside,
+            ready=inside, insideTree=inside, overlays=1, children=2, visible=visible, visibleInTree=visible and inside,
             domain=domain, immediate=immediate, setterSameFrame=True if immediate else None)
             for phase, model, visible, inside, domain, immediate in cases])
 
@@ -139,7 +140,7 @@ class PowerPresentationTests(unittest.TestCase):
         baseline = sample_report()
         for index, row in enumerate(baseline['uiLifecycle']['stages']):
             mutations = [('phase', 'fake'), ('nodeId', True), ('nodeId', 0), ('nodeId', 456),
-                ('boundModel', 'OtherPower'), ('overlays', 2), ('overlays', True), ('children', 2),
+                ('boundModel', 'OtherPower'), ('overlays', 2), ('overlays', True), ('children', 3),
                 ('visible', not row['visible']), ('visibleInTree', not row['visibleInTree']),
                 ('insideTree', not row['insideTree']), ('domain', not row['domain']), ('immediate', not row['immediate']),
                 ('setterSameFrame', False)]
@@ -182,6 +183,16 @@ class PowerPresentationTests(unittest.TestCase):
         bad = copy.deepcopy(report)
         finite = next(i for i, row in enumerate(report['rows']) if row['model'] == 'DomainPower' and row['amount'] == 5)
         bad['rows'][finite]['description'] = gate.PERMANENT
+        self.assertFalse(gate.validate_power_presentation(bad, 'fresh'))
+
+    def test_permanent_copy_never_restates_the_default_lifetime(self):
+        self.assertNotIn('本战', gate.PERMANENT)
+        self.assertTrue(gate.PERMANENT.startswith('领域持续。'))
+        report = sample_report()
+        index = next(i for i, row in enumerate(report['rows']) if row['amount'] == 999999999)
+        obsolete = '领域持续本战。' + gate.PERMANENT[len('领域持续。'):]
+        bad = copy.deepcopy(report)
+        bad['rows'][index]['description'] = obsolete
         self.assertFalse(gate.validate_power_presentation(bad, 'fresh'))
 
     def test_domain_suppression_description_is_required_for_finite_and_permanent(self):
