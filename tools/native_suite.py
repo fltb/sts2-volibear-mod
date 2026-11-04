@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One background game process for native cards/lifecycle/presentation/normal flow.
+"""Native suite, with an explicit two-process face partition/full-catalog mode.
 
 No OS input, viewport input, synthetic clicks, or per-case process restarts.
 Runs only with --execute-native. Requires the user's pinned game installation.
@@ -8,6 +8,7 @@ absence or any failed stage fails the command. Human sensory review is separate.
 """
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from collections import Counter
 import threading
 import json
 from pathlib import Path
@@ -23,14 +24,44 @@ def _suite_ok(report):
         value is True for value in report['checks'].values())
 
 
+def split_face_cases(cases):
+    """Fixed request-order partition; neither worker may receive an empty batch."""
+    cases = h.finite_cases(cases, h.CARD_FACE_CASES, 'Card face partition')
+    if len(cases) < 2:
+        raise ValueError('Parallel catalog requires at least two distinct card-face cases')
+    return cases[::2], cases[1::2]
+
+
+def _face_union_ok(main, catalog, requested):
+    try:
+        main_cases, catalog_cases = split_face_cases(requested)
+        main_batch = main['combat_tests']['stages']['card-faces']
+        catalog_batch = catalog['combat_tests']['card_faces']
+        completed = []
+        for report, result, expected in ((main, main_batch, main_cases), (catalog, catalog_batch, catalog_cases)):
+            batch = result['batch']
+            if (batch['token'] != report['run_id'] or batch['cases'] != list(expected)
+                    or batch['completed'] != list(expected)
+                    or [row['variant'] for row in result['records']] != list(expected)
+                    or any(row['token'] != report['run_id'] for row in result['records'])):
+                return False
+            completed.extend(batch['completed'])
+        return (not set(main_cases).intersection(catalog_cases)
+                and Counter(completed) == Counter(requested)
+                and all(count == 1 for count in Counter(completed).values()))
+    except (ValueError, RuntimeError, TypeError, KeyError, IndexError, AttributeError):
+        return False
+
+
 def _catalog_ok(report):
     identity = report.get('process_identity', {})
     details = report.get('combat_tests', {})
-    return (_suite_ok(report) and report.get('scenario') == 'presentation-acceptance'
+    return (_suite_ok(report) and report.get('scenario') == 'catalog-face-suite'
             and report.get('mode') == 'real-game-background'
             and report.get('exit_code') == 0 and report.get('timed_out') is False
             and report.get('checks', {}).get('presentation_acceptance_assertions') is True
             and report.get('checks', {}).get('presentation_media_assertions') is True
+            and report.get('checks', {}).get('catalog_face_assertions') is True
             and details.get('media', {}).get('status') == 'PASS'
             and details.get('media', {}).get('errors') == []
             and details.get('media', {}).get('token') == report.get('run_id')
@@ -45,12 +76,15 @@ def _catalog_ok(report):
 def _split_presentation_ok(main, catalog):
     identity = main.get('process_identity', {})
     presentation = main.get('combat_tests', {}).get('stages', {}).get('presentation', {})
+    envelope = main.get('combat_tests', {}).get('stages', {}).get('suite', {})
     return (_suite_ok(main) and _catalog_ok(catalog) and main.get('scenario') == 'native-suite'
             and main.get('mode') == 'real-game-background'
             and main.get('checks', {}).get('native_suite_assertions') is True
             and presentation.get('mode') == 'actions' and presentation.get('errors') == []
             and type(identity.get('pid')) is int and identity['pid'] > 0
             and identity.get('token') == main.get('run_id')
+            and type(envelope.get('pid')) is int and envelope['pid'] == identity['pid']
+            and envelope.get('token') == main.get('run_id')
             and main.get('run_id') != catalog.get('run_id')
             and identity['pid'] != catalog['process_identity']['pid'])
 
@@ -114,6 +148,7 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
         raise ValueError('restart frames must be an integer in 1000..108000')
     faces = h.finite_cases(h.CARD_FACE_CASES if face_cases is None else face_cases,
                           h.CARD_FACE_CASES, 'Card face batch')
+    main_faces, catalog_faces = split_face_cases(faces) if parallel_catalog else (faces, ())
     lifecycle = h.finite_cases(h.CARD_LIFECYCLE_CASES if lifecycle_cases is None else lifecycle_cases,
                               h.CARD_LIFECYCLE_CASES, 'Card lifecycle batch')
     if presentation_mode not in ('cards', 'actions', 'all'):
@@ -138,7 +173,7 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
         if parallel_catalog:
             options['record_process_identity'] = True
         return h.run_once(game, timeout, frames, scenario='native-suite', display=display,
-                          stock=stock, stock_evidence=stock_evidence, card_face_batch=faces,
+                          stock=stock, stock_evidence=stock_evidence, card_face_batch=main_faces,
                           card_lifecycle_cases=lifecycle, presentation_mode='actions' if parallel_catalog else presentation_mode,
                           audio_driver=audio_driver, **options)
     def restart_call(cancel_event=None):
@@ -146,8 +181,9 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
         return save_load_pair.run_pair(game, 'S2', 'restart', restart_timeout,
             restart_frames, display, _stock_control=(stock, stock_evidence), audio_driver=audio_driver, **options)
     def catalog_call(cancel_event):
-        return h.run_once(game, timeout, frames, scenario='presentation-acceptance', display=display,
+        return h.run_once(game, timeout, frames, scenario='catalog-face-suite', display=display,
                           stock=stock, stock_evidence=stock_evidence, presentation_mode='cards',
+                          card_face_batch=catalog_faces,
                           audio_driver=audio_driver, cancel_event=cancel_event, record_process_identity=True)
     catalog = None
     if parallel_catalog:
@@ -158,9 +194,9 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
         suite = suite_call()
     if not verify_restart:
         return suite
-    # One native process for all finite cases. Only persistence deliberately uses
-    # two additional processes, with one retained isolated profile and cold model
-    # references. The no-mod baseline is this invocation's in-memory result.
+    # Default: one process for all cases. Explicit parallel-catalog reuses the
+    # existing catalog process for the second partition; persistence still owns
+    # its two sequential processes. No additional baseline or per-case process.
     suite_ok = _suite_ok(suite)
     if not parallel_restart and not parallel_catalog:
         restart = {'passed': False, 'phases': [], 'reason': 'prior-native-suite-failed'}
@@ -175,6 +211,7 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
     checks = dict(suite.get('checks', {}), checkpoint_process_restart=restart.get('passed') is True)
     if parallel_catalog:
         checks['separate_catalog_complete_356'] = isinstance(catalog, dict) and _split_presentation_ok(suite, catalog)
+        checks['card_face_partition_exact_once'] = checks['separate_catalog_complete_356'] and _face_union_ok(suite, catalog, faces)
     report_path = h.ROOT/'artifacts/headless'/suite['run_id']/'native-acceptance-report.json'
     combined = dict(schema=1, run_id=suite['run_id'], status='passed' if suite_ok and all(
         value is True for value in checks.values()) else 'failed', checks=checks,
@@ -183,7 +220,15 @@ def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
         report=str(report_path), scope='native-single-process-batches-and-cold-checkpoint-restart')
     if parallel_catalog:
         combined['processes']['catalog'] = 1
-        combined['scope'] = 'native-actions-product-flow-and-independent-full-catalog-with-cold-checkpoint-restart'
+        combined['scope'] = 'native-two-process-exact-face-partition-actions-full-catalog-and-cold-checkpoint-restart'
+        combined['card_faces'] = {
+            'partition_rule': 'request-order-even-odd-v1', 'requested': list(faces),
+            'requested_count': len(faces), 'main_cases': list(main_faces), 'catalog_cases': list(catalog_faces),
+            'main_count': len(main_faces), 'catalog_count': len(catalog_faces),
+            'exact_once': checks['card_face_partition_exact_once'],
+            'main_report': str(report_path.with_name('report.json')),
+            'catalog_report': str(h.ROOT/'artifacts/headless'/catalog['run_id']/'report.json') if catalog else None,
+        }
         combined['presentation'] = {
             'requested_mode': 'all', 'main_mode': 'actions', 'catalog_mode': 'cards', 'required_catalog_views': 356,
             'main_process': suite.get('process_identity'), 'catalog_process': catalog.get('process_identity') if catalog else None,
@@ -210,7 +255,7 @@ def main(argv=None):
     parser.add_argument('--verify-restart', action='store_true',
                         help='After the single-process suite, verify S2 prepare/resume in distinct owned processes; share one stock baseline')
     parser.add_argument('--parallel-catalog', action='store_true',
-                        help='Explicit Windows/all-mode separate complete catalog alongside actions suite and S2')
+                        help='Explicit Windows/all-mode full catalog plus second face partition alongside main suite and S2')
     parser.add_argument('--parallel-restart', action='store_true',
                         help='Explicit Windows/background overlap of suite and independent S2 chain')
     parser.add_argument('--restart-timeout', type=int, default=300, help='Each persistence process budget in seconds')

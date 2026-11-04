@@ -30,6 +30,7 @@ PARALLEL_MODULES = (
     # production/native inputs are read-only, including the full-source API compile.
     'test_native_starter_fixture', 'test_native_suite_phase_timing',
     'test_native_product_flow_pacing', 'test_native_product_flow_travel',
+    'test_catalog_face_suite_native',
     # Each remaining SDK module owns its project bin/obj or named artifact tree.
     # Beast/hand generated sources are owned by that same whole-module task only.
     'test_basic_card_lifecycle', 'test_beast_adapters', 'test_beast_power_lifecycle',
