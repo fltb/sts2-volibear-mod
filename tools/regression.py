@@ -21,6 +21,7 @@ OTHER_PLATFORM_REASONS = frozenset({
     'Windows junction migration', 'Windows native window fixtures',
     'Windows private-desktop native renderer', 'Windows private-desktop launch failure',
     'Windows owned process flags', 'native Windows chdir regression',
+    'Windows Job descendant ownership contract',
 })
 
 LINUX_PLATFORM_REASONS = frozenset({'Linux x86_64 tool', 'Linux C compiler ABI fixture'})

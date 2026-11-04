@@ -7,7 +7,7 @@ EXPECTED = json.loads((Path(__file__).resolve().parents[1] / 'tests/fixtures/pow
 PREFIX = '[Volibear] POWER_PRESENTATION_RESULT '
 ACCEPTANCE = 'native-tooltip/resource-not-visual-recognition'
 FIXTURE = 'native-ToMutable-ApplyInternal-SetAmount-HoverTips-RemoveInternal'
-PERMANENT = '领域持续本战。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。'
+PERMANENT = power_stack_evidence.PERMANENT
 
 
 def expected_cases():
@@ -59,7 +59,7 @@ def validate_ui_lifecycle(value):
         if type(node) is not int or node <= 0 or (identity is not None and node != identity):
             return False
         identity = node
-        if type(row.get('overlays')) is not int or row['overlays'] != 1 or type(row.get('children')) is not int or row['children'] != 3:
+        if type(row.get('overlays')) is not int or row['overlays'] != 1 or type(row.get('children')) is not int or row['children'] != 2:
             return False
         if row.get('visible') is not visible or row.get('visibleInTree') is not (visible and inside) or row.get('insideTree') is not inside or row.get('domain') is not domain or row.get('immediate') is not immediate:
             return False

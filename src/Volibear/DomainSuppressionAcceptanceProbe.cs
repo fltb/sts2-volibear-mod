@@ -68,8 +68,12 @@ internal static class DomainSuppressionAcceptanceProbe
         bool tips = icons.All(n => n.Model.HoverTips.OfType<MegaCrit.Sts2.Core.HoverTips.HoverTip>()
             .Any(t => t.Description.Contains("已被领域禁用")) == expected);
         bool creatureTip = owner.HoverTips.Any(t => t.Id == "VOLIBEAR-DISABLED-SELF") == expected;
-        return overlays.All(n => n.IsVisibleInTree() == expected && n.GetChildCount() == 3) &&
-            badge.IsVisibleInTree() == expected && tips && creatureTip;
+        // Deliberate visual contract: one packed rune per disabled entry, never a label.
+        bool iconOnly = overlays.All(n => n.GetChildCount() == 2 && !Walk(n).OfType<Label>().Any()) &&
+            badge.GetChildCount() == 1 && badge.GetChild(0) is TextureRect &&
+            !Walk(badge).OfType<Label>().Any() && !Walk(badge).OfType<RichTextLabel>().Any();
+        return overlays.All(n => n.IsVisibleInTree() == expected && n.GetChildCount() == 2) &&
+            badge.IsVisibleInTree() == expected && iconOnly && tips && creatureTip;
     }
     internal sealed record WeakDurationStep(string Phase, int Amount, bool Skip);
     internal static async Task<WeakDurationStep[]> ObserveWeakDuration(WeakPower weak, Creature owner, ThrowingPlayerChoiceContext choices)

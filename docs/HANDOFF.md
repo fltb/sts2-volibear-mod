@@ -5,6 +5,19 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
+## 最新交付（2026-11-05，riot_en 私有音频版）
+
+- 用户裁决（11-04 晚）：领域禁用标记不显示文字，只用图标盖住被禁用的效果与意图；“本战”这种默认文本也不显示。只改表现与悬停文案，未改玩法、数值或原生 Power 结算。
+- 本机拉取线上最新 `b81b5c8`（其冷构建门 527.557 秒通过）后实施：
+  - [PowerPresentationDisabledVisual](../src/Volibear/Presentation/PowerPresentationDisabledVisual.cs)：受压制状态图标改为“暗化底 + 单枚 domain_suppress 符文”覆盖；生物级标记为无文字符文，按原生意图行居中对齐并盖住意图图标；移除常驻文字与 Label，悬停仍显示“已被领域禁用”。
+  - [PowerStackPresentation](../src/Volibear/Presentation/PowerStackPresentation.cs) / [DomainPower](../src/Volibear/Core/DomainPower.cs)：永久领域数量标签为空，悬停说明改为“领域持续。……”；`docs/文案审核.md` 永久领域条目同步，临时领域仍显示剩余轮数。
+  - [regression.py](../tools/regression.py)：补入拉取提交新增的 Windows-only 跳过原因 “Windows Job descendant ownership contract”，Linux 引用门不再把该另一平台检查误判为未执行。
+- 定向：完整引用回归 1359 项通过（1350 通过、9 项另一平台固定跳过、0 失败）；真实原生短测 `20261104T160127Z-809cd9bc` passed，人工查看截图：敌人意图被符文盖住、无“已被领域禁用”文字、雷甲合计 7 保留、永久领域无“本战”。
+- 成品（riot_en 私有音频版）：[Volibear-0.1.0-StS2-0.107.1-riot_en-private.zip](../.local/release/Volibear-0.1.0-StS2-0.107.1-riot_en-private.zip)，172,512,701 字节，SHA-256 `4cb36136555a493347d8cccce8f41288ac08506f2ef4ea4bfb2188d6ec7b6075`；18 项包内容，含 Volibear DLL/PCK/JSON、BaseLib 3.4.7、riot_en 音频来源与许可、安装说明。DLL `057ce8903bcb3f86777395b9d047c5c72bbd24797cbce9b1c7a2e89a52892707`；PCK 175,838,604 字节（riot_en）。Riot 媒体只位于忽略目录并随私有包分发，不进入公开 Git；人工听感与审美批准未执行，不冒充自动检查通过。
+- 本机验收范围（如实边界）：完整引用回归 1359 项通过（1350 通过、9 项另一平台固定跳过、0 失败）；真实原生短测 `20261104T160127Z-809cd9bc` passed 并逐张检查截图；native suite 已真实执行并通过 domain-suppression 三场（含本轮图标化禁用 UI 断言）与 architect-ending，随后在 471 秒被项目窗口性能守卫 `WINDOW_PERFORMANCE_FAILED sustained FPS below 10` 主动停止（该轮 .NET gen2 GC 累计 95.6 秒/1315 次，10 秒采样出现 1–7 FPS 的加载停顿；运行期间桌面另有浏览器等程序，可用内存约 4GiB）。因此 card-face 完整批次、card-lifecycle、presentation、正常流程、跨进程恢复与双端多人未在本机收口，A2–A7 不声称通过。
+- 包生命周期：对本 ZIP 实际执行安装、同包更新与卸载验收通过（BaseLib、其它 Mod、存档与固定游戏文件摘要保持不变；`scope=filesystem-only; no game launch`）。
+- 平台边界：POSIX 窗口路径的 native 与多人为串行调度（并行编排仅 Windows/background），600 秒监督门与本机性能守卫无法同时满足；本轮因此使用同一 `deliver()` 的完整串行路径（`.local/tools/run_release_serial.py`，忽略目录）并保留未执行项，没有把超时或中断写成通过。基线 b81b5c8 已在 Windows 机器通过完整冷构建门（527.557 秒）；本轮相对基线的差异仅为 UI 表现与文案、测试/oracle 及 Linux 平台跳过原因，未改玩法、数值、存档与网络逻辑。
+
 ## 最终交付结果（2026-11-04）
 
 - **当前源码候选700479f完整冷构建发布门通过**：外部CLI总墙钟527.557秒（8分47.56秒），监督回执527.469秒；固定600秒限额内完成，exit0、package_accepted=true、cleanup_complete=true。不是各阶段分别计时达标，也未把资产构建、回归、原生检查、打包或安装卸载挪出CLI。

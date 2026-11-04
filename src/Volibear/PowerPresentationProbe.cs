@@ -133,7 +133,8 @@ internal static class PowerPresentationProbe
                 children = overlay.GetChildCount(), visible = overlay.Visible, visibleInTree = overlay.IsVisibleInTree(),
                 domain = DomainPower.IsActive(owner), immediate = setterFrame.HasValue, setterSameFrame = sameFrame });
             Need(ReferenceEquals(model, expected) && icon.IsInsideTree() == inside && (!inside || icon.IsNodeReady()) &&
-                overlays.Length == 1 && overlay.GetChildCount() == 3 && overlay.Visible == visible &&
+                overlays.Length == 1 && overlay.GetChildCount() == 2 && !overlay.GetChildren().OfType<Label>().Any() &&
+                overlay.Visible == visible &&
                 overlay.IsVisibleInTree() == (visible && inside) && DomainPower.IsActive(owner) == active && sameFrame is not false, phase);
         }
         void Bind(string phase, PowerModel model, bool visible)

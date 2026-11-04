@@ -5,8 +5,18 @@ namespace Godot
     public readonly record struct Vector2(float X, float Y)
     {
         public static Vector2 operator -(Vector2 a, Vector2 b) => new(a.X-b.X,a.Y-b.Y);
+        public static Vector2 operator +(Vector2 a, Vector2 b) => new(a.X+b.X,a.Y+b.Y);
     }
     public readonly record struct Color(float R, float G, float B, float A = 1);
+    public readonly record struct Rect2(Vector2 Position, Vector2 Size)
+    {
+        public Vector2 GetCenter() => new(Position.X + Size.X / 2, Position.Y + Size.Y / 2);
+    }
+    public readonly record struct Transform2D
+    {
+        public Transform2D AffineInverse() => this;
+        public static Vector2 operator *(Transform2D _, Vector2 point) => point;
+    }
     public static class Mathf { public const float Pi = MathF.PI; }
     public class Control
     {
@@ -31,10 +41,27 @@ namespace Godot
         public bool HasNode(string name) => Children.Any(n => n.Name == name);
         public void AddChild(Control child) { Children.Add(child); if(inside) child.Enter(); }
         public void SetAnchorsAndOffsetsPreset(LayoutPreset _) { }
+        public Rect2 GetGlobalRect() => new(Position, Size);
+        public Transform2D GetGlobalTransform() => new();
         public void Enter() { inside=true; TreeEntered?.Invoke(); foreach(var c in Children) c.Enter(); }
         public void Exit() { foreach(var c in Children) c.Exit(); TreeExiting?.Invoke(); inside=false; TreeExited?.Invoke(); }
     }
     public class ColorRect : Control { public Color Color { get; set; } }
+    public class Texture2D { public string Path { get; init; } = ""; }
+    public class TextureRect : Control
+    {
+        public enum ExpandModeEnum { KeepSize, IgnoreSize }
+        public enum StretchModeEnum { Scale, KeepAspectCentered }
+        public Texture2D? Texture { get; set; }
+        public ExpandModeEnum ExpandMode { get; set; }
+        public StretchModeEnum StretchMode { get; set; }
+        public string Path { get; init; } = "";
+    }
+    public static class ResourceLoader
+    {
+        public static T? Load<T>(string path) where T : class =>
+            typeof(T) == typeof(Texture2D) ? (T?)(object)new Texture2D { Path = path } : null;
+    }
     public class PanelContainer : Control { public void AddThemeStyleboxOverride(string key, StyleBoxFlat value) { } }
     public class Label : Control
     {
@@ -85,6 +112,7 @@ namespace MegaCrit.Sts2.Core.Nodes.Combat
     public class NCreature : Godot.Control
     {
         public Godot.Control Hitbox { get; } = new();
+        public Godot.Control IntentContainer { get; } = new();
         public Entity Entity { get; } = new();
         public void ShowHoverTips(object value) { }
         public void HideHoverTips() { }

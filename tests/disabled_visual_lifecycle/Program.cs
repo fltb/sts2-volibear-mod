@@ -22,6 +22,12 @@ static class Program
         PowerPresentationDisabledVisual.Attach(node);
         var overlay = Overlay(node);
         Need(!overlay.Visible && node.GetterReads == 0, "Unbound Ready never invokes Model getter");
+        // Deliberate visual contract: the suppression rune covers the effect icon and
+        // no persistent words are added to the native node.
+        Need(overlay.Children.Count == 2 && overlay.Children.OfType<TextureRect>().Count() == 1 &&
+             overlay.Children.OfType<TextureRect>().Single().Texture is { } rune &&
+             rune.Path == PowerPresentationDisabledVisual.SuppressionIconPath &&
+             !overlay.Children.OfType<Label>().Any(), "Overlay is one suppression rune over the native icon, never text");
         Need(tracker.Subscribers == 1, "Unbound node retains a refresh subscription");
         PowerPresentationDisabledVisual.Attach(node);
         Need(node.Children.Count == 1 && tracker.Subscribers == 1, "Repeated attach is idempotent");

@@ -19,11 +19,17 @@ ORDER = ['NextAttackDiscount', 'NextEngageDiscount', 'NextAttackReplayPower', 'N
          'StormChargePower', 'DomainPower', 'EndlessHuntPower']
 
 
+PERMANENT_DURATION = 999_999_999
+# Permanent domain lasts the whole combat by default, so the native amount label
+# shows nothing and the hover text states the lifetime in words instead of 本战.
+PERMANENT = '领域持续。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。'
+
+
 def label_for(model, amounts):
     if not amounts or model in FLAGS:
         return ''
     if model == 'DomainPower':
-        return '本战' if amounts == [999999999] else str(amounts[0])
+        return '' if amounts == [PERMANENT_DURATION] else str(amounts[0])
     if model in COUNT:
         return str(len(amounts))
     if model in {'NextAttackDiscount', 'WelcomeThunderPower'}:
@@ -93,8 +99,13 @@ def errors(value):
                 failures.append(where + ': independent multi-response count must be explained')
             if model == 'ThunderArmorPower' and len(amounts) == 2 and not (str(sum(amounts)) in tips[0] and '2次' in tips[0]):
                 failures.append(where + ': combined armor and separate block gains must be explained')
-            if phase == 'domain-permanent' and '本战' not in tips[0]:
-                failures.append(where + ': permanent lifetime must be explicit')
+            if phase == 'domain-permanent':
+                if any('本战' in t for t in tips):
+                    failures.append(where + ': permanent domain must not display 本战')
+                if not tips[0].startswith('领域持续。'):
+                    failures.append(where + ': permanent lifetime must keep the 领域持续。 description')
+                if tips[0] != PERMANENT:
+                    failures.append(where + ': permanent lifetime must keep the full permanent description')
     def identity(phase):
         return identities.get((phase, 'ThunderArmorPower'))
     if identity('armor-paid-base') != identity('armor-paid-mixed') or identity('armor-paid-mixed') != identity('armor-after-lightning'):
