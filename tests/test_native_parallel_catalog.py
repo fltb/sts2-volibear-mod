@@ -18,18 +18,28 @@ import presentation_media_checks as media_checks
 import test_acceptance_runner as routing_helpers
 
 
-def main_report(pid=101):
+def fake_batch(cases, token):
+    return {'batch': {'token': token, 'cases': list(cases), 'completed': list(cases)},
+            'records': [{'variant': case, 'token': token} for case in cases]}
+
+
+def main_report(pid=101, cases=None):
+    cases = h.CARD_FACE_CASES[::2] if cases is None else cases
     return {'run_id': 'main', 'scenario': 'native-suite', 'status': 'passed', 'mode': 'real-game-background',
             'checks': {'native_suite_assertions': True, 'stock_control_success': True},
             'exit_code': 0, 'timed_out': False, 'process_identity': {'pid': pid, 'token': 'main'},
-            'combat_tests': {'stages': {'presentation': {'mode': 'actions', 'errors': []}}}}
+            'combat_tests': {'stages': {'presentation': {'mode': 'actions', 'errors': []},
+                                       'card-faces': fake_batch(cases, 'main'),
+                                       'suite': {'pid': pid, 'token': 'main'}}}}
 
 
-def catalog_report(pid=102):
-    return {'run_id': 'catalog', 'scenario': 'presentation-acceptance', 'status': 'passed', 'mode': 'real-game-background',
-            'checks': {'presentation_acceptance_assertions': True, 'presentation_media_assertions': True, 'stock_control_success': True},
+def catalog_report(pid=102, cases=None):
+    cases = h.CARD_FACE_CASES[1::2] if cases is None else cases
+    return {'run_id': 'catalog', 'scenario': 'catalog-face-suite', 'status': 'passed', 'mode': 'real-game-background',
+            'checks': {'presentation_acceptance_assertions': True, 'presentation_media_assertions': True, 'catalog_face_assertions': True, 'stock_control_success': True},
             'exit_code': 0, 'timed_out': False, 'process_identity': {'pid': pid, 'token': 'catalog'},
             'combat_tests': {'mode': 'cards', 'errors': [], 'verified_catalog_views': 356,
+                             'card_faces': fake_batch(cases, 'catalog'),
                              'media': {'status': 'PASS', 'errors': [], 'mode': 'cards', 'token': 'catalog', 'images': [{}] * 356}}}
 
 
@@ -66,7 +76,7 @@ class CatalogTests(unittest.TestCase):
                             [sys.executable, '-B', '-c', code], 5, cancel_event=cancel, process_identity=identities[name])
                         self.assertFalse(timed_out)
                         if name == 'restart': return {'passed': status == 0, 'phases': [{}, {}]}
-                        report = main_report() if name == 'main' else catalog_report()
+                        report = main_report(pid=identities[name]['pid']) if name == 'main' else catalog_report(pid=identities[name]['pid'])
                         report['process_identity'] = identities[name]
                         if status:
                             report['status'] = 'failed'
@@ -96,11 +106,12 @@ class CatalogTests(unittest.TestCase):
                 events.append(kwargs['cancel_event'])
                 if kwargs['scenario'] == 'native-suite':
                     self.assertEqual(kwargs['presentation_mode'], 'actions')
-                    self.assertEqual(len(kwargs['card_face_batch']), 410)
+                    self.assertEqual(tuple(kwargs['card_face_batch']), h.CARD_FACE_CASES[::2])
                     self.assertEqual(len(kwargs['card_lifecycle_cases']), 48)
                     result = main_report()
                 else:
-                    self.assertEqual(kwargs['scenario'], 'presentation-acceptance')
+                    self.assertEqual(kwargs['scenario'], 'catalog-face-suite')
+                    self.assertEqual(tuple(kwargs['card_face_batch']), h.CARD_FACE_CASES[1::2])
                     self.assertEqual(kwargs['presentation_mode'], 'cards')
                     result = catalog_report()
                 barrier.wait(timeout=2)
@@ -125,6 +136,9 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(report['status'], 'passed')
             self.assertEqual(report['processes'], {'stock': 1, 'suite': 1, 'restart': 2, 'catalog': 1})
             self.assertTrue(report['checks']['separate_catalog_complete_356'])
+            self.assertTrue(report['checks']['card_face_partition_exact_once'])
+            self.assertEqual(report['card_faces']['requested_count'], 410)
+            self.assertEqual((report['card_faces']['main_count'], report['card_faces']['catalog_count']), (205, 205))
             details = report['presentation']
             self.assertEqual((details['requested_mode'], details['main_mode'], details['catalog_mode']), ('all', 'actions', 'cards'))
             self.assertEqual(details['catalog_process'], {'pid': 102, 'token': 'catalog'})
@@ -145,6 +159,18 @@ class CatalogTests(unittest.TestCase):
                 self.assertFalse(suite._split_presentation_ok(main_report(), row))
         row = main_report(); row['combat_tests']['stages']['presentation']['mode'] = 'all'
         self.assertFalse(suite._split_presentation_ok(row, catalog_report()))
+
+    def test_main_native_receipt_must_bind_actual_owned_pid_and_token(self):
+        self.assertTrue(suite._split_presentation_ok(main_report(), catalog_report()))
+        for field, value in (('pid', 999), ('pid', 101.0), ('pid', True), ('token', 'other-run')):
+            report = main_report()
+            actual = deepcopy(report['process_identity'])
+            report['combat_tests']['stages']['suite'][field] = value
+            self.assertEqual(report['process_identity'], actual)
+            self.assertFalse(suite._split_presentation_ok(report, catalog_report()), (field, value))
+        report = main_report()
+        del report['combat_tests']['stages']['suite']
+        self.assertFalse(suite._split_presentation_ok(report, catalog_report()))
 
     def test_missing_catalog_is_and_failure_despite_main_and_restart_success(self):
         with tempfile.TemporaryDirectory() as temporary, ExitStack() as stack:

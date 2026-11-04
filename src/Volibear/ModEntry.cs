@@ -155,6 +155,11 @@ public static class ModEntry
                 DevelopmentBootstrap.Install(installDriver: false);
                 NativeVerificationSuite.Install();
             }
+            else if (scenario == "catalog-face-suite")
+            {
+                DevelopmentBootstrap.Install(installDriver: false);
+                CatalogFaceSuite.Install();
+            }
             else if (scenario == "multiplayer-suite")
             {
                 // Two native network sessions create their own lobby/run. The single-player

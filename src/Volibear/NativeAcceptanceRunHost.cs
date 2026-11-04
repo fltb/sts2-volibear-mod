@@ -44,7 +44,7 @@ internal static class NativeAcceptanceRunHost
         {
             var scenario = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO");
             var release = ReleaseInfoManager.Instance.ReleaseInfo;
-            if (scenario is not ("native-suite" or "card-face-acceptance" or "card-lifecycle") ||
+            if (scenario is not ("native-suite" or "card-face-acceptance" or "card-lifecycle" or "catalog-face-suite") ||
                 string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")) ||
                 release is null || release.Version != "v0.107.1" || release.Commit != "59260271" ||
                 MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)

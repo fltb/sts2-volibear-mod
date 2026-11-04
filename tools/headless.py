@@ -920,6 +920,55 @@ def repository_metadata():
     return {'git_commit': commit, 'dirty': dirty, 'git_metadata': 'observed'}
 
 
+def catalog_face_evidence(log, token, cases, process_identity):
+    """Original face oracle plus the ordered, same-owned-process composition envelope."""
+    def same(actual, expected, label):
+        # Canonical JSON preserves numeric/boolean types (123.0 is not PID 123),
+        # ignores only object-key order and rejects nonfinite numeric constants.
+        if json.dumps(actual, sort_keys=True, allow_nan=False) != json.dumps(expected, sort_keys=True, allow_nan=False):
+            raise ValueError(label + ': exact typed envelope differs')
+    errors, faces, final = [], None, None
+    try:
+        faces = extract_card_face_batch(log, token, cases)
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError) as error:
+        errors.append('catalog faces: ' + str(error))
+    try:
+        def unique(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError('duplicate envelope field: ' + key)
+                result[key] = value
+            return result
+        lines = log.splitlines()
+        def one(prefix):
+            matches = [(index, line[len(prefix):]) for index, line in enumerate(lines) if line.startswith(prefix)]
+            if len(matches) != 1:
+                raise ValueError('exactly one ' + prefix.strip() + ' required')
+            index, value = matches[0]
+            return index, json.loads(value, object_pairs_hook=unique)
+        if '[Volibear] CATALOG_FACE_ERROR ' in log:
+            raise ValueError('native composite error')
+        pid = process_identity.get('pid')
+        if type(pid) is not int or pid <= 0 or process_identity.get('token') != token:
+            raise ValueError('missing actual owned process identity')
+        first, begin = one('[Volibear] CATALOG_FACE_BEGIN ')
+        last, final = one('[Volibear] CATALOG_FACE_RESULT ')
+        same(begin, dict(schema=1, token=token, pid=pid, cases=list(cases), presentationMode='cards'), 'catalog begin')
+        same(final, dict(schema=1, token=token, pid=pid, cases=list(cases),
+                         completed=['presentation', 'card-faces'], finished=True, processRestarts=0,
+                         cleanup=dict(RunNull=True, CombatNull=True, InProgress=False,
+                                      QueueEmpty=True, ActionNull=True, HistoryVisible=0)), 'catalog final')
+        media, _ = one('[Volibear] PRESENTATION_ACCEPTANCE_RESULT ')
+        batch, _ = one('[Volibear] CARD_FACE_BATCH_RESULT ')
+        receipts = [index for index, line in enumerate(lines) if line.startswith('[Volibear] CARD_FACE_RESULT ')]
+        if not receipts or not first < media < min(receipts) <= max(receipts) < batch < last:
+            raise ValueError('catalog / face native receipt order differs')
+    except (ValueError, TypeError, KeyError, IndexError, AttributeError) as error:
+        errors.append('catalog envelope: ' + str(error))
+    return {'errors': errors, 'card_faces': faces, 'envelope': final}
+
+
 def run_once(game, timeout, frames, scenario='discovery', display='headless',
              stock=None, stock_evidence=None, engage_case='e01', domain_case='d01',
              beast_case='f01', domain_enemy_case='flutter',
@@ -936,7 +985,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     if scenario == 'domain-suppression' and domain_suppression_family not in DOMAIN_SUPPRESSION_CASES:
         raise RuntimeError('Unknown domain suppression family: ' + str(domain_suppression_family))
     if card_face_batch is not None:
-        if scenario not in ('card-face-acceptance', 'native-suite'):
+        if scenario not in ('card-face-acceptance', 'native-suite', 'catalog-face-suite'):
             raise RuntimeError('Card face batch requires the card-face-acceptance or native-suite scenario')
         card_face_batch = finite_cases(card_face_batch, CARD_FACE_CASES, 'Card face batch')
     if scenario in ('card-lifecycle', 'native-suite'):
@@ -948,7 +997,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Unknown native run mode: ' + str(native_run_mode))
         if native_run_mode == 'resume' and _profile_env is None:
             raise RuntimeError('Native resume requires the fresh owned profile from native_run_pair.py')
-    if scenario in ('presentation-acceptance', 'native-suite'):
+    if scenario in ('presentation-acceptance', 'native-suite', 'catalog-face-suite'):
         if presentation_mode not in ('all', 'cards', 'actions'):
             raise RuntimeError('Unknown presentation mode: ' + str(presentation_mode))
         if display == 'headless':
@@ -957,8 +1006,11 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Action/audio capture requires an explicit non-Dummy --audio-driver')
     if scenario == 'domain-visual' and display == 'headless':
         raise RuntimeError('Domain visual development capture requires a rendered display')
-    if scenario == 'native-suite' and card_face_batch is None:
-        raise RuntimeError('Native suite requires an explicit finite card-face batch')
+    if scenario in ('native-suite', 'catalog-face-suite') and card_face_batch is None:
+        raise RuntimeError('Composite suite requires an explicit finite card-face batch')
+    if scenario == 'catalog-face-suite' and not (
+            IS_WINDOWS and display == 'background' and presentation_mode == 'cards' and record_process_identity):
+        raise RuntimeError('Catalog faces require Windows/background, cards mode and owned process identity')
     if (IS_WINDOWS and display == 'window'
             and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite', 'domain-suppression'))):
         raise RuntimeError('Acceptance runs must use a private background desktop, not a foreground window')
@@ -967,7 +1019,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                                if _profile_env is None else
                                prepare_run(game, run_id, frames, display, _profile_env=_profile_env))
     command = with_audio_driver(command, audio_driver)
-    if scenario == 'native-suite':
+    if scenario in ('native-suite', 'catalog-face-suite'):
         retained = {'VOLIBEAR_TEST_DATA_ROOT','VOLIBEAR_TEST_FAST_MODE','VOLIBEAR_TEST_PRIVATE_DESKTOP',
                     'VOLIBEAR_TEST_TOKEN','VOLIBEAR_TEST_ARTIFACT_DIR'}
         for key in list(env):
@@ -975,7 +1027,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                 del env[key]
     # Optional diagnostic adapter; the shipped extension may bind its own symbols.
     # Never enable this unverified workaround implicitly.
-    adapter_enabled = scenario not in ('native-run', 'native-suite') and os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
+    adapter_enabled = scenario not in ('native-run', 'native-suite', 'catalog-face-suite') and os.environ.get('VOLIBEAR_TEST_AUDIO_ADAPTER') == '1'
     if adapter_enabled:
         if IS_WINDOWS:
             raise RuntimeError('The FMOD NOSOUND adapter is a POSIX LD_PRELOAD test; '
@@ -1002,7 +1054,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
         if hopper_case not in HOPPER_CASES:
             raise RuntimeError('Unknown Hopper acceptance case: ' + hopper_case)
         env['VOLIBEAR_TEST_HOPPER_CASE'] = hopper_case
-    if scenario in ('card-face-acceptance', 'native-suite'):
+    if scenario in ('card-face-acceptance', 'native-suite', 'catalog-face-suite'):
         if card_face_case not in CARD_FACE_CASES:
             raise RuntimeError('Unknown card face acceptance case: ' + card_face_case)
         env['VOLIBEAR_TEST_CARD_FACE_CASE'] = card_face_case
@@ -1026,7 +1078,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                 del env[key]
         env['VOLIBEAR_NATIVE_RUN_MODE'] = native_run_mode
         env['VOLIBEAR_NATIVE_RUN_PAIR'] = native_run_pair or run_id
-    if scenario in ('presentation-acceptance', 'native-suite'):
+    if scenario in ('presentation-acceptance', 'native-suite', 'catalog-face-suite'):
         env['VOLIBEAR_TEST_CHARACTER'] = 'volibear'
         env['VOLIBEAR_TEST_PRESENTATION_ACCEPTANCE'] = '1'
         env['VOLIBEAR_TEST_PRESENTATION_MODE'] = presentation_mode
@@ -1112,7 +1164,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             raise RuntimeError('Unknown persistent contract case: ' + persistent_case)
         env['VOLIBEAR_TEST_PERSISTENT_CASE'] = persistent_case
     if scenario in ('baseline', 'api', 'content', 'engage-contract', 'domain-contract',
-                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'domain-suppression', 'domain-visual', 'architect-ending', 'card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite'):
+                    'beast-contract', 'domain-enemy-contract', 'persistent-contract', 'catalog', 'enemy-catalog', 'domain-summon-contract', 'relic-contract', 'domain-passive-contract', 'prepared-contract', 'enemy-matrix-mvp', 'domain-revival', 'prepared-choice', 'power-presentation', 'enemy-exploration', 'coupon-contract', 'domain-card-contributions', 'primal-contract', 'audio-receipts', 'domain-dampen-transactions', 'standing-extra-turn', 'domain-steam', 'card-face-acceptance', 'domain-hopper', 'domain-suppression', 'domain-visual', 'architect-ending', 'card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite', 'catalog-face-suite'):
         # MonoMod's native exception helper needs globally visible libgcc unwind symbols.
         # This is scoped to the child; it changes no system loader configuration.
         if not IS_WINDOWS:
@@ -1150,7 +1202,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     elif scenario == 'native-run':
         scenario_result = native_run_evidence(log, run_id, native_run_mode, env['VOLIBEAR_NATIVE_RUN_PAIR'])
         checks['native_run_assertions'] = scenario_result['errors'] == []
-    elif scenario == 'presentation-acceptance':
+    elif scenario in ('presentation-acceptance', 'catalog-face-suite'):
         if record_process_identity and presentation_mode == 'cards':
             from presentation_media_checks import check_log as catalog_media_check
             media = catalog_media_check(dampen_protocol_log(log, run_id, checks), run_id,
@@ -1167,6 +1219,12 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
             scenario_result['media'] = media
             scenario_result['verified_catalog_views'] = len(media.get('images', [])) if not errors else 0
             checks['presentation_media_assertions'] = not errors
+        if scenario == 'catalog-face-suite':
+            composite = catalog_face_evidence(log, run_id, card_face_batch, process_identity)
+            checks['catalog_face_assertions'] = not composite['errors']
+            scenario_result['card_faces'] = composite['card_faces']
+            scenario_result['envelope'] = composite['envelope']
+            scenario_result['errors'] = list(errors) + composite['errors']
     elif scenario == 'architect-ending':
         from architect_ending_evidence import check_log
         scenario_result = check_log(log, run_id)

@@ -168,7 +168,7 @@ internal static class Program {
  static void Main() {
   Environment.SetEnvironmentVariable("VOLIBEAR_TEST_PROFILE_LOADS", null);
   Environment.SetEnvironmentVariable("VOLIBEAR_TEST_TOKEN", "scope-test");
-  foreach (var scenario in new[] { "native-suite", "card-face-acceptance", "card-lifecycle" })
+  foreach (var scenario in new[] { "native-suite", "card-face-acceptance", "card-lifecycle", "catalog-face-suite" })
   foreach (var enabled in new[] { false, true })
   foreach (var speed in Enum.GetValues<FastModeType>())
   foreach (var cap in new[] { 0, 60, 144 })
@@ -317,7 +317,7 @@ internal static class Program {
 }
 '''
         output = self.build(runtime, USINGS + doubles + '\ninternal static class NativeAcceptanceRunHost {\n' + scopes() + '}\n' + program, [runtime.harmony], True)
-        self.assertIn('NATIVE_ACCEPTANCE_SCOPE_PASS assertions=1067 native-gameplay=NOT_RUN', output)
+        self.assertIn('NATIVE_ACCEPTANCE_SCOPE_PASS assertions=1391 native-gameplay=NOT_RUN', output)
 
     def test_profile_interfaces_compile_against_native_assemblies(self):
         runtime = fixture_runtime(self, 'sdk', 'native', root=ROOT)
