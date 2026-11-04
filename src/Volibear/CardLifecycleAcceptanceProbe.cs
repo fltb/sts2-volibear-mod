@@ -100,6 +100,30 @@ internal static class CardLifecycleAcceptanceProbe
     }
     private static async Task Frame()
     { var tree = (SceneTree)Engine.GetMainLoop(); await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame); }
+    internal sealed class NativeRoomPreloadingScope : IDisposable
+    {
+        private readonly bool previous;
+        private bool disposed;
+        internal NativeRoomPreloadingScope()
+        {
+            var scenario = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO");
+            var release = ReleaseInfoManager.Instance.ReleaseInfo;
+            if (scenario is not ("card-lifecycle" or "native-suite") ||
+                !NativeAcceptanceRunHost.GameplayBatchScope.IsActive ||
+                string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")) ||
+                release is null || release.Version != "v0.107.1" || release.Commit != "59260271" ||
+                MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
+                throw new InvalidOperationException("Native room preloading requires a pinned isolated lifecycle batch");
+            previous = MegaCrit.Sts2.Core.Assets.PreloadManager.Enabled;
+            MegaCrit.Sts2.Core.Assets.PreloadManager.Enabled = true;
+        }
+        public void Dispose()
+        {
+            if (disposed) return;
+            disposed = true;
+            MegaCrit.Sts2.Core.Assets.PreloadManager.Enabled = previous;
+        }
+    }
     private static object Snapshot() => new {
         combatRef = Ref(combat), round = combat.RoundNumber, turn = Pcs.TurnNumber, side = combat.CurrentSide.ToString(), phase = Pcs.Phase.ToString(),
         energy = Pcs.Energy, hp = Owner.CurrentHp, block = Owner.Block, strength = Owner.GetPowerAmount<StrengthPower>(), dexterity = Owner.GetPowerAmount<DexterityPower>(),
@@ -359,7 +383,11 @@ internal static class CardLifecycleAcceptanceProbe
             var oldCombat = combat; var beforeExit = Snapshot();
             subscription?.Dispose(); subscription = null;
             await RunManager.Instance.EnterRoom(new MapRoom());
-            await RunManager.Instance.EnterRoomDebug(RoomType.Monster, model: ModelDb.Encounter<SlimesWeak>().ToMutable(), showTransition: false);
+            // UnloadMissedCacheAssets is inside this native entry. Keep its real
+            // loading-session completion boundary (enqueue/dequeue/Process), rather
+            // than the immediately completed Empty session used by lazy preloading.
+            using (var nativePreloading = new NativeRoomPreloadingScope())
+                await RunManager.Instance.EnterRoomDebug(RoomType.Monster, model: ModelDb.Encounter<SlimesWeak>().ToMutable(), showTransition: false);
             await Until(() => CombatManager.Instance.DebugOnlyGetState() is CombatState next && !ReferenceEquals(next, oldCombat) && player.PlayerCombatState is { Phase: PlayerTurnPhase.Play } && next.CurrentSide == CombatSide.Player, "Native exit and next combat");
             combat = CombatManager.Instance.DebugOnlyGetState()!; enemies = combat.Enemies.ToArray();
             await NativeAcceptanceRunHost.WaitForQuiet(combat, 1);
