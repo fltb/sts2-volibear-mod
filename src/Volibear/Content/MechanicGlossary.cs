@@ -100,8 +100,8 @@ internal static class MechanicGlossary
         result.Add("VOLIBEAR-ENGAGE_STATE.spent", "这些敌人本轮已行动，无法再次迎战：{Enemies}。");
         result.Add("VOLIBEAR-DISABLED.badge", "⊘ 已被领域禁用");
         result.Add("VOLIBEAR-DISABLED.description", "已被领域禁用");
-        result.Add("VOLIBEAR-DISABLED.enemyTitle", "已被领域禁用");
-        result.Add("VOLIBEAR-DISABLED.enemyDescription", "已被领域禁用");
+        result.Add("VOLIBEAR-DISABLED.enemyTitle", "领域压制");
+        result.Add("VOLIBEAR-DISABLED.enemyDescription", "该敌人的特殊机制已被领域禁用；普通攻击仍然有效。");
         result.Add("VOLIBEAR-DISABLED.selfTitle", "已被领域禁用");
         result.Add("VOLIBEAR-DISABLED.selfDescription", "负面状态暂不生效，受限能力恢复。状态仍会正常到期；领域结束后，尚未到期的状态恢复生效。");
         foreach (var entry in EnemyEntries)

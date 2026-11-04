@@ -14,7 +14,7 @@ namespace Volibear.Presentation;
 internal static class PowerPresentationDisabledVisual
 {
     private const string OverlayName = "VolibearDomainDisabled";
-    internal const string SuppressionIconPath = "res://VolibearArt/vfx/icons/128/domain_suppress.png";
+    internal const string SuppressionIconPath = "res://VolibearArt/ui/images/domain_suppress_seal.png";
     private const float CreatureIconSize = 56f;
 
     // Pinned NPower permits an unbound multiplayer intent node; its public getter throws.
