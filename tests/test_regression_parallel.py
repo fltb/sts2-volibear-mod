@@ -64,7 +64,7 @@ class ParallelRegressionTests(unittest.TestCase):
             'test_native_acceptance_host', 'test_native_art_residency',
             'test_native_starter_fixture', 'test_native_suite_phase_timing',
             'test_native_product_flow_pacing', 'test_native_product_flow_travel',
-            'test_catalog_face_suite_native',
+            'test_catalog_face_suite_native', 'test_card_lifecycle_native_preloading',
             'test_basic_card_lifecycle', 'test_beast_adapters', 'test_beast_power_lifecycle',
             'test_hand_capacity', 'test_history_contracts', 'test_hover_tips_canonical',
             'test_mechanic_hints', 'test_merchant_integration', 'test_native_flow_contract',
