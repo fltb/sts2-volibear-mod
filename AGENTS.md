@@ -5,6 +5,15 @@
 [docs/LOCAL_WORKFLOW.md](docs/LOCAL_WORKFLOW.md)，Agent 接续见
 [docs/LOCAL_AGENT_TASK.md](docs/LOCAL_AGENT_TASK.md)。最新用户指令优先。
 
+## 最新批准（2026-11-05，优先于下方）
+
+- 用户要求继续优化图形与文案，不再跑测试门禁。本轮重做四处视觉：领域禁用的符文遮盖、能量状态框、卡牌耗能框、领域雷电圈。
+- 能量/耗能/领域美术改为 2026-11-05 AI 生成、经本地处理与哈希记录的正式资产：`assets/animation/ui/source/energy_20261105/`（来源与处理见同目录 `provenance.json`，处理脚本 `scripts/authored_energy_20261105.py`）。`energy_orb_charged/empty.png` 为充电/ depleted 状态球；`energy_master.png`、`big_energy_empty.png` 为充能/空状态纹章；`big_energy.png` 为卡牌耗能框（中心保持单色不透明以托住数字）；`domain_suppress_seal.png` 为领域禁用符文；`domain_storm_aura.png` 为领域雷电圈贴图。
+- 能量 UI 只改表现：原生 Label 仍是唯一能量来源与数字来源，`energy.gd` 只调整其位置/字号/描边并把数字居中到能量球上，不写入或预测数值；`energy.gd --energy-only` 生成器改为保留已批准的作者制资产。
+- 领域雷电圈由程序化细线改为图层化贴图（`DomainStormRing`：主/内两层加法混合贴图 + 呼吸缩放 + 12 支程序化电弧），保留半径 300、地面椭圆与退出清理契约。
+- 文案：敌人被领域压制时的悬停改为“领域压制 / 该敌人的特殊机制已被领域禁用；普通攻击仍然有效。”，不再重复“已被领域禁用”两遍；自身减益悬停与关键词词条保持原已批准文案。
+- 保留既有纪律：不改玩法、数值、存档与网络逻辑；Riot 媒体只在忽略目录；提交前跑实际 diff 检查。
+
 ## 最新批准（2026-11-04，优先于下方）
 
 - 领域禁用表现改为纯图标：不再常驻显示“已被领域禁用”文字。受压制效果的状态图标覆盖“暗化底 + 单枚领域压制符文”（`res://VolibearArt/vfx/icons/128/domain_suppress.png`），生物级标记为无文字符文并对齐盖住其意图图标行；悬停仍显示“已被领域禁用”说明。只改表现层，不删除、不改动 Power 与结算。

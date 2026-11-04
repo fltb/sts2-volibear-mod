@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "origin": "AI-generated concept art (OpenAI image model via the local subscription channel), authored for this mod; no third-party game assets or text are included.",
+  "role": "Authored Volibear energy orb, crest, card-cost ring, domain suppression seal and storm aura; replaces the earlier flat procedural hex emblems.",
+  "files": {
+    "energy_crest_charged.png": "charged energy crest / HUD emblem source",
+    "energy_orb_charged.png": "charged energy orb source",
+    "cost_badge.png": "card energy-cost ring source (numeric centre flattened in processing)",
+    "suppress_rune.png": "domain suppression seal source (disabled effect / intent marker)",
+    "storm_aura.png": "ground storm-ring VFX source"
+  },
+  "processing": "scripts/authored_energy_20261105.py derives the runtime RGBA exports in images/ (trim, square pad, resize, centre darkening, cold empty-state derivation, flat cost centre, 1024px aura).",
+  "runtime_outputs": [
+    "images/energy_master.png",
+    "images/big_energy_empty.png",
+    "images/big_energy.png",
+    "images/energy_orb_charged.png",
+    "images/energy_orb_empty.png",
+    "images/domain_suppress_seal.png",
+    "images/domain_storm_aura.png"
+  ]
+}

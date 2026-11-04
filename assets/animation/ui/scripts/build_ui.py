@@ -56,24 +56,47 @@ def energy_state_emblem(size,charged):
     d.polygon([(x*z,y*z) for x,y in bolt],fill=colors[3])
     return im.resize((size,size),Image.Resampling.LANCZOS)
 
+AUTHORED = {
+    'big_energy.png': 'card cost frame: authored 2026-11-05 storm-gold ring; flat opaque numeric centre',
+    'energy_master.png': 'charged HUD emblem: authored 2026-11-05 storm crest, painterly cyan lightning',
+    'big_energy_empty.png': 'empty HUD emblem: authored 2026-11-05 depleted crest, cold steel, no charge light',
+    'energy_orb_charged.png': 'charged HUD orb: authored 2026-11-05 painted electric sphere + gold rune rim',
+    'energy_orb_empty.png': 'empty HUD orb: authored 2026-11-05 cold depleted sphere, no charge light',
+    'domain_suppress_seal.png': 'domain suppression seal icon: authored 2026-11-05 struck-through bolt rune',
+    'domain_storm_aura.png': 'domain storm aura VFX: authored 2026-11-05 layered electric ground band',
+}
+
+
+def authored_row(name, basis):
+    path = ROOT / 'images' / name
+    with Image.open(path) as image:
+        size, mode = list(image.size), image.mode
+    return {'id': Path(name).stem, 'file': 'images/' + name, 'size': size, 'mode': mode,
+            'role': basis.split(':', 1)[0], 'basis': basis, 'sha256': sha(path)}
+
+
+def refresh_authored(manifest):
+    for name, basis in AUTHORED.items():
+        path = ROOT / 'images' / name
+        if not path.is_file():
+            continue
+        row = next((row for row in manifest['assets'] if row['file'] == 'images/' + name), None)
+        fresh = authored_row(name, basis)
+        if row is None:
+            manifest['assets'].append(fresh)
+        else:
+            row.update(fresh)
+
+
 def energy_only():
-    """Update only the three authorized assets and their existing manifest rows."""
-    manifest_path=ROOT/'manifest.json';manifest=json.loads(manifest_path.read_text())
-    before={p:sha(p) for p in (ROOT/'images').glob('*.png')}
-    outputs={
-        'big_energy.png':(cost_badge(74),'card cost frame: solid ink-blue numeric center; rim-only lightning'),
-        'energy_master.png':(energy_state_emblem(256,True),'charged HUD emblem: bright blue-white energy'),
-        'big_energy_empty.png':(energy_state_emblem(74,False),'empty HUD emblem: cold dark metal, no charge light'),
-    }
-    for name,(image,basis) in outputs.items():
-        path=ROOT/'images'/name;image.save(path)
-        row=next(row for row in manifest['assets'] if row['file']=='images/'+name)
-        row.update(sha256=sha(path),size=list(image.size),mode=image.mode,basis=basis)
-    for path,digest in before.items():
-        if path.name not in outputs:assert sha(path)==digest, 'Unapproved image changed: '+str(path)
-    manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-    (ROOT/'manifest.js').write_text('window.VOLIBEAR_UI='+json.dumps(manifest,ensure_ascii=False,separators=(',',':'))+';\n')
-    print('Updated only:', ', '.join(outputs))
+    """Keep the authored energy art; only refresh its manifest identity."""
+    manifest_path = ROOT / 'manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    refresh_authored(manifest)
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+    (ROOT / 'manifest.js').write_text('window.VOLIBEAR_UI=' + json.dumps(manifest, ensure_ascii=False, separators=(',', ':')) + ';\n')
+    print('Preserved authored:', ', '.join(name for name in AUTHORED if (ROOT / 'images' / name).is_file()))
+
 
 def main():
     src=Image.open(SRC).convert('RGBA')
@@ -88,10 +111,9 @@ def main():
     save(outline,'character_icon_volibear_outline.png','multiplayer portrait outline','128x128 silhouette, no new anatomy')
     marker=Image.new('RGBA',(128,128));d=ImageDraw.Draw(marker);d.polygon([(64,124),(40,101),(88,101)],fill=(187,161,118,255));d.ellipse((8,4,120,116),fill=(19,34,49,255),outline=(187,161,118,255),width=5)
     crop=head.resize((103,103),Image.Resampling.LANCZOS);marker.alpha_composite(crop,(12,8));save(marker,'map_marker_volibear.png','map position marker','author template 128x128; character face on a map pin')
-    save(cost_badge(74),'big_energy.png','card cost frame','solid numeric center; rim-only lightning')
     save(energy(24),'text_energy.png','energy emblem','template 24; original inline energy symbol')
-    save(energy_state_emblem(256,True),'energy_master.png','energy emblem','charged HUD emblem')
-    save(energy_state_emblem(74,False),'big_energy_empty.png','energy disabled UI state','empty HUD emblem; no charge light')
+    for authored_name, authored_basis in AUTHORED.items():
+        REC.append(authored_row(authored_name, authored_basis))
     canvas=Image.new('RGBA',(512,512));fit=ImageOps.contain(src,(460,460),Image.Resampling.LANCZOS);canvas.alpha_composite(fit,((512-fit.width)//2,480-fit.height));save(canvas,'character_fallback.png','fallback static creature visual','approved original, uniform scale, no anatomy repaint')
     full=plate((1920,1080));d=ImageDraw.Draw(full);d.polygon([(0,0),(760,0),(900,1080),(0,1080)],fill=(14,24,36,255));person=ImageOps.contain(src,(1120,1020),Image.Resampling.LANCZOS);full.alpha_composite(person,(780,1070-person.height));save(full,'character_select_background.png','character select backdrop','1920x1080 project layout; exact character painting at uniform scale, clear left UI area')
     transition=Image.new('RGBA',(1920,1080));transition.alpha_composite(person,(780,1070-person.height));save(transition,'character_select_transition.png','transition character cutout','same registered position as select background; engine scene controls transition')
