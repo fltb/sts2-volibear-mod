@@ -71,11 +71,15 @@ public static partial class VolibearPresentationBridge
             void vertex() { vertex_tint = COLOR; }
             void fragment() {
                 vec4 tex = texture(TEXTURE, UV);
-                float light = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
-                vec3 blue = mix(vec3(0.035, 0.22, 0.60), vec3(0.55, 0.91, 1.0), light);
+                // Preserve the painted value structure instead of washing every fibre to one blue:
+                // deep navy shadows, mid blue body, restrained icy highlight, never pure white.
+                float light = clamp(dot(tex.rgb, vec3(0.299, 0.587, 0.114)), 0.0, 1.0);
+                float shaped = pow(light, 1.18);
+                vec3 body = mix(vec3(0.020, 0.115, 0.360), vec3(0.145, 0.470, 0.880), smoothstep(0.0, 0.62, shaped));
+                body = mix(body, vec3(0.560, 0.880, 1.000), smoothstep(0.62, 1.0, shaped) * 0.72);
                 float pulse = 0.5 + 0.5 * sin(TIME * 3.0 + UV.y * 8.0);
-                blue += vec3(0.02, 0.09, 0.14) * pulse;
-                COLOR = vec4(blue, tex.a * 0.84) * vertex_tint;
+                body += vec3(0.010, 0.045, 0.080) * pulse;
+                COLOR = vec4(body, tex.a * 0.84) * vertex_tint;
             }
             """;
     }

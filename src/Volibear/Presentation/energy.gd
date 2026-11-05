@@ -19,6 +19,7 @@ var _value_pattern = RegEx.new()
 var _last_text = ""
 var _has_value = false
 var _energy_value = 0
+var _energy_max = -1
 var _phase = 0.0
 var _pulse = 0.0
 var _pulse_direction = 0
@@ -82,6 +83,7 @@ func _center_label() -> void:
 	_label.add_theme_constant_override("outline_size", 7)
 	_label.add_theme_color_override("font_color", Color(0.96, 0.99, 1, 1))
 	_label.add_theme_color_override("font_outline_color", Color(0.02, 0.07, 0.12, 1))
+	_tint_value(_energy_value)
 
 func _read_native_value() -> void:
 	if not is_instance_valid(_label) or not is_instance_valid(_core) or not is_instance_valid(_emblem):
@@ -90,10 +92,16 @@ func _read_native_value() -> void:
 	if _label.text == _last_text:
 		return
 	_last_text = _label.text
-	var match_value = _value_pattern.search(_tag_pattern.sub(_last_text, "", true))
+	var cleaned = _tag_pattern.sub(_last_text, "", true)
+	var match_value = _value_pattern.search(cleaned)
 	if match_value == null:
 		return # Unknown/native placeholder text is not a zero-energy signal.
 	var value = int(match_value.get_string(1))
+	var max_match = RegEx.new()
+	max_match.compile("^\\s*-?\\d+\\s*/\\s*(\\d+)\\s*$")
+	var max_value = max_match.search(cleaned)
+	_energy_max = int(max_value.get_string(1)) if max_value != null else -1
+	_tint_value(value)
 	if _has_value and value != _energy_value:
 		_pulse_direction = 1 if value > _energy_value else -1
 		_pulse = PULSE_SECONDS if value > 0 else 0.0
@@ -106,6 +114,17 @@ func _read_native_value() -> void:
 	if is_instance_valid(_orb):
 		_orb.texture = CHARGED_ORB if charged else EMPTY_ORB
 	queue_redraw()
+
+func _tint_value(value: int) -> void:
+	# Overflow energy keeps the native text content; only its colour changes.
+	if not is_instance_valid(_label):
+		return
+	if value <= 0:
+		_label.add_theme_color_override("font_color", Color(0.74, 0.82, 0.9, 1))
+	elif _energy_max >= 0 and value > _energy_max:
+		_label.add_theme_color_override("font_color", Color(1.0, 0.82, 0.38, 1))
+	else:
+		_label.add_theme_color_override("font_color", Color(0.96, 0.99, 1, 1))
 
 func _process(delta: float) -> void:
 	_read_native_value()

@@ -24,7 +24,7 @@ internal static class DomainStormRing
             var aura = new Sprite2D { Name = "StormAura", Texture = texture, Centered = true, Material = Light() };
             root.AddChild(aura);
             var inner = new Sprite2D { Name = "StormAuraInner", Texture = texture, Centered = true, Material = Light(),
-                Modulate = new Color(.75f, .92f, 1f, .55f) };
+                Modulate = new Color(.72f, .90f, 1f, .34f) };
             root.AddChild(inner);
         }
         // A few procedural spikes keep the field alive between painted keyframes.
@@ -46,7 +46,7 @@ internal static class DomainStormRing
             float scale = 620f / texture.GetWidth();
             aura.Position = new Vector2(0, -30f);
             aura.Scale = new Vector2(scale * breathe, scale * (2f - breathe));
-            aura.Modulate = new Color(1f, 1f, 1f, .86f + .14f * (.5f + .5f * Mathf.Sin(time * 2.6f)));
+            aura.Modulate = new Color(.94f, .98f, 1f, .84f + .12f * (.5f + .5f * Mathf.Sin(time * 2.6f)));
         }
         if (root.GetNodeOrNull<Sprite2D>("StormAuraInner") is { Texture: { } innerTexture } inner)
         {
@@ -54,7 +54,7 @@ internal static class DomainStormRing
             inner.Position = new Vector2(0, -22f);
             inner.Scale = new Vector2(scale * (2f - breathe), scale * breathe);
             inner.Rotation = .015f * Mathf.Sin(time * .7f);
-            inner.Modulate = new Color(.8f, .95f, 1f, .38f + .12f * (.5f + .5f * Mathf.Sin(time * 1.9f + 1.2f)));
+            inner.Modulate = new Color(.78f, .94f, 1f, .26f + .08f * (.5f + .5f * Mathf.Sin(time * 1.9f + 1.2f)));
         }
         var bolts = root.GetNodeOrNull<Node2D>("StormBolts");
         if (bolts is null) return;
