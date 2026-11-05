@@ -6,7 +6,7 @@
   "files": {
     "energy_crest_charged.png": "charged energy crest / HUD emblem source",
     "energy_orb_charged.png": "charged energy orb source",
-    "cost_badge.png": "card energy-cost ring source (numeric centre flattened in processing)",
+    "cost_badge.png": "card energy-cost ring source, revised 2026-11-05: single thick gold rim and flat navy centre for small-size legibility",
     "suppress_rune.png": "domain suppression seal source (disabled effect / intent marker)",
     "storm_aura.png": "ground storm-ring VFX source"
   },
@@ -19,5 +19,8 @@
     "images/energy_orb_empty.png",
     "images/domain_suppress_seal.png",
     "images/domain_storm_aura.png"
+  ],
+  "revisions": [
+    "2026-11-05 review pass: depleted orb keeps cold cracked-glass structure; orb inset and halo softened; cost badge simplified; suppression seal dimmed; storm aura highlights compressed."
   ]
 }

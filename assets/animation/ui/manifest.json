@@ -100,7 +100,7 @@
       "mode": "RGBA",
       "role": "card cost frame",
       "basis": "card cost frame: authored 2026-11-05 storm-gold ring; flat opaque numeric centre",
-      "sha256": "128dd108a409f9ce79547bd7d8d2458667887eab5dad1c4bb879931411f98d22"
+      "sha256": "aa124dd7fb4695d21dc415441a30e7705ccb5d3c3b8fd81d2768694f88bfb4e2"
     },
     {
       "id": "text_energy",
@@ -136,7 +136,7 @@
       "mode": "RGBA",
       "role": "empty HUD emblem",
       "basis": "empty HUD emblem: authored 2026-11-05 depleted crest, cold steel, no charge light",
-      "sha256": "5e0185e4136c13894f0cc2ead139d91d50ecedeed181ead94fef34431c6d6d78"
+      "sha256": "8f58ab76daa08f0284fa75fc36822a7458f9229b5083ce4e357af3fe0954ac34"
     },
     {
       "id": "character_fallback",
@@ -248,7 +248,7 @@
       "mode": "RGBA",
       "role": "charged HUD orb",
       "basis": "charged HUD orb: authored 2026-11-05 painted electric sphere + gold rune rim",
-      "sha256": "66269f231cebb6474d475b298c83e4476daf5c2b564de1aade44d9e44324fed6"
+      "sha256": "25e46d346dfcafb83c24819449f206a338f1184bd2391d8c0ee56189f00a2e4e"
     },
     {
       "id": "energy_orb_empty",
@@ -260,7 +260,7 @@
       "mode": "RGBA",
       "role": "empty HUD orb",
       "basis": "empty HUD orb: authored 2026-11-05 cold depleted sphere, no charge light",
-      "sha256": "dde3a19b9a3cc828a98ac10ee1b56086de3890728e35966bad62d2d8993d0e9b"
+      "sha256": "557c1e7e9404fb817d527bbd11f3820b9006fa937eed29918d3571da15b70c4b"
     },
     {
       "id": "domain_suppress_seal",
@@ -272,7 +272,7 @@
       "mode": "RGBA",
       "role": "domain suppression seal icon",
       "basis": "domain suppression seal icon: authored 2026-11-05 struck-through bolt rune",
-      "sha256": "1e63846acdbf5bfeead4d64f312a148226caafc79ab2b541be51a782d85b695c"
+      "sha256": "037832206cde7e4f299e60776154d0bb197d6e9591c5e7d1636d732bd0cbfbd4"
     },
     {
       "id": "domain_storm_aura",
@@ -284,7 +284,7 @@
       "mode": "RGBA",
       "role": "domain storm aura VFX",
       "basis": "domain storm aura VFX: authored 2026-11-05 layered electric ground band",
-      "sha256": "728d0007d69317c21ba60631f9f3f22cad624b037a7669ecab806e3be39f60e3"
+      "sha256": "f5ea16bcddb0b8798058144ec7301e68dc21887e398465bbfebd1c3c9702c317"
     }
   ],
   "reuse_decisions": {
