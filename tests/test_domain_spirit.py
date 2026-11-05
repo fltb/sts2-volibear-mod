@@ -21,7 +21,7 @@ class DomainSpiritTests(unittest.TestCase):
         self.assertIn('visuals.Scale = _spiritScale * 1.22f', source)
         self.assertIn('sprite!.Material', source)
         self.assertNotIn('SpriteFrames =', source)
-        self.assertIn('tex.a * 0.72', source)
+        self.assertIn('tex.a * 0.84', source)
         self.assertIn('vertex_tint = COLOR', source)
         self.assertIn('DomainStormRing.Populate(_stormRing)', source)
 

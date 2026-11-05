@@ -75,7 +75,7 @@ public static partial class VolibearPresentationBridge
                 vec3 blue = mix(vec3(0.035, 0.22, 0.60), vec3(0.55, 0.91, 1.0), light);
                 float pulse = 0.5 + 0.5 * sin(TIME * 3.0 + UV.y * 8.0);
                 blue += vec3(0.02, 0.09, 0.14) * pulse;
-                COLOR = vec4(blue, tex.a * 0.72) * vertex_tint;
+                COLOR = vec4(blue, tex.a * 0.84) * vertex_tint;
             }
             """;
     }
