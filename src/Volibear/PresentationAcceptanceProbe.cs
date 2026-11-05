@@ -149,7 +149,7 @@ internal static class PresentationAcceptanceProbe
         var ring=type.GetField("_stormRing",Fields)!.GetValue(scope) as Node2D;
         var original=(Vector2)type.GetField("_spiritScale",Fields)!.GetValue(scope)!;
         Need(visuals is not null&&visuals.Scale.IsEqualApprox(original*1.22f),"Domain must enlarge authored foot-origin visuals");
-        Need(sprite?.Material is ShaderMaterial material&&material.Shader.Code.Contains("tex.a * 0.72"),"Domain must use transparent spirit shader");
+        Need(sprite?.Material is ShaderMaterial material&&material.Shader.Code.Contains("tex.a * 0.84"),"Domain must use transparent spirit shader");
         Need(ring is not null&&ring.IsInsideTree()&&ring.GetChildren().OfType<Line2D>().Count()==6,"Domain must display six lightning arcs");
         var arc=ring!.GetChildren().OfType<Line2D>().Last();var before=arc.Points.ToArray();
         // Production geometry advances on its 0.2s timer, after ProcessFrame.
