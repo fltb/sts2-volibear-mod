@@ -10,6 +10,16 @@
 两个包的代码、卡牌、美术、UI 完全一致，只是音频来源不同。分享前用
 `PACKAGE.json` 核对 `audio_profile`/`private_audio`，别把私有包发出去了。
 
+## 1b. 私发 riot 版给好友（仅限私下，不公开上传）
+
+- 文件：`.local/release/Volibear-0.1.0-StS2-0.107.1-riot_en-private.zip`
+  （173,213,873 字节，SHA-256 `e18f57ff448853977fcb66accd94ac24b2ffa51d73c47acd745cb6217db78235`）。
+- 只发给认识的好友本人，不要上传 Steam Workshop、网盘公开链接、Discord 公共频道或任何公开仓库：
+  包内 Riot 官方录音的再分发权仍在 Riot，仓库只保留本机自用位置。
+- 好友的安装与 open 包完全相同：解压 `mods/Volibear` 与 `mods/BaseLib` 到游戏目录，
+  游戏版本 0.107.1/59260271，BaseLib 3.4.7 已随包附带；双方联机需要同版本。
+- 对外的公开页面/公告请用 open 版并保留 `PACKAGE.json` 里的 `private_audio: false` 标识。
+
 ## 2. 接收方需要满足
 
 - 《Slay the Spire 2》**0.107.1 / 构建 59260271**（版本不符会在打补丁前拒绝）。
