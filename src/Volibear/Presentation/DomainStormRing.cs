@@ -14,6 +14,27 @@ internal static class DomainStormRing
     private static Vector2 Ground(float angle, float radius) => new(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius * .24f - 5f);
     private static CanvasItemMaterial Light() => new() { BlendMode = CanvasItemMaterial.BlendModeEnum.Add, LightMode = CanvasItemMaterial.LightModeEnum.Unshaded };
 
+    /// <summary>Living plasma: the painted band flows, ripples and flickers instead of sliding as a static decal.</summary>
+    private const string AuraShader = """
+        shader_type canvas_item;
+        render_mode unshaded, blend_add;
+        void fragment() {
+            vec2 uv = UV;
+            float t = TIME;
+            uv.x += 0.0022 * sin(uv.y * 19.0 + t * 2.3);
+            uv.y += 0.0090 * sin(uv.x * 13.0 - t * 1.8);
+            vec4 tex = texture(TEXTURE, uv);
+            float ripple = 0.5 + 0.5 * sin(uv.x * 34.0 - t * 3.1 + sin(uv.y * 15.0) * 1.6);
+            float arc = 0.5 + 0.5 * sin(uv.x * 11.0 + t * 0.7);
+            vec4 col = tex;
+            col.rgb *= 0.90 + 0.20 * ripple + 0.06 * arc;
+            col.a *= 0.86 + 0.14 * ripple;
+            COLOR = col;
+        }
+        """;
+
+    private static ShaderMaterial Plasma() => new() { Shader = new Shader { Code = AuraShader } };
+
     internal static void Populate(Node2D root)
     {
         // Never use negative global Z (behind the opaque room) or raise above health/status UI.
@@ -21,9 +42,9 @@ internal static class DomainStormRing
         var texture = GD.Load<Texture2D>(AuraPath);
         if (texture is not null)
         {
-            var aura = new Sprite2D { Name = "StormAura", Texture = texture, Centered = true, Material = Light() };
+            var aura = new Sprite2D { Name = "StormAura", Texture = texture, Centered = true, Material = Plasma() };
             root.AddChild(aura);
-            var inner = new Sprite2D { Name = "StormAuraInner", Texture = texture, Centered = true, Material = Light(),
+            var inner = new Sprite2D { Name = "StormAuraInner", Texture = texture, Centered = true, Material = Plasma(),
                 Modulate = new Color(.72f, .90f, 1f, .34f) };
             root.AddChild(inner);
         }
@@ -39,21 +60,21 @@ internal static class DomainStormRing
 
     internal static void Animate(Node2D root, float time)
     {
-        float breathe = 1f + .025f * Mathf.Sin(time * 1.1f);
+        float breathe = 1f + .038f * Mathf.Sin(time * 1.15f);
         if (root.GetNodeOrNull<Sprite2D>("StormAura") is { Texture: { } texture } aura)
         {
             // The painted band is sized to the pinned 600 x 144 foot ellipse, then breathes.
             float scale = 620f / texture.GetWidth();
             aura.Position = new Vector2(0, -30f);
             aura.Scale = new Vector2(scale * breathe, scale * (2f - breathe));
-            aura.Modulate = new Color(.94f, .98f, 1f, .84f + .12f * (.5f + .5f * Mathf.Sin(time * 2.6f)));
+            aura.Modulate = new Color(.94f, .98f, 1f, .80f + .16f * (.5f + .5f * Mathf.Sin(time * 2.6f)));
         }
         if (root.GetNodeOrNull<Sprite2D>("StormAuraInner") is { Texture: { } innerTexture } inner)
         {
             float scale = 470f / innerTexture.GetWidth();
             inner.Position = new Vector2(0, -22f);
             inner.Scale = new Vector2(scale * (2f - breathe), scale * breathe);
-            inner.Rotation = .015f * Mathf.Sin(time * .7f);
+            inner.Rotation = .028f * Mathf.Sin(time * .7f);
             inner.Modulate = new Color(.78f, .94f, 1f, .26f + .08f * (.5f + .5f * Mathf.Sin(time * 1.9f + 1.2f)));
         }
         var bolts = root.GetNodeOrNull<Node2D>("StormBolts");
