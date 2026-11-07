@@ -157,7 +157,7 @@ internal static class NewStrengthPassiveProbe
                 MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn) throw new InvalidOperationException("Unsupported new-Apply fixture");
             _mode = parts[1];
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No version metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271") throw new InvalidOperationException("Wrong pinned version");
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit) throw new InvalidOperationException("Wrong pinned version");
             var player = state.Players.Single(); _owner = player.Creature; _combat = state;
             _target = state.Enemies.Single(e => e.Monster is LeafSlimeS);
             var control = state.Enemies.Single(e => e.Monster is TwigSlimeS);

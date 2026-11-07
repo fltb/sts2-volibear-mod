@@ -103,7 +103,7 @@ internal static class DomainVisualDevelopmentProbe
         try
         {
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
-            Need(token.Length > 0 && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && release.Version == "v0.107.1" && release.Commit == "59260271", "Pinned real-game fixture required");
+            Need(token.Length > 0 && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && release.Version == global::Volibear.Core.SupportedGameBuild.Version && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "Pinned real-game fixture required");
             string directory = Path.GetFullPath(Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DOMAIN_VISUAL_OUTPUT")
                 ?? throw new InvalidOperationException("Missing isolated visual output directory"));
             Directory.CreateDirectory(directory);

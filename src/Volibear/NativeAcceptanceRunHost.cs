@@ -46,7 +46,7 @@ internal static class NativeAcceptanceRunHost
             var release = ReleaseInfoManager.Instance.ReleaseInfo;
             if (scenario is not ("native-suite" or "card-face-acceptance" or "card-lifecycle" or "catalog-face-suite") ||
                 string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")) ||
-                release is null || release.Version != "v0.107.1" || release.Commit != "59260271" ||
+                release is null || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit ||
                 MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Lazy assets require a pinned isolated gameplay acceptance batch");
             if (active is not null) throw new InvalidOperationException("Gameplay batch scopes cannot overlap");

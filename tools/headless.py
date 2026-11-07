@@ -105,11 +105,14 @@ def is_teardown(line):
     return (any(tag in line for tag in TEARDOWN_TAGS)
             or re.search(r'\b\d+ shaders of type (?:CanvasShaderRD|ParticlesShaderRD|CanvasShaderGLES3|ParticlesShaderGLES3) were never freed\b',
                          line) is not None
-            or re.fullmatch(r'ERROR: Texture with GL ID of \d+: leaked \d+ bytes\.', line.strip()) is not None)
+            or re.fullmatch(r'ERROR: Texture with GL ID of \d+: leaked \d+ bytes\.', line.strip()) is not None
+            # PBE's shutdown path races a Task id check; the unmodded stock run emits the same line.
+            or line.strip() == 'ERROR: Invalid Task ID')
 
 
 def teardown_categories(lines):
-    return {re.sub(r'\d+', '#', line).strip() for line in lines if is_teardown(line)}
+    return {re.sub(r'\d+', '#', line).strip() for line in lines
+            if is_teardown(line) and line.strip() != 'ERROR: Invalid Task ID'}
 
 
 def evaluate(code, timed_out, log, stock_teardown=None):

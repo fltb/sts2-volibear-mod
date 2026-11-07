@@ -214,7 +214,7 @@ public static class EnemyCatalogProbe
                 MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Native catalog requires isolated artifact directory/token and TestMode=false.");
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No native release metadata.");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271")
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit)
                 throw new InvalidOperationException("Enemy catalog target version mismatch.");
             var requested = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_ENCOUNTER_ID");
             if (requested is not null && requested != state.Encounter?.Id.ToString())

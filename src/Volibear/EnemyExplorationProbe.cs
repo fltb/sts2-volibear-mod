@@ -774,7 +774,7 @@ public static class EnemyExplorationProbe
         try
         {
             if (string.IsNullOrWhiteSpace(token) || string.IsNullOrWhiteSpace(directory) ||
-                MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn || release?.Version != "v0.107.1" || release.Commit != "59260271")
+                MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn || release?.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit)
                 throw new InvalidOperationException("Pinned native isolated environment required.");
             selection = ReadSelection(out selectionHash);
             await Frame();

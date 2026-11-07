@@ -70,7 +70,7 @@ internal static class DomainCardContributionsProbe
         {
             string token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN") ?? "";
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("Missing release metadata");
-            if (string.IsNullOrWhiteSpace(token) || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn || release.Version != "v0.107.1" || release.Commit != "59260271")
+            if (string.IsNullOrWhiteSpace(token) || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit)
                 throw new InvalidOperationException("Wrong isolated pinned native fixture");
             var player = state.Players.Single(); var owner = player.Creature; var choices = new ThrowingPlayerChoiceContext();
             var source = state.Enemies.Single(e => e.Monster?.GetType() == SourceType);

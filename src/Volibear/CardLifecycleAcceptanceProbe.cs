@@ -111,7 +111,7 @@ internal static class CardLifecycleAcceptanceProbe
             if (scenario is not ("card-lifecycle" or "native-suite") ||
                 !NativeAcceptanceRunHost.GameplayBatchScope.IsActive ||
                 string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")) ||
-                release is null || release.Version != "v0.107.1" || release.Commit != "59260271" ||
+                release is null || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit ||
                 MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Native room preloading requires a pinned isolated lifecycle batch");
             previous = MegaCrit.Sts2.Core.Assets.PreloadManager.Enabled;

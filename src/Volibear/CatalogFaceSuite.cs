@@ -36,7 +36,7 @@ internal static class CatalogFaceSuite
             if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO") != "catalog-face-suite" ||
                 System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_PRESENTATION_MODE") != "cards" ||
                 string.IsNullOrWhiteSpace(token) || cases.Length == 0 || cases.Distinct().Count() != cases.Length ||
-                release is null || release.Version != "v0.107.1" || release.Commit != "59260271" || TestMode.IsOn)
+                release is null || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit || TestMode.IsOn)
                 throw new InvalidOperationException("Catalog-face suite requires pinned native cards mode and a unique finite batch");
             await NativeAcceptanceRunHost.WaitForQuiet(initial, 1);
             GD.Print("[Volibear] CATALOG_FACE_BEGIN " + JsonSerializer.Serialize(new {

@@ -126,7 +126,7 @@ internal static class DomainEnemyContractProbe
             if (string.IsNullOrWhiteSpace(token) || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Mechanism probe requires isolated run token and TestMode=false");
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No runtime release metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271") throw new InvalidOperationException("Wrong game version");
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit) throw new InvalidOperationException("Wrong game version");
             var player = state.Players.Single();
             var enemy = state.Enemies.First(e => e.Monster is LeafSlimeS);
             if (state.RoundNumber != 1 || player.PlayerCombatState!.TurnNumber != 1 || player.Creature.CurrentHp != 80 ||

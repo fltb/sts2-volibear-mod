@@ -452,7 +452,7 @@ internal static class NativeProductFlowProbe
             if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_SCENARIO") != "native-suite") return;
             var release = ReleaseInfoManager.Instance.ReleaseInfo;
             if (string.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN")) ||
-                release is null || release.Version != "v0.107.1" || release.Commit != "59260271" || TestMode.IsOn)
+                release is null || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit || TestMode.IsOn)
                 throw new InvalidOperationException("Public flow pacing requires a pinned isolated native suite");
             previousSpeed = SaveManager.Instance.PrefsSave.FastMode;
             previousMaxFps = Engine.MaxFps;

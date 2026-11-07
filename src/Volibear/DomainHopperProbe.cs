@@ -189,7 +189,7 @@ internal static class DomainHopperProbe
             var token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
             variant = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_HOPPER_CASE") ?? "";
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
-            Require(!string.IsNullOrWhiteSpace(token) && Variants.Contains(variant) && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && release.Version == "v0.107.1" && release.Commit == "59260271", "Invalid Hopper token/case/release");
+            Require(!string.IsNullOrWhiteSpace(token) && Variants.Contains(variant) && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && release.Version == global::Volibear.Core.SupportedGameBuild.Version && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "Invalid Hopper token/case/release");
             combat = state; player = state.Players.Single(); hopper = state.Enemies.Single();
             Require(state.Encounter is ThievingHopperWeak && hopper.Monster is ThievingHopper && state.RunState.AscensionLevel == 0 && state.RoundNumber == 1 && state.CurrentSide == CombatSide.Player && player.Creature.CurrentHp == 80 && player.Creature.Block == 0, "Expected fresh native Hopper encounter");
             Require(hopper.Monster!.NextMove.Id == "THIEVERY_MOVE", "Native initial move must not be forced");

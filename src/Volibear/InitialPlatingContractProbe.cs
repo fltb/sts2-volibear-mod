@@ -77,7 +77,7 @@ internal static class InitialPlatingContractProbe
             var variant = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DOMAIN_PASSIVE_CASE") ?? "";
             var token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
             var release = ReleaseInfoManager.Instance.ReleaseInfo;
-            if (string.IsNullOrWhiteSpace(token) || release is null || release.Version != "v0.107.1" || release.Commit != "59260271" ||
+            if (string.IsNullOrWhiteSpace(token) || release is null || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit ||
                 variant is not ("plating-initial-off" or "plating-initial-on") || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Unsupported initial Plating fixture/token/version");
             _combat = (CombatState)state; _owner = state.Players.Single().Creature; _target = plating.Owner; _source = plating;
@@ -112,7 +112,7 @@ internal static class InitialPlatingContractProbe
             var token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
             var variant = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DOMAIN_PASSIVE_CASE") ?? "";
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No release metadata");
-            if (string.IsNullOrWhiteSpace(token) || release.Version != "v0.107.1" || release.Commit != "59260271" ||
+            if (string.IsNullOrWhiteSpace(token) || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit ||
                 !_seen || !_complete || !ReferenceEquals(state, _combat) || state.RoundNumber != 1 || state.CurrentSide != CombatSide.Player)
                 throw new InvalidOperationException("Initial native side-start receipt missing/stale/wrong release");
             var entries = CombatManager.Instance.History.Entries.Skip(_historyStart).ToArray();

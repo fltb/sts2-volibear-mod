@@ -106,7 +106,7 @@ internal static class CardFaceAcceptanceProbe
         try
         {
             var release=ReleaseInfoManager.Instance.ReleaseInfo;
-            if (release is null || release.Version!="v0.107.1" || release.Commit!="59260271" || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
+            if (release is null || release.Version!=global::Volibear.Core.SupportedGameBuild.Version || release.Commit!=global::Volibear.Core.SupportedGameBuild.Commit || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Pinned native release required for batch");
             var allowed = Implemented.Split(' ').SelectMany(id => new[] { "base","upgrade" }.SelectMany(face => Branches(id).Select(branch => id+"-"+face+"-"+branch))).ToHashSet();
             if (string.IsNullOrWhiteSpace(token) || cases.Length == 0 || cases.Distinct().Count()!=cases.Length || cases.Any(c => !allowed.Contains(c)))
@@ -204,7 +204,7 @@ internal static class CardFaceAcceptanceProbe
                 throw new InvalidOperationException("Missing token or unknown finite face case");
             var id = parts[0]; bool upgraded = parts[1] == "upgrade"; var branch = parts[2];
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No release metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271" || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Pinned native release required, TestMode forbidden");
             player = state.Players.Single(); var p = player; var owner = p.Creature;
             var pcs = p.PlayerCombatState ?? throw new InvalidOperationException("No combat state");
