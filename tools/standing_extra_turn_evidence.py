@@ -2,6 +2,9 @@
 from collections import Counter
 from copy import deepcopy
 import json
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 PREFIX='[Volibear] STANDING_EXTRA_TURN_RESULT '
 STANDING_CASES=('U03-base-extra-turn','U03-upgraded-extra-turn')
 ACCEPTANCE='native-mayhem-standing-extra-and-normal-player-start-not-OS-input'
@@ -30,7 +33,7 @@ def validate_result(r,token,variant):
 
 def _validate(r,token,variant):
     need(variant in STANDING_CASES and type(r) is dict and set(r)==set('token variant scenario schema completed gameVersion gameCommit testMode acceptance fixture character playerId enemyIds enemyTypes cards generated initial actions setups blockFixture transitions final payments effects boundaries extraTurns autoPhases blockGains clearPreventers blockTrace powerLifecycle'.split()))
-    for k,v in dict(token=token,variant=variant,scenario='standing-extra-turn',schema='standing-extra-turn-v1',completed=True,gameVersion='v0.107.1',gameCommit='59260271',testMode=False,
+    for k,v in dict(token=token,variant=variant,scenario='standing-extra-turn',schema='standing-extra-turn-v1',completed=True,gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,testMode=False,
                     acceptance=ACCEPTANCE,fixture='fresh-native-three-slimes-energy30-enemyHp500-created-cards-five-padding-native-block40-explicit',character='VolibearCharacter').items():same(r[k],v)
     up=variant==STANDING_CASES[1];decay,entry=(3,12) if up else (6,8)
     pid=r['playerId'];ids=r['enemyIds'];types=r['enemyTypes']

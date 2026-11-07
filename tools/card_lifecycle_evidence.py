@@ -4,6 +4,9 @@
 import json
 import math
 from collections import Counter
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 try:
     from .card_face_evidence import validate_starter_setup
 except ImportError:
@@ -107,7 +110,7 @@ def _power_rows(snapshot, power):
 def validate(raw, token, case):
     code, grade = case.rsplit('-',1); up = grade=='upgraded'; specs = plan(case)
     for key, expected in dict(schema=1,token=token,scenario='card-lifecycle',variant=case,code=code,upgraded=up,completed=True,
-                              version='v0.107.1',commit='59260271',testMode=False,acceptance=ACCEPTANCE).items(): same(raw[key],expected,key)
+                              version=EXPECTED_GAME_VERSION,commit=EXPECTED_GAME_COMMIT,testMode=False,acceptance=ACCEPTANCE).items(): same(raw[key],expected,key)
     need(type(raw['runRef']) is str and raw['runRef'].startswith('run-'), 'actual batch run identity')
     original = raw['original']; same(original['round'],1,'fresh round'); same(original['turn'],1,'fresh turn')
     same(original['hp'],80,'fresh native player'); same(original['block'],0,'fresh native block'); same(original['powers'],[],'fresh native powers')

@@ -12,6 +12,9 @@ from pathlib import Path
 
 from enemy_catalog_evidence import validate_manifest as validate_catalog
 from enemy_matrix_evidence import FRESH_REFS
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] ENEMY_EXPLORATION_RESULT '
 ACT_INDEX = {'ACT.OVERGROWTH': 0, 'ACT.UNDERDOCKS': 0, 'ACT.HIVE': 1, 'ACT.GLORY': 2}
@@ -166,7 +169,7 @@ def _validate(data, selection, catalog, run_id):
     def exact(actual, expected, message):
         need(type(actual) is type(expected) and actual == expected, message)
     for key, expected in dict(schema=1, token=run_id, scenario='enemy-exploration', acceptance='bounded-native-exploration-only',
-        gameVersion='v0.107.1', gameCommit='59260271', gameAssemblyMvid=catalog['gameAssemblyMvid'], testMode=False,
+        gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, gameAssemblyMvid=catalog['gameAssemblyMvid'], testMode=False,
         enemyHpModified=False, playerHpModified=False, forcedMoves=False, directPerformMoveCalls=0,
         completeAiCoverage=False, physicalInputValidated=False, eventOnlyStatus='EVENT_SETUP_REQUIRED_NOT_RUN').items():
         exact(data.get(key), expected, 'invalid '+key)

@@ -9,6 +9,9 @@ from copy import deepcopy
 import json
 from itertools import product
 from math import isfinite
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] CARD_FACE_RESULT '
 ACCEPTANCE = 'controlled-native-queue-selector-no-input'
@@ -538,7 +541,7 @@ def _validate(r, token, variant):
     fields = 'schema token variant scenario acceptance version commit testMode character enemyTypes playerId enemyIds enemyOrder cards sourceIdentity starterSetup starterDrawOrder before after choice selections conversions action payments effects batches history response'.split()
     _need(type(r) is dict and set(r)==set(fields), 'result fields')
     for k,v in dict(schema=2,token=token,variant=variant,scenario='card-face-acceptance',acceptance=ACCEPTANCE,
-                    version='v0.107.1',commit='59260271',testMode=False,character='VolibearCharacter').items(): _same(r[k],v,k)
+                    version=EXPECTED_GAME_VERSION,commit=EXPECTED_GAME_COMMIT,testMode=False,character='VolibearCharacter').items(): _same(r[k],v,k)
     _need(r['enemyTypes'] in [['LeafSlimeS','TwigSlimeS',m] for m in ('LeafSlimeM','TwigSlimeM')], 'native roster')
     _need(type(r['enemyOrder']) is list and sorted(r['enemyOrder'])==[0,1,2] and all(type(x) is int for x in r['enemyOrder']),'initial native enemy order')
     ids = r['enemyIds']; pid = r['playerId']

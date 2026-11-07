@@ -4,6 +4,9 @@ CurlUp, Skittish, initial-round Plating and new-Strength Apply are not accepted 
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = '[Volibear] DOMAIN_PASSIVE_RESULT '
 VARIANTS = tuple(f'{family}-{mode}' for family in ('ritual', 'plating') for mode in ('off', 'on', 'open', 'close', 'post'))
@@ -51,7 +54,7 @@ def validate(payload, token, variant):
             errors.append(f'{path}: expected {want!r}, observed {got!r}')
     meta = dict(schema=1, token=token, scenario='domain-passive-contract', variant=variant,
         acceptance='controlled-native-await-mechanism-not-full-enemy-coverage', testMode=False,
-        version='v0.107.1', commit='59260271', targetType='LeafSlimeS',
+        version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, targetType='LeafSlimeS',
         fixture='native-SlimesWeak+native-fixture-powers',
         api='PowerCmd+CreatureCmd+PlayerCmd.EndTurn+actual-command-MoveNext-await-boundary',
         directStrengthInput=4, directBlockInput=7, directStrengthResult=4, directBlockResult=7, armedAfter=False)

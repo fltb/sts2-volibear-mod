@@ -3,6 +3,9 @@ from __future__ import annotations
 import json
 import math
 import re
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = "[Volibear] DOMAIN_DAMPEN_TRANSACTIONS_RESULT "
 LEVELS = {"off": [0, 0], "on": [1, 1], "enter-await": [1, 1], "exit-await": [0, 0],
@@ -41,7 +44,7 @@ def validate(payload, token: str, variant: str) -> list[str]:
         need(type(token) is str and bool(token.strip()), "nonempty isolation token")
         for key, expected in {"schema": 2, "token": token, "scenario": "domain-dampen-transactions", "variant": variant,
             "suppressionPolicy": "native-debt-temporary-upgrade-loan",
-            "version": "v0.107.1", "commit": "59260271", "encounter": "KnightsElite",
+            "version": EXPECTED_GAME_VERSION, "commit": EXPECTED_GAME_COMMIT, "encounter": "KnightsElite",
             "acceptance": "native-source-ledger-card-pairs-not-power-admission-or-ordinary-input", "directPowerCallbackCalls": 0}.items():
             need(p.get(key) == expected, "root " + key)
         for key in ("testMode", "admissionSuppression", "artifactSuppression", "endingRepair", "exceptionRollback", "escapeRestitutionRepair"):

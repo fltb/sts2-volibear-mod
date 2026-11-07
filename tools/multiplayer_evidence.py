@@ -7,6 +7,9 @@ import uuid
 
 from card_lifecycle_evidence import same
 from save_load_evidence import native_reload_expected
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 STAGES = [
     'native-checkpoint', 'simultaneous-engage', 'owner-scoped-domain-lightning',
@@ -134,8 +137,8 @@ def peer(log, role, token, pair, user_root):
     for envelope in (begin, final, disconnected):
         for name, value in dict(schema=1, token=token, pair=pair, role=role, pid=begin['pid']).items():
             same(envelope[name], value, 'invocation ' + name)
-    same(begin['gameVersion'], 'v0.107.1', 'locked native game version')
-    same(begin['gameCommit'], '59260271', 'locked native game commit')
+    same(begin['gameVersion'], EXPECTED_GAME_VERSION, 'locked native game version')
+    same(begin['gameCommit'], EXPECTED_GAME_COMMIT, 'locked native game commit')
     same(begin['userRoot'], str(user_root), 'isolated native profile')
     same(begin['testMode'], False, 'TestMode must not bypass native synchronization')
     same(begin['transport'], 'native-ENet-loopback', 'native transport')

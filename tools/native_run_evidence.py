@@ -5,6 +5,9 @@ crosses a process boundary, exactly to test a real native disk checkpoint.
 """
 import json
 import re
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] NATIVE_RUN_RESULT '
 MODES = {'three-battle-save', 'resume', 'death-menu', 'full-run'}
@@ -37,7 +40,7 @@ def native_run_evidence(text, token, expected_mode=None, expected_pair=None):
     need(isinstance(mode,str) and mode in MODES and (expected_mode is None or mode==expected_mode),'requested native-run mode')
     need(isinstance(r.get('pair'),str) and bool(r['pair']) and (expected_pair is None or r['pair']==expected_pair),'requested checkpoint pair')
     need(r.get('schema')==1 and type(r.get('schema'))is int and r.get('scenario')=='native-run','native protocol identity')
-    need((r.get('gameVersion'),r.get('gameCommit'))==('0.107.1','59260271'),'pinned game build')
+    need((r.get('gameVersion'),r.get('gameCommit'))==('0.107.1',EXPECTED_GAME_COMMIT),'pinned game build')
     need(r.get('scope')==SCOPE and r.get('policy')==POLICY,'declared normal-input scope/policy')
     need(r.get('testMode') is False and r.get('steamInitialized') is False and r.get('autoSlayerActive') is False and
          r.get('isolatedProfile') is True and r.get('nativeBootstrap','missing') is None,'isolated normal menu, no Steam/TestMode/AutoSlayer/bootstrap')

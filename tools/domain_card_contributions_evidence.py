@@ -2,6 +2,9 @@
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = '[Volibear] DOMAIN_CARD_CONTRIBUTIONS_RESULT '
 CASES = ('hex', 'tangled', 'smoggy', 'ringing')
@@ -35,7 +38,7 @@ def validate(payload, token, family):
     source, encounter, move, power, affliction, amount = SOURCES[family]
     meta = dict(schema=3, token=token, scenario='domain-card-contributions', family=family,
         acceptance='four-native-contributions-not-affliction-writes-or-ordinary-input', testMode=False,
-        version='v0.107.1', commit='59260271', encounter=encounter, sourceType=source,
+        version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, encounter=encounter, sourceType=source,
         nativeMoveCalls=2 if family == 'hex' else 1, directPowerCallbackCalls=0, warmupQueriesPerApi=16,
         mixedStackPolicy='all-player-debuffs-temporarily-muted', insertionCoverage=False,
         afflictionWriteSuppression=False, hexCleanupKind='native-PowerCmd.Remove-after-escape' if family == 'hex' else None)

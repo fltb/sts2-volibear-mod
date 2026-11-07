@@ -6,6 +6,9 @@ No production C# is read to derive expected outcomes. Unimplemented cases stay N
 """
 import json
 from collections import Counter
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] PREPARED_CONTRACT_RESULT '
 PREPARED_CASES = ('PR-training-dynamic-spells', 'PR-training-native-domain', 'PR-guard-instances', 'PR-replay-paid')
@@ -41,7 +44,7 @@ def validate_prepared_result(r, token, variant):
     try:
         _need(variant in PREPARED_CASES and type(token) is str and bool(token.strip()))
         fixed = dict(token=token, scenario='prepared-contract', variant=variant, completed=True,
-                     gameVersion='v0.107.1', gameCommit='59260271', testMode=False, acceptance=ACCEPTANCE,
+                     gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, testMode=False, acceptance=ACCEPTANCE,
                      character='VolibearCharacter')
         _need(type(r) is dict and set(r) == set(fixed) | set('enemyIds enemyTypes playerId cards initial actions steps batches payments beforeEffects trigger'.split()))
         _need(all(_eq(r[k], v) for k, v in fixed.items()))

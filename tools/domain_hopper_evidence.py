@@ -1,6 +1,9 @@
 """Independent Hopper C/M/return oracle. Native controlled fixture, not ordinary play."""
 import json
 import math
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] DOMAIN_HOPPER_RESULT '
 VARIANTS = ('off', 'on', 'c-wait-open', 'master-hook-open', 'master-committed-open',
@@ -40,7 +43,7 @@ def same(actual, expected, label):
 def validate(result, token, variant):
     need(variant in VARIANTS, 'unknown requested case')
     for field, expected in dict(schema=1, token=token, scenario='domain-hopper', variant=variant,
-                                completed=True, version='v0.107.1', commit='59260271', testMode=False,
+                                completed=True, version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, testMode=False,
                                 encounter='ThievingHopperWeak', ascension=0, acceptance=ACCEPTANCE).items():
         same(result[field], expected, field)
     identity = [result[key] for key in ('playerRef', 'ownerRef', 'hopperRef', 'playerId', 'hopperId')]

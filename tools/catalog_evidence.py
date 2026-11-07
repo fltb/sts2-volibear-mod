@@ -11,6 +11,9 @@ import json
 import math
 from pathlib import Path
 import re
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / 'tests/fixtures/card_expectations.json'
@@ -87,7 +90,7 @@ def catalog_errors(result, token):
         expected = expected_catalog()
         for key, value in dict(schemaVersion=1, token=token, scenario='catalog', acceptance='catalog-not-gameplay-or-payment',
                                completed=True, testMode=False, discovery=DISCOVERY, api=API,
-                               gameVersion='v0.107.1', gameCommit='59260271',
+                               gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT,
                                language='zhs', reloadSequence=['zhs', 'eng', 'zhs'], ownerPowerCount=0, errors=[]).items():
             exact(result.get(key), value, key)
         require(type(token) is str and bool(token), 'current run token is required')

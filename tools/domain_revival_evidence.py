@@ -4,6 +4,9 @@ No normal-card, whole enemy-turn, Steam, Adaptable or Stock acceptance is inferr
 from __future__ import annotations
 import json
 import math
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = "[Volibear] DOMAIN_REVIVAL_RESULT "
 SCOPE = "formal-native-revival-mechanism-not-normal-card-or-enemy-turn"
@@ -23,7 +26,7 @@ def domain_revival_errors(report: dict, token: str) -> list[str]:
     need(bool(token) and report.get("token") == token, "token mismatch")
     need(report.get("scenario") == "domain-revival", "scenario mismatch")
     need(report.get("completed") is True and report.get("testMode") is False, "not completed outside TestMode")
-    need(report.get("gameVersion") == "0.107.1" and report.get("gameCommit") == "59260271", "unpinned native version")
+    need(report.get("gameVersion") == "0.107.1" and report.get("gameCommit") == EXPECTED_GAME_COMMIT, "unpinned native version")
     need(report.get("acceptance") == SCOPE, "wrong acceptance scope")
     need(report.get("discovery") == "native encounter and native deployed power", "fabricated discovery")
     need(report.get("fixtureApi") == API, "wrong fixture API")

@@ -6,6 +6,9 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] ENEMY_MATRIX_RESULT '
 SEED = 'VOLIBEARTEST'
@@ -40,7 +43,7 @@ def _validate(data, run_id):
     if not need(isinstance(data, dict), 'matrix manifest must be object'):
         return errors
     fixed = dict(schema=1, token=run_id, scenario='enemy-matrix-mvp', acceptance='natural-scheduling-isolation-only',
-                 gameVersion='v0.107.1', gameCommit='59260271', testMode=False, seed=SEED,
+                 gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, testMode=False, seed=SEED,
                  enemyHpModified=False, forcedMoves=False, directPerformMoveCalls=0, completeAiCoverage=False)
     for key, expected in fixed.items():
         eq(data.get(key), expected, 'invalid ' + key)

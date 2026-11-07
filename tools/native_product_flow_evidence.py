@@ -6,6 +6,9 @@ checks for the same process. The flow covers early gameplay, not a full run win.
 """
 from collections import Counter
 import json
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] NATIVE_PRODUCT_FLOW_RESULT '
 SCOPE = 'native-seeded-run-paid-actions-rewards-map-rest-shop'
@@ -55,7 +58,7 @@ def validate(raw, token, pid):
         'simulatedClicks', 'stateFixtures', 'testMode', 'rewardDecisionBoundary', 'outcome', 'error', 'events'}, 'flow receipt shape')
     need(type(raw['schema']) is int and raw['schema'] == 1 and token and raw['token'] == token
          and integer(pid, 1) and type(raw['pid']) is int and raw['pid'] == pid, 'flow invocation binding')
-    need(raw['gameVersion'] == '0.107.1' and raw['gameCommit'] == '59260271', 'flow pinned game build')
+    need(raw['gameVersion'] == '0.107.1' and raw['gameCommit'] == EXPECTED_GAME_COMMIT, 'flow pinned game build')
     need(raw['scope'] == SCOPE and raw['osInput'] is False and raw['simulatedClicks'] is False
          and raw['stateFixtures'] is False and raw['testMode'] is False,
          'flow cannot claim input simulation, TestMode or injected gameplay state')
