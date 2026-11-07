@@ -93,7 +93,11 @@ public static partial class DomainEnemyStatusContributions
     private static Task<IEnumerable<DamageResult>> GalvanicDamage(PlayerChoiceContext context, Creature target, decimal amount,
         ValueProp props, Creature? dealer, CardModel? card, GalvanicPower source) =>
         SuppressPowerContribution(source, target) ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>()) :
-            CreatureCmd.Damage(context, target, amount, props, dealer, card);
+            CreatureCmd.Damage(context, target, amount, props, dealer, card
+#if STS2_BETA
+                    , null
+#endif
+                );
     private static Task PaperCutMaxHp(PlayerChoiceContext context, Creature target, decimal amount, bool fromCard, PaperCutsPower source) =>
         SuppressPowerContribution(source, target) ? Task.CompletedTask : CreatureCmd.LoseMaxHp(context, target, amount, fromCard);
 

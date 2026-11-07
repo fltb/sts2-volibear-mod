@@ -91,12 +91,12 @@ class PersistentEvidenceTests(unittest.TestCase):
 
     def test_full_denominator_stays_not_run(self):
         status=case_statuses()
-        self.assertEqual(len(status),19)
+        self.assertEqual(len(status),len(PERSISTENT_CASES))
         self.assertEqual(set(status.values()),{'NOT_RUN'})
         self.assertIn('PP-R02-no-consumption',status)
         self.assertIn('PP-R02-no-consumption',PERSISTENT_CASES)
         self.assertEqual(set(status),set(PERSISTENT_CASES))
-        self.assertEqual(len(PERSISTENT_CASES),19)
+        self.assertEqual(len(PERSISTENT_CASES),20)
 
     def test_no_trusted_passed_or_completed_or_foreign_token(self):
         for case in (c for c in PERSISTENT_CASES if c not in ADDITIONAL_CASES + ENGAGEMENT_CASES + SPECIAL_CASES):
@@ -190,6 +190,7 @@ def additional_report(case):
         'PP-U02-domain-order':([('DomainPower',1),('StormConductionPower',3),('StormChargePower',2)],[83,89],0,2,[(4,2,'played',0),(3,2,None,0)],[],0),
         'PP-U03-min-stack':([('StandingPower',3)],[100,100,100],17,0,[],[],0),
         'PP-U03-other-retention':([('StandingPower',3),('BarricadePower',1)],[100,100,100],20,0,[],[],0),
+        'PP-U03-clamp-priority':([('StandingPower',3)],[100,100,100],17,0,[],[],0),
         'PP-U34-per-batch':([('ThunderArmorPower',3),('ThunderArmorPower',4)],[100,100,100],7,1,[(1,0,None,1)],[],0),
         'PP-R16-positive-own-block':([('BattleBodyPower',2)],[90,100,100],10,0,[],[('StrengthPower',2),('DexterityPower',2)],1),
         'PP-R16-passive-block-excluded':([('BattleBodyPower',1),('ThunderArmorPower',3),('DomainPower',1)],[90,96,96],3,1,[(4,0,'played',0)],[('StrengthPower',1)],0),
@@ -206,6 +207,7 @@ def additional_report(case):
         'PP-U02-domain-order':[app('StormConductionPower',3)],
         'PP-U03-min-stack':[app('StandingPower.Deploy',6),app('StandingPower.Deploy',3),app('StandingPower.Deploy',6)],
         'PP-U03-other-retention':[app('StandingPower.Deploy',3),app('BarricadePower',1)],
+        'PP-U03-clamp-priority':[app('StandingPower.Deploy',3),app('SturdyClamp.Obtain',1)],
         'PP-U34-per-batch':[app('ThunderArmorPower',3),app('ThunderArmorPower',4)],
         'PP-R16-positive-own-block':[app('BattleBodyPower',2)],
         'PP-R16-passive-block-excluded':[app('BattleBodyPower',1),app('ThunderArmorPower',3)],
@@ -214,7 +216,7 @@ def additional_report(case):
     r=dict(token='run-test',scenario='persistent-contract',variant=case,completed=True,schema='additional-v1',gameVersion='v0.107.1',gameCommit='59260271',
            testMode=False,acceptance='mechanism-autoplay-not-payment-not-formal-enemy',character='VolibearCharacter',enemyIds=ids,
            enemyTypes=['Chomper','Chomper'] if two else ['LeafSlimeS','TwigSlimeS','LeafSlimeM'],setup=setups[case],before=before,after=after,
-           batches=[],beforeEffects=[],finishedEffects=[],played=None,phaseBlockGains=[],clearPreventers=['BarricadePower'] if case=='PP-U03-other-retention' else [],
+           batches=[],beforeEffects=[],finishedEffects=[],played=None,phaseBlockGains=[],clearPreventers=['BarricadePower'] if case=='PP-U03-other-retention' else (['StandingPower'] if standing else []),
            movesAfterBoundary=[],consumedAfterBoundary=[False]*len(ids),drawHistory=[],playHistory=[],damageHistory=[],
            fixturePreparation=dict(removedRelics=['HuntersHeart'],restoredHpAfterPreparation=standing,preparations=[],moves=[],damage=[],measurementHistoryBoundary=50,preparationHistoryStart=10))
     if standing:
@@ -259,7 +261,7 @@ class AdditionalPersistentEvidenceTests(unittest.TestCase):
         self.assertFalse(validate_persistent_result(r,'run-test',case))
 
     def test_standing_preparation_and_boundary_are_not_omitted(self):
-        for case in ('PP-U03-min-stack','PP-U03-other-retention'):
+        for case in ('PP-U03-min-stack','PP-U03-other-retention','PP-U03-clamp-priority'):
             for field,value in [('preparations',[]),('moves',[]),('damage',[]),('restoredHpAfterPreparation',False),('measurementHistoryBoundary',0)]:
                 r=additional_report(case);r['fixturePreparation'][field]=value
                 self.assertFalse(validate_persistent_result(r,'run-test',case))
@@ -267,6 +269,12 @@ class AdditionalPersistentEvidenceTests(unittest.TestCase):
             self.assertFalse(validate_persistent_result(r,'run-test',case))
         case='PP-U03-other-retention';r=additional_report(case);r['clearPreventers']=[]
         self.assertFalse(validate_persistent_result(r,'run-test',case))
+        # Our retention must remain the active preventer instead of a cap-style relic clamping to 10.
+        for case in ('PP-U03-min-stack','PP-U03-clamp-priority'):
+            r=additional_report(case);r['clearPreventers']=[]
+            self.assertFalse(validate_persistent_result(r,'run-test',case))
+        r=additional_report('PP-U03-clamp-priority');r['after']['block']=10
+        self.assertFalse(validate_persistent_result(r,'run-test','PP-U03-clamp-priority'))
 
     def test_r16_passive_block_and_actual_finish_not_interchangeable(self):
         case='PP-R16-passive-block-excluded';r=additional_report(case);r['finishedEffects'][0]['dexterity']=1

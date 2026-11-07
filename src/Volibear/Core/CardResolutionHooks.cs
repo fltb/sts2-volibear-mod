@@ -98,7 +98,13 @@ public static partial class CardResolutionHooks
 
             // Only the Add that belongs to an actual Draw is wrapped. Retrieve/move
             // operations elsewhere are not draws, even inside another draw response.
-            harmony.Patch(MoveNext(Required(typeof(CardPileCmd), nameof(CardPileCmd.Draw),
+            // PBE split the public Draw wrapper from its async body; stable keeps the body in Draw.
+            harmony.Patch(MoveNext(Required(typeof(CardPileCmd),
+#if STS2_BETA
+                "DrawInternal",
+#else
+                nameof(CardPileCmd.Draw),
+#endif
                 typeof(PlayerChoiceContext), typeof(decimal), typeof(Player), typeof(bool))),
                 transpiler: Handler(nameof(DrawAddCallsite)));
             // Filter the native membership predicate, not the tiny iterator entry
@@ -222,7 +228,11 @@ public static partial class CardResolutionHooks
     private static IEnumerable<CodeInstruction> AttackDamageCallsite(IEnumerable<CodeInstruction> instructions)
     {
         var native = Required(typeof(CreatureCmd), nameof(CreatureCmd.Damage), typeof(PlayerChoiceContext),
-            typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel));
+            typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+            , typeof(CardPlay)
+#endif
+            );
         return ReplaceOneCall(instructions, native, OrdinaryAttackCallsiteV1);
     }
 
@@ -262,10 +272,22 @@ public static partial class CardResolutionHooks
     // or infer a paid play/segment from flags, amount, dealer, or a private helper name.
     internal const string OrdinaryAttackOwnerV1 = "Volibear.CardResolution";
     internal static MethodInfo OrdinaryAttackCallsiteV1 => Required(typeof(CardResolutionHooks), nameof(OrdinaryAttackSegmentV1),
-        typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel));
+        typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+        , typeof(CardPlay)
+#endif
+        );
     internal static Task<IEnumerable<DamageResult>> OrdinaryAttackSegmentV1(PlayerChoiceContext context,
-        IEnumerable<Creature> targets, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource) =>
-        OrdinaryAttackPipelineV1(context, props, dealer, cardSource, () => CreatureCmd.Damage(context, targets, amount, props, dealer, cardSource));
+        IEnumerable<Creature> targets, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
+#if STS2_BETA
+        , CardPlay? cardPlay
+#endif
+        ) =>
+        OrdinaryAttackPipelineV1(context, props, dealer, cardSource, () => CreatureCmd.Damage(context, targets, amount, props, dealer, cardSource
+#if STS2_BETA
+            , cardPlay
+#endif
+            ));
 
     // The dispatcher is called once, synchronously before the first await. It returns
     // the genuine native result task. Domain and responders remain owned here, in the

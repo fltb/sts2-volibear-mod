@@ -14,7 +14,9 @@ public static class ModEntry
         Core.SupportedGameBuild.StructuralCheck = Core.NativeCompatibility.Verify;
         Core.SupportedGameBuild.EnsureInstalled(OS.GetExecutablePath());
         GD.Print("[Volibear] BUILD_GATE " + Core.SupportedGameBuild.LastCheckSummary);
+#if !STS2_BETA
         DomainSteamNativeObservation.PrepareForTestScenario();
+#endif
         Presentation.VolibearPresentation.RegisterSceneConversions();
         Presentation.VolibearMerchantIntegration.Install();
         ContentRegistry.Register();
@@ -43,6 +45,7 @@ public static class ModEntry
         Presentation.PowerStackVisual.Install();
         Presentation.VolibearArchitectEnding.Install();
         Presentation.VolibearInspectPortraits.Install();
+#if !STS2_BETA
         var expectedDirectory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT");
         if (!string.IsNullOrEmpty(expectedDirectory))
         {
@@ -256,6 +259,7 @@ public static class ModEntry
                 EnemyExplorationProbe.Install();
             }
         }
+#endif
         GD.Print("[Volibear] LOAD_OK version=0.1.0 target=0.107.1 " + Core.SupportedGameBuild.LastCheckSummary + " phase=development-candidate gameplay=partial");
     }
 }

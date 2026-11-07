@@ -143,7 +143,11 @@ public static class BeastForms
         if (shape == BeastShape.Claw)
         {
             if (play.Target is { IsHittable: true } target)
-                await DamageCmd.Attack(card.DynamicVars["Damage"].BaseValue).FromCard(card)
+                await DamageCmd.Attack(card.DynamicVars["Damage"].BaseValue).FromCard(card
+#if STS2_BETA
+                , null
+#endif
+                )
                     .Targeting(target).WithHitCount(2).Execute(context);
         }
         else if (shape == BeastShape.Body)

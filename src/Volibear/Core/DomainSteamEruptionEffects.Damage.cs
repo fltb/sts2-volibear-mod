@@ -49,7 +49,11 @@ public static partial class DomainSteamEruptionEffects
         decimal amount, ValueProp props, Creature? dealer, CardModel? card, AttackCommand command, Episode? episode)
     {
         using var binding = DamageHandoff.Dispatch(episode is null ? null : new DamageInvocation(episode, command));
-        return CreatureCmd.Damage(choice, targets, amount, props, dealer, card);
+        return CreatureCmd.Damage(choice, targets, amount, props, dealer, card
+#if STS2_BETA
+            , null
+#endif
+            );
     }
     private static DamageInvocation? CurrentDamage => ActiveFrame is { Flow: Flow.Damage, Closed: false } frame ? frame.Damage : null;
     private static decimal GateDamage(DamageInvocation? invocation, Creature receiver, decimal amount)

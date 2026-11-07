@@ -21,7 +21,11 @@ internal static class HistoryEffects
         CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding;
     internal static Task Attack(PlayerChoiceContext context, CardModel card, Creature? target, decimal amount) =>
         Live(card) && target is { IsHittable: true }
-            ? DamageCmd.Attack(amount).FromCard(card).Targeting(target).Execute(context) : Task.CompletedTask;
+            ? DamageCmd.Attack(amount).FromCard(card
+#if STS2_BETA
+                , null
+#endif
+                ).Targeting(target).Execute(context) : Task.CompletedTask;
     internal static async Task Draw(PlayerChoiceContext context, CardModel card, decimal amount)
     { if (Live(card) && amount > 0) await CardPileCmd.Draw(context, amount, card.Owner); }
 }

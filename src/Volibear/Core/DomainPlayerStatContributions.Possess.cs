@@ -9,6 +9,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -35,7 +36,12 @@ public static partial class DomainPlayerStatContributions
         internal readonly Creature Target = target;
         internal readonly bool Strength = strength;
         internal bool Observed;
+#if STS2_BETA
+        public override ulong? OwnerId => parent.OwnerId;
+        public override Task SignalPlayerChoiceBegun(Player player, PlayerChoiceOptions options) => parent.SignalPlayerChoiceBegun(player, options);
+#else
         public override Task SignalPlayerChoiceBegun(PlayerChoiceOptions options) => parent.SignalPlayerChoiceBegun(options);
+#endif
         public override Task SignalPlayerChoiceEnded() => parent.SignalPlayerChoiceEnded();
     }
     private static void PossessDebit(Creature target, Creature source, bool strength, int amount, Ledger ledger)

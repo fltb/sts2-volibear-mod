@@ -13,10 +13,39 @@
          with a lock-file error that hides the real cause. -->
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
+  <!-- One source tree, two game channels: the beta channel compiles the same code with the
+       PBE assemblies and small #if STS2_BETA adapters where the native API moved. -->
+  <PropertyGroup Condition="'$(GameChannel)' == 'beta'">
+    <DefineConstants>$(DefineConstants);STS2_BETA</DefineConstants>
+  </PropertyGroup>
   <Target Name="CheckGameReference" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Set Sts2DataDir to your installed game's managed assembly directory." />
     <Error Condition="!Exists('$(BaseLibPath)')" Text="Run python tools/dependencies.py fetch to obtain pinned BaseLib 3.4.7." />
   </Target>
+  <!-- Development probes/acceptance hosts are not part of the player-facing beta build; the
+       stable channel keeps them. This keeps the PBE port limited to production code. -->
+  <ItemGroup Condition="'$(GameChannel)' == 'beta'">
+    <Compile Remove="**/*Probe.cs" />
+    <Compile Remove="NativeVerificationSuite.cs" />
+    <Compile Remove="CatalogFaceSuite.cs" />
+    <Compile Remove="NativeAcceptanceRunHost.cs" />
+    <Compile Remove="NativeAcceptanceArtResidency.cs" />
+    <Compile Remove="NativeAcceptanceStarterFixture.cs" />
+    <Compile Remove="DevelopmentBootstrap.cs" />
+    <Compile Remove="BaselineDriver.cs" />
+    <Compile Remove="NativeAutomationSelector.cs" />
+    <Compile Remove="NativeControlledChoice.cs" />
+    <Compile Remove="NativeLobbyApi.cs" />
+    <Compile Remove="NativeMultiplayerSession.cs" />
+    <Compile Remove="DomainSteamNativeObservation.cs" />
+    <Compile Remove="DomainSteamNativeObservation.History.cs" />
+    <Compile Remove="DomainSteamNativeObservation.Stages.cs" />
+    <Compile Remove="DomainSteamForeignFixture.cs" />
+    <Compile Remove="ProbeDiag.cs" />
+    <Compile Remove="ManualPlayProbe.cs" />
+    <Compile Remove="AudioReceiptProbeObservers.cs" />
+    <Compile Remove="VolibearBootstrap.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="sts2"><HintPath>$(Sts2DataDir)/sts2.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="GodotSharp"><HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath><Private>false</Private></Reference>

@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -143,8 +144,16 @@ public static class DomainSelfDebuffEffects
     private static decimal DrawCount(AbstractModel model, Player player, decimal amount) => Muted(model) ? amount : model.ModifyHandDraw(player, amount);
     private static decimal MaxEnergy(AbstractModel model, Player player, decimal amount) => Muted(model) ? amount : model.ModifyMaxEnergy(player, amount);
     private static bool DrawAllowed(AbstractModel model, Player player, bool fromHandDraw) => Muted(model) || model.ShouldDraw(player, fromHandDraw);
-    private static decimal DamageAdditive(AbstractModel model, Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? card) =>
-        model is not StrengthPower && Muted(model) ? 0m : model.ModifyDamageAdditive(target, amount, props, dealer, card);
+    private static decimal DamageAdditive(AbstractModel model, Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? card
+#if STS2_BETA
+        , CardPlay? play
+#endif
+        ) =>
+        model is not StrengthPower && Muted(model) ? 0m : model.ModifyDamageAdditive(target, amount, props, dealer, card
+#if STS2_BETA
+            , play
+#endif
+            );
 
     private static MethodInfo DamageMethod => AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
         [typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]);
@@ -184,19 +193,33 @@ public static class DomainSelfDebuffEffects
     private static Task<IEnumerable<DamageResult>> Damage(PlayerChoiceContext choices, Creature target, decimal amount,
         ValueProp props, Creature? dealer, CardModel? card, PowerModel source) => IsSuppressed(source)
             ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
-            : CreatureCmd.Damage(choices, target, amount, props, dealer, card);
+            : CreatureCmd.Damage(choices, target, amount, props, dealer, card
+#if STS2_BETA
+                , null
+#endif
+                );
     private static Task Kill(Creature target, bool force, PowerModel source) => IsSuppressed(source)
         ? Task.CompletedTask : CreatureCmd.Kill(target, force);
     private static void Doomed(ref IReadOnlyList<Creature> __result) => __result = __result
         .Where(c => c.GetPower<DoomPower>() is not { } power || !IsSuppressed(power)).ToArray();
+#if STS2_BETA
+    // PBE made this predicate private; reflect it instead of pinning a now-inaccessible call.
+    private static readonly Func<DoomPower, bool> IsOwnerDoomedNative =
+        (Func<DoomPower, bool>)AccessTools.Method(typeof(DoomPower), "IsOwnerDoomed")!
+            .CreateDelegate(typeof(Func<DoomPower, bool>));
+    private static bool IsDoomed(DoomPower power) => !IsSuppressed(power) && IsOwnerDoomedNative(power);
+    private static readonly MethodInfo DoomPredicate = AccessTools.Method(typeof(DoomPower), "IsOwnerDoomed")!;
+#else
     private static bool IsDoomed(DoomPower power) => !IsSuppressed(power) && power.IsOwnerDoomed();
+    private static readonly MethodInfo DoomPredicate = Native(typeof(DoomPower), nameof(DoomPower.IsOwnerDoomed));
+#endif
     private static IEnumerable<CodeInstruction> DoomBody(IEnumerable<CodeInstruction> input)
     {
         int count = 0;
         foreach (var old in input)
         {
             var code = new CodeInstruction(old);
-            if (code.Calls(Native(typeof(DoomPower), nameof(DoomPower.IsOwnerDoomed))))
+            if (code.Calls(DoomPredicate))
             { code.opcode = OpCodes.Call; code.operand = Own(nameof(IsDoomed)); count++; }
             yield return code;
         }

@@ -23,7 +23,11 @@ public sealed class Volibear_B01 : VolibearCard
         var target = cardPlay.Target;
         if (target is null) return;
         await DamageCmd.Attack(Var<DamageVar>("Damage").BaseValue)
-            .FromCard(this)
+            .FromCard(this
+#if STS2_BETA
+                , null
+#endif
+                )
             .Targeting(target)
             .Execute(choiceContext);
     }

@@ -86,7 +86,11 @@ public sealed class Volibear_U41 : VolibearCard
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         if (BeastSelection.Live(this) && play.Target is { IsHittable: true } target)
-            await DamageCmd.Attack(Value("Damage")).FromCard(this).Targeting(target).Execute(context);
+            await DamageCmd.Attack(Value("Damage")).FromCard(this
+#if STS2_BETA
+                , null
+#endif
+                ).Targeting(target).Execute(context);
         await BeastSelection.Transform(context, this, 1, c => c.Type == CardType.Attack);
     }
     protected override void OnUpgrade() => UpgradeVar("Damage", 3m);
