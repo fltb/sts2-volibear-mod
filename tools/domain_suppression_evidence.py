@@ -5,6 +5,9 @@ gate and never starts the game. Native checks must match the frozen set exactly.
 """
 import json
 import math
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] DOMAIN_SUPPRESSION_RESULT '
 ERROR_PREFIX = '[Volibear] DOMAIN_SUPPRESSION_ERROR '
@@ -52,7 +55,7 @@ def _number(value):
 def validate(result, token, family):
     _need(type(result) is dict, 'receipt must be an object')
     for key, expected in dict(schema=1, token=token, scenario='domain-suppression', family=family,
-                              version='v0.107.1', commit='59260271', testMode=False, passed=True).items():
+                              version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, testMode=False, passed=True).items():
         _need(type(result.get(key)) is type(expected) and result[key] == expected, 'invalid ' + key)
     checks = result.get('checks')
     _need(type(checks) is dict and set(checks) == REQUIRED_CHECKS[family], 'missing/extra checks for ' + family)

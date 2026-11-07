@@ -12,7 +12,15 @@
 - 两通道编译均通过；稳定通道回归重跑 `power-presentation` 得到 `BUILD_GATE build=verified channel=stable target=v0.107.1/59260271`，行为未回退。
 - PBE 启动实测：`BUILD_GATE build=verified channel=pbe target=v0.111.0/41cef1ea`、`CONTENT_OK cards=89`，随后初始化在 IL 适配层中断。已完成适配：`PlayerChoiceContext` 新抽象成员（OwnerId/SignalPlayerChoiceBegun(Player,options)）、`ModifyDamageAdditive/Multiplicative` 的 CardPlay 参数、`AttackCommand.FromCard`、`CreatureCmd.Damage/LoseBlock` 新参数、`Hook.AfterTurnEnd→AfterSideTurnEnd`（probe）、`DoomPower.IsOwnerDoomed` 转为私有（改反射）、`CardPileCmd.Draw` 拆出 `DrawInternal`（改挂内部异步体）、`DomainEnemyEffects` damage/cap 新旧参数集拆分。
 - 当前阻塞：`DomainSummonEffects` 等模块按精确 IL 固定了编译器生成的异步状态机字段名（PBE 下 `InfestedPower+<AfterDeath>d__4.<i>5__2` 编号变化），需要逐处重新推导并重验；这类精确 IL 适配在 PBE 上会随每次 beta 更新反复漂移。未产出 PBE 安装包（避免交付半初始化的 Mod）。
-- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 通道交付：0.111.0 / 41cef1ea（2026-11-07 晚）
+- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 原生验收与更新工作流（2026-11-07 深夜）
+
+- 策略调整：稳定版不再承诺支持（仅保留构建代码），只追最新 PBE。
+- PBE 原生场景已实机通过（v0.111.0 / 41cef1ea）：`persistent-contract` 三例（PP-U03-clamp-priority 17/StandingPower、PP-U03-min-stack 17/StandingPower、PP-U03-other-retention 20/Barricade）、`power-presentation`、`domain-visual`、`domain-suppression` 三族（sandpit/knights/self）。
+- 关键修复：测试入口在 `STS2_BETA` 下被整体裁掉，新增 `VOLIBEAR_DEV_PROBES` 让测试构建保留 probe 分发；probe/evidence 的游戏版本常量改为通道参数（`VOLIBEAR_GAME_VERSION/COMMIT`，fixture pin 读 `SupportedGameBuild`）；stock 在 PBE 退出时打印的 `Invalid Task ID` 纳入 teardown 噪声，teardown 类别比较排除该行。
+- 新增工具：`tools/compat_report.py`（一次启动输出通道/版本门/初始化/内容注册/补丁失败清单），`tools/api_diff.py` + `tools/apidiff/`（两通道原生接口面 diff，分类 removed/overloads-changed/visibility-changed）。
+- 工作流文档：`docs/PBE_CHANNEL.md`（换程序集 → compat_report → api_diff → 只改 NativeCompat/锚点 → 双变体编译 → 场景回归 → 出包）。
+- 未覆盖、不计入验收：兽化、召唤、敌方贡献、卡牌生命周期、卡面/典藏等场景尚未在 PBE 接入。
+## PBE 通道交付：0.111.0 / 41cef1ea（2026-11-07 晚）
 
 - 用户只追最新 PBE。PBE 游戏副本固定为 `.local/game-pbe`（v0.111.0 / 41cef1ea，Linux），稳定副本 `.local/game` 保留。
 - 单源双通道：`-p:GameChannel=beta` 定义 `STS2_BETA`，包内 `mods/Volibear/BuildChannel.json` 驱动版本门；`SupportedGameBuild` 从该文件读取且稳定包继续用编译默认值。

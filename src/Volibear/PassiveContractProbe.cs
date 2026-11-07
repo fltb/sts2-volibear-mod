@@ -153,7 +153,7 @@ internal static class PassiveContractProbe
                 throw new InvalidOperationException("Unsupported passive probe variant/token/TestMode");
             _family = parts[0]; _mode = parts[1];
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No native version metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271") throw new InvalidOperationException("Wrong pinned release");
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit) throw new InvalidOperationException("Wrong pinned release");
             var player = state.Players.Single();
             _owner = player.Creature; _target = state.Enemies.Single(e => e.Monster is LeafSlimeS); _combat = state;
             if (_owner.CurrentHp != 80 || _owner.Block != 0 || state.RoundNumber != 1 || player.PlayerCombatState!.TurnNumber != 1 ||

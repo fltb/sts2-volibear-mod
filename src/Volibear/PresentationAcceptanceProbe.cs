@@ -306,7 +306,7 @@ internal static class PresentationAcceptanceProbe
             Directory.CreateDirectory(directory);
             Need(DisplayServer.GetName()!="headless"&&!MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn,"Real rendered viewport required");
             var release=ReleaseInfoManager.Instance.ReleaseInfo!;
-            Need(release.Version=="v0.107.1"&&release.Commit=="59260271","Pinned game version required");
+            Need(release.Version==global::Volibear.Core.SupportedGameBuild.Version&&release.Commit==global::Volibear.Core.SupportedGameBuild.Commit,"Pinned game version required");
             ValidateAudioEnvironment();
             Clock.Start();var player=state.Players.Single();var owner=player.Creature;
             await Until(()=>player.PlayerCombatState!.Phase==PlayerTurnPhase.Play&&Effects(owner) is not null,"native play/presentation attach");

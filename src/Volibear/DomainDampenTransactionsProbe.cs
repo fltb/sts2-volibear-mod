@@ -127,7 +127,7 @@ internal static class DomainDampenTransactionsProbe
             _source = state.Enemies.Single(e => e.Monster is MagiKnight);
             string token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN") ?? "";
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
-            Require(!string.IsNullOrWhiteSpace(token) && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && release.Version == "v0.107.1" && release.Commit == "59260271", "wrong pinned native fixture");
+            Require(!string.IsNullOrWhiteSpace(token) && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn && release.Version == global::Volibear.Core.SupportedGameBuild.Version && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "wrong pinned native fixture");
             Require(state.RoundNumber == 1 && player.PlayerCombatState!.TurnNumber == 1 && _owner.CurrentHp == 80 && _owner.Block == 0 && !Domain &&
                 ReferenceEquals(state, CombatManager.Instance.DebugOnlyGetState()) && state.Enemies.Any(e => e.Monster is SpectralKnight), "untouched KnightsElite fixture required");
             await Until(() => player.PlayerCombatState!.Phase == PlayerTurnPhase.Play);

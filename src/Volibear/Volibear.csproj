@@ -18,6 +18,9 @@
   <PropertyGroup Condition="'$(GameChannel)' == 'beta'">
     <DefineConstants>$(DefineConstants);STS2_BETA</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(IncludeDevProbes)' == 'true'">
+    <DefineConstants>$(DefineConstants);VOLIBEAR_DEV_PROBES</DefineConstants>
+  </PropertyGroup>
   <Target Name="CheckGameReference" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Set Sts2DataDir to your installed game's managed assembly directory." />
     <Error Condition="!Exists('$(BaseLibPath)')" Text="Run python tools/dependencies.py fetch to obtain pinned BaseLib 3.4.7." />

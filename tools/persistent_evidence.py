@@ -4,6 +4,9 @@ The 19 hand-authored fixture cases remain the denominator; unsupported cases are
 import json
 from pathlib import Path
 
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 PREFIX = '[Volibear] PERSISTENT_CONTRACT_RESULT '
 PERSISTENT_CASES = ('PP-U21-deploy-at-three', 'PP-U21-two-independent', 'PP-U26-before-effects',
                     'PP-U25-replay', 'PP-U25-purification', 'PP-R02-unpowered', 'PP-R02-no-consumption')
@@ -50,7 +53,7 @@ def validate_persistent_result(r, token, variant):
             return _special(r, token, variant)
         oracle = next(c['expected'] for c in json.loads(FIXTURE.read_text(encoding='utf-8'))['cases'] if c['id'] == variant)
         fixed = dict(token=token, scenario='persistent-contract', variant=variant, completed=True,
-                     gameVersion='v0.107.1', gameCommit='59260271', testMode=False,
+                     gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, testMode=False,
                      acceptance='mechanism-autoplay-not-payment-not-formal-enemy', character='VolibearCharacter')
         _need(set(r) == set(fixed) | set('enemyIds enemyTypes inputs snapshots beforeEffects batches draw engage playHistory drawHistory damageHistory'.split()))
         _need(all(_eq(r[k], v) for k, v in fixed.items()))
@@ -224,8 +227,8 @@ def persistent_contract_evidence(log, run_id, variant):
 
 def _additional(r,token,case):
     oracle=next(c['expected'] for c in json.loads(FIXTURE.read_text(encoding='utf-8'))['cases'] if c['id']==case)
-    fixed=dict(token=token,scenario='persistent-contract',variant=case,completed=True,schema='additional-v1',gameVersion='v0.107.1',
-               gameCommit='59260271',testMode=False,acceptance='mechanism-autoplay-not-payment-not-formal-enemy',character='VolibearCharacter')
+    fixed=dict(token=token,scenario='persistent-contract',variant=case,completed=True,schema='additional-v1',gameVersion=EXPECTED_GAME_VERSION,
+               gameCommit=EXPECTED_GAME_COMMIT,testMode=False,acceptance='mechanism-autoplay-not-payment-not-formal-enemy',character='VolibearCharacter')
     fields='enemyIds enemyTypes fixturePreparation setup before after batches beforeEffects finishedEffects played phaseBlockGains clearPreventers movesAfterBoundary consumedAfterBoundary drawHistory playHistory damageHistory'.split()
     _need(set(r)==set(fixed)|set(fields) and all(_eq(r[k],v) for k,v in fixed.items()))
     ids=r['enemyIds'];two=case.startswith('PP-U02');standing=case.startswith('PP-U03')

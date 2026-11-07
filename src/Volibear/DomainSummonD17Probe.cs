@@ -229,7 +229,7 @@ internal static class DomainSummonD17Probe
             var token=System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
             _variant=System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DOMAIN_SUMMON_CASE")??"";
             var release=ReleaseInfoManager.Instance.ReleaseInfo;
-            if(string.IsNullOrWhiteSpace(token)||!Variants.Contains(_variant)||MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn||release is null||release.Version!="v0.107.1"||release.Commit!="59260271")throw new InvalidOperationException("Invalid D17 token/case/native release");
+            if(string.IsNullOrWhiteSpace(token)||!Variants.Contains(_variant)||MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn||release is null||release.Version!=global::Volibear.Core.SupportedGameBuild.Version||release.Commit!=global::Volibear.Core.SupportedGameBuild.Commit)throw new InvalidOperationException("Invalid D17 token/case/native release");
             _combat=state;_parent=state.Enemies.Single();_owner=state.Players.Single().Creature;
             string family=_variant.Split('-')[0];
             string expected=family=="fabricator"?"FabricatorNormal":family=="ovicopter"?"OvicopterNormal":"PhrogParasiteElite";

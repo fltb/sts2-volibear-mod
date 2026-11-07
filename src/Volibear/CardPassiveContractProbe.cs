@@ -103,7 +103,7 @@ internal static class CardPassiveContractProbe
                 MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn) throw new InvalidOperationException("Unsupported native card-passive fixture");
             _family = parts[0]; bool domain = parts[1] == "on";
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("Missing release metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271") throw new InvalidOperationException("Wrong pinned release");
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit) throw new InvalidOperationException("Wrong pinned release");
             var player = state.Players.Single(); var choices = new ThrowingPlayerChoiceContext();
             _combat = state; _owner = player.Creature;
             _target = _family == "curlup" ? state.Enemies.Single(e => e.Monster is LouseProgenitor)

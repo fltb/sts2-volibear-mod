@@ -112,7 +112,7 @@ internal static class DomainSuppressionAcceptanceProbe
         {
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
             string token = Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN") ?? "";
-            if (token.Length == 0 || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn || release.Version != "v0.107.1" || release.Commit != "59260271")
+            if (token.Length == 0 || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn || release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit)
                 throw new InvalidOperationException("Pinned native fixture required");
             var player = state.Players.Single(); var owner = player.Creature; var choices = new ThrowingPlayerChoiceContext();
             await Until(() => player.PlayerCombatState!.Phase == PlayerTurnPhase.Play);

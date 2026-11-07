@@ -6,6 +6,9 @@ from pathlib import Path
 import struct
 import zlib
 from manual_evidence import validate_png
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 
 class _Raster:
@@ -158,7 +161,7 @@ def validate(payload, token, directory):
             errors.append(message)
     try:
         expected = dict(schema=1, token=token, scenario='domain-visual', fixture='single-combat-power-command-actor-tween',
-                        version='v0.107.1', commit='59260271', testMode=False, syntheticInput=False)
+                        version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, testMode=False, syntheticInput=False)
         need(bool(token), 'current token required')
         for key, value in expected.items():
             need(type(payload[key]) is type(value) and payload[key] == value, 'metadata ' + key)

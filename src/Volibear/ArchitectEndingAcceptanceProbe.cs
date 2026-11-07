@@ -88,7 +88,7 @@ internal static class ArchitectEndingAcceptanceProbe
         string token = Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN") ?? "";
         Need(token.Length > 0 && !MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn, "isolated real game token required");
         var release = ReleaseInfoManager.Instance.ReleaseInfo!;
-        Need(release.Version == "v0.107.1" && release.Commit == "59260271", "locked native version required");
+        Need(release.Version == global::Volibear.Core.SupportedGameBuild.Version && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "locked native version required");
         NativeAcceptanceRunHost.RequireClean();
         var observer = new Harmony("Volibear.Tests.ArchitectEnding.NativeObservation");
         observer.Patch(AccessTools.Method(typeof(RunManager), nameof(RunManager.OnEnded)), postfix: new(typeof(ArchitectEndingAcceptanceProbe), nameof(Recorded)));

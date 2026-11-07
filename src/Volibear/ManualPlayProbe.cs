@@ -221,7 +221,7 @@ internal static class ManualPlayProbe
                 MegaCrit.Sts2.Core.Platform.Steam.SteamInitializer.Initialized)
                 throw new InvalidOperationException("Requires offline native Windows window, not TestMode");
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No release metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271")
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit)
                 throw new InvalidOperationException("Unexpected game version");
             var player = state.Players.Single();
             var pcs = player.PlayerCombatState ?? throw new InvalidOperationException("Missing combat player");

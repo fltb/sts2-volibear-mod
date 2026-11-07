@@ -93,7 +93,7 @@ internal static class DomainSummonContractProbe
             if (string.IsNullOrWhiteSpace(token) || !variants.Contains(variant) || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Invalid isolated native summon probe token/case/TestMode");
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No release metadata");
-            if (release.Version != "v0.107.1" || release.Commit != "59260271") throw new InvalidOperationException("Wrong pinned version");
+            if (release.Version != global::Volibear.Core.SupportedGameBuild.Version || release.Commit != global::Volibear.Core.SupportedGameBuild.Commit) throw new InvalidOperationException("Wrong pinned version");
             var player = state.Players.Single();
             var owner = player.Creature;
             var parent = state.Enemies.Single();
