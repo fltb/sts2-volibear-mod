@@ -188,7 +188,8 @@ print(json.dumps(rows))
             images = project / 'VolibearArt/ui/images'; images.mkdir(parents=True)
             for name in ('energy.gd', 'volibear_energy.tscn'):
                 shutil.copyfile(PRESENTATION / name, scenes / name)
-            for name in ('energy_master.png', 'big_energy_empty.png', 'big_energy.png'):
+            for name in ('energy_master.png', 'big_energy_empty.png', 'big_energy.png',
+                         'energy_orb_charged.png', 'energy_orb_empty.png'):
                 shutil.copyfile(UI / 'images' / name, images / name)
             env = runtime.isolated_environment(project / 'profile')
             (project / 'project.godot').write_text(

@@ -5,6 +5,28 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
+## 版本门放宽：原生接口自检（2026-11-07）
+
+- 用户要求不再为每个游戏版本维护单独构建。运行时版本门从“必须精确等于 v0.107.1/59260271”改为：
+  精确匹配直接通过（日志 `build=verified`）；其他版本先做原生接口自检，用到的东西都在则放行并标注
+  `build=unverified-compatible found=<版本>/<构建> tested=v0.107.1/59260271`；缺任何一项则拒绝打补丁，
+  错误信息列出缺失成员（最多 24 项）。
+- 实现：[SupportedGameBuild](../src/Volibear/Core/SupportedGameBuild.cs) 只保留 release_info 解析与门控，
+  通过 `StructuralCheck` 委托调用 [NativeCompatibility](../src/Volibear/Core/NativeCompatibility.cs)；
+  后者为纯反射清单（约 40 个原生类型、180 余成员，覆盖本 Mod 实际 patch/读取的模型、命令、Hook、UI 节点与个别怪物/Power），
+  只扫描 `sts2`/`BaseLib` 程序集，单个坏类型不会拖垮整次自检。[ModEntry](../src/Volibear/ModEntry.cs) 先注册自检再判定，
+  并输出 `BUILD_GATE`/带门控状态的 `LOAD_OK`。
+- 实测：把隔离测试游戏的 `release_info.json` 伪装成 `v0.108.0/deadbeef` 后直接启动（使用已接受 mod 警告的隔离 profile）：
+  `BUILD_GATE build=unverified-compatible found=v0.108.0/deadbeef tested=v0.107.1/59260271` 且 `LOAD_OK`；
+  恢复原文件（SHA-256 `307e8725…`）后精确构建仍为 `build=verified`。缺失成员路径由单测覆盖（会拒绝并点名成员）。
+- 测试：新增 `tests/native_compatibility`（对真实 sts2/BaseLib 程序集核对整份清单并验证未知构建被门控），
+  更新 `tests/supported_game`（未知构建需自检、缺失接口拒绝、精确构建直通）；顺手修复两处旧美术测试期望
+  （energy 测试的贴图清单加入两颗能量球、domain spirit 测试改为贴图+电弧结构），四个相关模块现全部通过。
+- 边界：0.107.1/59260271 仍是唯一完整验收过的构建；未知构建只验证“接口存在”，不承诺行为完全一致。
+  开发/验收工具（dev.py、native suite、各 probe）继续要求精确版本，避免在未验收构建上生成 native 证据。
+- 成品：riot ZIP `a4c9618f…`、open ZIP `da65a1ae…`，DLL `c62086fc…`，PCK 不变 `282cd81b…`；两者安装/更新/卸载校验通过，
+  已替换 Steam 正式游戏目录（替换时游戏正在运行，下次启动生效）。
+
 ## 视觉审计与第二轮修整（2026-11-06 凌晨）
 
 - 用户要求全面看一遍“不美观”的地方并给方案。做法：用当前构建真实截取 12 张战斗/领域/能量/状态图与 14 张代表卡面（`presentation-acceptance --presentation-mode cards`，356 张全量），另用 `gpt-6-astra` 做第二意见，再由 Lead 对照像素与源码复核。

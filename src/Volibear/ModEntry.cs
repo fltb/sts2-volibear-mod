@@ -9,7 +9,11 @@ public static class ModEntry
 {
     public static void Initialize()
     {
+        // Pinned builds are accepted directly; any other build must show the native surface this
+        // mod patches is still present, then loads with an "unverified" note instead of refusing.
+        Core.SupportedGameBuild.StructuralCheck = Core.NativeCompatibility.Verify;
         Core.SupportedGameBuild.EnsureInstalled(OS.GetExecutablePath());
+        GD.Print("[Volibear] BUILD_GATE " + Core.SupportedGameBuild.LastCheckSummary);
         DomainSteamNativeObservation.PrepareForTestScenario();
         Presentation.VolibearPresentation.RegisterSceneConversions();
         Presentation.VolibearMerchantIntegration.Install();
@@ -252,6 +256,6 @@ public static class ModEntry
                 EnemyExplorationProbe.Install();
             }
         }
-        GD.Print("[Volibear] LOAD_OK version=0.1.0 target=0.107.1 phase=development-candidate gameplay=partial");
+        GD.Print("[Volibear] LOAD_OK version=0.1.0 target=0.107.1 " + Core.SupportedGameBuild.LastCheckSummary + " phase=development-candidate gameplay=partial");
     }
 }

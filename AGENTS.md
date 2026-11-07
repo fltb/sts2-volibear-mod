@@ -5,6 +5,13 @@
 [docs/LOCAL_WORKFLOW.md](docs/LOCAL_WORKFLOW.md)，Agent 接续见
 [docs/LOCAL_AGENT_TASK.md](docs/LOCAL_AGENT_TASK.md)。最新用户指令优先。
 
+## 最新批准（2026-11-07，优先于下方）
+
+- 用户要求不再为每个游戏版本维护单独构建：运行时版本门从“必须精确等于 StS2 0.107.1/59260271”改为“精确匹配直接通过；其他版本先做原生接口自检，用到的东西都在就放行（日志标注 unverified），缺任何一个就拒绝加载并在错误里列出缺失项”。
+- 自检位于 `Core/NativeCompatibility.cs`（纯反射，不新增游戏引用）：按清单核对本 Mod 实际 patch/读取的原生类型与成员；`Core/SupportedGameBuild.cs` 只保留 release_info 解析与门控；`ModEntry` 先注册自检再判定。定向测试新增 `tests/native_compatibility`（对真实游戏程序集核对清单）与更新后的 `tests/supported_game`（未知构建放行/缺失接口拒绝/精确构建直通）。
+- 验收口径：0.107.1/59260271 仍是唯一完整验收过的构建；未知构建放行只是“接口存在性”判断，不承诺运行时行为完全一致，也不把未知构建的实机结果写成已通过。
+- 开发/验收工具（`tools/dev.py`、native suite、各 probe）继续要求精确版本，避免在未验收构建上伪造 native 证据。
+
 ## 最新批准（2026-11-05，优先于下方）
 
 - 用户要求继续优化图形与文案，不再跑测试门禁。本轮重做四处视觉：领域禁用的符文遮盖、能量状态框、卡牌耗能框、领域雷电圈。
