@@ -14,37 +14,60 @@ public static class ModEntry
         Core.SupportedGameBuild.StructuralCheck = Core.NativeCompatibility.Verify;
         Core.SupportedGameBuild.EnsureInstalled(OS.GetExecutablePath());
         GD.Print("[Volibear] BUILD_GATE " + Core.SupportedGameBuild.LastCheckSummary);
+        // Diagnostic mode installs every module independently so one boot reports every
+        // broken patch anchor instead of stopping at the first exception.
+        var diagnostics = System.Environment.GetEnvironmentVariable("VOLIBEAR_COMPAT_DIAG") == "1";
+        var failures = new System.Collections.Generic.List<string>();
+        static string Describe(System.Exception error)
+        {
+            var text = new System.Text.StringBuilder();
+            for (System.Exception? item = error; item is not null; item = item.InnerException)
+                text.Append(text.Length == 0 ? string.Empty : " <- ").Append(item.GetType().Name).Append(": ").Append(item.Message);
+            return text.ToString();
+        }
+        void Step(string name, System.Action run)
+        {
+            try { run(); }
+            catch (System.Exception error)
+            {
+                if (!diagnostics) throw;
+                failures.Add(name);
+                GD.Print("[Volibear] COMPAT_FAIL " + name + " :: " + Describe(error));
+            }
+        }
 #if !STS2_BETA || VOLIBEAR_DEV_PROBES
         DomainSteamNativeObservation.PrepareForTestScenario();
 #endif
         Presentation.VolibearPresentation.RegisterSceneConversions();
-        Presentation.VolibearMerchantIntegration.Install();
+        Step("Presentation.VolibearMerchantIntegration", () => Presentation.VolibearMerchantIntegration.Install());
         ContentRegistry.Register();
-        Core.EngageCmd.Install();
-        Core.CardResolutionHooks.Install();
-        Core.DomainEnemyEffects.Install();
-        Core.DomainHopperEffects.Install();
-        Core.BeastForms.Install();
-        Core.AttackHistory.Install();
-        Core.TargetCosts.Install();
-        Core.PersistentBlockHooks.Install();
-        Core.DomainSummonEffects.Install();
-        Core.DomainRevivalEffects.Install();
-        Core.DomainPassiveEffects.Install();
-        Core.DomainCardContributions.Install();
-        Core.DomainDampenTransactions.Install();
-        Core.DomainSteamEruptionEffects.Install();
-        Core.DomainPlayerStatContributions.Install();
+        Step("Core.EngageCmd", () => Core.EngageCmd.Install());
+        Step("Core.CardResolutionHooks", () => Core.CardResolutionHooks.Install());
+        Step("Core.DomainEnemyEffects", () => Core.DomainEnemyEffects.Install());
+        Step("Core.DomainHopperEffects", () => Core.DomainHopperEffects.Install());
+        Step("Core.BeastForms", () => Core.BeastForms.Install());
+        Step("Core.AttackHistory", () => Core.AttackHistory.Install());
+        Step("Core.TargetCosts", () => Core.TargetCosts.Install());
+        Step("Core.PersistentBlockHooks", () => Core.PersistentBlockHooks.Install());
+        Step("Core.DomainSummonEffects", () => Core.DomainSummonEffects.Install());
+        Step("Core.DomainRevivalEffects", () => Core.DomainRevivalEffects.Install());
+        Step("Core.DomainPassiveEffects", () => Core.DomainPassiveEffects.Install());
+        Step("Core.DomainCardContributions", () => Core.DomainCardContributions.Install());
+        Step("Core.DomainDampenTransactions", () => Core.DomainDampenTransactions.Install());
+        Step("Core.DomainSteamEruptionEffects", () => Core.DomainSteamEruptionEffects.Install());
+        Step("Core.DomainPlayerStatContributions", () => Core.DomainPlayerStatContributions.Install());
         Core.DomainPlayerDebuffContributions.StatCancellation = Core.DomainPlayerStatContributions.ShouldCancel;
-        Core.DomainPlayerDebuffContributions.Install();
-        Core.DomainEnemyStatusContributions.Install();
-        Core.DomainEnemySpecialContributions.Install();
-        Core.DomainAdditionalRevivalEffects.Install();
-        Presentation.VolibearPresentationBridge.Install();
-        Presentation.PowerPresentationDisabled.Install();
-        Presentation.PowerStackVisual.Install();
-        Presentation.VolibearArchitectEnding.Install();
-        Presentation.VolibearInspectPortraits.Install();
+        Core.DomainPlayerDebuffContributions.StatCancellation = Core.DomainPlayerStatContributions.ShouldCancel;
+        Step("Core.DomainPlayerDebuffContributions", () => Core.DomainPlayerDebuffContributions.Install());
+        Step("Core.DomainEnemyStatusContributions", () => Core.DomainEnemyStatusContributions.Install());
+        Step("Core.DomainEnemySpecialContributions", () => Core.DomainEnemySpecialContributions.Install());
+        Step("Core.DomainAdditionalRevivalEffects", () => Core.DomainAdditionalRevivalEffects.Install());
+        Step("Presentation.VolibearPresentationBridge", () => Presentation.VolibearPresentationBridge.Install());
+        Step("Presentation.PowerPresentationDisabled", () => Presentation.PowerPresentationDisabled.Install());
+        Step("Presentation.PowerStackVisual", () => Presentation.PowerStackVisual.Install());
+        Step("Presentation.VolibearArchitectEnding", () => Presentation.VolibearArchitectEnding.Install());
+        Step("Presentation.VolibearInspectPortraits", () => Presentation.VolibearInspectPortraits.Install());
+        if (diagnostics) GD.Print("[Volibear] COMPAT_SUMMARY failures=" + failures.Count);
 #if !STS2_BETA || VOLIBEAR_DEV_PROBES
         var expectedDirectory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT");
         if (!string.IsNullOrEmpty(expectedDirectory))
