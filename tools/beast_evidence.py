@@ -6,6 +6,9 @@ verdict. No runtime dynamic variable is used to calculate expected damage/block.
 """
 import json
 from collections import Counter
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 BEAST_CASES = ('f01', 'f02')
 PREFIX = '[Volibear] BEAST_CONTRACT_RESULT '
@@ -186,7 +189,7 @@ def validate_beast_result(result, run_id, variant):
         _need(variant in BEAST_CASES and type(result) is dict and type(run_id) is str and bool(run_id))
         required = dict(token=run_id, scenario='beast-contract', variant=variant, completed=True,
                         testMode=False, acceptance='effect-only-not-payment', character='VolibearCharacter',
-                        gameVersion='v0.107.1', gameCommit='59260271',
+                        gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT,
                         fixtureApi='CombatState.CreateCard;CardPileCmd.Add;CardCmd.Upgrade;CreatureCmd.SetMaxAndCurrentHp',
                         api='BeastForms.Convert;CardCmd.Exhaust;CardPileCmd.AddGeneratedCardToCombat;CardCmd.AutoPlay;CardPileCmd.Draw;PlayerCmd.EndTurn')
         _need(set(result) == set(required) | {'enemyIds', 'enemyTypes', 'deckBefore', 'deckAfter', 'changes', 'data'})

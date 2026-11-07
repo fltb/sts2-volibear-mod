@@ -3,6 +3,9 @@ from collections import Counter
 from copy import deepcopy
 from math import isfinite
 import json
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] PREPARED_CHOICE_RESULT '
 ACCEPTANCE = 'controlled-native-viewport-action-not-OS-input'
@@ -44,7 +47,7 @@ def _validate(r, token, variant):
     _need(variant in PREPARED_CHOICE_CASES)
     keys = 'token variant scenario completed gameVersion gameCommit testMode acceptance character playerId enemyIds enemyTypes cards initial choice steps returned played payments beforeEffects requestCount'.split()
     _need(type(r) is dict and set(r)==set(keys))
-    for key,value in dict(token=token,variant=variant,scenario='prepared-choice',completed=True,gameVersion='v0.107.1',gameCommit='59260271',
+    for key,value in dict(token=token,variant=variant,scenario='prepared-choice',completed=True,gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,
                           testMode=False,acceptance=ACCEPTANCE,character='VolibearCharacter',requestCount=1).items():
         _same(r[key],value)
     search=variant=='PC-U39-native-search'; dynamic=variant=='PC-C19-dynamic-replay'

@@ -12,6 +12,9 @@ import re
 import struct
 import sys
 import wave
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = "[Volibear] PRESENTATION_ACCEPTANCE_RESULT "
 ACCEPTANCE = "native-viewport-paid-actions-game-bus-pcm-not-sensory-or-full-G5"
@@ -72,7 +75,7 @@ def _structure(p, token, mode):
     try:
         need(mode in ("all","cards","actions") and p["mode"]==mode, "exact requested mode")
         need(p["schema"]==1 and type(p["schema"]) is int and p["token"]==token and bool(token), "schema/run token")
-        need(p["version"]=="v0.107.1" and p["commit"]=="59260271", "pinned native version")
+        need(p["version"]==EXPECTED_GAME_VERSION and p["commit"]==EXPECTED_GAME_COMMIT, "pinned native version")
         need(p["acceptance"]==ACCEPTANCE, "bounded evidence scope")
         need(p["osInput"] is False and p["syntheticScreenshots"] is False and p["directCosmeticPlayback"] is False, "no OS input/synthetic rendering/direct playback")
         need(type(p["display"]) is str and p["display"] not in ("", "headless"), "real display")

@@ -3,6 +3,9 @@ import json
 import math
 from steam_adversarial_evidence import EXTRAS, adversarial, foreign_contract, application_fixture
 from steam_native_protocol import verify_native_protocol
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = "[Volibear] DOMAIN_STEAM_RESULT "
 SCOPE = "formal-native-steam-mechanism-with-labelled-instrumented-boundaries-not-normal-card-or-enemy-turn"
@@ -46,7 +49,7 @@ def domain_steam_evidence(text, token, expected_variant=None):
     need(expected_variant is None or variant == expected_variant, "requested variant mismatch")
     need(no_verdict(r), "runtime verdict/expectation forbidden")
     need(r.get("scenario") == "domain-steam" and r.get("completed") is True and r.get("testMode") is False, "native completion identity")
-    need(r.get("gameVersion") == "0.107.1" and r.get("gameCommit") == "59260271", "pinned game metadata")
+    need(r.get("gameVersion") == "0.107.1" and r.get("gameCommit") == EXPECTED_GAME_COMMIT, "pinned game metadata")
     need(r.get("acceptance") == SCOPE, "acceptance scope")
     need((r.get("encounter"), r.get("nativeType"), r.get("sourceType")) == ("WaterfallGiantBoss", "WaterfallGiant", "SteamEruptionPower"), "formal native provenance")
     need(integer(r.get("sourceAmount"), 15), "native default-ascension pressurize amount")

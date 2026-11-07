@@ -7,6 +7,9 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = '[Volibear] DOMAIN_SUMMON_RESULT '
 VARIANTS = ('fabricator-off', 'fabricator-on', 'ovicopter-off', 'ovicopter-on',
@@ -44,7 +47,7 @@ def validate(payload, token: str, variant: str) -> list[str]:
 
     for key, value in dict(schema=1, token=token, scenario='domain-summon-contract', variant=variant,
             acceptance='native-mechanism-probe-not-complete-enemy-coverage', testMode=False,
-            version='v0.107.1', commit='59260271', encounter=encounter, parentType=parent_type,
+            version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, encounter=encounter, parentType=parent_type,
             fixtureHp=100, fixtureApi='CreatureCmd.SetMaxAndCurrentHp').items():
         eq(payload.get(key), value, key)
     data = payload.get('data')

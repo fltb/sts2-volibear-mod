@@ -2,6 +2,9 @@
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = '[Volibear] DOMAIN_CARD_PASSIVE_RESULT '
 VARIANTS = ('curlup-off', 'curlup-on', 'skittish-off', 'skittish-on')
@@ -47,7 +50,7 @@ def validate(payload, token, variant):
             errors.append(f'{path}: expected {want!r}, observed {got!r}')
     meta = dict(schema=1, token=token, scenario='domain-passive-contract', variant=variant,
         acceptance='native-encounter-card-autoplay-contract-not-natural-input', testMode=False,
-        version='v0.107.1', commit='59260271', targetType='LouseProgenitor' if curl else 'PhantasmalGardener',
+        version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, targetType='LouseProgenitor' if curl else 'PhantasmalGardener',
         fixture='LouseProgenitorNormal' if curl else 'PhantasmalGardenersElite',
         api='native-encounter-powers+CardCmd.AutoPlay<StrikeIronclad>+PlayerCmd.EndTurn',
         directStrengthInput=4, directBlockInput=7, directStrengthResult=4, directBlockResult=7,

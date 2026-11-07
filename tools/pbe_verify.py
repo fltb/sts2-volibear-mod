@@ -13,22 +13,53 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MATRIX = (
-    ('persistent-contract', 'PP-U03-clamp-priority'),
-    ('persistent-contract', 'PP-U03-min-stack'),
-    ('persistent-contract', 'PP-U03-other-retention'),
-    ('power-presentation', None),
-    ('domain-visual', None),
-    ('domain-suppression', None),
+    # Every native scenario that exists for the stable channel, with one representative
+    # case each; batch scenarios cover their whole case set in one game process.
+    ('baseline', []),
+    ('api', []),
+    ('content', []),
+    ('engage-contract', ['--engage-case', 'e01']),
+    ('domain-contract', ['--domain-case', 'd01']),
+    ('beast-contract', ['--beast-case', 'f01']),
+    ('domain-enemy-contract', ['--domain-enemy-case', 'flutter']),
+    ('persistent-contract', ['--persistent-case', 'PP-U03-clamp-priority']),
+    ('persistent-contract', ['--persistent-case', 'PP-U03-min-stack']),
+    ('persistent-contract', ['--persistent-case', 'PP-U03-other-retention']),
+    ('catalog', []),
+    ('enemy-catalog', []),
+    ('domain-summon-contract', ['--domain-summon-case', 'fabricator-off']),
+    ('relic-contract', ['--relic-case', 'RH-starter-turns']),
+    ('domain-passive-contract', ['--domain-passive-case', 'ritual-off']),
+    ('prepared-contract', ['--prepared-case', 'PR-training-dynamic-spells']),
+    ('enemy-matrix-mvp', []),
+    ('domain-revival', ['--revival-case', 'reattach-off']),
+    ('prepared-choice', ['--prepared-choice-case', 'PC-C19-fixed-replay']),
+    ('power-presentation', []),
+    ('enemy-exploration', []),
+    ('coupon-contract', ['--coupon-case', 'CP-max-preserve']),
+    ('domain-card-contributions', ['--domain-card-case', 'hex']),
+    ('primal-contract', ['--primal-case', 'U12-paid-snapshot']),
+    ('audio-receipts', []),
+    ('domain-dampen-transactions', []),
+    ('standing-extra-turn', ['--standing-case', 'U03-base-extra-turn']),
+    ('domain-steam', ['--steam-case', 'off']),
+    ('card-face-acceptance', ['--card-face-batch', 'all']),
+    ('domain-hopper', ['--hopper-case', 'off']),
+    ('domain-suppression', ['--domain-suppression-family', 'all']),
+    ('domain-visual', []),
+    ('architect-ending', []),
+    ('card-lifecycle', ['--card-lifecycle-cases', 'all']),
+    ('native-run', ['--native-run-mode', 'three-battle-save']),
+    ('presentation-acceptance', ['--presentation-mode', 'cards']),
 )
 
 
-def run(scenario, case, args) -> dict:
+def run(scenario, extra, args) -> dict:
     command = [str(ROOT / '.local/build-python/bin/python'), '-B', str(ROOT / 'tools/headless.py'),
                '--use-deployed', '--scenario', scenario,
                '--display', args.display, '--audio-driver', args.audio,
                '--timeout', str(args.timeout), '--frames', str(args.frames)]
-    if case:
-        command += ['--persistent-case', case]
+    command += extra
     env = dict(os.environ)
     completed = subprocess.run(command, cwd=str(ROOT), capture_output=True, text=True, env=env)
     tail = [line for line in completed.stdout.splitlines() if line.strip().startswith('{"report"')]
@@ -36,7 +67,7 @@ def run(scenario, case, args) -> dict:
     directory = Path(report['report']).parent if report else None
     checks = json.loads((directory / 'report.json').read_text(encoding='utf-8'))['checks'] if directory and (directory / 'report.json').is_file() else {}
     failed = [name for name, value in checks.items() if value is False]
-    return {'scenario': scenario, 'case': case, 'exit': completed.returncode,
+    return {'scenario': scenario, 'case': ' '.join(extra), 'exit': completed.returncode,
             'passed': completed.returncode == 0 and bool(checks) and not failed,
             'failed_checks': failed}
 
@@ -54,12 +85,13 @@ def main():
         print('Set VOLIBEAR_GAME_VERSION and VOLIBEAR_GAME_COMMIT to the installed channel first.', file=sys.stderr)
         return 2
     rows = []
-    for scenario, case in MATRIX:
+    for scenario, extra in MATRIX:
         if args.only and scenario not in args.only:
             continue
-        result = run(scenario, case, args)
+        result = run(scenario, extra, args)
+        result['case'] = ' '.join(extra)
         rows.append(result)
-        label = scenario + (':' + case if case else '')
+        label = scenario + (':' + result['case'] if result['case'] else '')
         print(('PASS ' if result['passed'] else 'FAIL ') + label +
               ('' if result['passed'] else '  failed=' + ','.join(result['failed_checks'])), flush=True)
     passed = sum(1 for row in rows if row['passed'])

@@ -2,6 +2,9 @@
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 MARKER='[Volibear] DOMAIN_SUMMON_D17_RESULT '
 COUNTS={'fabricator-attack-open':0,'fabricator-attack-close':1,'fabricator-partial-open':1,'fabricator-cancel-close':0,
     'ovicopter-animation-open':0,'ovicopter-partial-open':1,'ovicopter-post-open':3,'ovicopter-cancel-close':0,
@@ -69,7 +72,7 @@ def expected(case,token,parent,player,counter,initial,next_move,children):
             stateLogBefore=[initial],stateLogAfter=[initial,next_move],nextMove=next_move,lastSpawnedBefore=None,
             lastSpawnedAfter=children[0]['type'] if family=='fabricator' and n else None,afterMove=done)
     return dict(schema=1,token=token,scenario='domain-summon-contract',variant=case,
-        acceptance='native-async-window-probe-not-natural-input-or-full-enemy-coverage',testMode=False,version='v0.107.1',commit='59260271',
+        acceptance='native-async-window-probe-not-natural-input-or-full-enemy-coverage',testMode=False,version=EXPECTED_GAME_VERSION,commit=EXPECTED_GAME_COMMIT,
         encounter=encounter,parentType=parent_type,fixtureHp=100,ascension=0,before=before,action=action,final=final,damage=damage,moves=moves,
         gates=gates,windows=windows,births=births,creates=creates,childrenFinal=children,
         deathCallbacks=[dict(ownerId=parent,targetId=parent,prevented=False,sourceAmount=4,snapshot=snap(dead=True))] if death else [],

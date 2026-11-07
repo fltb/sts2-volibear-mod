@@ -3,6 +3,9 @@ import copy
 import json
 import ntpath
 import re
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] SAVE_LOAD_RESULT '
 SCOPE = 'native-checkpoint-save-load-apis-no-input'
@@ -168,7 +171,7 @@ def validate_phase(r, expected, errors=None):
         for k in ('userRoot','checkpointPath'): need(norm(r[k])==norm(expected[k]),'profile binding '+k)
         need(positive(r['pid']) and r['caseId'] in ('S1','S2'),'pid/case')
         need((r['mode']=='same-process' and r['phase']=='same') or (r['mode']=='restart' and r['phase'] in ('prepare','resume')),'mode/phase')
-        for k,v in dict(schema=1,gameVersion='v0.107.1',gameCommit='59260271',testMode=False,acceptance=SCOPE).items(): need(eq(r[k],v),k)
+        for k,v in dict(schema=1,gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,testMode=False,acceptance=SCOPE).items(): need(eq(r[k],v),k)
         need(isinstance(r['assemblyMvid'],str) and re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}',r['assemblyMvid']) is not None,'assembly binding')
         stage='checkpoint'
         checkpoint(r['checkpoint'],r['caseId'],r['seed'])

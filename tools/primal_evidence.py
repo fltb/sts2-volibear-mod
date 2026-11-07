@@ -2,6 +2,9 @@
 from collections import Counter
 from copy import deepcopy
 import json
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 PREFIX='[Volibear] PRIMAL_CONTRACT_RESULT '
 PRIMAL_CASES=('U12-paid-snapshot','U12-native-extra-turn')
 ACCEPTANCE='native-paid-snapshot-and-mayhem-extra-turn-not-OS-input'
@@ -36,7 +39,7 @@ def validate_primal_result(r,token,variant):
 
 def _validate(r,token,variant):
     need(variant in PRIMAL_CASES and type(r) is dict and set(r)==set('token variant scenario completed gameVersion gameCommit testMode acceptance fixture character playerId enemyIds enemyTypes cards generated initial actions setups transitions final payments effects boundaries extraTurns autoPhases'.split()))
-    for k,v in dict(token=token,variant=variant,scenario='primal-contract',completed=True,gameVersion='v0.107.1',gameCommit='59260271',testMode=False,
+    for k,v in dict(token=token,variant=variant,scenario='primal-contract',completed=True,gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,testMode=False,
                     acceptance=ACCEPTANCE,character='VolibearCharacter',fixture='fresh-native-three-slimes-energy30-enemyHp500-created-cards-and-deck-order-explicit').items():same(r[k],v)
     extra=variant=='U12-native-extra-turn';pid=r['playerId'];ids=r['enemyIds'];types=r['enemyTypes']
     need(integer(pid) and type(ids) is list and len(ids)==3 and all(integer(i) for i in ids) and len(set(ids+[pid]))==4)

@@ -9,6 +9,9 @@ ROOT=next(p for p in Path(__file__).resolve().parents if (p/'tools/headless.py')
 if str(ROOT/'tools') not in sys.path:sys.path.append(str(ROOT/'tools'))
 from save_load_evidence import eq,need,norm,positive,native_reload_expected,first_difference
 from catalog_evidence import expected_catalog,display_text,TARGETS
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 PREFIX='[Volibear] SAVE_CATALOG_RESULT '
 SCOPE='native-save-catalog-programmatic-ui-not-G6'
 CATALOG=expected_catalog()
@@ -174,7 +177,7 @@ def validate_phase(r,expected,errors=None):
         for k in ('userRoot','checkpointPath'):need(norm(r[k])==norm(expected[k]),'isolation '+k)
         need(positive(r['pid']) and r['caseId']=='S3','supported staged case/PID')
         need((r['mode']=='same-process' and r['phase']=='same') or (r['mode']=='restart' and r['phase'] in ('prepare','resume')),'phase/mode')
-        for k,value in dict(schemaVersion=2,scenario='save-load-catalog',roomKind='active-entry',gameVersion='v0.107.1',gameCommit='59260271',testMode=False,acceptance=SCOPE).items():need(eq(r[k],value),k)
+        for k,value in dict(schemaVersion=2,scenario='save-load-catalog',roomKind='active-entry',gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,testMode=False,acceptance=SCOPE).items():need(eq(r[k],value),k)
         need(re.fullmatch(r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}',r['assemblyMvid']) is not None,'assembly MVID')
         stage='checkpoint';checkpoint(r['checkpoint'],r['caseId'],r['seed'])
         stage='native UI';events=r['events'];need(isinstance(events,list),'events list')

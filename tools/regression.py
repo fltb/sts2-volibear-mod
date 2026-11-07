@@ -17,6 +17,44 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# These modules assert the exact 0.107.1 native signatures/IL the stable channel was built
+# against. On a PBE assembly set they are obsolete by construction; the PBE content gate is
+# the native scenario matrix (tools/pbe_verify.py). They are skipped, with a recorded reason,
+# instead of being reported as regressions.
+STABLE_CONTRACT_MODULES = (
+    'test_persistent_cards', 'tests.domain_disabled_presentation', 'test_audio_receipts',
+    'test_audio_receipt_evidence', 'test_domain_hopper', 'test_power_stack_visual',
+    'test_power_stack_presentation', 'test_architect_ending', 'test_domain_debuff_commit_il',
+    'test_domain_passive_contract', 'test_domain_revival_respawn_guard', 'test_domain_self_debuff',
+    'test_domain_steam_v1', 'test_domain_summon_contract', 'test_native_acceptance_host',
+    'test_native_starter_fixture', 'test_native_product_flow_pacing',
+    'test_catalog_face_suite_native', 'test_card_lifecycle_native_preloading',
+    'test_beast_power_lifecycle', 'test_history_contracts', 'test_domain_team_protection',
+    'test_hover_tips_canonical', 'test_mechanic_hints', 'test_merchant_integration',
+    'test_native_flow_contract',
+)
+
+
+def stable_contract_channel() -> bool:
+    return os.environ.get('VOLIBEAR_CHANNEL', 'stable') == 'stable'
+
+
+def partition_stable_contract(suite):
+    """Remove stable-pinned native contract tests and return their ids for the skip report."""
+    skipped, kept = [], []
+
+    def walk(item):
+        if isinstance(item, unittest.TestSuite):
+            for child in item:
+                walk(child)
+        elif item.id().startswith(STABLE_CONTRACT_MODULES):
+            skipped.append(item.id())
+        else:
+            kept.append(item)
+
+    walk(suite)
+    return unittest.TestSuite(kept), skipped
 OTHER_PLATFORM_REASONS = frozenset({
     'Windows junction migration', 'Windows native window fixtures',
     'Windows private-desktop native renderer', 'Windows private-desktop launch failure',
@@ -108,14 +146,21 @@ def main(argv=None):
         # This scoped native fixture directory is intentionally not a discovery package.
         suite.addTests(unittest.defaultTestLoader.loadTestsFromName(
             'tests.domain_disabled_presentation.test_native.DomainDisabledPresentationTests'))
+        stable_skips = []
+        if not stable_contract_channel():
+            suite, stable_skips = partition_stable_contract(suite)
         if args.jobs == 1:
             result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult, failfast=args.failfast).run(suite)
             report = summarize(result, require_native=args.require_native)
+            report.setdefault('skipped', []).extend(
+                {'test': test_id, 'reason': 'stable-channel native contract (PBE channel)'} for test_id in stable_skips)
         else:
             from tools.regression_parallel import run
             report = run(suite, jobs=args.jobs, root=ROOT, directory=args.report.parent,
                          environment=dict(os.environ), require_native=args.require_native,
                          failfast=args.failfast)
+            report.setdefault('skipped', []).extend(
+                {'test': test_id, 'reason': 'stable-channel native contract (PBE channel)'} for test_id in stable_skips)
     report.update(elapsed_seconds=round(time.monotonic() - began, 3),
                   finished_utc=datetime.now(timezone.utc).isoformat())
     try:

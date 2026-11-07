@@ -9,6 +9,9 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = '[Volibear] DOMAIN_ENEMY_RESULT '
 VARIANTS = ('flutter', 'soar', 'intangible', 'slippery', 'hard-to-kill', 'shell',
@@ -121,7 +124,7 @@ def validate(payload, token: str, variant: str) -> list[str]:
 
     for key, expected in dict(schema=1, token=token, scenario='domain-enemy-contract', variant=variant,
             acceptance='mechanism-probe-not-native-enemy-coverage', testMode=False,
-            version='v0.107.1', commit='59260271', enemyType='LeafSlimeS',
+            version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, enemyType='LeafSlimeS',
             fixtureApi='native-PowerCmd+CreatureCmd;starting-LeafSlimeS;no-replaced-actions').items():
         equal(payload.get(key), expected, key)
     start = payload.get('start')

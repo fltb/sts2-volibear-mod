@@ -333,7 +333,7 @@ def _additional(r,token,case):
 
 def _engagement(r,token,case):
     oracle=next(c['expected'] for c in json.loads(FIXTURE.read_text(encoding='utf-8'))['cases'] if c['id']==case)
-    fixed=dict(token=token,scenario='persistent-contract',variant=case,completed=True,schema='engagement-v1',gameVersion='v0.107.1',gameCommit='59260271',
+    fixed=dict(token=token,scenario='persistent-contract',variant=case,completed=True,schema='engagement-v1',gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,
                testMode=False,acceptance='mechanism-autoplay-not-payment-not-formal-enemy',character='VolibearCharacter')
     fields='enemyIds enemyTypes removedRelics initialMoves stages receipts batches drawResponses consumed status playHistory drawHistory moveHistory damageHistory'.split()
     _need(set(r)==set(fixed)|set(fields) and all(_eq(r[k],v) for k,v in fixed.items()))
@@ -413,7 +413,7 @@ def _engagement(r,token,case):
 def _special(r,token,case):
     nested=case=='PP-U25-live-finish-count'
     oracle=next(c['expected'] for c in json.loads(FIXTURE.read_text(encoding='utf-8'))['cases'] if c['id']==case)
-    fixed=dict(token=token,scenario='persistent-contract',variant=case,completed=True,schema='special-v1',gameVersion='v0.107.1',gameCommit='59260271',
+    fixed=dict(token=token,scenario='persistent-contract',variant=case,completed=True,schema='special-v1',gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,
                testMode=False,character='VolibearCharacter',acceptance='native-nested-autoplay-not-payment' if nested else 'native-action-queue-not-mouse')
     fields='enemyIds enemyTypes removedRelics eliminated special beforeEffects playHistory drawHistory energyHistory damageHistory'.split()
     _need(set(r)==set(fixed)|set(fields) and all(_eq(r[k],v) for k,v in fixed.items()))

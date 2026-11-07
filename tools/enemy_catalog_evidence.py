@@ -8,6 +8,9 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] ENEMY_CATALOG_RESULT '
 POLICY = 'native-registered-acts-plus-registered-event-encounter-references'
@@ -34,7 +37,7 @@ def _validate_manifest(data, *, run_id, expected_seed=None):
         return ['manifest must be an object']
     for key, expected in dict(schema=1, token=run_id, scenario='enemy-catalog', testMode=False,
                               acceptance='native-source-discovery-only', executionStatus='NOT_RUN',
-                              gameVersion='v0.107.1', gameCommit='59260271', sourcePolicy=POLICY).items():
+                              gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, sourcePolicy=POLICY).items():
         require(type(data.get(key)) is type(expected) and data.get(key) == expected, key + ' mismatch')
     require(isinstance(data.get('seed'), str) and bool(data.get('seed')), 'missing actual seed')
     if expected_seed is not None:
@@ -226,7 +229,7 @@ def catalog_evidence(log, run_id, evidence_root, *, expected_seed=None):
         summary['validationErrors'] = errors
         return summary, False
     for key, value in dict(token=run_id, scenario='enemy-catalog', acceptance='native-source-discovery-only',
-                           executionStatus='NOT_RUN', gameVersion='v0.107.1', gameCommit='59260271',
+                           executionStatus='NOT_RUN', gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT,
                            bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(), counts=data.get('counts')).items():
         if type(summary.get(key)) is not type(value) or summary.get(key) != value:
             errors.append('summary mismatch: ' + key)

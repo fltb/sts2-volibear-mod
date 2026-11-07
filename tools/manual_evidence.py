@@ -5,6 +5,9 @@ import math
 from pathlib import Path
 import struct
 import zlib
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 READY_PREFIX = '[Volibear] MANUAL_PLAY_READY '
 RESULT_PREFIX = '[Volibear] MANUAL_PLAY_RESULT '
@@ -57,7 +60,7 @@ def one_record(log, prefix):
 
 def validate_ready(ready, token, nonce, pid):
     expected = dict(schema=1, token=token, nonce=nonce, scenario='manual-play', variant='b01',
-                    gameVersion='v0.107.1', gameCommit='59260271', os='Windows',
+                    gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, os='Windows',
                     processId=pid, godotProcessId=pid, pidSource='System.Environment.ProcessId',
                     testMode=False, steamInitialized=False, encounter='SlimesWeak')
     for key, value in expected.items():
@@ -176,7 +179,7 @@ def _validate(ready, result, injected, token, nonce, pid, directory, activate_ow
         for key, value in dict(schema=1, token=token, nonce=nonce, processId=pid).items():
             require(type(record.get(key)) is type(value) and record[key] == value, 'result/input identity: ' + key)
     require(result['scenario'] == 'manual-play' and result['variant'] == 'b01', 'result scenario')
-    require(result['gameVersion'] == 'v0.107.1' and result['gameCommit'] == '59260271', 'result version')
+    require(result['gameVersion'] == EXPECTED_GAME_VERSION and result['gameCommit'] == EXPECTED_GAME_COMMIT, 'result version')
     require(result['api'] == injected['api'] == 'Windows.SendInput.mouse_drag', 'real input API')
     require(result['acceptance'] == 'ordinary-input-and-native-payment', 'acceptance scope')
     require(injected['error'] is None, 'injection error')

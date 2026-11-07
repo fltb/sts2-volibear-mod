@@ -2,6 +2,9 @@
 from collections import Counter
 from copy import deepcopy
 import json
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX='[Volibear] COUPON_CONTRACT_RESULT '
 ACCEPTANCE='native-action-queue-payment-not-OS-input'
@@ -56,7 +59,7 @@ def validate_coupon_result(r,token,variant):
 
 def _validate(r,token,variant):
     need(variant in COUPON_CASES and type(r) is dict and set(r)==set('token variant scenario completed gameVersion gameCommit testMode acceptance character playerId enemyIds enemyTypes fixture cards generated conversions initial steps transition'.split()))
-    for k,v in dict(token=token,variant=variant,scenario='coupon-contract',completed=True,gameVersion='v0.107.1',gameCommit='59260271',testMode=False,
+    for k,v in dict(token=token,variant=variant,scenario='coupon-contract',completed=True,gameVersion=EXPECTED_GAME_VERSION,gameCommit=EXPECTED_GAME_COMMIT,testMode=False,
                     acceptance=ACCEPTANCE,character='VolibearCharacter',fixture='fresh-native-three-slimes-energy30-enemyHp500-created-cards-explicit').items():same(r[k],v)
     pid=r['playerId'];ids=r['enemyIds'];types=r['enemyTypes']
     need(integer(pid) and type(ids) is list and len(ids)==3 and all(integer(i) for i in ids) and len(set(ids+[pid]))==4)

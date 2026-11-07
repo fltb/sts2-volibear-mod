@@ -1,6 +1,9 @@
 """Independent oracle for two real Architect event fixtures, not full-run acceptance."""
 import json
 import math
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 MARKER = '[Volibear] ARCHITECT_ENDING_RESULT '
 
@@ -15,7 +18,7 @@ def validate(payload, token):
     try:
         need(type(payload) is dict and bool(token), 'object and current token required')
         for key, value in dict(schema=1, token=token, scenario='architect-ending',
-                fixture='isolated-architect-events-not-full-run', version='v0.107.1', commit='59260271', testMode=False, passed=True).items():
+                fixture='isolated-architect-events-not-full-run', version=EXPECTED_GAME_VERSION, commit=EXPECTED_GAME_COMMIT, testMode=False, passed=True).items():
             need(type(payload[key]) is type(value) and payload[key] == value, 'metadata ' + key)
         rows = payload['cases']
         need(type(rows) is list and len(rows) == 2, 'exact bear and stock fixtures required')

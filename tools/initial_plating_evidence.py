@@ -2,6 +2,9 @@
 import argparse
 import json
 from pathlib import Path
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 MARKER='[Volibear] DOMAIN_INITIAL_PLATING_RESULT '
 VARIANTS=('plating-initial-off','plating-initial-on')
 
@@ -29,7 +32,7 @@ def validate(p,token,variant):
             for i,(gv,wv) in enumerate(zip(g,w)):eq(gv,wv,path+f'[{i}]')
         elif not(type(g) is type(w) or type(g) in (int,float) and type(w) in (int,float)) or g!=w:errors.append(f'{path}: expected {w!r}, observed {g!r}')
     for k,v in dict(schema=1,token=token,scenario='domain-passive-contract',variant=variant,
-        acceptance='native-first-side-dispatch-controlled-domain-fixture',testMode=False,version='v0.107.1',commit='59260271',
+        acceptance='native-first-side-dispatch-controlled-domain-fixture',testMode=False,version=EXPECTED_GAME_VERSION,commit=EXPECTED_GAME_COMMIT,
         fixture='FrogKnightNormal',targetType='FrogKnight').items():eq(p.get(k),v,k)
     try:owner=p['before']['ownerId'];target=p['before']['targetId']
     except (KeyError,TypeError):return errors+['actual native identities missing']

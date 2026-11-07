@@ -1,6 +1,9 @@
 """Strict raw native relic-chain/engage comparator; never dialogue/payment acceptance."""
 import json
 from collections import Counter
+import os
+EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] RELIC_CONTRACT_RESULT '
 RELIC_CASES = ('RH-starter-turns', 'RH-upgrade-turns', 'RH-starter-death', 'RH-upgrade-death')
@@ -28,7 +31,7 @@ def validate_relic_result(r, token, variant):
     try:
         _need(variant in RELIC_CASES and type(token) is str and bool(token.strip()))
         fixed = dict(token=token, scenario='relic-contract', variant=variant, completed=True,
-                     gameVersion='v0.107.1', gameCommit='59260271', testMode=False,
+                     gameVersion=EXPECTED_GAME_VERSION, gameCommit=EXPECTED_GAME_COMMIT, testMode=False,
                      acceptance=ACCEPTANCE, character='VolibearCharacter')
         _need(type(r) is dict and set(r) == set(fixed) | set('enemyIds enemyTypes playerId cards generated sourceCardRef initialRelics upgrade finalRelics steps transition'.split()))
         _need(all(_eq(r[k], v) for k, v in fixed.items()))
