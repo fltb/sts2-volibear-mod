@@ -166,7 +166,7 @@ internal static class DomainSummonContractProbe
                     });
                 };
                 parent.Died += died;
-                var results = (await CreatureCmd.Damage(choices, parent, 100m,
+                var results = (await NativeCompat.Damage(choices, parent, 100m,
                     ValueProp.Unblockable | ValueProp.Unpowered, owner, null).WaitAsync(TimeSpan.FromSeconds(35)))
                     .Select(r => new { receiverId = Id(r.Receiver), hpLost = r.UnblockedDamage,
                         blocked = r.BlockedDamage, overkill = r.OverkillDamage }).ToArray();

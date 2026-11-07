@@ -136,7 +136,7 @@ internal static class NewStrengthPassiveProbe
     private static void OnTurnStarted(CombatState state) { if (!_started) { _started = true; _ = Run(state); } }
     private static async Task NextTurn(CombatState state, Player player)
     {
-        if (player.Creature.Block > 0) await CreatureCmd.LoseBlock(player.Creature, player.Creature.Block);
+        if (player.Creature.Block > 0) await NativeCompat.LoseBlock(player.Creature, player.Creature.Block);
         await CreatureCmd.GainBlock(player.Creature, 100m, ValueProp.Unpowered, null);
         int round = state.RoundNumber; PlayerCmd.EndTurn(player, canBackOut: false);
         var timer = System.Diagnostics.Stopwatch.StartNew();

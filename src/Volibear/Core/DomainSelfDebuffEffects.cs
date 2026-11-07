@@ -32,7 +32,8 @@ public static class DomainSelfDebuffEffects
 
     private static MethodInfo Own(string name) => AccessTools.DeclaredMethod(typeof(DomainSelfDebuffEffects), name)
         ?? throw new MissingMethodException(name);
-    private static MethodInfo Native(Type type, string name) => AccessTools.DeclaredMethod(type, name)
+    private static MethodInfo Native(Type type, string name, Type[]? parameters = null) =>
+        (parameters is null ? AccessTools.DeclaredMethod(type, name) : AccessTools.DeclaredMethod(type, name, parameters))
         ?? throw new MissingMethodException(type.FullName, name);
     private static MethodInfo Machine(Type type, string name) => Native(
         Native(type, name).GetCustomAttribute<AsyncStateMachineAttribute>()?.StateMachineType
@@ -61,16 +62,32 @@ public static class DomainSelfDebuffEffects
             (typeof(DisintegrationPower), nameof(DisintegrationPower.AfterSideTurnEndLate)),
             (typeof(DemisePower), nameof(DemisePower.AfterSideTurnEnd)),
             (typeof(StranglePower), nameof(StranglePower.AfterCardPlayed)) })
-            harmony.Patch(Machine(type, name), transpiler: new HarmonyMethod(Own(nameof(DamageBody))));
+        {
+            var body = type == typeof(PoisonPower) && name == nameof(PoisonPower.AfterSideTurnStart) && Native(type, "Trigger") is not null
+                ? Machine(type, "Trigger")   // PBE moved the recurring poison damage into Trigger.
+                : Machine(type, name);
+            try { harmony.Patch(body, transpiler: new HarmonyMethod(Own(nameof(DamageBody)))); }
+            catch (Exception error) { throw new InvalidOperationException("DamageBody failed: " + type.Name + "." + name, error); }
+        }
         harmony.Patch(Machine(typeof(OblivionPower), nameof(OblivionPower.AfterCardPlayed)),
             transpiler: new HarmonyMethod(Own(nameof(OblivionBody))));
         harmony.Patch(Machine(typeof(TheGambitPower), nameof(TheGambitPower.AfterDamageReceived)),
             transpiler: new HarmonyMethod(Own(nameof(KillBody))));
         // Filtering the collection avoids JIT-inlining dependence on IsOwnerDoomed.
-        harmony.Patch(Native(typeof(DoomPower), nameof(DoomPower.GetDoomedCreatures)),
+        harmony.Patch(Native(typeof(DoomPower), nameof(DoomPower.GetDoomedCreatures),
+                [typeof(System.Collections.Generic.IReadOnlyList<Creature>)]),
             postfix: new HarmonyMethod(Own(nameof(Doomed))));
+#if STS2_BETA
+        // PBE moved the doom predicate behind ShouldDoomTrigger; gate its result instead of the callsite.
+        harmony.Patch(Native(typeof(DoomPower), "ShouldDoomTrigger",
+                [typeof(System.Collections.Generic.IEnumerable<Creature>)]),
+            postfix: new HarmonyMethod(Own(nameof(DoomTriggerGate))));
         harmony.Patch(Machine(typeof(DoomPower), nameof(DoomPower.BeforeSideTurnEnd)),
             transpiler: new HarmonyMethod(Own(nameof(DoomBody))));
+#else
+        harmony.Patch(Machine(typeof(DoomPower), nameof(DoomPower.BeforeSideTurnEnd)),
+            transpiler: new HarmonyMethod(Own(nameof(DoomBody))));
+#endif
         harmony.Patch(Native(typeof(ShrinkPower), nameof(ShrinkPower.AfterApplied)),
             postfix: new HarmonyMethod(Own(nameof(ShrinkApplied))));
         DomainDampenRestoration.Install(harmony);
@@ -156,9 +173,60 @@ public static class DomainSelfDebuffEffects
             );
 
     private static MethodInfo DamageMethod => AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-        [typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]);
+        [typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+            , typeof(CardPlay)
+#endif
+            ]);
+#if STS2_BETA
+    private static IEnumerable<CodeInstruction> DamageBody(IEnumerable<CodeInstruction> input, MethodBase __originalMethod) =>
+        InjectDamage(input, __originalMethod);
+    // PBE nulls different argument combinations per power (5, 6 or 7 parameter Damage overloads),
+    // so the replacement mirrors the arity of the call it rewrites.
+    private static IEnumerable<CodeInstruction> InjectDamage(IEnumerable<CodeInstruction> input, MethodBase method)
+    {
+        var source = AccessTools.Field(method.DeclaringType, "<>4__this");
+        if (source is null || !typeof(PowerModel).IsAssignableFrom(source.FieldType)) throw new InvalidOperationException("Debuff source field drift");
+        int count = 0;
+        foreach (var old in input)
+        {
+            var code = new CodeInstruction(old);
+            if (code.operand is MethodInfo native && native.DeclaringType == typeof(CreatureCmd) && native.Name == nameof(CreatureCmd.Damage))
+            {
+                var wrapper = native.GetParameters().Length switch
+                {
+                    5 => nameof(Damage5),
+                    6 => nameof(Damage6),
+                    7 => nameof(Damage7),
+                    _ => throw new InvalidOperationException("Debuff damage arity drift: " + native.GetParameters().Length)
+                };
+                var load = new CodeInstruction(OpCodes.Ldarg_0);
+                load.labels.AddRange(code.labels); code.labels.Clear();
+                if (code.blocks.Count != 0) throw new InvalidOperationException("Debuff call exception boundary drift");
+                yield return load;
+                yield return new CodeInstruction(OpCodes.Ldfld, source);
+                code.opcode = OpCodes.Call; code.operand = Own(wrapper); count++;
+            }
+            yield return code;
+        }
+        if (count != 1) throw new InvalidOperationException("Debuff exact contribution drift: " + method + ": " + count);
+    }
+    private static Task<IEnumerable<DamageResult>> Damage5(PlayerChoiceContext choices, Creature target, decimal amount,
+        ValueProp props, Creature? dealer, PowerModel source) => IsSuppressed(source)
+            ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
+            : CreatureCmd.Damage(choices, target, amount, props, dealer);
+    private static Task<IEnumerable<DamageResult>> Damage6(PlayerChoiceContext choices, Creature target, decimal amount,
+        ValueProp props, CardModel? card, CardPlay? play, PowerModel source) => IsSuppressed(source)
+            ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
+            : CreatureCmd.Damage(choices, target, amount, props, card, play);
+    private static Task<IEnumerable<DamageResult>> Damage7(PlayerChoiceContext choices, Creature target, decimal amount,
+        ValueProp props, Creature? dealer, CardModel? card, CardPlay? play, PowerModel source) => IsSuppressed(source)
+            ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
+            : CreatureCmd.Damage(choices, target, amount, props, dealer, card, play);
+#else
     private static IEnumerable<CodeInstruction> DamageBody(IEnumerable<CodeInstruction> input, MethodBase __originalMethod) =>
         InjectSource(input, __originalMethod, DamageMethod, Own(nameof(Damage)));
+#endif
     private static IEnumerable<CodeInstruction> OblivionBody(IEnumerable<CodeInstruction> input, MethodBase __originalMethod) =>
         InjectSource(input, __originalMethod, typeof(PowerCmd).GetMethods().Single(m => m.Name == nameof(PowerCmd.Apply) &&
             m.IsGenericMethodDefinition && m.GetParameters().Length == 6 && m.GetParameters()[1].ParameterType == typeof(Creature))
@@ -209,6 +277,8 @@ public static class DomainSelfDebuffEffects
             .CreateDelegate(typeof(Func<DoomPower, bool>));
     private static bool IsDoomed(DoomPower power) => !IsSuppressed(power) && IsOwnerDoomedNative(power);
     private static readonly MethodInfo DoomPredicate = AccessTools.Method(typeof(DoomPower), "IsOwnerDoomed")!;
+    private static void DoomTriggerGate(DoomPower __instance, ref bool __result)
+    { if (__result && IsSuppressed(__instance)) __result = false; }
 #else
     private static bool IsDoomed(DoomPower power) => !IsSuppressed(power) && power.IsOwnerDoomed();
     private static readonly MethodInfo DoomPredicate = Native(typeof(DoomPower), nameof(DoomPower.IsOwnerDoomed));
@@ -223,6 +293,11 @@ public static class DomainSelfDebuffEffects
             { code.opcode = OpCodes.Call; code.operand = Own(nameof(IsDoomed)); count++; }
             yield return code;
         }
+#if STS2_BETA
+        // The predicate moved into ShouldDoomTrigger; either the callsite is here (older PBE) or gated there.
+        if (count > 1) throw new InvalidOperationException("Doom predicate callsite drift: " + count);
+#else
         if (count != 1) throw new InvalidOperationException("Doom predicate callsite drift");
+#endif
     }
 }

@@ -42,7 +42,11 @@ internal static class PowerPresentationDomainScalars
             h.Patch(AccessTools.Method(typeof(Hook), name), prefix: new(typeof(PowerPresentationDomainScalars), nameof(EnterHook)),
                 finalizer: new(typeof(PowerPresentationDomainScalars), nameof(LeaveHook)));
         var damage = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-            [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]);
+            [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+                , typeof(CardPlay)
+#endif
+                ]);
         var block = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.GainBlock),
             [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(CardPlay), typeof(bool)]);
         var apply = AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Apply),
@@ -53,7 +57,14 @@ internal static class PowerPresentationDomainScalars
         var auto = AccessTools.Method(typeof(CardCmd), nameof(CardCmd.AutoPlay));
         var play = AccessTools.Method(typeof(MegaCrit.Sts2.Core.GameActions.PlayCardAction), "ExecuteAction");
         var spend = AccessTools.Method(typeof(CardModel), nameof(CardModel.SpendResources));
-        var turnEndCard = AccessTools.Method(typeof(CardModel), nameof(CardModel.OnTurnEndInHandWrapper));
+        var turnEndCard =
+#if STS2_BETA
+            // PBE moved turn-end card resolution out of the (now synchronous) CardModel wrapper.
+            AccessTools.Method(typeof(MegaCrit.Sts2.Core.Combat.CombatManager), "ResolveTurnEndCardEffects",
+                [typeof(CardModel), typeof(PlayerChoiceContext), typeof(System.Threading.Tasks.Task)]);
+#else
+            AccessTools.Method(typeof(CardModel), nameof(CardModel.OnTurnEndInHandWrapper));
+#endif
         var turnEnd = AccessTools.Method(typeof(MegaCrit.Sts2.Core.Combat.CombatManager), "DoTurnEnd");
         // Exact locked-game manifest: every admitted scalar receipt site, in native order.
         // AutoPlay has two distinct real sites (ShouldPlay then GetAmountToSpend); Damage
@@ -83,7 +94,11 @@ internal static class PowerPresentationDomainScalars
             (turnEnd, "CombatManager.DoTurnEnd", [new(keywords, 1)]),
         })
         {
-            var body = AccessTools.Method(method.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType, "MoveNext");
+            if (method is null) throw new InvalidOperationException("Presentation scalar pin missing: " + label);
+            var attribute = method.GetCustomAttribute<AsyncStateMachineAttribute>()
+                ?? throw new InvalidOperationException("Presentation scalar pin is not async: " + label);
+            var body = AccessTools.Method(attribute.StateMachineType, "MoveNext")
+                ?? throw new InvalidOperationException("Presentation scalar state machine missing: " + label);
             if (method == turnEndCard || method == turnEnd) KeywordBodies.Add(body);
             Manifests[body] = new(label, sites);
             // Bind the native call before TargetCosts replaces it with its resolved-target

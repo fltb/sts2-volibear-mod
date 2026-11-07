@@ -12,7 +12,14 @@
 - 两通道编译均通过；稳定通道回归重跑 `power-presentation` 得到 `BUILD_GATE build=verified channel=stable target=v0.107.1/59260271`，行为未回退。
 - PBE 启动实测：`BUILD_GATE build=verified channel=pbe target=v0.111.0/41cef1ea`、`CONTENT_OK cards=89`，随后初始化在 IL 适配层中断。已完成适配：`PlayerChoiceContext` 新抽象成员（OwnerId/SignalPlayerChoiceBegun(Player,options)）、`ModifyDamageAdditive/Multiplicative` 的 CardPlay 参数、`AttackCommand.FromCard`、`CreatureCmd.Damage/LoseBlock` 新参数、`Hook.AfterTurnEnd→AfterSideTurnEnd`（probe）、`DoomPower.IsOwnerDoomed` 转为私有（改反射）、`CardPileCmd.Draw` 拆出 `DrawInternal`（改挂内部异步体）、`DomainEnemyEffects` damage/cap 新旧参数集拆分。
 - 当前阻塞：`DomainSummonEffects` 等模块按精确 IL 固定了编译器生成的异步状态机字段名（PBE 下 `InfestedPower+<AfterDeath>d__4.<i>5__2` 编号变化），需要逐处重新推导并重验；这类精确 IL 适配在 PBE 上会随每次 beta 更新反复漂移。未产出 PBE 安装包（避免交付半初始化的 Mod）。
-- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## 版本门放宽：原生接口自检（2026-11-07）
+- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 通道交付：0.111.0 / 41cef1ea（2026-11-07 晚）
+
+- 用户只追最新 PBE。PBE 游戏副本固定为 `.local/game-pbe`（v0.111.0 / 41cef1ea，Linux），稳定副本 `.local/game` 保留。
+- 单源双通道：`-p:GameChannel=beta` 定义 `STS2_BETA`，包内 `mods/Volibear/BuildChannel.json` 驱动版本门；`SupportedGameBuild` 从该文件读取且稳定包继续用编译默认值。
+- PBE 适配（编译+真实启动验证通过）：`PlayerChoiceContext` 新抽象成员、`ModifyDamageAdditive/Multiplicative` 与 `AttackCommand.FromCard` 的 `CardPlay`、`CreatureCmd.Damage/LoseBlock` 新参数、`Hook.AfterTurnEnd→AfterSideTurnEnd`、`DoomPower.IsOwnerDoomed` 私有化改反射并改门控 `ShouldDoomTrigger`、`CardPileCmd.Draw→DrawInternal`、`PoisonPower→Trigger`、`CardModel.OnTurnEndInHandWrapper→CombatManager.ResolveTurnEndCardEffects`、召唤（Infested）死亡召唤改为创建循环前取消、Constrict/敌方状态贡献按新调用形状区分 5/6/7 参数。
+- 交付：`Volibear-0.1.0-StS2-0.111.0-pbe-open.zip` 与 `-pbe-riot.zip` 已生成并安装到 Steam PBE 目录；生产 DLL SHA-256 `de8f82627b1c121df6be0f8fbca90de82190e7edf08d5039930cb10edb422edf`，启动实测 `BUILD_GATE build=verified channel=pbe target=v0.111.0/41cef1ea` + `LOAD_OK ... target=v0.111.0`。
+- 验证边界：PBE 实机启动/全补丁安装/内容注册已验证；PBE 上的自动化原生场景门尚未跑（probe 测试构建已可编译，但测试 bootstrap 在 PBE 上未注册、隔离断言与 oracle 版本常量仍需按通道参数化）。出厂包不含 dev probe。
+## 版本门放宽：原生接口自检（2026-11-07）
 
 - 用户要求不再为每个游戏版本维护单独构建。运行时版本门从“必须精确等于 v0.107.1/59260271”改为：
   精确匹配直接通过（日志 `build=verified`）；其他版本先做原生接口自检，用到的东西都在则放行并标注

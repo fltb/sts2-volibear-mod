@@ -258,7 +258,7 @@ internal static class PersistentContractProbe
                 await CreatureCmd.GainBlock(owner, 5, ValueProp.Unpowered, null);
                 snapshots.Add(Snapshot("before-damage"));
                 inputs.Add(new { op = "CreatureCmd.Damage", amount = 8, props = (int)ValueProp.Unpowered });
-                await CreatureCmd.Damage(context, owner, 8, ValueProp.Unpowered, enemies[0], null);
+                await NativeCompat.Damage(context, owner, 8, ValueProp.Unpowered, enemies[0], null);
                 snapshots.Add(Snapshot("after-damage"));
             }
             var history = CombatManager.Instance.History.Entries.Skip(historyStart).ToArray();
@@ -559,7 +559,7 @@ internal static class PersistentContractProbe
                     completed = result.Completed, absorbed = result.Absorbed, consumed = EngageCmd.Consumed(enemy) });
             }
             await CreatureCmd.SetCurrentHp(owner, 80);
-            if (owner.Block > 0) await CreatureCmd.LoseBlock(owner, owner.Block);
+            if (owner.Block > 0) await NativeCompat.LoseBlock(owner, owner.Block);
         }
         var preparationHistory = CombatManager.Instance.History.Entries.Skip(preparationStart).ToArray();
         var setup = new List<object>();

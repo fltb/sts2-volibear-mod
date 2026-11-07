@@ -49,7 +49,7 @@ public static class EnemyCatalogProbe
     public static EncounterModel ResolveEncounter(string exactId)
     {
         var sources = DiscoverSources();
-        if (!sources.Encounters.TryGetValue(exactId, out var node) || node.Model.IsDebugEncounter)
+        if (!sources.Encounters.TryGetValue(exactId, out var node) || NativeCompat.IsDebugEncounter(node.Model))
             throw new InvalidOperationException("Encounter is not a non-debug registered-source encounter: " + exactId);
         return node.Model; // Canonical model, as required by the native bootstrap contract.
     }
@@ -220,7 +220,7 @@ public static class EnemyCatalogProbe
             if (requested is not null && requested != state.Encounter?.Id.ToString())
                 throw new InvalidOperationException("Requested encounter was not actually bootstrapped.");
             var sources = DiscoverSources();
-            var formal = sources.Encounters.Values.Where(node => !node.Model.IsDebugEncounter).ToArray();
+            var formal = sources.Encounters.Values.Where(node => !NativeCompat.IsDebugEncounter(node.Model)).ToArray();
             var monsters = formal.SelectMany(node => node.Model.AllPossibleMonsters).Where(IsNative)
                 .DistinctBy(Id).OrderBy(Id, StringComparer.Ordinal).ToArray();
             var live = state.Enemies.Where(enemy => enemy.Monster is not null).ToArray();
@@ -249,11 +249,11 @@ public static class EnemyCatalogProbe
                 encounters = sources.Encounters.Values.Select(node => new
                 {
                     id = Id(node.Model), type = node.Model.GetType().FullName, registered = ModelDb.Contains(node.Model.GetType()),
-                    isDebug = node.Model.IsDebugEncounter, roomType = node.Model.RoomType.ToString(),
+                    isDebug = NativeCompat.IsDebugEncounter(node.Model), roomType = node.Model.RoomType.ToString(),
                     origins = node.Origins, monsterIds = Ids(node.Model.AllPossibleMonsters),
-                    executionStatus = "NOT_RUN", included = !node.Model.IsDebugEncounter,
+                    executionStatus = "NOT_RUN", included = !NativeCompat.IsDebugEncounter(node.Model),
                     bootstrapMode = node.Origins.Any(o => o.kind == "act") ? "ACT_ENCOUNTER" : "EVENT_SETUP_REQUIRED",
-                    exclusionReason = node.Model.IsDebugEncounter ? "native-IsDebugEncounter=true" : null
+                    exclusionReason = NativeCompat.IsDebugEncounter(node.Model) ? "native-IsDebugEncounter=true" : null
                 }).ToArray(),
                 monsters = monsters.Select(model => new
                 {

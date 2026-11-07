@@ -129,7 +129,7 @@ internal static class DomainContractProbe
                 var afterBlock = enemies.Select(e => (int)e.Block).ToArray();
                 var countAfter = LightningBatches.GetTurnCount(owner);
                 // Deliberately unrelated native non-attack damage must NOT add lightning count.
-                if (variant == "l02") await CreatureCmd.Damage(choices, enemies, 1m, ValueProp.Unpowered, owner, null);
+                if (variant == "l02") await NativeCompat.Damage(choices, enemies, 1m, ValueProp.Unpowered, owner, null);
                 var history = CombatManager.Instance.History.Entries.Skip(historyStart).ToArray();
                 data = new
                 {

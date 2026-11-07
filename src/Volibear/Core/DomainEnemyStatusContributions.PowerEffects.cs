@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -90,14 +91,18 @@ public static partial class DomainEnemyStatusContributions
     }
     private static Task<T?> EnemyAfflict<T>(CardModel card, decimal amount, PowerModel source) where T : AfflictionModel =>
         SuppressPowerContribution(source, card.Owner.Creature) ? Task.FromResult<T?>(null) : CardCmd.Afflict<T>(card, amount);
+#if STS2_BETA
+    // PBE's Galvanic callsite dropped the dealer argument and carries the card play.
+    private static Task<IEnumerable<DamageResult>> GalvanicDamage(PlayerChoiceContext context, Creature target, decimal amount,
+        ValueProp props, CardModel? card, CardPlay? play, GalvanicPower source) =>
+        SuppressPowerContribution(source, target) ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>()) :
+            CreatureCmd.Damage(context, target, amount, props, card, play);
+#else
     private static Task<IEnumerable<DamageResult>> GalvanicDamage(PlayerChoiceContext context, Creature target, decimal amount,
         ValueProp props, Creature? dealer, CardModel? card, GalvanicPower source) =>
         SuppressPowerContribution(source, target) ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>()) :
-            CreatureCmd.Damage(context, target, amount, props, dealer, card
-#if STS2_BETA
-                    , null
+            CreatureCmd.Damage(context, target, amount, props, dealer, card);
 #endif
-                );
     private static Task PaperCutMaxHp(PlayerChoiceContext context, Creature target, decimal amount, bool fromCard, PaperCutsPower source) =>
         SuppressPowerContribution(source, target) ? Task.CompletedTask : CreatureCmd.LoseMaxHp(context, target, amount, fromCard);
 

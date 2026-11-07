@@ -264,7 +264,7 @@ internal static class DomainSummonD17Probe
                 int wonCount=0,endedCount=0;won=_=>wonCount++;ended=_=>endedCount++;
                 CombatManager.Instance.CombatWon+=won;CombatManager.Instance.CombatEnded+=ended;
                 died=c=>Died.Add(new { targetId=Id(c),hp=c.CurrentHp,sameParent=ReferenceEquals(c,_parent),domain=_owner.GetPowerAmount<DomainPower>() });_parent.Died+=died;
-                var results=(await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(),_parent,100m,ValueProp.Unpowered|ValueProp.Unblockable,_owner,null).WaitAsync(TimeSpan.FromSeconds(40)))
+                var results=(await NativeCompat.Damage(new ThrowingPlayerChoiceContext(),_parent,100m,ValueProp.Unpowered|ValueProp.Unblockable,_owner,null).WaitAsync(TimeSpan.FromSeconds(40)))
                     .Select(r=>new {receiverId=Id(r.Receiver),hpLost=r.UnblockedDamage,blocked=r.BlockedDamage,overkill=r.OverkillDamage}).ToArray();
                 var afterDeath=Snapshot();damageRows=Damage(historyStart);movesRows=Moves(historyStart);
                 var winResult=await CombatManager.Instance.CheckWinCondition().WaitAsync(TimeSpan.FromSeconds(40));

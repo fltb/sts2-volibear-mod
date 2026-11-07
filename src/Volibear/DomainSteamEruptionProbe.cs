@@ -245,7 +245,7 @@ internal static class DomainSteamEruptionProbe
                 if (variant == "nested-command")
                 { using var stage = native.BeginStage("nested-native-command"); nestedCalls++; await DamageCmd.Attack(2m).FromMonster(giant).Execute(context); }
                 if (variant == "nested-damage")
-                { using var stage = native.BeginStage("nested-native-damage"); nestedCalls++; await CreatureCmd.Damage(context, new[] { player }, 2m, ValueProp.Move, boss, null); }
+                { using var stage = native.BeginStage("nested-native-damage"); nestedCalls++; await NativeCompat.Damage(context, new[] { player }, 2m, ValueProp.Move, boss, null); }
             };
             observed = (creature, location) => { if (ReferenceEquals(creature, boss)) trace.Add(location); };
             DomainSteamEruptionEffects.Boundary += boundary; DomainSteamEruptionEffects.Observed += observed;
@@ -300,7 +300,7 @@ internal static class DomainSteamEruptionProbe
                         if (variant.EndsWith("-set-hp", StringComparison.Ordinal))
                         { using var stage = native.BeginStage("external-set-hp"); await CreatureCmd.SetCurrentHp(boss, 0m); }
                         else
-                        { using var stage = native.BeginStage("external-native-damage"); await CreatureCmd.Damage(context, new[] { boss }, boss.CurrentHp, ValueProp.Unblockable | ValueProp.Unpowered, player, null); }
+                        { using var stage = native.BeginStage("external-native-damage"); await NativeCompat.Damage(context, new[] { boss }, boss.CurrentHp, ValueProp.Unblockable | ValueProp.Unpowered, player, null); }
                         afterChallenge = DomainSteamEruptionEffects.Observation(giant, player);
                         challengeState = Snapshot(boss, player, pet, combat);
                     }

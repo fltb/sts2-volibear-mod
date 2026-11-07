@@ -94,7 +94,7 @@ internal static class SuckPassiveContractProbe
     private static void OnTurnStarted(CombatState state) { if (!_started) { _started = true; _ = Run(state); } }
     private static async Task<object> NextTurn(CombatState state, Player player, decimal block)
     {
-        if (player.Creature.Block > 0) await CreatureCmd.LoseBlock(player.Creature, player.Creature.Block);
+        if (player.Creature.Block > 0) await NativeCompat.LoseBlock(player.Creature, player.Creature.Block);
         if (block > 0) await CreatureCmd.GainBlock(player.Creature, block, ValueProp.Unpowered, null);
         var before = Snapshot(); int round = state.RoundNumber; PlayerCmd.EndTurn(player, canBackOut: false);
         var timer = System.Diagnostics.Stopwatch.StartNew();

@@ -510,7 +510,7 @@ public static class EnemyExplorationProbe
         {
             var act = ModelDb.Acts.SingleOrDefault(a => a.Id.ToString() == spec.Act)
                 ?? throw new InvalidOperationException("Unregistered Act " + spec.Act);
-            if (!act.AllEncounters.Any(e => !e.IsDebugEncounter && e.Id.ToString() == spec.Encounter))
+            if (!act.AllEncounters.Any(e => !NativeCompat.IsDebugEncounter(e) && e.Id.ToString() == spec.Encounter))
                 throw new InvalidOperationException("Encounter is not rooted in selected Act; event/display roots are forbidden.");
         }
         return selection;
@@ -793,7 +793,7 @@ public static class EnemyExplorationProbe
         try
         {
             if (string.IsNullOrWhiteSpace(directory)) throw new InvalidOperationException("Missing artifacts.");
-            var registered = ModelDb.Acts.SelectMany(a => a.AllEncounters).Where(e => !e.IsDebugEncounter)
+            var registered = ModelDb.Acts.SelectMany(a => a.AllEncounters).Where(e => !NativeCompat.IsDebugEncounter(e))
                 .Select(e => e.Id.ToString()).Distinct().Order().ToArray();
             var manifest = new
             {

@@ -76,7 +76,7 @@ internal static class DomainEnemyContractProbe
         public Task Off() => PowerCmd.Remove<DomainPower>(Owner);
         public async Task Block(Creature target, int amount)
         {
-            if (target.Block != 0) await CreatureCmd.LoseBlock(target, target.Block);
+            if (target.Block != 0) await NativeCompat.LoseBlock(target, target.Block);
             if (amount > 0) await CreatureCmd.GainBlock(target, amount, ValueProp.Unpowered, null);
         }
         private async Task Measure(string id, string api, decimal amount, int props, Creature? source,
@@ -88,7 +88,7 @@ internal static class DomainEnemyContractProbe
         }
         public Task Damage(string id, Creature target, int amount, ValueProp props, Creature source) =>
             Measure(id, "CreatureCmd.Damage", amount, (int)props, source, target, async () =>
-                (await CreatureCmd.Damage(Choices, target, amount, props, source, null))
+                (await NativeCompat.Damage(Choices, target, amount, props, source, null))
                     .Select(r => new Hit(Id(r.Receiver), r.UnblockedDamage, r.BlockedDamage, r.OverkillDamage)).ToArray());
         public Task Heal(string id, Creature target, int amount) =>
             Measure(id, "CreatureCmd.Heal", amount, 0, null, target, async () =>

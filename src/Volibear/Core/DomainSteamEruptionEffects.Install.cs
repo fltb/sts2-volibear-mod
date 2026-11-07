@@ -34,23 +34,31 @@ public static partial class DomainSteamEruptionEffects
     }
     internal static void InstallPatches(Harmony harmony)
     {
-        DamageHandoff.Install(harmony, NativeDamage);
-        PhaseHandoff.Install(harmony, AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState)));
         void Patch(MethodInfo original, string transpiler) => harmony.Patch(original, transpiler: new HarmonyMethod(Own(transpiler)));
-        Patch(Async(AccessTools.Method(typeof(CreatureCmd), "KillWithoutCheckingWinCondition")), nameof(DeathMachine));
-        Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Kill), [typeof(IReadOnlyCollection<Creature>), typeof(bool)])), nameof(PublicKill));
-        Patch(AccessTools.Method(typeof(Hook), nameof(Hook.ShouldCreatureBeRemovedFromCombatAfterDeath)), nameof(RemovalContributions));
-        Patch(Async(AccessTools.Method(typeof(SteamEruptionPower), nameof(SteamEruptionPower.AfterDeath))), nameof(SteamDeathCallback));
-        Patch(Async(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState))), nameof(PhaseMachine));
-        Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "AboutToBlowMove")), nameof(AboutMachine));
-        Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "ExplodeMove")), nameof(ExplodeMachine));
-        harmony.Patch(Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute))),
-            transpiler: new HarmonyMethod(Own(nameof(AttackMachine))) { after = [CardResolutionHooks.OrdinaryAttackOwnerV1] });
-        Patch(Async(NativeDamage), nameof(DamageMachine));
-        Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetCurrentHp))), nameof(SetHpMachine));
-        Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetMaxHp))), nameof(SetMaxHpMachine));
-        Patch(Async(AccessTools.Method(typeof(MonsterModel), nameof(MonsterModel.PerformMove))), nameof(MoveTail));
-        harmony.Patch(AccessTools.Method(typeof(SteamEruptionPower), nameof(SteamEruptionPower.ShouldStopCombatFromEnding)), prefix: new HarmonyMethod(Own(nameof(EndingVote))));
-        harmony.Patch(AccessTools.Method(typeof(CombatManager), nameof(CombatManager.Reset), [typeof(bool)]), prefix: new HarmonyMethod(Own(nameof(Reset))));
+        var steps = new (string Label, Action Run)[]
+        {
+            ("damage-handoff", () => DamageHandoff.Install(harmony, NativeDamage)),
+            ("phase-handoff", () => PhaseHandoff.Install(harmony, AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState)))),
+            ("death-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), "KillWithoutCheckingWinCondition")), nameof(DeathMachine))),
+            ("public-kill", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Kill), [typeof(IReadOnlyCollection<Creature>), typeof(bool)])), nameof(PublicKill))),
+            ("removal-contributions", () => Patch(AccessTools.Method(typeof(Hook), nameof(Hook.ShouldCreatureBeRemovedFromCombatAfterDeath)), nameof(RemovalContributions))),
+            ("steam-death", () => Patch(Async(AccessTools.Method(typeof(SteamEruptionPower), nameof(SteamEruptionPower.AfterDeath))), nameof(SteamDeathCallback))),
+            ("phase-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState))), nameof(PhaseMachine))),
+            ("about-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "AboutToBlowMove")), nameof(AboutMachine))),
+            ("explode-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "ExplodeMove")), nameof(ExplodeMachine))),
+            ("attack-machine", () => harmony.Patch(Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute))),
+                transpiler: new HarmonyMethod(Own(nameof(AttackMachine))) { after = [CardResolutionHooks.OrdinaryAttackOwnerV1] })),
+            ("damage-machine", () => Patch(Async(NativeDamage), nameof(DamageMachine))),
+            ("set-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetCurrentHp))), nameof(SetHpMachine))),
+            ("set-max-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetMaxHp))), nameof(SetMaxHpMachine))),
+            ("move-tail", () => Patch(Async(AccessTools.Method(typeof(MonsterModel), nameof(MonsterModel.PerformMove))), nameof(MoveTail))),
+            ("ending-vote", () => harmony.Patch(AccessTools.Method(typeof(SteamEruptionPower), nameof(SteamEruptionPower.ShouldStopCombatFromEnding)), prefix: new HarmonyMethod(Own(nameof(EndingVote))))),
+            ("reset", () => harmony.Patch(AccessTools.Method(typeof(CombatManager), nameof(CombatManager.Reset), [typeof(bool)]), prefix: new HarmonyMethod(Own(nameof(Reset))))),
+        };
+        foreach (var step in steps)
+        {
+            try { step.Run(); }
+            catch (Exception error) { throw new InvalidOperationException("Steam patch failed: " + step.Label, error); }
+        }
     }
 }

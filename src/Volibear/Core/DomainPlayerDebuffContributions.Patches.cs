@@ -164,7 +164,12 @@ public static partial class DomainPlayerDebuffContributions
     private static IEnumerable<CodeInstruction> ConstrictContribution(IEnumerable<CodeInstruction> input, MethodBase __originalMethod)
     {
         var native = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
+#if STS2_BETA
+            // PBE native Constrict damage no longer passes a card source.
+            [typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature)]);
+#else
             [typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]);
+#endif
         var source = AccessTools.Field(__originalMethod.DeclaringType, "<>4__this");
         if (source?.FieldType != typeof(ConstrictPower)) throw new InvalidOperationException("Constrict source changed.");
         var output = new List<CodeInstruction>(); int count = 0;
@@ -185,7 +190,11 @@ public static partial class DomainPlayerDebuffContributions
         return output;
     }
     private static Task<IEnumerable<DamageResult>> ConstrictDamage(PlayerChoiceContext choices, Creature target,
-        decimal amount, ValueProp props, Creature? dealer, CardModel? card, ConstrictPower source)
+        decimal amount, ValueProp props, Creature? dealer,
+#if !STS2_BETA
+        CardModel? card,
+#endif
+        ConstrictPower source)
     {
         int effective = EffectiveAmount(source);
         if (Suppressed(source))
@@ -196,10 +205,10 @@ public static partial class DomainPlayerDebuffContributions
         if (effective < amount) PresentSuppressedContribution(source, scalar: false);
         // Only this exact native contribution reads the retained amount; Amount itself,
         // death-triggered removal and every unrelated damage command are untouched.
-        return CreatureCmd.Damage(choices, target, effective, props, dealer, card
 #if STS2_BETA
-            , null
+        return CreatureCmd.Damage(choices, target, effective, props, dealer);
+#else
+        return CreatureCmd.Damage(choices, target, effective, props, dealer, card);
 #endif
-            );
     }
 }
