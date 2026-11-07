@@ -68,7 +68,15 @@ public static partial class DomainSummonEffects
     internal static void InstallPatches(Harmony harmony)
     {
         Prepare();
-        foreach (var body in Bodies.Keys) harmony.Patch(body, transpiler: new HarmonyMethod(typeof(DomainSummonEffects), nameof(Rewrite)));
+        foreach (var entry in Bodies)
+        {
+            try { harmony.Patch(entry.Key, transpiler: new HarmonyMethod(typeof(DomainSummonEffects), nameof(Rewrite))); }
+            catch (Exception error)
+            {
+                throw new InvalidOperationException("Summon transpiler failed for " +
+                    entry.Key.DeclaringType?.Name + "." + entry.Key.Name + " (kind " + entry.Value + ")", error);
+            }
+        }
         harmony.Patch(Required(typeof(InfestedPower), nameof(InfestedPower.ShouldStopCombatFromEnding), typeof(bool), []),
             postfix: new HarmonyMethod(typeof(DomainSummonEffects), nameof(NeutralizeCancelledVeto)));
         harmony.Patch(Required(typeof(CombatManager), nameof(CombatManager.Reset), typeof(void), [typeof(bool)]),
@@ -392,7 +400,15 @@ public static partial class DomainSummonEffects
     }
     private static FieldInfo Field(Type owner,string name,Type type)
     {
-        var field=owner.GetField(name,BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
+        const BindingFlags flags=BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic;
+        var field=owner.GetField(name,flags);
+        if (field is null && name.StartsWith("<i>5__",StringComparison.Ordinal))
+        {
+            // PBE renumbers compiler-generated loop fields; match by shape, not by index.
+            var matches=owner.GetFields(flags).Where(f=>f.FieldType==type &&
+                f.Name.StartsWith("<i>5__",StringComparison.Ordinal)).ToArray();
+            if (matches.Length==1) field=matches[0];
+        }
         Require(field is not null && field.FieldType==type,"Native summon field changed: "+owner+"."+name); return field!;
     }
     private static MethodInfo Handler(string name)=>typeof(DomainSummonEffects).GetMethod(name,BindingFlags.Static|BindingFlags.NonPublic)!;
