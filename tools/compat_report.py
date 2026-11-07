@@ -39,7 +39,7 @@ def run(game: Path, log_path: Path, timeout: int, display: str, audio: str) -> s
     work = Path(tempfile.mkdtemp(prefix='volibear-compat-', dir=str(ROOT / '.local/tmp')))
     env = {k: v for k, v in os.environ.items() if not k.startswith(('STEAM_', 'XDG_', 'HOME'))}
     env.update(HOME=str(work), XDG_DATA_HOME=str(work / 'data'), XDG_CONFIG_HOME=str(work / 'config'),
-               XDG_CACHE_HOME=str(work / 'cache'))
+               XDG_CACHE_HOME=str(work / 'cache'), VOLIBEAR_COMPAT_DIAG='1')
     # The mods warning needs a previously accepted profile; reuse the isolated one when present.
     accepted = ROOT / '.local/tmp/vbprofile-pbe/data/SlayTheSpire2'
     if accepted.is_dir():
@@ -67,8 +67,13 @@ def report(log: str) -> dict:
     load = first(r'\[Volibear\] LOAD_OK [^\r\n]*')
     content = first(r'\[Volibear\] CONTENT_OK [^\r\n]*')
     errors = []
+    summary = re.search(r'COMPAT_SUMMARY failures=(\d+)', log)
     for line in log.splitlines():
-        if any(marker in line for marker in FAILURE_MARKERS):
+        if 'COMPAT_FAIL' in line:
+            text = line.strip()
+            if text not in errors:
+                errors.append(text)
+        elif any(marker in line for marker in FAILURE_MARKERS):
             text = line.strip()
             if text not in errors:
                 errors.append(text)
@@ -80,7 +85,8 @@ def report(log: str) -> dict:
         'gate_verified': bool(gate and 'build=verified' in gate),
         'initialized': bool(load),
         'content': content,
-        'failures': errors[:12],
+        'failures': errors[:24],
+        'failure_count': int(summary.group(1)) if summary else len(errors),
         'passed': bool(load) and not errors,
     }
 
