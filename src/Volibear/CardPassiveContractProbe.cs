@@ -80,7 +80,7 @@ internal static class CardPassiveContractProbe
     }
     private static async Task NextTurn(CombatState state, Player player)
     {
-        if (player.Creature.Block > 0) await CreatureCmd.LoseBlock(player.Creature, player.Creature.Block);
+        if (player.Creature.Block > 0) await NativeCompat.LoseBlock(player.Creature, player.Creature.Block);
         await CreatureCmd.GainBlock(player.Creature, 100m, ValueProp.Unpowered, null);
         int round = state.RoundNumber;
         PlayerCmd.EndTurn(player, canBackOut: false);
@@ -120,7 +120,7 @@ internal static class CardPassiveContractProbe
             int? directStrengthResult = directStrength?.Amount;
             var directBlockResult = await CreatureCmd.GainBlock(_target, 7m, ValueProp.Unpowered, null);
             var directAfter = Snapshot();
-            await CreatureCmd.LoseBlock(_target, _target.Block); // Explicit native fixture cleanup, not domain rollback.
+            await NativeCompat.LoseBlock(_target, _target.Block); // Explicit native fixture cleanup, not domain rollback.
             var beforeCards = Snapshot();
             Attempts.Clear();
             var cards = new Dictionary<CardModel, string>(ReferenceEqualityComparer.Instance);
@@ -143,7 +143,7 @@ internal static class CardPassiveContractProbe
             await Play("strike-1");
             var firstCard = Snapshot();
             int attemptsAfterFirst = Attempts.Count;
-            if (_target.Block > 0) await CreatureCmd.LoseBlock(_target, _target.Block);
+            if (_target.Block > 0) await NativeCompat.LoseBlock(_target, _target.Block);
             var beforeSecond = Snapshot();
             await Play("strike-2");
             var secondCard = Snapshot();

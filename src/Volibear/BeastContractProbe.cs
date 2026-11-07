@@ -99,9 +99,9 @@ internal static class BeastContractProbe
             foreach (var enemy in Enemies)
             {
                 await CreatureCmd.SetMaxAndCurrentHp(enemy, 100m);
-                if (enemy.Block != 0) await CreatureCmd.LoseBlock(enemy, enemy.Block);
+                if (enemy.Block != 0) await NativeCompat.LoseBlock(enemy, enemy.Block);
             }
-            if (Player.Creature.Block != 0) await CreatureCmd.LoseBlock(Player.Creature, Player.Creature.Block);
+            if (Player.Creature.Block != 0) await NativeCompat.LoseBlock(Player.Creature, Player.Creature.Block);
         }
         internal async Task<object> Play(CardModel card)
         {

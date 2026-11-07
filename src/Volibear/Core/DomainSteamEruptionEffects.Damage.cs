@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
@@ -20,7 +21,11 @@ namespace Volibear.Core;
 public static partial class DomainSteamEruptionEffects
 {
     private static readonly MethodInfo NativeDamage = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-        [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]);
+        [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+            , typeof(CardPlay)
+#endif
+            ]);
     private static async Task<AttackCommand> ExplodeAttack(AttackCommand command, PlayerChoiceContext? choice, WaterfallGiant monster)
     {
         var episode = CurrentEpisode(Flow.Explode, monster);
@@ -37,21 +42,33 @@ public static partial class DomainSteamEruptionEffects
         state = -2; builder.SetResult(command); return true;
     }
     private static Task<IEnumerable<DamageResult>> DamageFromCommand(PlayerChoiceContext choice, IEnumerable<Creature> targets,
-        decimal amount, ValueProp props, Creature? dealer, CardModel? card, AttackCommand command)
+        decimal amount, ValueProp props, Creature? dealer, CardModel? card,
+#if STS2_BETA
+        CardPlay? cardPlay,
+#endif
+        AttackCommand command)
     {
         var episode = CurrentEpisode(Flow.Attack, command);
         // Every invocation, including player/untagged attacks, retains CardResolution's
         // paid scope, Domain attachment and ordinary responders. No ticket spans these.
         return CardResolutionHooks.OrdinaryAttackPipelineV1(choice, props, dealer, card,
-            () => DispatchNativeDamage(choice, targets, amount, props, dealer, card, command, episode));
+            () => DispatchNativeDamage(choice, targets, amount, props, dealer, card,
+#if STS2_BETA
+                cardPlay,
+#endif
+                command, episode));
     }
     private static Task<IEnumerable<DamageResult>> DispatchNativeDamage(PlayerChoiceContext choice, IEnumerable<Creature> targets,
-        decimal amount, ValueProp props, Creature? dealer, CardModel? card, AttackCommand command, Episode? episode)
+        decimal amount, ValueProp props, Creature? dealer, CardModel? card,
+#if STS2_BETA
+        CardPlay? cardPlay,
+#endif
+        AttackCommand command, Episode? episode)
     {
         using var binding = DamageHandoff.Dispatch(episode is null ? null : new DamageInvocation(episode, command));
         return CreatureCmd.Damage(choice, targets, amount, props, dealer, card
 #if STS2_BETA
-            , null
+            , cardPlay
 #endif
             );
     }

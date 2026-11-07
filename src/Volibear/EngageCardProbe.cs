@@ -44,7 +44,7 @@ internal static class EngageCardProbe
         Order.Add("duplicate-rejected");
         if (!First.Value.Completed || card.Owner.Creature.IsDead || CombatManager.Instance.IsEnding) return;
         int hp = play.Target!.CurrentHp;
-        await MegaCrit.Sts2.Core.Commands.DamageCmd.Attack(1m).FromCard(card).Targeting(play.Target)
+        await MegaCrit.Sts2.Core.Commands.DamageCmd.Attack(1m).BridgeFromCard(card).Targeting(play.Target)
             .Execute(new MegaCrit.Sts2.Core.GameActions.Multiplayer.ThrowingPlayerChoiceContext());
         FollowupDamage = hp - play.Target.CurrentHp;
         Order.Add("remaining-card-effect");

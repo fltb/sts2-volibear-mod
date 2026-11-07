@@ -240,7 +240,10 @@ public static partial class DomainSummonEffects
             Require(code.Count(i => i.blocks.Any(b => b.blockType == ExceptionBlockType.BeginFinallyBlock)) == 0, "New summon finally requires explicit cleanup design");
             var complete = generator.DefineLabel(); code[end + 1].labels.Add(complete);
             var guards = new List<(int Index, string Boundary)>();
-            int add = UniqueAdd(code, kind == 1);
+            int add = UniqueAdd(code, kind == 1 ? typeof(ToughEgg) : kind == 2 &&
+                code.Any(i => i.operand is MethodInfo m && m.DeclaringType == typeof(CreatureCmd) &&
+                    m.Name == nameof(CreatureCmd.Add) && m.IsGenericMethod &&
+                    m.GetGenericArguments().SequenceEqual([typeof(Wriggler)])) ? typeof(Wriggler) : null);
             if (kind is 1 or 2)
             {
                 var indexField=Field(sm,"<i>5__2",typeof(int));
@@ -278,6 +281,20 @@ public static partial class DomainSummonEffects
                 Require(combatRead>0&&code[combatRead-1].opcode==OpCodes.Ldloc_1&&combatRead<add,"Ovicopter pre-slot stack drift");
                 guards.Add((combatRead-1,"Retired.LayEggs.pre-slot"));
                 guards.Add((sfx,"LayEggs.entry")); guards.Add((add-3,"LayEggs.pre-create"));
+            }
+            else if (code.Any(i => i.operand is MethodInfo reveal && reveal.DeclaringType == typeof(InfestedPower) &&
+                     reveal.Name == "RevealWrigglersAfterDeathAnim"))
+            {
+                // PBE spawns every Wriggler in a loop first and schedules RevealWrigglersAfterDeathAnim;
+                // there is no death-animation wait to anchor. Cancelling before the creation loop is the
+                // equivalent domain decision: no child is created and the reveal helper never runs.
+                int model = code.Select((i,n)=>(i,n)).Single(x => x.i.operand is MethodInfo m && m.DeclaringType == typeof(ModelDb) &&
+                    m.Name == nameof(ModelDb.Monster) && m.IsGenericMethod && m.GetGenericArguments().SequenceEqual([typeof(Wriggler)])).n;
+                int stunned = Unique(code, AccessTools.PropertySetter(typeof(Wriggler), nameof(Wriggler.StartStunned)));
+                Require(model > 0 && model < stunned && stunned < add &&
+                    !code.Skip(model).Take(add-model).Any(AwaitInstruction),
+                    "PBE Infested wriggler creation order changed");
+                guards.Add((model,"Infested.pre-create"));
             }
             else
             {
@@ -386,7 +403,7 @@ public static partial class DomainSummonEffects
         Require(attach<post && !body.Take(post).Any(AwaitInstruction),"Native creature attachment gained a precommit await");
     }
     private static bool AwaitInstruction(CodeInstruction i) => i.operand is MethodInfo m && m.Name is "AwaitUnsafeOnCompleted" or "AwaitOnCompleted";
-    private static int UniqueAdd(List<CodeInstruction> code,bool generic) => code.Select((i,n)=>(i,n)).Single(x=>x.i.operand is MethodInfo m && m.DeclaringType==typeof(CreatureCmd) && m.Name==nameof(CreatureCmd.Add) && m.IsGenericMethod==generic && m.ReturnType==typeof(Task<Creature>) && (!generic || m.GetGenericArguments().SequenceEqual([typeof(ToughEgg)]))).n;
+    private static int UniqueAdd(List<CodeInstruction> code,Type? genericArg) => code.Select((i,n)=>(i,n)).Single(x=>x.i.operand is MethodInfo m && m.DeclaringType==typeof(CreatureCmd) && m.Name==nameof(CreatureCmd.Add) && m.ReturnType==typeof(Task<Creature>) && (genericArg is null ? !m.IsGenericMethod : m.IsGenericMethod && m.GetGenericArguments().SequenceEqual([genericArg]))).n;
     private static MethodInfo MoveNext(MethodInfo method)
     {
         var machine=method.GetCustomAttribute<AsyncStateMachineAttribute>()?.StateMachineType ?? throw new InvalidOperationException("Native async state machine missing: "+method);

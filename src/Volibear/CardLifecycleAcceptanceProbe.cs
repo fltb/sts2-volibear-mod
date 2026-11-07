@@ -218,7 +218,7 @@ internal static class CardLifecycleAcceptanceProbe
         await Fixture("native-next-turn-energy-and-negative-modifier-isolation", async () => {
             await PlayerCmd.SetEnergy(30, player);
             foreach (var power in Owner.Powers.Where(p => p is WeakPower or FrailPower or VulnerablePower).ToArray()) await PowerCmd.Remove(power);
-            foreach (var enemy in enemies) if (enemy.Block > 0) await CreatureCmd.LoseBlock(enemy, enemy.Block);
+            foreach (var enemy in enemies) if (enemy.Block > 0) await NativeCompat.LoseBlock(enemy, enemy.Block);
         });
     }
     private static async Task EndTurn(string label)
@@ -302,7 +302,7 @@ internal static class CardLifecycleAcceptanceProbe
         {
             await Fixture("native-target-fully-blocked", () => CreatureCmd.GainBlock(enemies[0], 100m, ValueProp.Unpowered, null));
             await Play("U08", "bite-blocked-first", 0, upgraded);
-            await Fixture("native-clear-target-block", () => CreatureCmd.LoseBlock(enemies[0], enemies[0].Block));
+            await Fixture("native-clear-target-block", () => NativeCompat.LoseBlock(enemies[0], enemies[0].Block));
             await Play("U08", "bite-other-target", 1, upgraded);
             await Play("U08", "bite-marked-target", 0, upgraded);
         }

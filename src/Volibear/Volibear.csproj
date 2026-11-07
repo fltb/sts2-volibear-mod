@@ -24,7 +24,7 @@
   </Target>
   <!-- Development probes/acceptance hosts are not part of the player-facing beta build; the
        stable channel keeps them. This keeps the PBE port limited to production code. -->
-  <ItemGroup Condition="'$(GameChannel)' == 'beta'">
+  <ItemGroup Condition="'$(GameChannel)' == 'beta' and '$(IncludeDevProbes)' != 'true'">
     <Compile Remove="**/*Probe.cs" />
     <Compile Remove="NativeVerificationSuite.cs" />
     <Compile Remove="CatalogFaceSuite.cs" />

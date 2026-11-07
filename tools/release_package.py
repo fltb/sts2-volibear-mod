@@ -16,8 +16,9 @@ except ImportError:
     import dependencies
 
 ROOT = Path(__file__).resolve().parents[1]
-GAME_VERSION = '0.107.1'
-GAME_BUILD = '59260271'
+GAME_VERSION = os.environ.get('VOLIBEAR_PACKAGE_GAME_VERSION', '0.107.1')
+GAME_BUILD = os.environ.get('VOLIBEAR_PACKAGE_GAME_BUILD', '59260271')
+CHANNEL_JSON = os.environ.get('VOLIBEAR_PACKAGE_CHANNEL_JSON')
 PRODUCER = 'volibear-release-package-v1'
 LICENSE_SHA256 = '1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f'
 MOD_FILES = ('Volibear.dll', 'Volibear.pck', 'Volibear.json')
@@ -56,7 +57,7 @@ def reject_local_paths(payload, name):
 def manifest(data, expected_id, version=None):
     value = json.loads(data.decode('utf-8-sig'))
     if (not isinstance(value, dict) or value.get('id') != expected_id
-            or value.get('min_game_version') != GAME_VERSION
+            or (expected_id == 'Volibear' and value.get('min_game_version') != GAME_VERSION)
             or value.get('has_dll') is not True or value.get('has_pck') is not True
             or not isinstance(value.get('version'), str) or not value['version']):
         raise ValueError('Manifest identity/game version/artifact declarations mismatch')
@@ -110,6 +111,8 @@ def package(dll, pck, mod_manifest, archive, license_file, instructions, output,
         raise ValueError('Input artifact filename mismatch; no renamed game/development files')
     payload = {f'mods/Volibear/{name}': read_file(path)
                for name, path in zip(MOD_FILES, (dll, pck, mod_manifest))}
+    if CHANNEL_JSON:
+        payload['mods/Volibear/BuildChannel.json'] = read_file(CHANNEL_JSON)
     info = manifest(payload['mods/Volibear/Volibear.json'], 'Volibear')
     payload.update(dependency_files(archive, license_file))
     payload['INSTALL_ZH.md'] = read_file(instructions)

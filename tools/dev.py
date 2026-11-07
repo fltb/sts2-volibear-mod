@@ -15,8 +15,8 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parents[1]
 MOD = 'Volibear'
-GAME_VERSION = 'v0.107.1'
-GAME_COMMIT = '59260271'
+GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
+GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 DEPLOY_MARKERS = ROOT / '.local/deploy'
 SOURCES = [ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll',
            ROOT / 'src/Volibear/Volibear.json']

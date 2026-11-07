@@ -71,12 +71,18 @@ public static partial class DomainEnemyStatusContributions
             {
                 var method = MoveNext(Required(site.Owner, site.Method));
                 BoundSites[method] = site;
-                harmony.Patch(method, transpiler: Handler(nameof(EnemyCreationSite)));
+                try { harmony.Patch(method, transpiler: Handler(nameof(EnemyCreationSite))); }
+                catch (Exception error) { throw new InvalidOperationException("EnemyCreationSite failed: " + site.Owner.Name + "." + site.Method, error); }
             }
             foreach (var type in new[] { typeof(Burn), typeof(Wither), typeof(Toxic), typeof(Infection), typeof(Beckon) })
-                harmony.Patch(MoveNext(Required(type, "OnTurnEndInHand")), transpiler: Handler(nameof(StatusDamageSite)));
-            InstallWitherContributions(harmony);
-            InstallStatusPowerEffects(harmony);
+            {
+                try { harmony.Patch(MoveNext(Required(type, "OnTurnEndInHand")), transpiler: Handler(nameof(StatusDamageSite))); }
+                catch (Exception error) { throw new InvalidOperationException("StatusDamageSite failed: " + type.Name, error); }
+            }
+            try { InstallWitherContributions(harmony); }
+            catch (Exception error) { throw new InvalidOperationException("WitherContributions failed", error); }
+            try { InstallStatusPowerEffects(harmony); }
+            catch (Exception error) { throw new InvalidOperationException("StatusPowerEffects failed", error); }
             harmony.Patch(AccessTools.Method(typeof(CombatManager), nameof(CombatManager.Reset), new[] { typeof(bool) })!,
                 prefix: Handler(nameof(Reset)));
             CombatManager.Instance.CombatSetUp += _ => Reset();
@@ -212,9 +218,17 @@ public static partial class DomainEnemyStatusContributions
     private static IEnumerable<CodeInstruction> StatusDamageSite(IEnumerable<CodeInstruction> instructions)
     {
         var variable = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-            new[] { typeof(PlayerChoiceContext), typeof(Creature), typeof(DamageVar), typeof(CardModel) })!;
+            new[] { typeof(PlayerChoiceContext), typeof(Creature), typeof(DamageVar), typeof(CardModel)
+#if STS2_BETA
+                , typeof(CardPlay)
+#endif
+                })!;
         var amount = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-            new[] { typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(CardModel) })!;
+            new[] { typeof(PlayerChoiceContext), typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(CardModel)
+#if STS2_BETA
+                , typeof(CardPlay)
+#endif
+                })!;
         int matches = 0;
         foreach (var instruction in instructions)
         {
@@ -230,19 +244,27 @@ public static partial class DomainEnemyStatusContributions
         if (matches != 1) throw new InvalidOperationException($"Expected one native status damage contribution; found {matches}.");
     }
     private static Task<IEnumerable<DamageResult>> StatusDamageVar(PlayerChoiceContext context, Creature receiver,
-        DamageVar damage, CardModel card) => Suppress(card, receiver)
+        DamageVar damage, CardModel card
+#if STS2_BETA
+        , CardPlay? play
+#endif
+        ) => Suppress(card, receiver)
             ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
             : CreatureCmd.Damage(context, receiver, WitherDamageWithoutEnemyContribution(card, receiver, damage.BaseValue), damage.Props, card
 #if STS2_BETA
-                , null
+                , play
 #endif
                 );
     private static Task<IEnumerable<DamageResult>> StatusDamageAmount(PlayerChoiceContext context, Creature receiver,
-        decimal amount, ValueProp props, CardModel card) => Suppress(card, receiver)
+        decimal amount, ValueProp props, CardModel card
+#if STS2_BETA
+        , CardPlay? play
+#endif
+        ) => Suppress(card, receiver)
             ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
             : CreatureCmd.Damage(context, receiver, amount, props, card
 #if STS2_BETA
-                , null
+                , play
 #endif
                 );
 
