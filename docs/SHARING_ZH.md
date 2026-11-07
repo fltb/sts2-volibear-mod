@@ -12,7 +12,8 @@
 
 ## 2. 接收方需要满足
 
-- 《Slay the Spire 2》**0.107.1 / 构建 59260271**（版本不符会在打补丁前拒绝）。
+- 《Slay the Spire 2》**0.107.1 / 构建 59260271** 为完整验收版本；其他版本会在启动时做原生接口自检，
+  接口齐全则标注 unverified 后加载，缺失则拒绝并在日志列出缺失项。
 - **BaseLib 3.4.7**：open ZIP 内已随附在 `mods/BaseLib/`；如果只发 `mods/Volibear`，
   要提醒对方另装同版本 BaseLib（Steam Workshop 订阅 `3737335127`）。
 - 不需要源码、SDK、Godot 或任何测试启动参数。
