@@ -5,7 +5,14 @@
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、
 旧测试计数和旧 UI 自动化结果不再作为当前候选的通过证据。
 
-## 版本门放宽：原生接口自检（2026-11-07）
+## 双通道（stable 0.107.1 / PBE 0.111.0）进行中（2026-11-07 晚）
+
+- 用户本地 Steam 切到 PBE 后，确认稳定通道最新为 **v0.107.1 / 59260271**（Major Update #2），PBE 频道为 **v0.111.0 / 41cef1ea**。已把 PBE 游戏完整复制到 `.local/game-pbe`（Linux 版，2.4GB），稳定版副本 `.local/game` 保持冻结。
+- 构建通道机制已落地：`dotnet build -p:GameChannel=beta` 定义 `STS2_BETA`，同一套源码分别对两套程序集编译；正式 Mod DLL 旁的 `BuildChannel.json`（`{channel,game_version,game_commit}`）驱动版本门，稳定包不写该文件则沿用 0.107.1 默认值。PBE 构建排除开发 probe/验收宿主（`**/*Probe.cs`、`NativeVerificationSuite`、`CatalogFaceSuite`、`VolibearBootstrap` 等）。
+- 两通道编译均通过；稳定通道回归重跑 `power-presentation` 得到 `BUILD_GATE build=verified channel=stable target=v0.107.1/59260271`，行为未回退。
+- PBE 启动实测：`BUILD_GATE build=verified channel=pbe target=v0.111.0/41cef1ea`、`CONTENT_OK cards=89`，随后初始化在 IL 适配层中断。已完成适配：`PlayerChoiceContext` 新抽象成员（OwnerId/SignalPlayerChoiceBegun(Player,options)）、`ModifyDamageAdditive/Multiplicative` 的 CardPlay 参数、`AttackCommand.FromCard`、`CreatureCmd.Damage/LoseBlock` 新参数、`Hook.AfterTurnEnd→AfterSideTurnEnd`（probe）、`DoomPower.IsOwnerDoomed` 转为私有（改反射）、`CardPileCmd.Draw` 拆出 `DrawInternal`（改挂内部异步体）、`DomainEnemyEffects` damage/cap 新旧参数集拆分。
+- 当前阻塞：`DomainSummonEffects` 等模块按精确 IL 固定了编译器生成的异步状态机字段名（PBE 下 `InfestedPower+<AfterDeath>d__4.<i>5__2` 编号变化），需要逐处重新推导并重验；这类精确 IL 适配在 PBE 上会随每次 beta 更新反复漂移。未产出 PBE 安装包（避免交付半初始化的 Mod）。
+- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## 版本门放宽：原生接口自检（2026-11-07）
 
 - 用户要求不再为每个游戏版本维护单独构建。运行时版本门从“必须精确等于 v0.107.1/59260271”改为：
   精确匹配直接通过（日志 `build=verified`）；其他版本先做原生接口自检，用到的东西都在则放行并标注

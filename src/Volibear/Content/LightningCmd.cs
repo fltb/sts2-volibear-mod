@@ -92,7 +92,11 @@ public static class LightningCmd
         try
         {
             var nativeResults = await CreatureCmd.Damage(choiceContext, living, snapshotAmount,
-                ValueProp.Unpowered, owner, card);
+                ValueProp.Unpowered, owner, card
+#if STS2_BETA
+                , null
+#endif
+                );
             var results = nativeResults.Select(result => new LightningHit(result.Receiver,
                 result.UnblockedDamage, result.BlockedDamage, result.OverkillDamage)).ToArray();
             var dealt = results.Sum(result => result.HpLost);

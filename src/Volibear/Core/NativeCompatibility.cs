@@ -54,6 +54,8 @@ public static class NativeCompatibility
         ("ChainsOfBindingPower", new[] { "ShouldPlay" }),
         ("ConfusedPower", new[] { "AfterCardDrawn" }),
         ("Aeonglass", new[] { "WitherUpgradeCount" }),
+        ("BarricadePower", new[] { "ShouldClearBlock" }),
+        ("BlurPower", new[] { "ShouldClearBlock" }),
         ("CustomPowerModel", Array.Empty<string>()),
         ("CustomCardModel", Array.Empty<string>()),
     };

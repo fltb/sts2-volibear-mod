@@ -404,7 +404,15 @@ public sealed class Volibear_R31 : VolibearCard
         if (DirectEffects.Live(this) && play.Target is { IsHittable: true } target)
         {
             var before = target.Block;
-            await CreatureCmd.LoseBlock(target, target.Block);
+            await CreatureCmd.LoseBlock(
+#if STS2_BETA
+                context,
+#endif
+                target, target.Block
+#if STS2_BETA
+                , null
+#endif
+                );
             var removed = before - target.Block;
             if (removed > 0)
                 GameplayPresentationReceipts.Publish("target_block_removed", Owner.Creature, this, this, target, removed);

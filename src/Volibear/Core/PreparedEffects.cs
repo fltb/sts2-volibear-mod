@@ -14,6 +14,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -106,7 +107,11 @@ public sealed class NextAttackReplayPower : PreparedPower
 public sealed class CardDamageTraining : CardModifier, ICustomModel
 {
     public override bool ApplyStacked(CardModifier incoming) { Amount += incoming.Amount; return true; }
-    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource) =>
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
+#if STS2_BETA
+        , CardPlay? cardPlay
+#endif
+        ) =>
         Owner is { } card && ReferenceEquals(cardSource, card) && ReferenceEquals(dealer, card.Owner.Creature) && props.IsPoweredAttack() ? Amount : 0m;
     public static int Current(CardModel card) => Modifiers(card).OfType<CardDamageTraining>().Sum(modifier => modifier.Amount);
 }
@@ -133,7 +138,11 @@ public sealed class UnifyPower : PreparedPower
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/enhance.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/enhance.png";
     public override List<(string, string)> Localization => new PowerLoc("天人合一", "本战攻击与雷法牌自身的攻击伤害和雷伤增加{Amount}。", "本战攻击与雷法牌自身的攻击伤害和雷伤增加{Amount}。");
-    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource) =>
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
+#if STS2_BETA
+        , CardPlay? cardPlay
+#endif
+        ) =>
         ReferenceEquals(dealer, Owner) && cardSource is not null && Own(cardSource) && props.IsPoweredAttack() ? Amount : 0m;
     public static int NativeThunderBonus(CardModel card) => card.Type == CardType.Attack || CardCapabilities.IsThunderSpell(card)
         ? card.Owner.Creature.GetPowerAmount<UnifyPower>() : 0;
@@ -205,7 +214,11 @@ public sealed class PreparedAttackBonus : CardModifier, ICustomModel
         commands.RemoveAll(entry => ReferenceEquals(entry.Command, command));
         return Task.CompletedTask;
     }
-    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
+    public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
+#if STS2_BETA
+        , CardPlay? cardPlay
+#endif
+        )
     {
         if (Owner is not { } card || !ReferenceEquals(cardSource, card) || !ReferenceEquals(dealer, card.Owner.Creature) || !props.IsPoweredAttack()) return 0m;
         if (CardResolutionHooks.CurrentPlayId(card) is { } play)

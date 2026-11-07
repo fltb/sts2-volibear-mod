@@ -20,6 +20,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.ValueProps;
 using Volibear.Content;
 using Volibear.Core;
@@ -92,7 +93,7 @@ internal static class PersistentContractProbe
                 return;
             }
             if (!string.IsNullOrWhiteSpace(token) && variant is ("PP-U02-instances" or "PP-U02-domain-order" or
-                "PP-U03-min-stack" or "PP-U03-other-retention" or "PP-R16-positive-own-block" or "PP-R16-passive-block-excluded" or "PP-U34-per-batch"))
+                "PP-U03-min-stack" or "PP-U03-other-retention" or "PP-U03-clamp-priority" or "PP-R16-positive-own-block" or "PP-R16-passive-block-excluded" or "PP-U34-per-batch"))
             {
                 await Additional(state, token, variant);
                 return;
@@ -586,6 +587,12 @@ internal static class PersistentContractProbe
                 await StandingPower.Deploy(context, owner, value, source);
             }
             if (variant == "PP-U03-other-retention") await Apply<BarricadePower>(1);
+            if (variant == "PP-U03-clamp-priority")
+            {
+                // Native cap-style relic: without 留甲 it would clamp the retained block to 10.
+                await RelicCmd.Obtain<SturdyClamp>(player);
+                setup.Add(new { type = "SturdyClamp.Obtain", amount = 1 });
+            }
             await CreatureCmd.GainBlock(owner, 20, ValueProp.Unpowered, null);
         }
         else if (variant == "PP-U34-per-batch")

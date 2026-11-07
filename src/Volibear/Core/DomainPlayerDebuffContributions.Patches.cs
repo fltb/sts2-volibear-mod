@@ -82,7 +82,11 @@ public static partial class DomainPlayerDebuffContributions
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static decimal DamageMultiplier(AbstractModel model, Creature? target, decimal amount, ValueProp props,
-        Creature? dealer, CardModel? card)
+        Creature? dealer, CardModel? card
+#if STS2_BETA
+        , CardPlay? play
+#endif
+        )
     {
         if (model is PowerModel power && (DomainSelfDebuffEffects.IsSuppressed(power) ||
             power is WeakPower or VulnerablePower or ShrinkPower && Suppressed(power)))
@@ -91,7 +95,11 @@ public static partial class DomainPlayerDebuffContributions
                 PresentSuppressedContribution(power, scalar: true);
             return 1m;
         }
-        return model.ModifyDamageMultiplicative(target, amount, props, dealer, card);
+        return model.ModifyDamageMultiplicative(target, amount, props, dealer, card
+#if STS2_BETA
+            , play
+#endif
+            );
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static decimal BlockMultiplier(AbstractModel model, Creature target, decimal amount, ValueProp props,
@@ -188,6 +196,10 @@ public static partial class DomainPlayerDebuffContributions
         if (effective < amount) PresentSuppressedContribution(source, scalar: false);
         // Only this exact native contribution reads the retained amount; Amount itself,
         // death-triggered removal and every unrelated damage command are untouched.
-        return CreatureCmd.Damage(choices, target, effective, props, dealer, card);
+        return CreatureCmd.Damage(choices, target, effective, props, dealer, card
+#if STS2_BETA
+            , null
+#endif
+            );
     }
 }

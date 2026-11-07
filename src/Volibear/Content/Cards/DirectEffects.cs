@@ -24,13 +24,21 @@ internal static partial class DirectEffects
                                       decimal damage, int hits = 1)
     {
         if (!Live(card) || target is null || !target.IsHittable) return;
-        await DamageCmd.Attack(damage).FromCard(card).Targeting(target).WithHitCount(hits).Execute(context);
+        await DamageCmd.Attack(damage).FromCard(card
+#if STS2_BETA
+                , null
+#endif
+                ).Targeting(target).WithHitCount(hits).Execute(context);
     }
 
     internal static async Task AttackAll(PlayerChoiceContext context, CardModel card, decimal damage)
     {
         if (!Live(card)) return;
-        await DamageCmd.Attack(damage).FromCard(card)
+        await DamageCmd.Attack(damage).FromCard(card
+#if STS2_BETA
+                , null
+#endif
+                )
             .TargetingAllOpponents(card.Owner.Creature.CombatState!).Execute(context);
     }
 
@@ -247,7 +255,11 @@ public sealed class Volibear_U05 : VolibearCard
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         if (!DirectEffects.Live(this) || play.Target is not { IsHittable: true } target) return;
-        await DamageCmd.Attack(Var<CalculatedDamageVar>("CalculatedDamage")).FromCard(this).Targeting(target).Execute(context);
+        await DamageCmd.Attack(Var<CalculatedDamageVar>("CalculatedDamage")).FromCard(this
+#if STS2_BETA
+                , null
+#endif
+                ).Targeting(target).Execute(context);
     }
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }

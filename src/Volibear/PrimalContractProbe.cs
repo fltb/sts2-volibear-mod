@@ -215,7 +215,11 @@ internal static class PrimalContractProbe
                 spent = play.Resources.EnergySpent,energy = owner.PlayerCombatState!.Energy,window = Window() });
         }
     }
+#if STS2_BETA
+    [HarmonyPatch(typeof(Hook),nameof(Hook.AfterSideTurnEnd))]
+#else
     [HarmonyPatch(typeof(Hook),nameof(Hook.AfterTurnEnd))]
+#endif
     private static class TurnEnd
     {
         private static void Prefix(out object? __state) => __state = owner is null ? null : Window();

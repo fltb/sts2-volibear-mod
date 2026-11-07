@@ -13,8 +13,36 @@ namespace Volibear.Core;
 /// </summary>
 public static class SupportedGameBuild
 {
-    public const string Version = "v0.107.1";
-    public const string Commit = "59260271";
+    private const string DefaultVersion = "v0.107.1";
+    private const string DefaultCommit = "59260271";
+
+    // Each packaged channel ships a BuildChannel.json next to the DLL; the stable channel keeps
+    // the compiled defaults. This lets one source tree produce a verified gate for both branches.
+    private static readonly Lazy<(string Version, string Commit, string Channel)> Channel = new(LoadChannel);
+
+    public static string Version => Channel.Value.Version;
+    public static string Commit => Channel.Value.Commit;
+    public static string ChannelName => Channel.Value.Channel;
+
+    private static (string, string, string) LoadChannel()
+    {
+        try
+        {
+            var directory = Path.GetDirectoryName(typeof(SupportedGameBuild).Assembly.Location);
+            var path = Path.Combine(directory ?? string.Empty, "BuildChannel.json");
+            if (File.Exists(path))
+            {
+                using var document = JsonDocument.Parse(File.ReadAllText(path).TrimStart('\uFEFF'));
+                var root = document.RootElement;
+                var version = StringProperty(root, "game_version");
+                var commit = StringProperty(root, "game_commit");
+                var channel = StringProperty(root, "channel");
+                if (version is not null && commit is not null) return (version, commit, channel ?? "custom");
+            }
+        }
+        catch (Exception) { }
+        return (DefaultVersion, DefaultCommit, "stable");
+    }
 
     /// <summary>Native-surface verifier for a build other than the pinned one. It must throw a
     /// descriptive <see cref="InvalidOperationException"/> when a required member is missing.</summary>
@@ -56,7 +84,7 @@ public static class SupportedGameBuild
                 "cannot determine the installed game build.");
         if (version == Version && commit == Commit)
         {
-            LastCheckSummary = $"build=verified target={Version}/{Commit}";
+            LastCheckSummary = $"build=verified channel={ChannelName} target={Version}/{Commit}";
             return;
         }
         // Unknown build: only proceed when every native member the mod actually uses still exists.

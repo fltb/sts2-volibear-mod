@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -67,9 +68,19 @@ public static class DomainEnemyEffects
         lock (InstallLock)
         {
             if (_installed) return;
-            Type[] damage = [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
-            Type[] cap = [typeof(Creature), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
+            Type[] damage = [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+                , typeof(CardPlay)
+#endif
+                ];
+            Type[] cap = [typeof(Creature), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+                , typeof(CardPlay)
+#endif
+                ];
             Type[] received = [typeof(PlayerChoiceContext), typeof(Creature), typeof(DamageResult), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
+            // PBE added CardPlay to damage-multiplier hooks but not to HP-loss/osty hooks.
+            Type[] hpLoss = [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
             PatchSpec[] specs =
             [
                 new(typeof(VigorPower), "ModifyDamageAdditive", typeof(decimal), damage, nameof(NeutralEnemyAttackBonus)),
@@ -77,11 +88,11 @@ public static class DomainEnemyEffects
                 new(typeof(BurrowedPower), "ShouldClearBlock", typeof(bool), [typeof(Creature)], nameof(AllowBlockClear)),
                 new(typeof(FlutterPower), "ModifyDamageMultiplicative", typeof(decimal), damage, nameof(NeutralMultiplier)),
                 new(typeof(SoarPower), "ModifyDamageMultiplicative", typeof(decimal), damage, nameof(NeutralMultiplier)),
-                new(typeof(IntangiblePower), "ModifyHpLostAfterOsty", typeof(decimal), damage, nameof(NeutralHpLoss)),
+                new(typeof(IntangiblePower), "ModifyHpLostAfterOsty", typeof(decimal), hpLoss, nameof(NeutralHpLoss)),
                 new(typeof(IntangiblePower), "ModifyDamageCap", typeof(decimal), cap, nameof(NeutralCap)),
-                new(typeof(SlipperyPower), "ModifyHpLostAfterOsty", typeof(decimal), damage, nameof(NeutralHpLoss)),
+                new(typeof(SlipperyPower), "ModifyHpLostAfterOsty", typeof(decimal), hpLoss, nameof(NeutralHpLoss)),
                 new(typeof(HardToKillPower), "ModifyDamageCap", typeof(decimal), cap, nameof(NeutralCap)),
-                new(typeof(HardenedShellPower), "ModifyHpLostBeforeOstyLate", typeof(decimal), damage, nameof(NeutralShell)),
+                new(typeof(HardenedShellPower), "ModifyHpLostBeforeOstyLate", typeof(decimal), hpLoss, nameof(NeutralShell)),
                 new(typeof(HardenedShellPower), "BeforeSideTurnStart", typeof(Task),
                     [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(System.Collections.Generic.IReadOnlyList<Creature>), typeof(ICombatState)],
                     nameof(ClearShellWindow)),

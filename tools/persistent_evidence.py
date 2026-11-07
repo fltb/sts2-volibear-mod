@@ -7,7 +7,7 @@ from pathlib import Path
 PREFIX = '[Volibear] PERSISTENT_CONTRACT_RESULT '
 PERSISTENT_CASES = ('PP-U21-deploy-at-three', 'PP-U21-two-independent', 'PP-U26-before-effects',
                     'PP-U25-replay', 'PP-U25-purification', 'PP-R02-unpowered', 'PP-R02-no-consumption')
-ADDITIONAL_CASES = ('PP-U02-instances','PP-U02-domain-order','PP-U03-min-stack','PP-U03-other-retention',
+ADDITIONAL_CASES = ('PP-U02-instances','PP-U02-domain-order','PP-U03-min-stack','PP-U03-other-retention','PP-U03-clamp-priority',
                     'PP-R16-positive-own-block','PP-R16-passive-block-excluded','PP-U34-per-batch')
 ENGAGEMENT_CASES = ('PP-U04-independent-first','PP-U19-draw-before-extend','PP-R18-independent-batches')
 SPECIAL_CASES = ('PP-U25-live-finish-count','PP-U32-max-coupon')
@@ -268,6 +268,7 @@ def _additional(r,token,case):
         powers=[('StandingPower',3)];block0=20;block1=oracle['block']
         setup=[app('StandingPower.Deploy',n) for n in ([6,3,6] if case=='PP-U03-min-stack' else [3])]
         if case=='PP-U03-other-retention':powers.append(('BarricadePower',1));setup.append(app('BarricadePower',1))
+        if case=='PP-U03-clamp-priority':setup.append(app('SturdyClamp.Obtain',1))
     elif case=='PP-U34-per-batch':
         powers=[('ThunderArmorPower',3),('ThunderArmorPower',4)];setup=[app(t,n) for t,n in powers]
         block1=oracle['block'];count=oracle['lightning_count'];enemyBlock0=[10]*3;enemyBlock1=[9]*3;batch_specs=[(1,0,None,1)]
@@ -317,7 +318,9 @@ def _additional(r,token,case):
         damage += [hit(e,lost,4,card,blocked) for e in ids]
     _need(batch_ids==sorted(set(batch_ids)) and _eq(r['damageHistory'],damage))
     _need(_eq(r['phaseBlockGains'],[]) and _eq(r['movesAfterBoundary'],[]) and _eq(r['consumedAfterBoundary'],[False]*len(ids)))
-    _need(_eq(r['clearPreventers'],['BarricadePower'] if case=='PP-U03-other-retention' else []))
+    expected_preventers = (['BarricadePower'] if case=='PP-U03-other-retention'
+                           else [] if not standing else ['StandingPower'])
+    _need(_eq(r['clearPreventers'],expected_preventers))
     if standing:
         draws=r['drawHistory'];_need(len(draws)==5 and len({d['cardRef'] for d in draws})==5)
         for row in draws:_need(type(row['cardRef']) is str and row['cardRef'].startswith('starting-') and _eq(row,dict(cardRef=row['cardRef'],fromHandDraw=True)))

@@ -232,11 +232,19 @@ public static partial class DomainEnemyStatusContributions
     private static Task<IEnumerable<DamageResult>> StatusDamageVar(PlayerChoiceContext context, Creature receiver,
         DamageVar damage, CardModel card) => Suppress(card, receiver)
             ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
-            : CreatureCmd.Damage(context, receiver, WitherDamageWithoutEnemyContribution(card, receiver, damage.BaseValue), damage.Props, card);
+            : CreatureCmd.Damage(context, receiver, WitherDamageWithoutEnemyContribution(card, receiver, damage.BaseValue), damage.Props, card
+#if STS2_BETA
+                , null
+#endif
+                );
     private static Task<IEnumerable<DamageResult>> StatusDamageAmount(PlayerChoiceContext context, Creature receiver,
         decimal amount, ValueProp props, CardModel card) => Suppress(card, receiver)
             ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>())
-            : CreatureCmd.Damage(context, receiver, amount, props, card);
+            : CreatureCmd.Damage(context, receiver, amount, props, card
+#if STS2_BETA
+                , null
+#endif
+                );
 
     // Dazed ethereal cleanup, Wound's lack of effects, Slimed's beneficial Draw and
     // exhaust, and all FranticEscape generation/play/cost rules are intentionally

@@ -43,7 +43,11 @@ public sealed class Volibear_B03 : VolibearCard
         var target = cardPlay.Target;
         if (target is not null)
             await DamageCmd.Attack(Var<DamageVar>("Damage").BaseValue)
-                .FromCard(this)
+                .FromCard(this
+#if STS2_BETA
+                , null
+#endif
+                )
                 .Targeting(target)
                 .Execute(choiceContext);
         await LightningCmd.DealAllEnemies(choiceContext, Value("Lightning"), this);
@@ -73,7 +77,11 @@ public sealed class Volibear_B04 : VolibearCard
         var target = cardPlay.Target;
         if (DirectEffects.Live(this) && target is { IsHittable: true })
             await DamageCmd.Attack(Var<DamageVar>("Damage").BaseValue)
-                .FromCard(this)
+                .FromCard(this
+#if STS2_BETA
+                , null
+#endif
+                )
                 .Targeting(target)
                 .Execute(choiceContext);
         if (target is not null)

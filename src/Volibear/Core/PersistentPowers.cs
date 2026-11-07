@@ -102,7 +102,29 @@ public sealed class StandingPower : PersistentPower
         PersistentBlockHooks.Install();
         return Task.CompletedTask;
     }
-    internal int RetainedAfterNativeClear(int nativeValue) => Live && Owner.Player!.PlayerCombatState!.TurnNumber > Data.DeployedTurn
+    private bool RetainsThisTurn => Live && Owner.Player is { PlayerCombatState: { } pcs } &&
+        pcs.TurnNumber > Data.DeployedTurn;
+
+    /// <summary>
+    /// 留甲 is the character's own retention rule, so it prevents the native block clear itself instead
+    /// of post-processing a clear that another preventer may have capped. Powers iterate before relics,
+    /// so a cap-style relic (e.g. native SturdyClamp keeping at most 10) never overwrites the retained block.
+    /// Native full-retention effects stay stronger and keep their own preventer.
+    /// </summary>
+    public override bool ShouldClearBlock(Creature creature)
+    {
+        if (!ReferenceEquals(creature, Owner) || !RetainsThisTurn) return true;
+        return Owner.HasPower<BarricadePower>() || Owner.HasPower<BlurPower>();
+    }
+
+    public override Task AfterPreventingBlockClear(AbstractModel preventer, Creature creature)
+    {
+        if (ReferenceEquals(preventer, this) && ReferenceEquals(creature, Owner) && RetainsThisTurn)
+            PersistentBlockHooks.SetRetained(Owner, Math.Max(0, Owner.Block - Amount));
+        return Task.CompletedTask;
+    }
+
+    internal int RetainedAfterNativeClear(int nativeValue) => RetainsThisTurn
         ? Math.Max(0, Owner.Block - Amount) : nativeValue;
 }
 
@@ -298,6 +320,8 @@ internal static class PersistentBlockHooks
         ?? throw new MissingMethodException("Creature.Block setter");
     private static readonly Action<Creature, int> SetBlock =
         (Action<Creature, int>)Setter.CreateDelegate(typeof(Action<Creature, int>));
+
+    internal static void SetRetained(Creature creature, int value) => SetBlock(creature, value);
 
     internal static void Install()
     {
