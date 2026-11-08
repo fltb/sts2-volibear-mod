@@ -57,8 +57,12 @@ MATRIX = (
 def run(scenario, extra, args) -> dict:
     command = [str(ROOT / '.local/build-python/bin/python'), '-B', str(ROOT / 'tools/headless.py'),
                '--use-deployed', '--scenario', scenario,
-               '--display', args.display, '--audio-driver', args.audio,
-               '--timeout', str(args.timeout), '--frames', str(args.frames)]
+               '--display', args.display, '--audio-driver', args.audio]
+    # Batch scenarios choose their own frame budget inside headless; only override on request.
+    if args.timeout is not None:
+        command += ['--timeout', str(args.timeout)]
+    if args.frames is not None:
+        command += ['--frames', str(args.frames)]
     command += extra
     env = dict(os.environ)
     completed = subprocess.run(command, cwd=str(ROOT), capture_output=True, text=True, env=env)
@@ -75,8 +79,8 @@ def run(scenario, extra, args) -> dict:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--only', action='append', default=[], help='Limit to scenario names')
-    parser.add_argument('--timeout', type=int, default=120)
-    parser.add_argument('--frames', type=int, default=9000)
+    parser.add_argument('--timeout', type=int, default=None)
+    parser.add_argument('--frames', type=int, default=None)
     parser.add_argument('--display', default='window')
     parser.add_argument('--audio', default='PulseAudio')
     parser.add_argument('--json', type=Path)

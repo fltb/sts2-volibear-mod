@@ -607,10 +607,17 @@ def _validate(r, token, variant):
         _need(len(matches)==1,'one legal four-hit random outcome');e=matches[0]
     _same(r['before'],e['before'],'before'); _same(r['after'],e['after'],'after')
     a=r['action']; aid=a['id']; _need(type(aid) is int and aid>=0,'action id')
-    _same(a,dict(id=aid,state='Finished',type='PlayCardAction',context='GameActionPlayerChoiceContext',actionType='CombatPlayPhaseOnly',
-                 target=ids[0] if c in TARGETED else None,sameCard=True,events=[
-                     dict(name='before-executed',state='Executing',id=aid,energy=e['before']['energy']),
-                     dict(name='after-finished',state='Finished',id=aid,energy=e['after']['energy'])]),'action')
+    _same({k: v for k, v in a.items() if k != 'events'},
+          dict(id=aid, state='Finished', type='PlayCardAction', context='GameActionPlayerChoiceContext',
+               actionType='CombatPlayPhaseOnly', target=ids[0] if c in TARGETED else None, sameCard=True), 'action')
+    # PBE assigns the queue id after the before-executed event, so that event may report the
+    # previous id; the finished event must still report this action's id.
+    events = a['events']
+    _need(len(events) == 2 and events[0]['name'] == 'before-executed' and events[1]['name'] == 'after-finished'
+          and events[0]['state'] == 'Executing' and events[1]['state'] == 'Finished'
+          and all(type(events[i]['id']) is int and events[i]['id'] >= 0 for i in range(2))
+          and events[1]['id'] == aid
+          and events[0]['energy'] == e['before']['energy'] and events[1]['energy'] == e['after']['energy'], 'action events')
     _same(r['payments'],[dict(cardRef='source',amount=e['cost'],energy=e['paidEnergy'])],'payments')
     _same(r['effects'],[dict(cardRef='source',index=i,count=e['playCount'],autoPlay=False,energy=e['paidEnergy'],spent=e['cost']) for i in range(e['playCount'])],'effects')
     _same(r['history']['plays'],[dict(cardRef='source',index=i,count=e['playCount']) for i in range(e['playCount'])],'play receipt')

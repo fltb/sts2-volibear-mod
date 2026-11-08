@@ -136,9 +136,18 @@ internal static class ArchitectEndingAcceptanceProbe
                     var screen = (NGameOverScreen)NOverlayStack.Instance!.Peek()!;
                     var screenSnapshot = AccessTools.Field(typeof(NGameOverScreen), "_serializableRun").GetValue(screen);
                     var domain = VolibearPresentationBridge.ArchitectDomainVisual(creature);
+                    // The storm ring paints its bolts on the first processed frames; PBE's ending frame
+                    // timing differs, so give the visual a bounded settle window before counting.
+                    int arcs = domain?.GetChildren().OfType<Line2D>().Count(l => l.Points.Length > 0) ?? 0;
+                    var arcClock = System.Diagnostics.Stopwatch.StartNew();
+                    while (domain is not null && arcs == 0 && arcClock.Elapsed < TimeSpan.FromSeconds(3))
+                    {
+                        var tree = NGame.Instance!.GetTree();
+                        await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+                        arcs = domain.GetChildren().OfType<Line2D>().Count(l => l.Points.Length > 0);
+                    }
                     var sprite = bear ? body!.GetNode<AnimatedSprite2D>("AnimatedSprite2D") : null;
                     bool shader = sprite?.Material is ShaderMaterial material && material.Shader.Code.Contains("tex.a * 0.84");
-                    int arcs = domain?.GetChildren().OfType<Line2D>().Count(l => l.Points.Length > 0) ?? 0;
                     int hpAfter = creature.CurrentHp, winsAfter = SaveManager.Instance.Progress.Wins;
                     Need(victoryCalls == 1 && winsAfter == winsBefore + 1 && !SaveManager.Instance.HasRunSave, "single native victory persisted and active save removed");
                     Need(run.IsGameOver && room.IsVictoryRoom, "stock terminal victory screen context");

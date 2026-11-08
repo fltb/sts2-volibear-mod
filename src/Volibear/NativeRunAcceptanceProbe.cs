@@ -412,7 +412,7 @@ internal static class NativeRunAcceptanceProbe
             var bootstrap = Harmony.GetPatchInfo(AccessTools.Method(typeof(BootstrapSettingsUtil), nameof(BootstrapSettingsUtil.Get)));
             Need(bootstrap is null || !bootstrap.Owners.Any(o => o.Contains("Volibear", StringComparison.Ordinal)), "Debug bootstrap forbidden for normal-run acceptance");
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
-            Need(release.Version.TrimStart('v') == "0.107.1" && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "Pinned native version mismatch");
+            Need(release.Version.TrimStart('v') == global::Volibear.Core.SupportedGameBuild.Version.TrimStart('v') && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "Pinned native version mismatch");
             if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_FAST_MODE") == "Fast") SaveManager.Instance.PrefsSave.FastMode = MegaCrit.Sts2.Core.Settings.FastModeType.Fast;
             _active = true; Clock.Start();
             observer = new Harmony("Volibear.NativeRunAcceptance.InputAndPayment");

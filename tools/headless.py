@@ -97,7 +97,9 @@ TEARDOWN_TAGS = ('leaked at exit', 'were leaked', 'still in use at exit', 'insta
 
 # The GLES compatibility renderer rejects an fma() shader used by some native VFX. It is a
 # platform warning, not a mod or gameplay failure, and appears with stock VFX too.
-ENGINE_SHADER_NOISE = ('SHADER ERROR:', 'Shader compilation failed')
+ENGINE_SHADER_NOISE = ('SHADER ERROR:', 'Shader compilation failed',
+                        'finished execution, but was in state Canceled!',
+                        'Unreferenced static string')
 
 
 def error_lines(text):

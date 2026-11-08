@@ -173,7 +173,7 @@ internal static partial class AudioReceiptProbe
             var patches = Harmony.GetPatchInfo(entry);
             int audioEntryPatches = patches is null ? 0 : patches.Prefixes.Concat(patches.Postfixes).Concat(patches.Transpilers).Concat(patches.Finalizers)
                 .Count(p => p.owner.StartsWith("Volibear.Presentation.PowerAudioReceipts") || p.owner.StartsWith("Volibear.AudioReceiptProbe"));
-            if (!closed || boundaries != 1 || asyncAudio != 0 || audioEntryPatches != 0) throw new InvalidOperationException("Native mechanics/audio boundary changed");
+            if (!closed || boundaries != 1 || asyncAudio != 0 || audioEntryPatches != 0) throw new InvalidOperationException($"Native mechanics/audio boundary changed: closed={closed} boundaries={boundaries} asyncAudio={asyncAudio} patches={audioEntryPatches}");
             return (object)new { method = body.DeclaringType!.Name.Contains("ModifyAmount") ? "ModifyAmount" : "Apply",
                 nativeSignals = signal.Length, closeBeforeSignals = closed, mutationBoundaries = boundaries,
                 audioCallsReturningTask = asyncAudio, audioEntryPatches };

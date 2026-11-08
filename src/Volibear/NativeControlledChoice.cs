@@ -77,9 +77,17 @@ internal sealed class NativeControlledChoice : IDisposable
         observer.UnpatchAll(observer.Id);
         if (ReferenceEquals(active, this)) active = null;
     }
+    private static readonly System.Reflection.FieldInfo? BranchingOriginal =
+        typeof(BranchingPlayerChoiceContext).GetField("_originalContext",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
     private void Capture(PlayerChoiceContext context, CardPile pile, Player player, CardSelectorPrefs prefs, Func<CardModel, bool>? filter)
     {
         if (!ReferenceEquals(player, owner)) return;
+        // PBE wraps the queued PlayCardAction context in a BranchingPlayerChoiceContext for
+        // card selects; unwrap it so the request still binds to the real queued action.
+        if (context is BranchingPlayerChoiceContext branching && BranchingOriginal?.GetValue(branching) is PlayerChoiceContext inner)
+            context = inner;
         if (context is not GameActionPlayerChoiceContext { Action: PlayCardAction action })
             throw new InvalidOperationException("Choice must originate in the real queued card action");
         var predicate = filter ?? (_ => true);
@@ -240,15 +248,24 @@ internal sealed class NativeControlledChoice : IDisposable
         if (!viewport.GetVisibleRect().HasPoint(center)) throw new InvalidOperationException("Native confirmation is outside the viewport");
         var focusModeBefore = confirm.FocusMode.ToString();
         PointerDiagnostics(request,confirm,center,stableFrames,"before-motion");
-        viewport.PushInput(new InputEventMouseMotion { Position = center,GlobalPosition = center },true);
-        PointerDiagnostics(request,confirm,center,stableFrames,"after-motion-dispatch");
-        await Frame();
-        PointerDiagnostics(request,confirm,center,stableFrames,"after-motion-frame");
-        var hovered = viewport.GuiGetHoveredControl();
-        bool hoverMatched = ReferenceEquals(hovered,confirm);
-        bool nativeFocused = (bool)AccessTools.Property(typeof(NClickableControl),"IsFocused").GetValue(confirm)!;
+        // PBE animates the confirm control's scale when it appears, so the pointer may need a
+        // couple of re-targets before hover and native focus match the final geometry.
+        bool hoverMatched = false, nativeFocused = false;
+        for (int attempt = 0; attempt < 6; attempt++)
+        {
+            center = Center();
+            viewport.PushInput(new InputEventMouseMotion { Position = center,GlobalPosition = center },true);
+            if (attempt == 0) PointerDiagnostics(request,confirm,center,stableFrames,"after-motion-dispatch");
+            await Frame();
+            if (attempt == 0) PointerDiagnostics(request,confirm,center,stableFrames,"after-motion-frame");
+            hoverMatched = ReferenceEquals(viewport.GuiGetHoveredControl(),confirm);
+            nativeFocused = (bool)AccessTools.Property(typeof(NClickableControl),"IsFocused").GetValue(confirm)!;
+            if (hoverMatched && nativeFocused && Center().DistanceTo(center) <= 0.1f) break;
+            await Frame();
+        }
         if (!hoverMatched || !nativeFocused || !confirm.IsInsideTree() || !confirm.IsVisibleInTree() || !confirm.IsEnabled || Center().DistanceTo(center) > 0.1f)
             throw new InvalidOperationException("Native pointer did not settle on the enabled confirmation control");
+        center = Center();
         bool insideTree = confirm.IsInsideTree(),visible = confirm.IsVisibleInTree(),enabled = confirm.IsEnabled;
         string controlType = confirm.GetType().Name;
         viewport.PushInput(new InputEventMouseButton { Position = center,GlobalPosition = center,ButtonIndex = MouseButton.Left,ButtonMask = MouseButtonMask.Left,Pressed = true },true);

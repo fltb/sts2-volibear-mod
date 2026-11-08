@@ -108,6 +108,8 @@ internal sealed partial class DomainSteamNativeObservation : IDisposable
     { if (Active is { } active && label == "waterfall_giant_progress") active._music.Add(trackIndex); }
     private static void AmbientAfter(string sfx, string param, float value)
     { if (Active is { } active && sfx == Ambient && param == "waterfall_giant_sfx") active._ambient.Add(value); }
+    private static void RemovedBegin() { if (Active is { } started) started.RemovedStarted++; }
+    private static void RemovedEnd() { if (Active is { } completed) completed.RemovedCompleted++; }
     private static async Task RemovedCompletion(Task original, PowerModel power)
     {
         var active = Active;
@@ -131,7 +133,10 @@ internal sealed partial class DomainSteamNativeObservation : IDisposable
             result.Add(instruction); // Original actual virtual AfterRemoved invocation is retained.
             result.Add(new(OpCodes.Ldloc, source)); result.Add(new(OpCodes.Call, AccessTools.Method(typeof(DomainSteamNativeObservation), nameof(RemovedCompletion)))); count++;
         }
-        if (count != 1) throw new InvalidOperationException("Probe native AfterRemoved callsite drift.");
+        // Another Volibear adapter may already have replaced the native AfterRemoved call with its
+        // own wrapper; the probe's observation is then unavailable but the scenario must still run.
+        if (count == 0) return input;
+        if (count > 1) throw new InvalidOperationException("Probe native AfterRemoved callsite drift.");
         return result;
     }
     // Prepare only the three small native audio API observers before gameplay
@@ -175,14 +180,31 @@ internal sealed partial class DomainSteamNativeObservation : IDisposable
         foreach (var pair in new[] { ("MonsterPerformedMove", nameof(MoveAfter)), ("CreatureAttacked", nameof(AttackAfter)), ("DamageReceived", nameof(DamageAfter)) })
             harmony.Patch(AccessTools.Method(typeof(CombatHistory), pair.Item1), prefix: Own(nameof(HistoryBefore)), postfix: Own(pair.Item2));
         InstallAudioPatches(harmony);
-        harmony.Patch(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-            [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]), postfix: Own(nameof(DirectDamageAfter)));
-        var damageEntry = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-            [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)]);
+        Type[] damageArgs = [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+#if STS2_BETA
+            , typeof(MegaCrit.Sts2.Core.Entities.Cards.CardPlay)
+#endif
+            ];
+        harmony.Patch(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage), damageArgs), postfix: Own(nameof(DirectDamageAfter)));
+        var damageEntry = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage), damageArgs);
         harmony.Patch(AccessTools.Method(damageEntry.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType, "MoveNext"), transpiler: Own(nameof(DamageHistoryBranch)));
-        var remove = AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Remove), [typeof(PowerModel)]);
-        var body = AccessTools.Method(remove.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType, "MoveNext");
-        harmony.Patch(body, transpiler: Own(nameof(RemovalBody)));
+        // PBE added a generic Remove overload whose parameter also matches PowerModel; pin the
+        // non-generic overload whose async body actually invokes PowerModel.AfterRemoved.
+        // Production adapters replace the native AfterRemoved call with their own wrapper; observe
+        // that wrapper when present, otherwise instrument the native call itself.
+        var wrapper = AccessTools.Method(typeof(Volibear.Core.DomainEnemySpecialContributions), "AfterRemoved",
+            [typeof(PowerModel), typeof(Creature)]);
+        if (wrapper is not null)
+            harmony.Patch(wrapper, prefix: Own(nameof(RemovedBegin)), postfix: Own(nameof(RemovedEnd)));
+        else
+        {
+            var remove = typeof(PowerCmd).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+                .FirstOrDefault(method => method.Name == nameof(PowerCmd.Remove) && !method.IsGenericMethod &&
+                    method.GetParameters() is { Length: 1 } parameters && parameters[0].ParameterType == typeof(PowerModel))
+                ?? throw new MissingMethodException(typeof(PowerCmd).FullName, nameof(PowerCmd.Remove));
+            var body = AccessTools.Method(remove.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType, "MoveNext");
+            harmony.Patch(body, transpiler: Own(nameof(RemovalBody)));
+        }
     }
     internal object Snapshot() => new { changes = _changes.ToArray(), completedMoves = _moves.ToArray(), attacks = _attacks.ToArray(), damage = _damage.ToArray(),
         historyEvidence = HistorySnapshot(), stageEvents = _stageEvents.ToArray(), externalDamageResults = _externalDamageResults.ToArray(), afterRemovedStarted = RemovedStarted, afterRemovedCompleted = RemovedCompleted,
