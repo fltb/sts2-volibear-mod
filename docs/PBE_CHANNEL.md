@@ -68,3 +68,11 @@ python tools/release_package.py --dll .local/channels/pbe/bin/Volibear.dll \
 - probe 与 evidence 的版本常量已按 `VOLIBEAR_GAME_VERSION/COMMIT` 参数化；新增场景沿用该约定。
 - PBE 自身会在退出时打印 `ERROR: Invalid Task ID` 与渲染资源泄漏，属于 stock 行为，已在 teardown 分类中排除。
 - 每次 beta 更新都可能移动异步实现/私有成员；先跑 `compat_report` 再改代码，避免“修一处启动一次”。
+
+## 开发循环约束（2026-11-08）
+
+- 实机只用于**最终验收**，不作开发循环：每轮先完成“双通道编译 + `VOLIBEAR_CHANNEL=pbe` 回归 + 定向单测/反射与 IL 对照”，确认没有已知问题后再开游戏。
+- 验收只有一条命令：`VOLIBEAR_GAME_VERSION=v0.111.0 VOLIBEAR_GAME_COMMIT=41cef1ea python tools/pbe_verify.py`。
+  它按场景自动选择预算（卡面/生命周期/native-run/表现验收使用 216000 帧、900 秒上限），失败只输出场景与失败门，不逐个手开。
+- `enemy-exploration` 是探索生成器（需要 catalog/selection fixture 输入），不属于验收矩阵；需要时单独用 `tools/headless.py` 带 fixture 参数运行。
+- 探针必须在 `Install()` 打印 `<SCENARIO>_INSTALLED` 并带“错过 TurnStarted”的兜底，否则实机日志无法区分“没安装/没开始/失败”。

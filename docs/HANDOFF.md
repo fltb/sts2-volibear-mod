@@ -12,7 +12,12 @@
 - 两通道编译均通过；稳定通道回归重跑 `power-presentation` 得到 `BUILD_GATE build=verified channel=stable target=v0.107.1/59260271`，行为未回退。
 - PBE 启动实测：`BUILD_GATE build=verified channel=pbe target=v0.111.0/41cef1ea`、`CONTENT_OK cards=89`，随后初始化在 IL 适配层中断。已完成适配：`PlayerChoiceContext` 新抽象成员（OwnerId/SignalPlayerChoiceBegun(Player,options)）、`ModifyDamageAdditive/Multiplicative` 的 CardPlay 参数、`AttackCommand.FromCard`、`CreatureCmd.Damage/LoseBlock` 新参数、`Hook.AfterTurnEnd→AfterSideTurnEnd`（probe）、`DoomPower.IsOwnerDoomed` 转为私有（改反射）、`CardPileCmd.Draw` 拆出 `DrawInternal`（改挂内部异步体）、`DomainEnemyEffects` damage/cap 新旧参数集拆分。
 - 当前阻塞：`DomainSummonEffects` 等模块按精确 IL 固定了编译器生成的异步状态机字段名（PBE 下 `InfestedPower+<AfterDeath>d__4.<i>5__2` 编号变化），需要逐处重新推导并重验；这类精确 IL 适配在 PBE 上会随每次 beta 更新反复漂移。未产出 PBE 安装包（避免交付半初始化的 Mod）。
-- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 原生验收与更新工作流（2026-11-07 深夜）
+- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 静态优先的验收纪律（2026-11-08）
+
+- 用户明确要求：实机测试不得当开发循环。流程改为静态门先行（双通道编译、PBE 回归 1252 通过/108 项稳定契约跳过、runner/evidence 单测、反射签名与 IL 锚点对照），确认无已知问题后再做一次批量实机验收。
+- `tools/pbe_verify.py` 现在是唯一验收入口：按场景自动分配预算（卡面/生命周期/native-run/表现验收 216000 帧、900 秒），`enemy-exploration` 作为生成工具移出矩阵。
+- 本日静态修复：prepared-choice 指针重定位与 Branching 上下文解包、architect 终局雷弧子树统计与稳定窗口、card-face 批量预算与 PBE action-id 语义、native-run 通道版本、api dump 完成后的退出崩溃归入诊断而非失败、dampen 噪声只在 shutdown 边界后委托公共门、探针 INSTALLED 日志与错过 TurnStarted 兜底。
+## PBE 原生验收与更新工作流（2026-11-07 深夜）
 
 - 策略调整：稳定版不再承诺支持（仅保留构建代码），只追最新 PBE。
 - PBE 原生场景已实机通过（v0.111.0 / 41cef1ea）：`persistent-contract` 三例（PP-U03-clamp-priority 17/StandingPower、PP-U03-min-stack 17/StandingPower、PP-U03-other-retention 20/Barricade）、`power-presentation`、`domain-visual`、`domain-suppression` 三族（sandpit/knights/self）。

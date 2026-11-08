@@ -35,7 +35,6 @@ MATRIX = (
     ('domain-revival', ['--revival-case', 'reattach-off']),
     ('prepared-choice', ['--prepared-choice-case', 'PC-C19-fixed-replay']),
     ('power-presentation', []),
-    ('enemy-exploration', []),
     ('coupon-contract', ['--coupon-case', 'CP-max-preserve']),
     ('domain-card-contributions', ['--domain-card-case', 'hex']),
     ('primal-contract', ['--primal-case', 'U12-paid-snapshot']),
@@ -52,6 +51,13 @@ MATRIX = (
     ('native-run', ['--native-run-mode', 'three-battle-save']),
     ('presentation-acceptance', ['--presentation-mode', 'cards']),
 )
+# Heavy batches own a larger frame/time budget; overrides only apply to these scenarios.
+BUDGETS = {
+    'card-face-acceptance': (216000, 900),
+    'card-lifecycle': (216000, 900),
+    'native-run': (216000, 900),
+    'presentation-acceptance': (216000, 900),
+}
 
 
 def run(scenario, extra, args) -> dict:
