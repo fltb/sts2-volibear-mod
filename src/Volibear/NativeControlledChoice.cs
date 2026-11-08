@@ -258,7 +258,8 @@ internal sealed class NativeControlledChoice : IDisposable
             if (attempt == 0) PointerDiagnostics(request,confirm,center,stableFrames,"after-motion-dispatch");
             await Frame();
             if (attempt == 0) PointerDiagnostics(request,confirm,center,stableFrames,"after-motion-frame");
-            hoverMatched = ReferenceEquals(viewport.GuiGetHoveredControl(),confirm);
+            var hovered = viewport.GuiGetHoveredControl();
+            hoverMatched = ReferenceEquals(hovered,confirm);
             nativeFocused = (bool)AccessTools.Property(typeof(NClickableControl),"IsFocused").GetValue(confirm)!;
             if (hoverMatched && nativeFocused && Center().DistanceTo(center) <= 0.1f) break;
             await Frame();

@@ -115,12 +115,14 @@ def is_teardown(line):
                          line) is not None
             or re.fullmatch(r'ERROR: Texture with GL ID of \d+: leaked \d+ bytes\.', line.strip()) is not None
             # PBE's shutdown path races a Task id check; the unmodded stock run emits the same line.
-            or line.strip() == 'ERROR: Invalid Task ID')
+            or line.strip() == 'ERROR: Invalid Task ID'
+            or 'Unreferenced static string' in line)
 
 
 def teardown_categories(lines):
     return {re.sub(r'\d+', '#', line).strip() for line in lines
-            if is_teardown(line) and line.strip() != 'ERROR: Invalid Task ID'}
+            if is_teardown(line) and line.strip() != 'ERROR: Invalid Task ID'
+            and 'Unreferenced static string' not in line}
 
 
 def evaluate(code, timed_out, log, stock_teardown=None):

@@ -73,6 +73,11 @@ internal static class ArchitectEndingAcceptanceProbe
         if (isVictory) { victoryCalls++; victorySnapshot = __result; } else lossCalls++;
     }
     private static void Need(bool ok, string label) { if (!ok) throw new InvalidOperationException(label); }
+    private static IEnumerable<Node> Descendants(Node node)
+    {
+        yield return node;
+        foreach (var child in node.GetChildren()) foreach (var nested in Descendants(child)) yield return nested;
+    }
     private static async Task Until(Func<bool> predicate)
     {
         var clock = System.Diagnostics.Stopwatch.StartNew();
@@ -138,13 +143,14 @@ internal static class ArchitectEndingAcceptanceProbe
                     var domain = VolibearPresentationBridge.ArchitectDomainVisual(creature);
                     // The storm ring paints its bolts on the first processed frames; PBE's ending frame
                     // timing differs, so give the visual a bounded settle window before counting.
-                    int arcs = domain?.GetChildren().OfType<Line2D>().Count(l => l.Points.Length > 0) ?? 0;
+                    int CountArcs(Node? root) => root is null ? 0 : Descendants(root).OfType<Line2D>().Count(l => l.Points.Length > 0);
+                    int arcs = CountArcs(domain);
                     var arcClock = System.Diagnostics.Stopwatch.StartNew();
                     while (domain is not null && arcs == 0 && arcClock.Elapsed < TimeSpan.FromSeconds(3))
                     {
                         var tree = NGame.Instance!.GetTree();
                         await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-                        arcs = domain.GetChildren().OfType<Line2D>().Count(l => l.Points.Length > 0);
+                        arcs = CountArcs(domain);
                     }
                     var sprite = bear ? body!.GetNode<AnimatedSprite2D>("AnimatedSprite2D") : null;
                     bool shader = sprite?.Material is ShaderMaterial material && material.Shader.Code.Contains("tex.a * 0.84");

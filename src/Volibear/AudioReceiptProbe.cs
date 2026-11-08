@@ -68,7 +68,12 @@ internal static partial class AudioReceiptProbe
         try { InstallObservers(Observer); }
         catch { Observer.UnpatchAll(Observer.Id); throw; }
         installed = true;
+        GD.Print("[Volibear] AUDIO_RECEIPT_INSTALLED");
         CombatManager.Instance.TurnStarted += Start;
+        // The bootstrap can start combat before this subscription lands; retry once on the
+        // next timer tick instead of idling forever with no evidence.
+        var tree = (SceneTree)Engine.GetMainLoop();
+        tree.CreateTimer(0.25).Timeout += () => { if (!started && CombatManager.Instance.DebugOnlyGetState() is CombatState current) Start(current); };
     }
     private static void Start(CombatState combat)
     {

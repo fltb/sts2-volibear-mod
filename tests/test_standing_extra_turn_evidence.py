@@ -85,8 +85,9 @@ def specimen(variant,medium='TwigSlimeM',reverse=False):
         gains=[entry] if i==0 else []
         phase=dict(hook='MayhemPower.AfterAutoPrePlayPhaseEntered',context='HookPlayerChoiceContext',before=auto_before,after=deepcopy(s),history=ah,payments=[],effects=[effect],blockGains=gains,clearPreventers=[])
         for key in history:history[key]+=ah[key]
-        s['phase']='Play';r['transitions'].append(dict(label=transition,before=before,after=deepcopy(s),history=history,payments=[],effects=[effect],boundaries=deepcopy(ends),extraTurns=deepcopy(extras),autoPhases=[deepcopy(phase)],blockGains=gains,clearPreventers=[]))
+        s['phase']='Play';r['transitions'].append(dict(label=transition,before=before,after=deepcopy(s),history=history,payments=[],effects=[effect],boundaries=deepcopy(ends),extraTurns=deepcopy(extras),autoPhases=[deepcopy(phase)],blockGains=gains,clearPreventers=(['StandingPower'] if i else [])))
         r['boundaries']+=deepcopy(ends);r['extraTurns']+=deepcopy(extras);r['autoPhases'].append(deepcopy(phase))
+    r['clearPreventers']=['StandingPower']*(len(r['transitions'])-1)
     # Every actual setter call plus the native changed event, including unchanged zero writes.
     trace=[]
     def row(kind,before,after,clear_id,round_no,turn,side):

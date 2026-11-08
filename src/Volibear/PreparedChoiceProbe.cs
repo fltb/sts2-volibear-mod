@@ -45,7 +45,12 @@ internal static class PreparedChoiceProbe
     {
         Observer.CreateClassProcessor(typeof(Payment)).Patch();
         Observer.CreateClassProcessor(typeof(BeforeEffects)).Patch();
+        GD.Print("[Volibear] PREPARED_CHOICE_INSTALLED");
         CombatManager.Instance.TurnStarted += Start;
+        // The bootstrap can start combat before this subscription lands; retry once on the
+        // next timer tick instead of idling forever with no evidence.
+        var tree = (SceneTree)Engine.GetMainLoop();
+        tree.CreateTimer(0.25).Timeout += () => { if (!started && CombatManager.Instance.DebugOnlyGetState() is CombatState current) Start(current); };
     }
     private static void Start(CombatState state) { if (started) return; started = true; _ = Run(state); }
     private static async Task Frame()

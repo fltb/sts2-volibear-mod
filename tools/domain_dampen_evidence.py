@@ -248,18 +248,8 @@ def validate(payload, token: str, variant: str) -> list[str]:
     return errors
 
 
-STOCK_NOISE = ('leaked at exit', 'were leaked', 'still in use at exit', 'instances leaked',
-               'Invalid Task ID', 'never freed', 'Texture with GL ID')
-
-
-def _without_stock_noise(text: str) -> str:
-    return '\n'.join(line for line in text.splitlines()
-                     if not any(tag in line for tag in STOCK_NOISE))
-
-
 def check_log(text: str, token: str, variant: str) -> list[str]:
-    cleaned = _without_stock_noise(text)
-    if re.search(r"DOMAIN_DAMPEN_TRANSACTIONS_ERROR|DOMAIN_DAMPEN_SOURCE_UNSUPPORTED|Unhandled\s+exception|unhandled\s+error|FATAL|SCRIPT ERROR|\bERROR\s*:", cleaned, re.IGNORECASE):
+    if re.search(r"DOMAIN_DAMPEN_TRANSACTIONS_ERROR|DOMAIN_DAMPEN_SOURCE_UNSUPPORTED|Unhandled\s+exception|unhandled\s+error|FATAL|SCRIPT ERROR|\bERROR\s*:", text, re.IGNORECASE):
         return ["native Dampen error/unsupported provenance"]
     lines = [line.split(MARKER, 1)[1] for line in text.splitlines() if MARKER in line]
     if len(lines) != 1:
