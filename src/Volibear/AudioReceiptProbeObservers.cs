@@ -166,14 +166,35 @@ internal static partial class AudioReceiptProbe
             int boundaries = code.Count(c => c.operand is MethodInfo m &&
                 ((m.DeclaringType == typeof(PowerModel) && m.Name is "ApplyInternal" or "SetAmount") ||
                  (m.DeclaringType == typeof(DomainCardContributions) && m.Name is "ApplyCommit" or "AmountCommit")));
-            bool closed = signal.Length == 2 && signal.All(p => code[p.i - 1].Calls(Method(typeof(PowerAudioReceipts), "Close")));
+            var close = Method(typeof(PowerAudioReceipts), "Close");
+            bool ClosedBefore(int index)
+            {
+                // Other Volibear presentation adapters may insert their own calls between our
+                // Close and the builder completion; only foreign gameplay calls make it invalid.
+                for (int k = index - 1; k >= Math.Max(0, index - 4); k--)
+                {
+                    var candidate = code[k];
+                    if (candidate.Calls(close)) return true;
+                    if (candidate.operand is MethodInfo owner &&
+                        owner.DeclaringType?.Assembly == typeof(PowerAudioReceipts).Assembly) continue;
+                    if (candidate.opcode != OpCodes.Ldloc && candidate.opcode != OpCodes.Ldarg_0 &&
+                        candidate.opcode != OpCodes.Nop && candidate.opcode != OpCodes.Ldnull) return false;
+                }
+                return false;
+            }
+            bool closed = signal.Length == 2 && signal.All(p => ClosedBefore(p.i));
             int asyncAudio = code.Count(c => c.operand is MethodInfo m && m.DeclaringType == typeof(PowerAudioReceipts) && typeof(Task).IsAssignableFrom(m.ReturnType));
             var entry = typeof(PowerCmd).GetMethods(BindingFlags.Static | BindingFlags.Public).Single(m =>
                 m.GetCustomAttribute<System.Runtime.CompilerServices.AsyncStateMachineAttribute>()?.StateMachineType == body.DeclaringType);
             var patches = Harmony.GetPatchInfo(entry);
             int audioEntryPatches = patches is null ? 0 : patches.Prefixes.Concat(patches.Postfixes).Concat(patches.Transpilers).Concat(patches.Finalizers)
                 .Count(p => p.owner.StartsWith("Volibear.Presentation.PowerAudioReceipts") || p.owner.StartsWith("Volibear.AudioReceiptProbe"));
-            if (!closed || boundaries != 1 || asyncAudio != 0 || audioEntryPatches != 0) throw new InvalidOperationException($"Native mechanics/audio boundary changed: closed={closed} boundaries={boundaries} asyncAudio={asyncAudio} patches={audioEntryPatches}");
+            if (!closed || boundaries != 1 || asyncAudio != 0 || audioEntryPatches != 0)
+            {
+                var closeCount = code.Count(c => c.Calls(close));
+                var near = string.Join(";", signal.Select(p => p.i + ":" + (p.i > 0 ? code[p.i - 1].opcode.Name : "-")));
+                throw new InvalidOperationException($"Native mechanics/audio boundary changed: closed={closed} boundaries={boundaries} asyncAudio={asyncAudio} patches={audioEntryPatches} signals={signal.Length} closes={closeCount} near={near}");
+            }
             return (object)new { method = body.DeclaringType!.Name.Contains("ModifyAmount") ? "ModifyAmount" : "Apply",
                 nativeSignals = signal.Length, closeBeforeSignals = closed, mutationBoundaries = boundaries,
                 audioCallsReturningTask = asyncAudio, audioEntryPatches };

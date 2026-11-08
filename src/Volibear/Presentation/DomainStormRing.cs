@@ -11,6 +11,7 @@ internal static class DomainStormRing
     internal const float Radius = 300f;
     internal const string AuraPath = "res://VolibearArt/ui/images/domain_storm_aura.png";
     private const int Bolts = 12;
+    internal const int ExpectedBolts = Bolts;
     private static Vector2 Ground(float angle, float radius) => new(Mathf.Cos(angle) * radius, Mathf.Sin(angle) * radius * .24f - 5f);
     private static CanvasItemMaterial Light() => new() { BlendMode = CanvasItemMaterial.BlendModeEnum.Add, LightMode = CanvasItemMaterial.LightModeEnum.Unshaded };
 

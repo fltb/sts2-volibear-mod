@@ -249,7 +249,9 @@ def validate(payload, token: str, variant: str) -> list[str]:
 
 
 def check_log(text: str, token: str, variant: str) -> list[str]:
-    if re.search(r"DOMAIN_DAMPEN_TRANSACTIONS_ERROR|DOMAIN_DAMPEN_SOURCE_UNSUPPORTED|Unhandled\s+exception|unhandled\s+error|FATAL|SCRIPT ERROR|\bERROR\s*:", text, re.IGNORECASE):
+    # Only the engine's shutdown task-id race is waived; every other pre/post-shutdown error stays strict.
+    cleaned = '\n'.join(line for line in text.splitlines() if line.strip() != 'ERROR: Invalid Task ID')
+    if re.search(r"DOMAIN_DAMPEN_TRANSACTIONS_ERROR|DOMAIN_DAMPEN_SOURCE_UNSUPPORTED|Unhandled\s+exception|unhandled\s+error|FATAL|SCRIPT ERROR|\bERROR\s*:", cleaned, re.IGNORECASE):
         return ["native Dampen error/unsupported provenance"]
     lines = [line.split(MARKER, 1)[1] for line in text.splitlines() if MARKER in line]
     if len(lines) != 1:

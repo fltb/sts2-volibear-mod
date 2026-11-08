@@ -64,12 +64,11 @@ def run(scenario, extra, args) -> dict:
     command = [str(ROOT / '.local/build-python/bin/python'), '-B', str(ROOT / 'tools/headless.py'),
                '--use-deployed', '--scenario', scenario,
                '--display', args.display, '--audio-driver', args.audio]
-    # Batch scenarios choose their own frame budget inside headless; only override on request.
-    if args.timeout is not None:
-        command += ['--timeout', str(args.timeout)]
-    if args.frames is not None:
-        command += ['--frames', str(args.frames)]
     command += extra
+    budget = BUDGETS.get(scenario)
+    timeout = args.timeout if args.timeout is not None else (budget[1] if budget else 180)
+    frames = args.frames if args.frames is not None else (budget[0] if budget else 9000)
+    command += ['--timeout', str(timeout), '--frames', str(frames)]
     env = dict(os.environ)
     completed = subprocess.run(command, cwd=str(ROOT), capture_output=True, text=True, env=env)
     tail = [line for line in completed.stdout.splitlines() if line.strip().startswith('{"report"')]

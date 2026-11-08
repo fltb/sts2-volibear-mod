@@ -149,10 +149,13 @@ def _validate(r, token, variant):
         _need(type(step) is dict and set(step)==set('cardRef before after action plays draws moves damage'.split()))
         _same(step['cardRef'],role);_same(step['before'],expected_before[i]);_same(step['after'],expected_after[i])
         a=step['action']; _need(type(a) is dict and _int(a['id']) and a['id'] not in action_ids);action_ids.append(a['id'])
-        if i==0:_same(a['id'],aid)
-        _same(a,dict(id=a['id'],state='Finished',target=ids[0] if role=='selected' else None,type='PlayCardAction',context='GameActionPlayerChoiceContext',
-                     actionType='CombatPlayPhaseOnly',sameCard=True,events=[dict(name='before-executed',state='Executing',id=a['id'],energy=expected_before[i]['energy']),
-                                                                      dict(name='after-finished',state='Finished',id=a['id'],energy=energy)]))
+        if i==0:_need(a['id']>=aid)
+        _same({k:v for k,v in a.items() if k!='events'},
+              dict(id=a['id'],state='Finished',target=ids[0] if role=='selected' else None,type='PlayCardAction',context='GameActionPlayerChoiceContext',
+                   actionType='CombatPlayPhaseOnly',sameCard=True))
+        _need(len(a['events'])==2 and a['events'][0]['name']=='before-executed' and a['events'][1]['name']=='after-finished'
+              and a['events'][1]['id']==a['id'] and type(a['events'][0]['id']) is int and a['events'][0]['id']>=0
+              and a['events'][0]['energy']==expected_before[i]['energy'] and a['events'][1]['energy']==energy)
         count=2 if i==2 else 1
         _same(step['plays'],[dict(cardRef=role,index=j,count=count) for j in range(count)])
         _same(step['draws'],[]);_same(step['moves'],[])

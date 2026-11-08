@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Nodes.Debug;
+using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Rooms;
 
 namespace Volibear;
@@ -27,6 +28,15 @@ public sealed class DevelopmentBootstrap : IBootstrapSettings
     public string Language => "eng";
     public Task Setup(Player localPlayer) => Task.CompletedTask;
 
+    /// <summary>Isolated test profiles start fresh, so native first-time user experience popups
+    /// (tutorial accept dialog, combat tips) would cover the UI the probes drive. Only touched
+    /// inside a VOLIBEAR_TEST_DATA_ROOT profile.</summary>
+    internal static void DisableFtues()
+    {
+        if (string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT"))) return;
+        try { SaveManager.Instance.SetFtuesEnabled(false); } catch { }
+    }
+
     public static void Install(bool installDriver = true)
     {
         if (installDriver)
@@ -44,6 +54,7 @@ public sealed class DevelopmentBootstrap : IBootstrapSettings
 
     private static bool SelectSettings(ref System.Type? __result)
     {
+        DisableFtues();
         __result = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CHARACTER") == "volibear"
             ? typeof(VolibearBootstrap)
             : typeof(DevelopmentBootstrap);

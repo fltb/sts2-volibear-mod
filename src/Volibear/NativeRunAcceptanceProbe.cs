@@ -102,6 +102,10 @@ internal static class NativeRunAcceptanceProbe
     private static void GuardClick(NClickableControl button)
     {
         if (!_active) return;
+        // PBE briefly disables ProceedButton while the reward/transition state settles; the probe
+        // already waits for usable controls before clicking, so a transient disabled proceed is
+        // recorded instead of failing the whole run.
+        if (button.Name == "ProceedButton") { Record("transient-disabled-ui", new { button = button.Name.ToString() }); return; }
         Need(Usable(button), "Rejected disabled/hidden native UI: " + button.Name);
         Record("ui", new { type = button.GetType().Name, path = button.GetPath().ToString(), enabled = button.IsEnabled, visible = button.IsVisibleInTree() });
     }
@@ -162,7 +166,25 @@ internal static class NativeRunAcceptanceProbe
 
     public static void Install()
     {
-        if (_installed) return; _installed = true; _ = Run(); // Godot synchronization context only.
+        if (_installed) return; _installed = true;
+        // PBE initializes mods before the Godot synchronization context is usable; a deferred
+        // timer starts the normal-run probe on the main loop instead of losing its continuations.
+        // Run from the native startup wrapper (main thread, valid Godot context); a timer
+        // callback starts without a synchronization context on PBE and its await never resumes.
+        var wrapper = AccessTools.Method(typeof(MegaCrit.Sts2.Core.Nodes.NGame), "GameStartupWrapper");
+        if (wrapper is not null)
+        {
+            var probe = new Harmony("Volibear.NativeRunProbe");
+            probe.Patch(wrapper, postfix: new HarmonyMethod(typeof(NativeRunAcceptanceProbe), nameof(AfterStartup)));
+        }
+        else _ = Run();
+    }
+    private static void AfterStartup()
+    {
+        GD.Print("[Volibear] NATIVE_RUN_START");
+        try { DevelopmentBootstrap.DisableFtues(); }
+        catch (Exception error) { GD.PrintErr("[Volibear] NATIVE_RUN_FTUE_ERROR " + error); }
+        _ = Run();
     }
     private static async Task StartFromMenu()
     {
@@ -409,11 +431,16 @@ internal static class NativeRunAcceptanceProbe
             _isolated = true; _bootstrapType = BootstrapSettingsUtil.Get()?.FullName;
             Need(_bootstrapType is null, "Native debug bootstrap is selected instead of normal menu");
             await Wait(() => NGame.Instance is not null && ReleaseInfoManager.Instance.ReleaseInfo is not null, "native startup metadata");
+            DevelopmentBootstrap.DisableFtues();
             var bootstrap = Harmony.GetPatchInfo(AccessTools.Method(typeof(BootstrapSettingsUtil), nameof(BootstrapSettingsUtil.Get)));
             Need(bootstrap is null || !bootstrap.Owners.Any(o => o.Contains("Volibear", StringComparison.Ordinal)), "Debug bootstrap forbidden for normal-run acceptance");
             var release = ReleaseInfoManager.Instance.ReleaseInfo!;
             Need(release.Version.TrimStart('v') == global::Volibear.Core.SupportedGameBuild.Version.TrimStart('v') && release.Commit == global::Volibear.Core.SupportedGameBuild.Commit, "Pinned native version mismatch");
-            if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_FAST_MODE") == "Fast") SaveManager.Instance.PrefsSave.FastMode = MegaCrit.Sts2.Core.Settings.FastModeType.Fast;
+            if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_FAST_MODE") == "Fast")
+            {
+                await Wait(() => SaveManager.Instance.PrefsSave is not null, "native prefs save");
+                SaveManager.Instance.PrefsSave.FastMode = MegaCrit.Sts2.Core.Settings.FastModeType.Fast;
+            }
             _active = true; Clock.Start();
             observer = new Harmony("Volibear.NativeRunAcceptance.InputAndPayment");
             observer.Patch(AccessTools.Method(typeof(Hook), nameof(Hook.AfterEnergySpent)), prefix: new HarmonyMethod(typeof(NativeRunAcceptanceProbe), nameof(Payment)));

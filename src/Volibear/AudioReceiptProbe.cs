@@ -101,7 +101,7 @@ internal static partial class AudioReceiptProbe
             var watch = System.Diagnostics.Stopwatch.StartNew();
             while (!OwnerAttached()) { if (watch.Elapsed.TotalSeconds > 20) throw new TimeoutException("Presentation owner not attached"); await Frame(); }
             var il = InspectRuntimeBoundaries();
-            var context = new ThrowingPlayerChoiceContext();
+            var context = new SilentPlayerChoiceContext();
             foreach (var card in PileType.Hand.GetPile(player).Cards.ToArray()) await CardPileCmd.Add(card, PileType.Discard);
             var source = combat.CreateCard<Volibear_U39>(player); await CardPileCmd.Add(source, PileType.Hand);
             foreach (var canonical in new PowerModel[] { ModelDb.Power<StandingPower>(), ModelDb.Power<ImmovableBodyPower>(),

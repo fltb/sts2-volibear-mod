@@ -12,7 +12,15 @@
 - 两通道编译均通过；稳定通道回归重跑 `power-presentation` 得到 `BUILD_GATE build=verified channel=stable target=v0.107.1/59260271`，行为未回退。
 - PBE 启动实测：`BUILD_GATE build=verified channel=pbe target=v0.111.0/41cef1ea`、`CONTENT_OK cards=89`，随后初始化在 IL 适配层中断。已完成适配：`PlayerChoiceContext` 新抽象成员（OwnerId/SignalPlayerChoiceBegun(Player,options)）、`ModifyDamageAdditive/Multiplicative` 的 CardPlay 参数、`AttackCommand.FromCard`、`CreatureCmd.Damage/LoseBlock` 新参数、`Hook.AfterTurnEnd→AfterSideTurnEnd`（probe）、`DoomPower.IsOwnerDoomed` 转为私有（改反射）、`CardPileCmd.Draw` 拆出 `DrawInternal`（改挂内部异步体）、`DomainEnemyEffects` damage/cap 新旧参数集拆分。
 - 当前阻塞：`DomainSummonEffects` 等模块按精确 IL 固定了编译器生成的异步状态机字段名（PBE 下 `InfestedPower+<AfterDeath>d__4.<i>5__2` 编号变化），需要逐处重新推导并重验；这类精确 IL 适配在 PBE 上会随每次 beta 更新反复漂移。未产出 PBE 安装包（避免交付半初始化的 Mod）。
-- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 静态优先的验收纪律（2026-11-08）
+- 结论：stable 通道继续可交付；PBE 通道需要专门的移植工时（逐模块重定 IL 锚点 + PBE 实机重验），不宜当作一次普通打包。## PBE 验收快照（2026-11-08 晚）
+
+- 单次全量矩阵结果：**33/35 通过**。未通过 2 项均为开发探针，不是玩家玩法机制：
+  - `audio-receipts`：PBE 下原生音频派发全部返回 `accepted=false`（headless/X11+PulseAudio 环境），探针期待 `accepted=true`；边界（Close 先于完成信号）已通过。
+  - `native-run`：正常菜单驱动的异步续体在 PBE 初始化阶段丢失（已试 TurnStarted/定时器/GameStartupWrapper 三种启动点，仍未跑起来）；生产 DLL 不含该探针。
+- 已确认修正的玩法 bug：留甲被保留格挡遗物（上限 10）覆盖 → 改为留甲自身作为阻止清空方（原生场景验证：格挡 17、阻止者 StandingPower；Barricade 场景仍 20）。
+- 发现并修复的测试基建根因：隔离档首次进入会弹原生教学（Combat Basics / accept tutorials FTUE）遮挡 UI 驱动 → 仅对 `VOLIBEAR_TEST_DATA_ROOT` 隔离档关闭 FTUE；修复初版在 profile 初始化前写进度导致 `InitProfileId must be called`，已移到初始化之后。
+- 正式包（生产构建，无探针）：`pbe-open` `4f236bb8…3530`、`pbe-riot` `0bbb0726…ef5a`，DLL `e5945a0f…a033`；启动门 `gate_verified=true initialized=true failure_count=0`。
+## PBE 静态优先的验收纪律（2026-11-08）
 
 - 用户明确要求：实机测试不得当开发循环。流程改为静态门先行（双通道编译、PBE 回归 1252 通过/108 项稳定契约跳过、runner/evidence 单测、反射签名与 IL 锚点对照），确认无已知问题后再做一次批量实机验收。
 - `tools/pbe_verify.py` 现在是唯一验收入口：按场景自动分配预算（卡面/生命周期/native-run/表现验收 216000 帧、900 秒），`enemy-exploration` 作为生成工具移出矩阵。

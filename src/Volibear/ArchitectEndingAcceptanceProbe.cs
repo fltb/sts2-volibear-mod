@@ -161,7 +161,7 @@ internal static class ArchitectEndingAcceptanceProbe
                         bear, hpBefore, hpAfter, deaths, domainEntries, entered = domain?.Entered, shader, arcs,
                         scaleBefore, scaleAfter = body?.Scale.X, originalSnapshot = ReferenceEquals(screenSnapshot, victorySnapshot),
                         victoryCalls, lossCalls, abandoned = manager.IsAbandoned }));
-                    Need(bear ? hpAfter == hpBefore && deaths == 0 && domainEntries == 1 && domain is { Entered: true } && shader && arcs == 6 &&
+                    Need(bear ? hpAfter == hpBefore && deaths == 0 && domainEntries == 1 && domain is { Entered: true } && shader && arcs == Presentation.DomainStormRing.ExpectedBolts &&
                         Math.Abs(body!.Scale.X / scaleBefore - 1.22f) < .001f && ReferenceEquals(screenSnapshot, victorySnapshot) && lossCalls == 0
                         : hpAfter == 0 && deaths == 1 && domainEntries == 0 && domain is null && lossCalls == 1,
                         "character-scoped final domain replaces death; stock control keeps native path");

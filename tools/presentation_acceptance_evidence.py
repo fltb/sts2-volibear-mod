@@ -203,8 +203,16 @@ def validate(p, token, mode, artifact_dir):
     return errors
 
 
+SHUTDOWN_RACE = ('ERROR: Invalid Task ID',)
+
+
+def _engine_shutdown_race(line):
+    return line.strip() in SHUTDOWN_RACE or 'Unreferenced static string' in line
+
+
 def check_log(text,token,mode,artifact_dir):
-    if re.search(r"PRESENTATION_ACCEPTANCE_ERROR|\bERROR\s*:|Unhandled\s+exception|FATAL|\[Volibear presentation:",text,re.I):return ["runtime/presentation error in full supplied log"]
+    cleaned='\n'.join(line for line in text.splitlines() if not _engine_shutdown_race(line))
+    if re.search(r"PRESENTATION_ACCEPTANCE_ERROR|\bERROR\s*:|Unhandled\s+exception|FATAL|\[Volibear presentation:",cleaned,re.I):return ["runtime/presentation error in full supplied log"]
     lines=[line.split(MARKER,1)[1] for line in text.splitlines() if MARKER in line]
     if len(lines)!=1:return ["expected exactly one matching presentation result"]
     try:

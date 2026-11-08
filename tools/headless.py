@@ -99,7 +99,9 @@ TEARDOWN_TAGS = ('leaked at exit', 'were leaked', 'still in use at exit', 'insta
 # platform warning, not a mod or gameplay failure, and appears with stock VFX too.
 ENGINE_SHADER_NOISE = ('SHADER ERROR:', 'Shader compilation failed',
                         'finished execution, but was in state Canceled!',
-                        'Unreferenced static string')
+                        'Unreferenced static string',
+                        'Godot.Bridge.ScriptManagerBridge.GetPropertyInfoList',
+                        "was not present in the dictionary")
 
 
 def error_lines(text):

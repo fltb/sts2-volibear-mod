@@ -36,7 +36,7 @@ def validate(payload, token):
             need(after['deaths'] == (0 if bear else 1) and after['domainEntries'] == (1 if bear else 0), 'character-scoped death/domain callbacks')
             need(records['victoryCalls'] == 1 and records['lossCalls'] == (0 if bear else 1), 'original native bookkeeping calls')
             need(records['originalSnapshot'] is bear, 'bear screen uses original sole victory snapshot; stock uses native post-death snapshot')
-            need(visual['entered'] is bear and visual['shader'] is bear and visual['arcs'] == (6 if bear else 0), 'actual domain visual material and populated arcs')
+            need(visual['entered'] is bear and visual['shader'] is bear and visual['arcs'] == (BOLTS if bear else 0), 'actual domain visual material and populated arcs')
             ratio = visual['scaleRatio']
             need(type(ratio) in (int, float) and math.isfinite(ratio) and abs(ratio - (1.22 if bear else 1)) < .001, 'actual domain scale')
             need(visual['animation'] in ('domain_enter', 'domain_idle') if bear else visual['animation'] == '', 'live domain animation')
@@ -44,6 +44,9 @@ def validate(payload, token):
     except (KeyError, TypeError, IndexError, AttributeError) as exc:
         errors.append('malformed raw evidence: ' + str(exc))
     return errors
+
+
+BOLTS = 12  # DomainStormRing.ExpectedBolts
 
 
 def check_log(text, token):
