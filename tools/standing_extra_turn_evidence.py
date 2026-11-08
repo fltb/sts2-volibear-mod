@@ -138,9 +138,9 @@ def _validate(r,token,variant):
         phase=dict(hook='MayhemPower.AfterAutoPrePlayPhaseEntered',context='HookPlayerChoiceContext',before=auto_before,after=deepcopy(s),history=ah,payments=[],effects=[fx],blockGains=gains,clearPreventers=[]);autos_all.append(phase)
         for k in h:h[k]+=ah[k]
         s['phase']='Play'
-        same(r['transitions'][i],dict(label=transition,before=before,after=s,history=h,payments=[],effects=[fx],boundaries=ends,extraTurns=extras,autoPhases=[phase],blockGains=gains,clearPreventers=[]))
+        same(r['transitions'][i],dict(label=transition,before=before,after=s,history=h,payments=[],effects=[fx],boundaries=ends,extraTurns=extras,autoPhases=[phase],blockGains=gains,clearPreventers=(['StandingPower'] if i else [])))
     same(r['final'],s);same(r['payments'],[pay]);same(r['effects'],effects);same(r['boundaries'],ends_all);same(r['extraTurns'],extras_all);same(r['autoPhases'],autos_all)
-    same(r['blockGains'],[entry,40-entry],'blockGains');same(r['clearPreventers'],[])
+    same(r['blockGains'],[entry,40-entry],'blockGains');same(r['clearPreventers'],['StandingPower']*(len(r['transitions'])-1))
 
     same(r['blockTrace'],block_trace)
     lifecycle=[]

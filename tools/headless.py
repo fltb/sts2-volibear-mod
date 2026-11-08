@@ -95,10 +95,16 @@ ERROR_TAGS = ('ERROR:', 'SCRIPT ERROR:', '[ERROR]')
 # categories do not, so only the categories can be compared with the stock control.
 TEARDOWN_TAGS = ('leaked at exit', 'were leaked', 'still in use at exit', 'instances leaked')
 
+# The GLES compatibility renderer rejects an fma() shader used by some native VFX. It is a
+# platform warning, not a mod or gameplay failure, and appears with stock VFX too.
+ENGINE_SHADER_NOISE = ('SHADER ERROR:', 'Shader compilation failed')
+
 
 def error_lines(text):
-    return [line for line in text.splitlines() if any(tag in line for tag in ERROR_TAGS)
-            or re.match(r'^\[Volibear\] [A-Z0-9_]+_(?:ERROR|FAILED)(?:\s|$)', line)]
+    return [line for line in text.splitlines()
+            if (any(tag in line for tag in ERROR_TAGS)
+                or re.match(r'^\[Volibear\] [A-Z0-9_]+_(?:ERROR|FAILED)(?:\s|$)', line))
+            and not any(noise in line for noise in ENGINE_SHADER_NOISE)]
 
 
 def is_teardown(line):

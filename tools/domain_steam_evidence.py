@@ -49,7 +49,7 @@ def domain_steam_evidence(text, token, expected_variant=None):
     need(expected_variant is None or variant == expected_variant, "requested variant mismatch")
     need(no_verdict(r), "runtime verdict/expectation forbidden")
     need(r.get("scenario") == "domain-steam" and r.get("completed") is True and r.get("testMode") is False, "native completion identity")
-    need(r.get("gameVersion") == "0.107.1" and r.get("gameCommit") == EXPECTED_GAME_COMMIT, "pinned game metadata")
+    need(r.get("gameVersion") == EXPECTED_GAME_VERSION.lstrip("v") and r.get("gameCommit") == EXPECTED_GAME_COMMIT, "pinned game metadata")
     need(r.get("acceptance") == SCOPE, "acceptance scope")
     need((r.get("encounter"), r.get("nativeType"), r.get("sourceType")) == ("WaterfallGiantBoss", "WaterfallGiant", "SteamEruptionPower"), "formal native provenance")
     need(integer(r.get("sourceAmount"), 15), "native default-ascension pressurize amount")

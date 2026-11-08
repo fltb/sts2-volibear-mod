@@ -26,7 +26,7 @@ def domain_revival_errors(report: dict, token: str) -> list[str]:
     need(bool(token) and report.get("token") == token, "token mismatch")
     need(report.get("scenario") == "domain-revival", "scenario mismatch")
     need(report.get("completed") is True and report.get("testMode") is False, "not completed outside TestMode")
-    need(report.get("gameVersion") == "0.107.1" and report.get("gameCommit") == EXPECTED_GAME_COMMIT, "unpinned native version")
+    need(report.get("gameVersion") == EXPECTED_GAME_VERSION.lstrip("v") and report.get("gameCommit") == EXPECTED_GAME_COMMIT, "unpinned native version")
     need(report.get("acceptance") == SCOPE, "wrong acceptance scope")
     need(report.get("discovery") == "native encounter and native deployed power", "fabricated discovery")
     need(report.get("fixtureApi") == API, "wrong fixture API")

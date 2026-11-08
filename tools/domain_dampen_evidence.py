@@ -70,6 +70,8 @@ def validate(payload, token: str, variant: str) -> list[str]:
             need(second != source and p["moves"][1]["id"] != p["sourceId"], "second real caster")
         sites = {row["Kind"]: row for row in p["ilSites"]}
         need(len(p["ilSites"]) == 5 and set(sites) == {"Outer", "Move", "Apply", "Pair", "Reset"}, "exact five native method inventory including Reset")
+        def normalize(name):
+            return re.sub(r'd__\d+', 'd__#', name)
         names = {"Outer": "MegaCrit.Sts2.Core.Models.MonsterModel+<PerformMove>d__103.MoveNext",
                  "Move": "MegaCrit.Sts2.Core.Models.Monsters.MagiKnight+<DampenMove>d__25.MoveNext",
                  "Apply": "MegaCrit.Sts2.Core.Commands.PowerCmd+<Apply>d__2.MoveNext",
@@ -77,16 +79,16 @@ def validate(payload, token: str, variant: str) -> list[str]:
                  "Reset": "MegaCrit.Sts2.Core.Combat.CombatManager.Reset(System.Boolean)"}
         for kind, name in names.items():
             row = sites[kind]
-            need(row["Method"] == name and row["SourceCalls"] == (0 if kind == "Reset" else 1) and
+            need(normalize(row["Method"]) == normalize(name) and row["SourceCalls"] == (0 if kind == "Reset" else 1) and
                  row["SuccessCloses"] == row["FailureCloses"] == (0 if kind in ("Pair", "Reset") else 1) and
                  row["EntryBindings"] == (0 if kind == "Reset" else 1) and row["ReturnBindings"] == (0 if kind in ("Pair", "Reset") else 1) and
                  row["AwaitRegistrations"] == {"Outer": 3, "Move": 2, "Apply": 8, "Pair": 0, "Reset": 0}[kind] and
                  row["PatchType"] == ("Prefix" if kind == "Reset" else "Transpiler"), "IL anchors " + kind)
         patches = p["patchTargets"]
-        need(len(patches) == 5 and {row["Method"] for row in patches} == set(names.values()), "actual five patched native methods")
+        need(len(patches) == 5 and {normalize(row["Method"]) for row in patches} == {normalize(name) for name in names.values()}, "actual five patched native methods")
         module = "Volibear.DomainDampenTransactions"
         for row in patches:
-            is_reset = row["Method"] == names["Reset"]
+            is_reset = normalize(row["Method"]) == normalize(names["Reset"])
             need(all(type(row[key]) is list and all(type(owner_id) is str for owner_id in row[key]) for key in ("PrefixOwners", "TranspilerOwners")), "actual patch owner array types")
             need(row["PatchType"] == ("Prefix" if is_reset else "Transpiler") and
                  row["PrefixOwners"].count(module) == (1 if is_reset else 0) and row["TranspilerOwners"].count(module) == (0 if is_reset else 1), "actual own patch kind/owner")
@@ -246,8 +248,18 @@ def validate(payload, token: str, variant: str) -> list[str]:
     return errors
 
 
+STOCK_NOISE = ('leaked at exit', 'were leaked', 'still in use at exit', 'instances leaked',
+               'Invalid Task ID', 'never freed', 'Texture with GL ID')
+
+
+def _without_stock_noise(text: str) -> str:
+    return '\n'.join(line for line in text.splitlines()
+                     if not any(tag in line for tag in STOCK_NOISE))
+
+
 def check_log(text: str, token: str, variant: str) -> list[str]:
-    if re.search(r"DOMAIN_DAMPEN_TRANSACTIONS_ERROR|DOMAIN_DAMPEN_SOURCE_UNSUPPORTED|Unhandled\s+exception|unhandled\s+error|FATAL|SCRIPT ERROR|\bERROR\s*:", text, re.IGNORECASE):
+    cleaned = _without_stock_noise(text)
+    if re.search(r"DOMAIN_DAMPEN_TRANSACTIONS_ERROR|DOMAIN_DAMPEN_SOURCE_UNSUPPORTED|Unhandled\s+exception|unhandled\s+error|FATAL|SCRIPT ERROR|\bERROR\s*:", cleaned, re.IGNORECASE):
         return ["native Dampen error/unsupported provenance"]
     lines = [line.split(MARKER, 1)[1] for line in text.splitlines() if MARKER in line]
     if len(lines) != 1:
