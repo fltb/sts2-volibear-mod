@@ -55,3 +55,13 @@
   以及 R16 卡面文案（`Content/Cards/PersistentEffects.cs`）。
 - 当前工作区里 A1 的临时修复（格挡归因按 `CardModel` 引用）保持有效；此新回调设计尚未实现，
   落地时一并重写 `AfterCardPlayed` 并更新参考表 / 审核稿 / 卡面 fixture。
+
+## G. 音量偏小（未修复，待定位）
+
+- 现象：试玩时提到"声音太小""闪电跟打击一个音效""雷电特效不明显"，主观音量整体偏低。
+- 状态：**未修复、未定位**。本轮只修了音频"重复派发导致回执为 false"（见 audio-receipts），
+  没有动混音/音量链。
+- 需要排查的位置：`Presentation/effects.gd` 的 `_refresh_volumes`（`gain_db + mix_bus - headroom`
+  的换算与 `volumeLinear`）、`assets/animation/audio/manifest.json` 的 `mix_rules`/各 cue 的
+  `gain_db`、以及 `VolibearEffects.ReadGameVolume`（`master²×sfx²` 的平方衰减）——平方衰减很可能是
+  "音量偏小"的主因之一。
