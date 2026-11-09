@@ -702,20 +702,23 @@ public static partial class VolibearPresentationBridge
         {
             if (!Live||!ReferenceEquals(receipt.Owner,_owner)||!ReferenceEquals(receipt.Combat,_room.Combat))return;
             string id=$"cost_receipt:{receipt.Id}";
+            // Dispatch the receipt's own sound first: the visual effect carries the same cue, and its
+            // inner play is deduplicated by the shared (event, cue) key, so exactly one voice plays.
+            _effects.PlaySound(id,"sfx.cost_reduce");
             if (CardAnchor(receipt.Card,cost:true) is { } cost && CardId(receipt.Card) is { } cardId)
                 _effects.Emit(id,"cost_reduce",Anchors() with {CardCost=cost},cardId);
-            _effects.PlaySound(id,"sfx.cost_reduce");
         }
         internal void CardAudio(CommittedCardPresentation receipt)
         {
             if (!Live || !ReferenceEquals(receipt.Combat, _room.Combat) || !ReferenceEquals(receipt.Owner, _owner)) return;
             string id = $"card_receipt:{receipt.Id}";
+            // Receipt-owned sound first; the visual effect's matching cue is then deduplicated.
+            _effects.PlaySound(id, "sfx." + receipt.Effect);
             var node = CardAnchor(receipt.Card);
             if (Valid(node) && CardId(receipt.Card) is { } cardId && TryCardAnchors(node!,
                     receipt.Effect == "card_retrieve" ? receipt.From : null, false, out var anchors))
                 _effects.Emit(id, receipt.Effect, anchors, cardId);
             // Hidden/removed native cards have no invented card or guessed screen position.
-            _effects.PlaySound(id, "sfx." + receipt.Effect);
         }
         private static NCard? FindVisibleCard(Node root, CardModel model)
         {
@@ -731,9 +734,10 @@ public static partial class VolibearPresentationBridge
             if (receipt is not null && Live && ReferenceEquals(receipt.Combat, _room.Combat) && ReferenceEquals(receipt.Owner, _owner))
             {
                 string id = $"power_transaction:{receipt.Transaction}";
+                // Receipt-owned sound first; the owner visual's matching cue is deduplicated after.
+                _effects.PlaySound(id, "sfx." + receipt.Cue);
                 // A pending cost coupon has no committed target card yet: never decorate its source card as if discounted.
                 if (receipt.Cue != "cost_reduce") AtOwner(id, receipt.Cue);
-                _effects.PlaySound(id, "sfx." + receipt.Cue);
             }
         }
         private void PowerApplied(PowerModel power)

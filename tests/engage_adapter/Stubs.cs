@@ -119,6 +119,7 @@ namespace MegaCrit.Sts2.Core.Entities.Creatures
         public ICombatState? CombatState { get; set; }
         public bool IsDead { get; set; }
         public bool IsEnemy { get; set; }
+        public decimal CurrentHp { get; set; } = 80m;
         public MonsterModel? Monster { get; set; }
         public Player? Player { get; set; }
         public List<object> Powers { get; } = [];

@@ -150,7 +150,7 @@ public sealed class Volibear_C04 : VolibearCard
             await PowerCmd.Apply<WeakPower>(context, target, Value("Weak"), Owner.Creature, this);
         await DirectEffects.Engage(context, this, play.Target);
     }
-    protected override void OnUpgrade() => UpgradeVar("Damage", 3m);
+    protected override void OnUpgrade() { UpgradeVar("Damage", 3m); UpgradeVar("Weak", 1m); }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C06")]

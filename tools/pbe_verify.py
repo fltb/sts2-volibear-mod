@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Run the PBE verification matrix in one command and print an aggregate table.
 
 Each scenario keeps its own native receipt validation; this wrapper only sequences the
@@ -61,7 +61,9 @@ BUDGETS = {
 
 
 def run(scenario, extra, args) -> dict:
-    command = [str(ROOT / '.local/build-python/bin/python'), '-B', str(ROOT / 'tools/headless.py'),
+    # Use the interpreter that owns this wrapper: the isolated venv lives in bin/ on POSIX and
+    # Scripts/ on Windows, so a hard-coded path breaks the whole matrix on one of the platforms.
+    command = [sys.executable, '-B', str(ROOT / 'tools/headless.py'),
                '--use-deployed', '--scenario', scenario,
                '--display', args.display, '--audio-driver', args.audio]
     command += extra
@@ -70,6 +72,9 @@ def run(scenario, extra, args) -> dict:
     frames = args.frames if args.frames is not None else (budget[0] if budget else 9000)
     command += ['--timeout', str(timeout), '--frames', str(frames)]
     env = dict(os.environ)
+    # A real window that never takes focus replaces the private desktop on Windows.
+    if os.name == 'nt' and args.display == 'window':
+        env.setdefault('VOLIBEAR_TEST_NO_FOCUS', '1')
     completed = subprocess.run(command, cwd=str(ROOT), capture_output=True, text=True, env=env)
     tail = [line for line in completed.stdout.splitlines() if line.strip().startswith('{"report"')]
     report = json.loads(tail[-1]) if tail else None
@@ -86,8 +91,8 @@ def main():
     parser.add_argument('--only', action='append', default=[], help='Limit to scenario names')
     parser.add_argument('--timeout', type=int, default=None)
     parser.add_argument('--frames', type=int, default=None)
-    parser.add_argument('--display', default='window')
-    parser.add_argument('--audio', default='PulseAudio')
+    parser.add_argument('--display', default='background' if os.name == 'nt' else 'window')
+    parser.add_argument('--audio', default='WASAPI' if os.name == 'nt' else 'PulseAudio')
     parser.add_argument('--json', type=Path)
     args = parser.parse_args()
     if not (os.environ.get('VOLIBEAR_GAME_VERSION') and os.environ.get('VOLIBEAR_GAME_COMMIT')):
@@ -112,3 +117,4 @@ def main():
 
 if __name__ == '__main__':
     sys.exit(main())
+

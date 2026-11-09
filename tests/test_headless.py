@@ -254,7 +254,8 @@ class HeadlessRunnerTests(unittest.TestCase):
         command = headless.display_command(['game', '--headless', '--audio-driver', 'Dummy', '--force-steam=off'], 'background')
         self.assertEqual(command, ['game', '--force-steam=off', '--windowed', '--resolution', '1280x720', '--audio-driver', 'Dummy'])
         with mock.patch.object(headless, '_create_job', return_value='owned-job'), \
-             mock.patch.object(headless, '_create_private_desktop', return_value=(678, 'fixture-desktop')), \
+             mock.patch.object(headless, '_create_private_desktop', return_value=(None, 678, 'fixture-desktop')), \
+             mock.patch.object(headless, '_assert_isolated_desktop'), \
              mock.patch.object(headless, '_assign_job', return_value=True), \
              mock.patch.object(headless.subprocess, 'Popen') as spawn, \
              mock.patch.object(headless._kernel32, 'CloseHandle'), \
@@ -269,7 +270,8 @@ class HeadlessRunnerTests(unittest.TestCase):
     @unittest.skipUnless(headless.IS_WINDOWS, 'Windows private-desktop launch failure')
     def test_private_desktop_launch_failure_releases_owned_handles(self):
         with mock.patch.object(headless, '_create_job', return_value='failed-job'), \
-             mock.patch.object(headless, '_create_private_desktop', return_value=(679, 'fixture-desktop')), \
+             mock.patch.object(headless, '_create_private_desktop', return_value=(None, 679, 'fixture-desktop')), \
+             mock.patch.object(headless, '_assert_isolated_desktop'), \
              mock.patch.object(headless.subprocess, 'Popen', side_effect=OSError('launch failed')), \
              mock.patch.object(headless._kernel32, 'CloseHandle') as close_job, \
              mock.patch.object(headless._user32, 'CloseDesktop') as close_desktop:

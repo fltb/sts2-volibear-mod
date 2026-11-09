@@ -30,7 +30,7 @@ public abstract class PersistentPower : CustomPowerModel
         internal int UsedTurn = -1;
         internal int DeployedTurn = -1;
         internal IDisposable? Subscription;
-        internal readonly HashSet<long> BlockPlays = [];
+        internal readonly HashSet<CardModel> BlockPlays = new(ReferenceEqualityComparer.Instance);
     }
     protected State Data => GetInternalData<State>();
     protected override object InitInternalData() => new State();
@@ -282,15 +282,14 @@ public sealed class BattleBodyPower : PersistentPower
         "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。");
     public override Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
-        if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null && Own(cardSource) &&
-            CardResolutionHooks.CurrentPlayId(cardSource) is { } id) Data.BlockPlays.Add(id);
+        if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null && Own(cardSource))
+            Data.BlockPlays.Add(cardSource);
         return Task.CompletedTask;
     }
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsLastInSeries) return;
-        var id = CardResolutionHooks.CurrentPlayId(play.Card);
-        bool blocked = id is not null && Data.BlockPlays.Remove(id.Value);
+        bool blocked = Data.BlockPlays.Remove(play.Card);
         if (play.Card.Type != CardType.Attack) return;
         await PowerCmd.Apply<StrengthPower>(context, Owner, Amount, Owner, null);
         if (blocked && Live) await PowerCmd.Apply<DexterityPower>(context, Owner, Amount, Owner, null);

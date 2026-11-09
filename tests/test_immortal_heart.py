@@ -31,19 +31,24 @@ class ImmortalHeartContracts(unittest.TestCase):
         self.assertNotIn('AddRelicInternal', self.upgrade)
         self.assertNotIn('RemoveRelicInternal', self.upgrade)
 
-    def test_first_completed_engage_uses_player_turn_and_precommits(self):
-        for source, draw in [(self.starter, '1m'), (self.upgrade, '2m')]:
-            with self.subTest(draw=draw):
-                self.assertIn('AfterEngageCompleted(', source)
-                self.assertIn('Owner != completion.Receiver.Player', source)
-                self.assertIn('IsMelted || !Owner.Relics.Contains(this)', source)
-                self.assertIn('Owner.PlayerCombatState?.TurnNumber', source)
-                self.assertIn('ReferenceEquals(lastCombat, completion.Combat) && lastTurn == turn', source)
-                self.assertIn(f'Draw(completion.Choices, {draw}, Owner, false)', source)
-                self.assertLess(source.index('lastTurn = turn;'), source.index('Draw(completion.Choices'))
-                self.assertNotIn('.RoundNumber', source)
-        self.assertIn('override Task AfterRemoved()', self.upgrade)
-        self.assertIn('lastCombat = null;', self.upgrade)
+    def test_every_engage_draws_and_only_the_first_turn_engage_pays_energy(self):
+        # Starter: every engage draws; the first engage of each player turn also pays energy.
+        self.assertIn('AfterEngageCompleted(', self.starter)
+        self.assertIn('Owner.PlayerCombatState?.TurnNumber', self.starter)
+        self.assertIn('ReferenceEquals(lastCombat, completion.Combat) && lastTurn == turn', self.starter)
+        self.assertIn('Draw(completion.Choices, 1m, Owner, false)', self.starter)
+        self.assertIn('if (firstThisTurn) await MegaCrit.Sts2.Core.Commands.PlayerCmd.GainEnergy(1m, Owner)', self.starter)
+        self.assertLess(self.starter.index('Draw(completion.Choices, 1m, Owner, false)'),
+                        self.starter.index('GainEnergy(1m, Owner)'))
+        # Upgrade: every engage pays energy and draws, with no per-turn gate.
+        self.assertIn('AfterEngageCompleted(', self.upgrade)
+        self.assertIn('PlayerCmd.GainEnergy(1m, Owner)', self.upgrade)
+        self.assertIn('Draw(completion.Choices, 1m, Owner, false)', self.upgrade)
+        self.assertNotIn('TurnNumber', self.upgrade)
+        self.assertNotIn('lastCombat', self.upgrade)
+        self.assertLess(self.upgrade.index('PlayerCmd.GainEnergy(1m, Owner)'),
+                        self.upgrade.index('Draw(completion.Choices'))
+        self.assertNotIn('override Task AfterRemoved()', self.upgrade)
         self.assertNotIn('+=', self.upgrade)  # No orphaned global event subscription.
         self.assertIn('hunter=install(1),immortal=install(2)', self.frozen)
 
@@ -54,7 +59,7 @@ class ImmortalHeartContracts(unittest.TestCase):
             self.assertIn(f'Presentation.VolibearIcons.LightningHeart{suffix}', self.starter)
         self.assertTrue((ROOT / 'src/Volibear/Presentation/icons/storm_crown.svg').is_file())
         self.assertIn('new RelicLoc(', self.upgrade)
-        self.assertIn('"万古不灭", "每回合首次完成迎战后，抽2张牌。"', self.upgrade)
+        self.assertIn('"万古不灭", "每次完成迎战后，获得1能量并抽1张牌。"', self.upgrade)
 
 
 if __name__ == '__main__':

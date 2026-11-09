@@ -101,7 +101,12 @@ ENGINE_SHADER_NOISE = ('SHADER ERROR:', 'Shader compilation failed',
                         'finished execution, but was in state Canceled!',
                         'Unreferenced static string',
                         'Godot.Bridge.ScriptManagerBridge.GetPropertyInfoList',
-                        "was not present in the dictionary")
+                        "was not present in the dictionary",
+                        # Windows engine startup reads the OS root store through Godot's
+                        # platform layer; an unavailable store is an OS/engine condition that
+                        # the unmodded stock control emits identically, never a mod failure.
+                        'Failed to read the root certificate store',
+                        'get_system_ca_certificates (platform/windows/os_windows.cpp')
 
 
 def error_lines(text):
@@ -512,19 +517,88 @@ if IS_WINDOWS:
     _user32.CreateDesktopW.restype = ctypes.c_void_p
     _user32.CloseDesktop.argtypes = [ctypes.c_void_p]
     _user32.CloseDesktop.restype = ctypes.c_int
+    _user32.CreateWindowStationW.argtypes = [ctypes.c_wchar_p, ctypes.c_uint32,
+                                             ctypes.c_uint32, ctypes.c_void_p]
+    _user32.CreateWindowStationW.restype = ctypes.c_void_p
+    _user32.CloseWindowStation.argtypes = [ctypes.c_void_p]
+    _user32.CloseWindowStation.restype = ctypes.c_int
+    _user32.GetProcessWindowStation.restype = ctypes.c_void_p
+    _user32.SetProcessWindowStation.argtypes = [ctypes.c_void_p]
+    _user32.SetProcessWindowStation.restype = ctypes.c_int
+    _user32.GetWindowThreadProcessId.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+    _user32.GetWindowThreadProcessId.restype = ctypes.c_uint32
+    _user32.GetThreadDesktop.argtypes = [ctypes.c_uint32]
+    _user32.GetThreadDesktop.restype = ctypes.c_void_p
+    _user32.GetUserObjectInformationW.argtypes = [ctypes.c_void_p, ctypes.c_int,
+                                                  ctypes.c_void_p, ctypes.c_uint32,
+                                                  ctypes.POINTER(ctypes.c_uint32)]
+    _user32.GetUserObjectInformationW.restype = ctypes.c_int
+    _user32.EnumWindows.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+    _user32.EnumDesktopWindows.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p]
 
 
 _desktops_by_job = {}
 
 
 def _create_private_desktop():
+    """Private desktop on the interactive station: never displayed, never activatable.
+
+    A separate window station would isolate harder, but this session is denied
+    CreateWindowStation (error 5), so the desktop is created inside WinSta0 and the child is
+    launched straight onto it. Windows never display or focus a non-active desktop.
+    """
     name = 'VolibearAcceptance_' + uuid.uuid4().hex
-    # An unselected desktop supplies a real renderer without touching the operator's desktop.
-    # Never call SwitchDesktop or SetThreadDesktop.
-    handle = _user32.CreateDesktopW(name, None, None, 0, 0x10000000, None)
+    handle = _user32.CreateDesktopW(name, None, None, 0, 0x000F01FF, None)
     if not handle:
         raise OSError(ctypes.get_last_error(), 'CreateDesktop failed')
-    return handle, name
+    return None, handle, name
+
+
+def _desktop_windows(desktop):
+    """Windows of one desktop only; EnumWindows never sees another desktop's windows."""
+    rows = []
+    prototype = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+
+    def collect(hwnd, _):
+        rows.append(hwnd)
+        return True
+
+    if not _user32.EnumDesktopWindows(desktop, prototype(collect), 0):
+        return []
+    return rows
+
+
+def _assert_isolated_desktop(process, desktop_name, desktop_handle):
+    """Fail closed unless the child has windows only on its private desktop.
+
+    EnumWindows sees the operator's active desktop: any window of the child there means it could
+    be seen or focused, so the child is killed instead of running.
+    """
+    deadline = time.monotonic() + 30
+    while time.monotonic() < deadline:
+        if process.poll() is not None:
+            return
+        escaped = [hwnd for hwnd, owner in _window_pids() if owner == process.pid]
+        if escaped:
+            try:
+                process.kill()
+            finally:
+                raise RuntimeError('Test window appeared on the operator desktop: ' + repr(escaped))
+        windows = _desktop_windows(desktop_handle)
+        if windows:
+            owner = ctypes.c_uint32()
+            _user32.GetWindowThreadProcessId(windows[0], ctypes.byref(owner))
+            if owner.value != process.pid:
+                try:
+                    process.kill()
+                finally:
+                    raise RuntimeError('Private desktop windows do not belong to the test process')
+            return
+        time.sleep(0.05)
+    try:
+        process.kill()
+    finally:
+        raise RuntimeError('Test window did not appear on the private desktop ' + desktop_name)
 
 
 def _create_job():
@@ -566,7 +640,10 @@ def close_owned(job):
         _kernel32.CloseHandle(job)
         desktop = _desktops_by_job.pop(job, None)
         if desktop is not None:
-            _user32.CloseDesktop(desktop)
+            station, desktop_handle = desktop
+            _user32.CloseDesktop(desktop_handle)
+            if station:
+                _user32.CloseWindowStation(station)
 
 
 def process_alive(pid):
@@ -635,28 +712,111 @@ def window_startup_environment(command, cwd, env):
     return result
 
 
+def _foreground_window():
+    try:
+        return ctypes.windll.user32.GetForegroundWindow()
+    except Exception:
+        return 0
+
+
+def _window_pids():
+    """Map every top-level window handle to its owning process id."""
+    user32 = ctypes.windll.user32
+    rows = []
+    prototype = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+
+    def collect(hwnd, _):
+        owner = ctypes.c_ulong()
+        user32.GetWindowThreadProcessId(hwnd, ctypes.byref(owner))
+        rows.append((hwnd, owner.value))
+        return True
+
+    user32.EnumWindows(prototype(collect), 0)
+    return rows
+
+
+def _watch_window_focus(pid, previous_foreground):
+    """Keep an owned test window visible but never activated.
+
+    SW_SHOWNOACTIVATE only covers creation. Godot can still call SetForegroundWindow while it
+    builds scenes, so add WS_EX_NOACTIVATE and hand the foreground back to the operator's
+    previous window whenever the test window takes it. Only this owned process' windows are
+    touched; nothing is hidden and no input is synthesised.
+    """
+    if not IS_WINDOWS:
+        return
+    user32 = ctypes.windll.user32
+    GWL_EXSTYLE, WS_EX_NOACTIVATE = -20, 0x08000000
+    SWP_NOSIZE, SWP_NOMOVE, SWP_NOZORDER, SWP_NOACTIVATE = 0x0001, 0x0002, 0x0004, 0x0010
+
+    def watch():
+        deadline = time.monotonic() + 120
+        while time.monotonic() < deadline:
+            try:
+                windows = [hwnd for hwnd, owner in _window_pids() if owner == pid]
+                for hwnd in windows:
+                    style = user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+                    if not style & WS_EX_NOACTIVATE:
+                        user32.SetWindowLongW(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE)
+                        user32.SetWindowPos(hwnd, 0, 0, 0, 0, 0,
+                                            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE)
+                    if user32.GetForegroundWindow() == hwnd:
+                        if previous_foreground and user32.IsWindow(previous_foreground):
+                            user32.SetForegroundWindow(previous_foreground)
+                        else:
+                            user32.SetWindowPos(hwnd, 0, 0, 0, 0, 0,
+                                                SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE)
+            except Exception:
+                pass
+            time.sleep(0.1)
+
+    try:
+        import threading
+        threading.Thread(target=watch, name='volibear-no-focus', daemon=True).start()
+    except Exception:
+        pass
+
+
 def spawn_owned(command, cwd, env, stdout, window=False):
     """Start a process in its own ownership boundary and return (process, job)."""
     if IS_WINDOWS:
         job = _create_job()
         options = {}
+        isolated_desktop = None
+        previous_foreground = 0
         try:
             if window and env.get('VOLIBEAR_TEST_PRIVATE_DESKTOP') == '1':
-                desktop, name = _create_private_desktop()
-                _desktops_by_job[job] = desktop
+                station, desktop_handle, name = _create_private_desktop()
+                _desktops_by_job[job] = (station, desktop_handle)
                 startup = subprocess.STARTUPINFO()
                 startup.lpDesktop = name
                 options['startupinfo'] = startup
+                isolated_desktop = name
+            elif window and env.get('VOLIBEAR_TEST_NO_FOCUS') == '1':
+                # Real window on the operator's desktop that is shown without activation.
+                startup = subprocess.STARTUPINFO()
+                startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                startup.wShowWindow = 4  # SW_SHOWNOACTIVATE
+                options['startupinfo'] = startup
+                previous_foreground = _foreground_window()
             process = subprocess.Popen(command, cwd=cwd, env=env, stdout=stdout,
                                        stderr=subprocess.STDOUT,
                                        creationflags=0 if window else subprocess.CREATE_NO_WINDOW,
                                        **options)
+            if window and env.get('VOLIBEAR_TEST_NO_FOCUS') == '1':
+                _watch_window_focus(process.pid, previous_foreground)
         except BaseException:
             close_owned(job)
             raise
         if not _assign_job(job, process):
             close_owned(job)
             job = None
+        if isolated_desktop is not None:
+            try:
+                _assert_isolated_desktop(process, isolated_desktop, _desktops_by_job[job][1])
+            except BaseException:
+                close_owned(job)
+                raise
         return process, job
     env = window_startup_environment(command, cwd, env)
     process = subprocess.Popen(command, cwd=cwd, env=env, stdout=stdout,
@@ -774,11 +934,18 @@ def display_command(command, display):
             raise RuntimeError('background requires Windows; use window or xvfb on POSIX')
         if not IS_WINDOWS and not os.environ.get('DISPLAY', '').strip():
             raise RuntimeError('POSIX window mode requires an existing DISPLAY')
+        requested = None
+        if '--audio-driver' in command:
+            index = command.index('--audio-driver')
+            if index + 1 < len(command):
+                requested = command[index + 1]
         native = [arg for arg in command if arg not in ('--headless', '--audio-driver', 'Dummy')]
         if IS_WINDOWS:
             native.extend(platform_for('nt').window_arguments())
         if display == 'background':
-            native.extend(['--audio-driver', 'Dummy'])
+            # A private desktop still has the real audio device; only fall back to Dummy when the
+            # caller did not ask for a driver at all.
+            native.extend(['--audio-driver', requested or 'Dummy'])
         elif not IS_WINDOWS:
             # Use the operator-authorized existing X11/XWayland display directly.
             # Match the established compatibility renderer, but keep the real GPU.
@@ -1026,7 +1193,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     if scenario == 'catalog-face-suite' and not (
             IS_WINDOWS and display == 'background' and presentation_mode == 'cards' and record_process_identity):
         raise RuntimeError('Catalog faces require Windows/background, cards mode and owned process identity')
-    if (IS_WINDOWS and display == 'window'
+    if (IS_WINDOWS and display == 'window' and os.environ.get('VOLIBEAR_TEST_NO_FOCUS') != '1'
             and (card_face_batch is not None or scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'native-suite', 'domain-suppression'))):
         raise RuntimeError('Acceptance runs must use a private background desktop, not a foreground window')
     run_id = new_run_id()
@@ -1036,7 +1203,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     command = with_audio_driver(command, audio_driver)
     if scenario in ('native-suite', 'catalog-face-suite'):
         retained = {'VOLIBEAR_TEST_DATA_ROOT','VOLIBEAR_TEST_FAST_MODE','VOLIBEAR_TEST_PRIVATE_DESKTOP',
-                    'VOLIBEAR_TEST_TOKEN','VOLIBEAR_TEST_ARTIFACT_DIR'}
+                    'VOLIBEAR_TEST_NO_FOCUS','VOLIBEAR_TEST_TOKEN','VOLIBEAR_TEST_ARTIFACT_DIR'}
         for key in list(env):
             if key.startswith(('VOLIBEAR_TEST_','VOLIBEAR_SAVE_','VOLIBEAR_NATIVE_RUN_')) and key not in retained:
                 del env[key]
@@ -1087,7 +1254,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     if scenario == 'native-run':
         # A normal menu/run must never inherit a development character fixture.
         retained = {'VOLIBEAR_TEST_DATA_ROOT', 'VOLIBEAR_TEST_FAST_MODE', 'VOLIBEAR_TEST_PRIVATE_DESKTOP',
-                    'VOLIBEAR_TEST_TOKEN', 'VOLIBEAR_TEST_ARTIFACT_DIR'}
+                    'VOLIBEAR_TEST_NO_FOCUS', 'VOLIBEAR_TEST_TOKEN', 'VOLIBEAR_TEST_ARTIFACT_DIR'}
         for key in list(env):
             if key.startswith(('VOLIBEAR_TEST_', 'VOLIBEAR_SAVE_', 'VOLIBEAR_NATIVE_RUN_')) and key not in retained:
                 del env[key]
@@ -1444,7 +1611,7 @@ def main():
             parser.error('Presentation capture requires --display background (Windows) or xvfb (Linux)')
         if args.presentation_mode != 'cards' and (not args.audio_driver or args.audio_driver.lower() == 'dummy'):
             parser.error('Action/audio capture requires an explicit non-Dummy --audio-driver')
-    if IS_WINDOWS and args.display == 'window' and batch:
+    if IS_WINDOWS and args.display == 'window' and batch and os.environ.get('VOLIBEAR_TEST_NO_FOCUS') != '1':
         parser.error('Acceptance runs require a private background desktop, not a foreground window')
     display_command([], args.display)  # Reject unsupported display before build/deploy side effects.
     game = Path(config()['game_dir']).expanduser().resolve()
@@ -1472,3 +1639,5 @@ def main():
 
 if __name__ == '__main__':
     raise SystemExit(main())
+
+

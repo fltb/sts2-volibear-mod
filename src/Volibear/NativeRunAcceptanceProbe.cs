@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using MegaCrit.Sts2.Core.Combat.History;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,6 +28,8 @@ using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Cards.Holders;
+using MegaCrit.Sts2.Core.Nodes.Cards;
+using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
 using MegaCrit.Sts2.Core.Nodes.Debug;
 using MegaCrit.Sts2.Core.Nodes.Events;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
@@ -87,7 +89,15 @@ internal static class NativeRunAcceptanceProbe
     private static int Id(object? value) => value is null ? 0 : Ids.GetValue(value, _ => new Identity(++_nextId)).Value;
     private static string Env(string key) => System.Environment.GetEnvironmentVariable(key) ?? throw new InvalidOperationException("Missing " + key);
     private static void Need(bool ok, string why) { if (!ok) throw new InvalidOperationException(why); }
-    private static void Record(string kind, object data) => Events.Add(JsonSerializer.SerializeToElement(new { seq = Events.Count, kind, data }));
+    private static void Record(string kind, object data)
+    {
+        Events.Add(JsonSerializer.SerializeToElement(new { seq = Events.Count, kind, data }));
+        // Dev-probe trace only: the acceptance envelope below is still the sole evidence source.
+        var detail = kind is "ui" or "selection-open" or "selection-return" or "shop-request" or "event-choice"
+            ? " " + JsonSerializer.Serialize(data)
+            : "";
+        GD.Print($"[Volibear] NATIVE_RUN_EVENT {Events.Count - 1} {kind}{detail}");
+    }
     private static SceneTree Tree => (SceneTree)Engine.GetMainLoop();
     private static async Task Frame() => await Tree.ToSignal(Tree, SceneTree.SignalName.ProcessFrame);
     private static bool Usable(NClickableControl? button) => button is not null && GodotObject.IsInstanceValid(button) && button.IsEnabled && button.IsVisibleInTree();
@@ -104,8 +114,8 @@ internal static class NativeRunAcceptanceProbe
         if (!_active) return;
         // PBE briefly disables ProceedButton while the reward/transition state settles; the probe
         // already waits for usable controls before clicking, so a transient disabled proceed is
-        // recorded instead of failing the whole run.
-        if (button.Name == "ProceedButton") { Record("transient-disabled-ui", new { button = button.Name.ToString() }); return; }
+        // skipped here instead of failing the whole run. It is not a qualified native UI event.
+        if (button.Name == "ProceedButton") return;
         Need(Usable(button), "Rejected disabled/hidden native UI: " + button.Name);
         Record("ui", new { type = button.GetType().Name, path = button.GetPath().ToString(), enabled = button.IsEnabled, visible = button.IsVisibleInTree() });
     }
@@ -167,21 +177,30 @@ internal static class NativeRunAcceptanceProbe
     public static void Install()
     {
         if (_installed) return; _installed = true;
-        // PBE initializes mods before the Godot synchronization context is usable; a deferred
-        // timer starts the normal-run probe on the main loop instead of losing its continuations.
-        // Run from the native startup wrapper (main thread, valid Godot context); a timer
-        // callback starts without a synchronization context on PBE and its await never resumes.
+        // PBE loads mods after the native startup wrapper has already run, so a postfix on it
+        // never fires. Start immediately when startup is complete (the Godot synchronization
+        // context already exists here); only patch the wrapper on builds where it is still ahead.
         var wrapper = AccessTools.Method(typeof(MegaCrit.Sts2.Core.Nodes.NGame), "GameStartupWrapper");
-        if (wrapper is not null)
+        GD.Print("[Volibear] NATIVE_RUN_INSTALL wrapper=" + (wrapper is not null) +
+                 " ctx=" + (System.Threading.SynchronizationContext.Current?.GetType().Name ?? "null") +
+                 " startupComplete=" + (MegaCrit.Sts2.Core.Nodes.NGame.Instance?.GameStartupComplete.IsCompleted == true));
+        if (wrapper is not null && !StartupComplete())
         {
             var probe = new Harmony("Volibear.NativeRunProbe");
             probe.Patch(wrapper, postfix: new HarmonyMethod(typeof(NativeRunAcceptanceProbe), nameof(AfterStartup)));
+            // Never idle forever when the wrapper was already invoked or is replaced upstream.
+            var tree = (SceneTree)Engine.GetMainLoop();
+            tree.CreateTimer(10.0).Timeout += () => { if (!_started) AfterStartup(); };
+            return;
         }
-        else _ = Run();
+        AfterStartup();
     }
+    private static bool StartupComplete() => MegaCrit.Sts2.Core.Nodes.NGame.Instance?.GameStartupComplete.IsCompleted == true;
+    private static bool _started;
     private static void AfterStartup()
     {
-        GD.Print("[Volibear] NATIVE_RUN_START");
+        if (_started) return; _started = true;
+        GD.Print("[Volibear] NATIVE_RUN_START ctx=" + (System.Threading.SynchronizationContext.Current?.GetType().Name ?? "null"));
         try { DevelopmentBootstrap.DisableFtues(); }
         catch (Exception error) { GD.PrintErr("[Volibear] NATIVE_RUN_FTUE_ERROR " + error); }
         _ = Run();
@@ -218,7 +237,13 @@ internal static class NativeRunAcceptanceProbe
     }
     private static async Task SaveAndQuit()
     {
-        Need(!CombatManager.Instance.IsInProgress && RunManager.Instance.DebugOnlyGetState()!.CurrentRoom is not CombatRoom, "Save must be a real noncombat room");
+        Need(!CombatManager.Instance.IsInProgress, "Save must not be inside a battle");
+        // Entering the room is asynchronous: its scene preload/conversion (BaseLib converts the
+        // character scene after the resource resolves) must finish before we pause and quit, or the
+        // room materialises during teardown and crashes natively. Wait for the real room node.
+        await Wait(() => NRun.Instance?.GetNodeOrNull<Node>("RoomContainer") is { } container && container.GetChildCount() > 0,
+            "native room materialized");
+        for (int frame = 0; frame < 30; frame++) await Frame();
         Record("save-boundary", Snapshot());
         await Wait(() => Usable(NRun.Instance?.GlobalUi.TopBar.Pause), "native pause");
         await Click(NRun.Instance!.GlobalUi.TopBar.Pause);
@@ -261,7 +286,11 @@ internal static class NativeRunAcceptanceProbe
         var combat = CombatManager.Instance.DebugOnlyGetState()!; var player = combat.Players.Single();
         if (_mode != "death-menu")
         {
-            foreach (var card in player.PlayerCombatState!.Hand.Cards.OrderBy(c => c.Type == CardType.Power ? 0 : c.Type == CardType.Attack ? 1 : 2).ThenBy(c => c.Id.Entry, StringComparer.Ordinal))
+            // Survival first when low: block skills before attacks, powers last while at risk.
+            int group(CardType type) => player.Creature.CurrentHp * 10 < player.Creature.MaxHp * 7
+                ? type == CardType.Skill ? 0 : type == CardType.Attack ? 1 : 2
+                : type == CardType.Power ? 0 : type == CardType.Attack ? 1 : 2;
+            foreach (var card in player.PlayerCombatState!.Hand.Cards.OrderBy(c => group(c.Type)).ThenBy(c => c.Id.Entry, StringComparer.Ordinal))
             {
                 if (!card.CanPlay(out _, out _)) continue;
                 Creature? target = card.IsValidTarget(null) ? null : combat.Enemies.Where(e => e.IsAlive && card.IsValidTarget(e)).OrderBy(e => e.CurrentHp).ThenBy(e => e.CombatId).FirstOrDefault();
@@ -284,12 +313,57 @@ internal static class NativeRunAcceptanceProbe
     private static async Task<bool> OverlayStep()
     {
         var overlay = NOverlayStack.Instance?.Peek(); if (overlay is null) return false;
+        // A terminal rewards screen stays on the stack but hidden once Proceed opens the map; it is
+        // no longer an actionable overlay, so let the map step take over instead of re-handling it.
+        if (overlay is CanvasItem item && !item.IsVisibleInTree()) return false;
         var handler = Screens.SingleOrDefault(h => h.ScreenType == overlay.GetType());
+        // Combat pile selection (draw/discard/exhaust) is a real player choice screen without a
+        // native AutoSlay handler; drive it with the same native grid/confirm controls.
+        if (handler is null && overlay is MegaCrit.Sts2.Core.Nodes.Screens.CardSelection.NCombatPileCardSelectScreen pile)
+        {
+            var pileBefore = Snapshot(); Record("selection-open", new { type = pile.GetType().Name, pendingPaidAction = _play is not null, state = pileBefore });
+            await SelectCombatPileCard(pile);
+            Record("selection-return", new { type = pile.GetType().Name, before = pileBefore, after = Snapshot() });
+            return true;
+        }
         if (handler is null) throw new NotSupportedException("Unsupported actual overlay: " + overlay.GetType().FullName);
         var before = Snapshot(); Record("selection-open", new { type = overlay.GetType().Name, pendingPaidAction = _play is not null, state = before });
         using var timeout = new CancellationTokenSource(handler.Timeout);
         await handler.HandleAsync(PolicyRandom, timeout.Token);
-        Record("selection-return", new { type = overlay.GetType().Name, before, after = Snapshot() }); return true;
+        Record("selection-return", new { type = overlay.GetType().Name, before, after = Snapshot() });
+        // The native handler's single press can land while the screen still disables Proceed; if the
+        // same overlay is still open, wait for the real enabled state and press it once from here.
+        if (ReferenceEquals(NOverlayStack.Instance?.Peek(), overlay))
+        {
+            var proceed = Find<NClickableControl>(overlay as Node)
+                .FirstOrDefault(b => b.Name.ToString().Contains("Proceed", StringComparison.Ordinal));
+            if (proceed is not null)
+            {
+                var settle = Stopwatch.StartNew();
+                while (!Usable(proceed) && settle.Elapsed.TotalSeconds < 10) await Frame();
+                if (Usable(proceed)) await Click(proceed);
+            }
+        }
+        // Wait for this exact overlay to leave the stack, but never while the map it opened owns
+        // the room-selection step.
+        var closing = Stopwatch.StartNew();
+        while (ReferenceEquals(NOverlayStack.Instance?.Peek(), overlay) && !(NMapScreen.Instance?.IsOpen ?? false) &&
+               closing.Elapsed.TotalSeconds < 10) await Frame();
+        return true;
+    }
+    private static async Task SelectCombatPileCard(MegaCrit.Sts2.Core.Nodes.Screens.CardSelection.NCombatPileCardSelectScreen screen)
+    {
+        var grid = UiHelper.FindFirst<NCardGrid>(screen);
+        var confirm = screen.GetNodeOrNull<NConfirmButton>("%Confirm");
+        for (int attempt = 0; attempt < 10; attempt++)
+        {
+            if (!GodotObject.IsInstanceValid(screen) || !screen.IsVisibleInTree()) return;
+            if (confirm is not null && Usable(confirm)) { await Click(confirm); return; }
+            var holders = Find<NGridCardHolder>(screen).Where(h => h.IsVisibleInTree()).ToArray();
+            if (grid is null || holders.Length == 0) return;
+            grid.EmitSignal(NCardGrid.SignalName.HolderPressed, holders[0]);
+            for (int frame = 0; frame < 10; frame++) await Frame();
+        }
     }
     private static async Task<bool> HandSelectionStep()
     {
@@ -311,7 +385,19 @@ internal static class NativeRunAcceptanceProbe
         var current = run.VisitedMapCoords.Count == 0 ? null : points.SingleOrDefault(p => p.Point.coord.Equals(run.VisitedMapCoords[^1]));
         var legal = points.Where(p => p.IsEnabled && p.IsVisibleInTree() && (current is null ? p.Point.coord.row == 0 : current.Point.Children.Contains(p.Point))).ToArray();
         if (legal.Length == 0) return;
-        int Rank(NMapPoint p) => p.Point.PointType.ToString() switch { "RestSite" => 0, "Shop" => 1, "Treasure" => 2, "Monster" => 3, _ => 4 };
+        int Rank(NMapPoint p)
+        {
+            bool hurt = run.Players.Single().Creature.CurrentHp * 10 < run.Players.Single().Creature.MaxHp * 6;
+            return p.Point.PointType.ToString() switch
+            {
+                "RestSite" => 0, "Shop" => 1,
+                "Treasure" => hurt ? 3 : 2,
+                "Event" => hurt ? 2 : 4,
+                "Monster" => hurt ? 4 : 3,
+                "Elite" => hurt ? 6 : 5,
+                _ => hurt ? 5 : 4
+            };
+        }
         var next = legal.OrderBy(Rank).ThenBy(p => p.Point.coord.col).First();
         Record("map-choice", new { act = run.CurrentActIndex, fromRow = current?.Point.coord.row, fromCol = current?.Point.coord.col,
             row = next.Point.coord.row, col = next.Point.coord.col, type = next.Point.PointType.ToString(),
@@ -406,10 +492,13 @@ internal static class NativeRunAcceptanceProbe
                 }
                 return victory ? "victory" : "death";
             }
+            // A terminal rewards screen stays on the overlay stack while the map is open, so the
+            // open map owns driving here; otherwise the stale overlay would be handled forever.
+            if (NMapScreen.Instance?.IsOpen == true) { await MapStep(); await Frame(); continue; }
             if (await OverlayStep()) continue;
             if (await HandSelectionStep()) { await Frame(); continue; }
             if (_play is not null || _purchase is not null) { await Frame(); continue; }
-            if (_mode == "three-battle-save" && _wins >= 3 && !CombatManager.Instance.IsInProgress && run?.CurrentRoom is not null and not CombatRoom)
+            if (_mode == "three-battle-save" && _wins >= 3 && !CombatManager.Instance.IsInProgress && run?.CurrentRoom is not null && (run.CurrentRoom is not CombatRoom || (NMapScreen.Instance?.IsOpen ?? false)))
             { await SaveAndQuit(); return "checkpoint-saved"; }
             if (_mode == "resume" && _wins >= 1 && !CombatManager.Instance.IsInProgress && (NMapScreen.Instance?.IsOpen ?? false)) return "resumed-one-battle";
             if (CombatManager.Instance.IsInProgress) await CombatStep();
@@ -458,7 +547,7 @@ internal static class NativeRunAcceptanceProbe
             var release = ReleaseInfoManager.Instance.ReleaseInfo;
             GD.Print("[Volibear] NATIVE_RUN_RESULT " + JsonSerializer.Serialize(new { schema = 1, token = _token, mode = _mode, pair = _pair,
                 processId = System.Environment.ProcessId, scenario = "native-run", gameVersion = release?.Version.TrimStart('v'), gameCommit = release?.Commit,
-                scope = "normal-native-ui-paid-actions-no-debug-bootstrap-no-game-state-fixtures", policy = "paid-greedy-v1:power-attack-skill;lowest-hp-target;rest-shop-treasure-map;choice-rng314159",
+                scope = "normal-native-ui-paid-actions-no-debug-bootstrap-no-game-state-fixtures", policy = "paid-greedy-v2:survival-skill-attack-power;lowest-hp-target;rest-shop-treasure-monster-event-elite;choice-rng314159",
                 isolatedProfile = _isolated, nativeBootstrap = _bootstrapType,
                 testMode = TestMode.IsOn, steamInitialized = SteamInitializer.Initialized, autoSlayerActive = AutoSlayer.IsActive,
                 outcome, error, events = Events.ToArray(), elapsedSeconds = Clock.Elapsed.TotalSeconds }));
@@ -466,3 +555,7 @@ internal static class NativeRunAcceptanceProbe
         }
     }
 }
+
+
+
+

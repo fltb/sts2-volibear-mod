@@ -3209,14 +3209,14 @@ UpgradeVar("Block", 3m); UpgradeVar("Lightning", 2m);
 
 | 稳定 ID | 来源 | 原文 | 修改 |
 | --- | --- | --- | --- |
-| `relics:HUNTERS_HEART.description` | [VolibearLoc.cs:48](<../src/Volibear/Content/VolibearLoc.cs#L48>) | 每回合首次完成迎战后，抽1张牌。 |  |
+| `relics:HUNTERS_HEART.description` | [VolibearLoc.cs:48](<../src/Volibear/Content/VolibearLoc.cs#L48>) | 每次完成迎战后，抽1张牌。每回合首次完成迎战时，获得1能量。 |  |
 | `relics:HUNTERS_HEART.flavor` | [VolibearLoc.cs:49](<../src/Volibear/Content/VolibearLoc.cs#L49>) | 雷霆不会熄灭。 |  |
 | `relics:HUNTERS_HEART.title` | [VolibearLoc.cs:47](<../src/Volibear/Content/VolibearLoc.cs#L47>) | 不灭狂雷 |  |
 | `relics:SEA_GLASS.VOLIBEAR_CHARACTER.title` | [VolibearLoc.cs:53](<../src/Volibear/Content/VolibearLoc.cs#L53>) | 风暴海玻璃 |  |
-| `relics:VOLIBEAR_HUNTERS_HEART.description` | [VolibearLoc.cs:51](<../src/Volibear/Content/VolibearLoc.cs#L51>) | 每回合首次完成迎战后，抽1张牌。 |  |
+| `relics:VOLIBEAR_HUNTERS_HEART.description` | [VolibearLoc.cs:51](<../src/Volibear/Content/VolibearLoc.cs#L51>) | 每次完成迎战后，抽1张牌。每回合首次完成迎战时，获得1能量。 |  |
 | `relics:VOLIBEAR_HUNTERS_HEART.flavor` | [VolibearLoc.cs:52](<../src/Volibear/Content/VolibearLoc.cs#L52>) | 雷霆不会熄灭。 |  |
 | `relics:VOLIBEAR_HUNTERS_HEART.title` | [VolibearLoc.cs:50](<../src/Volibear/Content/VolibearLoc.cs#L50>) | 不灭狂雷 |  |
-| `relics:VOLIBEAR_IMMORTAL_HEART.description` | [ImmortalHeart.cs:32](<../src/Volibear/Content/ImmortalHeart.cs#L32>) | 每回合首次完成迎战后，抽2张牌。 |  |
+| `relics:VOLIBEAR_IMMORTAL_HEART.description` | [ImmortalHeart.cs:32](<../src/Volibear/Content/ImmortalHeart.cs#L32>) | 每次完成迎战后，获得1能量并抽1张牌。 |  |
 | `relics:VOLIBEAR_IMMORTAL_HEART.flavor` | [ImmortalHeart.cs:32](<../src/Volibear/Content/ImmortalHeart.cs#L32>) | 风暴不会遗忘，雷霆永不止息。 |  |
 | `relics:VOLIBEAR_IMMORTAL_HEART.title` | [ImmortalHeart.cs:32](<../src/Volibear/Content/ImmortalHeart.cs#L32>) | 万古不灭 |  |
 

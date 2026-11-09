@@ -353,11 +353,11 @@
           "face_id": "C04+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "造成12伤害。施加1虚弱。迎战。",
-          "display_text_zh": "造成12伤害。施加1虚弱。迎战。",
+          "rules_text_zh": "造成12伤害。施加2虚弱。迎战。",
+          "display_text_zh": "造成12伤害。施加2虚弱。迎战。",
           "numeric_literals": [
             12,
-            1
+            2
           ],
           "self_exhaust": false,
           "keywords": [
@@ -606,9 +606,9 @@
         {
           "face_id": "C10",
           "upgrade": false,
-          "cost": 2,
+          "cost": 1,
           "rules_text_zh": "获得8格挡。迎战。造成6＋吸收的伤害。",
-          "display_text_zh": "获得8格挡。迎战。造成伤害，数值为6加上本次吸收。",
+          "display_text_zh": "获得8格挡。迎战。造成伤害，数值为6加上本次受到。",
           "numeric_literals": [
             8,
             6
@@ -622,9 +622,9 @@
         {
           "face_id": "C10+",
           "upgrade": true,
-          "cost": 2,
+          "cost": 1,
           "rules_text_zh": "获得11格挡。迎战。造成9＋吸收的伤害。",
-          "display_text_zh": "获得11格挡。迎战。造成伤害，数值为9加上本次吸收。",
+          "display_text_zh": "获得11格挡。迎战。造成伤害，数值为9加上本次受到。",
           "numeric_literals": [
             11,
             9
@@ -2269,9 +2269,9 @@
         {
           "face_id": "U28",
           "upgrade": false,
-          "cost": 2,
+          "cost": 1,
           "rules_text_zh": "获得12格挡。迎战。对全体造成4＋吸收的雷伤。",
-          "display_text_zh": "获得12格挡。迎战。对所有敌人造成雷伤，数值为4加上本次吸收。",
+          "display_text_zh": "获得12格挡。迎战。对所有敌人造成雷伤，数值为4加上本次受到。",
           "numeric_literals": [
             12,
             4
@@ -2286,9 +2286,9 @@
         {
           "face_id": "U28+",
           "upgrade": true,
-          "cost": 2,
+          "cost": 1,
           "rules_text_zh": "获得17格挡。迎战。对全体造成6＋吸收的雷伤。",
-          "display_text_zh": "获得17格挡。迎战。对所有敌人造成雷伤，数值为6加上本次吸收。",
+          "display_text_zh": "获得17格挡。迎战。对所有敌人造成雷伤，数值为6加上本次受到。",
           "numeric_literals": [
             17,
             6
@@ -3201,7 +3201,7 @@
           "upgrade": false,
           "cost": 2,
           "rules_text_zh": "获得15格挡。迎战全体。对全体造成等同吸收的雷伤。",
-          "display_text_zh": "获得15格挡。迎战所有敌人。对所有敌人造成等同于本次吸收的雷伤。",
+          "display_text_zh": "获得15格挡。迎战所有敌人。对所有敌人造成等同于本次受到的雷伤。",
           "numeric_literals": [
             15
           ],
@@ -3217,7 +3217,7 @@
           "upgrade": true,
           "cost": 2,
           "rules_text_zh": "获得21格挡。迎战全体。对全体造成等同吸收的雷伤。",
-          "display_text_zh": "获得21格挡。迎战所有敌人。对所有敌人造成等同于本次吸收的雷伤。",
+          "display_text_zh": "获得21格挡。迎战所有敌人。对所有敌人造成等同于本次受到的雷伤。",
           "numeric_literals": [
             21
           ],
@@ -3333,10 +3333,10 @@
           "face_id": "R13",
           "upgrade": false,
           "cost": 2,
-          "rules_text_zh": "领域内恢复4生命；领域外获得领域1。获得2力量。消耗。",
-          "display_text_zh": "若处于领域内，恢复4生命；否则获得领域1。获得2力量。消耗。",
+          "rules_text_zh": "领域内恢复6生命；领域外获得领域1。获得2力量。消耗。",
+          "display_text_zh": "若处于领域内，恢复6生命；否则获得领域1。获得2力量。消耗。",
           "numeric_literals": [
-            4,
+            6,
             1,
             2
           ],
@@ -3350,10 +3350,10 @@
           "face_id": "R13+",
           "upgrade": true,
           "cost": 2,
-          "rules_text_zh": "领域内恢复6生命；领域外获得领域1。获得3力量。消耗。",
-          "display_text_zh": "若处于领域内，恢复6生命；否则获得领域1。获得3力量。消耗。",
+          "rules_text_zh": "领域内恢复8生命；领域外获得领域1。获得3力量。消耗。",
+          "display_text_zh": "若处于领域内，恢复8生命；否则获得领域1。获得3力量。消耗。",
           "numeric_literals": [
-            6,
+            8,
             1,
             3
           ],
@@ -3582,11 +3582,11 @@
         {
           "face_id": "R21+",
           "upgrade": true,
-          "cost": 1,
-          "rules_text_zh": "获得本回合雷伤次数×5的格挡。抽2张牌。消耗。",
-          "display_text_zh": "本回合每造成过1次雷伤，便获得5格挡。抽2张牌。消耗。",
+          "cost": 0,
+          "rules_text_zh": "获得本回合雷伤次数×4的格挡。抽2张牌。消耗。",
+          "display_text_zh": "本回合每造成过1次雷伤，便获得4格挡。抽2张牌。消耗。",
           "numeric_literals": [
-            5,
+            4,
             2
           ],
           "self_exhaust": true,

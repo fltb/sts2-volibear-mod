@@ -123,8 +123,8 @@ class DirectCardSourceContracts(unittest.TestCase):
                 positions = [self.cards[code].index(token) for token in tokens]
                 self.assertEqual(positions, sorted(positions))
         for code in ["C10", "U28"]:
-            self.assertIn("receipt.Absorbed", self.cards[code])
-        self.assertIn("receipts.Sum(receipt => receipt.Absorbed)", self.cards["R09"])
+            self.assertIn("receipt.Taken", self.cards[code])
+        self.assertIn("receipts.Sum(receipt => receipt.Taken)", self.cards["R09"])
         self.assertIn("CreatureCmd.Heal(Owner.Creature, hpLost)", self.cards["U24"])
         self.assertIn("var hpLost = await LightningCmd.Deal", self.cards["U24"])
         wave = self.cards["C22"]

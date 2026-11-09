@@ -1,11 +1,15 @@
 """Strict native command/receipt/bridge/stream gate. Never claims listening or full-card acceptance."""
 import json
 import math
+import sys
 
 ACCEPTANCE = 'native-receipt/bridge/stream-not-listening'
 FIXTURE = 'native-PowerCmd-and-production-move-helpers-not-card-deployment'
 POWERS = [('StandingPower', 'armor_retain'), ('ImmovableBodyPower', 'armor_iron'),
           ('ThunderArmorPower', 'thunder_armor'), ('NextAttackDiscount', 'cost_reduce'), ('StrengthPower', 'strength')]
+# Thunder Armor's cue belongs to the positive block commit (V18), not to power deployment;
+# its deployment rows must stay silent even though the mechanic is exercised here.
+DEPLOYMENT_SILENT = {'ThunderArmorPower'}
 OPERATIONS = [('new', 0, 2, True), ('increase', 2, 3, True), ('silent', 3, 4, False),
               ('zero', 4, 4, False), ('negative', 4, 3, False), ('silent-new', 0, 2, False)]
 FILES = {'armor_retain': ('guard_gain', .63), 'armor_iron': ('guard_hit', .42),
@@ -16,7 +20,7 @@ FILES = {'armor_retain': ('guard_gain', .63), 'armor_iron': ('guard_hit', .42),
 def expected_steps():
     for model, cue in POWERS:
         for op, before, after, emit in OPERATIONS:
-            yield model + ':' + op, model, cue if emit else None, before, after
+            yield model + ':' + op, model, cue if emit and model not in DEPLOYMENT_SILENT else None, before, after
     yield 'nested-silent-strength', 'StrengthPower', None, 2, 3
     yield 'nested-existing-strength', 'StrengthPower', 'strength', 3, 4
     for name, cue in [('generic-exhaust', None), ('generic-draw', None),
@@ -27,7 +31,7 @@ def expected_steps():
 
 def validate_audio_receipts(report, token):
     def need(value):
-        if not value: raise ValueError('native audio receipt contract mismatch')
+        if not value: raise ValueError('native audio receipt contract mismatch at line ' + str(sys._getframe(1).f_lineno))
     def integer(v, minimum=1):
         return type(v) is int and v >= minimum
     def number(v):
@@ -76,12 +80,17 @@ def validate_audio_receipts(report, token):
                     active_frames = frames
                 else:
                     need(len(frames) == 1 and frames[0]['power'] == model)
-                    need(frames[0]['silent'] is (name.endswith(':silent') or name.endswith(':silent-new')))
-                    active_frames = frames
+                    if model in DEPLOYMENT_SILENT:
+                        # No cue means no audio ticket; only the native frame identity is required.
+                        need(frames[0]['ticket'] is None and frames[0]['silent'] is None)
+                        active_frames = []
+                    else:
+                        need(frames[0]['silent'] is (name.endswith(':silent') or name.endswith(':silent-new')))
+                        active_frames = frames
                 for frame in active_frames:
                     need(integer(frame['ticket']) and integer(frame['powerRef']) and integer(frame['sourceRef']) and frame['sourceRef'] == source and frame['sameOwner'] is True)
                     need(frame['ticket'] not in tickets); tickets.add(frame['ticket'])
-                need(active_frames[-1]['powerRef'] == row['powerRef'])
+                if active_frames: need(active_frames[-1]['powerRef'] == row['powerRef'])
             else:
                 need(row['powerRef'] == 0 and integer(row['cardRef']) and not row['frames'])
                 piles = {'generic-exhaust': ('Hand', 'Exhaust'), 'generic-draw': ('Draw', 'Hand'),
@@ -135,7 +144,7 @@ def validate_audio_receipts(report, token):
             need(node['headroomDb'] == 6 and number(node['headroomDb']) and integer(node['voiceDivisor']))
             gain = effective * 10 ** (-9 / 20) / node['voiceDivisor']
             need(number(node['volumeLinear']) and math.isclose(node['volumeLinear'], gain, rel_tol=1e-5, abs_tol=1e-7))
-        need(len(seen) == len(nodes) == 14)
+        need(len(seen) == len(nodes) == 12)
         # Search/recovery must return the very same entity, not a replacement clone.
         by_id = {r['id']: r for r in rows}
         need(len({by_id[n]['cardRef'] for n in ('generic-draw', 'retrieve-discard', 'retrieve-draw', 'retrieve-no-candidate')}) == 1)
@@ -151,3 +160,4 @@ def audio_receipt_evidence(log, token):
     try: report = json.loads(lines[0])
     except (ValueError, TypeError): return None, False
     return report, validate_audio_receipts(report, token)
+

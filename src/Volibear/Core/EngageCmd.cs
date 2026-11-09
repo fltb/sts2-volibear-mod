@@ -23,9 +23,9 @@ public interface IEngageResponder
 /// <summary>Consumes the real enemy action, preserving the engine's damage and move state machine.</summary>
 public static class EngageCmd
 {
-    public readonly record struct Result(bool Performed, decimal Absorbed, bool Completed);
+    public readonly record struct Result(bool Performed, decimal Absorbed, bool Completed, decimal Taken = 0);
     public sealed record Completion(PlayerChoiceContext Choices, ICombatState Combat, Creature Receiver,
-        Creature Enemy, CardModel Card, decimal Absorbed);
+        Creature Enemy, CardModel Card, decimal Absorbed, decimal Taken = 0);
     private sealed class Window
     {
         internal Creature Receiver = null!;
@@ -35,6 +35,7 @@ public static class EngageCmd
         internal int Round;
         internal bool ActionStarted;
         internal decimal Absorbed;
+        internal decimal HpBefore;
     }
     private static readonly AsyncLocal<Window?> Active = new();
     private static readonly EngageOpportunityLedger Opportunities = new();
@@ -94,7 +95,7 @@ public static class EngageCmd
             return new(false, 0, false);
         var previous = Active.Value;
         var window = new Window { Receiver = receiver, Enemy = target, Combat = state,
-            Generation = Opportunities.Generation, Round = state.RoundNumber };
+            Generation = Opportunities.Generation, Round = state.RoundNumber, HpBefore = receiver.CurrentHp };
         try
         {
             var node = target.GetCreatureNode();
@@ -113,9 +114,11 @@ public static class EngageCmd
         // never manufacture completion rewards for a native body that did not start.
         if (!window.ActionStarted) return new(false, 0, false);
         var completed = Live(window) && !receiver.IsDead && CombatManager.Instance.IsInProgress && !CombatManager.Instance.IsEnding;
+        // "Taken" is every point this engage cost the receiver: absorbed block plus real HP loss.
+        var taken = window.Absorbed + Math.Max(0m, window.HpBefore - receiver.CurrentHp);
         if (completed)
         {
-            var completion = new Completion(choices, state, receiver, target, card, window.Absorbed);
+            var completion = new Completion(choices, state, receiver, target, card, window.Absorbed, taken);
             // Snapshot each source once; responses may add/remove powers or draw more cards.
             var responders = receiver.Player!.Relics.Cast<object>().Concat(receiver.Powers)
                 .OfType<IEngageResponder>().ToArray();
@@ -125,7 +128,7 @@ public static class EngageCmd
                 await responder.AfterEngageCompleted(completion);
             }
         }
-        return new(true, window.Absorbed, completed);
+        return new(true, window.Absorbed, completed, taken);
     }
 
     public static async Task<IReadOnlyList<Result>> PerformAll(PlayerChoiceContext choices, CardModel card)

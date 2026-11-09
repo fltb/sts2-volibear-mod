@@ -38,9 +38,14 @@ public sealed class HuntersHeart : BaseLib.Abstracts.CustomRelicModel, Core.IEng
     {
         if (Owner != completion.Receiver.Player || IsMelted || !Owner.Relics.Contains(this)) return;
         var turn = Owner.PlayerCombatState?.TurnNumber ?? throw new System.InvalidOperationException("Missing combat player");
-        if (ReferenceEquals(lastCombat, completion.Combat) && lastTurn == turn) return;
-        lastCombat = completion.Combat;
-        lastTurn = turn;
+        bool firstThisTurn = !(ReferenceEquals(lastCombat, completion.Combat) && lastTurn == turn);
+        if (firstThisTurn)
+        {
+            lastCombat = completion.Combat;
+            lastTurn = turn;
+        }
+        // Every engage draws; only the first engage of each player turn pays energy.
         await MegaCrit.Sts2.Core.Commands.CardPileCmd.Draw(completion.Choices, 1m, Owner, false);
+        if (firstThisTurn) await MegaCrit.Sts2.Core.Commands.PlayerCmd.GainEnergy(1m, Owner);
     }
 }

@@ -1,4 +1,4 @@
-"""Normal native-run evidence, not a numerical 89-card or whole-product acceptance claim.
+﻿"""Normal native-run evidence, not a numerical 89-card or whole-product acceptance claim.
 
 Modes run continuously in one process. Only three-battle-save -> resume deliberately
 crosses a process boundary, exactly to test a real native disk checkpoint.
@@ -12,7 +12,7 @@ EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 PREFIX = '[Volibear] NATIVE_RUN_RESULT '
 MODES = {'three-battle-save', 'resume', 'death-menu', 'full-run'}
 SCOPE = 'normal-native-ui-paid-actions-no-debug-bootstrap-no-game-state-fixtures'
-POLICY = 'paid-greedy-v1:power-attack-skill;lowest-hp-target;rest-shop-treasure-map;choice-rng314159'
+POLICY = 'paid-greedy-v2:survival-skill-attack-power;lowest-hp-target;rest-shop-treasure-monster-event-elite;choice-rng314159'
 KINDS = {'ui','native-text-input','menu','character-select','run-start','checkpoint','save-boundary','saved-menu',
          'checkpoint-before-continue','continued','play-request','paid-action','end-turn','turn-start','battle-start','battle-win','battle-end',
          'room','selection-open','selection-return','hand-confirm','hand-choice','map-choice','shop-request','shop-complete','rest-option',
@@ -40,7 +40,7 @@ def native_run_evidence(text, token, expected_mode=None, expected_pair=None):
     need(isinstance(mode,str) and mode in MODES and (expected_mode is None or mode==expected_mode),'requested native-run mode')
     need(isinstance(r.get('pair'),str) and bool(r['pair']) and (expected_pair is None or r['pair']==expected_pair),'requested checkpoint pair')
     need(r.get('schema')==1 and type(r.get('schema'))is int and r.get('scenario')=='native-run','native protocol identity')
-    need((r.get('gameVersion'),r.get('gameCommit'))==('0.107.1',EXPECTED_GAME_COMMIT),'pinned game build')
+    need((r.get('gameVersion'),r.get('gameCommit'))==(EXPECTED_GAME_VERSION.lstrip('v'),EXPECTED_GAME_COMMIT),'pinned game build')
     need(r.get('scope')==SCOPE and r.get('policy')==POLICY,'declared normal-input scope/policy')
     need(r.get('testMode') is False and r.get('steamInitialized') is False and r.get('autoSlayerActive') is False and
          r.get('isolatedProfile') is True and r.get('nativeBootstrap','missing') is None,'isolated normal menu, no Steam/TestMode/AutoSlayer/bootstrap')
@@ -124,7 +124,7 @@ def native_run_evidence(text, token, expected_mode=None, expected_pair=None):
             need(len(by['save-boundary'])==len(by['checkpoint'])==len(by['saved-menu'])==1,'one real save/quit boundary')
             if by['save-boundary']:
                 n,state=by['save-boundary'][0]
-                need(state['combatActive']is False and state['room']!='CombatRoom' and state['runActive']is True and all(i<n for i,_ in won.values()),'noncombat save after battles, never midcombat restart fixture')
+                need(state['combatActive']is False and state['runActive']is True and (state['room']!='CombatRoom' or state.get('mapOpen')is True) and all(i<n for i,_ in won.values()),'out-of-combat save after battles, never midcombat restart fixture')
                 need(n<by['checkpoint'][0][0]<by['saved-menu'][0][0],'native save checkpoint/menu ordering')
             if by['saved-menu']: need(by['saved-menu'][0][1]=={'runActive':False,'combatActive':False},'save/quit cleans run and combat')
         elif mode=='resume':
@@ -178,3 +178,5 @@ def native_run_pair_evidence(prepare_text, prepare_token, resume_text, resume_to
         if restored.get('combatActive')is not False:errors.append('noncombat checkpoint replayed a battle')
     except (KeyError,TypeError,StopIteration):errors.append('missing actual checkpoint-pair evidence')
     return {'errors':errors,'scope':'S07-one-required-process-restart;not-per-room-or-per-battle-restarts'}
+
+

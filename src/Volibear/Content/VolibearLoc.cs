@@ -45,10 +45,10 @@ public static class VolibearLoc
             ["relics"] = new()
             {
                 ["HUNTERS_HEART.title"] = "不灭狂雷",
-                ["HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
+                ["HUNTERS_HEART.description"] = "每次完成迎战后，抽1张牌。每回合首次完成迎战时，获得1能量。",
                 ["HUNTERS_HEART.flavor"] = "握住它时，指间会跳起细小的电火花。",
                 ["VOLIBEAR_HUNTERS_HEART.title"] = "不灭狂雷",
-                ["VOLIBEAR_HUNTERS_HEART.description"] = "每回合首次完成迎战后，抽1张牌。",
+                ["VOLIBEAR_HUNTERS_HEART.description"] = "每次完成迎战后，抽1张牌。每回合首次完成迎战时，获得1能量。",
                 ["VOLIBEAR_HUNTERS_HEART.flavor"] = "握住它时，指间会跳起细小的电火花。",
                 ["SEA_GLASS.VOLIBEAR_CHARACTER.title"] = "风暴海玻璃",
             },

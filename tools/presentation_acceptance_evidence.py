@@ -204,10 +204,15 @@ def validate(p, token, mode, artifact_dir):
 
 
 SHUTDOWN_RACE = ('ERROR: Invalid Task ID',)
+# Windows engine startup reads the OS root store through Godot's platform layer; an unavailable
+# store is emitted identically by the unmodded stock control, never a mod or presentation failure.
+ENGINE_STARTUP_NOISE = ('Failed to read the root certificate store',
+                        'get_system_ca_certificates (platform/windows/os_windows.cpp')
 
 
 def _engine_shutdown_race(line):
-    return line.strip() in SHUTDOWN_RACE or 'Unreferenced static string' in line
+    return (line.strip() in SHUTDOWN_RACE or 'Unreferenced static string' in line
+            or any(noise in line for noise in ENGINE_STARTUP_NOISE))
 
 
 def check_log(text,token,mode,artifact_dir):
