@@ -52,6 +52,10 @@ internal static class CardFaceAcceptanceProbe
         "B03" => ["plain","lethal"],
         "C02" or "U06" => ["plain","lethal","domain","conduction"],
         "C09" or "C22" => ["plain","domain","conduction"],
+        "C05" => ["plain","conduction"],
+        "C06" => ["plain","strength","domain","conduction","kill-retarget"],
+        "U07" => ["plain","strength","domain","conduction"],
+        "U08" => ["plain","marked","marked-strength"],
         "T01" => ["plain","converted","master","domain"],
         "T02" => ["plain","converted","master"],
         "C12" => ["plain","strength","negative-strength","dexterity","frail"],
@@ -70,7 +74,8 @@ internal static class CardFaceAcceptanceProbe
         "U21" => ["plain","prior1","prior2","prior5","second-instance"],
         "C26" or "U27" or "U36" or "U38" or "U40" or "R21" or "R24" => ["plain","prior1","prior2","prior5"],
         "R23" => ["plain","blocked"],
-        "C07" or "C15" => ["plain","empty","full-hand"],
+        "C07" => ["plain","empty","full-hand"],
+        "C15" => ["plain","zero","one","empty","insufficient","full-hand"],
         "C19" or "U39" or "U41" or "U43" or "R29" or "R30" => ["plain","empty"],
         "U42" => ["plain","empty","status","curse"],
         "R10" or "R25" => ["plain","zero","empty","insufficient","full-hand"],
@@ -79,6 +84,8 @@ internal static class CardFaceAcceptanceProbe
         "R12" => ["plain","empty","full-hand"],
         _ => ["plain"]
     };
+    private static string[] Branches(string id, bool upgraded) =>
+        Branches(id).Where(branch => id != "C15" || upgraded || branch is not ("zero" or "one" or "insufficient")).ToArray();
     private static string? Ref(CardModel? card) => card is null ? null : Cards.TryGetValue(card,out var id) ? id : throw new InvalidOperationException("Unbound face fixture identity");
     public static void Install(bool subscribe = true)
     {
@@ -108,7 +115,7 @@ internal static class CardFaceAcceptanceProbe
             var release=ReleaseInfoManager.Instance.ReleaseInfo;
             if (release is null || release.Version!=global::Volibear.Core.SupportedGameBuild.Version || release.Commit!=global::Volibear.Core.SupportedGameBuild.Commit || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("Pinned native release required for batch");
-            var allowed = Implemented.Split(' ').SelectMany(id => new[] { "base","upgrade" }.SelectMany(face => Branches(id).Select(branch => id+"-"+face+"-"+branch))).ToHashSet();
+            var allowed = Implemented.Split(' ').SelectMany(id => new[] { "base","upgrade" }.SelectMany(face => Branches(id,face == "upgrade").Select(branch => id+"-"+face+"-"+branch))).ToHashSet();
             if (string.IsNullOrWhiteSpace(token) || cases.Length == 0 || cases.Distinct().Count()!=cases.Length || cases.Any(c => !allowed.Contains(c)))
                 throw new InvalidOperationException("Batch requires unique explicit finite case selection and token");
             using var gameplayBatch = new NativeAcceptanceRunHost.GameplayBatchScope();
@@ -200,7 +207,7 @@ internal static class CardFaceAcceptanceProbe
             var variant = caseOverride ?? System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_CARD_FACE_CASE") ?? "";
             var parts = variant.Split('-',3);
             if (string.IsNullOrWhiteSpace(token) || parts.Length != 3 || !Implemented.Split(' ').Contains(parts[0]) ||
-                parts[1] is not ("base" or "upgrade") || !Branches(parts[0]).Contains(parts[2]))
+                parts[1] is not ("base" or "upgrade") || !Branches(parts[0],parts[1] == "upgrade").Contains(parts[2]))
                 throw new InvalidOperationException("Missing token or unknown finite face case");
             var id = parts[0]; bool upgraded = parts[1] == "upgrade"; var branch = parts[2];
             var release = ReleaseInfoManager.Instance.ReleaseInfo ?? throw new InvalidOperationException("No release metadata");
@@ -214,10 +221,10 @@ internal static class CardFaceAcceptanceProbe
                 enemies[1].Monster is not TwigSlimeS || enemies[2].Monster is not (LeafSlimeM or TwigSlimeM) || enemies.Any(e => e.Block != 0 || e.Powers.Any()))
                 throw new InvalidOperationException("Expected untouched three-slime starter fixture");
             var leafMonster = enemies[0].Monster ?? throw new InvalidOperationException("Fixture leaf has no native monster");
-            if (id is "B04" or "C04" or "C06" or "C10" or "C11" or "U28" or "U35")
+            if (id is "B04" or "C04" or "C10" or "C11" or "U28" or "U35")
             {
                 // LeafSlimeS starts on its native RAND branch (TACKLE_MOVE or GOOP_MOVE), so the
-                // first intent is combat-RNG dependent. Engage and intent-branch faces need the
+                // first intent is combat-RNG dependent. Engage faces need the
                 // real attacking move; select that existing native state explicitly.
                 var leafMachine = leafMonster.MoveStateMachine ?? throw new InvalidOperationException("Fixture leaf has no native move machine");
                 if (leafMachine.States["TACKLE_MOVE"] is not MoveState tackle)
@@ -264,10 +271,12 @@ internal static class CardFaceAcceptanceProbe
             var fixtureContext = new ThrowingPlayerChoiceContext();
             int prior = branch.StartsWith("prior") ? int.Parse(branch[5..]) : 0;
             for (int i = 0; i < prior; i++) await LightningCmd.DealAllEnemies(fixtureContext,owner,1m);
-            if (branch == "lethal") await CreatureCmd.SetMaxAndCurrentHp(enemies[0],id switch { "B01" => upgraded ? 9 : 6, "B03" => upgraded ? 11 : 8, "C02" => upgraded ? 7 : 5, _ => upgraded ? 11 : 8 });
+            if (branch == "lethal") await CreatureCmd.SetMaxAndCurrentHp(enemies[0],id switch { "B01" => upgraded ? 9 : 6, "B03" => upgraded ? 11 : 8, "C02" => upgraded ? 8 : 6, _ => upgraded ? 11 : 8 });
+            if (branch == "kill-retarget")
+                foreach (var enemy in enemies.Take(2)) await CreatureCmd.SetMaxAndCurrentHp(enemy,3m);
             if (branch == "blocked") await CreatureCmd.GainBlock(enemies[0],100m,ValueProp.Unpowered,null);
             if ((id is "U05" or "R05" or "R07") && branch != "zero-block") await CreatureCmd.GainBlock(owner,10m,ValueProp.Unpowered,null);
-            if (branch == "strength") await PowerCmd.Apply<StrengthPower>(fixtureContext,owner,3m,owner,null);
+            if (branch is "strength" or "marked-strength") await PowerCmd.Apply<StrengthPower>(fixtureContext,owner,3m,owner,null);
             if (branch == "negative-strength") await PowerCmd.Apply<StrengthPower>(fixtureContext,owner,-3m,owner,null);
             if (branch == "weak") await PowerCmd.Apply<WeakPower>(fixtureContext,owner,1m,owner,null);
             if (branch == "vulnerable") await PowerCmd.Apply<VulnerablePower>(fixtureContext,enemies[0],1m,owner,null);
@@ -316,6 +325,30 @@ internal static class CardFaceAcceptanceProbe
                     masterUnchanged = ReferenceEquals(master,original.DeckVersion),materialMasterUpgradedBefore = masterUpgrade,materialMasterUpgradedAfter = original.DeckVersion?.IsUpgraded,pileBefore = pile,pileAfter = source.Pile?.Type.ToString(),
                     originalExhausted = CombatManager.Instance.History.Entries.OfType<CardExhaustedEntry>().Any(e => ReferenceEquals(e.Card,original)) });
             }
+            if (id == "U08" && branch.StartsWith("marked"))
+            {
+                // The mark is an owner/target/actual-play ledger, so establish it with
+                // a real paid card. A synthetic BiteMarkPower alone cannot prime it.
+                var primer = new PlayCardAction(source,enemies[0]);
+                RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(primer);
+                await Until(() => primer.CompletionTask.IsCompleted,"Bite primer did not finish");
+                await primer.CompletionTask;
+                if (primer.Exception is not null) throw new InvalidOperationException("Bite primer fault",primer.Exception);
+                if (!BiteMarks.Has(owner,enemies[0])) throw new InvalidOperationException("Native bite primer did not mark target");
+                await CardPileCmd.Add(source,PileType.Hand);
+                await CreatureCmd.LoseBlock(
+#if STS2_BETA
+                    fixtureContext,
+#endif
+                    owner,owner.Block
+#if STS2_BETA
+                    ,null
+#endif
+                    );
+                await CreatureCmd.SetMaxAndCurrentHp(enemies[0],500m);
+                await PlayerCmd.SetEnergy(10,p);
+                Payments.Clear();Effects.Clear();
+            }
             var sourceIndexBefore = NetCombatCard.FromModel(source).CombatCardIndex;
             var sourceMasterBefore = source.DeckVersion;
             var sourceMasterUpgradedBefore = sourceMasterBefore?.IsUpgraded;
@@ -340,11 +373,13 @@ internal static class CardFaceAcceptanceProbe
                     await AddSelection("alternate",branch == "status" ? "INJURY" : "SLIMED",PileType.Hand);
                 }
                 else if (branch == "insufficient")
-                    await AddSelection("selected",id == "R25" ? "B02" : "B01",id == "R10" ? PileType.Discard : id == "R25" ? PileType.Draw : PileType.Hand);
+                    await AddSelection("selected",id == "R25" ? "B02" : "B01",id is "C15" or "R10" ? PileType.Discard : id == "R25" ? PileType.Draw : PileType.Hand);
                 else switch (id)
                 {
                     case "C07": await AddSelection("selected","B01",PileType.Draw); await AddSelection("alternate","B01",PileType.Draw); break;
-                    case "C15": await AddSelection("selected","B01",PileType.Discard); await AddSelection("alternate","R07",PileType.Discard); break;
+                    case "C15":
+                        await AddSelection("selected","B01",PileType.Discard); await AddSelection("alternate","R07",PileType.Discard);
+                        await AddSelection("third","B02",PileType.Discard); break;
                     case "U39": await AddSelection("selected","R07",PileType.Draw); await AddSelection("alternate","R23",PileType.Draw); break;
                     case "U43": await AddSelection("selected","B01",PileType.Draw); await AddSelection("alternate","B02",PileType.Hand); await AddSelection("third","B02",PileType.Draw); break;
                     case "R10":
@@ -437,6 +472,7 @@ internal static class CardFaceAcceptanceProbe
                     if (!ReferenceEquals(request.Action,action)) throw new InvalidOperationException("Wrong queued action owns selection");
                     return branch == "zero" ? Array.Empty<CardModel>() : material is not null ? new[] { material } :
                         id == "U17" ? request.Options.Take(2).ToArray() :
+                        id == "C15" ? tracked.Take(Math.Min(upgraded && branch != "one" ? 2 : 1,request.Max)).ToArray() :
                         id == "R10" ? tracked.Take(Math.Min(upgraded ? 4 : 3,request.Max)).ToArray() :
                         id == "R27" ? tracked.Take(upgraded ? 3 : 2).ToArray() :
                         id == "R25" ? tracked.Take(Math.Min(2,request.Max)).ToArray() : new[] { tracked[0] };

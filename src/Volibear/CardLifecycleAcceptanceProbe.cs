@@ -274,15 +274,18 @@ internal static class CardLifecycleAcceptanceProbe
         { await Play("B01", prefix + "-first", 0); await Play("C24", prefix + "-second"); return; }
         if (code == "U32")
         {
-            if (prefix == "same-turn") await Play("U07", prefix + "-initial-coupon", 2);
+            // U06 remains two cost: both coupon faces remain observable after
+            // U07 became a one-cost card, without involving lightning discounts.
+            if (prefix == "same-turn") await Play("U06", prefix + "-initial-coupon", 2);
             await Play("B04", prefix + "-first", 0);
-            await Play("U07", prefix + "-coupon", 1);
+            await Play("U06", prefix + "-coupon", 1);
             await Play("B04", prefix + "-second", 1);
-            await Play("U07", prefix + "-spent", 2); return;
+            await Play("U06", prefix + "-spent", 2); return;
         }
         string trigger = code is "U04" or "U19" or "R18" or "U03" or "R02" ? "B04" : code is "U21" or "U34" or "U29" ? "C24" : "B01";
         await Play(trigger, prefix + "-first", trigger == "C24" ? -1 : 0);
         await Play(code == "R16" ? "B04" : trigger, prefix + "-second", trigger == "C24" ? -1 : code is "U04" or "U19" or "R18" or "U03" or "R02" ? 1 : 0);
+        if (code == "R16") await Play("B02", prefix + "-skill-replay", replay: 1);
         if (code is "U25" or "U26" or "U26-extra")
         {
             await Play("B01", prefix + "-third", 1);
@@ -293,10 +296,10 @@ internal static class CardLifecycleAcceptanceProbe
     {
         if (code == "U07")
         {
-            await Play("B01", "history-replayed-attack-counts-once", 0, replay: 1);
-            await Play("U07", "history-same-target", 0, upgraded);
-            await Play("U07", "history-other-target", 1, upgraded);
-            await Play("U07", "history-return-target", 0, upgraded);
+            await Play("B01", "multi-hit-replayed-prior-attack", 0, replay: 1);
+            await Play("U07", "fixed-cost-same-target", 0, upgraded);
+            await Play("U07", "fixed-cost-other-target", 1, upgraded);
+            await Play("U07", "fixed-cost-return-target", 0, upgraded, replay: 1);
         }
         else if (code == "U08")
         {
@@ -321,7 +324,7 @@ internal static class CardLifecycleAcceptanceProbe
     }
     private static async Task FollowingHistory()
     {
-        if (code == "U07") await Play("U07", "history-next-turn-reset", 0, upgraded);
+        if (code == "U07") await Play("U07", "fixed-cost-next-turn", 0, upgraded);
         else if (code == "U08")
         {
             await Play("U08", "bite-next-turn-marked", 0, upgraded);

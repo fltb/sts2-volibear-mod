@@ -61,7 +61,7 @@ internal static class PreparedContractProbe
         {
             var token = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_TOKEN");
             var variant = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_PREPARED_CASE");
-            if (string.IsNullOrWhiteSpace(token) || variant is not ("PR-training-dynamic-spells" or "PR-training-native-domain" or "PR-guard-instances" or "PR-replay-paid"))
+            if (string.IsNullOrWhiteSpace(token) || variant is not ("PR-training-dynamic-spells" or "PR-training-native-domain" or "PR-guard-instances" or "PR-replay-paid" or "PR-bite-segments"))
                 throw new InvalidOperationException("Missing token or unsupported prepared case; NOT_RUN");
             if (MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn) throw new InvalidOperationException("TestMode forbidden");
             player = state.Players.Single();
@@ -169,6 +169,19 @@ internal static class PreparedContractProbe
                 trigger = new { operation = "DamageCmd.Attack.FromMonster.Execute", dealer = leaf.CombatId, before, after = Snapshot(),
                     damage = DamageRows(CombatManager.Instance.History.Entries.Skip(boundary).OfType<DamageReceivedEntry>(), owner) };
             }
+            else if (variant == "PR-bite-segments")
+            {
+                // All setup uses actual paid cards. The marked-target replay must
+                // amplify each ordinary segment while Domain stays once per play.
+                await Play(await Create<Volibear_R06>("unify"));
+                await Play(await Create<Volibear_C14>("guard"));
+                await Play(await Create<Volibear_U02>("conduction"));
+                await Play(await Create<Volibear_U08>("bite-mark"), enemies[0]);
+                await Play(await Create<Volibear_U10>("training"));
+                await Play(await Create<Volibear_U11>("replay"));
+                await Play(await Create<Volibear_U08>("bite-trained"), enemies[0]);
+                await Play(await Create<Volibear_U08>("bite-upgrade", true), enemies[0]);
+            }
             else
             {
                 await Play(await Create<Volibear_U11>("replay"));
@@ -215,11 +228,18 @@ internal static class PreparedContractProbe
         {
             await original;
             if (player is null || !ReferenceEquals(play.Card.Owner, player)) return;
+            object? bitePreview = null;
+            if (play.Card is Volibear_U08)
+            {
+                var bite = play.Card.DynamicVars["Bite"];
+                bite.UpdateCardPreview(play.Card, CardPreviewMode.Normal, play.Target, runGlobalHooks: true);
+                bitePreview = new { type = bite.GetType().Name, amount = bite.PreviewValue };
+            }
             BeforeEffects.Add(new { cardRef = Ref(play.Card), index = play.PlayIndex, count = play.PlayCount,
                 playId = CardResolutionHooks.CurrentPlayId(play.Card), autoPlay = play.IsAutoPlay,
                 energy = player.PlayerCombatState!.Energy, spent = play.Resources.EnergySpent,
                 block = player.Creature.Block, pendingTraining = player.Creature.GetPowerAmount<NextAttackTrainingPower>(),
-                training = CardDamageTraining.Current(play.Card), replay = player.Creature.GetPowerAmount<NextAttackReplayPower>() });
+                training = CardDamageTraining.Current(play.Card), replay = player.Creature.GetPowerAmount<NextAttackReplayPower>(), bitePreview });
         }
     }
 }

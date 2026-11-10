@@ -1,5 +1,5 @@
 """Strict raw-observation comparator. U32 proves native action-queue payment, not mouse input.
-The 19 hand-authored fixture cases remain the denominator; unsupported cases are NOT_RUN.
+All hand-authored fixture cases remain the denominator; unsupported cases are NOT_RUN.
 """
 import json
 from pathlib import Path
@@ -11,7 +11,7 @@ PREFIX = '[Volibear] PERSISTENT_CONTRACT_RESULT '
 PERSISTENT_CASES = ('PP-U21-deploy-at-three', 'PP-U21-two-independent', 'PP-U26-before-effects',
                     'PP-U25-replay', 'PP-U25-purification', 'PP-R02-unpowered', 'PP-R02-no-consumption')
 ADDITIONAL_CASES = ('PP-U02-instances','PP-U02-domain-order','PP-U03-min-stack','PP-U03-other-retention','PP-U03-clamp-priority',
-                    'PP-R16-positive-own-block','PP-R16-passive-block-excluded','PP-U34-per-batch')
+                    'PP-R16-positive-own-block','PP-R16-attack-block-excluded','PP-R16-passive-block-excluded','PP-U34-per-batch')
 ENGAGEMENT_CASES = ('PP-U04-independent-first','PP-U19-draw-before-extend','PP-R18-independent-batches')
 SPECIAL_CASES = ('PP-U25-live-finish-count','PP-U32-max-coupon')
 PERSISTENT_CASES += ADDITIONAL_CASES + ENGAGEMENT_CASES + SPECIAL_CASES
@@ -259,6 +259,7 @@ def _additional(r,token,case):
     else:_need(_eq(prep['preparations'],[]) and _eq(prep['moves'],[]) and _eq(prep['damage'],[]))
     powers=[];final=[];setup=[];block0=0;block1=0;enemyBlock0=[0]*len(ids);enemyBlock1=[0]*len(ids)
     enemyHp=[100]*len(ids);count=0;batch_specs=[];damage=[];replay=0;strength=0;dexterity=0
+    played_type="Volibear_B01";attack_ordinal=1
     def hit(e,n,props=8,card='played',blocked=0):return dict(target=e,playerTarget=False,hpLost=n,blocked=blocked,props=props,cardRef=card)
     def app(t,n):return dict(type=t,amount=n)
     if case=='PP-U02-instances':
@@ -275,10 +276,13 @@ def _additional(r,token,case):
     elif case=='PP-U34-per-batch':
         powers=[('ThunderArmorPower',3),('ThunderArmorPower',4)];setup=[app(t,n) for t,n in powers]
         block1=oracle['block'];count=oracle['lightning_count'];enemyBlock0=[10]*3;enemyBlock1=[9]*3;batch_specs=[(1,0,None,1)]
-    elif case=='PP-R16-positive-own-block':
-        powers=[('BattleBodyPower',2)];setup=[app('BattleBodyPower',2)];replay=1;block1=10;enemyHp=[90,100,100]
-        strength=oracle['strength_gained'];dexterity=oracle['dexterity_gained'];damage=[hit(ids[0],5)]*2
-        final=[('StrengthPower',strength),('DexterityPower',dexterity)]
+    elif case in ('PP-R16-positive-own-block','PP-R16-attack-block-excluded'):
+        powers=[('BattleBodyPower',2)];setup=[app('BattleBodyPower',2)];replay=1;block1=oracle['block']
+        strength=oracle['strength_gained'];dexterity=oracle['dexterity_gained']
+        if case=='PP-R16-positive-own-block':
+            played_type='Volibear_B02';attack_ordinal=0;final=[('DexterityPower',dexterity)]
+        else:
+            played_type='IronWave';enemyHp=oracle['enemy_hp'];damage=[hit(ids[0],5)]*2;final=[('StrengthPower',strength)]
     else:
         powers=[('BattleBodyPower',1),('ThunderArmorPower',3),('DomainPower',1)];setup=[app('BattleBodyPower',1),app('ThunderArmorPower',3)]
         strength=oracle['strength_gained'];dexterity=oracle['dexterity_gained'];block1=oracle['block'];count=1;enemyHp=[90,96,96]
@@ -303,14 +307,16 @@ def _additional(r,token,case):
         for key in ('beforeEffects','finishedEffects','playHistory'):_need(_eq(r[key],[]))
         _need(r['played'] is None)
     else:
-        _need(_eq(r['played'],dict(cardRef='played',type='IronWave' if replay else 'Volibear_B01',replay=replay)))
+        _need(_eq(r['played'],dict(cardRef='played',type=played_type,replay=replay)))
         plays=[dict(cardRef='played',index=i,count=1+replay) for i in range(1+replay)]
         _need(_eq(r['playHistory'],plays) and len(r['beforeEffects'])==len(plays) and len(r['finishedEffects'])==len(plays))
         play_id=r['beforeEffects'][0]['playId'];_need(type(play_id) is int and play_id>0)
         for i,p in enumerate(plays):
-            _need(_eq(r['beforeEffects'][i],dict(p,playId=play_id,ordinal=1,strength=0,storm=2 if case=='PP-U02-domain-order' else 0)))
+            _need(_eq(r['beforeEffects'][i],dict(p,playId=play_id,ordinal=attack_ordinal,strength=0,storm=2 if case=='PP-U02-domain-order' else 0)))
             _need(_eq(r['finishedEffects'][i],dict(p,playId=play_id,actualCompleted=i==replay,strength=strength if i==replay else 0,dexterity=dexterity if i==replay else 0)))
         if not replay:damage=[hit(ids[0],6)]
+        if case in ('PP-R16-positive-own-block','PP-R16-attack-block-excluded'):
+            _need(sum(row['actualCompleted'] for row in r['finishedEffects'])==oracle['actual_finish_responses'])
     _need(len(r['batches'])==len(batch_specs))
     batch_ids=[]
     for index,(row,(base,storm,card,blocked)) in enumerate(zip(r['batches'],batch_specs),1):

@@ -129,7 +129,7 @@
     "file": "Core/PersistentPowers.cs",
     "model": "BattleBodyPower",
     "title": "愈战神躯",
-    "text": "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。",
+    "text": "每张实际攻击牌结算后，获得{Amount}力量；每张实际提供正数格挡的技能牌结算后，获得{Amount}敏捷。",
     "icon": null
   },
   {

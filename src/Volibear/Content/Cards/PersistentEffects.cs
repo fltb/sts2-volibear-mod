@@ -37,13 +37,13 @@ public sealed class Volibear_U03 : VolibearCard
 {
     public Volibear_U03() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, "u03") { }
     public override List<(string, string)> Localization => new CardLoc("屹立", "获得{Block:diff()}格挡。留甲{Decay:diff()}。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, Move), new DynamicVar("Decay", 6m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move), new DynamicVar("Decay", 6m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DirectEffects.Block(this, play, Value("Block"));
         await StandingPower.Deploy(context, Owner.Creature, (int)Value("Decay"), this);
     }
-    protected override void OnUpgrade() { UpgradeVar("Block", 4m); UpgradeVar("Decay", -3m); }
+    protected override void OnUpgrade() { UpgradeVar("Block", 3m); UpgradeVar("Decay", -3m); }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_U04")]
@@ -147,28 +147,28 @@ public sealed class Volibear_R02 : VolibearCard
 {
     public Volibear_R02() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self, "r02") { }
     public override List<(string, string)> Localization => new CardLoc("不动神躯", "获得{Block:diff()}格挡。坚甲。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         // rare.ts becomes immovable before granting its card block.
         await ImmovableBodyPower.Deploy(context, Owner.Creature, this);
         await DirectEffects.Block(this, play, Value("Block"));
     }
-    protected override void OnUpgrade() => UpgradeVar("Block", 5m);
+    protected override void OnUpgrade() => UpgradeVar("Block", 3m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_R16")]
 public sealed class Volibear_R16 : VolibearCard
 {
     public Volibear_R16() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, "r16") { }
-    public override List<(string, string)> Localization => new CardLoc("愈战神躯", "{IfUpgraded:show:获得{Block:diff()}格挡。}每打出1张攻击牌后，获得1力量；若该牌提供了格挡，再获得1敏捷。");
+    public override List<(string, string)> Localization => new CardLoc("愈战神躯", "{IfUpgraded:show:获得{Block:diff()}格挡。}每打出1张攻击牌后，获得1力量；每打出1张提供了格挡的技能牌后，获得1敏捷。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(0m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await PersistentEffects.Deploy<BattleBodyPower>(context, this, 1);
         if (IsUpgraded) await DirectEffects.Block(this, play, Value("Block"));
     }
-    protected override void OnUpgrade() => UpgradeVar("Block", 8m);
+    protected override void OnUpgrade() => UpgradeVar("Block", 5m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_R18")]

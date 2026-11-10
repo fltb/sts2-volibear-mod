@@ -17,12 +17,12 @@ def _role_order_receipt(case,medium='TwigSlimeM'):
     charge=3 if case=='CP-max-preserve' else 1
     desc.append(('engage-coupon','U14',False,'engage-coupon',0,(1,1,charge),5))
     if case.startswith('CP-elig-'):
-        code=case[8:];paid,attack,block={'B04':(0,0,10),'C04':(0,0,3),'C10':(0,0,10),'C11':(0,1,10),'U28':(1,1,14),'U35':(0,1,10),'R09':(1,1,13)}[code]
+        code=case[8:];paid,attack,block={'B04':(0,0,12),'C04':(0,0,3),'C10':(0,0,10),'C11':(0,1,14),'U28':(1,1,14),'U35':(0,1,10),'R09':(1,1,13)}[code]
         desc.append(('target',code,False,'target',paid,(attack,0,1),block))
     elif case=='CP-max-preserve':
         desc += [('engage-coupon-upgrade','U14',True,'engage-coupon-upgrade',0,(1,1,3),13),('noneligible','B02',False,'noneligible',1,(1,1,3),18),
                  ('target','C10',False,'invalid-target',0,(1,1,3),18),('target','C10',False,'target',0,(0,0,3),23)]
-    elif case=='CP-zero-consume':desc += [('zero-attack','C01',False,'zero-attack',0,(0,1,1),5),('target','B04',False,'target',0,(0,0,1),10)]
+    elif case=='CP-zero-consume':desc += [('zero-attack','C01',False,'zero-attack',0,(0,1,1),5),('target','B04',False,'target',0,(0,0,1),12)]
     elif case=='CP-expiry':desc += [('target','C10',False,'target',2,(0,0,1),8)]
     else:
         attack=case=='CP-beast-attack'

@@ -117,10 +117,13 @@ class ControlledCardSourceContracts(unittest.TestCase):
         self.assertIn("Owner.RunState.Rng.CombatTargets.NextItem(candidates)", wave)
         self.assertIn('DirectEffects.Attack(context, this, target, Value("Damage"))', wave)
         self.assertIn('LightningCmd.Deal(context, new[] { target }, Value("Lightning"), this)', wave)
+        c06 = self.cards["C06"]
+        self.assertIn("TargetingRandomOpponents(Owner.Creature.CombatState!)", c06)
+        self.assertIn('.WithHitCount((int)Value("Hits")).Execute(context)', c06)
+        self.assertEqual(c06.count("DamageCmd.Attack"), 1)
+        self.assertNotIn("for (var hit", c06)
         self.assertIn("ValueProp.Unpowered | Move", self.cards["R05"])
         self.assertIn('Owner.Creature.Block * (Value("Multiplier") - 1m)', self.cards["R05"])
-        c06 = self.cards["C06"]
-        self.assertLess(c06.index("Monster?.IntendsToAttack"), c06.index("await DirectEffects.Attack"))
         c31 = self.cards["R31"]
         sequence = ["await DirectEffects.Block", "await DomainPower.Open", "await CreatureCmd.LoseBlock", "await DirectEffects.Attack", "await LightningCmd.DealAllEnemies"]
         positions = [c31.index(token) for token in sequence]

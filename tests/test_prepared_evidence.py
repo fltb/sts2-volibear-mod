@@ -32,6 +32,16 @@ def specimen(case, medium='LeafSlimeM'):
     elif case == 'PR-guard-instances':
         rows = [('unify','R06',2,10,[500]*3,base,0,0), ('guard-base','C14',2,18,[500]*3,guard1,0,0),
                 ('guard-upgrade','C14',2,29,[500]*3,guard2,0,0)]
+    elif case == 'PR-bite-segments':
+        active = guard1 + [('StormConductionPower',3)]
+        prepared = active + [('NextAttackTrainingPower',3)]
+        rows = [('unify','R06',2,10,[500]*3,base,0,0), ('guard','C14',2,18,[500]*3,guard1,0,0),
+                ('conduction','U02',1,18,[494]*3,active,0,1),
+                ('bite-mark','U08',1,24,[471,487,487],active,0,3),
+                ('training','U10',1,24,[471,487,487],prepared,1,3),
+                ('replay','U11',1,24,[471,487,487],prepared+[('NextAttackReplayPower',1)],0,3),
+                ('bite-trained','U08',1,36,[387,471,471],active,0,8),
+                ('bite-upgrade','U08',1,45,[342,461,461],active,0,11)]
     else:
         rows = [('replay','U11',1,0,[500]*3,[('NextAttackReplayPower',1)],0,0),
                 ('bite-first','U08',1,12,[480,500,500],[],0,0), ('bite-next','U08',1,18,[464,500,500],[],0,0)]
@@ -59,7 +69,7 @@ def specimen(case, medium='LeafSlimeM'):
                                  hits=[dict(target=e,hpLost=amount,blocked=0) for e in targets]))
     previous = initial
     for i,(label,code,cost,block,enemy_hp,powers,n_draw,count) in enumerate(rows,1):
-        upgraded=label=='guard-upgrade'
+        upgraded=label in ('guard-upgrade','bite-upgrade')
         cards.append(dict(cardRef=label,modelId='VOLIBEAR_'+code,upgraded=upgraded,masterIndex=-1))
         before=copy.deepcopy(previous);before['hand'].append(label)
         energy=before['energy']-cost
@@ -68,13 +78,17 @@ def specimen(case, medium='LeafSlimeM'):
         after.update(energy=energy,block=block,enemyHp=list(enemy_hp),powers=power_rows(powers),lightningCount=count,
                      hand=previous['hand']+new,draw=previous['draw'][n_draw:])
         if code=='U08': after['marks']=[1,0,0]
-        repeat=2 if label=='bite-first' else 1
-        trained=3 if label=='attack' else 0
+        repeat=2 if label in ('bite-first','bite-trained') else 1
+        trained=3 if label in ('attack','bite-trained') else 0
         pending_amount=next((p['amount'] for p in before['powers'] if p['type']=='NextAttackTrainingPower'),0)
         if code in ('U05','B03','U08'): pending_amount=0
+        bite_preview = dict(type='DamageVar', amount={
+            'bite-first':6, 'bite-next':6, 'bite-mark':12, 'bite-trained':15, 'bite-upgrade':15,
+        }[label]) if code=='U08' else None
         for j in range(repeat):
             r['beforeEffects'].append(dict(cardRef=label,index=j,count=repeat,playId=100+i,autoPlay=False,energy=energy,spent=cost,
-                                          block=before['block']+(6*j if code=='U08' else 0),pendingTraining=pending_amount,training=trained,replay=0))
+                                          block=before['block']+((9 if upgraded else 6)*j if code=='U08' else 0),pendingTraining=pending_amount,
+                                          training=trained,replay=0,bitePreview=bite_preview))
         r['payments'].append(dict(cardRef=label,amount=cost,energy=energy))
         r['actions'].append(dict(cardRef=label,id=i,target=11 if code in ('B03','U05','U08') else None,state='Finished',
                                  type='PlayCardAction',actionType='CombatPlayPhaseOnly',sameCard=True,context='GameActionPlayerChoiceContext',
@@ -92,9 +106,18 @@ def specimen(case, medium='LeafSlimeM'):
         elif code=='B03':
             hits=[damage(11,17,label,8)]+[damage(e,n,label) for n in (4,9) for e in ids]
             batch(4,4,label);batch(3,9,label)
-        elif code=='U08': hits=[damage(11,10 if repeat==2 else 16,label,8) for _ in range(repeat)]
+        elif code=='U02':
+            hits=[damage(e,6,label) for e in ids];batch(6,6,label)
+        elif code=='U08':
+            amounts = {'bite-first':[10,10], 'bite-next':[10,6], 'bite-mark':[16],
+                       'bite-trained':[19,15,19,15], 'bite-upgrade':[20,15]}[label]
+            hits=[damage(11,n,label,8) for n in amounts]
+            if case=='PR-bite-segments':
+                hits += [damage(e,4,label) for e in ids];batch(4,4,label)
+                for _ in amounts:
+                    hits += [damage(e,3,None) for e in ids];batch(3,3,None)
         lookup={c['cardRef']:c['modelId'] for c in cards}
-        r['steps'].append(dict(cardRef=label,before=before,after=copy.deepcopy(after),finalPile='Exhaust' if code=='R06' or code=='C14' and not upgraded else 'Discard',
+        r['steps'].append(dict(cardRef=label,before=before,after=copy.deepcopy(after),finalPile=None if code=='U02' else 'Exhaust' if code=='R06' or code=='C14' and not upgraded else 'Discard',
                                training=trained,plays=[dict(cardRef=label,index=j,count=repeat) for j in range(repeat)],
                                draws=[dict(cardRef=c,modelId=lookup[c],fromHandDraw=False) for c in new],moves=moves,damage=hits))
         previous=after
@@ -128,9 +151,31 @@ class PreparedEvidenceTests(unittest.TestCase):
                        lambda r:r['steps'][1]['damage'][1].update(hpLost=16),
                        lambda r:r['steps'][1]['after'].update(block=6),
                        lambda r:r['actions'][1].update(context='ThrowingPlayerChoiceContext'),
-                       lambda r:r['steps'][2]['damage'][0].update(hpLost=10)]:
+                       lambda r:r['steps'][2]['damage'][0].update(hpLost=16)]:
             r=specimen('PR-replay-paid');mutate(r)
             self.assertFalse(evidence.validate_prepared_result(r,'run-token',r['variant']))
+
+    def test_bite_segments_scaling_trigger_units_and_native_preview(self):
+        case='PR-bite-segments'
+        for mutate in [lambda r:r['steps'][3]['damage'].append(dict(r['steps'][3]['damage'][0],hpLost=12)),
+                       lambda r:r['steps'][6]['damage'][1].update(hpLost=6),
+                       lambda r:r['steps'][6]['damage'][3].update(hpLost=12),
+                       lambda r:r['steps'][7]['damage'][1].update(hpLost=9),
+                       lambda r:r['steps'][6]['after'].update(lightningCount=9),
+                       lambda r:r['batches'].pop(),
+                       lambda r:r['batches'][4].update(amount=6),
+                       lambda r:r['beforeEffects'][6]['bitePreview'].update(type='DynamicVar'),
+                       lambda r:r['beforeEffects'][6]['bitePreview'].update(amount=6)]:
+            r=specimen(case);mutate(r)
+            self.assertFalse(evidence.validate_prepared_result(r,'run-token',case))
+        # Both mutations retain total ordinary HP loss. They must still fail:
+        # a merged hit loses per-segment modifiers/triggers; reversed hits change lethal order.
+        r=specimen(case)
+        r['steps'][6]['damage'][:2]=[dict(r['steps'][6]['damage'][0],hpLost=34)]
+        self.assertFalse(evidence.validate_prepared_result(r,'run-token',case))
+        r=specimen('PR-replay-paid')
+        r['steps'][2]['damage'].reverse()
+        self.assertFalse(evidence.validate_prepared_result(r,'run-token',r['variant']))
 
     def test_dynamic_damage_and_skill_training_nonconsumption(self):
         for mutate in [lambda r:r['steps'][4]['damage'][0].update(hpLost=10),

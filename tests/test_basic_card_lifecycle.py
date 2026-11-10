@@ -13,7 +13,7 @@ class BasicCardLifecycleTests(unittest.TestCase):
         runtime = fixture_runtime(self, 'sdk', root=ROOT)
         result = runtime.run('tests/card_lifecycle/CardLifecycle.csproj', timeout=120)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn('CARD_LIFECYCLE_UNIT_OK checks=20 engine=STUBBED native-gameplay=NOT_RUN', result.stdout)
+        self.assertIn('CARD_LIFECYCLE_UNIT_OK checks=21 engine=STUBBED native-gameplay=NOT_RUN', result.stdout)
 
 
 if __name__ == '__main__':

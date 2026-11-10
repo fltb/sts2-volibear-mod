@@ -7,7 +7,7 @@ import unittest
 from tools import card_face_evidence as gate
 
 
-def synthetic(variant):
+def synthetic(variant, *, random_targets=None):
     c,face,b=variant.split('-',2)
     originals=[f'starter-{i}' for i in range(10)]
     models=['B01']*4+['B02']*4+['B03','B04']
@@ -29,7 +29,7 @@ def synthetic(variant):
         cards.append(dict(cardRef=ref,modelId=model if model in ('SLIMED','INJURY') else 'VOLIBEAR_'+model,
                           upgraded=ref in ('source','source-material') and face=='upgrade',combatCardIndex=len(cards),sameObject=True,
                           ownerId=0,masterIndex=-1,masterModelId=None))
-    e=gate.expected_observations(variant,originals);aid=7;lookup={x['cardRef']:x for x in cards}
+    e=gate.expected_observations(variant,originals,random_targets=random_targets);aid=7;lookup={x['cardRef']:x for x in cards}
     source=lookup['source']
     identity=dict(indexBefore=source['combatCardIndex'],masterIndexBefore=source['masterIndex'],sameMaster=True,
                   masterUpgradedBefore=None,masterUpgradedAfter=None)
@@ -78,6 +78,7 @@ def synthetic(variant):
         def eligible(ref):
             model=lookup[ref]['modelId']
             if c in ('C07','C19','U41'):return model in ('VOLIBEAR_B01','VOLIBEAR_B03','VOLIBEAR_B04')
+            if c=='C15':return model in ('VOLIBEAR_B01','VOLIBEAR_B03','VOLIBEAR_B04','VOLIBEAR_R07')
             if c=='U39':return ref in ('selected','alternate')
             if c=='R25':return model=='VOLIBEAR_B02'
             return True
@@ -293,6 +294,86 @@ class CardFaceEvidenceTests(unittest.TestCase):
         self.assertEqual([x['cardRef'] for x in r['batches']],[None,'source',None,'source'])
         r['batches'][0]['cardRef']='source';self.assertFalse(self.valid(r))
 
+    def test_thunder_claw_resolves_each_hit_but_attaches_domain_once(self):
+        for face,hits in (('base',2),('upgrade',3)):
+            r=synthetic(f'C05-{face}-conduction')
+            self.assertTrue(self.valid(r))
+            ordinary=[d for d in r['history']['damage'] if d['props']==8]
+            self.assertEqual([d['hpLost'] for d in ordinary],[3]*hits)
+            self.assertEqual([b['amount'] for b in r['batches']],[4]+[3]*hits)
+            self.assertEqual([b['cardRef'] for b in r['batches']],['source']+[None]*hits)
+            self.assertEqual(r['after']['lightningCount'],1+hits)
+            bad=deepcopy(r);bad['batches'].append(deepcopy(bad['batches'][0]))
+            self.assertFalse(self.valid(bad))
+
+    def test_random_multihit_retains_all_hits_and_never_retargets_a_dead_enemy(self):
+        for face,hits in (('base',3),('upgrade',4)):
+            r=synthetic(f'C06-{face}-kill-retarget',random_targets=(0,1,2,2))
+            self.assertTrue(self.valid(r))
+            self.assertIsNone(r['action']['target'])
+            self.assertEqual(r['batches'],[])
+            self.assertEqual(r['after']['enemyHp'],[0,0,500-3*(hits-2)])
+            self.assertEqual([d['target'] for d in r['history']['damage']],[0,1,2,2][:hits])
+            bad=deepcopy(r)
+            bad['history']['damage'][1]['target']=0
+            bad['history']['sequence'][1]['target']=0
+            with self.assertRaisesRegex(ValueError,'random hit must choose a living enemy'):
+                gate._validate(bad,bad['token'],bad['variant'])
+            bad=deepcopy(r);bad['history']['damage'].pop()
+            with self.assertRaisesRegex(ValueError,'complete random hit count'):
+                gate._validate(bad,bad['token'],bad['variant'])
+            strengthened=synthetic(f'C06-{face}-strength',random_targets=(0,1,2,0))
+            self.assertTrue(self.valid(strengthened))
+            self.assertEqual([d['hpLost'] for d in strengthened['history']['damage']],[6]*hits)
+
+    def test_recovery_upgrade_zero_one_two_and_capacity_keep_original_costs(self):
+        self.assertNotIn('C15-base-zero',gate.CARD_FACE_CASES)
+        base=synthetic('C15-base-plain')
+        self.assertEqual((base['selections'][0]['min'],base['selections'][0]['max']),(1,1))
+        for branch,count,maximum in (('zero',0,2),('one',1,2),('plain',2,2),('insufficient',1,1),('full-hand',1,1)):
+            r=synthetic(f'C15-upgrade-{branch}')
+            self.assertTrue(self.valid(r))
+            choice=r['selections'][0]
+            self.assertEqual((choice['min'],choice['max'],len(choice['selected'])),(0,maximum,count))
+            self.assertNotIn('third',choice['options'])
+            self.assertEqual(r['payments'][0]['amount'],0)
+            for card in r['after']['selectedCards']:
+                self.assertEqual(card['discount'],0)
+                self.assertEqual(card['cost'],2 if card['cardRef']=='alternate' else 1)
+            if count:
+                bad=deepcopy(r);bad['after']['selectedCards'][0]['discount']=1
+                self.assertFalse(self.valid(bad))
+        both=synthetic('C15-upgrade-plain')
+        self.assertEqual(both['after']['hand'],['selected','alternate'])
+        self.assertEqual(both['after']['discard'],['third','source'])
+
+    def test_bite_mark_adds_a_separate_strength_scaled_hit(self):
+        for face,damage,bite in (('base',10,6),('upgrade',14,9)):
+            plain=synthetic(f'U08-{face}-plain')
+            self.assertEqual([d['hpLost'] for d in plain['history']['damage']],[damage])
+            for branch,strength in (('marked',0),('marked-strength',3)):
+                r=synthetic(f'U08-{face}-{branch}')
+                self.assertTrue(self.valid(r))
+                self.assertEqual([d['hpLost'] for d in r['history']['damage']],[damage+strength,bite+strength])
+                self.assertEqual(r['before']['enemyPowers'][0],{'BiteMarkPower':1})
+                self.assertFalse(any(e['kind']=='power' for e in r['history']['sequence']))
+                bad=deepcopy(r)
+                bad['history']['damage'][0]['hpLost']+=bad['history']['damage'][1]['hpLost']
+                bad['history']['damage'].pop()
+                self.assertFalse(self.valid(bad))
+
+    def test_rebalanced_entry_values_and_upgrade_exhaust_boundary(self):
+        for face,index in (('base',0),('upgrade',1)):
+            for card,damage,hits in (('C02',(6,8)[index],2),('U07',3,(4,5)[index])):
+                r=synthetic(f'{card}-{face}-plain')
+                self.assertEqual([d['hpLost'] for d in r['history']['damage']],[damage]*hits)
+            for card,blocks in (('B04',(7,10)),('C11',(9,13)),('U03',(5,8)),('R01',(5,5)),('R02',(8,11)),('R16',(0,5))):
+                self.assertEqual(synthetic(f'{card}-{face}-plain')['after']['block'],blocks[index],card)
+            self.assertEqual(synthetic(f'C04-{face}-plain')['after']['enemyPowers'][0]['WeakPower'],2+index)
+            self.assertEqual(synthetic(f'C08-{face}-plain')['after']['enemyPowers'][0]['VulnerablePower'],2+index)
+            self.assertIn('source',synthetic(f'U07-{face}-plain')['after']['exhaust'])
+            self.assertIn('source',synthetic(f'U20-{face}-plain')['after']['discard' if index else 'exhaust'])
+
     def test_new_beast_identity_material_exhaust_master_upgrade_and_zero_payment(self):
         for c in ('T01','T02'):
             for face in ('base','upgrade'):
@@ -343,7 +424,7 @@ class CardFaceEvidenceTests(unittest.TestCase):
     def test_distinct_native_instances_and_later_real_payments(self):
         r=synthetic('U02-base-second-instance')
         self.assertEqual(r['after']['powerInstances'],{'StormConductionPower':2})
-        self.assertEqual(r['response']['after']['enemyHp'],[472,482,482])
+        self.assertEqual(r['response']['after']['enemyHp'],[470,482,482])
         self.assertEqual([b['amount'] for b in r['response']['batches']],[3,3,3,3])
         self.assertEqual(r['response']['payments'],[dict(cardRef='response-card',amount=1,energy=8)])
         broken=deepcopy(r);broken['after']['powerInstances']['StormConductionPower']=1;self.assertFalse(self.valid(broken))

@@ -24,7 +24,7 @@ namespace Volibear.Content;
 /// <summary>
 /// Shared non-stacking next-play coupon. Native cost modifiers own expiration;
 /// this BaseLib marker owns identity/non-stacking and is cloned with its card.
-/// C15, R10, U25 and beast discounts must all grant this same coupon kind.
+/// R10, U25 and beast discounts must all grant this same coupon kind.
 /// </summary>
 public sealed class NextPlayDiscount : CardModifier, ICustomModel
 {
@@ -142,7 +142,7 @@ public sealed class Volibear_C04 : VolibearCard
 {
     public Volibear_C04() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c04") { }
     public override List<(string, string)> Localization => new CardLoc("擂首一击", "造成{Damage:diff()}伤害。施加{Weak:diff()}虚弱。迎战。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, Move), new PowerVar<WeakPower>("Weak", 1m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, Move), new PowerVar<WeakPower>("Weak", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
@@ -156,18 +156,22 @@ public sealed class Volibear_C04 : VolibearCard
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C06")]
 public sealed class Volibear_C06 : VolibearCard
 {
-    public Volibear_C06() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c06") { }
-    public override List<(string, string)> Localization => new CardLoc("进逼", "造成{Damage:diff()}伤害。若目标打算攻击，获得{Block:diff()}格挡；否则抽{Cards:diff()}张牌。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new BlockVar(6m, Move), new CardsVar(1)];
+    public Volibear_C06() : base(1, CardType.Attack, CardRarity.Common, TargetType.RandomEnemy, "c06") { }
+    public override List<(string, string)> Localization => new CardLoc("狂乱挥击", "对随机敌人造成{Damage:diff()}伤害，共{Hits:diff()}次。");
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, Move), new DynamicVar("Hits", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
-        // TS conditional(..., attack) chooses before damage/reactions can change intent.
-        var attacking = play.Target?.Monster?.IntendsToAttack == true;
-        await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
-        if (attacking) await DirectEffects.Block(this, play, Value("Block"));
-        else await DirectEffects.Draw(context, this, Value("Cards"));
+        if (!DirectEffects.Live(this)) return;
+        // One native attack command preserves its before/after-attack hooks while
+        // TargetingRandomOpponents refreshes the living target pool on every hit.
+        await DamageCmd.Attack(Value("Damage")).FromCard(this
+#if STS2_BETA
+                , play
+#endif
+                ).TargetingRandomOpponents(Owner.Creature.CombatState!)
+            .WithHitCount((int)Value("Hits")).Execute(context);
     }
-    protected override void OnUpgrade() { UpgradeVar("Damage", 3m); UpgradeVar("Block", 2m); }
+    protected override void OnUpgrade() => UpgradeVar("Hits", 1m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C07")]
@@ -203,14 +207,15 @@ public sealed class Volibear_C13 : VolibearCard
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C15")]
 public sealed class Volibear_C15 : VolibearCard
 {
-    public Volibear_C15() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self, "c15") { }
-    public override List<(string, string)> Localization => new CardLoc("重整爪牙", "回收1张攻击或雷法，减费1。",
-        ("selectionScreenPrompt", "选择1张攻击或雷法加入手牌。"));
+    public Volibear_C15() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, "c15") { }
+    public override List<(string, string)> Localization => new CardLoc("重整爪牙", "回收{IfUpgraded:show:至多}{Recover:diff()}张攻击或雷法。",
+        ("selectionScreenPrompt", "选择要回收的攻击或雷法。"));
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Recover", 1m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
         ControlledEffects.Retrieve(context, this, PileType.Discard,
             card => card.Type == CardType.Attack || CardCapabilities.IsThunderSpell(card),
-            1, false, true, SelectionScreenPrompt);
-    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
+            (int)Value("Recover"), IsUpgradedCard, false, SelectionScreenPrompt);
+    protected override void OnUpgrade() => UpgradeVar("Recover", 1m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C17")]

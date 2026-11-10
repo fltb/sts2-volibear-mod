@@ -301,7 +301,7 @@ class CardFixtureContractTests(unittest.TestCase):
                 else:
                     self.assertNotIn("下次打出时为0费", display)
         self.assertEqual(changed, TEXT_OVERRIDE_IDS)
-        for cid in ("C15", "R10", "U25", "U32"):
+        for cid in ("R10", "U25", "U32"):
             self.assertIn("减费", self.cards[cid]["faces"][0]["display_text_zh"])
         for cid in ("T01", "T02"):
             self.assertEqual([f["cost"] for f in self.cards[cid]["faces"]], [1, 1])
@@ -309,9 +309,9 @@ class CardFixtureContractTests(unittest.TestCase):
     def test_self_exhaust_not_confused_with_consuming_material(self):
         for cid in ("C13", "U15"):
             self.assertEqual([f["self_exhaust"] for f in self.cards[cid]["faces"]], [False, False])
-        for cid in ("C14", "U14"):
+        for cid in ("C14", "U14", "U20"):
             self.assertEqual([f["self_exhaust"] for f in self.cards[cid]["faces"]], [True, False])
-        for cid in ("T01", "T02", "R17", "U43"):
+        for cid in ("T01", "T02", "R17", "U43", "U07"):
             self.assertTrue(all(f["self_exhaust"] for f in self.cards[cid]["faces"]))
 
     def test_engage_examples_are_explicit_not_a_block_difference_simulator(self):

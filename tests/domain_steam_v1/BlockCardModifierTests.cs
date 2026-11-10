@@ -29,7 +29,7 @@ internal static class BlockCardModifierTests
         var frail = Power<FrailPower>(1);
         foreach (var (type, baseBlock, upgradedBlock) in new[]
         {
-            (typeof(Volibear_B02), 5m, 8m), (typeof(Volibear_B04), 8m, 11m)
+            (typeof(Volibear_B02), 5m, 8m), (typeof(Volibear_B04), 10m, 13m)
         })
         {
             var card = (CardModel)RuntimeHelpers.GetUninitializedObject(type);

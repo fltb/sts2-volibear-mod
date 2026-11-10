@@ -137,8 +137,8 @@ class CatalogTests(unittest.TestCase):
             self.assertEqual(report['processes'], {'stock': 1, 'suite': 1, 'restart': 2, 'catalog': 1})
             self.assertTrue(report['checks']['separate_catalog_complete_356'])
             self.assertTrue(report['checks']['card_face_partition_exact_once'])
-            self.assertEqual(report['card_faces']['requested_count'], 410)
-            self.assertEqual((report['card_faces']['main_count'], report['card_faces']['catalog_count']), (205, 205))
+            self.assertEqual(report['card_faces']['requested_count'], 433)
+            self.assertEqual((report['card_faces']['main_count'], report['card_faces']['catalog_count']), (217, 216))
             details = report['presentation']
             self.assertEqual((details['requested_mode'], details['main_mode'], details['catalog_mode']), ('all', 'actions', 'cards'))
             self.assertEqual(details['catalog_process'], {'pid': 102, 'token': 'catalog'})

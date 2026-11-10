@@ -45,7 +45,7 @@ def play(after, hp, block, hits, count_before, count_after):
 def common(variant):
     deck = []
     native_cards = [('B01', {'Damage': 6})] * 4 + [('B02', {'Block': 5})] * 4 + [
-        ('B03', {'Damage': 8, 'Lightning': 3}), ('B04', {'Damage': 6, 'Block': 8})]
+        ('B03', {'Damage': 8, 'Lightning': 3}), ('B04', {'Damage': 6, 'Block': 10})]
     for index, (key, variables) in enumerate(native_cards):
         deck.append(dict(cardRef=f'master-{index}', modelId='VOLIBEAR_' + key,
                          nativeType='Volibear_' + key, upgrade=False, cost=1, shape='None', vars=variables))

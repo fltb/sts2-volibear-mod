@@ -132,7 +132,14 @@ class PersistentCardContracts(unittest.TestCase):
         self.assertIn("Math.Max(0, Owner.Block - Amount)", self.powers)
         self.assertIn("GetCustomAttribute<AsyncStateMachineAttribute>()", self.powers)
         self.assertIn("props.HasFlag(ValueProp.Move)", self.powers)
-        self.assertNotIn("override bool ShouldClearBlock", self.powers)
+        standing = self.powers.split("public sealed class StandingPower", 1)[1].split("[BaseLib", 1)[0]
+        immovable = self.powers.split("public sealed class ImmovableBodyPower", 1)[1].split("[BaseLib", 1)[0]
+        # Existing 留甲 retention prevents the native clear and preserves stronger
+        # native retainers; 坚甲 only changes attack absorption, not that boundary.
+        self.assertIn("override bool ShouldClearBlock", standing)
+        self.assertIn("Owner.HasPower<BarricadePower>() || Owner.HasPower<BlurPower>()", standing)
+        self.assertIn("ReferenceEquals(preventer, this)", standing)
+        self.assertNotIn("override bool ShouldClearBlock", immovable)
         self.assertNotIn("__result = Math.Min", self.powers)
         self.assertNotIn("AttackCommand", self.powers)
         self.assertNotIn("LoseHpInternal", self.powers)
@@ -141,10 +148,11 @@ class PersistentCardContracts(unittest.TestCase):
         body = self.powers.split("public sealed class BattleBodyPower", 1)[1].split("[BaseLib", 1)[0]
         self.assertIn("amount > 0", body)
         self.assertIn("cardSource is not null", body)
-        self.assertIn("CardResolutionHooks.CurrentPlayId(cardSource)", body)
+        self.assertIn("Own(cardSource) && cardSource.Type == CardType.Skill", body)
         self.assertIn("!play.IsLastInSeries", body)
         self.assertIn("Data.BlockPlays.Remove", body)
-        self.assertIn("PowerCmd.Apply<DexterityPower>", body)
+        self.assertRegex(body, r"if \(play.Card.Type == CardType.Attack\)\s+await PowerCmd.Apply<StrengthPower>")
+        self.assertRegex(body, r"else if \(play.Card.Type == CardType.Skill && blocked\)\s+await PowerCmd.Apply<DexterityPower>")
 
     def test_no_text_interpreter_or_placeholder_effects(self):
         self.assertNotRegex(self.text + self.powers, r"TODO|NotImplementedException|if\s*\(testMode\)")

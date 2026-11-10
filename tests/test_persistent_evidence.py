@@ -96,7 +96,7 @@ class PersistentEvidenceTests(unittest.TestCase):
         self.assertIn('PP-R02-no-consumption',status)
         self.assertIn('PP-R02-no-consumption',PERSISTENT_CASES)
         self.assertEqual(set(status),set(PERSISTENT_CASES))
-        self.assertEqual(len(PERSISTENT_CASES),20)
+        self.assertEqual(len(PERSISTENT_CASES),21)
 
     def test_no_trusted_passed_or_completed_or_foreign_token(self):
         for case in (c for c in PERSISTENT_CASES if c not in ADDITIONAL_CASES + ENGAGEMENT_CASES + SPECIAL_CASES):
@@ -192,7 +192,8 @@ def additional_report(case):
         'PP-U03-other-retention':([('StandingPower',3),('BarricadePower',1)],[100,100,100],20,0,[],[],0),
         'PP-U03-clamp-priority':([('StandingPower',3)],[100,100,100],17,0,[],[],0),
         'PP-U34-per-batch':([('ThunderArmorPower',3),('ThunderArmorPower',4)],[100,100,100],7,1,[(1,0,None,1)],[],0),
-        'PP-R16-positive-own-block':([('BattleBodyPower',2)],[90,100,100],10,0,[],[('StrengthPower',2),('DexterityPower',2)],1),
+        'PP-R16-positive-own-block':([('BattleBodyPower',2)],[100,100,100],10,0,[],[('DexterityPower',2)],1),
+        'PP-R16-attack-block-excluded':([('BattleBodyPower',2)],[90,100,100],10,0,[],[('StrengthPower',2)],1),
         'PP-R16-passive-block-excluded':([('BattleBodyPower',1),('ThunderArmorPower',3),('DomainPower',1)],[90,96,96],3,1,[(4,0,'played',0)],[('StrengthPower',1)],0),
     }
     powers,hp,block,count,batches,extra,replay=specs[case]
@@ -210,6 +211,7 @@ def additional_report(case):
         'PP-U03-clamp-priority':[app('StandingPower.Deploy',3),app('SturdyClamp.Obtain',1)],
         'PP-U34-per-batch':[app('ThunderArmorPower',3),app('ThunderArmorPower',4)],
         'PP-R16-positive-own-block':[app('BattleBodyPower',2)],
+        'PP-R16-attack-block-excluded':[app('BattleBodyPower',2)],
         'PP-R16-passive-block-excluded':[app('BattleBodyPower',1),app('ThunderArmorPower',3)],
     }
     hit=lambda e,n,props=8,card='played',b=0,player=False:dict(target=e,playerTarget=player,hpLost=n,blocked=b,props=props,cardRef=card)
@@ -225,13 +227,15 @@ def additional_report(case):
         r['fixturePreparation']['damage']=[hit(0,n,8,None,0,True) for n in [3,4,8]]
         r['drawHistory']=[dict(cardRef='starting-'+str(i),fromHandDraw=True) for i in range(5)]
     elif case!='PP-U34-per-batch':
-        r['played']=dict(cardRef='played',type='IronWave' if replay else 'Volibear_B01',replay=replay)
+        skill=case=='PP-R16-positive-own-block'
+        played_type='Volibear_B02' if skill else 'IronWave' if replay else 'Volibear_B01'
+        r['played']=dict(cardRef='played',type=played_type,replay=replay)
         r['playHistory']=[dict(cardRef='played',index=i,count=1+replay) for i in range(1+replay)]
-        strength,dex=(2,2) if replay else (1,0) if case=='PP-R16-passive-block-excluded' else (0,0)
+        stats=dict(extra);strength=stats.get('StrengthPower',0);dex=stats.get('DexterityPower',0)
         for i,p in enumerate(r['playHistory']):
-            r['beforeEffects'].append(dict(p,playId=100,ordinal=1,strength=0,storm=2 if case=='PP-U02-domain-order' else 0))
+            r['beforeEffects'].append(dict(p,playId=100,ordinal=0 if skill else 1,strength=0,storm=2 if case=='PP-U02-domain-order' else 0))
             r['finishedEffects'].append(dict(p,playId=100,actualCompleted=i==replay,strength=strength if i==replay else 0,dexterity=dex if i==replay else 0))
-        r['damageHistory']=[hit(1,5),hit(1,5)] if replay else [hit(1,6)]
+        r['damageHistory']=[] if skill else [hit(1,5),hit(1,5)] if replay else [hit(1,6)]
     for i,(base,storm,card,blocked) in enumerate(batches,1):
         n=base+storm;lost=0 if blocked else n
         r['batches'].append(dict(id=i,round=1,turn=1,count=i,baseDamage=base,storm=storm,amount=n,cardRef=card,targets=ids,
@@ -241,7 +245,7 @@ def additional_report(case):
 
 
 class AdditionalPersistentEvidenceTests(unittest.TestCase):
-    def test_seven_additional_literal_controls(self):
+    def test_additional_literal_controls(self):
         for case in ADDITIONAL_CASES:
             with self.subTest(case=case):self.assertTrue(validate_persistent_result(additional_report(case),'run-test',case))
 
@@ -276,12 +280,21 @@ class AdditionalPersistentEvidenceTests(unittest.TestCase):
         r=additional_report('PP-U03-clamp-priority');r['after']['block']=10
         self.assertFalse(validate_persistent_result(r,'run-test','PP-U03-clamp-priority'))
 
-    def test_r16_passive_block_and_actual_finish_not_interchangeable(self):
+    def test_r16_skill_attack_passive_block_and_actual_finish_not_interchangeable(self):
+        # A stack amount of 2 rewards two stats only once, after the whole actual
+        # play; two native effect repetitions must neither split nor double it.
+        controls=(('PP-R16-positive-own-block','dexterity','strength'),
+                  ('PP-R16-attack-block-excluded','strength','dexterity'))
+        for case,reward,excluded in controls:
+            r=additional_report(case);r['finishedEffects'][0][reward]=2
+            self.assertFalse(validate_persistent_result(r,'run-test',case))
+            r=additional_report(case);r['finishedEffects'][1][reward]=4
+            self.assertFalse(validate_persistent_result(r,'run-test',case))
+            r=additional_report(case);r['finishedEffects'][1][excluded]=2
+            self.assertFalse(validate_persistent_result(r,'run-test',case))
+            r=additional_report(case);r['finishedEffects'][1]['playId']=101
+            self.assertFalse(validate_persistent_result(r,'run-test',case))
         case='PP-R16-passive-block-excluded';r=additional_report(case);r['finishedEffects'][0]['dexterity']=1
-        self.assertFalse(validate_persistent_result(r,'run-test',case))
-        case='PP-R16-positive-own-block';r=additional_report(case);r['finishedEffects'][0]['strength']=2
-        self.assertFalse(validate_persistent_result(r,'run-test',case))
-        r=additional_report(case);r['finishedEffects'][1]['playId']=101
         self.assertFalse(validate_persistent_result(r,'run-test',case))
 
     def test_fully_blocked_aoe_counts_one_batch_not_three(self):

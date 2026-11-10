@@ -104,7 +104,7 @@ def _deck(result):
     _need(all(type(ref) is str and ref.startswith('master-') for ref in refs) and len(set(refs)) == 10)
     _need(Counter(c['nativeType'] for c in before) == Counter(Volibear_B01=4, Volibear_B02=4, Volibear_B03=1, Volibear_B04=1))
     expected_vars = {'Volibear_B01': {'Damage': 6}, 'Volibear_B02': {'Block': 5},
-                     'Volibear_B03': {'Damage': 8, 'Lightning': 3}, 'Volibear_B04': {'Damage': 6, 'Block': 8}}
+                     'Volibear_B03': {'Damage': 8, 'Lightning': 3}, 'Volibear_B04': {'Damage': 6, 'Block': 10}}
     for card in before:
         _need(_equal(card, dict(cardRef=card['cardRef'], modelId=card['nativeType'].upper(),
                                nativeType=card['nativeType'], upgrade=False, cost=1, shape='None',

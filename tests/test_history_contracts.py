@@ -16,7 +16,7 @@ from tools.runtime_test import fixture_runtime
 class HistoryCardContracts(unittest.TestCase):
     def test_stable_ids_and_base_damage(self):
         source = (ROOT / 'src/Volibear/Content/Cards/HistoryEffects.cs').read_text(encoding='utf-8')
-        for code, cost, damage in [('C20', 1, 10), ('U07', 3, 28), ('U20', 1, 10), ('U38', 3, 18)]:
+        for code, cost, damage in [('C20', 1, 10), ('U07', 1, 3), ('U20', 1, 10), ('U38', 3, 18)]:
             with self.subTest(card=code):
                 self.assertIn('CustomID("VOLIBEAR_' + code + '")', source)
                 body = source.split('public sealed class Volibear_' + code, 1)[1].split('[BaseLib.Utils.Attributes.CustomID', 1)[0]
@@ -24,6 +24,17 @@ class HistoryCardContracts(unittest.TestCase):
                 self.assertIn('new DamageVar(' + str(damage) + 'm, Move)', body)
         self.assertEqual(1, source.count('CustomID("VOLIBEAR_R14")'))
         self.assertIn('CardType.Power, CardRarity.Rare', source)
+        collapse = source.split('public sealed class Volibear_U07', 1)[1].split('[BaseLib.Utils.Attributes.CustomID', 1)[0]
+        self.assertIn('new DynamicVar("Hits", 4m)', collapse)
+        self.assertIn('UpgradeVar("Hits", 1m)', collapse)
+        self.assertIn('CardKeyword.Exhaust', collapse)
+        self.assertIn('DirectEffects.Attack(context, this, play.Target, Value("Damage"), (int)Value("Hits"))', collapse)
+        self.assertNotIn('TryModifyEnergyCostInCombat', collapse)
+        self.assertNotIn('ITargetCostCard', collapse)
+        unstoppable = source.split('public sealed class Volibear_U20', 1)[1].split('[BaseLib.Utils.Attributes.CustomID', 1)[0]
+        self.assertIn('new DynamicVar("Energy", 2m)', unstoppable)
+        self.assertNotIn('UpgradeVar("Energy"', unstoppable)
+        self.assertIn('RemoveKeyword(CardKeyword.Exhaust)', unstoppable)
 
     def test_native_preflight_and_payment_not_current_target_or_refund(self):
         source = (ROOT / 'src/Volibear/Core/TargetCosts.cs').read_text(encoding='utf-8')

@@ -22,17 +22,17 @@ def u07_fixture():
     original=snap(energy=3);original['hp']=80
     fixtures=[dict(label='native-created-card-and-HP-energy-isolation',before=deepcopy(original),after=snap(),history=history(),batches=[])]
     actions=[]
-    # Independently specified exact U07 sequence: replay is one historical attack, targets don't share counts.
-    rows=[('history-replayed-attack-counts-once','B01',0,1,1,6,None,'old',1),
-          ('history-same-target','U07',0,0,2,28,[2,3,3],'old',1),
-          ('history-other-target','U07',1,0,3,28,[1,3,3],'old',1),
-          ('history-return-target','U07',0,0,1,28,[1,2,3],'old',1),
-          ('history-next-turn-reset','U07',0,0,3,28,[3,3,3],'old',2),
+    # U07 pays one energy independently of target history; each effect has four hits.
+    rows=[('multi-hit-replayed-prior-attack','B01',0,1,1,6,None,'old',1),
+          ('fixed-cost-same-target','U07',0,0,1,3,[1,1,1],'old',1),
+          ('fixed-cost-other-target','U07',1,0,1,3,[1,1,1],'old',1),
+          ('fixed-cost-return-target','U07',0,1,1,3,[1,1,1],'old',1),
+          ('fixed-cost-next-turn','U07',0,0,1,3,[1,1,1],'old',2),
           ('new-combat-first','B01',0,0,1,6,None,'new',1),
           ('new-combat-second','B01',0,0,1,6,None,'new',1),
           ('new-combat-lightning','C24',-1,0,1,None,None,'new',1),
           ('new-combat-engage','B04',1,0,1,6,None,'new',1),
-          ('new-combat-no-coupon','U07',2,0,3,28,[1,2,3],'new',1)]
+          ('new-combat-no-coupon','U07',2,0,1,3,[1,1,1],'new',1)]
     current=snap();transitions=[]; before_exit=None; fresh=None
     for n,(label,card,target,replay,cost,damage,previews,combat,turn) in enumerate(rows):
         if n==4:
@@ -52,7 +52,7 @@ def u07_fixture():
         h['finished']=[dict(cardRef=ref,index=i,autoPlay=False) for i in range(repeat)]
         target_ref=combat+str(target) if target>=0 else 'null'
         if damage is not None:
-            h['damage']=[dict(targetRef=target_ref,sourceRef='owner',cardRef=ref,hpLost=damage,blocked=0,props=8) for _ in range(repeat)]
+            h['damage']=[dict(targetRef=target_ref,sourceRef='owner',cardRef=ref,hpLost=damage,blocked=0,props=8) for _ in range(repeat*(4 if card=='U07' else 1))]
         batches=[]
         if card=='C24':
             after['lightning']=1
@@ -62,10 +62,11 @@ def u07_fixture():
             h['damage']=[dict(targetRef=t,sourceRef='owner',cardRef=ref,hpLost=6,blocked=0,props=4) for t in targets]
         if card in ('C24','B04'):
             drawn='draw-'+str(n);h['draws']=[dict(cardRef=drawn,type='Volibear_B02',normal=False)];after['hand'].append(drawn)
-        if card=='B04': after['block']+=8;h['moves']=[dict(enemyRef=target_ref,move='native-nonattack-engage')]
+        if card=='B04': after['block']+=10;h['moves']=[dict(enemyRef=target_ref,move='native-nonattack-engage')]
+        if card=='U07': h['exhausts']=[ref]
         effects=[dict(cardRef=ref,index=i,count=repeat,autoPlay=False,spent=cost,state=deepcopy(before)) for i in range(repeat)]
         actions.append(dict(label=label,code=card,upgraded=False,replay=replay,cardRef=ref,targetRef=target_ref,before=before,after=deepcopy(after),
-                            previews=[dict(targetRef=combat+str(i),cost=c) for i,c in enumerate(previews or [1,1,1])],pile='Discard',
+                            previews=[dict(targetRef=combat+str(i),cost=c) for i,c in enumerate(previews or [1,1,1])],pile='Exhaust' if card=='U07' else 'Discard',
                             action=dict(type='PlayCardAction',state='Finished',actionType='PlayCard',sameCard=True,events=['before-executed','after-finished']),
                             payments=[dict(cardRef=ref,amount=cost,energy=before['energy']-cost)],effects=effects,batches=batches,history=h))
         current=after
@@ -114,18 +115,19 @@ class CardLifecycleEvidenceTests(unittest.TestCase):
         result,valid=card_lifecycle_evidence(PREFIX+json.dumps(raw),'test','U07-base')
         self.assertFalse(valid,result)
 
-    def test_manual_history_fixture_and_one_native_batch(self):
+    def test_manual_multihit_fixture_and_one_native_batch(self):
         self.assertTrue(validate(u07_fixture(),'test','U07-base'))
         self.assertTrue(card_lifecycle_batch_evidence(batch_log()[0],'test',['U07-base'])[1])
 
-    def test_manual_upgraded_history_fixture_keeps_target_cost_contract(self):
+    def test_manual_upgrade_adds_one_hit_per_effect_and_keeps_single_payment(self):
         value=u07_fixture();value.update(variant='U07-upgraded',upgraded=True)
         for action in value['actions']:
             if action['code']=='U07' and not action['label'].startswith('new-combat-'):
                 action['upgraded']=True
-                for hit in action['history']['damage']:hit['hpLost']=36
+                hit=action['history']['damage'][0]
+                action['history']['damage']=[deepcopy(hit) for _ in range(5*(action['replay']+1))]
         self.assertTrue(validate(value,'test','U07-upgraded'))
-        value['actions'][1]['history']['damage'][0]['hpLost']=28
+        value['actions'][1]['history']['damage'].pop()
         self.assertFalse(card_lifecycle_evidence(PREFIX+json.dumps(value),'test','U07-upgraded')[1])
 
     def test_full_finite_inventory_not_silent_unknown_exemption(self):
@@ -158,12 +160,22 @@ class CardLifecycleEvidenceTests(unittest.TestCase):
             else:a['payments']=[]
             with self.subTest(mutate=mutate):self.reject(value)
 
-    def test_target_history_replay_and_turn_boundaries(self):
+    def test_fixed_cost_target_replay_and_turn_boundaries(self):
         for index,field,wrong in ((1,'targetRef','old1'),(1,'replay',1),(2,'targetRef','old0'),(4,'targetRef','new0')):
             value=u07_fixture();value['actions'][index][field]=wrong
             with self.subTest(index=index,field=field):self.reject(value)
         for index in (1,2,3,4,9):
             value=u07_fixture();value['actions'][index]['previews'][0]['cost']+=1;self.reject(value)
+
+    def test_multihit_exhausts_only_once_per_actual_play(self):
+        for index in (1,2,3,4,9):
+            for field,value in (('pile','Discard'),('exhausts',[]),('exhausts',['wrong'])):
+                row=u07_fixture();action=row['actions'][index]
+                if field=='pile': action[field]=value
+                else: action['history'][field]=value
+                self.reject(row)
+        row=u07_fixture();row['actions'][3]['history']['exhausts']*=2
+        self.reject(row)
 
     def test_native_damage_and_distinct_lightning_not_self_certified(self):
         for mutate in ('damage','source','batch','receipt','bool'):

@@ -27,6 +27,10 @@ def branches(card):
         'B02': ('plain','dexterity','frail'),
         'B03': ('plain','lethal'), 'C02': ('plain','lethal','domain','conduction'), 'U06': ('plain','lethal','domain','conduction'),
         'C09': ('plain','domain','conduction'), 'C22': ('plain','domain','conduction'),
+        'C05': ('plain','conduction'),
+        'C06': ('plain','strength','domain','conduction','kill-retarget'),
+        'U07': ('plain','strength','domain','conduction'),
+        'U08': ('plain','marked','marked-strength'),
         'T01': ('plain','converted','master','domain'), 'T02': ('plain','converted','master'),
         'C12': ('plain','strength','negative-strength','dexterity','frail'),
         'C13': ('plain','material'), 'U15': ('plain','material'),
@@ -39,7 +43,8 @@ def branches(card):
         'U31': ('x0','x1','x3','x0-replay','x1-replay','x3-replay'), 'R17': ('x0','x1','x3'),
         **{c: ('plain','prior1','prior2','prior5') for c in ('C26','U27','U36','U38','U40','R21','R24')},
         'R23': ('plain','blocked'),
-        **{c: ('plain','empty','full-hand') for c in ('C07','C15')},
+        'C07': ('plain','empty','full-hand'),
+        'C15': ('plain','zero','one','empty','insufficient','full-hand'),
         **{c: ('plain','empty') for c in ('C19','U39','U41','U43','R29','R30')},
         'U42': ('plain','empty','status','curse'),
         **{c: ('plain','zero','empty','insufficient','full-hand') for c in ('R10','R25')},
@@ -48,7 +53,12 @@ def branches(card):
     }).get(card, ('plain',))
 
 
-CARD_FACE_CASES = tuple(f'{c}-{f}-{b}' for c in IMPLEMENTED_IDS for f in ('base','upgrade') for b in branches(c))
+def case_branches(card, face):
+    # Optional counts and a shortage against a two-card maximum are upgrade-only fixtures.
+    return tuple(b for b in branches(card) if card != 'C15' or face == 'upgrade' or b not in ('zero','one','insufficient'))
+
+
+CARD_FACE_CASES = tuple(f'{c}-{f}-{b}' for c in IMPLEMENTED_IDS for f in ('base','upgrade') for b in case_branches(c,f))
 # Fixed per-face values: cost, block, draw, ordinary hit, hit count, lightning,
 # lightning batches, lightning all-targets. These are reference examples, not a
 # runtime card interpreter: unsupported cards/branches cannot enter this table.
@@ -57,9 +67,9 @@ ROWS = {
     'B02': [(1,5,0,0,0,0,0,False),(1,8,0,0,0,0,0,False)],
     'B03': [(1,0,0,8,1,3,1,True),(1,0,0,11,1,5,1,True)],
     'C01': [(0,0,0,6,1,0,0,False),(0,0,0,9,1,0,0,False)],
-    'C02': [(1,0,0,5,2,0,0,False),(1,0,0,7,2,0,0,False)],
+    'C02': [(1,0,0,6,2,0,0,False),(1,0,0,8,2,0,0,False)],
     'C03': [(2,0,0,20,1,5,1,True),(2,0,0,26,1,7,1,True)],
-    'C08': [(1,0,0,8,1,0,0,False),(1,0,0,10,1,0,0,False)],
+    'C08': [(1,0,0,8,1,0,0,False),(1,0,0,11,1,0,0,False)],
     'C09': [(1,0,0,6,1,3,1,True),(1,0,0,8,1,4,1,True)],
     'C12': [(1,10,0,0,0,0,0,False),(1,13,0,0,0,0,0,False)],
     'C13': [(1,0,3,0,0,0,0,False),(1,0,4,0,0,0,0,False)],
@@ -69,7 +79,7 @@ ROWS = {
     'C26': [(0,0,0,0,0,0,0,False)]*2,
     'U05': [(1,0,0,10,1,0,0,False),(0,0,0,10,1,0,0,False)],
     'U06': [(2,0,0,8,3,0,0,False),(2,0,0,11,3,0,0,False)],
-    'U07': [(3,0,0,28,1,0,0,False),(3,0,0,36,1,0,0,False)],
+    'U07': [(1,0,0,3,4,0,0,False),(1,0,0,3,5,0,0,False)],
     'U13': [(1,0,0,0,0,0,0,False)]*2,
     'U15': [(0,0,2,0,0,0,0,False),(0,0,3,0,0,0,0,False)],
     'U20': [(1,0,0,10,1,0,0,False),(1,0,0,14,1,0,0,False)],
@@ -92,14 +102,14 @@ ROWS = {
 }
 # Deployment/entry expectations are still not the required multi-instance lifecycle tests.
 ROWS.update({
-    'C05': [(1,0,0,6,1,4,1,True),(1,0,0,9,1,4,1,True)],
+    'C05': [(1,0,0,3,2,4,1,True),(1,0,0,3,3,4,1,True)],
     'C14': [(2,8,0,0,0,0,0,False),(2,11,0,0,0,0,0,False)],
     'C17': [(0,0,0,0,0,0,0,False)]*2,
     'C18': [(1,0,0,0,0,0,0,False)]*2,
     'C21': [(1,5,2,0,0,0,0,False),(1,8,2,0,0,0,0,False)],
     'C25': [(1,0,0,0,0,0,0,False)]*2,
     'U02': [(1,0,0,0,0,6,1,True),(1,0,0,0,0,9,1,True)],
-    'U03': [(1,8,0,0,0,0,0,False),(1,12,0,0,0,0,0,False)],
+    'U03': [(1,5,0,0,0,0,0,False),(1,8,0,0,0,0,0,False)],
     'U04': [(1,6,0,0,0,0,0,False),(1,9,0,0,0,0,0,False)],
     'U10': [(1,0,1,0,0,0,0,False),(1,0,2,0,0,0,0,False)],
     'U11': [(1,0,0,0,0,0,0,False),(0,0,0,0,0,0,0,False)],
@@ -113,20 +123,20 @@ ROWS.update({
     'U32': [(2,0,0,0,0,0,0,False),(1,0,0,0,0,0,0,False)],
     'U34': [(1,4,0,0,0,0,0,False),(1,7,0,0,0,0,0,False)],
     'U37': [(2,0,0,0,0,12,1,True),(2,0,0,0,0,16,1,True)],
-    'R01': [(3,10,0,0,0,0,0,False),(2,14,0,0,0,0,0,False)],
-    'R02': [(2,10,0,0,0,0,0,False),(2,15,0,0,0,0,0,False)],
+    'R01': [(3,5,0,0,0,0,0,False),(2,5,0,0,0,0,0,False)],
+    'R02': [(2,8,0,0,0,0,0,False),(2,11,0,0,0,0,0,False)],
     'R06': [(2,10,0,0,0,0,0,False),(2,14,0,0,0,0,0,False)],
     'R13': [(2,0,0,0,0,0,0,False)]*2,
     'R14': [(1,0,0,0,0,0,0,False),(1,0,1,0,0,0,0,False)],
-    'R16': [(1,0,0,0,0,0,0,False),(1,8,0,0,0,0,0,False)],
+    'R16': [(1,0,0,0,0,0,0,False),(1,5,0,0,0,0,0,False)],
     'R18': [(2,0,0,0,0,6,1,True),(2,0,0,0,0,9,1,True)],
 })
 ROWS.update({
-    'B04':[(1,8,1,6,1,0,0,False),(1,11,1,9,1,0,0,False)],
+    'B04':[(1,10,1,6,1,0,0,False),(1,13,1,9,1,0,0,False)],
     'C04':[(1,0,1,9,1,0,0,False),(1,0,1,12,1,0,0,False)],
-    'C06':[(1,6,0,8,1,0,0,False),(1,8,0,11,1,0,0,False)],
+    'C06':[(1,0,0,3,3,0,0,False),(1,0,0,3,4,0,0,False)],
     'C10':[(2,8,1,9,1,0,0,False),(2,11,1,12,1,0,0,False)],
-    'C11':[(1,8,1,0,0,0,0,False),(1,11,1,0,0,0,0,False)],
+    'C11':[(1,12,1,0,0,0,0,False),(1,16,1,0,0,0,0,False)],
     'U08':[(1,6,0,10,1,0,0,False),(1,9,0,14,1,0,0,False)],
     'U28':[(2,12,1,0,0,7,1,True),(2,17,1,0,0,9,1,True)],
     'U35':[(1,8,1,0,0,3,1,True),(1,11,1,0,0,5,1,True)],
@@ -134,7 +144,7 @@ ROWS.update({
 })
 ROWS.update({
     'C07':[(1,0,0,8,1,0,0,False),(1,0,0,11,1,0,0,False)],
-    'C15':[(1,0,0,0,0,0,0,False),(0,0,0,0,0,0,0,False)],
+    'C15':[(0,0,0,0,0,0,0,False)]*2,
     'C19':[(0,0,0,0,0,0,0,False)]*2,
     'U39':[(1,4,0,0,0,0,0,False),(1,7,0,0,0,0,0,False)],
     'U41':[(1,0,0,3,1,0,0,False),(1,0,0,6,1,0,0,False)],
@@ -161,9 +171,9 @@ def selection_fixture(c,branch='plain'):
     if branch=='empty':return []
     if c=='U42' and branch in ('status','curse'):
         return [('selected','SLIMED' if branch=='status' else 'INJURY','Hand'),('alternate','INJURY' if branch=='status' else 'SLIMED','Hand')]
-    if branch=='insufficient':return [('selected','B02' if c=='R25' else 'B01','Discard' if c=='R10' else 'Draw' if c=='R25' else 'Hand')]
+    if branch=='insufficient':return [('selected','B02' if c=='R25' else 'B01','Discard' if c in ('C15','R10') else 'Draw' if c=='R25' else 'Hand')]
     if c=='C07': return [('selected','B01','Draw'),('alternate','B01','Draw')]
-    if c=='C15': return [('selected','B01','Discard'),('alternate','R07','Discard')]
+    if c=='C15': return [('selected','B01','Discard'),('alternate','R07','Discard'),('third','B02','Discard')]
     if c=='U39': return [('selected','R07','Draw'),('alternate','R23','Draw')]
     if c=='U43': return [('selected','B01','Draw'),('alternate','B02','Hand'),('third','B02','Draw')]
     if c=='R10': return [(x,'B01','Discard') for x in ('selected','alternate','third','fourth','fifth')]
@@ -209,8 +219,8 @@ ENTRY_POWERS = {
     'R14':({'EndlessHuntPower':1},{'EndlessHuntPower':1}), 'R16':({'BattleBodyPower':1},{'BattleBodyPower':1}),
     'R18':({'ThunderPoolPower':4},{'ThunderPoolPower':6}),
 }
-TARGETED = set('C07 U41 B04 C04 C06 C10 C11 U08 U28 U35 R31 C05 B01 B03 C01 C02 C03 C08 C20 U05 U06 U07 U20 U24 U27 U31 U38 U40 R17 R23 T01'.split())
-EXHAUST = set('U43 R25 R27 R29 R31 C25 C26 U12 U20 U24 U36 R06 R13 R17 R21 R24 T01 T02'.split())
+TARGETED = set('C07 U41 B04 C04 C10 C11 U08 U28 U35 R31 C05 B01 B03 C01 C02 C03 C08 C20 U05 U06 U07 U20 U24 U27 U31 U38 U40 R17 R23 T01'.split())
+EXHAUST = set('U43 R25 R27 R29 R31 C25 C26 U07 U12 U24 U36 R06 R13 R17 R21 R24 T01 T02'.split())
 
 
 def _need(value, label):
@@ -232,16 +242,21 @@ def _same(a, b, label):
         _need(type(a) is type(b) and a == b, label)
 
 
-def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medium='LeafSlimeM', enemy_order=(0,1,2)):
+def expected_observations(variant, draw_order, *, random_targets=None, medium='LeafSlimeM', enemy_order=(0,1,2)):
     """Expand only the explicit finite reference fixtures, never inspected C# values."""
     _need(variant in CARD_FACE_CASES, 'unknown case')
     c,face,b = variant.split('-',2); up = face == 'upgrade'; u = int(up)
     cost,block,draw,hit,hits,light,batches,all_light = ROWS[c][u]
+    if random_targets is None: random_targets = (0,1,2,2) if b=='kill-retarget' else (0,0,0,0)
+    strength = 3 if b in ('strength','marked-strength') else 0
+    bite = (9 if up else 6) + strength
+    if c=='U08' and b.startswith('marked'): hits=2
     prior = int(b[5:]) if b.startswith('prior') else 0
     energy = 0 if c == 'C01' else int(b.split('-')[0][1:]) if b.startswith('x') else 10
     initial_block = 10 if c in ('U05','R05','R07') and b != 'zero-block' else 0
     powers = {}; enemy_powers = [{},{},{}]
-    if b in ('strength','negative-strength'): powers['StrengthPower'] = 3 if b == 'strength' else -3
+    if strength or b=='negative-strength': powers['StrengthPower'] = strength if strength else -3
+    if c=='U08' and b.startswith('marked'): enemy_powers[0]['BiteMarkPower'] = 1
     if b == 'weak': powers['WeakPower'] = 1
     if b == 'vulnerable': enemy_powers[0]['VulnerablePower'] = 1
     if b == 'dexterity': powers['DexterityPower'] = 3
@@ -253,6 +268,7 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
     if b=='domain':powers['DomainPower']=2
     hp = [500-prior]*3
     if b == 'lethal': hp[0] = hit
+    if b == 'kill-retarget': hp[:2] = [3,3]
     if b == 'overkill':hp[0]=29 if up else 22
     before = dict(round=1,turn=1,energy=energy,hp=70 if b in ('injured','overkill') else 80,block=initial_block,enemyHp=hp,
                   enemyBlock=[100 if b == 'blocked' else 0,0,0],powers=powers,powerInstances={key:1 for key in powers},enemyPowers=enemy_powers,
@@ -268,8 +284,8 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
         before['selectedCards'].append(dict(cardRef=ref,shape='None',type='Attack' if model=='B01' else 'Status' if model=='SLIMED' else 'Curse' if model=='INJURY' else 'Skill',upgraded=False,
                                             cost=-1 if model=='INJURY' else 2 if model in ('R07','R23') else 1,prepared=0,retain=False,discount=0,pile=pile))
     after = deepcopy(before); after['hand'].remove('source')
-    if b == 'strength':
-        if c in ('B01','U05'): hit += 3
+    if strength:
+        if c in ('B01','U05','C06','U07','U08'): hit += strength
         if c == 'C12': block += 3
     if b == 'weak': hit = hit*3//4
     if b == 'vulnerable': hit = hit*3//2
@@ -298,7 +314,7 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
     if c=='U21' and prior>=2:gain=1
     after['energy'] -= cost; paid_energy = after['energy']; after['energy'] += gain
     after['block'] += block
-    if c == 'C08': after['enemyPowers'][0]['VulnerablePower'] = 1+u
+    if c == 'C08': after['enemyPowers'][0]['VulnerablePower'] = 2+u
     if c == 'U13':
         strength=before['powers'].get('StrengthPower',0)+2+u
         if strength:after['powers']['StrengthPower']=strength
@@ -311,7 +327,7 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
     if c=='R31':after['enemyBlock'][0]=0
     light_base=light
     if b=='charge':light+=2
-    if c == 'C04': after['enemyPowers'][0]['WeakPower'] = 1
+    if c == 'C04': after['enemyPowers'][0]['WeakPower'] = 2+u
     if c == 'U08': after['enemyPowers'][0]['BiteMarkPower'] = 1
     if c == 'R31': after['powers']['DomainPower'] = 1+u
     if b=='second-instance':
@@ -343,16 +359,21 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
     for i in range(max(hits,batches)):
         if i < hits:
             segment_start=len(damage)
-            for target in range(3) if c in ('C09','C22') else (random_targets[i] if c=='R08' else 0,):
-                if after['enemyHp'][target] > 0: receipt(target,hit,8)
+            for target in range(3) if c in ('C09','C22') else (random_targets[i] if c in ('C06','R08') else 0,):
+                if c=='C06': _need(type(target) is int and 0<=target<3 and after['enemyHp'][target]>0,'random hit must choose a living enemy')
+                if after['enemyHp'][target] > 0: receipt(target,bite if c=='U08' and i==1 else hit,8)
             if len(damage)>segment_start:damage_groups.append(damage[segment_start:])
-            if b=='conduction' or b=='domain' and i==0:
-                extra=3 if b=='conduction' else 4;extra_ref=None if b=='conduction' else 'source'
-                segment_start=len(damage);after['lightningCount']+=1
-                batch_records.append(dict(cardRef=extra_ref,baseDamage=extra,amount=extra,count=after['lightningCount'],targets=[0,1,2],
-                                          hits=[receipt(t,extra,4,extra_ref) for t in range(3)]))
-                damage_groups.append(damage[segment_start:])
-        if i < batches:
+            extras=[]
+            if i==0 and (b=='domain' or c=='C05'): extras.append((4,'source'))
+            if b=='conduction': extras.append((3,None))
+            for extra,extra_ref in extras:
+                targets=[t for t in range(3) if after['enemyHp'][t]>0]
+                if targets:
+                    segment_start=len(damage);after['lightningCount']+=1
+                    batch_records.append(dict(cardRef=extra_ref,baseDamage=extra,amount=extra,count=after['lightningCount'],targets=targets,
+                                              hits=[receipt(t,extra,4,extra_ref) for t in targets]))
+                    damage_groups.append(damage[segment_start:])
+        if i < batches and c!='C05':
             targets = [t for t in (range(3) if all_light else (random_targets[i] if c=='R08' else 0,)) if after['enemyHp'][t] > 0]
             if targets:
                 segment_start=len(damage)
@@ -376,8 +397,9 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
         if c=='R30':pending['powers'].pop('WildernessPower');pending['powerInstances'].pop('WildernessPower')
         selection_pending.append(pending)
     tracked=after['selectedCards']
-    chosen=tracked[:4 if up else 3] if c=='R10' else tracked[:3 if up else 2] if c=='R27' else tracked[:2] if c in ('R25','R29') else tracked[:1]
+    chosen=tracked[:2 if up else 1] if c=='C15' else tracked[:4 if up else 3] if c=='R10' else tracked[:3 if up else 2] if c=='R27' else tracked[:2] if c in ('R25','R29') else tracked[:1]
     if b=='zero':chosen=[]
+    if c=='C15' and b=='one':chosen=chosen[:1]
     if b=='full-hand':chosen=chosen[:1]
     if c in ('C07','C15','U39','U43','R10','R25'):
         for card in chosen:
@@ -397,14 +419,14 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
             tracked.append(card);after['hand'].append(card['cardRef'])
             if c=='R27' and shape=='Body':
                 conversion_sequence.append([dict(kind='block',target=-1,cardRef='source',amount=4,props=8)])
-        if c in ('C15','R10','U41','U42','U43','R29','R30') or c=='R27' and card['shape']=='Claw':
+        if c in ('R10','U41','U42','U43','R29','R30') or c=='R27' and card['shape']=='Claw':
             card['cost']=max(0,card['cost']-1);card['discount']=1
     if b == 'material': after['hand'].remove('material'); after['exhaust'].append('material')
     if c=='U17' and b=='plain':
         after['discard']+=after['draw'][:2];after['draw']=after['draw'][2:]
     drawn = after['draw'][:draw]; after['draw'] = after['draw'][draw:]; after['hand'] += drawn
     if c not in POWER_CARDS:
-        after['exhaust' if c in EXHAUST or c in ('C14','U14') and not up else 'discard'].append('source')
+        after['exhaust' if c in EXHAUST or c in ('C14','U14','U20') and not up else 'discard'].append('source')
     # Fixed native-history projection: damage, block, draws, exhausts and the
     # explicitly ordered domain/enemy debuff events. No production state is executed here.
     sequence=[[dict(kind='damage',**d) for d in group] for group in damage_groups]
@@ -419,9 +441,9 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
             if index==0:sequence+=draw_groups
         sequence.append([dict(kind='damage',**d) for d in damage if d['target']!=-1])
     elif c!='U19':sequence+=draw_groups
-    if c=='C04':sequence.insert(1,power('WeakPower',1,(0,)))
-    if c=='C08':sequence.append(power('VulnerablePower',1+u,(0,)))
-    if c=='U08':sequence.append(power('BiteMarkPower',1,(0,)))
+    if c=='C04':sequence.insert(1,power('WeakPower',2+u,(0,)))
+    if c=='C08':sequence.append(power('VulnerablePower',2+u,(0,)))
+    if c=='U08' and not b.startswith('marked'):sequence.append(power('BiteMarkPower',1,(0,)))
     if c=='C18':sequence.append(power('WeakPower',2+u,range(3)))
     if c=='U23':sequence.append(power('WeakPower',1+u,range(3)))
     domain_amount={'C05':1,'C14':1,'C18':1,'C21':1,'U19':1,'U32':1,'U37':1,'U39':1,'R01':999999999,'R25':2,'R31':1+u}.get(c)
@@ -434,7 +456,7 @@ def expected_observations(variant, draw_order, *, random_targets=(0,0,0,0), medi
     block_gain=before['block']*2 if c=='R05' else block
     if block_gain and c!='R27':
         block_group=[dict(kind='block',target=-1,cardRef='source',amount=block_gain,props=12 if c=='R05' else 8)]
-        if c in ('C06','U27','U23'):sequence.append(block_group)
+        if c in ('U27','U23'):sequence.append(block_group)
         else:sequence.insert(0,block_group)
     if b=='material':sequence.insert(0,[dict(kind='exhaust',cardRef='material')])
     if c in BEAST_CARDS:
@@ -463,8 +485,8 @@ def expected_response(c,up,source_after):
     cost=2 if c=='U21' else 1;after['energy']-=cost;paid=after['energy']
     groups=[];sequence=[];batches=[];draws=[]
     def ordinary():
-        after['enemyHp'][0]-=5
-        group=[dict(target=0,cardRef='response-card',hpLost=5,blocked=0,props=8)]
+        after['enemyHp'][0]-=6
+        group=[dict(target=0,cardRef='response-card',hpLost=6,blocked=0,props=8)]
         groups.append(group);sequence.append([dict(kind='damage',**d) for d in group])
     def thunder(base,amount,targets,ref):
         after['lightningCount']+=1
@@ -599,6 +621,12 @@ def _validate(r, token, variant):
             pileBefore='Hand',pileAfter='Hand',originalExhausted=True))
     _same(r['conversions'],expected_conversions,'native exhaust and new-token identities')
     e=expected_observations(variant,order,medium=r['enemyTypes'][2],enemy_order=r['enemyOrder'])
+    if c=='C06':
+        # Check each observed hit against the living pool after earlier receipts.
+        # Synthetic records cannot establish the native RNG seed or distribution.
+        targets=tuple(d['target'] for d in r['history']['damage'] if d['props']==8 and d['cardRef']=='source')
+        _need(len(targets)==ROWS[c][int(face=='upgrade')][4],'complete random hit count')
+        e=expected_observations(variant,order,random_targets=targets,medium=r['enemyTypes'][2],enemy_order=r['enemyOrder'])
     if c=='R08':
         # Exactly 81 legal four-target outcomes in this nonlethal three-enemy fixture.
         # This checks paired hits and actual HP, NOT seeded RNG consumption acceptance.
@@ -661,11 +689,12 @@ def _validate(r, token, variant):
 def selection_plan(c,up,index,branch='plain'):
     if c=='U17':return 'Draw',0,5 if up else 3,[]
     pile='Discard' if c in ('C15','R10') else 'Draw' if c in ('C07','U39','R25') or c=='U43' and index==0 else 'Hand'
-    maximum=(4 if up else 3) if c=='R10' else (3 if up else 2) if c=='R27' else 2 if c=='R25' else 1
-    minimum=0 if c in ('R10','R25','R27','R28') else maximum
-    selected=['selected','alternate','third','fourth'][:maximum] if c in ('R10','R27') else ['selected','alternate'] if c=='R25' else ['selected']
+    maximum=(2 if up else 1) if c=='C15' else (4 if up else 3) if c=='R10' else (3 if up else 2) if c=='R27' else 2 if c=='R25' else 1
+    minimum=0 if c in ('R10','R25','R27','R28') or c=='C15' and up else maximum
+    selected=['selected','alternate','third','fourth'][:maximum] if c in ('R10','R27') else ['selected','alternate'][:maximum] if c in ('C15','R25') else ['selected']
     if branch in ('insufficient','full-hand'):maximum=1;selected=['selected']
     if branch=='zero':selected=[]
+    if c=='C15' and branch=='one':selected=selected[:1]
     return pile,minimum,maximum,selected
 
 
@@ -687,6 +716,7 @@ def _validate_selections(selections,cards,aid,e,c,up,branch):
         def eligible(ref):
             model=cards[ref]['modelId']
             if c in ('C07','C19','U41'):return model in ('VOLIBEAR_B01','VOLIBEAR_B03','VOLIBEAR_B04')
+            if c=='C15':return model in ('VOLIBEAR_B01','VOLIBEAR_B03','VOLIBEAR_B04','VOLIBEAR_R07')
             if c=='U39':return ref in ('selected','alternate')
             if c=='R25':return model=='VOLIBEAR_B02'
             return True
