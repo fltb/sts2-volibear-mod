@@ -25,6 +25,8 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION = ROOT / 'src/Volibear/Presentation'
 ANIMATIONS = ROOT / 'assets/animation/animations/clean'
+CAMP = ANIMATIONS.parent / 'camp'
+CAMP_OPTIONS = ('heal', 'smith', 'mend', 'cook', 'dig', 'lift', 'clone', 'hatch', 'evolve', 'kindle', 'restore')
 CARDS = ROOT / 'assets/cards'
 UI = ROOT / 'assets/animation/ui'
 VFX = ROOT / 'assets/animation/vfx'
@@ -307,6 +309,7 @@ def pack_input_paths(clips, portraits, ui, effects, audio, audio_profile):
              *(PRESENTATION / name for name in ('verify_pack.gd', 'verify_effects.gd', 'verify_audio_profile.gd'))]
     for root, rows in ((ANIMATIONS, clips), (VFX, effects)):
         paths.extend(safe_source(root, row['atlas'][kind]) for row in rows for kind in ('image', 'json'))
+    paths.extend(CAMP / (name + '.png') for name in CAMP_OPTIONS)
     paths.extend(safe_source(CARDS, row['path']) for row in portraits)
     paths.extend(safe_source(UI, row['file']) for row in ui)
     paths.extend(safe_source(AUDIO, row['file']) for row in audio['assets'])
@@ -419,6 +422,17 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
     (scenes / 'volibear_selection.tscn').write_text(SELECTION_SCENE, encoding='utf-8')
     social_aliases = {**ALIASES, 'idle': 'relaxed_loop', 'Idle': 'relaxed_loop', 'IdleLoop': 'relaxed_loop'}
     (scenes / 'volibear_social_frames.tres').write_text(sprite_frames(clips, social_aliases), encoding='utf-8')
+    camp_dir = art / 'animations/camp'
+    camp_dir.mkdir()
+    camp_clips = [next(clip for clip in clips if clip['name'] == 'relaxed_loop')]
+    for name in CAMP_OPTIONS:
+        filename = name + '.png'
+        shutil.copyfile(CAMP / filename, camp_dir / filename)
+        camp_clips.append({'name': 'camp_' + name, 'atlas': {'image': 'camp/' + filename},
+                           'loop': False, 'fps': 16,
+                           'frames': [{'rect': [(i % 6) * 512, (i // 6) * 512, 512, 512],
+                                       'duration_ms': 62.5} for i in range(24)]})
+    (scenes / 'volibear_camp_frames.tres').write_text(sprite_frames(camp_clips, {}), encoding='utf-8')
     shutil.copyfile(PRESENTATION / 'actor.gd', scenes / 'actor.gd')
     for name in NATIVE_RESOURCES:
         shutil.copyfile(PRESENTATION / name, scenes / name)

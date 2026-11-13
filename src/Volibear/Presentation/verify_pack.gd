@@ -97,6 +97,17 @@ func verify_ui() -> bool:
 	if not rest.get_node("ControlRoot/AnimatedSprite2D").is_playing():
 		fail("Rest relaxed animation is not playing")
 		return false
+	var camp: AnimatedSprite2D = rest.get_node("ControlRoot/AnimatedSprite2D")
+	for option in ["heal", "smith", "mend", "cook", "dig", "lift", "clone", "hatch", "evolve", "kindle", "restore"]:
+		var clip := StringName("camp_" + option)
+		if camp.sprite_frames.get_frame_count(clip) != 24 or camp.sprite_frames.get_animation_loop(clip):
+			fail("Invalid rest-site action: " + option)
+			return false
+		camp.play(clip)
+		var last := camp.sprite_frames.get_frame_texture(clip, 23) as AtlasTexture
+		if camp.animation != clip or last == null or not Rect2(Vector2.ZERO, last.atlas.get_size()).encloses(last.region):
+			fail("Incomplete rest-site atlas: " + option)
+			return false
 	rest.free()
 	var merchant = load("res://VolibearArt/scenes/volibear_merchant.tscn").instantiate()
 	root.add_child(merchant)

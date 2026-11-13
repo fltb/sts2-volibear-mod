@@ -17,6 +17,7 @@ using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -95,6 +96,8 @@ public static partial class VolibearPresentationBridge
             typeof(PlayerChoiceContext), typeof(Creature), typeof(CardModel));
         var intent = Required(typeof(NCreature), nameof(NCreature.PerformIntent));
         var harmony = new Harmony(HarmonyId);
+        harmony.Patch(Required(typeof(NRestSiteRoom), "OnAfterPlayerSelectedRestSiteOption",
+            typeof(RestSiteOption), typeof(bool), typeof(ulong)), postfix: Handler(nameof(RestSiteOptionChosen)));
         harmony.Patch(ready, postfix: Handler(nameof(RoomReady)));
         harmony.Patch(reset, prefix: Handler(nameof(ManagerReset)));
         harmony.Patch(lightning, prefix: Handler(nameof(BeforeLightning)));
@@ -132,6 +135,19 @@ public static partial class VolibearPresentationBridge
         _historyIndex = CombatManager.Instance.History.Entries.Count();
         _installed = true;
         Dispatch("initial_attach", () => EnsureRoom(_historyState));
+    }
+
+    private static void RestSiteOptionChosen(NRestSiteRoom __instance, RestSiteOption option, bool success, ulong playerId)
+    {
+        if (!success) return;
+        var character = __instance.Characters.FirstOrDefault(node => node.Player.NetId == playerId);
+        if (character?.Player.Character is not VolibearCharacter) return;
+        var actor = character.GetNodeOrNull<AnimatedSprite2D>("ControlRoot/AnimatedSprite2D");
+        if (actor?.SpriteFrames is not { } frames) return;
+        var animation = "camp_" + option.OptionId.ToLowerInvariant();
+        if (!frames.HasAnimation(animation)) return;
+        actor.Play(animation);
+        actor.SetFrameAndProgress(0, 0f);
     }
 
     private static MethodInfo Required(Type type, string name, params Type[] arguments) =>

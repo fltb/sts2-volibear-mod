@@ -246,7 +246,8 @@ static class Program
             string[] expected = ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient",
                 "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char", "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient",
                 "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-3r.char"];
-            Need(ancients.Values.Keys.Order().SequenceEqual(expected.Order()),
+            var buttons = expected.SkipLast(1).Select(line => line[..line.LastIndexOf('.')] + ".next");
+            Need(ancients.Values.Keys.Order().SequenceEqual(expected.Concat(buttons).Order()),
                 "The finale has one contiguous conversation, with the native repeat suffix on every line");
             Need(ancients.Values.Values.All(text => !string.IsNullOrWhiteSpace(text)), "Every finale line contains finished text");
             var character = new CharacterAssets();

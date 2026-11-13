@@ -58,8 +58,11 @@ public static class VolibearLoc
             ["ancients"] = new()
             {
                 ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient"] = "你把下面砸得一团糟。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.next"] = "回应建筑师",
                 ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char"] = "那些墙挡了我的路。",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.next"] = "听下去",
                 ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"] = "所以你就一路拆到这里？",
+                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.next"] = "说明来意",
                 ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-3r.char"] = "我是来找你的。别再派那些东西送死了。",
             },
             ["powers"] = new(),

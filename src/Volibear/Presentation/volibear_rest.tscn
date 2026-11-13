@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="SpriteFrames" path="res://VolibearArt/scenes/volibear_social_frames.tres" id="frames"]
+[ext_resource type="SpriteFrames" path="res://VolibearArt/scenes/volibear_camp_frames.tres" id="frames"]
 [ext_resource type="Script" path="res://VolibearArt/scenes/actor.gd" id="actor"]
 
 [node name="VolibearRest" type="Node2D"]

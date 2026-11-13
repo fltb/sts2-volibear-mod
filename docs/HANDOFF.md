@@ -1,5 +1,11 @@
 # 当前源码交接：PR #1
 
+## 2026-11-13 · 营地动作与建筑师选项
+
+PBE 0.113.0 的 11 种营地选项均已接入角色骨骼动画。营地房间收到选择成功回调后，按玩家 ID 找到沃利贝尔并播放对应片段。营地图集在 `assets/animation/animations/camp/`，需要重新绘制时运行 `assets/animation/animations/skeletal_v9/scripts/render_camp.py`。
+建筑师前三次推进选项的文字在 `VolibearLoc.cs` 的 `ancients` 表，最后一句使用游戏的终局按钮。
+生产 DLL 和 riot_en PCK 已构建并部署到 Steam PBE。资源导出检查已加载 11 个动作，游戏内观感和终局流程留待玩家试玩。
+
 ## 2026-11-13 · PBE 0.113.0
 
 从 main 的 PR #2 合并提交迁移到 16ac0fe3。隔离启动已注册 89 张卡，补丁安装失败数为 0。
