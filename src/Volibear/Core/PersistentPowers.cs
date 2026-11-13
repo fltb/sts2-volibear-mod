@@ -278,11 +278,12 @@ public sealed class ImmovableBodyPower : PersistentPower
 public sealed class BattleBodyPower : PersistentPower
 {
     public override List<(string, string)> Localization => new PowerLoc("愈战神躯",
-        "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。",
-        "每张实际攻击结算后获得{Amount}力量；该牌曾提供正数格挡时，再获得{Amount}敏捷。");
+        "每张实际攻击牌结算后，获得{Amount}力量；每张实际提供正数格挡的技能牌结算后，获得{Amount}敏捷。",
+        "每张实际攻击牌结算后，获得{Amount}力量；每张实际提供正数格挡的技能牌结算后，获得{Amount}敏捷。");
     public override Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
-        if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null && Own(cardSource))
+        if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null &&
+            Own(cardSource) && cardSource.Type == CardType.Skill)
             Data.BlockPlays.Add(cardSource);
         return Task.CompletedTask;
     }
@@ -290,9 +291,10 @@ public sealed class BattleBodyPower : PersistentPower
     {
         if (!Live || !Own(play.Card) || !play.IsLastInSeries) return;
         bool blocked = Data.BlockPlays.Remove(play.Card);
-        if (play.Card.Type != CardType.Attack) return;
-        await PowerCmd.Apply<StrengthPower>(context, Owner, Amount, Owner, null);
-        if (blocked && Live) await PowerCmd.Apply<DexterityPower>(context, Owner, Amount, Owner, null);
+        if (play.Card.Type == CardType.Attack)
+            await PowerCmd.Apply<StrengthPower>(context, Owner, Amount, Owner, null);
+        else if (play.Card.Type == CardType.Skill && blocked)
+            await PowerCmd.Apply<DexterityPower>(context, Owner, Amount, Owner, null);
     }
 }
 

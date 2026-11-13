@@ -93,7 +93,7 @@ internal static class PersistentContractProbe
                 return;
             }
             if (!string.IsNullOrWhiteSpace(token) && variant is ("PP-U02-instances" or "PP-U02-domain-order" or
-                "PP-U03-min-stack" or "PP-U03-other-retention" or "PP-U03-clamp-priority" or "PP-R16-positive-own-block" or "PP-R16-passive-block-excluded" or "PP-U34-per-batch"))
+                "PP-U03-min-stack" or "PP-U03-other-retention" or "PP-U03-clamp-priority" or "PP-R16-positive-own-block" or "PP-R16-attack-block-excluded" or "PP-R16-passive-block-excluded" or "PP-U34-per-batch"))
             {
                 await Additional(state, token, variant);
                 return;
@@ -600,10 +600,14 @@ internal static class PersistentContractProbe
             await Apply<ThunderArmorPower>(3); await Apply<ThunderArmorPower>(4);
             foreach (var enemy in enemies) await CreatureCmd.GainBlock(enemy, 10, ValueProp.Unpowered, null);
         }
-        else if (variant == "PP-R16-positive-own-block")
+        else if (variant is "PP-R16-positive-own-block" or "PP-R16-attack-block-excluded")
         {
+            // Amount 2 is two deployed stacks, not two actual plays. The native
+            // replay repeats block/damage, while the stat response occurs once.
             await Apply<BattleBodyPower>(2);
-            played = state.CreateCard<MegaCrit.Sts2.Core.Models.Cards.IronWave>(player);
+            played = variant == "PP-R16-positive-own-block"
+                ? state.CreateCard<Volibear_B02>(player)
+                : state.CreateCard<MegaCrit.Sts2.Core.Models.Cards.IronWave>(player);
             played.BaseReplayCount = 1;
         }
         else
@@ -645,7 +649,7 @@ internal static class PersistentContractProbe
             }
         }
         else if (variant == "PP-U34-per-batch") await LightningCmd.DealAllEnemies(context, owner, 1);
-        else await CardCmd.AutoPlay(context, played!, enemies[0]);
+        else await CardCmd.AutoPlay(context, played!, played!.TargetType == TargetType.Self ? owner : enemies[0]);
         _extraObserve = false;
         _phaseObserve = false;
         var history = CombatManager.Instance.History.Entries.Skip(boundary).ToArray();

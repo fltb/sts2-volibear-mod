@@ -46,21 +46,15 @@ public sealed class Volibear_C20 : VolibearCard
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_U07")]
-public sealed class Volibear_U07 : VolibearCard, ITargetCostCard
+public sealed class Volibear_U07 : VolibearCard
 {
-    public Volibear_U07() : base(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u07") { }
-    public override List<(string, string)> Localization => new CardLoc("崩山", "造成{Damage:diff()}伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(28m, Move)];
-    protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => HistoryEffects.Attack(context, this, play.Target, Value("Damage"));
-    protected override void OnUpgrade() => UpgradeVar("Damage", 8m);
-    public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
-    {
-        modifiedCost = originalCost;
-        if (!ReferenceEquals(card, this) || originalCost < 0 || card.EnergyCost.CostsX ||
-            TargetCosts.TargetFor(card) is not { } target) return false;
-        modifiedCost = Math.Max(0, originalCost - AttackHistory.PriorTargetAttackCount(card, target));
-        return modifiedCost != originalCost;
-    }
+    public Volibear_U07() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u07") { }
+    public override List<(string, string)> Localization => new CardLoc("崩山", "造成{Damage:diff()}伤害，重复{Hits:diff()}次。");
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, Move), new DynamicVar("Hits", 4m)];
+    protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
+        DirectEffects.Attack(context, this, play.Target, Value("Damage"), (int)Value("Hits"));
+    protected override void OnUpgrade() => UpgradeVar("Hits", 1m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_U20")]
@@ -78,7 +72,7 @@ public sealed class Volibear_U20 : VolibearCard
         await HistoryEffects.Attack(context, this, play.Target, Value("Damage"));
         if (previousWasAttack && HistoryEffects.Live(this)) await PlayerCmd.GainEnergy(Value("Energy"), Owner);
     }
-    protected override void OnUpgrade() { UpgradeVar("Damage", 4m); UpgradeVar("Energy", 1m); }
+    protected override void OnUpgrade() { UpgradeVar("Damage", 4m); RemoveKeyword(CardKeyword.Exhaust); }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_U38")]

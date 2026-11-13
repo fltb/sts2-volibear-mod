@@ -70,21 +70,22 @@ def plan(case):
             for suffix,card,target in (('first','B01',0),('second','B01',0),('other','B01',1),('accumulated','U07',0),('untouched','U07',2)): a(suffix,card,target)
         elif code == 'R06': a('first','B01',0); a('second','C24')
         elif code == 'U32':
-            if phase == 'same': a('initial-coupon','U07',2)
-            for suffix,card,target in (('first','B04',0),('coupon','U07',1),('second','B04',1),('spent','U07',2)): a(suffix,card,target)
+            if phase == 'same': a('initial-coupon','U06',2)
+            for suffix,card,target in (('first','B04',0),('coupon','U06',1),('second','B04',1),('spent','U06',2)): a(suffix,card,target)
         else:
             trigger = 'B04' if code in ('U04','U19','R18','U03','R02') else 'C24' if code in ('U21','U34','U29') else 'B01'
             a('first',trigger,-1 if trigger=='C24' else 0)
             a('second','B04' if code=='R16' else trigger,-1 if trigger=='C24' else 1 if trigger=='B04' else 0)
+            if code=='R16': add(prefix+'-skill-replay','B02',replay=1,phase=phase)
             if code in ('U25','U26','U26-extra'): a('third','B01',1); a('fourth','B01',1)
     if code in POWER_TYPES:
         if code == 'U21': add('prior-lightning-one','C24'); add('prior-lightning-two','C24')
         add('paid-second-deployment', 'U26' if code=='U26-extra' else code, upgraded=up)
         events('same-turn','same'); events('next-turn','next')
     elif code == 'U07':
-        add('history-replayed-attack-counts-once','B01',0,replay=1)
-        add('history-same-target','U07',0,up); add('history-other-target','U07',1,up); add('history-return-target','U07',0,up)
-        add('history-next-turn-reset','U07',0,up,phase='next')
+        add('multi-hit-replayed-prior-attack','B01',0,replay=1)
+        add('fixed-cost-same-target','U07',0,up); add('fixed-cost-other-target','U07',1,up); add('fixed-cost-return-target','U07',0,up,replay=1)
+        add('fixed-cost-next-turn','U07',0,up,phase='next')
     elif code == 'U08':
         for label,target in (('bite-blocked-first',0),('bite-other-target',1),('bite-marked-target',0)): add(label,'U08',target,up)
         add('bite-next-turn-marked','U08',0,up,phase='next'); add('bite-new-instance-unmarked','U08',3,up,phase='next')
@@ -173,13 +174,13 @@ def validate(raw, token, case):
         target_ids=[e['enemyRef'] for e in before['enemies']]
         target=target_ids[spec['target']] if spec['target']>=0 else 'null'
         same(actual['targetRef'],target,label+'.actual target')
-        is_attack=card in ('B01','B04','U07','U08','U20','T01')
-        cost=0 if card=='C17' else 3 if card=='U07' else 2 if card in ('U19','R18','R06','R02','R30') else (1 if up else 2) if card=='U32' else (2 if up else 3) if card=='R01' else (0 if up else 1) if card=='U21' else 1
-        if card=='U07': cost=max(0,3-target_counts[target])
+        is_attack=card in ('B01','B04','U06','U07','U08','U20','T01')
+        cost=0 if card=='C17' else 2 if card in ('U06','U19','R18','R06','R02','R30') else (1 if up else 2) if card=='U32' else (2 if up else 3) if card=='R01' else (0 if up else 1) if card=='U21' else 1
         if not fresh and code=='R14' and is_attack: cost=max(0,cost-2*target_counts[target])
         if is_attack and coupon: cost=max(0,cost-coupon); coupon=0
-        if card=='U07':
-            wanted=[max(0,3-target_counts[t]-(2*target_counts[t] if not fresh and code=='R14' else 0)) for t in target_ids]
+        if card in ('U06','U07'):
+            printed=2 if card=='U06' else 1
+            wanted=[max(0,printed-(2*target_counts[t] if not fresh and code=='R14' else 0)) for t in target_ids]
             # Preview is taken before payment consumes the ordinary next-attack coupon.
             old_coupon=(2 if up else 1) if not fresh and code=='U32' and label.endswith(('initial-coupon','-coupon')) else 0
             wanted=[max(0,n-old_coupon) for n in wanted]
@@ -193,7 +194,7 @@ def validate(raw, token, case):
         bases=[]; refund=0; draw=0; block_gain=0; ordinary=[]
         if deployment:
             if code in ('U02','R18'): bases=[9 if up else 6]
-            if code=='U03': block_gain=12 if up else 8
+            if code=='U03': block_gain=8 if up else 5
             if code=='U04': block_gain=9 if up else 6
             if code=='U19': domain=1; draw=2 if up else 1
             if code=='U21': lightning=2; refund=1
@@ -202,10 +203,10 @@ def validate(raw, token, case):
             if code=='U29': storm=2*(3 if up else 2)
             if code=='U32': domain=1; coupon=2 if up else 1
             if code=='U34': block_gain=7 if up else 4
-            if code=='R01': permanent=True; domain=before['domain']; block_gain=14 if up else 10
-            if code=='R02': block_gain=15 if up else 10
+            if code=='R01': permanent=True; domain=before['domain']; block_gain=5
+            if code=='R02': block_gain=11 if up else 8
             if code=='R14': draw=int(up)
-            if code=='R16': block_gain=8 if up else 0
+            if code=='R16': block_gain=5 if up else 0
             if code=='R06': strength=4 if up else 3; block_gain=14 if up else 10
             powers=_power_rows(after,POWER_TYPES[code]); same(len(powers),2 if code in INSTANCED else 1,label+'.native stack/instance policy')
             power_ids=[p['powerRef'] for p in powers]; need(set(first_power_ids)<=set(power_ids),'first native instance retained')
@@ -219,16 +220,19 @@ def validate(raw, token, case):
                     strength+=2*(2 if up else 1); storm+=2*(2 if up else 1)
                 if not fresh and code=='R28' and card in ('T01','T02') and beast_plays==0: storm+=2
                 if card in ('T01','T02'): beast_plays+=1
-                damage={'B01':6,'B04':6,'U07':36 if spec['upgraded'] else 28,'U08':14 if spec['upgraded'] else 10,'U20':14 if spec['upgraded'] else 10,'T01':7}[card]
-                if card=='U08' and label in ('bite-marked-target','bite-next-turn-marked'): damage+=9 if up else 6
+                damage={'B01':6,'B04':6,'U06':8,'U07':3,'U08':14 if spec['upgraded'] else 10,'U20':14 if spec['upgraded'] else 10,'T01':7}[card]
                 if not fresh and code=='R06': damage+=6
-                ordinary=[damage+strength]*(repeat*(2 if card=='T01' else 1))
+                hits=3 if card=='U06' else (5 if spec['upgraded'] else 4) if card=='U07' else 2 if card=='T01' else 1
+                segments=[damage+strength]*hits
+                if card=='U08' and label in ('bite-marked-target','bite-next-turn-marked'):
+                    segments.append((9 if spec['upgraded'] else 6)+strength)
+                ordinary=segments*repeat
                 for effect in actual['effects']: same(effect['state']['strength'],strength,label+'.strength before original effect')
                 if not fresh and code=='R28':
                     for effect in actual['effects']: same(effect['state']['storm'],storm,label+'.beast storm before original effect')
-                if card=='B04': block_gain=8+dex
+                if card=='B04': block_gain=10+dex
                 if card=='U08': block_gain=(9 if spec['upgraded'] else 6)+dex
-                if card=='U20' and previous_attack: refund=(3 if spec['upgraded'] else 2)*repeat
+                if card=='U20' and previous_attack: refund=2*repeat
                 if not fresh and code=='R30' and card=='T01' and beast_plays==1: block_gain+=2*(9 if up else 6)
                 if not fresh and code=='U02': bases += [4 if up else 3]*2*len(ordinary)
                 if domain>0: bases += [4]
@@ -241,12 +245,14 @@ def validate(raw, token, case):
                     if not fresh and code=='U32' and engaged==0: coupon=2 if up else 1
                     if not fresh and code=='R18' and engaged==0: bases += [6 if up else 4]*2
                     engaged+=1
-                if not fresh and code=='R16': strength+=2; dex+=2 if card=='B04' else 0
+                if not fresh and code=='R16': strength+=2
             elif card=='C24': bases=[6]; draw=1
             elif card=='T02':
                 bases=[2]; block_gain=9+dex
                 if not fresh and code=='R30': refund=2
-            elif card=='B02': block_gain=5+dex
+            elif card=='B02':
+                block_gain=(5+dex)*repeat
+                if not fresh and code=='R16': dex+=2
             elif card=='C17': strength+=6 if spec['upgraded'] else 4; temporary+=6 if spec['upgraded'] else 4
             elif card=='U13': strength+=3 if spec['upgraded'] else 2; temporary=0
             if not fresh and code=='U21' and card=='C24' and not label.startswith('prior-') and (lightning+1)%2==0: refund+=2
@@ -287,7 +293,7 @@ def validate(raw, token, case):
         if ability and not fresh and not label.startswith('prior-'):
             same([p['powerRef'] for p in _power_rows(after,POWER_TYPES[code])],power_ids,label+'.same deployed instances')
         if fresh: need(not any(p['type'] in POWER_TYPES.values() for p in after['powers']),'no prior ability in new combat')
-        expected_pile='Exhaust' if card in ('U20','R06','T01','T02') else 'None' if deployment else 'Discard'
+        expected_pile='Exhaust' if card in ('U07','R06','T01','T02') or (card=='U20' and not spec['upgraded']) else 'None' if deployment else 'Discard'
         same(actual['pile'],expected_pile,label+'.native destination')
         same(actual['history']['exhausts'],[actual['cardRef']] if expected_pile=='Exhaust' else [],label+'.native single removal')
     transitions=raw['transitions']; wanted=['native-normal-next-player-turn']

@@ -2,6 +2,7 @@
 
 Authority: reference volibear mechanics/damage-training.ts (all own damage), repeat.ts
 (full effects, one actual play), thunder-guard.ts (independent 3/5 reactions); cards_s2.json.
+U08 separate segments follow the user-approved 2026-11-10 adjustment.
 No production C# is read to derive expected outcomes. Unimplemented cases stay NOT_RUN.
 """
 import json
@@ -11,7 +12,7 @@ EXPECTED_GAME_VERSION = os.environ.get('VOLIBEAR_GAME_VERSION', 'v0.107.1')
 EXPECTED_GAME_COMMIT = os.environ.get('VOLIBEAR_GAME_COMMIT', '59260271')
 
 PREFIX = '[Volibear] PREPARED_CONTRACT_RESULT '
-PREPARED_CASES = ('PR-training-dynamic-spells', 'PR-training-native-domain', 'PR-guard-instances', 'PR-replay-paid')
+PREPARED_CASES = ('PR-training-dynamic-spells', 'PR-training-native-domain', 'PR-guard-instances', 'PR-replay-paid', 'PR-bite-segments')
 ALL_CASES = PREPARED_CASES + ('PR-C19-fixed-dynamic-complete-replay', 'PR-C25-coupon', 'PR-U12-round-bonus',
                              'PR-U14-engage-coupon', 'PR-U39-native-choice', 'PR-C14-expiry')
 PREPARED_CARD_IDS = ('C14', 'C19', 'C25', 'U08', 'U10', 'U11', 'U12', 'U14', 'U39', 'R06')
@@ -64,6 +65,10 @@ def validate_prepared_result(r, token, variant):
             sequence = [unify, training, ('guard', 'C14', 2, False), ('attack', 'B03', 1, False)]
         elif variant == 'PR-guard-instances':
             sequence = [unify, ('guard-base', 'C14', 2, False), ('guard-upgrade', 'C14', 2, True)]
+        elif variant == 'PR-bite-segments':
+            sequence = [unify, ('guard', 'C14', 2, False), ('conduction', 'U02', 1, False),
+                        ('bite-mark', 'U08', 1, False), training, ('replay', 'U11', 1, False),
+                        ('bite-trained', 'U08', 1, False), ('bite-upgrade', 'U08', 1, True)]
         else:
             sequence = [('replay', 'U11', 1, False), ('bite-first', 'U08', 1, False), ('bite-next', 'U08', 1, False)]
         cards = r['cards']; _need(type(cards) is list and len(cards) == 10 + len(sequence))
@@ -118,16 +123,21 @@ def validate_prepared_result(r, token, variant):
                                      dict(label='after-finished', state='Finished', id=aid, energy=energy-cost)])))
             energy -= cost
             expected_payments.append(dict(cardRef=label, amount=cost, energy=energy))
-            repeats = 2 if label == 'bite-first' else 1
+            repeats = 2 if label in ('bite-first', 'bite-trained') else 1
             plays = [dict(cardRef=label, index=i, count=repeats) for i in range(repeats)]
             _need(_eq(s['plays'], plays))
-            trained = 3 if label == 'attack' else 0
+            trained = 3 if label in ('attack', 'bite-trained') else 0
             _need(_eq(s['training'], trained))
-            pending = 3 if variant.startswith('PR-training-') and label not in ('unify', 'training', 'attack') else 0
+            pending = next((n for kind, n in powers if kind == 'NextAttackTrainingPower'), 0)
+            if model in ('U05', 'B03', 'U08'): pending = 0
+            bite_preview = None
+            if model == 'U08':
+                bonus = (6 if variant == 'PR-bite-segments' else 0) + trained
+                bite_preview = dict(type='DamageVar', amount=(9 if upgraded else 6) + bonus)
             for i in range(repeats):
                 expected_pre.append(dict(cardRef=label, index=i, count=repeats, autoPlay=False,
-                                         energy=energy, spent=cost, block=block + (6*i if model == 'U08' else 0),
-                                         pendingTraining=pending, training=trained, replay=0))
+                                         energy=energy, spent=cost, block=block + ((9 if upgraded else 6)*i if model == 'U08' else 0),
+                                         pendingTraining=pending, training=trained, replay=0, bitePreview=bite_preview))
             damage, moves, draw_count = [], [], 0
             if model == 'R06':
                 block += 10; powers = [('StrengthPower', 3), ('UnifyPower', 3)]
@@ -157,12 +167,28 @@ def validate_prepared_result(r, token, variant):
                 damage = [hit(ids[0], 17, label, 8)] + [hit(e, amount, label) for amount in (4,9) for e in ids]
                 expected_batches += [(4,4,label,ids), (3,9,label,ids)]; count += 2
                 powers = [p for p in powers if p[0] != 'NextAttackTrainingPower']
+            elif model == 'U02':
+                hp = [x-6 for x in hp]; damage = [hit(e, 6, label) for e in ids]
+                expected_batches.append((6,6,label,ids)); count += 1
+                powers += [('StormConductionPower', 3)]
             elif model == 'U11':
-                powers = [('NextAttackReplayPower', 1)]
+                powers += [('NextAttackReplayPower', 1)]
             elif model == 'U08':
-                block += 6 * repeats; amount = 10 if repeats == 2 else 16
-                hp[0] -= amount * repeats; marks[0] = 1; powers = []
-                damage = [hit(ids[0], amount, label, 8) for _ in range(repeats)]
+                block += (9 if upgraded else 6) * repeats
+                # Eligibility is frozen before the paid card, including its replays.
+                had_bite = bool(marks[0])
+                bonus = (6 if variant == 'PR-bite-segments' else 0) + trained
+                segments = [14 if upgraded else 10] + ([9 if upgraded else 6] if had_bite else [])
+                segments = [n + bonus for n in segments] * repeats
+                damage = [hit(ids[0], n, label, 8) for n in segments]
+                hp[0] -= sum(segments); marks[0] = 1
+                powers = [p for p in powers if p[0] not in ('NextAttackTrainingPower', 'NextAttackReplayPower')]
+                if variant == 'PR-bite-segments':
+                    # One Domain batch per actual card; one U02 batch per ordinary hit.
+                    batches_for_card = [(4,4,label,ids)] + [(3,3,None,ids)] * len(segments)
+                    expected_batches += batches_for_card; count += len(batches_for_card)
+                    hp = [x - 4 - 3*len(segments) for x in hp]
+                    damage += [hit(e, amount, source) for _, amount, source, _ in batches_for_card for e in ids]
             expected_draw = s['before']['draw'][:draw_count]
             _need(_eq(s['draws'], [dict(cardRef=c, modelId=lookup[c]['modelId'], fromHandDraw=False) for c in expected_draw]))
             _need(_eq(s['moves'], moves))
@@ -177,9 +203,14 @@ def validate_prepared_result(r, token, variant):
                     remaining.pop(match)
                 return not remaining
             _need(same_hits(s['damage'], damage))
+            if model == 'U08':
+                # Ordered ordinary receipts distinguish 10 then 6 from a merged hit
+                # even when the total HP loss happens to match.
+                _need(_eq([row for row in s['damage'] if row['props'] == 8],
+                          [row for row in damage if row['props'] == 8]))
             snap(s['after'], energy, block, hp, marks, count, powers)
             _need(_eq(s['after']['hand'], prior['hand'] + expected_draw) and _eq(s['after']['draw'], prior['draw'][draw_count:]))
-            _need(s['finalPile'] == ('Exhaust' if model == 'R06' or model == 'C14' and not upgraded else 'Discard'))
+            _need(s['finalPile'] == (None if model == 'U02' else 'Exhaust' if model == 'R06' or model == 'C14' and not upgraded else 'Discard'))
             prior = s['after']
         _need(action_ids == sorted(set(action_ids)))
         _need(_eq(r['payments'], expected_payments))

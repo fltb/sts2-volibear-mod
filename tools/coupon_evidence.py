@@ -166,7 +166,7 @@ def _validate(r,token,variant):
             elif shape=='Body':state['block']+=9;lightning(h,2+state['powers']['StormChargePower'],ref)
             elif code=='C01':strike(h,6,ref)
             else:
-                state['block'] += dict(B04=8,C04=0,C10=8,C11=8,U28=12,U35=8,R09=15)[code]
+                state['block'] += dict(B04=10,C04=0,C10=8,C11=12,U28=12,U35=8,R09=15)[code]
                 if code in ('B04','C04'):strike(h,6 if code=='B04' else 9,ref)
                 if code=='U35':lightning(h,3+state['powers']['StormChargePower'],ref)
                 if code=='R09':all_enemies(h,True)

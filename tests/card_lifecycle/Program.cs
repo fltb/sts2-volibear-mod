@@ -31,7 +31,12 @@ var context = new PlayerChoiceContext();
 var play = new CardPlay { Target = new Creature() };
 var live = NewCard();
 await live.Play(context, play);
-Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:8", "attack:6", "engage" }), "live B04 preserves block/attack/automatic engage order");
+Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:10", "attack:6", "engage" }), "live B04 preserves block/attack/automatic engage order");
+
+var upgraded = NewCard();
+upgraded.Upgrade();
+await upgraded.Play(context, play);
+Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:13", "attack:9", "engage" }), "upgraded B04 preserves block/attack/automatic engage order at 13/9");
 
 foreach (var terminal in new[] { "state-removed", "ending", "not-in-progress", "owner-dead" })
 {
@@ -53,7 +58,7 @@ foreach (var terminal in new[] { "state-removed", "ending", "not-in-progress", "
     };
     await card.Play(context, play);
     Check(resumed, terminal + ": block really yielded before terminal transition");
-    Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:8" }), terminal + ": no attack or engage after awaited block termination");
+    Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:10" }), terminal + ": no attack or engage after awaited block termination");
 }
 
 var lostTarget = NewCard();
@@ -86,12 +91,12 @@ foreach (var terminal in new[] { "state-removed", "ending", "not-in-progress", "
     };
     await card.Play(context, play);
     Check(resumed, terminal + ": attack really yielded before terminal transition");
-    Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:8", "attack:6" }), terminal + ": no engage call after awaited termination");
+    Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:10", "attack:6" }), terminal + ": no engage call after awaited termination");
 }
 
 var noTarget = NewCard();
 await noTarget.Play(context, new CardPlay());
-Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:8" }), "missing target keeps block and skips targeted effects");
+Check(BoundaryTrace.Events.SequenceEqual(new[] { "block:10" }), "missing target keeps block and skips targeted effects");
 var nextCombat = NewCard();
 await nextCombat.Play(context, play);
 Check(BoundaryTrace.Events.Last() == "engage", "later live combat can engage normally");

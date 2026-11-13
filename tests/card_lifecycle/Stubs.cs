@@ -51,7 +51,7 @@ namespace MegaCrit.Sts2.Core.Localization.DynamicVars
     public class DynamicVar(string name, decimal value)
     {
         public string Name { get; } = name;
-        public decimal BaseValue { get; } = value;
+        public decimal BaseValue { get; set; } = value;
     }
     public sealed class DamageVar : DynamicVar { public DamageVar(decimal amount, ValueProp props) : base("Damage", amount) { } }
     public sealed class BlockVar : DynamicVar { public BlockVar(decimal amount, ValueProp props) : base("Block", amount) { } }
@@ -109,9 +109,12 @@ namespace Volibear.Content
         protected abstract IEnumerable<DynamicVar> CanonicalVars { get; }
         protected abstract Task OnPlay(PlayerChoiceContext context, CardPlay play);
         protected abstract void OnUpgrade();
-        protected T Var<T>(string name) where T : DynamicVar => (T)CanonicalVars.Single(v => v.Name == name);
-        protected decimal Value(string name) => CanonicalVars.Single(v => v.Name == name).BaseValue;
-        protected void UpgradeVar(string name, decimal delta) { }
+        private Dictionary<string, DynamicVar>? variables;
+        private Dictionary<string, DynamicVar> Variables => variables ??= CanonicalVars.ToDictionary(v => v.Name);
+        protected T Var<T>(string name) where T : DynamicVar => (T)Variables[name];
+        protected decimal Value(string name) => Variables[name].BaseValue;
+        protected void UpgradeVar(string name, decimal delta) => Variables[name].BaseValue += delta;
+        public void Upgrade() => OnUpgrade();
         public Task Play(PlayerChoiceContext context, CardPlay play) => OnPlay(context, play);
     }
     public static class LightningCmd

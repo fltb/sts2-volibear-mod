@@ -4,6 +4,7 @@
     "version": "S2-3.0",
     "configuration": "S2_BUFF_D4",
     "sources": [
+      "docs/BALANCE_UPDATE_2026-11-10.md",
       "reference/bear-forge/docs/volibear/cards_s2.json",
       "reference/bear-forge/docs/volibear/CARDS.md",
       "reference/bear-forge/docs/volibear/DEVELOPMENT.md",
@@ -158,6 +159,7 @@
       "reward_pool": false,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#B04",
         "reference/bear-forge/docs/volibear/cards_s2.json#B04",
         "reference/bear-forge/docs/volibear/CARDS.md#B04",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -167,10 +169,10 @@
           "face_id": "B04",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "获得8格挡。造成6伤害。迎战。",
-          "display_text_zh": "获得8格挡。造成6伤害。迎战。",
+          "rules_text_zh": "获得10格挡。造成6伤害。迎战。",
+          "display_text_zh": "获得10格挡。造成6伤害。迎战。",
           "numeric_literals": [
-            8,
+            10,
             6
           ],
           "self_exhaust": false,
@@ -182,10 +184,10 @@
           "face_id": "B04+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "获得11格挡。造成9伤害。迎战。",
-          "display_text_zh": "获得11格挡。造成9伤害。迎战。",
+          "rules_text_zh": "获得13格挡。造成9伤害。迎战。",
+          "display_text_zh": "获得13格挡。造成9伤害。迎战。",
           "numeric_literals": [
-            11,
+            13,
             9
           ],
           "self_exhaust": false,
@@ -242,6 +244,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C02",
         "reference/bear-forge/docs/volibear/cards_s2.json#C02",
         "reference/bear-forge/docs/volibear/CARDS.md#C02",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -251,10 +254,10 @@
           "face_id": "C02",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "造成5伤害，重复2次。",
-          "display_text_zh": "造成5伤害，共2次。",
+          "rules_text_zh": "造成6伤害，重复2次。",
+          "display_text_zh": "造成6伤害，共2次。",
           "numeric_literals": [
-            5,
+            6,
             2
           ],
           "self_exhaust": false,
@@ -264,10 +267,10 @@
           "face_id": "C02+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "造成7伤害，重复2次。",
-          "display_text_zh": "造成7伤害，共2次。",
+          "rules_text_zh": "造成8伤害，重复2次。",
+          "display_text_zh": "造成8伤害，共2次。",
           "numeric_literals": [
-            7,
+            8,
             2
           ],
           "self_exhaust": false,
@@ -328,6 +331,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C04",
         "reference/bear-forge/docs/volibear/cards_s2.json#C04",
         "reference/bear-forge/docs/volibear/CARDS.md#C04",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -337,11 +341,11 @@
           "face_id": "C04",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "造成9伤害。施加1虚弱。迎战。",
-          "display_text_zh": "造成9伤害。施加1虚弱。迎战。",
+          "rules_text_zh": "造成9伤害。施加2虚弱。迎战。",
+          "display_text_zh": "造成9伤害。施加2虚弱。迎战。",
           "numeric_literals": [
             9,
-            1
+            2
           ],
           "self_exhaust": false,
           "keywords": [
@@ -353,11 +357,11 @@
           "face_id": "C04+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "造成12伤害。施加2虚弱。迎战。",
-          "display_text_zh": "造成12伤害。施加2虚弱。迎战。",
+          "rules_text_zh": "造成12伤害。施加3虚弱。迎战。",
+          "display_text_zh": "造成12伤害。施加3虚弱。迎战。",
           "numeric_literals": [
             12,
-            2
+            3
           ],
           "self_exhaust": false,
           "keywords": [
@@ -375,6 +379,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C05",
         "reference/bear-forge/docs/volibear/cards_s2.json#C05",
         "reference/bear-forge/docs/volibear/CARDS.md#C05",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -384,11 +389,12 @@
           "face_id": "C05",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "领域1。造成6伤害。",
-          "display_text_zh": "领域1。造成6伤害。",
+          "rules_text_zh": "领域1。造成3伤害，重复2次。",
+          "display_text_zh": "领域1。造成3伤害，共2次。",
           "numeric_literals": [
             1,
-            6
+            3,
+            2
           ],
           "self_exhaust": false,
           "keywords": [
@@ -399,11 +405,12 @@
           "face_id": "C05+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "领域1。造成9伤害。",
-          "display_text_zh": "领域1。造成9伤害。",
+          "rules_text_zh": "领域1。造成3伤害，重复3次。",
+          "display_text_zh": "领域1。造成3伤害，共3次。",
           "numeric_literals": [
             1,
-            9
+            3,
+            3
           ],
           "self_exhaust": false,
           "keywords": [
@@ -414,12 +421,13 @@
     },
     {
       "card_id": "C06",
-      "name_zh": "进逼",
+      "name_zh": "狂乱挥击",
       "type": "attack",
       "rarity": "common",
       "reward_pool": true,
-      "play_target": "single_enemy",
+      "play_target": "random_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C06",
         "reference/bear-forge/docs/volibear/cards_s2.json#C06",
         "reference/bear-forge/docs/volibear/CARDS.md#C06",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -429,12 +437,11 @@
           "face_id": "C06",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "造成8伤害。目标意图含攻击时，获得6格挡；否则抽1张牌。",
-          "display_text_zh": "造成8伤害。若目标打算攻击，获得6格挡；否则抽1张牌。",
+          "rules_text_zh": "对随机敌人造成3伤害，共3次。",
+          "display_text_zh": "对随机敌人造成3伤害，共3次。",
           "numeric_literals": [
-            8,
-            6,
-            1
+            3,
+            3
           ],
           "self_exhaust": false,
           "keywords": []
@@ -443,12 +450,11 @@
           "face_id": "C06+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "造成11伤害。目标意图含攻击时，获得8格挡；否则抽1张牌。",
-          "display_text_zh": "造成11伤害。若目标打算攻击，获得8格挡；否则抽1张牌。",
+          "rules_text_zh": "对随机敌人造成3伤害，共4次。",
+          "display_text_zh": "对随机敌人造成3伤害，共4次。",
           "numeric_literals": [
-            11,
-            8,
-            1
+            3,
+            4
           ],
           "self_exhaust": false,
           "keywords": []
@@ -508,6 +514,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C08",
         "reference/bear-forge/docs/volibear/cards_s2.json#C08",
         "reference/bear-forge/docs/volibear/CARDS.md#C08",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -517,11 +524,11 @@
           "face_id": "C08",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "造成8伤害。施加1易伤。",
-          "display_text_zh": "造成8伤害。施加1易伤。",
+          "rules_text_zh": "造成8伤害。施加2易伤。",
+          "display_text_zh": "造成8伤害。施加2易伤。",
           "numeric_literals": [
             8,
-            1
+            2
           ],
           "self_exhaust": false,
           "keywords": [
@@ -532,11 +539,11 @@
           "face_id": "C08+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "造成10伤害。施加2易伤。",
-          "display_text_zh": "造成10伤害。施加2易伤。",
+          "rules_text_zh": "造成11伤害。施加3易伤。",
+          "display_text_zh": "造成11伤害。施加3易伤。",
           "numeric_literals": [
-            10,
-            2
+            11,
+            3
           ],
           "self_exhaust": false,
           "keywords": [
@@ -645,6 +652,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C11",
         "reference/bear-forge/docs/volibear/cards_s2.json#C11",
         "reference/bear-forge/docs/volibear/CARDS.md#C11",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -654,10 +662,10 @@
           "face_id": "C11",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "获得8格挡。迎战。",
-          "display_text_zh": "获得8格挡。迎战。",
+          "rules_text_zh": "获得12格挡。迎战。",
+          "display_text_zh": "获得12格挡。迎战。",
           "numeric_literals": [
-            8
+            12
           ],
           "self_exhaust": false,
           "keywords": [
@@ -668,10 +676,10 @@
           "face_id": "C11+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "获得11格挡。迎战。",
-          "display_text_zh": "获得11格挡。迎战。",
+          "rules_text_zh": "获得16格挡。迎战。",
+          "display_text_zh": "获得16格挡。迎战。",
           "numeric_literals": [
-            11
+            16
           ],
           "self_exhaust": false,
           "keywords": [
@@ -821,6 +829,7 @@
       "reward_pool": true,
       "play_target": "self",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#C15",
         "reference/bear-forge/docs/volibear/cards_s2.json#C15",
         "reference/bear-forge/docs/volibear/CARDS.md#C15",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -829,35 +838,31 @@
         {
           "face_id": "C15",
           "upgrade": false,
-          "cost": 1,
-          "rules_text_zh": "回收1张攻击或雷法，减费1。",
-          "display_text_zh": "回收1张攻击或雷法，减费1。",
+          "cost": 0,
+          "rules_text_zh": "回收1张攻击或雷法。",
+          "display_text_zh": "回收1张攻击或雷法。",
           "numeric_literals": [
-            1,
             1
           ],
           "self_exhaust": false,
           "keywords": [
             "雷法",
-            "回收",
-            "减费"
+            "回收"
           ]
         },
         {
           "face_id": "C15+",
           "upgrade": true,
           "cost": 0,
-          "rules_text_zh": "回收1张攻击或雷法，减费1。",
-          "display_text_zh": "回收1张攻击或雷法，减费1。",
+          "rules_text_zh": "回收至多2张攻击或雷法。",
+          "display_text_zh": "回收至多2张攻击或雷法。",
           "numeric_literals": [
-            1,
-            1
+            2
           ],
           "self_exhaust": false,
           "keywords": [
             "雷法",
-            "回收",
-            "减费"
+            "回收"
           ]
         }
       ]
@@ -1322,6 +1327,7 @@
       "reward_pool": true,
       "play_target": "self",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#U03",
         "reference/bear-forge/docs/volibear/cards_s2.json#U03",
         "reference/bear-forge/docs/volibear/CARDS.md#U03",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -1331,10 +1337,10 @@
           "face_id": "U03",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "获得8格挡。留甲6。",
-          "display_text_zh": "获得8格挡。留甲6。",
+          "rules_text_zh": "获得5格挡。留甲6。",
+          "display_text_zh": "获得5格挡。留甲6。",
           "numeric_literals": [
-            8,
+            5,
             6
           ],
           "self_exhaust": false,
@@ -1346,10 +1352,10 @@
           "face_id": "U03+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "获得12格挡。留甲3。",
-          "display_text_zh": "获得12格挡。留甲3。",
+          "rules_text_zh": "获得8格挡。留甲3。",
+          "display_text_zh": "获得8格挡。留甲3。",
           "numeric_literals": [
-            12,
+            8,
             3
           ],
           "self_exhaust": false,
@@ -1494,6 +1500,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#U07",
         "reference/bear-forge/docs/volibear/cards_s2.json#U07",
         "reference/bear-forge/docs/volibear/CARDS.md#U07",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -1502,29 +1509,27 @@
         {
           "face_id": "U07",
           "upgrade": false,
-          "cost": 3,
-          "rules_text_zh": "造成28伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
-          "display_text_zh": "造成28伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+          "cost": 1,
+          "rules_text_zh": "造成3伤害，重复4次。消耗。",
+          "display_text_zh": "造成3伤害，重复4次。消耗。",
           "numeric_literals": [
-            28,
-            1,
-            1
+            3,
+            4
           ],
-          "self_exhaust": false,
+          "self_exhaust": true,
           "keywords": []
         },
         {
           "face_id": "U07+",
           "upgrade": true,
-          "cost": 3,
-          "rules_text_zh": "造成36伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
-          "display_text_zh": "造成36伤害。本回合每对该目标打出过1张攻击牌，本牌费用−1。",
+          "cost": 1,
+          "rules_text_zh": "造成3伤害，重复5次。消耗。",
+          "display_text_zh": "造成3伤害，重复5次。消耗。",
           "numeric_literals": [
-            36,
-            1,
-            1
+            3,
+            5
           ],
-          "self_exhaust": false,
+          "self_exhaust": true,
           "keywords": []
         }
       ]
@@ -1537,6 +1542,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#U08",
         "reference/bear-forge/docs/volibear/cards_s2.json#U08",
         "reference/bear-forge/docs/volibear/CARDS.md#U08",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -1546,8 +1552,8 @@
           "face_id": "U08",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
-          "display_text_zh": "获得6格挡。造成10伤害，对咬痕目标追加6伤害。施加咬痕。",
+          "rules_text_zh": "获得6格挡。造成10伤害。若目标在打出本牌前已有咬痕，再攻击一次，造成6伤害。施加咬痕。",
+          "display_text_zh": "获得6格挡。造成10伤害。若目标在打出本牌前已有咬痕，再攻击一次，造成6伤害。施加咬痕。",
           "numeric_literals": [
             6,
             10,
@@ -1562,8 +1568,8 @@
           "face_id": "U08+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。",
-          "display_text_zh": "获得9格挡。造成14伤害，对咬痕目标追加9伤害。施加咬痕。",
+          "rules_text_zh": "获得9格挡。造成14伤害。若目标在打出本牌前已有咬痕，再攻击一次，造成9伤害。施加咬痕。",
+          "display_text_zh": "获得9格挡。造成14伤害。若目标在打出本牌前已有咬痕，再攻击一次，造成9伤害。施加咬痕。",
           "numeric_literals": [
             9,
             14,
@@ -1936,6 +1942,7 @@
       "reward_pool": true,
       "play_target": "single_enemy",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#U20",
         "reference/bear-forge/docs/volibear/cards_s2.json#U20",
         "reference/bear-forge/docs/volibear/CARDS.md#U20",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -1958,13 +1965,13 @@
           "face_id": "U20+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "造成14伤害。若上一张打出的是攻击牌，获得3能量。消耗。",
-          "display_text_zh": "造成14伤害。若上一张打出的是攻击牌，获得3能量。消耗。",
+          "rules_text_zh": "造成14伤害。若上一张打出的是攻击牌，获得2能量。",
+          "display_text_zh": "造成14伤害。若上一张打出的是攻击牌，获得2能量。",
           "numeric_literals": [
             14,
-            3
+            2
           ],
-          "self_exhaust": true,
+          "self_exhaust": false,
           "keywords": []
         }
       ]
@@ -2929,6 +2936,7 @@
       "reward_pool": true,
       "play_target": "self",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#R01",
         "reference/bear-forge/docs/volibear/cards_s2.json#R01",
         "reference/bear-forge/docs/volibear/CARDS.md#R01",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -2938,10 +2946,10 @@
           "face_id": "R01",
           "upgrade": false,
           "cost": 3,
-          "rules_text_zh": "获得10格挡。永久领域。",
-          "display_text_zh": "获得10格挡。永久领域。",
+          "rules_text_zh": "获得5格挡。永久领域。",
+          "display_text_zh": "获得5格挡。永久领域。",
           "numeric_literals": [
-            10
+            5
           ],
           "self_exhaust": false,
           "keywords": [
@@ -2952,10 +2960,10 @@
           "face_id": "R01+",
           "upgrade": true,
           "cost": 2,
-          "rules_text_zh": "获得14格挡。永久领域。",
-          "display_text_zh": "获得14格挡。永久领域。",
+          "rules_text_zh": "获得5格挡。永久领域。",
+          "display_text_zh": "获得5格挡。永久领域。",
           "numeric_literals": [
-            14
+            5
           ],
           "self_exhaust": false,
           "keywords": [
@@ -2972,6 +2980,7 @@
       "reward_pool": true,
       "play_target": "self",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#R02",
         "reference/bear-forge/docs/volibear/cards_s2.json#R02",
         "reference/bear-forge/docs/volibear/CARDS.md#R02",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -2981,10 +2990,10 @@
           "face_id": "R02",
           "upgrade": false,
           "cost": 2,
-          "rules_text_zh": "获得10格挡。坚甲。",
-          "display_text_zh": "获得10格挡。坚甲。",
+          "rules_text_zh": "获得8格挡。坚甲。",
+          "display_text_zh": "获得8格挡。坚甲。",
           "numeric_literals": [
-            10
+            8
           ],
           "self_exhaust": false,
           "keywords": [
@@ -2995,10 +3004,10 @@
           "face_id": "R02+",
           "upgrade": true,
           "cost": 2,
-          "rules_text_zh": "获得15格挡。坚甲。",
-          "display_text_zh": "获得15格挡。坚甲。",
+          "rules_text_zh": "获得11格挡。坚甲。",
+          "display_text_zh": "获得11格挡。坚甲。",
           "numeric_literals": [
-            15
+            11
           ],
           "self_exhaust": false,
           "keywords": [
@@ -3415,6 +3424,7 @@
       "reward_pool": true,
       "play_target": "self",
       "requirement_refs": [
+        "docs/BALANCE_UPDATE_2026-11-10.md#R16",
         "reference/bear-forge/docs/volibear/cards_s2.json#R16",
         "reference/bear-forge/docs/volibear/CARDS.md#R16",
         "reference/bear-forge/docs/volibear/DEVELOPMENT.md"
@@ -3424,9 +3434,10 @@
           "face_id": "R16",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
-          "display_text_zh": "每打出1张攻击牌后，获得1力量；若该牌提供了格挡，再获得1敏捷。",
+          "rules_text_zh": "每打出1张攻击牌后，获得1力量；每打出1张提供了格挡的技能牌后，获得1敏捷。",
+          "display_text_zh": "每打出1张攻击牌后，获得1力量；每打出1张提供了格挡的技能牌后，获得1敏捷。",
           "numeric_literals": [
+            1,
             1,
             1,
             1
@@ -3441,10 +3452,11 @@
           "face_id": "R16+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "获得8格挡。每打出1张攻击后，获得1力量；该牌提供格挡时，再获得1敏捷。",
-          "display_text_zh": "获得8格挡。每打出1张攻击牌后，获得1力量；若该牌提供了格挡，再获得1敏捷。",
+          "rules_text_zh": "获得5格挡。每打出1张攻击牌后，获得1力量；每打出1张提供了格挡的技能牌后，获得1敏捷。",
+          "display_text_zh": "获得5格挡。每打出1张攻击牌后，获得1力量；每打出1张提供了格挡的技能牌后，获得1敏捷。",
           "numeric_literals": [
-            8,
+            5,
+            1,
             1,
             1,
             1

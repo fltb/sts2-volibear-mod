@@ -60,14 +60,14 @@ public sealed class Volibear_B03 : VolibearCard
     }
 }
 
-/// <summary>B04 · 挺身迎战 — 8 block, 6 damage, then engages the target.</summary>
+/// <summary>B04 · 挺身迎战 — 10 block, 6 damage, then engages the target.</summary>
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_B04")]
 public sealed class Volibear_B04 : VolibearCard
 {
     public Volibear_B04() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy, "b04") { }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(6m, Move), new BlockVar(8m, Move)];
+        [new DamageVar(6m, Move), new BlockVar(10m, Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

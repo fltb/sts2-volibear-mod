@@ -68,7 +68,7 @@ public sealed class Volibear_C02 : VolibearCard
 {
     public Volibear_C02() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c02") { }
     public override List<(string, string)> Localization => new CardLoc("双爪", "造成{Damage:diff()}伤害，共{Hits:diff()}次。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, Move), new DynamicVar("Hits", 2m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, Move), new DynamicVar("Hits", 2m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => DirectEffects.Attack(context, this, play.Target, Value("Damage"), (int)Value("Hits"));
     protected override void OnUpgrade() => UpgradeVar("Damage", 2m);
 }
@@ -91,14 +91,14 @@ public sealed class Volibear_C03 : VolibearCard
 public sealed class Volibear_C05 : VolibearCard
 {
     public Volibear_C05() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c05") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆爪击", "领域{Domain:diff()}。造成{Damage:diff()}伤害。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, Move), new DynamicVar("Domain", 1m)];
+    public override List<(string, string)> Localization => new CardLoc("雷霆爪击", "领域{Domain:diff()}。造成{Damage:diff()}伤害，共{Hits:diff()}次。");
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, Move), new DynamicVar("Hits", 2m), new DynamicVar("Domain", 1m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DomainPower.Open(context, Owner.Creature, (int)Value("Domain"), this);
-        await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
+        await DirectEffects.Attack(context, this, play.Target, Value("Damage"), (int)Value("Hits"));
     }
-    protected override void OnUpgrade() => UpgradeVar("Damage", 3m);
+    protected override void OnUpgrade() => UpgradeVar("Hits", 1m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C08")]
@@ -106,14 +106,14 @@ public sealed class Volibear_C08 : VolibearCard
 {
     public Volibear_C08() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c08") { }
     public override List<(string, string)> Localization => new CardLoc("撕开伤口", "造成{Damage:diff()}伤害。施加{Vulnerable:diff()}易伤。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new PowerVar<VulnerablePower>("Vulnerable", 1m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new PowerVar<VulnerablePower>("Vulnerable", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
         if (DirectEffects.Live(this) && play.Target is { IsHittable: true } target)
             await PowerCmd.Apply<VulnerablePower>(context, target, Value("Vulnerable"), Owner.Creature, this);
     }
-    protected override void OnUpgrade() { UpgradeVar("Damage", 2m); UpgradeVar("Vulnerable", 1m); }
+    protected override void OnUpgrade() { UpgradeVar("Damage", 3m); UpgradeVar("Vulnerable", 1m); }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C09")]
@@ -151,13 +151,13 @@ public sealed class Volibear_C11 : VolibearCard
 {
     public Volibear_C11() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, "c11") { }
     public override List<(string, string)> Localization => new CardLoc("正面迎敌", "获得{Block:diff()}格挡。迎战。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(12m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DirectEffects.Block(this, play, Value("Block"));
         await DirectEffects.Engage(context, this, play.Target);
     }
-    protected override void OnUpgrade() => UpgradeVar("Block", 3m);
+    protected override void OnUpgrade() => UpgradeVar("Block", 4m);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C12")]
@@ -429,13 +429,13 @@ public sealed class Volibear_R01 : VolibearCard
 {
     public Volibear_R01() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self, "r01") { }
     public override List<(string, string)> Localization => new CardLoc("风暴形态", "获得{Block:diff()}格挡。永久领域。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, Move)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DirectEffects.Block(this, play, Value("Block"));
         await DomainPower.OpenPermanent(context, Owner.Creature, this);
     }
-    protected override void OnUpgrade() { EnergyCost.UpgradeBy(-1); UpgradeVar("Block", 4m); }
+    protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_R07")]

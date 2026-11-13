@@ -74,13 +74,17 @@ public sealed class Volibear_C25 : VolibearCard
 public sealed class Volibear_U08 : VolibearCard
 {
     public Volibear_U08() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u08") { }
-    public override List<(string, string)> Localization => new CardLoc("暴怒撕咬", "获得{Block:diff()}格挡。造成{Damage:diff()}伤害，对咬痕目标追加{Bite:diff()}伤害。施加咬痕。");
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, Move), new DamageVar(10m, Move), new DynamicVar("Bite", 6m)];
+    public override List<(string, string)> Localization => new CardLoc("暴怒撕咬", "获得{Block:diff()}格挡。造成{Damage:diff()}伤害。若目标在打出本牌前已有咬痕，再攻击一次，造成{Bite:diff()}伤害。施加咬痕。");
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, Move), new DamageVar(10m, Move), new DamageVar("Bite", 6m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
+        // Freeze eligibility before either segment can apply a new mark. Replays keep
+        // the same actual-play identity in BiteMarks.BeforePlay.
+        var hadBite = play.Target is { } target && BiteMarks.BeforePlay(this, target);
         await DirectEffects.Block(this, play, Value("Block"));
-        var damage = Value("Damage") + (play.Target is { } target && BiteMarks.BeforePlay(this, target) ? Value("Bite") : 0m);
-        await DirectEffects.Attack(context, this, play.Target, damage);
+        await DirectEffects.Attack(context, this, play.Target, Value("Damage"));
+        if (hadBite)
+            await DirectEffects.Attack(context, this, play.Target, Value("Bite"));
     }
     public override Task AfterDamageGiven(PlayerChoiceContext context, Creature? dealer, DamageResult result,
         ValueProp props, Creature target, CardModel? cardSource)
