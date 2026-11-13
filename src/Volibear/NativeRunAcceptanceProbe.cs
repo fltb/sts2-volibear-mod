@@ -427,7 +427,7 @@ internal static class NativeRunAcceptanceProbe
                 {
                     _purchaseBefore = Snapshot(); _purchaseKind = slot.Entry.GetType().Name; _purchaseCost = slot.Entry.Cost;
                     Record("shop-request", new { kind = _purchaseKind, cost = _purchaseCost, stocked = slot.Entry.IsStocked, enoughGold = slot.Entry.EnoughGold, before = _purchaseBefore });
-                    _pendingAt = Clock.Elapsed.TotalSeconds; _purchase = slot.Entry.OnTryPurchaseWrapper(shop.Inventory.Inventory); return;
+                    _pendingAt = Clock.Elapsed.TotalSeconds; _purchase = ProbeGameCompat.Purchase(slot.Entry, shop.Inventory.Inventory); return;
                 }
                 UsedShop.Add(Id(room));
             }

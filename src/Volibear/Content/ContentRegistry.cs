@@ -23,6 +23,6 @@ public static class ContentRegistry
         // BaseLib constructors + Pool attributes are the single model registration path.
         Registered = true;
         var cards = VolibearCard.AllCardTypes.Count();
-        GD.Print($"[Volibear] CONTENT_OK cards={cards} character={nameof(VolibearCharacter)} framework=BaseLib-3.4.7");
+        GD.Print($"[Volibear] CONTENT_OK cards={cards} character={nameof(VolibearCharacter)} framework=BaseLib-{typeof(BaseLib.Abstracts.CustomCardModel).Assembly.GetName().Version}");
     }
 }

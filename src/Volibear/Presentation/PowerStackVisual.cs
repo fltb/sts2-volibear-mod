@@ -22,8 +22,15 @@ internal static class PowerStackVisual
 {
     private const string HarmonyId = "Volibear.PowerStackVisual";
     private static bool installed;
-    private static readonly HashSet<string> OwnMechanicTipIds = new(
-        MechanicGlossary.Entries.Select(entry => "VOLIBEAR-" + entry.Key), StringComparer.Ordinal);
+    private static readonly Lazy<HashSet<string>> OwnMechanicTipIds = new(() => new(
+        MechanicGlossary.Entries.Select(entry =>
+#if STS2_BETA
+            new HoverTip(new MegaCrit.Sts2.Core.Localization.LocString("static_hover_tips", "VOLIBEAR-" + entry.Key + ".title"),
+                new MegaCrit.Sts2.Core.Localization.LocString("static_hover_tips", "VOLIBEAR-" + entry.Key + ".description")).Id
+#else
+            "VOLIBEAR-" + entry.Key
+#endif
+        ), StringComparer.Ordinal));
     private static readonly FieldInfo NodesField = AccessTools.DeclaredField(typeof(NPowerContainer), "_powerNodes");
     private static readonly AccessTools.FieldRef<NPowerContainer, List<NPower>> Nodes =
         AccessTools.FieldRefAccess<NPowerContainer, List<NPower>>(NodesField);
@@ -67,7 +74,7 @@ internal static class PowerStackVisual
         var result = new List<IHoverTip>();
         foreach (var tip in tips)
         {
-            if (tip is HoverTip keyword && OwnMechanicTipIds.Contains(tip.Id) && !groups.ContainsKey(tip.Id) &&
+            if (tip is HoverTip keyword && OwnMechanicTipIds.Value.Contains(tip.Id) && !groups.ContainsKey(tip.Id) &&
                 keyword.Title is { } title && mainTitles.Contains(title)) continue;
             if (tip is not HoverTip native || ambiguous.Contains(tip.Id) || !groups.TryGetValue(tip.Id, out var group))
             { result.Add(tip); continue; }

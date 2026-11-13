@@ -203,8 +203,17 @@ public static partial class DomainSteamEruptionEffects
         {
             if (!instruction.Calls(native)) { result.Add(instruction); continue; }
             var save = new CodeInstruction(OpCodes.Stloc, recursion); Metadata(instruction, save); result.Add(save);
-            result.Add(new(OpCodes.Stloc, force)); result.Add(new(OpCodes.Stloc, owner));
-            result.Add(new(OpCodes.Ldloc, owner)); result.Add(new(OpCodes.Ldloc, force)); result.Add(new(OpCodes.Ldloc, recursion));
+            result.Add(new(OpCodes.Stloc, force));
+#if STS2_BETA
+            var card = generator.DeclareLocal(typeof(CardModel));
+            result.Add(new(OpCodes.Stloc, card));
+#endif
+            result.Add(new(OpCodes.Stloc, owner));
+            result.Add(new(OpCodes.Ldloc, owner));
+#if STS2_BETA
+            result.Add(new(OpCodes.Ldloc, card));
+#endif
+            result.Add(new(OpCodes.Ldloc, force)); result.Add(new(OpCodes.Ldloc, recursion));
             result.Add(instruction); // Preserve the native call for other adapters.
             result.Add(new(OpCodes.Ldloc, owner)); result.Add(new(OpCodes.Call, Own(nameof(AwaitNativeThenDrain)))); count++;
         }

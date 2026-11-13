@@ -108,8 +108,12 @@ public static partial class DomainEnemySpecialContributions
         {
             if (installed) return;
             Sites.Clear();
+#if STS2_BETA
+            Sites.Add(Machine(Method(typeof(GremlinMerc), "Steal")), "steal");
+#else
             foreach (string move in new[] { "GimmeMove", "DoubleSmashMove", "HeheMove" })
                 Sites.Add(Machine(Method(typeof(GremlinMerc), move, typeof(IReadOnlyList<Creature>))), "steal");
+#endif
             Sites.Add(Machine(Method(typeof(PowerCmd), nameof(PowerCmd.Remove), typeof(PowerModel))), "removed");
             var flee = Method(typeof(FatGremlin), "FleeMove", typeof(IReadOnlyList<Creature>));
             if (flee.ReturnType != typeof(Task)) throw new InvalidOperationException("Native FatGremlin flee signature changed");

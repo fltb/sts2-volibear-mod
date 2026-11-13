@@ -624,7 +624,7 @@ public static class EnemyExplorationProbe
             badgeEntriesBefore = priorBadgeEntries, badgeEntriesAfter = characterStats.Badges.Count,
             fixtureExplicitProgressSaveRequested = false
         };
-        var runState = await NGame.Instance!.StartNewSingleplayerRun(character,
+        var runState = await ProbeGameCompat.StartRun(character,
             shouldSave: false, canonicalActs, Array.Empty<ModifierModel>(), Seed, GameMode.Standard, ascensionLevel: 0);
         if (act.Index != 0) await run.EnterAct(act.Index, doTransition: false);
         _active = spec.Policy.StartsWith("paid-") ? capture : null;

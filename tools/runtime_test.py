@@ -149,7 +149,8 @@ def get_runtime(root=ROOT, *, settings=None, environ=None, platform=None):
     data = _path(env.get('Sts2DataDir') or env.get('VOLIBEAR_STS2_DATA_DIR'), root)
     data = data or configured_data or (adapter.data_directory(game) if game else None)
     baselib = _path(env.get('BaseLibPath') or settings.get('baselib'), root)
-    baselib = baselib or root / '.local/dependencies/BaseLib-3.4.7/BaseLib.dll'
+    dependency_version = '3.4.8' if env.get('VOLIBEAR_CHANNEL') == 'pbe' else '3.4.7'
+    baselib = baselib or root / '.local/dependencies' / f'BaseLib-{dependency_version}' / 'BaseLib.dll'
     harmony = _path(env.get('HarmonyPath') or env.get('VOLIBEAR_HARMONY'), root)
     if harmony is None:
         cached = root / '.local/dependencies/Harmony-2.4.2/0Harmony.dll'

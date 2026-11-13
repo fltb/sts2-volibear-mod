@@ -245,7 +245,7 @@ internal static class SaveLoadCatalogProbe
                 var statsBefore = SaveManager.Instance.Progress.GetStatsForCharacter(character.Id);
                 SaveManager.Instance.Progress.GetOrCreateCharacterStats(character.Id);
                 SaveManager.Instance.SetFtuesEnabled(false);
-                var run = await NGame.Instance!.StartNewSingleplayerRun(character, true, ActModel.GetDefaultList().ToArray(),
+                var run = await ProbeGameCompat.StartRun(character, true, ActModel.GetDefaultList().ToArray(),
                     Array.Empty<ModifierModel>(), seed, GameMode.Standard, 0);
                 Need(!run.ExtraFields.StartedWithNeow && run.CurrentRoom is MapRoom,
                     "Fresh-profile route not MapRoom/no-Neow; do not bypass native event flow");

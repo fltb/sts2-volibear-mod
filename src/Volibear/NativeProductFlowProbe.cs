@@ -151,7 +151,7 @@ internal static class NativeProductFlowProbe
     }
 
     // In 0.107.1 CardReward always creates a screen outside TestMode; that
-    // screen's OptionSelected task does not consult CardSelectCmd.Selector.
+    // screen's OptionSelected task does not consult ProbeGameCompat.Selector(Player).
     // Supply only this decision at its real async boundary. Native CardReward
     // still reserves/synchronizes the choice, adds the selected candidate to the
     // deck and records history. No screen/button callback is invoked or forged.
@@ -168,7 +168,7 @@ internal static class NativeProductFlowProbe
     {
         await Wait(() => GodotObject.IsInstanceValid(screen) && screen.IsNodeReady(), "Native card reward screen not ready");
         await Frame();
-        Need(flowSelector is not null && ReferenceEquals(CardSelectCmd.Selector, flowSelector), "Reward decision lost its native selector");
+        Need(flowSelector is not null && ReferenceEquals(ProbeGameCompat.Selector(Player), flowSelector), "Reward decision lost its native selector");
         var choice = flowSelector!.GetSelectedCardReward(options, alternatives);
         int index = options.ToList().FindIndex(o => ReferenceEquals(o.Card, choice.card));
         Need(index >= 0 && choice.alternative is null, "Controlled reward decision is outside native candidates");
@@ -181,13 +181,13 @@ internal static class NativeProductFlowProbe
         private readonly IDisposable scope;
         internal Selector(Player owner)
         {
-            Need(!TestMode.IsOn && CardSelectCmd.Selector is null, "Controlled flow needs an exclusive native selector");
-            this.owner = owner; scope = CardSelectCmd.UseSelector(this);
+            Need(!TestMode.IsOn && !ProbeGameCompat.HasSelector(Player), "Controlled flow needs an exclusive native selector");
+            this.owner = owner; scope = ProbeGameCompat.UseSelector(owner, this);
         }
         public Task<IEnumerable<CardModel>> GetSelectedCards(IEnumerable<CardModel> options, int minSelect, int maxSelect)
         {
             var candidates = options.ToArray();
-            Need(ReferenceEquals(CardSelectCmd.Selector, this) && minSelect >= 0 && maxSelect >= minSelect &&
+            Need(ReferenceEquals(ProbeGameCompat.Selector(Player), this) && minSelect >= 0 && maxSelect >= minSelect &&
                 minSelect <= candidates.Length && candidates.Distinct(ReferenceEqualityComparer.Instance).Count() == candidates.Length &&
                 candidates.All(c => ReferenceEquals(c.Owner, owner)), "Invalid controlled-flow card candidates");
             var selected = candidates.Take(minSelect).ToArray();
@@ -196,7 +196,7 @@ internal static class NativeProductFlowProbe
         }
         public CardRewardSelection GetSelectedCardReward(IReadOnlyList<CardCreationResult> options, IReadOnlyList<CardRewardAlternative> alternatives)
         {
-            Need(ReferenceEquals(CardSelectCmd.Selector, this) && options.Count > 0, "Native card reward has no selectable cards");
+            Need(ReferenceEquals(ProbeGameCompat.Selector(Player), this) && options.Count > 0, "Native card reward has no selectable cards");
             var card = options.Select(o => o.Card).OrderBy(c => c.Type == CardType.Power ? 0 : c.Type == CardType.Attack ? 1 : 2)
                 .ThenBy(c => c.EnergyCost.Canonical).ThenBy(c => c.Id.Entry, StringComparer.Ordinal).First();
             Record("card-reward-choice", new { available = options.Select(o => o.Card.Id.Entry).ToArray(), selected = card.Id.Entry });
@@ -205,8 +205,8 @@ internal static class NativeProductFlowProbe
         public void Dispose()
         {
             // Native combat/run cleanup may already have reset this exact scope.
-            Need(CardSelectCmd.Selector is null || ReferenceEquals(CardSelectCmd.Selector, this), "Another selector replaced the controlled flow scope");
-            scope.Dispose(); Need(CardSelectCmd.Selector is null, "Native selector leaked after controlled flow decision");
+            Need(ProbeGameCompat.Selector(Player) is null || ReferenceEquals(ProbeGameCompat.Selector(Player), this), "Another selector replaced the controlled flow scope");
+            scope.Dispose(); Need(ProbeGameCompat.Selector(Player) is null, "Native selector leaked after controlled flow decision");
         }
     }
 
@@ -293,7 +293,7 @@ internal static class NativeProductFlowProbe
         if ((run.CurrentRoom.RoomType == RoomType.Boss || run.CurrentRoom.IsVictoryRoom) &&
             !(run.Map.SecondBossMapPoint is not null && run.CurrentMapCoord == run.Map.BossMapPoint.coord))
             RunManager.Instance.ActChangeSynchronizer.SetLocalPlayerReady();
-        else await RunManager.Instance.ProceedFromTerminalRewardsScreen();
+        else await ProbeGameCompat.ProceedFromRewards();
         await Wait(() => NMapScreen.Instance?.IsOpen == true || NOverlayStack.Instance?.Peek() is not NRewardsScreen,
             "Native reward completion did not open the map or resume its event");
         return true;
@@ -375,7 +375,7 @@ internal static class NativeProductFlowProbe
                     .OrderBy(s => s.Entry.Cost).FirstOrDefault();
                 Need(slot is not null, "Normal route reached a shop without an affordable card; purchase coverage missing");
                 var before = Snapshot(); int goldBefore = Player.Gold, cost = slot!.Entry.Cost; bool stockedBefore = slot.Entry.IsStocked;
-                var purchase = slot.Entry.OnTryPurchaseWrapper(view.Inventory.Inventory);
+                var purchase = ProbeGameCompat.Purchase(slot.Entry, view.Inventory.Inventory);
                 await CompleteDecision(purchase, "Native shop purchase"); bool bought = await purchase;
                 Need(bought && goldBefore - Player.Gold == cost && cost > 0, "Shop purchase did not charge native gold");
                 purchases++; HandledRooms.Add(room);
@@ -435,7 +435,7 @@ internal static class NativeProductFlowProbe
             return;
         }
         if (room is CombatRoom && Usable(NCombatRoom.Instance?.ProceedButton))
-        { await RunManager.Instance.ProceedFromTerminalRewardsScreen(); return; }
+        { await ProbeGameCompat.ProceedFromRewards(); return; }
         if (room is MapRoom) { NMapScreen.Instance!.Open(); return; }
         await Frame();
     }
@@ -500,7 +500,7 @@ internal static class NativeProductFlowProbe
             var character = ModelDb.Character<VolibearCharacter>();
             SaveManager.Instance.Progress.GetOrCreateCharacterStats(character.Id);
             SaveManager.Instance.SetFtuesEnabled(false);
-            var run = await NGame.Instance!.StartNewSingleplayerRun(character, false, ActModel.GetDefaultList().ToArray(),
+            var run = await ProbeGameCompat.StartRun(character, false, ActModel.GetDefaultList().ToArray(),
                 Array.Empty<ModifierModel>(), "VOLIBEAR-PRODUCT-FLOW", GameMode.Standard, 0);
             Record("run-start", Snapshot());
             var clock = Stopwatch.StartNew();

@@ -37,6 +37,7 @@ public static partial class DomainPlayerStatContributions
         internal readonly bool Strength = strength;
         internal bool Observed;
 #if STS2_BETA
+        public override GameActionType? GameActionType => parent.GameActionType;
         public override ulong? OwnerId => parent.OwnerId;
         public override Task SignalPlayerChoiceBegun(Player player, PlayerChoiceOptions options) => parent.SignalPlayerChoiceBegun(player, options);
 #else

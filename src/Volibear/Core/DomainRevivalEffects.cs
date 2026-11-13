@@ -252,19 +252,28 @@ public static class DomainRevivalEffects
         }
         return cached;
     }
-    private static async Task DispatchDeath(AbstractModel source, PlayerChoiceContext context, Creature creature, bool prevented, float length)
+    private static async Task DispatchDeath(AbstractModel source, PlayerChoiceContext context, Creature creature,
+#if STS2_BETA
+        CardModel? cardSource,
+#endif
+        bool prevented, float length)
     {
+        Task ForwardDeath() => source.AfterDeath(context, creature,
+#if STS2_BETA
+            cardSource,
+#endif
+            prevented, length);
         if (source is not PowerModel power || !Supported(power) || !ReferenceEquals(power.Owner, creature) || prevented)
-        { await source.AfterDeath(context, creature, prevented, length); return; }
+        { await ForwardDeath(); return; }
         var ticket = Find(power);
-        if (ticket is null) { await source.AfterDeath(context, creature, prevented, length); return; }
+        if (ticket is null) { await ForwardDeath(); return; }
         ticket.CallbackDepth++;
         try
         {
             var cancel = ticket.Epoch != _epoch || ticket.Decision.CancelIfRequired(RawDomain(ticket.Combat));
             var executeNative = !cancel || (power is ReattachPower reattach && creature.IsDead &&
                 creature.CombatState is not null && (bool)OtherSegmentsDead.Invoke(reattach, null)!);
-            if (executeNative) await source.AfterDeath(context, creature, prevented, length);
+            if (executeNative) await ForwardDeath();
             else if (ticket.Epoch == _epoch && ticket.Decision.Cancelled)
                 Volibear.Presentation.PowerPresentationDomain.Once(ticket, ticket.Owner, source, sourceCombat: ticket.Combat);
             if (AfterDeathContribution is { } observers)

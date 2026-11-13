@@ -20,7 +20,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 EXECUTABLES = ('SlayTheSpire2', 'SlayTheSpire2.exe', 'SlayTheSpire2.x86_64')
 FAILURE_MARKERS = (
-    'Exception thrown when calling mod initializer',
+    'Exception thrown when calling mod initializer', 'Exception thrown while loading mod',
+    'depends on mods which have not been loaded',
     'failed:', 'drift', 'signature changed', 'field changed', 'callsite changed',
     'changed:', 'is not async', 'pin missing', 'Ambiguous match',
 )
@@ -79,6 +80,7 @@ def report(log: str) -> dict:
                 errors.append(text)
     channel = re.search(r'channel=([^\s]+)', gate or '')
     target = re.search(r'target=([^\s]+)', gate or '')
+    failure_count = max(int(summary.group(1)) if summary else 0, len(errors))
     return {
         'channel': channel.group(1) if channel else None,
         'target': target.group(1) if target else None,
@@ -86,8 +88,8 @@ def report(log: str) -> dict:
         'initialized': bool(load),
         'content': content,
         'failures': errors[:24],
-        'failure_count': int(summary.group(1)) if summary else len(errors),
-        'passed': bool(load) and not errors,
+        'failure_count': failure_count,
+        'passed': bool(gate and content and load and summary) and failure_count == 0,
     }
 
 

@@ -72,13 +72,13 @@ def manifest(data, expected_id, version=None):
 
 def dependency_files(archive, license_file):
     data = read_file(archive)
-    if sha(data) != dependencies.SHA256 or dependencies.VERSION != '3.4.7':
+    if sha(data) != dependencies.SHA256:
         raise ValueError('BaseLib archive/version pin mismatch')
     with zipfile.ZipFile(io.BytesIO(data)) as z:
         if sorted(z.namelist()) != sorted(dependencies.FILES):
             raise ValueError('Unexpected/duplicate files in pinned BaseLib archive')
         selected = {f'mods/BaseLib/{name}': z.read(name) for name in dependencies.FILES}
-    manifest(selected['mods/BaseLib/BaseLib.json'], 'BaseLib', 'v3.4.7')
+    manifest(selected['mods/BaseLib/BaseLib.json'], 'BaseLib', 'v' + dependencies.VERSION)
     license_bytes = read_file(license_file)
     if sha(license_bytes) != LICENSE_SHA256:
         raise ValueError('Original BaseLib license pin mismatch')
@@ -173,7 +173,7 @@ def main():
     parser.add_argument('--dll', type=Path, default=ROOT / 'src/Volibear/bin/Release/net9.0/Volibear.dll')
     parser.add_argument('--pck', type=Path, default=ROOT / '.local/packs/Volibear.pck')
     parser.add_argument('--manifest', type=Path, default=ROOT / 'src/Volibear/Volibear.json')
-    parser.add_argument('--baselib-archive', type=Path, default=ROOT / '.local/dependencies/BaseLib.3.4.7.zip')
+    parser.add_argument('--baselib-archive', type=Path, default=ROOT / '.local/dependencies' / dependencies.ARCHIVE)
     parser.add_argument('--baselib-license', type=Path, default=ROOT / 'licenses/BaseLib-LICENSE.txt')
     parser.add_argument('--output', type=Path, default=OUTPUT)
     parser.add_argument('--audio-profile', choices=('open', 'riot_en'), default='open')

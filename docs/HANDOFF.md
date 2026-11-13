@@ -1,5 +1,11 @@
 # 当前源码交接：PR #1
 
+## 2026-11-13 · PBE 0.113.0
+
+从 main 的 PR #2 合并提交迁移到 16ac0fe3。隔离启动已注册 89 张卡，补丁安装失败数为 0。
+生产版和开发探针版均已编译。本版尚未重跑战斗、存读档和多人矩阵。依赖和构建入口见 [PBE 通道](PBE_CHANNEL.md)。
+
+
 当前分支：`codex/mode7-completion`。当前范围以 [RELEASE_PLAN.md](RELEASE_PLAN.md) 为准；
 实施条目见 [IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md)，本地 Agent 直接使用
 [LOCAL_AGENT_TASK.md](LOCAL_AGENT_TASK.md)。本页替换此前累积的历史检查点，旧分支、旧 DLL、

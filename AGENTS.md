@@ -12,10 +12,10 @@
 
 | 依赖 | 版本 |
 | --- | --- |
-| Slay the Spire 2 | PBE 0.111.0 / 41cef1ea |
+| Slay the Spire 2 | PBE 0.113.0 / 16ac0fe3 |
 | Godot | 4.5.1 stable Mono/.NET |
 | .NET SDK | 9.0.320 |
-| BaseLib | 3.4.7 |
+| BaseLib | PBE 3.4.8（含 BaseLibCompatibilityHelper） |
 
 - 完整交付入口：`tools/local_delivery.py`。
 - PBE 验收矩阵：`tools/pbe_verify.py`（需设 `VOLIBEAR_GAME_VERSION/COMMIT`）。

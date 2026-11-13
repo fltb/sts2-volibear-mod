@@ -114,10 +114,10 @@ public static class DomainPassiveEffects
                 (typeof(TerritorialPower), "AfterSideTurnEnd", true, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),
                 (typeof(HighVoltagePower), "AfterSideTurnEnd", true, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),
                 (typeof(EnragePower), "AfterCardPlayed", true, true, [typeof(PlayerChoiceContext), typeof(CardPlay)]),
-                (typeof(RavenousPower), "AfterDeath", true, true, [typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float)]),
+                (typeof(RavenousPower), "AfterDeath", true, true, NativeCompat.AfterDeathParameters),
                 // CrabRage has TWO independent positive contributions in one native body.
                 // SourceCalls wraps both while its one-shot source removal remains native.
-                (typeof(CrabRagePower), "AfterDeath", true, true, [typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float)]),
+                (typeof(CrabRagePower), "AfterDeath", true, true, NativeCompat.AfterDeathParameters),
                 (typeof(RampartPower), "AfterSideTurnStart", false, true, [typeof(CombatSide), typeof(IReadOnlyList<Creature>), typeof(ICombatState)]),
                 (typeof(PlatingPower), "BeforeSideTurnStart", false, false, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IReadOnlyList<Creature>), typeof(ICombatState)]),
                 (typeof(PlatingPower), "BeforeSideTurnEndEarly", false, true, [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(IEnumerable<Creature>)]),

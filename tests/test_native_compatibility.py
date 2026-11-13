@@ -10,7 +10,7 @@ from tools.runtime_test import fixture_runtime
 
 class NativeCompatibilityTests(unittest.TestCase):
     def test_curated_native_surface_resolves_and_unknown_builds_are_gated(self):
-        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', root=ROOT)
+        runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', 'mod', root=ROOT)
         result = runtime.run('tests/native_compatibility/NativeCompatibility.Tests.csproj', timeout=120)
         output = result.stdout + result.stderr
         self.assertEqual(result.returncode, 0, output)

@@ -40,7 +40,11 @@ public static partial class DomainSteamEruptionEffects
             ("damage-handoff", () => DamageHandoff.Install(harmony, NativeDamage)),
             ("phase-handoff", () => PhaseHandoff.Install(harmony, AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState)))),
             ("death-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), "KillWithoutCheckingWinCondition")), nameof(DeathMachine))),
-            ("public-kill", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Kill), [typeof(IReadOnlyCollection<Creature>), typeof(bool)])), nameof(PublicKill))),
+            ("public-kill", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Kill), [typeof(IReadOnlyCollection<Creature>),
+#if STS2_BETA
+                typeof(CardModel),
+#endif
+                typeof(bool)])), nameof(PublicKill))),
             ("removal-contributions", () => Patch(AccessTools.Method(typeof(Hook), nameof(Hook.ShouldCreatureBeRemovedFromCombatAfterDeath)), nameof(RemovalContributions))),
             ("steam-death", () => Patch(Async(AccessTools.Method(typeof(SteamEruptionPower), nameof(SteamEruptionPower.AfterDeath))), nameof(SteamDeathCallback))),
             ("phase-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState))), nameof(PhaseMachine))),
