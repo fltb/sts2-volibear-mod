@@ -254,7 +254,7 @@ public static class EnemyMatrixProbe
         var canonicalActs = ActModel.GetDefaultList().ToArray();
         canonicalActs[0] = ModelDb.Act<Overgrowth>();
         Stage("start-new-native-run", index);
-        var runState = await NGame.Instance!.StartNewSingleplayerRun(ModelDb.Character<Content.VolibearCharacter>(),
+        var runState = await ProbeGameCompat.StartRun(ModelDb.Character<Content.VolibearCharacter>(),
             shouldSave: false, canonicalActs, Array.Empty<ModifierModel>(), Seed, GameMode.Standard, ascensionLevel: 0);
         manager.CombatSetUp += capture.OnSetup;
         manager.TurnStarted += capture.OnTurn;

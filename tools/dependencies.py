@@ -4,16 +4,21 @@ import argparse
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = '3.4.7'
-URL = f'https://github.com/Alchyr/BaseLib-StS2/releases/download/v{VERSION}/BaseLib.{VERSION}.zip'
-SHA256 = 'd28c649a3aea9ef4869050a06bfbadc4863016bcbd4c1740acc4cd07809e4bd8'
+PBE = os.environ.get('VOLIBEAR_CHANNEL') == 'pbe' or os.environ.get('VOLIBEAR_PACKAGE_GAME_VERSION') == '0.113.0'
+VERSION = '3.4.8' if PBE else '3.4.7'
+ARCHIVE = f'BaseLib.v{VERSION}.zip' if PBE else f'BaseLib.{VERSION}.zip'
+URL = f'https://github.com/Alchyr/BaseLib-StS2/releases/download/v{VERSION}/{ARCHIVE}'
+SHA256 = 'ad30d8aa4dee8e5d31150ab75eae6e6b927fa83ce30af93f4b2a144c3b09f82f' if PBE else 'd28c649a3aea9ef4869050a06bfbadc4863016bcbd4c1740acc4cd07809e4bd8'
 CACHE = ROOT / '.local/dependencies' / f'BaseLib-{VERSION}'
 FILES = ('BaseLib.dll', 'BaseLib.pck', 'BaseLib.json')
+if PBE:
+    FILES += ('BaseLibCompatibilityHelper.dll', 'BaseLibCompatibilityHelper.json')
 
 
 def digest(data):
@@ -26,7 +31,7 @@ def assert_unredirected(path):
 
 
 def acquire():
-    archive = ROOT / '.local/dependencies' / f'BaseLib.{VERSION}.zip'
+    archive = ROOT / '.local/dependencies' / ARCHIVE
     assert_unredirected(archive)
     assert_unredirected(CACHE)
     if archive.is_file():

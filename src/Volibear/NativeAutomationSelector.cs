@@ -33,11 +33,11 @@ internal sealed class NativeAutomationSelector : ICardSelector, IDisposable
     internal NativeAutomationSelector(Player player, Func<Selection, IEnumerable<CardModel>> choose,
         Action<Selection, CardModel[]>? observe = null, bool allowTurnChoice = false)
     {
-        if (TestMode.IsOn || CardSelectCmd.Selector is not null)
+        if (TestMode.IsOn || ProbeGameCompat.HasSelector(player))
             throw new InvalidOperationException("Native automation needs the real run and exclusive selector ownership");
         this.player = player; this.choose = choose; this.observe = observe; this.allowTurnChoice = allowTurnChoice;
-        scope = CardSelectCmd.UseSelector(this);
-        if (!ReferenceEquals(CardSelectCmd.Selector, this))
+        scope = ProbeGameCompat.UseSelector(player, this);
+        if (!ReferenceEquals(ProbeGameCompat.Selector(player), this))
         {
             scope.Dispose();
             throw new InvalidOperationException("Native selector scope did not install");
@@ -46,7 +46,7 @@ internal sealed class NativeAutomationSelector : ICardSelector, IDisposable
 
     public Task<IEnumerable<CardModel>> GetSelectedCards(IEnumerable<CardModel> options, int minSelect, int maxSelect)
     {
-        if (disposed || !ReferenceEquals(CardSelectCmd.Selector, this))
+        if (disposed || !ReferenceEquals(ProbeGameCompat.Selector(player), this))
             throw new InvalidOperationException("Native selector scope lost ownership");
         var cards = options.ToArray();
         if (minSelect < 0 || maxSelect < minSelect || minSelect > cards.Length ||
@@ -80,9 +80,58 @@ internal sealed class NativeAutomationSelector : ICardSelector, IDisposable
     {
         if (disposed) return;
         disposed = true;
-        bool owned = ReferenceEquals(CardSelectCmd.Selector, this);
+        bool owned = ReferenceEquals(ProbeGameCompat.Selector(player), this);
         scope.Dispose();
-        if (!owned || CardSelectCmd.Selector is not null)
+        if (!owned || ProbeGameCompat.HasSelector(player))
             throw new InvalidOperationException("Native selector scope was changed or leaked");
     }
+}
+
+internal static class ProbeGameCompat
+{
+    internal static ICardSelector? Selector(Player player) =>
+#if STS2_BETA
+        RunManager.Instance.CardSelectorStack.GetSelector(player);
+#else
+        CardSelectCmd.Selector;
+#endif
+
+    internal static bool HasSelector(Player player) => Selector(player) is not null
+#if STS2_BETA
+        || RunManager.Instance.CardSelectorStack.LocalSelector is not null
+#endif
+        ;
+
+    internal static IDisposable UseSelector(Player player, ICardSelector selector) =>
+#if STS2_BETA
+        RunManager.Instance.CardSelectorStack.UseSelector(player, selector);
+#else
+        CardSelectCmd.UseSelector(selector);
+#endif
+
+    internal static Task<RunState> StartRun(CharacterModel character, bool shouldSave, IReadOnlyList<ActModel> acts,
+        IReadOnlyList<ModifierModel> modifiers, string seed, GameMode gameMode, int ascensionLevel) =>
+#if STS2_BETA
+        MegaCrit.Sts2.Core.Nodes.NGame.Instance!.StartNewSingleplayerRun(
+            Player.CreateForNewRun(character, MegaCrit.Sts2.Core.Saves.SaveManager.Instance.GenerateUnlockStateFromProgress(),
+                MegaCrit.Sts2.Core.Multiplayer.NetSingleplayerGameService.defaultNetId),
+            shouldSave, acts, modifiers, seed, gameMode, isCustomGame: false, ascensionLevel);
+#else
+        MegaCrit.Sts2.Core.Nodes.NGame.Instance!.StartNewSingleplayerRun(character, shouldSave, acts, modifiers, seed, gameMode, ascensionLevel);
+#endif
+
+    internal static Task ProceedFromRewards() =>
+#if STS2_BETA
+        RunManager.Instance.ProceedFromTerminalRewardsScreenAsync();
+#else
+        RunManager.Instance.ProceedFromTerminalRewardsScreen();
+#endif
+
+    internal static Task<bool> Purchase(MegaCrit.Sts2.Core.Entities.Merchant.MerchantEntry entry,
+        MegaCrit.Sts2.Core.Entities.Merchant.MerchantInventory inventory) =>
+#if STS2_BETA
+        RunManager.Instance.MerchantSynchronizer.PurchaseLocalEntry(entry);
+#else
+        entry.OnTryPurchaseWrapper(inventory);
+#endif
 }

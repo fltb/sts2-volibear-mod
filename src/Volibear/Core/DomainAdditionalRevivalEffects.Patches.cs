@@ -41,7 +41,7 @@ public static partial class DomainAdditionalRevivalEffects
             Prefix(type, nameof(AdaptablePower.ShouldCreatureBeRemovedFromCombatAfterDeath), nameof(RemovalVote), typeof(Creature));
             Prefix(type, nameof(AdaptablePower.ShouldPowerBeRemovedAfterOwnerDeath), nameof(RemovePower));
         }
-        harmony.Patch(Native(typeof(CreatureCmd), "KillWithoutCheckingWinCondition", typeof(Creature), typeof(bool), typeof(int)),
+        harmony.Patch(Native(typeof(CreatureCmd), "KillWithoutCheckingWinCondition", NativeCompat.KillWithoutWinParameters),
             prefix: new HarmonyMethod(Local(nameof(DeathPrefix))), postfix: new HarmonyMethod(Local(nameof(DeathPostfix))),
             finalizer: new HarmonyMethod(Local(nameof(DeathFinalizer))));
         harmony.Patch(Native(typeof(CombatManager), nameof(CombatManager.RemoveCreature), typeof(Creature)), postfix: new HarmonyMethod(Local(nameof(ManagerRemoved))));
@@ -51,7 +51,7 @@ public static partial class DomainAdditionalRevivalEffects
         Prefix(typeof(CombatManager), nameof(CombatManager.Reset), nameof(Reset), typeof(bool));
         InstallDispatch(harmony);
         Bodies.Clear();
-        Bodies.Add(Body(Native(typeof(StockPower), nameof(StockPower.AfterDeath), typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float))), BodyKind.Stock);
+        Bodies.Add(Body(Native(typeof(StockPower), nameof(StockPower.AfterDeath), NativeCompat.AfterDeathParameters)), BodyKind.Stock);
         Bodies.Add(Body(Native(typeof(TestSubject), nameof(TestSubject.TriggerDeadState))), BodyKind.TriggerDead);
         Bodies.Add(Body(Native(typeof(TestSubject), "RespawnMove", typeof(IReadOnlyList<Creature>))), BodyKind.Respawn);
         Bodies.Add(Body(Native(typeof(TestSubject), "Revive", typeof(int))), BodyKind.Revive);

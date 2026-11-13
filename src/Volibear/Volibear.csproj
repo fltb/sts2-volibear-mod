@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Volibear</AssemblyName>
     <Version>0.1.0</Version>
+    <BaseLibPath Condition="'$(BaseLibPath)' == '' and '$(GameChannel)' == 'beta'">$(MSBuildProjectDirectory)/../../.local/dependencies/BaseLib-3.4.8/BaseLib.dll</BaseLibPath>
     <BaseLibPath Condition="'$(BaseLibPath)' == ''">$(MSBuildProjectDirectory)/../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
     <Deterministic>true</Deterministic>
     <PathMap>$(MSBuildProjectDirectory)=/_/Volibear</PathMap>
@@ -23,7 +24,7 @@
   </PropertyGroup>
   <Target Name="CheckGameReference" BeforeTargets="ResolveReferences">
     <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Set Sts2DataDir to your installed game's managed assembly directory." />
-    <Error Condition="!Exists('$(BaseLibPath)')" Text="Run python tools/dependencies.py fetch to obtain pinned BaseLib 3.4.7." />
+    <Error Condition="!Exists('$(BaseLibPath)')" Text="Fetch the pinned BaseLib with tools/dependencies.py (VOLIBEAR_CHANNEL=pbe for beta)." />
   </Target>
   <!-- Development probes/acceptance hosts are not part of the player-facing beta build; the
        stable channel keeps them. This keeps the PBE port limited to production code. -->

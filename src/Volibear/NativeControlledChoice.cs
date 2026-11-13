@@ -54,7 +54,7 @@ internal sealed class NativeControlledChoice : IDisposable
         internal void RequireWaiting()
         {
             if (ChoiceId is null || Action.State != GameActionState.GatheringPlayerChoice || Action.CompletionTask.IsCompleted ||
-                CardSelectCmd.Selector is not null || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
+                ProbeGameCompat.HasSelector(Player) || MegaCrit.Sts2.Core.TestSupport.TestMode.IsOn)
                 throw new InvalidOperationException("No genuine pending native controlled choice");
         }
     }
@@ -64,7 +64,7 @@ internal sealed class NativeControlledChoice : IDisposable
     internal readonly List<Request> Requests = [];
     internal NativeControlledChoice(Player player)
     {
-        if (active is not null || CardSelectCmd.Selector is not null) throw new InvalidOperationException("Conflicting choice observer or bypass selector");
+        if (active is not null || ProbeGameCompat.HasSelector(player)) throw new InvalidOperationException("Conflicting choice observer or bypass selector");
         owner = player;
         active = this;
         observer.CreateClassProcessor(typeof(ObserveHand)).Patch();
@@ -93,7 +93,7 @@ internal sealed class NativeControlledChoice : IDisposable
         var predicate = filter ?? (_ => true);
         var cards = pile.Cards.ToArray();
         var eligible = cards.Where(predicate).ToArray();
-        if (eligible.Length <= prefs.MinSelect || CardSelectCmd.Selector is not null)
+        if (eligible.Length <= prefs.MinSelect || ProbeGameCompat.HasSelector(player))
             throw new InvalidOperationException("Fixture would bypass native UI/choice synchronization");
         Requests.Add(new Request { Player = player, Action = action, Source = action.NetCombatCard.ToCardModel(),
             Pile = pile, Prefs = prefs, Filter = predicate, Available = cards, Eligible = eligible });

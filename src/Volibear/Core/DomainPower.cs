@@ -94,7 +94,11 @@ public sealed class DomainPower : CustomPowerModel
         return Task.CompletedTask;
     }
 
-    public override Task AfterDeath(PlayerChoiceContext context, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
+    public override Task AfterDeath(PlayerChoiceContext context, Creature creature,
+#if STS2_BETA
+        CardModel? cardSource,
+#endif
+        bool wasRemovalPrevented, float deathAnimLength)
     {
         if (!wasRemovalPrevented) DomainDampenRestoration.RefreshCombat(Owner);
         return Task.CompletedTask;

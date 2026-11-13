@@ -66,7 +66,11 @@ internal static class PowerPresentationDisabled
         }
         // Invisible powers have no native icon/tip; expose their real name on the creature.
         if (suppressed && !found)
-            yield return new HoverTip(power.Title, Text("badge").GetFormattedText() + "\n" + DisabledDescription(power)) { Id = "VOLIBEAR-DISABLED-" + power.Id };
+            yield return new HoverTip(power.Title, Text("badge").GetFormattedText() + "\n" + DisabledDescription(power))
+#if !STS2_BETA
+                { Id = "VOLIBEAR-DISABLED-" + power.Id }
+#endif
+                ;
         if (power.GetType().Assembly != typeof(PowerPresentationDisabled).Assembly) yield break;
         foreach (var tip in MechanicHoverTips.ForText(power.Title.GetRawText() + "\n" + power.Description.GetRawText()))
             if (seen.Add(tip.Id)) yield return tip;
@@ -79,9 +83,17 @@ internal static class PowerPresentationDisabled
         // Only verified contribution adapters receive a badge/summary. An active
         // domain alone must never claim that every special action is suppressed.
         if (DomainEnemyEffects.ActiveFor(creature) && IsCreatureSuppressed(creature))
-            yield return new HoverTip(Text("enemyTitle"), Text("enemyDescription")) { Id = "VOLIBEAR-DISABLED-ENEMY" };
+            yield return new HoverTip(Text("enemyTitle"), Text("enemyDescription"))
+#if !STS2_BETA
+                { Id = "VOLIBEAR-DISABLED-ENEMY" }
+#endif
+                ;
         else if (creature.Powers.Any(IsSuppressed))
-            yield return new HoverTip(Text("selfTitle"), Text("selfDescription")) { Id = "VOLIBEAR-DISABLED-SELF" };
+            yield return new HoverTip(Text("selfTitle"), Text("selfDescription"))
+#if !STS2_BETA
+                { Id = "VOLIBEAR-DISABLED-SELF" }
+#endif
+                ;
     }
 
     private static void PowerHover(PowerModel __instance, ref IEnumerable<IHoverTip> __result) =>

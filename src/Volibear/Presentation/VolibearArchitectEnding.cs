@@ -13,7 +13,11 @@ using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
-using MegaCrit.Sts2.Core.Saves;
+#if STS2_BETA
+using VictoryResult = MegaCrit.Sts2.Core.Entities.Save.PostRunProgressUpdateResult;
+#else
+using VictoryResult = MegaCrit.Sts2.Core.Saves.SerializableRun;
+#endif
 using MegaCrit.Sts2.Core.Audio.Debug;
 using Volibear.Content;
 
@@ -24,7 +28,7 @@ namespace Volibear.Presentation;
 internal static class VolibearArchitectEnding
 {
     private const string Id = "Volibear.ArchitectEnding";
-    private sealed record Victory(RunState State, SerializableRun Snapshot);
+    private sealed record Victory(RunState State, VictoryResult Snapshot);
     private static readonly ConditionalWeakTable<RunManager, Victory> Victories = new();
     private static readonly ConditionalWeakTable<RunState, Victory> Completed = new();
     internal static bool IsDomainVictory(RunState state) => Completed.TryGetValue(state, out _);
@@ -33,7 +37,7 @@ internal static class VolibearArchitectEnding
     private static readonly MethodInfo NativeEnd = AccessTools.DeclaredMethod(typeof(RunManager), nameof(RunManager.OnEnded));
     private static bool installed;
     internal static event Action<Creature>? DomainEntered;
-    internal static event Action<SerializableRun>? VictoryShown;
+    internal static event Action<VictoryResult>? VictoryShown;
 
     internal static void Install()
     {
@@ -67,7 +71,7 @@ internal static class VolibearArchitectEnding
         state.CurrentRoom is EventRoom room && room.LocalMutableEvent is TheArchitect &&
         state.Players.Any(p => p.Character is VolibearCharacter && p.Creature.IsAlive);
 
-    private static SerializableRun RecordVictory(RunManager manager, bool isVictory)
+    private static VictoryResult RecordVictory(RunManager manager, bool isVictory)
     {
         // Keep the exact snapshot returned by the sole native victory record call.
         var snapshot = manager.OnEnded(isVictory);
@@ -97,13 +101,16 @@ internal static class VolibearArchitectEnding
         }
         await Cmd.Wait(1.5f);
         Completed.Add(victory.State, victory);
+        #if !STS2_BETA
         ShowVictory(victory.Snapshot);
+#endif
         VictoryShown?.Invoke(victory.Snapshot);
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static void EnterDomain(Creature creature) => VolibearPresentationBridge.EnterArchitectDomain(creature);
+    #if !STS2_BETA
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static void ShowVictory(SerializableRun snapshot)
+    private static void ShowVictory(VictoryResult snapshot)
     {
         if (TestMode.IsOn) return;
         var run = NRun.Instance ?? throw new InvalidOperationException("Native victory run view missing");
@@ -112,4 +119,5 @@ internal static class VolibearArchitectEnding
         (NAudioManager.Instance ?? throw new InvalidOperationException("Native victory audio missing")).PlayMusic("event:/temp/sfx/game_over");
         run.ShowGameOverScreen(snapshot);
     }
+#endif
 }

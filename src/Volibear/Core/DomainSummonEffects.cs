@@ -88,8 +88,8 @@ public static partial class DomainSummonEffects
         void Add(Type type, string method, int kind, Type[] args) => Bodies.Add(MoveNext(Required(type, method, typeof(Task), args)), kind);
         Add(typeof(Fabricator), "SpawnBot", 0, [typeof(IEnumerable<MonsterModel>)]);
         Add(typeof(Ovicopter), "LayEggsMove", 1, [typeof(IReadOnlyList<Creature>)]);
-        Add(typeof(InfestedPower), nameof(InfestedPower.AfterDeath), 2, [typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float)]);
-        Add(typeof(CreatureCmd), "KillWithoutCheckingWinCondition", 3, [typeof(Creature), typeof(bool), typeof(int)]);
+        Add(typeof(InfestedPower), nameof(InfestedPower.AfterDeath), 2, NativeCompat.AfterDeathParameters);
+        Add(typeof(CreatureCmd), "KillWithoutCheckingWinCondition", 3, NativeCompat.KillWithoutWinParameters);
         Add(typeof(Fabricator), "FabricateMove", 4, [typeof(IReadOnlyList<Creature>)]);
         Add(typeof(Fabricator), "FabricatingStrikeMove", 5, [typeof(IReadOnlyList<Creature>)]);
         Add(typeof(LivingFog), "BloatMove", 6, [typeof(IReadOnlyList<Creature>)]);

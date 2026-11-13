@@ -11,6 +11,7 @@ namespace Volibear;
 internal sealed class SilentPlayerChoiceContext : PlayerChoiceContext
 {
 #if STS2_BETA
+    public override GameActionType? GameActionType => null;
     public override ulong? OwnerId => null;
     public override Task SignalPlayerChoiceBegun(Player chooser, PlayerChoiceOptions options) => Task.CompletedTask;
 #else

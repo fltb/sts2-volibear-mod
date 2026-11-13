@@ -16,14 +16,20 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.ValueProps;
 
+#if STS2_BETA
+using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.DamageTargetData;
+#else
+using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.Creature;
+#endif
+
 namespace Volibear.Core;
 
 public static partial class DomainSteamEruptionEffects
 {
-    private static readonly MethodInfo NativeDamage = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-        [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+    internal static readonly MethodInfo NativeDamage = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
+        [typeof(PlayerChoiceContext), typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
 #if STS2_BETA
-            , typeof(CardPlay)
+            , typeof(CardPlay), typeof(ModifyDamageHookType)
 #endif
             ]);
     private static async Task<AttackCommand> ExplodeAttack(AttackCommand command, PlayerChoiceContext? choice, WaterfallGiant monster)
@@ -41,10 +47,10 @@ public static partial class DomainSteamEruptionEffects
         PublishSteamCancellation(episode);
         state = -2; builder.SetResult(command); return true;
     }
-    private static Task<IEnumerable<DamageResult>> DamageFromCommand(PlayerChoiceContext choice, IEnumerable<Creature> targets,
+    private static Task<IEnumerable<DamageResult>> DamageFromCommand(PlayerChoiceContext choice, IEnumerable<AttackTarget> targets,
         decimal amount, ValueProp props, Creature? dealer, CardModel? card,
 #if STS2_BETA
-        CardPlay? cardPlay,
+        CardPlay? cardPlay, ModifyDamageHookType hookType,
 #endif
         AttackCommand command)
     {
@@ -54,21 +60,21 @@ public static partial class DomainSteamEruptionEffects
         return CardResolutionHooks.OrdinaryAttackPipelineV1(choice, props, dealer, card,
             () => DispatchNativeDamage(choice, targets, amount, props, dealer, card,
 #if STS2_BETA
-                cardPlay,
+                cardPlay, hookType,
 #endif
                 command, episode));
     }
-    private static Task<IEnumerable<DamageResult>> DispatchNativeDamage(PlayerChoiceContext choice, IEnumerable<Creature> targets,
+    private static Task<IEnumerable<DamageResult>> DispatchNativeDamage(PlayerChoiceContext choice, IEnumerable<AttackTarget> targets,
         decimal amount, ValueProp props, Creature? dealer, CardModel? card,
 #if STS2_BETA
-        CardPlay? cardPlay,
+        CardPlay? cardPlay, ModifyDamageHookType hookType,
 #endif
         AttackCommand command, Episode? episode)
     {
         using var binding = DamageHandoff.Dispatch(episode is null ? null : new DamageInvocation(episode, command));
         return CreatureCmd.Damage(choice, targets, amount, props, dealer, card
 #if STS2_BETA
-            , cardPlay
+            , cardPlay, hookType
 #endif
             );
     }
@@ -114,6 +120,9 @@ public static partial class DomainSteamEruptionEffects
         if (invocation is not null) Observed?.Invoke(invocation.Episode.Owner, part + "-committed");
         return actual; // Do not change the caller's raw unblockedDamage or WasFullyBlocked calculation.
     }
+#if STS2_BETA
+    private static DamageResult PreBlockHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "pre-block-hp");
+#endif
     private static DamageResult PrimaryHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "primary-hp");
     private static DamageResult OverflowHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "overflow-hp");
     private static async Task ObserveBoundary(Task native, string point)
@@ -151,7 +160,16 @@ public static partial class DomainSteamEruptionEffects
             string? point = null;
             if (instruction.Calls(block)) { instruction.opcode = OpCodes.Call; instruction.operand = Own(nameof(BlockCommit)); blocks++; }
             else if (instruction.Calls(hp))
-            { instruction.opcode = OpCodes.Call; instruction.operand = Own(++hps == 1 ? nameof(PrimaryHp) : nameof(OverflowHp)); }
+            {
+                hps++;
+                instruction.opcode = OpCodes.Call;
+#if STS2_BETA
+                instruction.operand = Own(hps switch { 1 when blocks == 0 => nameof(PreBlockHp), 2 when blocks == 1 => nameof(PrimaryHp),
+                    3 when blocks == 1 => nameof(OverflowHp), _ => throw new InvalidOperationException("Unexpected damage write order") });
+#else
+                instruction.operand = Own(hps == 1 ? nameof(PrimaryHp) : nameof(OverflowHp));
+#endif
+            }
             else if (instruction.Calls(AccessTools.Method(typeof(Hook), nameof(Hook.BeforeDamageReceived))))
             { point = "before-block"; beforeDamage++; }
             else if (instruction.Calls(AccessTools.Method(typeof(Hook), nameof(Hook.AfterModifyingHpLostBeforeOsty))))
@@ -164,8 +182,13 @@ public static partial class DomainSteamEruptionEffects
             if (point is not null)
             { result.Add(new(OpCodes.Ldstr, point)); result.Add(new(OpCodes.Call, Own(nameof(ObserveBoundary)))); }
         }
-        if (blocks != 1 || hps != 2 || beforeDamage != 1 || beforeOsty != 1 || afterOsty != 2 || afterHp != 1)
-            throw new InvalidOperationException($"Steam native damage shape drift {blocks}/{hps}/{beforeDamage}/{beforeOsty}/{afterOsty}/{afterHp}, expected 1/2/1/1/2/1.");
+        #if STS2_BETA
+        const int hpSites = 3;
+#else
+        const int hpSites = 2;
+#endif
+        if (blocks != 1 || hps != hpSites || beforeDamage != 1 || beforeOsty != 1 || afterOsty != 2 || afterHp != 1)
+            throw new InvalidOperationException($"Steam native damage shape drift {blocks}/{hps}/{beforeDamage}/{beforeOsty}/{afterOsty}/{afterHp}, expected 1/{hpSites}/1/1/2/1.");
         return Scope(result, generator, __originalMethod, Flow.Damage);
     }
     private static IEnumerable<CodeInstruction> EarlyEntry(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase original, FieldInfo subject, string guard)

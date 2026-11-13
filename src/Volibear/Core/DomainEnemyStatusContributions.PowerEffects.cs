@@ -103,7 +103,13 @@ public static partial class DomainEnemyStatusContributions
         SuppressPowerContribution(source, target) ? Task.FromResult<IEnumerable<DamageResult>>(Array.Empty<DamageResult>()) :
             CreatureCmd.Damage(context, target, amount, props, dealer, card);
 #endif
-    private static Task PaperCutMaxHp(PlayerChoiceContext context, Creature target, decimal amount, bool fromCard, PaperCutsPower source) =>
+    private static Task PaperCutMaxHp(PlayerChoiceContext context, Creature target, decimal amount,
+#if STS2_BETA
+        CardModel? fromCard,
+#else
+        bool fromCard,
+#endif
+        PaperCutsPower source) =>
         SuppressPowerContribution(source, target) ? Task.CompletedTask : CreatureCmd.LoseMaxHp(context, target, amount, fromCard);
 
     private static async Task<TaintedPower?> SparkApply(PlayerChoiceContext context, Creature target, decimal amount,

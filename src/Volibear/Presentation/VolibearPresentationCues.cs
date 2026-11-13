@@ -23,7 +23,11 @@ public static class VolibearPresentationCues
     {
         if(installed)return;
         var target=AccessTools.Method(typeof(NCharacterSelectScreen),nameof(NCharacterSelectScreen.SelectCharacter),
-            [typeof(NCharacterSelectButton),typeof(CharacterModel)])??throw new MissingMethodException("Native SelectCharacter");
+            [typeof(NCharacterSelectButton)
+#if !STS2_BETA
+            , typeof(CharacterModel)
+#endif
+            ])??throw new MissingMethodException("Native SelectCharacter");
         new Harmony("Volibear.Presentation.NativeStateCues").Patch(target,
             postfix:new HarmonyMethod(typeof(VolibearPresentationCues),nameof(Selected)));
         CombatManager.Instance.CombatWon += endedRoom => Safe(() =>
@@ -37,8 +41,15 @@ public static class VolibearPresentationCues
         });
         installed=true;
     }
-    private static void Selected(NCharacterSelectScreen __instance,NCharacterSelectButton charSelectButton,CharacterModel characterModel) => Safe(() =>
+    private static void Selected(NCharacterSelectScreen __instance,NCharacterSelectButton charSelectButton
+#if !STS2_BETA
+        , CharacterModel characterModel
+#endif
+        ) => Safe(() =>
     {
+#if STS2_BETA
+        var characterModel = charSelectButton.Character;
+#endif
         if(characterModel is not VolibearCharacter || charSelectButton.IsLocked || charSelectButton.IsRandom)return;
         var container=(Node?)AccessTools.Field(typeof(NCharacterSelectScreen),"_bgContainer")?.GetValue(__instance);
         var background=container?.GetChildren().SingleOrDefault(n=>n.Name.ToString()==characterModel.Id.Entry+"_bg");

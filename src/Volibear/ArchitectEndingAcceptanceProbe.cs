@@ -104,7 +104,7 @@ internal static class ArchitectEndingAcceptanceProbe
             {
                 CharacterModel character = bear ? ModelDb.Character<VolibearCharacter>() : ModelDb.Character<Ironclad>();
                 SaveManager.Instance.Progress.GetOrCreateCharacterStats(character.Id);
-                await NGame.Instance!.StartNewSingleplayerRun(character, shouldSave: true, ActModel.GetDefaultList().ToArray(),
+                await ProbeGameCompat.StartRun(character, shouldSave: true, ActModel.GetDefaultList().ToArray(),
                     Array.Empty<ModifierModel>(), "volibear-architect-ending-" + (bear ? "bear" : "stock"), GameMode.Standard, ascensionLevel: 0);
                 var manager = RunManager.Instance; var run = manager.DebugOnlyGetState()!;
                 // Keep the native previous-room save so the Architect save has its normal backup.

@@ -63,7 +63,9 @@ public static class NativeCompatibility
     private static Dictionary<string, Type?>? resolved;
 
     /// <summary>Throws with the first missing native members when the current build cannot host the mod.</summary>
-    public static void Verify()
+    public static void Verify() => Verify(typeof(NativeCompatibility).Assembly);
+
+    internal static void Verify(Assembly mod)
     {
         var missing = new List<string>();
         foreach (var (type, members) in Surface)
@@ -77,9 +79,41 @@ public static class NativeCompatibility
             foreach (var member in members)
                 if (!HasMember(found, member)) missing.Add(type + "." + member);
         }
+        CheckOverrides(mod, missing);
         if (missing.Count == 0) return;
         throw new InvalidOperationException(string.Join("; ", missing.Take(24)) +
             (missing.Count > 24 ? $"; +{missing.Count - 24} more" : string.Empty));
+    }
+
+    private static void CheckOverrides(Assembly mod, List<string> missing)
+    {
+        try { _ = mod.GetTypes(); }
+        catch (ReflectionTypeLoadException error)
+        {
+            missing.AddRange(error.LoaderExceptions.OfType<Exception>().Select(e => e.Message).Distinct());
+        }
+
+        // A method with the same name can change signature. A precompiled virtual method
+        // can then load as a new slot without ever receiving the native death event.
+        var model = Resolve("AbstractModel");
+        var choice = Resolve("PlayerChoiceContext");
+        var creature = Resolve("Creature");
+        var card = Resolve("CardModel");
+        if (model is null || choice is null || creature is null || card is null)
+        {
+            missing.Add("AfterDeath parameter types");
+            return;
+        }
+        var domain = mod.GetType("Volibear.Core.DomainPower", throwOnError: false);
+        var death = domain?.GetMethod("AfterDeath", BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+        var hook = death?.GetBaseDefinition();
+        if (death is null || hook?.DeclaringType != model || hook.ReturnType != typeof(System.Threading.Tasks.Task))
+            missing.Add("DomainPower.AfterDeath override of AbstractModel.AfterDeath");
+        else
+        {
+            var native = model.GetMethod("AfterDeath", death.GetParameters().Select(p => p.ParameterType).ToArray());
+            if (native != hook) missing.Add("AbstractModel.AfterDeath signature");
+        }
     }
 
     private static bool HasMember(Type type, string name)

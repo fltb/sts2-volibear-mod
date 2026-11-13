@@ -18,6 +18,12 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
+#if STS2_BETA
+using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.DamageTargetData;
+#else
+using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.Creature;
+#endif
+
 namespace Volibear.Core;
 
 /// <summary>
@@ -228,9 +234,9 @@ public static partial class CardResolutionHooks
     private static IEnumerable<CodeInstruction> AttackDamageCallsite(IEnumerable<CodeInstruction> instructions)
     {
         var native = Required(typeof(CreatureCmd), nameof(CreatureCmd.Damage), typeof(PlayerChoiceContext),
-            typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+            typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
 #if STS2_BETA
-            , typeof(CardPlay)
+            , typeof(CardPlay), typeof(ModifyDamageHookType)
 #endif
             );
         return ReplaceOneCall(instructions, native, OrdinaryAttackCallsiteV1);
@@ -272,20 +278,20 @@ public static partial class CardResolutionHooks
     // or infer a paid play/segment from flags, amount, dealer, or a private helper name.
     internal const string OrdinaryAttackOwnerV1 = "Volibear.CardResolution";
     internal static MethodInfo OrdinaryAttackCallsiteV1 => Required(typeof(CardResolutionHooks), nameof(OrdinaryAttackSegmentV1),
-        typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
+        typeof(PlayerChoiceContext), typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
 #if STS2_BETA
-        , typeof(CardPlay)
+        , typeof(CardPlay), typeof(ModifyDamageHookType)
 #endif
         );
     internal static Task<IEnumerable<DamageResult>> OrdinaryAttackSegmentV1(PlayerChoiceContext context,
-        IEnumerable<Creature> targets, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
+        IEnumerable<AttackTarget> targets, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
 #if STS2_BETA
-        , CardPlay? cardPlay
+        , CardPlay? cardPlay, ModifyDamageHookType hookType
 #endif
         ) =>
         OrdinaryAttackPipelineV1(context, props, dealer, cardSource, () => CreatureCmd.Damage(context, targets, amount, props, dealer, cardSource
 #if STS2_BETA
-            , cardPlay
+            , cardPlay, hookType
 #endif
             ));
 

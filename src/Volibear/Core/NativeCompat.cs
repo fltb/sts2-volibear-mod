@@ -21,6 +21,20 @@ internal static class NativeCompat
         command.FromCard(card, null);
 #endif
 
+    internal static readonly Type[] AfterDeathParameters =
+        [typeof(PlayerChoiceContext), typeof(Creature),
+#if STS2_BETA
+         typeof(CardModel),
+#endif
+         typeof(bool), typeof(float)];
+
+    internal static readonly Type[] KillWithoutWinParameters =
+        [typeof(Creature),
+#if STS2_BETA
+         typeof(CardModel),
+#endif
+         typeof(bool), typeof(int)];
+
     // Development probes keep their original call shapes; these bridges absorb the channel split.
     internal static Task LoseBlock(Creature target, decimal amount)
     {

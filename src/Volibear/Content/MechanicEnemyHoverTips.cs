@@ -24,7 +24,10 @@ internal static class MechanicEnemyHoverTips
             var description = new LocString("static_hover_tips", "VOLIBEAR-ENEMY-" + entry.Key + ".description").GetFormattedText();
             if (suppressed) description += "\n\n" + new LocString("static_hover_tips", "VOLIBEAR-DISABLED.description").GetFormattedText();
             yield return new HoverTip(new LocString("static_hover_tips", "VOLIBEAR-ENEMY-" + entry.Key + ".title"), description)
-                { Id = "VOLIBEAR-ENEMY-" + entry.Key };
+#if !STS2_BETA
+                { Id = "VOLIBEAR-ENEMY-" + entry.Key }
+#endif
+                ;
         }
     }
 }

@@ -109,7 +109,7 @@ public static partial class DomainEnemySpecialContributions
     }
     private static void InstallSurprise(Harmony harmony)
     {
-        var death = Method(typeof(SurprisePower), nameof(SurprisePower.AfterDeath), typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(float));
+        var death = Method(typeof(SurprisePower), nameof(SurprisePower.AfterDeath), NativeCompat.AfterDeathParameters);
         // Concrete asynchronous callback, reached by the existing native/revival dispatcher.
         // Do not compete for its AbstractModel.AfterDeath callsite.
         harmony.Patch(death, prefix: new HarmonyMethod(SpecialHandler(nameof(DeathContribution))));

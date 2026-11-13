@@ -41,12 +41,7 @@ internal static class PowerPresentationDomainScalars
             nameof(Hook.ModifyEnergyCostInCombat), nameof(Hook.ModifyKeywordsInCombat) })
             h.Patch(AccessTools.Method(typeof(Hook), name), prefix: new(typeof(PowerPresentationDomainScalars), nameof(EnterHook)),
                 finalizer: new(typeof(PowerPresentationDomainScalars), nameof(LeaveHook)));
-        var damage = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
-            [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
-#if STS2_BETA
-                , typeof(CardPlay)
-#endif
-                ]);
+        var damage = Core.DomainSteamEruptionEffects.NativeDamage;
         var block = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.GainBlock),
             [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(CardPlay), typeof(bool)]);
         var apply = AccessTools.Method(typeof(PowerCmd), nameof(PowerCmd.Apply),
@@ -82,7 +77,13 @@ internal static class PowerPresentationDomainScalars
         var keywords = AccessTools.PropertyGetter(typeof(CardModel), nameof(CardModel.Keywords));
         foreach (var (method, label, sites) in new (MethodInfo Method, string Label, NativeSite[] Sites)[]
         {
-            (damage, "CreatureCmd.Damage", [new(hookDamage, 1), new(hookHpLost, 3)]),
+            (damage, "CreatureCmd.Damage", [new(hookDamage, 1),
+#if STS2_BETA
+                new(hookHpLost, 4)
+#else
+                new(hookHpLost, 3)
+#endif
+            ]),
             (block, "CreatureCmd.GainBlock", [new(hookBlock, 1)]),
             (apply, "PowerCmd.Apply", [new(hookPower, 1)]),
             (modify, "PowerCmd.ModifyAmount", [new(hookPower, 1)]),
