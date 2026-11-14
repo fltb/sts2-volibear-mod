@@ -253,11 +253,10 @@ func play_sound(event_id: String, cue_id: String, persistent_key: String = "", l
 
 func _refresh_volumes() -> void:
 	var gains = volume_provider.call() if volume_provider.is_valid() else {"Sfx": 1.0, "Voice": 1.0, "Ambience": 1.0}
-	var divisor = maxf(1.0, _voices.size())
 	for record in _voices.values():
 		var category = str(record.cue.bus)
-		var db = float(record.cue.gain_db) + float(_mix.get(category.to_lower() + "_bus", -3.0)) - float(_mix.get("headroom_db", 6.0))
-		var gain = clampf(float(gains.get(category, 0.0)), 0.0, 1.0) * db_to_linear(db) / divisor
+		var db = float(record.cue.gain_db) + float(_mix.get(category.to_lower() + "_bus", 0.0))
+		var gain = clampf(float(gains.get(category, 0.0)), 0.0, 1.0) * db_to_linear(db)
 		if record.fade_end > 0:
 			gain *= clampf((record.fade_end - _now()) / 0.14, 0.0, 1.0)
 		record.node.volume_linear = gain

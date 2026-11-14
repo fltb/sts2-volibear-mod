@@ -94,6 +94,9 @@ def profile_data(profile):
         cue = cues.get(row['cue'])
         if cue is None or row['cue'] in bound or row['source'] not in ids or cue['loop']:
             raise ValueError('Unknown/duplicate/looping cue override')
+        gain = row.get('gain_db')
+        if type(gain) not in (int, float) or not -40 <= gain <= 0:
+            raise ValueError('Private cue gain must be in the runtime range [-40, 0] dB')
         kind = by_id[row['source']]['kind']
         if (cue['bus'] == 'Voice') != (kind == 'voice'):
             raise ValueError('Voice and SFX must retain their existing mixing channels')
@@ -228,7 +231,7 @@ def prepare_profile(*, fetch=False):
                                   'duration_seconds': float(metadata['format']['duration']),
                                   'peak': float(max(abs(decoded)))}
     overrides = [{'cue': row['cue'], 'file': 'profiles/riot_en/' + processed[row['source']]['file'],
-                  'duration_seconds': processed[row['source']]['duration_seconds'], 'gain_db': 0}
+                  'duration_seconds': processed[row['source']]['duration_seconds'], 'gain_db': row['gain_db']}
                  for row in data['overrides']]
     runtime = {'schema_version': 1, 'profile': 'riot_en', 'fallback': 'open', 'overrides': overrides}
     write_json(destination / 'runtime.json', runtime)
@@ -262,7 +265,7 @@ def verify_prepared(*, full_decode=True):
             if max(abs(pcm)) >= .89:
                 raise ValueError('Prepared audio exceeds mix peak ceiling')
     expected = [{'cue': row['cue'], 'file': 'profiles/riot_en/' + record['processed'][row['source']]['file'],
-                 'duration_seconds': record['processed'][row['source']]['duration_seconds'], 'gain_db': 0}
+                 'duration_seconds': record['processed'][row['source']]['duration_seconds'], 'gain_db': row['gain_db']}
                 for row in data['overrides']]
     if runtime != {'schema_version': 1, 'profile': 'riot_en', 'fallback': 'open', 'overrides': expected}:
         raise ValueError('Prepared runtime cue mapping changed')

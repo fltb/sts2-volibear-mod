@@ -48,9 +48,11 @@ def sample(muted=False):
                     replacementPile='Draw' if name == 'purify' else None)
             effective = 0 if muted else .6**2 * .5**2
             asset, duration = gate.FILES[cue]
+            trim = {'armor_retain': 0.5, 'armor_iron': -1, 'thunder_armor': 1.5, 'cost_reduce': -7.5,
+                    'strength': -5.5, 'card_purify': -5, 'card_retrieve': -7.5}[cue]
             node = dict(nodeId=200+i, playing=True, inTree=True, streamType='AudioStreamOggVorbis', length=duration,
-                bus='Master', busMuted=False, busVolumeDb=0, volumeLinear=effective*10**(-9/20), file='ogg/'+asset+'.ogg', cue='sfx.'+cue,
-                category='Sfx', authoredDb=0, mixDb=-3, headroomDb=6, voiceDivisor=1)
+                bus='Master', busMuted=False, busVolumeDb=0, volumeLinear=effective*10**(trim/20), file='ogg/'+asset+'.ogg', cue='sfx.'+cue,
+                category='Sfx', authoredDb=trim, mixDb=0, activeVoices=3)
             dispatch = dict(sequence=2*i+2, eventId=('power_transaction:' if model else 'card_receipt:')+str(ticket),
                 cue='sfx.'+cue, accepted=True, master=.6, sfx=.5, ambience=.4, focused=not muted,
                 muteInBackground=muted, effectiveSfx=effective, nodes=[node])
@@ -95,7 +97,7 @@ class AudioReceiptEvidenceTests(unittest.TestCase):
                 self.assertFalse(gate.validate_audio_receipts(bad, 'fresh'), (i, container, field))
             for field, value in [('nodeId', True), ('playing', False), ('inTree', False), ('streamType', 'Missing'),
                     ('length', 0), ('file', 'ogg/wrong.ogg'), ('volumeLinear', 1), ('volumeLinear', False),
-                    ('voiceDivisor', True), ('headroomDb', 0), ('authoredDb', 1), ('bus', 'Unmuted')]:
+                    ('activeVoices', True), ('mixDb', -3), ('authoredDb', 12), ('bus', 'Unmuted')]:
                 bad = copy.deepcopy(baseline); bad['rows'][i]['dispatches'][0]['nodes'][0][field] = value
                 self.assertFalse(gate.validate_audio_receipts(bad, 'fresh'), (i, field))
             for container in ('receipts', 'dispatches'):
@@ -108,6 +110,10 @@ class AudioReceiptEvidenceTests(unittest.TestCase):
         for field, value in [('from', 'Exhaust'), ('pile', 'Hand'), ('replacementPile', 'Hand'), ('source', 'StatusCard')]:
             bad = copy.deepcopy(baseline); bad['rows'][-1]['receipts'][0][field] = value
             self.assertFalse(gate.validate_audio_receipts(bad, 'fresh'))
+        bad = copy.deepcopy(baseline)
+        node = bad['rows'][0]['dispatches'][0]['nodes'][0]
+        node['volumeLinear'] /= node['activeVoices']
+        self.assertFalse(gate.validate_audio_receipts(bad, 'fresh'))
         bad = sample(True); bad['rows'][0]['dispatches'][0]['nodes'][0]['volumeLinear'] = .1
         self.assertFalse(gate.validate_audio_receipts(bad, 'fresh'))
         bad = copy.deepcopy(baseline); bad['runtimeBoundaries'][0]['audioCallsReturningTask'] = 1

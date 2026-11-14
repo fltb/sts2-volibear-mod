@@ -22,7 +22,7 @@ class ProfileSourceIdentity(unittest.TestCase):
         profile = audio_profiles.profile_data('riot_en')
         self.runtime = {'schema_version': 1, 'profile': 'riot_en', 'fallback': 'open',
                         'overrides': [{'cue': r['cue'], 'file': 'profiles/riot_en/' + r['source'] + '.ogg',
-                                       'duration_seconds': 1.25, 'gain_db': 0}
+                                       'duration_seconds': 1.25, 'gain_db': r['gain_db']}
                                       for r in profile['overrides']]}
 
     def resolve(self, runtime):

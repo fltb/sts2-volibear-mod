@@ -35,7 +35,7 @@ func run() -> void:
 				fail("Unselected cue changed instead of preserving open fallback: " + cue.id)
 		else:
 			var row = overrides[cue.id]
-			if cue.file != row.file or abs(cue.duration_seconds - row.duration_seconds) > 0.001:
+			if cue.file != row.file or cue.gain_db != row.gain_db or abs(cue.duration_seconds - row.duration_seconds) > 0.001:
 				fail("Selected private cue is not the independently expected asset: " + cue.id)
 	if overrides.size() != expected.overrides.size():
 		fail("Duplicate independent audio expectations")

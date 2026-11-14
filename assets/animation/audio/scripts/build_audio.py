@@ -16,6 +16,27 @@ CACHE={}
 RECORDS=[]
 CUEDATA=[]
 
+# Per-asset playback trim in dB, measured against the PBE stereo action mix.
+# Aliases share their source trim. Ambience receives a further -6 dB on its bus.
+OPEN_GAIN_DB = {
+    'claw_slash': 0, 'bite_hit': 0, 'heavy_impact': 1.5,
+    'counter_release': 0.5, 'guard_gain': 0.5, 'guard_hit': -1,
+    'guard_break': 5, 'lightning_strike': 1, 'lightning_chain': 0,
+    'lightning_all': -0.5, 'lightning_growth': 1.5, 'domain_enter': 0.5,
+    'domain_exit': -6, 'domain_suppress': -8, 'card_purify': -5,
+    'absorb': -6, 'feral_transfer': -8.5, 'feral_claw': 1.5,
+    'feral_body': -6, 'mark_bite': -3.5, 'charge': -5.5,
+    'roar_wave': -5.5, 'cast_charge': -9, 'card_draw': -23.5,
+    'card_discard': -23, 'card_retrieve': -7.5, 'card_exhaust': -5,
+    'card_replay': -5.5, 'energy_gain': -7.5, 'lifesteal': -10.5,
+    'heal': -8, 'footstep': -3, 'voice_select': 0,
+    'voice_attack_01': -5.5, 'voice_attack_02': -7, 'voice_bite': -5,
+    'voice_heavy': -4.5, 'voice_cast': -9.5, 'voice_roar': -0.5,
+    'voice_feral': -1.5, 'voice_hurt_01': -2.5, 'voice_hurt_02': -3.5,
+    'voice_low_health': -5, 'voice_death': -6.5, 'voice_victory': 0,
+    'domain_loop': 0, 'feral_aura': 0,
+}
+
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def decode(p):
     p=Path(p)
@@ -172,12 +193,12 @@ def main():
     byid={r['id']:r for r in RECORDS}
     for eid in effect_ids:
         rec=byid[aliases.get(eid,eid)]
-        CUEDATA.append({'id':'sfx.'+eid,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':rec['loop'],'bus':'Ambience' if rec['loop'] else 'Sfx','gain_db':0,'cooldown_ms':250 if eid in ['lightning_growth','domain_suppress','card_draw'] else 60,'max_voices':1 if rec['loop'] else 4,'trigger_policy':'start_once_on_state_enter_stop_on_exit_death_room_cleanup' if rec['loop'] else 'once_per_successful_semantic_event; never per_render_frame','default_enabled':eid!='feral_aura'})
+        CUEDATA.append({'id':'sfx.'+eid,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':rec['loop'],'bus':'Ambience' if rec['loop'] else 'Sfx','gain_db':OPEN_GAIN_DB[rec['id']],'cooldown_ms':250 if eid in ['lightning_growth','domain_suppress','card_draw'] else 60,'max_voices':1 if rec['loop'] else 4,'trigger_policy':'start_once_on_state_enter_stop_on_exit_death_room_cleanup' if rec['loop'] else 'once_per_successful_semantic_event; never per_render_frame','default_enabled':eid!='feral_aura'})
     for name,*_ in voice_defs:
         rec=byid['voice_'+name]
-        CUEDATA.append({'id':'voice.'+name,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':False,'bus':'Voice','gain_db':0,'cooldown_ms':1800 if name=='low_health' else 200,'max_voices':1,'trigger_policy':'semantic_action_start; deterministic cosmetic selection, not gameplay RNG','default_enabled':True})
-    CUEDATA.append({'id':'sfx.footstep','asset_id':'footstep',**{k:byid['footstep'][k] for k in ['file','wav','duration_seconds','loop']},'bus':'Sfx','gain_db':-3,'cooldown_ms':90,'max_voices':2,'default_enabled':True})
-    manifest={'schema_version':1,'sample_rate':SR,'channels':1,'runtime_format':'Ogg Vorbis q5; editable PCM16 WAV masters','official_character_voice':False,'spoken_dialogue':False,'cue_count':len(CUEDATA),'unique_asset_count':len(RECORDS),'cues':CUEDATA,'assets':RECORDS,'mix_rules':{'voice_bus':-3,'sfx_bus':-3,'ambience_bus':-6,'headroom_db':6,'master_soft_limit_dbtp':-1,'mute_voice_available':True,'loop_fade_out_ms':140,'scope':'combat/room owner; stop all owned handles on death and scene release','randomness':'separate cosmetic deterministic counter; never consume game RNG'}}
+        CUEDATA.append({'id':'voice.'+name,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':False,'bus':'Voice','gain_db':OPEN_GAIN_DB[rec['id']],'cooldown_ms':1800 if name=='low_health' else 200,'max_voices':1,'trigger_policy':'semantic_action_start; deterministic cosmetic selection, not gameplay RNG','default_enabled':True})
+    CUEDATA.append({'id':'sfx.footstep','asset_id':'footstep',**{k:byid['footstep'][k] for k in ['file','wav','duration_seconds','loop']},'bus':'Sfx','gain_db':OPEN_GAIN_DB['footstep'],'cooldown_ms':90,'max_voices':2,'default_enabled':True})
+    manifest={'schema_version':1,'sample_rate':SR,'channels':1,'runtime_format':'Ogg Vorbis q5; editable PCM16 WAV masters','official_character_voice':False,'spoken_dialogue':False,'cue_count':len(CUEDATA),'unique_asset_count':len(RECORDS),'cues':CUEDATA,'assets':RECORDS,'mix_rules':{'voice_bus':0,'sfx_bus':0,'ambience_bus':-6,'headroom_db':0,'master_soft_limit_dbtp':-1,'mute_voice_available':True,'loop_fade_out_ms':140,'scope':'combat/room owner; stop all owned handles on death and scene release','randomness':'separate cosmetic deterministic counter; never consume game RNG'}}
     (ROOT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     (ROOT/'manifest.js').write_text('window.VOLIBEAR_AUDIO='+json.dumps(manifest,ensure_ascii=False,separators=(',',':'))+';\n')
     make_action_cues()

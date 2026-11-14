@@ -1,6 +1,7 @@
 """Strict native command/receipt/bridge/stream gate. Never claims listening or full-card acceptance."""
 import json
 import math
+from pathlib import Path
 import sys
 
 ACCEPTANCE = 'native-receipt/bridge/stream-not-listening'
@@ -47,6 +48,8 @@ def validate_audio_receipts(report, token):
             need(type(b['mutationBoundaries']) is int and b['mutationBoundaries'] == 1)
             need(type(b['audioCallsReturningTask']) is int and b['audioCallsReturningTask'] == 0)
             need(type(b['audioEntryPatches']) is int and b['audioEntryPatches'] == 0)
+        manifest = Path(__file__).resolve().parents[1] / 'assets/animation/audio/manifest.json'
+        trims = {c['id']: c['gain_db'] for c in json.loads(manifest.read_text(encoding='utf-8'))['cues']}
         rows = report['rows']; expected = list(expected_steps())
         need(type(rows) is list and len(rows) == len(expected) == 38)
         seen = set(); nodes = set(); sequences = set(); source = rows[0]['sourceRef']; need(integer(source))
@@ -140,9 +143,10 @@ def validate_audio_receipts(report, token):
             need(type(node['busMuted']) is bool and number(node['busVolumeDb']))
             asset, length = FILES[cue]
             need(node['file'] == 'ogg/' + asset + '.ogg' and number(node['length']) and abs(node['length'] - length) < .05)
-            need(node['authoredDb'] == 0 and number(node['authoredDb']) and node['mixDb'] == -3 and number(node['mixDb']))
-            need(node['headroomDb'] == 6 and number(node['headroomDb']) and integer(node['voiceDivisor']))
-            gain = effective * 10 ** (-9 / 20) / node['voiceDivisor']
+            trim = trims[dispatch['cue']]
+            need(number(node['authoredDb']) and node['authoredDb'] == trim)
+            need(number(node['mixDb']) and node['mixDb'] == 0 and integer(node['activeVoices']))
+            gain = effective * 10 ** (trim / 20)
             need(number(node['volumeLinear']) and math.isclose(node['volumeLinear'], gain, rel_tol=1e-5, abs_tol=1e-7))
         need(len(seen) == len(nodes) == 12)
         # Search/recovery must return the very same entity, not a replacement clone.
