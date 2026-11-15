@@ -1,109 +1,90 @@
-# 沃利贝尔 · StS2 Mod
+<div align="center">
 
-以 BaseLib 接入的中文角色 Mod，包含 89 张卡牌、178 个基础/升级牌面、两件专属遗物，
-以及迎战、领域、雷势、雷伤、兽化和配套角色动画、UI、VFX、双音频。
-当前工作在 [PR #1](https://github.com/fltb/sts2-volibear-mod/pull/1) 的
-`codex/mode7-completion` 分支，完整产品范围见 [交付标准](docs/RELEASE_PLAN.md)。
+# ⚡ Volibear · The Relentless Storm
+### 《杀戮尖塔 2》角色模组 —— 沃利贝尔 · 不灭狂雷
 
-**2026-11-03：当前源码新增状态单图标聚合，已提交供 Windows 接续，尚未发布新安装包。**
-26种状态规则、数字/份数、永久“本战”和聚合悬停已实现；44项定向测试与生产编译通过。首轮原生短测83个UI样本通过，最后的悬停去重等补改待实机复测，具体接续步骤见[当前交接](<docs/HANDOFF.md>)。
-前一版`9e1db8d`已完成1198项回归（8项Windows专用检查跳过）、单机、跨进程恢复、双端ENet和ZIP安装/更新/卸载验证；旧包不含本轮聚合。默认包使用open音频；人工听感、Steam传输及跨公网体验另行验证。
-独立回归、Godot 资源检查、原生引用检查、实际游戏和人工视觉/听感分别记录；详细状态见 [实现清单](docs/IMPLEMENTATION_TODO.md) 与
-[当前交接](docs/HANDOFF.md)。
+[![GitHub Release](https://img.shields.io/github/v/release/fltb/sts2-volibear-mod?style=flat-square&color=3b82f6)](https://github.com/fltb/sts2-volibear-mod/releases)
+[![GitHub Issues](https://img.shields.io/github/issues/fltb/sts2-volibear-mod?style=flat-square&color=eab308)](https://github.com/fltb/sts2-volibear-mod/issues)
+[![Languages](https://img.shields.io/badge/Localization-EN%20%7C%20%E7%AE%80%E4%B8%AD%20%7C%20%E7%B9%81%E4%B8%AD-10b981?style=flat-square)](#-localization--本地化支持)
 
-## 本地构建与完整验收
+**[English](#english) | [简体中文](#简体中文)**
 
-| 依赖 | 固定版本 |
-| --- | --- |
-| Slay the Spire 2 | 0.107.1 / 59260271 |
-| Godot | 普通 4.5.1 stable Mono/.NET |
-| .NET SDK | 9.0.320 |
-| BaseLib | 3.4.7，由工具获取并核对发行包 |
-| Python | 3.10+ |
+</div>
 
-首次在仓库根目录执行，替换本机路径：
+---
 
-```powershell
-python -B tools/local_delivery.py --game-dir "D:\SteamLibrary\steamapps\common\Slay the Spire 2" --godot "C:\Tools\Godot\Godot_v4.5.1-stable_mono_win64.exe" --dotnet "C:\Program Files\dotnet\dotnet.exe" --verify-release --audio-driver WASAPI
-```
+<a name="english"></a>
+## 🌍 English
 
-Linux 使用已有桌面的 GPU 窗口与本机音频后端；测试窗口禁止抢焦点与鼠标输入，隔离配置关闭垂直同步并保留 60 FPS 上限。例如：
+> *"Beneath stone walls, there is no wild!! They may forget the old ways, yet the old ways will never forget them."*
 
-```sh
-python3 -B tools/local_delivery.py --game-dir "/path/to/Slay the Spire 2" --godot "/path/to/Godot_v4.5.1-stable_mono_linux.x86_64" --dotnet "/path/to/dotnet" --verify-release --audio-driver PulseAudio --display window
-```
+**Volibear**, the Thunder Demigod of the Freljord, descends upon the Spire! Despising dead stone, cold clockwork, and false order, Valhir forces enemies to fight on his terms, suppresses their tricks inside his Domain, and unleashes primal Lightning and Beast Forms to shatter the Spire's summit.
 
-入口核对版本，重新编译当前 DLL，执行严格回归，导出并检查完整 PCK，部署当前候选，
-执行单进程原生批次、跨进程保存恢复和两个真实网络客户端。阶段失败即停止。
-成功后安装包位于 `.local/release/Volibear-0.1.0-StS2-0.107.1.zip`。
+### ✨ Features
+* **New Playable Character:** **Volibear · The Relentless Storm**, complete with custom character select screen, signature *Storm Sea Glass*, and multiplayer prompts.
+* **89 Custom Cards:** Full card pool across Basic, Common, Uncommon, Rare, and Token tiers supporting multiple synergistic archetypes.
+* **2 Signature Relics:** Starter relic **The Relentless Storm** and upgraded/boss relic **Undying Across the Ages**.
+* **6 Epoch Story Cards:** Unlock Volibear's lore timeline from *First Thunder of Vorrijaard* to *I Am the Storm* as you clear Acts, defeat Elites/Bosses, and climb Ascension levels.
+* **Full Custom Dialogues & Events:** Unique multi-stage interactions with **The Architect** and all **Ancients** (*Neow, Pael, Orobas, Tezcatara, Nonupeipe, Tanx, Vakuu, Darv*), plus custom Mystery Room events.
+* <a name="-localization--本地化支持"></a> **Full Trilingual Localization:** Native support for **English**, **简体中文 (Simplified Chinese)**, and **繁體中文 (Traditional Chinese)**.
 
-路径保存后，Windows 后续只需：
+### 🐻 Core Mechanics
+| Mechanic | Description |
+| :--- | :--- |
+| **Engage** | Force the target enemy to immediately execute its current intent. Turn enemy aggression into fuel for Block **Absorption**, card draw, and Energy. |
+| **Domain** | Deploy a storm field for several rounds. While active, **enemy special abilities are disabled** (no revives, damage caps, summons, card/gold theft, or debuff immunity), your own debuffs are suspended, drawn Status/Curse cards are Exhausted and replaced, and every Attack played strikes ALL enemies with Lightning. |
+| **Lightning & Storm Charge** | Spell damage amplified by **Storm Charge**. Chain multi-hit Lightning triggers to generate Energy, stack Thunder Armor, and discount cards. |
+| **Beastify** | Exhaust cards in hand to transform them into savage **Beast Forms**—Attacks become **Bone-Rending Claw** and non-Attacks become **Storm Body**, inheriting upgrades and triggering primal synergies. |
 
-```powershell
-python -B tools/local_delivery.py --verify-release --audio-driver WASAPI
-```
+### 📦 Installation
+1. **Steam Workshop (Recommended):** Subscribe to [**Volibear - The Relentless Storm**](https://steamcommunity.com/sharedfiles/filedetails/?id=3840408533&l=english) on the Steam Workshop and launch the game with mods enabled.
+2. **Manual Installation:**
+   * Download the latest release archive from [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases).
+   * Extract the folder into your *Slay the Spire 2* `mods` directory.
+   * Launch the game and enable the mod in the Mod Menu.
 
-完整操作、较小的诊断入口、安装/卸载与音频切换见 [本地运行说明](docs/LOCAL_WORKFLOW.md)。
-**交给本地 Agent 时，让它从 [LOCAL_AGENT_TASK.md](docs/LOCAL_AGENT_TASK.md) 开始。**
+### 🐛 Bug Reports & Feedback
+Found a bug, balance issue, or localization typo? Please open an issue on [**GitHub Issues**](https://github.com/fltb/sts2-volibear-mod/issues) with reproduction steps or logs attached.
 
-## Godot 与 Mod 打包
+---
 
-构建流程参考用户提供的 [ModTemplate Setup](https://github.com/Alchyr/ModTemplate-StS2/wiki/Setup)。
-该模板允许以匹配版本的普通 Godot .NET 作为 MegaDot 的后备。本仓库采用固定的普通
-Godot 4.5.1；游戏仍使用安装的本体引擎。`Volibear.sln` 可在 IDE 打开，C# 直接引用游戏程序集，
-资产在独立 Godot 工程中导出。
+<a name="简体中文"></a>
+## 🇨🇳 简体中文
 
-完整发布包括 `Volibear.dll`、`Volibear.pck`、`Volibear.json`，三个文件放在同一 Mod 目录。
-`tools/local_delivery.py` 负责这条发布链。图片、文本和场景有改动时必须重建 PCK；
-单独编译 C# 只能更新 DLL。PCK 使用 `gl_compatibility` 和源码 GDScript，并在构建后实际
-加载验证脚本、动画、卡图、UI、VFX 和音频。
+> *“石墙之下，毫无野性！！他们或许会遗忘古道，但古道，永远不会遗忘他们。”*
 
-## 内容与运行规则
+来自弗雷尔卓德的雷霆半神——**沃利贝尔（Volibear）**现已踏入高塔！他厌恶一切冰冷的石墙、死铁与虚假的秩序。化身初开之雷霆，主动迎击强敌、展开压制一切的狂雷领域，在战斗中解放野性兽化，用利爪与天雷将高塔顶端彻底碾作齑粉。
 
-- 初始 80 生命、3 能量，起始牌组为 4 打击、4 防御、霆爪、挺身迎战。
-- 迎战执行真实敌人动作；同轮全队共享敌方行动机会，吸收和完成收益归发起者。
-- 领域的敌方特殊贡献压制对全队生效；附雷、抽牌净化等本人收益按规则归属。
-- 兽化先原生消耗材料，再在原牌堆生成有独立身份的 T01/T02；永久牌组不改写，
-  原生耗尽、生成和满手规则照常执行。
-- 多人状态沿游戏原生有序动作推进。正常存档与恢复沿游戏已有的检查点和加载流程。
-  实际联网/重启结果以本地双进程验收报告为准。
-- 运行初始化检查固定游戏版本。公共补丁采用来源隔离与贡献级适配，保留玩家自身效果；
-  未知第三方私有直接写入仍有明确的来源诊断。
+### ✨ 模组内容
+* **全新可玩角色：** **沃利贝尔 · 不灭狂雷**（含专属角色选择界面、专属「风暴海玻璃」与联机互动台词）。
+* **89 张原创卡牌：** 涵盖基础、普通、罕见、稀有与衍生卡牌，支持完整卡牌升级与多流派构筑。
+* **2 件专属遗物：** 初始遗物 **「不灭狂雷」** 与进阶遗物 **「万古不灭」**。
+* **6 张完整纪元故事卡（Epoch）：** 从《沃尔瑞加德的初雷》到《我即风暴》，随通关与击杀进度解锁背景史诗与进阶难度。
+* **全套专属剧情与交互：** 包含与 **建筑师** 及 **涅奥、佩尔、欧洛巴斯、特兹卡塔拉、诺奴佩普、坦克斯、瓦库、达弗** 等全部先古之民的多组专属对话，以及专属问号房事件。
+* **三语完整本地化：** 内置 **简体中文**、**English**、**繁體中文（台灣）** 三语全文本。
 
-玩法权威为 [定稿规则](reference/bear-forge/docs/volibear/DEVELOPMENT.md)、
-[卡表](reference/bear-forge/docs/volibear/CARDS.md) 和用户后续裁决。
+### 🐻 核心战斗机制
+| 机制 | 效果说明 |
+| :--- | :--- |
+| **迎战 (Engage)** | 令目标立即执行当前意图。配合高额格挡与「吸收」机制，在敌人攻击的瞬间反制爆发、过牌与回能。 |
+| **领域 (Domain)** | 展开持续数轮的雷霆领域：期间**禁用敌方特殊能力**（复活、限伤、护盾阶段、召唤、偷牌偷钱等全部失效），禁用自身负面状态，抽到状态/诅咒牌自动消耗并补抽，且每次打出攻击牌对全体敌人造成 4 点雷伤。 |
+| **雷伤与雷势** | 雷伤为法术伤害，受「雷势」与各类能力牌层层增幅，高频触发回能、叠甲与减费。 |
+| **兽化 (Beastify)** | 消耗手牌并将其转化为野性「兽形」：攻击牌化为 **「裂骨之爪」**，非攻击牌化为 **「风暴之躯」**，继承原牌升级并触发专属联动。 |
 
-## 美术与音频
+### 📦 安装方式
+1. **Steam 创意工坊（推荐）：** 在 Steam 创意工坊搜索并订阅 [**沃利贝尔 · 不灭狂雷**](https://steamcommunity.com/sharedfiles/filedetails/?id=3840408533&l=schinese)，启动游戏启用模组即可。
+2. **手动安装：**
+   * 前往本仓库 [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases) 页面下载最新压缩包。
+   * 将解压后的模组文件夹放入《杀戮尖塔 2》游戏根目录下的 `mods` 文件夹中。
+   * 启动游戏并在模组菜单中勾选启用。
 
-当前资产为批准的 V7 卡图及四卡修订、V9 角色动画（26 序列、940 帧）、40 种 VFX。
-两件遗物和能量界面已经按本轮要求更新；批准的角色母图与牌面继续保留。
-四种多人手势参考 Riot 原模型与 StS2 原生贴图，使用手背视角、422×1200 长前臂比例和
-简化笔触。源图、提示词和来源见 [手势资源记录](assets/animation/ui/source/multiplayer_hands/provenance.json)；
-资源通过不等于用户视觉批准。
+### 🐛 问题反馈
+如遇到 Bug、数值建议或翻译错误，欢迎前往 [**GitHub Issues**](https://github.com/fltb/sts2-volibear-mod/issues) 提交反馈（附上复现步骤或报错日志最佳）。
 
-| 不灭狂雷 | 万古不灭 |
-| --- | --- |
-| ![初始遗物](src/Volibear/Presentation/icons/relics/big/lightning_heart.png) | ![升级遗物](src/Volibear/Presentation/icons/relics/big/storm_crown.png) |
+---
 
-默认 `open` 包含 47 个开放声音，映射 54 个声音事件。可选 `riot_en` 提供 9 条英文语音和
-2 条有明确来源的技能音效，其余事件继续使用开放音频。完整交付命令加
-`--audio-profile riot_en` 即可构建独立私有包；公开 Git 保留来源、映射和处理工具。
-两方案都使用单个完整 PCK，具体说明见 [音频方案](assets/animation/audio/profiles/README.md)。
+## 📜 Disclaimer / 免责声明
 
-## 工程与检查入口
+This mod is an unofficial, non-commercial fan project created in compliance with Riot Games' *"Legal Jibber Jabber"* policy. Volibear and related lore elements are trademarks of Riot Games, Inc. Not endorsed by or affiliated with Riot Games or Mega Crit.
 
-| 路径/命令 | 用途 |
-| --- | --- |
-| `src/Volibear/` | 原生内容、机制、表现与隔离验收入口 |
-| `assets/cards/`、`assets/animation/` | 批准资产、导出与检查工具 |
-| `python -B tools/regression.py` | 当前环境可运行的回归；报告明确列出跳过项 |
-| `python -B tools/regression.py --require-native` | 本地引用检查；必需测试未执行即失败 |
-| `python -B tools/local_delivery.py --verify-release --audio-driver DRIVER` | 完整构建、原生/重启/联机验收与打包 |
-| `python -B tools/local_delivery.py --resources-only --godot GODOT --dotnet DOTNET` | 无本体环境的 PCK 构建与检查 |
-| [HEADLESS_TESTING.md](docs/HEADLESS_TESTING.md) | 原生验收阶段、报告和进程边界 |
-
-单人批次复用后台实例，出牌和选择走原生接口。测试不发送系统/视口输入，使用隔离资料目录，
-保留普通存档和其它 Mod。`.local/`、`artifacts/`、游戏程序集与私有媒体不入 Git。
-
-代码 GPL-3.0-only；原创资产与文档 CC-BY-SA-4.0。第三方例外及作者信息见
-[LICENSING.md](LICENSING.md)。安装包包含适用许可与音频来源。
+本模组为《英雄联盟》同人非营利粉丝创作（Fan Project），遵循 Riot Games《Legal Jibber Jabber》同人创作政策制作，与 Riot Games 或《杀戮尖塔 2》官方无任何关联。
