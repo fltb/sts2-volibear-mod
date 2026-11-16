@@ -71,9 +71,6 @@ public abstract class InstancedPersistentPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_STORM_CONDUCTION")]
 public sealed class StormConductionPower : InstancedPersistentPower, IOrdinarySegmentResponder
 {
-    public override List<(string, string)> Localization => new PowerLoc("狂雷渐起",
-        "每段普通攻击后，对全体造成{Amount}雷伤。",
-        "每段普通攻击后，对全体造成{Amount}雷伤。");
     public Task AfterOrdinarySegment(PlayerChoiceContext context, CardModel source, IReadOnlyList<DamageResult> results) =>
         Live && Own(source) ? LightningCmd.DealAllEnemies(context, Owner, Amount, null) : Task.CompletedTask;
 }
@@ -83,9 +80,6 @@ public sealed class StandingPower : PersistentPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/retain_armor.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/retain_armor.png";
-    public override List<(string, string)> Localization => new PowerLoc("留甲",
-        "回合开始时，格挡最多减少{Amount}。",
-        "回合开始时，格挡最多减少{Amount}。");
     public static async Task Deploy(PlayerChoiceContext context, Creature owner, int decay, CardModel source)
     {
         if (decay <= 0) throw new ArgumentOutOfRangeException(nameof(decay));
@@ -131,9 +125,6 @@ public sealed class StandingPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_BATTLE_SCARS")]
 public sealed class BattleScarsPower : InstancedPersistentPower, IEngageResponder
 {
-    public override List<(string, string)> Localization => new PowerLoc("战痕",
-        "每回合首次完成迎战后，获得{Amount}力量和1雷势。",
-        "每回合首次完成迎战后，获得{Amount}力量和1雷势。");
     public async Task AfterEngageCompleted(EngageCmd.Completion completion)
     {
         if (!ReferenceEquals(completion.Receiver, Owner) || !TryFirstThisTurn()) return;
@@ -145,9 +136,6 @@ public sealed class BattleScarsPower : InstancedPersistentPower, IEngageResponde
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_LINGERING_STORM")]
 public sealed class LingeringStormPower : InstancedPersistentPower, IEngageResponder
 {
-    public override List<(string, string)> Localization => new PowerLoc("风暴不散",
-        "每次完成迎战后，抽1张牌，再获得领域1。",
-        "每次完成迎战后，抽1张牌，再获得领域1。");
     public async Task AfterEngageCompleted(EngageCmd.Completion completion)
     {
         if (!Live || !ReferenceEquals(completion.Receiver, Owner)) return;
@@ -161,9 +149,6 @@ public sealed class ThunderAftershockPower : InstancedPersistentPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/energy.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/energy.png";
-    public override List<(string, string)> Localization => new PowerLoc("雷霆余威",
-        "每回合第2、4、6……次雷伤后，获得1能量。获得此能力时，若本回合已造成至少2次雷伤，立即获得1能量。",
-        "每回合第2、4、6……次雷伤后，获得1能量。获得此能力时，若本回合已造成至少2次雷伤，立即获得1能量。");
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         Data.Subscription = LightningBatches.Subscribe(Owner, AfterBatch);
@@ -178,9 +163,6 @@ public sealed class ThunderAftershockPower : InstancedPersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_PREY_STILL_STANDS")]
 public sealed class PreyStillStandsPower : InstancedPersistentPower
 {
-    public override List<(string, string)> Localization => new PowerLoc("猎物未倒",
-        "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。",
-        "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。");
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsLastInSeries) return;
@@ -200,9 +182,6 @@ public sealed class PreyStillStandsPower : InstancedPersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_GROWING_FURY")]
 public sealed class GrowingFuryPower : InstancedPersistentPower
 {
-    public override List<(string, string)> Localization => new PowerLoc("愈战愈烈",
-        "每回合打出第2张攻击时，先获得{Amount}力量和{Amount}雷势。",
-        "每回合打出第2张攻击时，先获得{Amount}力量和{Amount}雷势。");
     public override async Task BeforeCardPlayed(CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsFirstInSeries ||
@@ -217,9 +196,6 @@ public sealed class GrowingFuryPower : InstancedPersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_WELCOME_THUNDER")]
 public sealed class WelcomeThunderPower : InstancedPersistentPower, IEngageResponder
 {
-    public override List<(string, string)> Localization => new PowerLoc("迎雷",
-        "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。",
-        "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。");
     public static Task Prepare(PlayerChoiceContext context, Creature owner, int amount, CardModel? source) =>
         NextAttackDiscount.Grant(context, owner, amount);
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
@@ -232,9 +208,6 @@ public sealed class ThunderArmorPower : InstancedPersistentPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/thunder_armor.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/thunder_armor.png";
-    public override List<(string, string)> Localization => new PowerLoc("雷甲",
-        "每造成一次雷伤，获得{Amount}格挡。",
-        "每造成一次雷伤，获得{Amount}格挡。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         Data.Subscription = LightningBatches.Subscribe(Owner, AfterBatch);
@@ -264,9 +237,6 @@ public sealed class ImmovableBodyPower : PersistentPower
         else await PowerCmd.Apply<ImmovableBodyPower>(context, owner, 1, owner, source);
     }
     public override PowerStackType StackType => PowerStackType.Single;
-    public override List<(string, string)> Localization => new PowerLoc("坚甲",
-        "承受攻击后，格挡保持原值；超过格挡的伤害仍扣生命。",
-        "承受攻击后，格挡保持原值；超过格挡的伤害仍扣生命。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         PersistentBlockHooks.Install();
@@ -277,9 +247,6 @@ public sealed class ImmovableBodyPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_BATTLE_BODY")]
 public sealed class BattleBodyPower : PersistentPower
 {
-    public override List<(string, string)> Localization => new PowerLoc("愈战神躯",
-        "每张实际攻击牌结算后，获得{Amount}力量；每张实际提供正数格挡的技能牌结算后，获得{Amount}敏捷。",
-        "每张实际攻击牌结算后，获得{Amount}力量；每张实际提供正数格挡的技能牌结算后，获得{Amount}敏捷。");
     public override Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
         if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null &&
@@ -301,9 +268,6 @@ public sealed class BattleBodyPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_THUNDER_POOL")]
 public sealed class ThunderPoolPower : InstancedPersistentPower, IEngageResponder
 {
-    public override List<(string, string)> Localization => new PowerLoc("雷池",
-        "回合结束时，以及每回合首次完成迎战后，对全体造成{Amount}雷伤。",
-        "回合结束时，以及每回合首次完成迎战后，对全体造成{Amount}雷伤。");
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
         ReferenceEquals(completion.Receiver, Owner) && TryFirstThisTurn()
             ? LightningCmd.DealAllEnemies(completion.Choices, Owner, Amount, null) : Task.CompletedTask;

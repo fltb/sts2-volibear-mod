@@ -28,6 +28,12 @@ func verify() -> void:
 				fail("Invalid atlas region: " + clip)
 				return
 		frame_count += frames.get_frame_count(clip)
+	for path in expected.epochs:
+		var illustration = load(path) as Texture2D
+		if illustration == null or illustration.get_size() != Vector2(810, 500) or illustration.get_image().is_empty():
+			fail("Invalid epoch illustration or slot thumbnail: " + path)
+			return
+	print("VOLIBEAR_EPOCH_ART_PASS resources=", expected.epochs.size())
 	for path in expected.portraits:
 		var portrait = load(path) as Texture2D
 		var size := Vector2(1000, 760) if "/big/" in path else Vector2(250, 190)

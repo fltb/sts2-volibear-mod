@@ -10,7 +10,7 @@ public sealed class VolibearCardPool : BaseLib.Abstracts.CustomCardPoolModel
 {
     public const string ColorName = "volibear";
 
-    public override string Title => "沃利贝尔";
+    public override string Title => new MegaCrit.Sts2.Core.Localization.LocString("characters", "VOLIBEAR_CHARACTER.title").GetFormattedText();
 
     public override Color ShaderColor => new(0.29f, 0.55f, 0.95f);
     public override string BigEnergyIconPath => "res://VolibearArt/ui/images/big_energy.png";

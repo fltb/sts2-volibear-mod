@@ -1,113 +1,53 @@
-using System.Collections.Generic;
-using Godot;
+using System.Text.Json;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Localization;
+using MegaCrit.Sts2.Core.Modding;
 
 namespace Volibear.Content;
 
-/// <summary>
-/// Localization tables for the mod. They are merged into the game's own tables so the card,
-/// relic and character text resolves exactly like content shipped inside a pck. Keys use the
-/// model database's own entry names, which is why the character key carries its full id.
-/// </summary>
-public static class VolibearLoc
+internal static class VolibearLoc
 {
-    public static readonly IReadOnlyDictionary<string, Dictionary<string, string>> Tables =
-        new Dictionary<string, Dictionary<string, string>>
-        {
-            ["cards"] = new()
-            {
-                ["VOLIBEAR_B01.title"] = "打击",
-                ["VOLIBEAR_B01.description"] = "造成{Damage:diff()}伤害。",
-                ["VOLIBEAR_B02.title"] = "防御",
-                ["VOLIBEAR_B02.description"] = "获得{Block:diff()}格挡。",
-                ["VOLIBEAR_B03.title"] = "霆爪",
-                ["VOLIBEAR_B03.description"] = "造成{Damage:diff()}伤害。对所有敌人造成{Lightning:diff()}雷伤。",
-                ["VOLIBEAR_B04.title"] = "挺身迎战",
-                ["VOLIBEAR_B04.description"] = "获得{Block:diff()}格挡。造成{Damage:diff()}伤害。迎战。",
-            },
-            ["characters"] = new()
-            {
-                ["VOLIBEAR_CHARACTER.title"] = "沃利贝尔",
-                ["VOLIBEAR_CHARACTER.description"] = "弗雷尔卓德的雷霆半神。主动迎战敌人，以雷伤与兽化作战。",
-                ["VOLIBEAR_CHARACTER.titleObject"] = "沃利贝尔",
-                ["VOLIBEAR_CHARACTER.pronounSubject"] = "他",
-                ["VOLIBEAR_CHARACTER.pronounObject"] = "他",
-                ["VOLIBEAR_CHARACTER.pronounPossessive"] = "他的",
-                ["VOLIBEAR_CHARACTER.possessiveAdjective"] = "他的",
-                ["VOLIBEAR_CHARACTER.cardsModifierTitle"] = "不灭狂雷",
-                ["VOLIBEAR_CHARACTER.cardsModifierDescription"] = "沃利贝尔的卡牌会出现在奖励和商店中。",
-                ["VOLIBEAR_CHARACTER.eventDeathPrevention"] = "沃利贝尔撑起身体，伤口间仍冒着电光。",
-                ["VOLIBEAR_CHARACTER.aromaPrinciple"] = "雨水、泥土，还有猎物的气味。",
-                ["VOLIBEAR_CHARACTER.goldMonologue"] = "这些够换什么？",
-                ["VOLIBEAR_CHARACTER.banter.alive.endTurnPing"] = "该你了。",
-                ["VOLIBEAR_CHARACTER.banter.dead.endTurnPing"] = "别管我，继续打。",
-            },
-            ["relics"] = new()
-            {
-                ["HUNTERS_HEART.title"] = "不灭狂雷",
-                ["HUNTERS_HEART.description"] = "每次完成迎战后，抽1张牌。每回合首次完成迎战时，获得1能量。",
-                ["HUNTERS_HEART.flavor"] = "握住它时，指间会跳起细小的电火花。",
-                ["VOLIBEAR_HUNTERS_HEART.title"] = "不灭狂雷",
-                ["VOLIBEAR_HUNTERS_HEART.description"] = "每次完成迎战后，抽1张牌。每回合首次完成迎战时，获得1能量。",
-                ["VOLIBEAR_HUNTERS_HEART.flavor"] = "握住它时，指间会跳起细小的电火花。",
-                ["SEA_GLASS.VOLIBEAR_CHARACTER.title"] = "风暴海玻璃",
-            },
-            // BaseLib adds these lines to TheArchitect's actual dialogue set.
-            // Every line uses the repeat suffix so both first and later victories
-            // have a valid character-specific conversation in the native finale.
-            ["ancients"] = new()
-            {
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient"] = "你把下面砸得一团糟。",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.next"] = "回应建筑师",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char"] = "那些墙挡了我的路。",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.next"] = "听下去",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient"] = "所以你就一路拆到这里？",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.next"] = "说明来意",
-                ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-3r.char"] = "我是来找你的。别再派那些东西送死了。",
-            },
-            ["powers"] = new(),
-            ["static_hover_tips"] = MechanicGlossary.Localization(),
-        };
+    private static readonly Dictionary<string, Dictionary<string, string>> GlossarySources = new();
+    private static bool Chinese => LocManager.Instance.Language is "zhs" or "zht";
+    internal static string SentenceSeparator => Chinese ? "" : " ";
+    internal static string ListSeparator => Chinese ? "、" : ", ";
 
-    private static bool installed;
-
-    public static bool Installed => installed;
-
-    /// <summary>
-    /// Harmony postfix: every table the game hands out gets our entries merged first, so a table
-    /// reload or language switch cannot leave the mod's text unresolved.
-    /// </summary>
-    public static void AfterGetTable(string name, ref LocTable __result)
+    // Match the same mechanic hints in every language, including translated card titles.
+    // Displayed titles and descriptions are always resolved by the native localization tables.
+    internal static string GlossarySource(string table, string id)
     {
-        if (__result is null) return;
-        if (Tables.TryGetValue(name, out var entries) && entries.Count > 0)
-            __result.MergeWith(entries);
-        InlineModelLocalization.Merge(name, __result);
-        installed = true;
+        if (!GlossarySources.TryGetValue(table, out var source))
+        {
+            var path = $"res://Volibear/localization/zhs/{table}.json";
+            source = JsonSerializer.Deserialize<Dictionary<string, string>>(Godot.FileAccess.GetFileAsString(path))
+                ?? throw new InvalidDataException(path);
+            GlossarySources.Add(table, source);
+        }
+        return source.GetValueOrDefault(id + ".title") + "\n" + source.GetValueOrDefault(id + ".description");
     }
 
-    public static void Install()
+    internal static void Register()
+    {
+        // The mod initializer runs before the game constructs its localization manager.
+        new Harmony("Volibear.Localization").Patch(AccessTools.Method(typeof(LocManager), nameof(LocManager.Initialize)),
+            postfix: new HarmonyMethod(typeof(VolibearLoc), nameof(BindModMenu)));
+        if (LocManager.Instance is not null) BindModMenu();
+    }
+
+    private static void BindModMenu()
     {
         var manager = LocManager.Instance;
-        if (manager is null)
-        {
-            GD.PrintErr("[Volibear] LOC_ERROR manager unavailable");
-            return;
-        }
-        var merged = 0;
-        foreach (var (tableName, entries) in Tables)
-        {
-            if (entries.Count == 0) continue;
-            var table = manager.GetTable(tableName);
-            if (table is null)
-            {
-                GD.PrintErr($"[Volibear] LOC_ERROR missing table {tableName}");
-                continue;
-            }
-            table.MergeWith(entries);
-            merged += entries.Count;
-        }
-        installed = true;
-        GD.Print($"[Volibear] LOC_OK entries={merged}");
+        manager.SubscribeToLocaleChange(UpdateModMenu);
+        UpdateModMenu();
+    }
+
+    private static void UpdateModMenu()
+    {
+        // The mod list reads the in-memory manifest directly. The manifest on disk also
+        // supplies the default metadata when this mod is disabled.
+        var manifest = ModManager.GetLoadedMods().FirstOrDefault(mod => mod.manifest?.id == "Volibear")?.manifest;
+        if (manifest is null || !LocString.Exists("characters", "VOLIBEAR_MOD.title")) return;
+        manifest.name = new LocString("characters", "VOLIBEAR_MOD.title").GetFormattedText();
+        manifest.description = new LocString("characters", "VOLIBEAR_MOD.description").GetFormattedText();
     }
 }

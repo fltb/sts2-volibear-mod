@@ -35,10 +35,6 @@ public sealed class DomainPower : CustomPowerModel
         ? new LocString("powers", Id.Entry + ".permanentDescription") : base.Description;
     protected override string SmartDescriptionLocKey => IsPermanent
         ? Id.Entry + ".permanentDescription" : base.SmartDescriptionLocKey;
-    public override List<(string, string)> Localization => new PowerLoc(
-        "领域", "剩余{Amount}轮，每轮持续到下回合抽牌后。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。",
-        "剩余{Amount}轮，每轮持续到下回合抽牌后。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。",
-        ("permanentDescription", "领域持续。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。"));
 
     public static bool IsActive(Creature owner) => owner.CombatState is not null && owner.IsAlive &&
         !CombatManager.Instance.IsOverOrEnding && owner.GetPowerAmount<DomainPower>() > 0;

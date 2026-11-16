@@ -58,9 +58,6 @@ public sealed class BearSpiritPower : CustomPowerModel
     public CardModel SourceCard => IsMutable ? State.Source ?? ModelDb.Card<Volibear_R28>() : ModelDb.Card<Volibear_R28>();
     public override string CustomPackedIconPath => Presentation.VolibearIcons.BearSpirit;
     public override string CustomBigIconPath => Presentation.VolibearIcons.BearSpiritBig;
-    public override List<(string, string)> Localization => new PowerLoc("熊灵侵染",
-        "每回合首次兽化后抽{Amount}张牌，首次打出兽形时获得1雷势。回合开始抽牌后，可以兽化1张手牌。",
-        "每回合首次兽化后抽{Amount}张牌，首次打出兽形时获得1雷势。回合开始抽牌后，可以兽化1张手牌。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         State.Source = cardSource ?? throw new InvalidOperationException("Bear Spirit requires its originating card.");
@@ -123,9 +120,6 @@ public sealed class WildernessPower : CustomPowerModel
     public CardModel SourceCard => IsMutable ? State.Source ?? ModelDb.Card<Volibear_R30>() : ModelDb.Card<Volibear_R30>();
     public override string CustomPackedIconPath => Presentation.VolibearIcons.Wilderness;
     public override string CustomBigIconPath => Presentation.VolibearIcons.WildernessBig;
-    public override List<(string, string)> Localization => new PowerLoc("我即荒野",
-        "每回合首次打出爪形时，获得{Amount}格挡；每次打出躯形时，获得1能量。",
-        "每回合首次打出爪形时，获得{Amount}格挡；每次打出躯形时，获得1能量。");
     public override Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         State.Source = cardSource ?? throw new InvalidOperationException("Wilderness requires its originating card.");

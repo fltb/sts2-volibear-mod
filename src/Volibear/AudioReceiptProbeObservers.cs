@@ -99,8 +99,7 @@ internal static partial class AudioReceiptProbe
                     busVolumeDb = AudioServer.GetBusVolumeDb(AudioServer.GetBusIndex(player.Bus)),
                     volumeLinear = player.VolumeLinear, file = cue["file"].AsString(),
                     cue = cue["id"].AsString(), category = cue["bus"].AsString(), authoredDb = cue["gain_db"].AsDouble(),
-                    mixDb = mix["sfx_bus"].AsDouble(), headroomDb = mix["headroom_db"].AsDouble(),
-                    voiceDivisor = Math.Max(1, voices.Count) });
+                    mixDb = mix["sfx_bus"].AsDouble(), activeVoices = voices.Count });
             }
             state.Row.dispatches.Add(new { sequence = Sequence(), eventId = state.Event, cue = state.Cue, accepted,
                 master = settings.VolumeMaster, sfx = settings.VolumeSfx, ambience = settings.VolumeAmbience,

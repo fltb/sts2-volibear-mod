@@ -57,7 +57,6 @@ internal static partial class DirectEffects
 public sealed class Volibear_C01 : VolibearCard
 {
     public Volibear_C01() : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c01") { }
-    public override List<(string, string)> Localization => new CardLoc("逼近", "造成{Damage:diff()}伤害。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, Move)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => DirectEffects.Attack(context, this, play.Target, Value("Damage"));
     protected override void OnUpgrade() => UpgradeVar("Damage", 3m);
@@ -67,7 +66,6 @@ public sealed class Volibear_C01 : VolibearCard
 public sealed class Volibear_C02 : VolibearCard
 {
     public Volibear_C02() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c02") { }
-    public override List<(string, string)> Localization => new CardLoc("双爪", "造成{Damage:diff()}伤害，共{Hits:diff()}次。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, Move), new DynamicVar("Hits", 2m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => DirectEffects.Attack(context, this, play.Target, Value("Damage"), (int)Value("Hits"));
     protected override void OnUpgrade() => UpgradeVar("Damage", 2m);
@@ -77,7 +75,6 @@ public sealed class Volibear_C02 : VolibearCard
 public sealed class Volibear_C03 : VolibearCard
 {
     public Volibear_C03() : base(2, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c03") { }
-    public override List<(string, string)> Localization => new CardLoc("轰雷重击", "造成{Damage:diff()}伤害。对所有敌人造成{Lightning:diff()}雷伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(20m, Move), new DynamicVar("Lightning", 5m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -91,7 +88,6 @@ public sealed class Volibear_C03 : VolibearCard
 public sealed class Volibear_C05 : VolibearCard
 {
     public Volibear_C05() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c05") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆爪击", "领域{Domain:diff()}。造成{Damage:diff()}伤害，共{Hits:diff()}次。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, Move), new DynamicVar("Hits", 2m), new DynamicVar("Domain", 1m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -105,7 +101,6 @@ public sealed class Volibear_C05 : VolibearCard
 public sealed class Volibear_C08 : VolibearCard
 {
     public Volibear_C08() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c08") { }
-    public override List<(string, string)> Localization => new CardLoc("撕开伤口", "造成{Damage:diff()}伤害。施加{Vulnerable:diff()}易伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new PowerVar<VulnerablePower>("Vulnerable", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -120,7 +115,6 @@ public sealed class Volibear_C08 : VolibearCard
 public sealed class Volibear_C09 : VolibearCard
 {
     public Volibear_C09() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies, "c09") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆横扫", "对所有敌人造成{Damage:diff()}伤害和{Lightning:diff()}雷伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(6m, Move), new DynamicVar("Lightning", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -134,7 +128,6 @@ public sealed class Volibear_C09 : VolibearCard
 public sealed class Volibear_C10 : VolibearCard
 {
     public Volibear_C10() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c10") { }
-    public override List<(string, string)> Localization => new CardLoc("以牙还牙", "获得{Block:diff()}格挡。迎战。造成伤害，数值为{Damage:diff()}加上本次受到。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, Move), new DamageVar(6m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -150,7 +143,6 @@ public sealed class Volibear_C10 : VolibearCard
 public sealed class Volibear_C11 : VolibearCard
 {
     public Volibear_C11() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy, "c11") { }
-    public override List<(string, string)> Localization => new CardLoc("正面迎敌", "获得{Block:diff()}格挡。迎战。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(12m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -164,7 +156,6 @@ public sealed class Volibear_C11 : VolibearCard
 public sealed class Volibear_C12 : VolibearCard
 {
     public Volibear_C12() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self, "c12") { }
-    public override List<(string, string)> Localization => new CardLoc("厚重皮毛", "获得格挡，数值为{Block:diff()}加上当前力量。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(10m, Move)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
         DirectEffects.Block(this, play, Value("Block") + Math.Max(0, DomainPlayerStatContributions.EffectiveStrength(Owner.Creature)));
@@ -175,7 +166,6 @@ public sealed class Volibear_C12 : VolibearCard
 public sealed class Volibear_C18 : VolibearCard
 {
     public Volibear_C18() : base(1, CardType.Skill, CardRarity.Common, TargetType.AllEnemies, "c18") { }
-    public override List<(string, string)> Localization => new CardLoc("显圣", "领域{Domain:diff()}。对所有敌人施加{Weak:diff()}虚弱。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Domain", 1m), new PowerVar<WeakPower>("Weak", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -189,7 +179,6 @@ public sealed class Volibear_C18 : VolibearCard
 public sealed class Volibear_C21 : VolibearCard
 {
     public Volibear_C21() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self, "c21") { }
-    public override List<(string, string)> Localization => new CardLoc("稳住阵脚", "获得{Block:diff()}格挡。领域{Domain:diff()}。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move), new DynamicVar("Domain", 1m), new CardsVar(2)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -204,7 +193,6 @@ public sealed class Volibear_C21 : VolibearCard
 public sealed class Volibear_C22 : VolibearCard
 {
     public Volibear_C22() : base(2, CardType.Attack, CardRarity.Common, TargetType.AllEnemies, "c22") { }
-    public override List<(string, string)> Localization => new CardLoc("雷震", "对所有敌人造成{Damage:diff()}伤害和{Lightning:diff()}雷伤，重复{Hits:diff()}次。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(5m, Move), new DynamicVar("Lightning", 2m), new DynamicVar("Hits", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -222,7 +210,6 @@ public sealed class Volibear_C22 : VolibearCard
 public sealed class Volibear_C24 : VolibearCard, INativeLightningSpell
 {
     public Volibear_C24() : base(1, CardType.Skill, CardRarity.Common, TargetType.AllEnemies, "c24") { }
-    public override List<(string, string)> Localization => new CardLoc("霹雳", "对所有敌人造成{Lightning:diff()}雷伤。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 6m), new CardsVar(1)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -236,7 +223,6 @@ public sealed class Volibear_C24 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_C26 : VolibearCard
 {
     public Volibear_C26() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, "c26") { }
-    public override List<(string, string)> Localization => new CardLoc("接地", "若本回合造成过雷伤，获得{Energy:diff()}能量。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(2)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
@@ -248,7 +234,6 @@ public sealed class Volibear_C26 : VolibearCard
 public sealed class Volibear_U05 : VolibearCard
 {
     public Volibear_U05() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u05") { }
-    public override List<(string, string)> Localization => new CardLoc("挟山", "造成等同当前格挡的伤害。");
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new CalculationBaseVar(0m), new ExtraDamageVar(1m),
          new CalculatedDamageVar(Move).WithMultiplier((card, _) => card.Owner.Creature.Block)];
@@ -268,7 +253,6 @@ public sealed class Volibear_U05 : VolibearCard
 public sealed class Volibear_U06 : VolibearCard
 {
     public Volibear_U06() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u06") { }
-    public override List<(string, string)> Localization => new CardLoc("三重撕裂", "造成{Damage:diff()}伤害，共{Hits:diff()}次。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new DynamicVar("Hits", 3m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => DirectEffects.Attack(context, this, play.Target, Value("Damage"), (int)Value("Hits"));
     protected override void OnUpgrade() => UpgradeVar("Damage", 3m);
@@ -278,7 +262,6 @@ public sealed class Volibear_U06 : VolibearCard
 public sealed class Volibear_U23 : VolibearCard
 {
     public Volibear_U23() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AllEnemies, "u23") { }
-    public override List<(string, string)> Localization => new CardLoc("迎风咆哮", "对所有敌人施加{Weak:diff()}虚弱。获得{Block:diff()}格挡。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<WeakPower>("Weak", 1m), new BlockVar(9m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -292,7 +275,6 @@ public sealed class Volibear_U23 : VolibearCard
 public sealed class Volibear_U24 : VolibearCard
 {
     public Volibear_U24() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u24") { }
-    public override List<(string, string)> Localization => new CardLoc("饮血而战", "造成{Damage:diff()}伤害，再造成{Lightning:diff()}雷伤，恢复等同于这次雷伤所造成生命损失的生命。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(21m, Move), new DynamicVar("Lightning", 3m)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -328,7 +310,6 @@ public sealed class Volibear_U27 : VolibearCard
 {
     public Volibear_U27() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u27") { }
     public override bool GainsBlock => true;
-    public override List<(string, string)> Localization => new CardLoc("淬躯爪击", "造成{Damage:diff()}伤害。本回合每造成过1次雷伤，便获得{BlockPerStrike:diff()}格挡。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(8m, Move), new DynamicVar("BlockPerStrike", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -343,7 +324,6 @@ public sealed class Volibear_U27 : VolibearCard
 public sealed class Volibear_U28 : VolibearCard, INativeLightningSpell
 {
     public Volibear_U28() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy, "u28") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆反扑", "获得{Block:diff()}格挡。迎战。对所有敌人造成雷伤，数值为{Lightning:diff()}加上本次受到。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(12m, Move), new DynamicVar("Lightning", 4m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -358,7 +338,6 @@ public sealed class Volibear_U28 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_U29 : VolibearCard
 {
     public Volibear_U29() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self, "u29") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆渐盛", "获得{Charge:diff()}雷势。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Charge", 2m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => StormChargePower.Gain(context, Owner.Creature, (int)Value("Charge"), this);
     protected override void OnUpgrade() => UpgradeVar("Charge", 1m);
@@ -368,7 +347,6 @@ public sealed class Volibear_U29 : VolibearCard
 public sealed class Volibear_U35 : VolibearCard, INativeLightningSpell
 {
     public Volibear_U35() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy, "u35") { }
-    public override List<(string, string)> Localization => new CardLoc("霹天雳地", "获得{Block:diff()}格挡。对所有敌人造成{Lightning:diff()}雷伤。迎战。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, Move), new DynamicVar("Lightning", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -383,7 +361,6 @@ public sealed class Volibear_U35 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_U36 : VolibearCard
 {
     public Volibear_U36() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u36") { }
-    public override List<(string, string)> Localization => new CardLoc("奔雷", "获得{Energy:diff()}能量。若本回合此前造成过雷伤，抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new EnergyVar(1), new CardsVar(1)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -399,7 +376,6 @@ public sealed class Volibear_U36 : VolibearCard
 public sealed class Volibear_U37 : VolibearCard, INativeLightningSpell
 {
     public Volibear_U37() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.AllEnemies, "u37") { }
-    public override List<(string, string)> Localization => new CardLoc("风暴汇聚", "对所有敌人造成{Lightning:diff()}雷伤。领域{Domain:diff()}。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 12m), new DynamicVar("Domain", 1m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -413,7 +389,6 @@ public sealed class Volibear_U37 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_U40 : VolibearCard, INativeLightningSpell
 {
     public Volibear_U40() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy, "u40") { }
-    public override List<(string, string)> Localization => new CardLoc("雷路贯通", "造成{Lightning:diff()}雷伤。若本回合在此之前已造成至少{Threshold:diff()}次雷伤，获得{Energy:diff()}能量。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 8m), new DynamicVar("Threshold", 2m), new EnergyVar(2)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -428,7 +403,6 @@ public sealed class Volibear_U40 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_R01 : VolibearCard
 {
     public Volibear_R01() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self, "r01") { }
-    public override List<(string, string)> Localization => new CardLoc("风暴形态", "获得{Block:diff()}格挡。永久领域。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -442,7 +416,6 @@ public sealed class Volibear_R01 : VolibearCard
 public sealed class Volibear_R07 : VolibearCard, INativeLightningSpell
 {
     public Volibear_R07() : base(2, CardType.Skill, CardRarity.Rare, TargetType.AllEnemies, "r07") { }
-    public override List<(string, string)> Localization => new CardLoc("天崩地裂", "对所有敌人造成等同当前格挡的雷伤。");
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => LightningCmd.DealAllEnemies(context, Owner.Creature.Block, this);
     protected override void OnUpgrade() => EnergyCost.UpgradeBy(-1);
 }
@@ -451,7 +424,6 @@ public sealed class Volibear_R07 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_R09 : VolibearCard, INativeLightningSpell
 {
     public Volibear_R09() : base(2, CardType.Skill, CardRarity.Rare, TargetType.AllEnemies, "r09") { }
-    public override List<(string, string)> Localization => new CardLoc("众敌皆来", "获得{Block:diff()}格挡。迎战所有敌人。对所有敌人造成等同于本次受到的雷伤。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(15m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -468,7 +440,6 @@ public sealed class Volibear_R09 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_R12 : VolibearCard
 {
     public Volibear_R12() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r12") { }
-    public override List<(string, string)> Localization => new CardLoc("解放本能", "抽牌至手牌达到{HandSize:diff()}张。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("HandSize", 7m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -484,7 +455,6 @@ public sealed class Volibear_R12 : VolibearCard
 public sealed class Volibear_R13 : VolibearCard
 {
     public Volibear_R13() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self, "r13") { }
-    public override List<(string, string)> Localization => new CardLoc("重返蛮荒", "若处于领域内，恢复{Heal:diff()}生命；否则获得领域{Domain:diff()}。获得{Strength:diff()}力量。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Heal", 6m), new DynamicVar("Domain", 1m), new PowerVar<StrengthPower>("Strength", 2m)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -503,7 +473,6 @@ public sealed class Volibear_R21 : VolibearCard
 {
     public Volibear_R21() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r21") { }
     public override bool GainsBlock => true;
-    public override List<(string, string)> Localization => new CardLoc("雷霆化身", "本回合每造成过1次雷伤，便获得{BlockPerStrike:diff()}格挡。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("BlockPerStrike", 4m), new CardsVar(2)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -518,7 +487,6 @@ public sealed class Volibear_R21 : VolibearCard
 public sealed class Volibear_R23 : VolibearCard, INativeLightningSpell
 {
     public Volibear_R23() : base(2, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy, "r23") { }
-    public override List<(string, string)> Localization => new CardLoc("裂天", "造成{Lightning:diff()}雷伤，共{Hits:diff()}次。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 8m), new DynamicVar("Hits", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -533,7 +501,6 @@ public sealed class Volibear_R23 : VolibearCard, INativeLightningSpell
 public sealed class Volibear_R24 : VolibearCard
 {
     public Volibear_R24() : base(1, CardType.Skill, CardRarity.Rare, TargetType.Self, "r24") { }
-    public override List<(string, string)> Localization => new CardLoc("雷涌", "获得等同本回合雷伤次数的能量。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(2)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)

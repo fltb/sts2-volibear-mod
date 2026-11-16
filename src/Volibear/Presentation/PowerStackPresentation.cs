@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Localization;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
@@ -48,7 +48,7 @@ internal static class PowerStackPresentation
                 if (members.Length > 1)
                 {
                     if (power is WelcomeThunderPower) description = DescribeCopies(members);
-                    description += "减费不相加，取最高值。";
+                    description += VolibearLoc.SentenceSeparator + StackText("maximum");
                 }
                 break;
             case Rule.Minimum:
@@ -68,22 +68,22 @@ internal static class PowerStackPresentation
                 // Permanent domain lasts the whole combat; there is no counter worth
                 // showing, and "本战" would only restate the default lifetime.
                 amount = permanent ? "" : Number(rounds);
-                description = permanent ? Template((CustomPowerModel)power, "permanentDescription") : Render(power, rounds);
+                description = permanent ? Template(power, "permanentDescription") : Render(power, rounds);
                 break;
             case Rule.Charge:
                 amount = Number(sum);
-                description = $"共{amount}层雷势，每段雷伤增加{amount}。";
+                description = StackText("charge", sum);
                 break;
             case Rule.TemporaryStrength:
                 amount = Number(sum);
-                description = sum >= 0 ? $"本回合获得{amount}力量，回合结束时失去{amount}力量。"
-                    : $"本回合失去{Number(-sum)}力量，回合结束时恢复{Number(-sum)}力量。";
+                description = sum >= 0 ? StackText("gainStrength", sum)
+                    : StackText("loseStrength", -sum);
                 break;
             default:
                 amount = Number(sum);
                 description = Render(power, sum);
                 if (power is ThunderArmorPower && members.Length > 1)
-                    description = $"每造成一次雷伤，获得合计{amount}基础格挡，分{members.Length}次获得（{string.Join("、", members.Select(p => Number(p.Amount)))}）。";
+                    description = StackText("armor", sum, members.Length, values: string.Join(VolibearLoc.ListSeparator, members.Select(p => Number(p.Amount))));
                 break;
         }
         projection = new PowerStackProjection(Array.AsReadOnly(members), amount, description);
@@ -91,13 +91,24 @@ internal static class PowerStackPresentation
     }
 
     private static string DescribeCopies(PowerModel[] members) => members.Length == 1
-        ? "共1份。" + Render(members[0], members[0].Amount)
-        : $"共{members.Length}份，分别触发。" +
-            string.Join("", members.GroupBy(p => Render(p, p.Amount)).Select(group => $"\n{group.Count()}份：{group.Key}"));
+        ? StackText("single") + VolibearLoc.SentenceSeparator + Render(members[0], members[0].Amount)
+        : StackText("multiple", count: members.Length) +
+            string.Join("", members.GroupBy(p => Render(p, p.Amount)).Select(group => "\n" + StackText("group", count: group.Count(), description: group.Key)));
 
     private static string Number(long number) => number.ToString(CultureInfo.InvariantCulture);
-    private static string Template(CustomPowerModel power, string key) => power.Localization.Single(pair => pair.Item1 == key).Item2;
-    private static string Render(PowerModel power, long amount) => Template((CustomPowerModel)power, "smartDescription").Replace("{Amount}", Number(amount), StringComparison.Ordinal);
+    private static string Template(PowerModel power, string key) =>
+        new LocString("powers", power.Id.Entry + "." + key).GetRawText();
+
+    private static string StackText(string key, long amount = 0, int count = 0, string values = "", string description = "")
+    {
+        var text = new LocString("static_hover_tips", "VOLIBEAR-STACK." + key);
+        text.Add("Amount", (decimal)amount);
+        text.Add("Count", (decimal)count);
+        text.Add("Values", values);
+        text.Add("Description", description);
+        return text.GetFormattedText();
+    }
+    private static string Render(PowerModel power, long amount) => Template(power, "smartDescription").Replace("{Amount}", Number(amount), StringComparison.Ordinal);
 
     private static bool TryRule(PowerModel power, out Rule rule)
     {

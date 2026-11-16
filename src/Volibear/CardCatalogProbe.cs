@@ -136,8 +136,7 @@ internal static class CardCatalogProbe
                 catch (Exception error) { errors.Add(canonical.Id.Entry + (upgraded ? "+" : "") + ": " + error); }
             }
         }
-        // Do not call VolibearLoc.Install/remerge test strings here. Only native
-        // language reload + the installed production GetTable patch may repair keys.
+        // Reload the native tables from the mounted pack.
         LocManager.Instance.SetLanguage("eng");
         LocManager.Instance.SetLanguage("zhs");
         var reloaded = new List<object>();

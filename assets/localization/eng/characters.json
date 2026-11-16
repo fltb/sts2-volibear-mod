@@ -1,0 +1,18 @@
+{
+  "VOLIBEAR_CHARACTER.title": "Volibear",
+  "VOLIBEAR_CHARACTER.titleObject": "Volibear",
+  "VOLIBEAR_CHARACTER.description": "The Thunder Demigod of the Freljord. Engages enemies head-on, fighting with Lightning damage and Beastify.",
+  "VOLIBEAR_CHARACTER.pronounSubject": "he",
+  "VOLIBEAR_CHARACTER.pronounObject": "him",
+  "VOLIBEAR_CHARACTER.pronounPossessive": "his",
+  "VOLIBEAR_CHARACTER.possessiveAdjective": "his",
+  "VOLIBEAR_CHARACTER.cardsModifierTitle": "The Relentless Storm",
+  "VOLIBEAR_CHARACTER.cardsModifierDescription": "Volibear's cards appear in rewards and Shops.",
+  "VOLIBEAR_CHARACTER.eventDeathPrevention": "Volibear hauls himself upright, arcs of lightning still crackling between his wounds.",
+  "VOLIBEAR_CHARACTER.banter.alive.endTurnPing": "Your turn.",
+  "VOLIBEAR_CHARACTER.banter.dead.endTurnPing": "Leave me. Keep fighting.",
+  "VOLIBEAR_MOD.title": "Volibear · The Relentless Storm",
+  "VOLIBEAR_MOD.description": "Volibear, the Thunder Demigod of the Freljord, descends upon the Spire! Features 89 custom cards, 2 signature relics, 6 Epoch story cards, and full dialogues with the Architect & Ancients. Master Engage, Domain, Lightning damage, and Beastify to shatter this stone prison! Supports English / 简体中文 / 繁體中文.",
+  "VOLIBEAR_CHARACTER.aromaPrinciple": "[sine][aqua]Trees, earth, beasts, blood... They have forgotten the old ways, yet the old ways will never forget them.[/aqua][/sine]",
+  "VOLIBEAR_CHARACTER.goldMonologue": "[sine]Every rare treasure guarded by that little blue creature would belong to Valhir as well...[/sine]"
+}

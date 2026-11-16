@@ -1,0 +1,8 @@
+{
+  "AROMA_OF_CHAOS.pages.INITIAL.description.VOLIBEAR_CHARACTER": "費力地穿過一片厚密的灌木叢並來到空地後，一種莫名的懷舊感突然向你襲來。\n那是花朵的芬芳、腐爛的惡臭以及某種無法言說的氣息的混合體。每前進一步，這股氣味都變得愈發濃烈。與此同時，你感受到周圍的世界正開始扭曲，旋轉。\n一股變幻莫測的混沌將你淹沒，你開始慢慢地喪失了對自我的感知。",
+  "AROMA_OF_CHAOS.pages.LET_GO.description.VOLIBEAR_CHARACTER": "你收起利爪，任由意識順著風雪向著最深處的執念墜落……\n你看見自己正踏碎世間所有的高牆與水壩，率領著重新學會咆哮的部族在雷雲下浴血狩獵，甚至連那頭固執的公羊也再次與你並肩立於山巔。這是荒野重生的預兆？還是香氣編織的謊言？濃霧深處，無數雙沒有眼皮的異界之眼正冷冷注視著你和你的夢。它們……是誰……？\n不知過了多久，一聲悶雷在你胸腔裡炸響。\n香氣被你呼出的灼熱白氣沖散。當滾雷重新在血管裡奔流時，你感覺頭腦從未有如此清醒過。\n[sine][red]那些藏在迷霧後窺視的眼睛……究竟是什麼？[/red][/sine]",
+  "AROMA_OF_CHAOS.pages.MAINTAIN_CONTROL.description.VOLIBEAR_CHARACTER": "你抵制住了屈服的誘惑，將巨爪死死摳進腳下的岩石與凍土。儘管香氣無法動搖你的身軀，但其殘留的影響仍如利爪般撕扯著你的心智。\n維持理智並非易事；你將思緒緊緊維繫在你的信條之上。\n{AromaPrinciple}\n{AromaPrinciple}\n{AromaPrinciple}\n香氣逐漸消散。",
+  "SUNKEN_TREASURY.pages.INITIAL.description.VOLIBEAR_CHARACTER": "一條小路讓你找到了一個部分淹水的寶庫。\n你看到裡面有2個箱子，但卻只有1把脆弱的鑰匙。\n第一個箱子：你搖晃了一下，能聽到叮鈴哐啷的輕響，應該是少量金幣。\n第二個箱子：巨大、精緻、而且顯然被詛咒了。裡面有很多金幣！",
+  "SUNKEN_TREASURY.pages.FIRST_CHEST.description.VOLIBEAR_CHARACTER": "沒錯，裡面果然有金幣。",
+  "SUNKEN_TREASURY.pages.SECOND_CHEST.description.VOLIBEAR_CHARACTER": "水下的大箱被你一爪拍碎，成堆的金幣嘩啦啦滾進泥水裡。\n[sine]這些冰冷的死物本不值一提，可若將世上所有的金鐵都鎖進我的爪下……[/sine]\n{Monologue}\n[sine]怯懦的部族失去了賴以躲藏的財富，便只能重新向風暴獻上鮮血……[/sine]\n這些連古神也未能倖免的貪婪，正順著積水爬上你的脊背……"
+}

@@ -27,6 +27,10 @@ PRESENTATION = ROOT / 'src/Volibear/Presentation'
 ANIMATIONS = ROOT / 'assets/animation/animations/clean'
 CAMP = ANIMATIONS.parent / 'camp'
 CAMP_OPTIONS = ('heal', 'smith', 'mend', 'cook', 'dig', 'lift', 'clone', 'hatch', 'evolve', 'kindle', 'restore')
+LOCALIZATION = ROOT / 'assets/localization'
+EPOCH_DIR = ROOT / 'assets/epochs/volibear'
+EPOCH_ART = ('01-first-thunder', '02-broken-rune-armor', '03-today-you-are-free',
+             '04-roar-from-the-heart', '05-bones-beneath-the-ice', '06-i-am-the-storm')
 CARDS = ROOT / 'assets/cards'
 UI = ROOT / 'assets/animation/ui'
 VFX = ROOT / 'assets/animation/vfx'
@@ -309,6 +313,8 @@ def pack_input_paths(clips, portraits, ui, effects, audio, audio_profile):
              *(PRESENTATION / name for name in ('verify_pack.gd', 'verify_effects.gd', 'verify_audio_profile.gd'))]
     for root, rows in ((ANIMATIONS, clips), (VFX, effects)):
         paths.extend(safe_source(root, row['atlas'][kind]) for row in rows for kind in ('image', 'json'))
+    paths.extend(sorted(LOCALIZATION.glob('*/*.json')))
+    paths.extend(EPOCH_DIR / (name + '.png') for name in EPOCH_ART)
     paths.extend(CAMP / (name + '.png') for name in CAMP_OPTIONS)
     paths.extend(safe_source(CARDS, row['path']) for row in portraits)
     paths.extend(safe_source(UI, row['file']) for row in ui)
@@ -409,6 +415,24 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
     run([sys.executable, ROOT / 'assets/animation/integration_sts2_v5/stage_assets.py',
          '--output', art], work, 'stage', env)
     audio_profiles.stage_profile(audio_profile, art / 'audio')
+    shutil.copytree(LOCALIZATION, project / 'Volibear/localization')
+    # EpochModel resolves the inspect illustration and the slot thumbnail separately.
+    illustrations = project / 'images/timeline/epoch_portraits'
+    thumbnails = project / 'images/atlases/epoch_atlas.sprites'
+    illustrations.mkdir(parents=True)
+    thumbnails.mkdir(parents=True)
+    epoch_resources = []
+    for chapter, name in enumerate(EPOCH_ART, 1):
+        stem = f'volibear_character{chapter}_epoch'
+        portrait = illustrations / (stem + '.png')
+        thumbnail = thumbnails / (stem + '.tres')
+        shutil.copyfile(EPOCH_DIR / (name + '.png'), portrait)
+        portrait_path = 'res://' + portrait.relative_to(project).as_posix()
+        thumbnail.write_text('[gd_resource type="AtlasTexture" load_steps=2 format=3]\n'
+                             f'[ext_resource type="Texture2D" path="{portrait_path}" id="art"]\n'
+                             '[resource]\natlas = ExtResource("art")\nregion = Rect2(0, 0, 810, 500)\n',
+                             encoding='utf-8')
+        epoch_resources.extend((portrait_path, 'res://' + thumbnail.relative_to(project).as_posix()))
     for export in portraits:
         destination = art / 'cards' / export['path']
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -464,7 +488,7 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
     preset = (ROOT / 'assets/animation/integration_sts2_v5/export_presets.cfg').read_text(encoding='utf-8')
     # The installed game runs its own engine. Source GDScript avoids compiler-bytecode
     # coupling to this ordinary Godot editor; verify the exported bytes independently below.
-    preset = source_export_preset(preset, resources)
+    preset = source_export_preset(preset, sorted(resources + epoch_resources))
     (project / 'export_presets.cfg').write_text(preset, encoding='utf-8')
     run([godot, '--headless', '--editor', '--path', project, '--import'], work, 'import', env)
     temporary_pack = work / 'Volibear.pck'
@@ -493,6 +517,7 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
                 'audio': [{'path': 'res://VolibearArt/audio/' + row['file'], 'seconds': row['duration_seconds']}
                           for row in audio['assets']],
                 'icons': {'res://VolibearArt/icons/' + path: size for path, (_, size) in ICON_EXPORTS.items()}}
+    expected['epochs'] = epoch_resources
     expected_path = work / 'expected.json'
     expected_path.write_text(json.dumps(expected), encoding='utf-8')
     result = run([godot, '--headless', '--path', verify, '--script', 'verify_pack.gd', '--',

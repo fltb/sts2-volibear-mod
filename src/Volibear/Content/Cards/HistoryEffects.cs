@@ -34,7 +34,6 @@ internal static class HistoryEffects
 public sealed class Volibear_C20 : VolibearCard
 {
     public Volibear_C20() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, "c20") { }
-    public override List<(string, string)> Localization => new CardLoc("乘势追击", "造成{Damage:diff()}伤害。若本回合此前打出过攻击牌，抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, Move), new CardsVar(2)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -49,7 +48,6 @@ public sealed class Volibear_C20 : VolibearCard
 public sealed class Volibear_U07 : VolibearCard
 {
     public Volibear_U07() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u07") { }
-    public override List<(string, string)> Localization => new CardLoc("崩山", "造成{Damage:diff()}伤害，重复{Hits:diff()}次。");
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(3m, Move), new DynamicVar("Hits", 4m)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) =>
@@ -61,7 +59,6 @@ public sealed class Volibear_U07 : VolibearCard
 public sealed class Volibear_U20 : VolibearCard
 {
     public Volibear_U20() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u20") { }
-    public override List<(string, string)> Localization => new CardLoc("势不可挡", "造成{Damage:diff()}伤害。若上一张打出的是攻击牌，获得{Energy:diff()}能量。");
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(10m, Move), new DynamicVar("Energy", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -79,7 +76,6 @@ public sealed class Volibear_U20 : VolibearCard
 public sealed class Volibear_U38 : VolibearCard
 {
     public Volibear_U38() : base(3, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u38") { }
-    public override List<(string, string)> Localization => new CardLoc("雷势奔袭", "造成{Damage:diff()}伤害。本回合每造成1次雷伤，本牌费用−1。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(18m, Move)];
     protected override Task OnPlay(PlayerChoiceContext context, CardPlay play) => HistoryEffects.Attack(context, this, play.Target, Value("Damage"));
     protected override void OnUpgrade() => UpgradeVar("Damage", 6m);
@@ -96,7 +92,6 @@ public sealed class Volibear_U38 : VolibearCard
 public sealed class Volibear_R14 : VolibearCard
 {
     public Volibear_R14() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self, "r14") { }
-    public override List<(string, string)> Localization => new CardLoc("不休之猎", "{Cards:cond:>0?抽{Cards:diff()}张牌。|}每打出1张攻击牌后，本回合对同一目标的攻击牌费用降低1。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(0)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -117,9 +112,6 @@ public sealed class EndlessHuntPower : CustomPowerModel
     private TargetDiscountLedger<Creature> _targets = new();
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    public override List<(string, string)> Localization => new PowerLoc("不休之猎",
-        "每打出一张单体攻击，本回合对该目标的非X费攻击再减费{Amount}。",
-        "每打出一张单体攻击，本回合对该目标的非X费攻击再减费{Amount}。");
 
     public override Task BeforeCardPlayed(CardPlay play)
     {

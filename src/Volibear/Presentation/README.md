@@ -179,8 +179,8 @@ effects.Dispose();
   updates rebind endpoints and renew the existing animation/sound without restarting it.
 - Default gain reads the game's squared Master/Sfx/Ambience slider settings plus background mute;
   Voice follows Sfx unless an optional `Func<string,float>` gain provider is supplied. Live gains
-  refresh during playback. Manifest mix attenuation/headroom and conservative simultaneous-voice
-  normalization are applied. No global bus or output device is changed, and normal windows never
+  refresh during playback. Each cue applies its authored playback gain independently of the other
+  active sounds. The ambience bus has an additional 6 dB attenuation. No global bus or output device is changed, and normal windows never
   force Dummy audio. Headless decode/lifecycle verification is not a listening approval.
 - `audio_profile.gd` keeps the complete default open-audio manifest. An explicitly built private
   `riot_en` pack may replace validated one-shot cue files and their duration/gain fields; category,

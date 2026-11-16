@@ -88,3 +88,14 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 This mod is an unofficial, non-commercial fan project created in compliance with Riot Games' *"Legal Jibber Jabber"* policy. Volibear and related lore elements are trademarks of Riot Games, Inc. Not endorsed by or affiliated with Riot Games or Mega Crit.
 
 本模组为《英雄联盟》同人非营利粉丝创作（Fan Project），遵循 Riot Games《Legal Jibber Jabber》同人创作政策制作，与 Riot Games 或《杀戮尖塔 2》官方无任何关联。
+
+## 本地构建 PBE 发布包
+
+在仓库根目录执行 `python tools/build_pbe_release.py`。首次使用时，将
+[配置样例](tools/local_config.example.json) 复制为 `.local/config.json`，填写本机 Steam PBE
+的游戏目录、Godot Mono 4.5.1 和 .NET SDK 9.0.320 的可执行文件路径。
+默认从游戏目录的 `mods/BaseLib/BaseLib.dll` 引用 BaseLib。若通过创意工坊安装，
+可在本机配置中用 `baselib_dll` 指定实际 DLL。首次准备音频需要 FFmpeg 和 ffprobe。
+
+成品位于 `.local/release/pbe/`。任选一个 ZIP 解压到游戏的 `mods/` 目录，
+得到 `mods/Volibear/`。两个包共用相同的角色、语言和玩法，需要另行安装 BaseLib 3.4.8 或兼容版本。

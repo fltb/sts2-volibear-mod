@@ -1,0 +1,18 @@
+{
+  "VOLIBEAR_CHARACTER.title": "弗力貝爾",
+  "VOLIBEAR_CHARACTER.titleObject": "弗力貝爾",
+  "VOLIBEAR_CHARACTER.description": "弗雷爾卓德的雷霆半神。主動迎戰敵人，以雷電傷害與獸化作戰。",
+  "VOLIBEAR_CHARACTER.pronounSubject": "他",
+  "VOLIBEAR_CHARACTER.pronounObject": "他",
+  "VOLIBEAR_CHARACTER.pronounPossessive": "他的",
+  "VOLIBEAR_CHARACTER.possessiveAdjective": "他的",
+  "VOLIBEAR_CHARACTER.cardsModifierTitle": "無情風暴",
+  "VOLIBEAR_CHARACTER.cardsModifierDescription": "弗力貝爾的卡牌會出現在獎勵和商店中。",
+  "VOLIBEAR_CHARACTER.eventDeathPrevention": "弗力貝爾撐起身體，傷口間仍冒著電光。",
+  "VOLIBEAR_CHARACTER.banter.alive.endTurnPing": "該你了。",
+  "VOLIBEAR_CHARACTER.banter.dead.endTurnPing": "別管我，繼續打。",
+  "VOLIBEAR_MOD.title": "弗力貝爾 · 無情風暴",
+  "VOLIBEAR_MOD.description": "弗雷爾卓德的雷霆半神「弗力貝爾」降臨尖塔！包含 89 張原創卡牌、2 件專屬遺物、6 張紀元故事卡與完整遠古之民互動劇情。體驗「迎戰」「領域」「雷電傷害」與「獸化」四大核心機制，用狂雷撕碎這座石牢！支援繁中 / 简体中文 / English。",
+  "VOLIBEAR_CHARACTER.aromaPrinciple": "[sine][aqua]樹木、泥土、野獸、鮮血……他們遺忘了古道，但古道絕不會遺忘他們。[/aqua][/sine]",
+  "VOLIBEAR_CHARACTER.goldMonologue": "[sine]那藍衣小人守著的每一件奇珍異寶，也都該歸法赫爾所有……[/sine]"
+}

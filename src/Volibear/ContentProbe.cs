@@ -46,7 +46,8 @@ internal static class ContentProbe
     {
         try
         {
-            if (!Content.VolibearLoc.Installed) Content.VolibearLoc.Install();
+            if (!MegaCrit.Sts2.Core.Localization.LocString.Exists("characters", "VOLIBEAR_CHARACTER.title"))
+                throw new InvalidOperationException("Missing Volibear character localization.");
             var player = state.Players.Single();
             var combat = player.PlayerCombatState
                 ?? throw new InvalidOperationException("Content fixture requires PlayerCombatState");

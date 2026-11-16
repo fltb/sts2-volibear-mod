@@ -19,7 +19,6 @@ namespace Volibear.Content;
 public sealed class Volibear_C14 : VolibearCard
 {
     public Volibear_C14() : base(2, CardType.Skill, CardRarity.Common, TargetType.Self, "c14") { }
-    public override List<(string, string)> Localization => new CardLoc("雷霆护身", "获得{Block:diff()}格挡。领域{Domain:diff()}。反雷{Retaliation:diff()}。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(8m, Move), new DynamicVar("Domain", 1m), new DynamicVar("Retaliation", 3m)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -40,8 +39,6 @@ public sealed class Volibear_C14 : VolibearCard
 public sealed class Volibear_C19 : VolibearCard
 {
     public Volibear_C19() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self, "c19") { }
-    public override List<(string, string)> Localization => new CardLoc("追猎准备", "选择1张手牌中的攻击牌，使其获得保留和蓄势{Prepared:diff()}。",
-        ("selectionScreenPrompt", "选择1张攻击，使其获得保留与蓄势。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Prepared", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -59,7 +56,6 @@ public sealed class Volibear_C19 : VolibearCard
 public sealed class Volibear_C25 : VolibearCard
 {
     public Volibear_C25() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self, "c25") { }
-    public override List<(string, string)> Localization => new CardLoc("雷引", "获得{Charge:diff()}雷势。本回合下一张攻击减费1。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Charge", 1m)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -74,7 +70,6 @@ public sealed class Volibear_C25 : VolibearCard
 public sealed class Volibear_U08 : VolibearCard
 {
     public Volibear_U08() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy, "u08") { }
-    public override List<(string, string)> Localization => new CardLoc("暴怒撕咬", "获得{Block:diff()}格挡。造成{Damage:diff()}伤害。若目标在打出本牌前已有咬痕，再攻击一次，造成{Bite:diff()}伤害。施加咬痕。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(6m, Move), new DamageVar(10m, Move), new DamageVar("Bite", 6m, Move)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -100,7 +95,6 @@ public sealed class Volibear_U08 : VolibearCard
 public sealed class Volibear_U10 : VolibearCard
 {
     public Volibear_U10() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u10") { }
-    public override List<(string, string)> Localization => new CardLoc("磨砺爪牙", "抽{Cards:diff()}张牌。下一张攻击强化{Training:diff()}。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1), new DynamicVar("Training", 3m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -114,7 +108,6 @@ public sealed class Volibear_U10 : VolibearCard
 public sealed class Volibear_U11 : VolibearCard
 {
     public Volibear_U11() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u11") { }
-    public override List<(string, string)> Localization => new CardLoc("暴风再临", "本回合下一张攻击获得重演。");
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         if (DirectEffects.Live(this)) await PowerCmd.Apply<NextAttackReplayPower>(context, Owner.Creature, 1m, Owner.Creature, this);
@@ -126,7 +119,6 @@ public sealed class Volibear_U11 : VolibearCard
 public sealed class Volibear_U12 : VolibearCard
 {
     public Volibear_U12() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u12") { }
-    public override List<(string, string)> Localization => new CardLoc("原始力量", "本轮雷伤增加等同于当前力量的数值。抽{Cards:diff()}张牌。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new CardsVar(1)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -143,7 +135,6 @@ public sealed class Volibear_U12 : VolibearCard
 public sealed class Volibear_U14 : VolibearCard
 {
     public Volibear_U14() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u14") { }
-    public override List<(string, string)> Localization => new CardLoc("迎战准备", "获得{Block:diff()}格挡。本回合下一张迎战牌减费1。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -158,8 +149,6 @@ public sealed class Volibear_U14 : VolibearCard
 public sealed class Volibear_U39 : VolibearCard
 {
     public Volibear_U39() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self, "u39") { }
-    public override List<(string, string)> Localization => new CardLoc("雷暴先兆", "获得{Block:diff()}格挡。领域{Domain:diff()}。检索1张雷法。",
-        ("selectionScreenPrompt", "选择1张雷法加入手牌。"));
     protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(4m, Move), new DynamicVar("Domain", 1m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
@@ -174,7 +163,6 @@ public sealed class Volibear_U39 : VolibearCard
 public sealed class Volibear_R06 : VolibearCard
 {
     public Volibear_R06() : base(2, CardType.Skill, CardRarity.Rare, TargetType.Self, "r06") { }
-    public override List<(string, string)> Localization => new CardLoc("天人合一", "获得{Strength:diff()}力量和{Block:diff()}格挡。本场战斗中，所有攻击牌与雷法强化{Training:diff()}。");
     protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<StrengthPower>("Strength", 3m), new BlockVar(10m, Move), new DynamicVar("Training", 3m)];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)

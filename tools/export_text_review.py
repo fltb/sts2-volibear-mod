@@ -179,49 +179,21 @@ def collect(root=None):
         entries.append(Entry(ident, category, rel, text.count('\n', 0, literal.start) + 1, literal.value))
         claimed.add((rel, literal.start))
 
-    # Explicit tables retain exact table/key IDs, including compatibility aliases.
-    rel = 'src/Volibear/Content/VolibearLoc.cs'
-    text, mask, literals = sources[rel]
-    table = None
-    for m in re.finditer(r'\[\s*"([^"]+)"\s*\]\s*=\s*(new\b|"(?:\\.|[^"\\])*")', text):
-        if mask[m.start()] != '[':
-            continue
-        if m[2] == 'new':
-            table = m[1]
-        else:
-            lit = literal_at(text, literals, m.start(2), m.end(2))
-            add(f'{table}:{m[1]}', table, rel, lit)
+    # Player text comes from the same language resources that ship in the PCK.
+    for path in sorted((root / 'assets/localization/zhs').glob('*.json')):
+        raw = path.read_bytes()
+        text = raw.decode('utf-8')
+        rel = path.relative_to(root).as_posix()
+        manifest.append((rel, sha256(raw).hexdigest()))
+        for key, value in json.loads(text).items():
+            offset = text.index(json.dumps(key, ensure_ascii=False) + ':')
+            entries.append(Entry(path.stem + ':' + key, path.stem, rel, text.count('\n', 0, offset) + 1, value))
 
-    # Model-owned strings and optional named prompt/description tuples.
     cards = {}
     for rel, (text, mask, literals) in sources.items():
         if not rel.endswith('.cs'):
             continue
         blocks = list(class_blocks(mask))
-        for m in re.finditer(r'new\s+(CardLoc|PowerLoc|RelicLoc)\s*\(', mask):
-            owner = next((b for b in reversed(blocks) if b[2] < m.start() < b[3]), None)
-            if owner is None:
-                raise ValueError(f'Localization outside class: {rel}')
-            model = owner[0]
-            kind = {'CardLoc': 'cards', 'PowerLoc': 'powers', 'RelicLoc': 'relics'}[m[1]]
-            key = model.upper() if kind == 'cards' else model
-            if kind == 'relics' and model == 'ImmortalHeart':
-                key = 'VOLIBEAR_IMMORTAL_HEART'
-            args = arguments(mask, m.end()-1, matching(mask, m.end()-1))
-            fields = ('title', 'description') if kind == 'cards' else ('title', 'description', 'smartDescription' if kind == 'powers' else 'flavor')
-            for i, (start, end) in enumerate(args):
-                if i < len(fields):
-                    field, lit = fields[i], literal_at(text, literals, start, end)
-                else:
-                    start += len(text[start:end]) - len(text[start:end].lstrip())
-                    if mask[start] != '(':
-                        raise ValueError(f'Unsupported named localization: {rel}:{start}')
-                    pair = arguments(mask, start, matching(mask, start))
-                    if len(pair) != 2:
-                        raise ValueError('Named localization must be a pair')
-                    field = literal_at(text, literals, *pair[0]).value
-                    lit = literal_at(text, literals, *pair[1])
-                add(f'{kind}:{key}.{field}', kind, rel, lit)
         for model, start, begin, end in blocks:
             if re.fullmatch(r'Volibear_[BCURT]\d\d', model):
                 key = model.upper()
@@ -231,44 +203,6 @@ def collect(root=None):
                 body, body_mask = text[begin:end+1], mask[begin:end+1]
                 for face in ('base', 'upgrade'):
                     contexts[f'{key}.{face}'] = card_context(body, body_mask, face == 'upgrade')
-
-    rel = 'src/Volibear/Content/MechanicGlossary.cs'
-    text, mask, literals = sources[rel]
-    # Separate runtime localization namespaces; enemy/contribution keys can overlap.
-    for group, prefix in (('Entries', 'VOLIBEAR-'), ('EnemyEntries', 'VOLIBEAR-ENEMY-'),
-                          ('SuppressedContributions', 'VOLIBEAR-CONTRIBUTION-')):
-        declaration = re.search(r'\b' + group + r'\b.*?=\s*(?:new\s+\w+\[\]\s*)?([\[{])', mask, re.S)
-        if declaration is None:
-            if group == 'Entries':
-                raise ValueError('Missing glossary Entries')
-            continue
-        start = declaration.start(1)
-        opening = mask[start]
-        end = matching(mask, start, opening, ']' if opening == '[' else '}')
-        for m in re.finditer(r'\bnew\s*\(', mask[start:end]):
-            args_start = start + m.end() - 1
-            args = arguments(mask, args_start, matching(mask, args_start))
-            vals = [literal_at(text, literals, *a) for a in args]
-            if len(vals) < 3:
-                raise ValueError('Glossary entry missing fields')
-            key = prefix + vals[0].value
-            if group == 'SuppressedContributions':
-                add(f'static_hover_tips:{key}', 'keywords', rel, vals[2])
-                # Human label is catalog metadata, not a generated localization key.
-                add(f'glossary-label:{key}', 'text-reference', rel, vals[1])
-            else:
-                for field, lit in zip(('title', 'description'), vals[1:3]):
-                    add(f'static_hover_tips:{key}.{field}', 'keywords', rel, lit)
-            if group == 'Entries':
-                for i, lit in enumerate(vals[3:]):
-                    add(f'glossary-match:{vals[0].value}.{i}', 'keyword-match', rel, lit)
-    for m in re.finditer(r'result\.Add\s*\(', mask):
-        args = arguments(mask, m.end()-1, matching(mask, m.end()-1))
-        # Generated key expressions are represented by the glossary rows above.
-        if '+' in text[args[0][0]:args[0][1]]:
-            continue
-        key = literal_at(text, literals, *args[0]).value
-        add('static_hover_tips:' + key, 'ui', rel, literal_at(text, literals, *args[1]))
 
     # Exhaustive Han-literal backstop: retain references too, explicitly labelled.
     # A new hardcoded Chinese UI string cannot silently disappear from export.
@@ -358,7 +292,7 @@ def render(root=ROOT):
            '- 两件遗物含初始遗物兼容别名、升级遗物；另收角色专属海玻璃名称。剧情为当前实际新增的建筑师三句对话。',
            '- 扫描 src/Volibear 下 C#、GDScript、场景、资源与 JSON；排除 bin/obj。原生游戏通用文案、日志/异常、注释、验收探针英文诊断、未打包设计/资产预览不作为游戏文本。',
            '- 能量 UI 动态数值由原生 Label 提供；此处收入场景初始文本。音频媒体无 Mod 字幕，不将语音目录元数据充当屏幕文本。',
-           '- 文本表合并入口：' + source_link('src/Volibear/Content/VolibearLoc.cs') + '、' + source_link('src/Volibear/Content/InlineModelLocalization.cs') + '；资源打包入口：' + source_link('tools/build_assets.py') + '。', '',
+           '- 文本表合并入口：' + source_link('src/Volibear/Content/VolibearLoc.cs') + '、' + source_link('assets/localization/zhs/cards.json') + '；资源打包入口：' + source_link('tools/build_assets.py') + '。', '',
            '| 分类 | 字段数 |', '| --- | ---: |']
     out += [f'| {cat} | {count} |' for cat, count in sorted(counts.items())]
     out += ['', '## 卡牌：89 卡 / 178 牌面', '']

@@ -72,7 +72,7 @@ internal static class PowerPresentationDisabled
 #endif
                 ;
         if (power.GetType().Assembly != typeof(PowerPresentationDisabled).Assembly) yield break;
-        foreach (var tip in MechanicHoverTips.ForText(power.Title.GetRawText() + "\n" + power.Description.GetRawText()))
+        foreach (var tip in MechanicHoverTips.ForText(VolibearLoc.GlossarySource("powers", power.Id.Entry)))
             if (seen.Add(tip.Id)) yield return tip;
     }
 

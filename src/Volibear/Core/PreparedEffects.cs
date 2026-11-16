@@ -61,7 +61,6 @@ public sealed class NextAttackDiscount : PendingCostPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/cost_reduce.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/cost_reduce.png";
-    public override List<(string, string)> Localization => new PowerLoc("攻击减费", "本回合下一张攻击减费{Amount}，最低0。", "本回合下一张攻击减费{Amount}，最低0。");
     protected override bool Eligible(CardModel card) => card.Type == CardType.Attack;
     public static async Task Grant(PlayerChoiceContext context, Creature owner, int amount)
     {
@@ -75,7 +74,6 @@ public sealed class NextEngageDiscount : PendingCostPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/cost_reduce.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/cost_reduce.png";
-    public override List<(string, string)> Localization => new PowerLoc("迎战准备", "本回合下一张迎战牌减费1。", "本回合下一张迎战牌减费1。");
     public static bool DeclaresEngage(CardModel card) => card is Volibear_B04 or Volibear_C04 or Volibear_C10 or Volibear_C11 or Volibear_U28 or Volibear_U35 or Volibear_R09;
     protected override bool Eligible(CardModel card) => DeclaresEngage(card);
     public static async Task Grant(PlayerChoiceContext context, Creature owner)
@@ -89,7 +87,6 @@ public sealed class NextAttackReplayPower : PreparedPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/replay.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/replay.png";
-    public override List<(string, string)> Localization => new PowerLoc("暴风再临", "本回合下一张攻击重演{Amount}次。", "本回合下一张攻击重演{Amount}次。");
     public override int ModifyCardPlayCount(CardModel card, Creature? target, int playCount) =>
         Own(card) && card.Type == CardType.Attack ? checked(playCount + Amount) : playCount;
     public override async Task BeforeCardPlayed(CardPlay play)
@@ -120,7 +117,6 @@ public sealed class NextAttackTrainingPower : PreparedPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/enhance.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/enhance.png";
-    public override List<(string, string)> Localization => new PowerLoc("磨砺爪牙", "下一张打出的攻击获得强化{Amount}。", "下一张打出的攻击获得强化{Amount}。");
     public override async Task BeforeCardPlayed(CardPlay play)
     {
         if (!play.IsFirstInSeries || !Own(play.Card) || play.Card.Type != CardType.Attack) return;
@@ -137,7 +133,6 @@ public sealed class UnifyPower : PreparedPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/enhance.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/enhance.png";
-    public override List<(string, string)> Localization => new PowerLoc("天人合一", "本战攻击与雷法牌自身的攻击伤害和雷伤增加{Amount}。", "本战攻击与雷法牌自身的攻击伤害和雷伤增加{Amount}。");
     public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
 #if STS2_BETA
         , CardPlay? cardPlay
@@ -152,7 +147,6 @@ public sealed class PrimalThunderPower : PreparedPower
 {
     public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/thunder_growth.png";
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/thunder_growth.png";
-    public override List<(string, string)> Localization => new PowerLoc("原始力量", "本轮每段雷伤增加{Amount}。", "本轮每段雷伤增加{Amount}。");
     public override async Task AfterSideTurnEnd(PlayerChoiceContext context, CombatSide side, IEnumerable<Creature> participants)
     {
         // Engage performs a real enemy action, not an enemy-side end: it does not expire this.
@@ -167,7 +161,6 @@ public sealed class ThunderGuardPower : PreparedPower
     public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/counter_thunder.png";
     // Each C14 application must settle its OWN lightning batch, not sum into one hit.
     public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
-    public override List<(string, string)> Localization => new PowerLoc("反雷", "每承受一段敌人攻击后，对攻击者造成{Amount}雷伤。持续到下回合开始。", "每承受一段敌人攻击后，对攻击者造成{Amount}雷伤。持续到下回合开始。");
     public override async Task AfterDamageReceived(PlayerChoiceContext context, Creature target, DamageResult result,
         ValueProp props, Creature? dealer, CardModel? cardSource)
     {
@@ -308,5 +301,4 @@ public sealed class BiteMarkPower : PreparedPower
     public override PowerType Type => PowerType.None;
     public override PowerStackType StackType => PowerStackType.Single;
     public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
-    public override List<(string, string)> Localization => new PowerLoc("咬痕", "暴怒撕咬对已有咬痕的目标造成额外伤害。", "暴怒撕咬对已有咬痕的目标造成额外伤害。");
 }

@@ -1,0 +1,31 @@
+namespace Volibear.Content;
+
+internal static class VolibearEpochText
+{
+    internal static readonly Dictionary<string, string> Entries = new()
+    {
+        ["STORY_VOLIBEAR"] = "沃利贝尔",
+        ["VOLIBEAR_CHARACTER1_EPOCH.title"] = "沃尔瑞加德的初雷",
+        ["VOLIBEAR_CHARACTER1_EPOCH.description"] = "早在温血种直立行走于冻土之前，[aqua]沃利贝尔[/aqua]便与他的半神同胞们塑造了这片被称为[aqua]沃尔瑞加德[/aqua]的原始大地。\n他是破坏、蛮力与化为实体的风暴。传说他一掌挥下，便在大地上撕出了五岔峡湾；他与岩浆巨蟒隆德鏖战数日，巨兽流出的滚烫鲜血化作了第一条奔流的大河，庞大的骸骨耸立为飞龙背山脉。\n在那个野性魔法汹涌奔放的年代，先民部族无不敬畏地呼唤着[b]瓦尔哈尔[/b]的古名。因为唯有依靠雷霆半神不羁的狂怒，孱弱的生灵才能在残酷的凛冬中存活。",
+        ["VOLIBEAR_CHARACTER1_EPOCH.unlockInfo"] = "{IsRevealed:已经|}以[red]铁甲战士[/red]完成一局游戏{IsRevealed:|来揭示这个历史节点}。",
+        ["VOLIBEAR_CHARACTER2_EPOCH.title"] = "断裂的符文战甲",
+        ["VOLIBEAR_CHARACTER2_EPOCH.description"] = "当三姐妹的势力崛起、企图用秩序统治北地时，[aqua]沃利贝尔[/aqua]登上了[orange]兄长奥恩[/orange]的炉乡，要求他为麾下的熊人族大军锻造兵刃。\n[sine]“不。”[/sine]熔炉半神头也不抬地回绝了他，[sine]“山下镇子的人不是我的信徒。他们造东西是为了自己。”[/sine]\n数个世纪以来，炉家人不跪拜、不献祭，却对奥恩怀着无私的敬爱——这份异样的温情彻底刺痛了雷霆巨熊的妒意与骄傲。\n两兄弟在山巅搏斗了整整八天八夜。雷电与熔岩撕裂了天空，[aqua]沃利贝尔[/aqua]咒骂着扯碎了奥恩打造的符文战甲，只凭尖牙与雷霆轰塌了整座山峰，也将数千名炉家人埋进了灰烬。\n挣脱了铁甲的他变得比以往任何时候都更加狂暴。只是每当风暴掠过那座不再冒烟的秃顶火山时，他总会发出一声轻蔑的鼻息——他恨那头固执的公羊当年不肯站在自己这边，更恨那个曾与大地搏斗的造物主，竟为了群死去的凡人收起了全部锋芒。",
+        ["VOLIBEAR_CHARACTER2_EPOCH.unlockInfo"] = "以[aqua]沃利贝尔[/aqua]通关[blue]第一[/blue][gold]阶段[/gold]{IsRevealed:|来揭示这个历史节点}。",
+        ["VOLIBEAR_CHARACTER3_EPOCH.title"] = "今天，你们自由了",
+        ["VOLIBEAR_CHARACTER3_EPOCH.description"] = "[sine]“瓦尔哈尔！我们以你的名义杀，以你的名义死！”[/sine]\n鲜血贡物的呼唤将巨熊从漫长的沉睡中唤醒。他如滚雷般降临战场，顷刻间将入侵的外来军队撕成碎片。\n满脸血污的[red]战母芮萨[/red]双膝跪地，感谢半神拯救了他们的村庄。\n[b]“站起来，”[/b][aqua]沃利贝尔[/aqua]低吼着俯视她，[b]“战士从不下跪。”[/b]\n随即，他的目光落在了峡谷尽头那座截断大河的[orange]人造水坝[/orange]上。本该奔鸣如滚雷的河水，如今竟勉强没过他的脚面。\n在一声震颤天地的咆哮中，熊神踏入浅滩，用巨爪生生撕开了石壁！奔涌的洪流瞬间冲垮了下游的农舍与石屋。看着目瞪口呆的凡人部族，风暴之主满意地昂起头颅：\n[jitter]“今天，你们自由了！生来蛮荒！狩猎！杀戮！遵从古道……古道就会眷顾你们！”[/jitter]",
+        ["VOLIBEAR_CHARACTER3_EPOCH.unlockInfo"] = "以[aqua]沃利贝尔[/aqua]通关[blue]第二[/blue][gold]阶段[/gold]{IsRevealed:|来揭示这个历史节点}。",
+        ["VOLIBEAR_CHARACTER4_EPOCH.title"] = "发自内心的咆哮",
+        ["VOLIBEAR_CHARACTER4_EPOCH.description"] = "温血种学会了用两条腿走路，却渐渐忘记了该如何奔跑。\n但[aqua]沃利贝尔[/aqua]比谁都清楚，哪怕在最弱小的凡人胸膛里，那颗心脏依然残留着未被驯服的野性。\n当那个名叫[blue]努努[/blue]的诺台幼崽与雪原巨兽一同踏入拉姆夏拉时，巨熊没有一口吞掉这个吓得发抖的孩子，而是向他展示了足以劈开山岳的雷霆长嗥：\n[b]“你可以用自己的方式咆哮，小崽子。真正的咆哮，你真正的力量，发自你的内心。”[/b]\n孩子的希望是暴烈的，绝望是残酷的——但至少那颗心脏还在跳动。当异界的裂隙开启、那座用死石与冰冷发条抹杀一切生机的[gold]高塔[/gold]出现在眼前时，瓦尔哈尔顺着风暴的呼唤踏入了塔门——他绝不允许任何造物主将生灵的心脏变成齿轮。",
+        ["VOLIBEAR_CHARACTER4_EPOCH.unlockInfo"] = "以[aqua]沃利贝尔[/aqua]通关[blue]第三[/blue][gold]阶段[/gold]{IsRevealed:|来揭示这个历史节点}。",
+        ["VOLIBEAR_CHARACTER5_EPOCH.title"] = "冰层下的骸骨",
+        ["VOLIBEAR_CHARACTER5_EPOCH.description"] = "千年前，年轻的女巫[blue]丽桑卓[/blue]妄图窃取半神的伟力。[aqua]沃利贝尔[/aqua]当着她整支大军的面将她击倒，用利爪永远夺走了她的双目——可失明后的她却转而向深渊底下的监视者献上忠诚，最终用臻冰将整个时代连同深渊裂隙一并封死。\n几百年过去，部族纷纷背弃古神，躲进高墙之后膜拜虚假的偶像。\n在漫长的冬眠里，[aqua]沃利贝尔[/aqua]总会在梦中看见一具冻结在幽暗坚冰中的巨大骸骨。\n[sine]“我有时会想……那具骨头，会不会就是我自己？”[/sine]\n高塔中盘踞的[purple]荒疫[/purple]与畸变魔物，散发着与当年深渊监视者同样令人作呕的恶臭。巨熊怒吼着招来撕裂天穹的闪电，将眼前的精英魔物尽数轰成焦炭——古神绝不会死在冰冷的遗忘里！",
+        ["VOLIBEAR_CHARACTER5_EPOCH.unlockInfo"] = "{IsRevealed:已经|}以[aqua]沃利贝尔[/aqua]击杀[blue]15[/blue]个[purple]精英[/purple]{IsRevealed:|来揭示这个历史节点}。",
+        ["VOLIBEAR_CHARACTER6_EPOCH.title"] = "我即风暴",
+        ["VOLIBEAR_CHARACTER6_EPOCH.description"] = "[jitter][aqua]“石墙之下，毫无野性！！”[/aqua][/jitter]\n裹挟着滚雷的巨掌轰然拍落，将高塔顶端虚假的偶像与冰冷的王座一同碾作齑粉！\n石柱折断，穹顶崩塌。被高墙阻挡了无数岁月的狂风与暴雨顺着塔身的裂隙倒灌而入，干涸的泥土重新尝到了鲜血与雨水的滋味。\n站在漫天飞舞的碎石与白雷中央，乳白色的巨熊披着翻涌的乌云仰天长嗥。\n无论是先子星的高塔，还是弗雷尔卓德的冻土，凡人与匠神的造物终将朽坏，唯有荒野永恒。\n只要雷霆仍在轰鸣，只要猎手仍在奔跑——\n[b]他们或许会遗忘古道，但古道，永远不会遗忘他们。[/b]",
+        ["VOLIBEAR_CHARACTER6_EPOCH.unlockInfo"] = "{IsRevealed:已经|}以[aqua]沃利贝尔[/aqua]击杀[blue]15[/blue]个[red]Boss[/red]{IsRevealed:|来揭示这个历史节点}。",
+        ["VOLIBEAR_CHARACTER1_EPOCH.unlock"] = "风暴已在塔底聚集！[aqua]沃利贝尔[/aqua]亮出了他的利爪与雷霆……",
+        ["VOLIBEAR_CHARACTER1_EPOCH.unlockText"] = "解锁[aqua]沃利贝尔[/aqua]成为一名可玩角色。",
+        ["VOLIBEAR_CHARACTER4_EPOCH.unlock"] = "[aqua]沃利贝尔[/aqua]彻底释放了古神的力量，滚雷风暴愈发狂暴……\n现在可以在开始游戏时选择[red]进阶难度[/red]。",
+        ["VOLIBEAR_CHARACTER4_EPOCH.unlockText"] = "为[aqua]沃利贝尔[/aqua]解锁[red]进阶难度[/red]。同时解锁[gold]{Potion1}[/gold]、[gold]{Potion2}[/gold]和[gold]{Potion3}[/gold]。",
+    };
+}

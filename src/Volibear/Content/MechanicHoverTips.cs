@@ -16,7 +16,7 @@ internal static class MechanicHoverTips
     {
         // Named mechanics such as Thunder Armor occur in the title, not the body.
         // Raw localization also includes upgrade branches without touching mutable state.
-        var text = card.TitleLocString.GetRawText() + "\n" + card.Description.GetRawText();
+        var text = VolibearLoc.GlossarySource("cards", card.Id.Entry);
         foreach (var tip in ForText(text)) yield return tip;
         // Read the existing shared ledger only. Inspecting a card cannot reserve,
         // reset or consume an action, and is not a second eligibility engine.
@@ -35,7 +35,7 @@ internal static class MechanicHoverTips
             .Select(enemy => enemy.Name).ToArray();
         var description = new LocString("static_hover_tips", spent.Length == 0
             ? "VOLIBEAR-ENGAGE_STATE.empty" : "VOLIBEAR-ENGAGE_STATE.spent");
-        if (spent.Length > 0) description.Add("Enemies", string.Join("、", spent));
+        if (spent.Length > 0) description.Add("Enemies", string.Join(VolibearLoc.ListSeparator, spent));
         yield return new HoverTip(new LocString("static_hover_tips", "VOLIBEAR-ENGAGE_STATE.title"), description)
 #if !STS2_BETA
                 { Id = "VOLIBEAR-ENGAGE_STATE" }

@@ -41,6 +41,10 @@ public static class ModEntry
         Presentation.VolibearPresentation.RegisterSceneConversions();
         Step("Presentation.VolibearMerchantIntegration", () => Presentation.VolibearMerchantIntegration.Install());
         ContentRegistry.Register();
+#if STS2_BETA
+        Step("Content.VolibearEpochs", VolibearEpochs.Install);
+        Step("Content.VolibearRunStory", VolibearRunStory.Install);
+#endif
         Step("Core.EngageCmd", () => Core.EngageCmd.Install());
         Step("Core.CardResolutionHooks", () => Core.CardResolutionHooks.Install());
         Step("Core.DomainEnemyEffects", () => Core.DomainEnemyEffects.Install());
