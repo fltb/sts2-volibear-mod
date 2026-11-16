@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 import importlib.util
 import json
 import os
@@ -12,6 +13,23 @@ from unittest import mock
 TOOLS = Path(__file__).resolve().parents[1] / 'tools'
 sys.path.insert(0, str(TOOLS))
 import headless
+
+
+@contextmanager
+def stock_fixture(log, *, timed_out=False, mode='minimal'):
+    def launch_fixture(game, directory, env, command, timeout, display):
+        (directory / 'game.log').write_bytes(log.encode('utf-8'))
+        return 0, timed_out
+
+    with (
+        tempfile.TemporaryDirectory() as temp,
+        mock.patch.object(headless, 'ROOT', Path(temp)),
+        mock.patch.object(headless.test_output, 'ROOT', Path(temp)),
+        mock.patch.dict(os.environ, VOLIBEAR_TEST_OUTPUT=mode),
+        mock.patch.object(headless, 'display_command', side_effect=lambda command, display: command),
+        mock.patch.object(headless, 'launch', side_effect=launch_fixture) as launch,
+    ):
+        yield launch
 
 
 class HeadlessRunnerTests(unittest.TestCase):
@@ -127,33 +145,42 @@ class HeadlessRunnerTests(unittest.TestCase):
 
     def test_stock_control_timeout_never_supplies_accepted_categories(self):
         leak = 'Steam initialization skipped\nSTOCK_CONTROLLER_READY_NATIVE_QUIT\nERROR: 3 shaders of type CanvasShaderRD were never freed'
-        with mock.patch.object(headless, 'prepare_run', return_value=(Path('fixture'), {}, ['game'])) as prepare, \
-                mock.patch.object(headless, 'launch', return_value=(0, True)), \
-                mock.patch.object(headless, 'combined_log', return_value=leak):
+        with stock_fixture(leak, timed_out=True) as launch:
             categories, evidence = headless.stock_teardown(Path('game'), 180, 3600, 'window')
-            self.assertEqual(prepare.call_args.args[2], 0)
+            command = launch.call_args.args[3]
+            self.assertEqual(command[command.index('--quit-after') + 1], '0')
             self.assertFalse(evidence['successful'])
             self.assertEqual(categories, set())
-        with mock.patch.object(headless, 'prepare_run', return_value=(Path('fixture'), {}, ['game'])), \
-                mock.patch.object(headless, 'launch', return_value=(0, False)), \
-                mock.patch.object(headless, 'combined_log', return_value=leak):
+            directory = launch.call_args.args[1]
+            self.assertEqual({p.name for p in directory.iterdir()}, {'report.json', headless.test_output.MARKER})
+            summary = json.loads((directory / 'report.json').read_text(encoding='utf-8'))
+            self.assertTrue(summary['timed_out'])
+            self.assertEqual(summary['status'], 'failed')
+        with stock_fixture(leak) as launch:
             categories, evidence = headless.stock_teardown(Path('game'), 180, 100, 'window')
             self.assertTrue(evidence['successful'])
             self.assertEqual(evidence['frames'], 0)
             self.assertEqual(categories, headless.teardown_categories(headless.error_lines(leak)))
+            summary = json.loads((launch.call_args.args[1] / 'report.json').read_text(encoding='utf-8'))
+            self.assertEqual(summary['status'], 'passed')
+            self.assertNotIn('log_tail', summary)
 
     def test_stock_requires_readiness_and_native_quit_marker(self):
         for marker in ('', 'STOCK_CONTROLLER_ERROR readiness timeout',
                        'STOCK_CONTROLLER_READY_NATIVE_QUIT\nSTOCK_CONTROLLER_READY_NATIVE_QUIT'):
-            with mock.patch.object(headless, 'prepare_run', return_value=(Path('fixture'), {}, ['game'])), \
-                 mock.patch.object(headless, 'launch', return_value=(0, False)) as launch, \
-                 mock.patch.object(headless, 'combined_log', return_value='Steam initialization skipped\n' + marker):
+            log = 'Steam initialization skipped\n' + marker
+            with self.subTest(marker=marker), stock_fixture(log) as launch:
                 categories, evidence = headless.stock_teardown(Path('game'), 300, 600, 'window')
                 self.assertFalse(evidence['successful'])
                 self.assertEqual(categories, set())
                 command = launch.call_args.args[3]
                 self.assertIn('--nomods', command)
                 self.assertIn('--script', command)
+                directory = launch.call_args.args[1]
+                summary = json.loads((directory / 'report.json').read_text(encoding='utf-8'))
+                self.assertEqual(summary['status'], 'failed')
+                self.assertEqual(summary['log_tail'], log)
+                self.assertFalse((directory / 'game.log').exists())
 
     def content_record(self):
         return dict(token='current', scenario='content', passed=True, testMode=False,
@@ -292,13 +319,17 @@ class HeadlessRunnerTests(unittest.TestCase):
             self.assertEqual(spawn.call_args.kwargs['creationflags'], 0)
 
     def test_stock_control_uses_requested_display(self):
-        directory = Path('fixture')
-        with mock.patch.object(headless, 'prepare_run', return_value=(directory, {}, ['game'])) as prepare, \
-                mock.patch.object(headless, 'launch', return_value=(0, False)) as launch, \
-                mock.patch.object(headless, 'combined_log', return_value=''):
-            headless.stock_teardown(Path('game'), 30, 300, 'window')
-            self.assertEqual(prepare.call_args.args[-1], 'window')
+        log = 'Steam initialization skipped\nSTOCK_CONTROLLER_READY_NATIVE_QUIT'
+        with stock_fixture(log, mode='detailed') as launch:
+            _, evidence = headless.stock_teardown(Path('game'), 30, 300, 'window')
+            self.assertEqual(launch.call_args.kwargs['display'], 'window')
             self.assertIn('--nomods', launch.call_args.args[3])
+            directory = launch.call_args.args[1]
+            report = json.loads((directory / 'report.json').read_text(encoding='utf-8'))
+            self.assertEqual(report['run_id'], evidence['run_id'])
+            self.assertEqual(report['status'], 'passed')
+            self.assertEqual((directory / 'game.log').read_text(encoding='utf-8'), log)
+            self.assertFalse(headless.user_data_root(directory).exists())
 
     def test_exit_zero_alone_not_success(self):
         self.assertFalse(all(headless.evaluate(0, False, '').values()))
@@ -632,14 +663,17 @@ class DomainEvidenceTests(unittest.TestCase):
         self.assertFalse(report['checks']['card_face_assertions'])
 
     def test_domain_longer_stock_control_does_not_waive_native_texture_error(self):
-        with mock.patch.object(headless, 'prepare_run', return_value=(Path('synthetic'), {}, ['game'])) as prepare, \
-             mock.patch.object(headless, 'launch', return_value=(0, False)), \
-             mock.patch.object(headless, 'combined_log', return_value='Steam initialization skipped\nERROR: Parameter t is null'):
+        error = 'ERROR: Parameter t is null'
+        with stock_fixture('Steam initialization skipped\n' + error) as launch:
             categories, evidence = headless.stock_teardown(Path('game'), 180, 5000, 'window')
-        self.assertEqual(prepare.call_args.args[2], 0)
-        self.assertEqual(categories, set())
-        self.assertFalse(evidence['successful'])
-        self.assertEqual(evidence['runtime_errors'], ['ERROR: Parameter t is null'])
+            self.assertEqual(evidence['frames'], 0)
+            self.assertEqual(categories, set())
+            self.assertFalse(evidence['successful'])
+            self.assertEqual(evidence['runtime_errors'], [error])
+            directory = launch.call_args.args[1]
+            summary = json.loads((directory / 'report.json').read_text(encoding='utf-8'))
+            self.assertEqual(summary['errors'], [error])
+            self.assertFalse((directory / 'game.log').exists())
 
 
 if __name__ == '__main__':

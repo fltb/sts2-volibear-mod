@@ -89,8 +89,10 @@ class ShortOwnedProfileTests(unittest.TestCase):
         # Native launches are replaced with synthetic reports/bytes inside this test's
         # TemporaryDirectory. This proves wiring only, never engine acceptance.
         calls=[]
+        descriptors=[]
         def fake_phase(game,pair_dir,env,case,mode,phase,seed,stock,stock_evidence,timeout,frames,display):
             calls.append(copy.deepcopy(env));user_root=Path(env['VOLIBEAR_TEST_DATA_ROOT'])
+            descriptors.append(json.loads((pair_dir/'profile.json').read_text(encoding='utf-8')))
             prefs=user_root/'default/1/modded/profile1/saves/prefs.save'
             settings=user_root/'default/1/settings.save'
             if phase=='prepare':
@@ -109,18 +111,30 @@ class ShortOwnedProfileTests(unittest.TestCase):
             checks={k:True for k in ('exited_zero','steam_disabled','no_cloud_backend','no_runtime_errors','mod_initialized','runtime_isolation',
                 'teardown_matches_stock','stock_control_success','save_lifecycle','disk_checkpoint_matches_raw')}
             return dict(raw=raw,expected=expected,checks=checks,passed=True)
-        with tempfile.TemporaryDirectory() as directory,patch.object(p,'ROOT',Path(directory)),patch.object(runner,'ROOT',Path(directory)),\
-            patch.object(runner.h,'validate_game'),patch.object(runner.h,'stock_teardown',return_value=('',dict(successful=True,exit_code=0,timed_out=False,runtime_errors=[]))),\
-            patch.object(runner,'launch_phase',side_effect=fake_phase),patch.dict(os.environ,{'VOLIBEAR_TEST_TOKEN':'stale','VOLIBEAR_SAVE_PHASE':'stale'}):
+        stock = dict(successful=True, exit_code=0, timed_out=False, runtime_errors=[])
+        with (
+            tempfile.TemporaryDirectory() as directory,
+            patch.object(p, 'ROOT', Path(directory)),
+            patch.object(runner, 'ROOT', Path(directory)),
+            patch.object(runner.h.test_output, 'ROOT', Path(directory)),
+            patch.object(runner.h, 'validate_game'),
+            patch.object(runner.h, 'stock_teardown', return_value=('', stock)),
+            patch.object(runner, 'launch_phase', side_effect=fake_phase),
+            patch.dict(os.environ, VOLIBEAR_TEST_OUTPUT='minimal', VOLIBEAR_TEST_TOKEN='stale', VOLIBEAR_SAVE_PHASE='stale'),
+        ):
             report=runner.run_pair(Path('not-a-game'),'S1','restart',display='headless')
             self.assertTrue(report['passed']);self.assertEqual(len(calls),2);self.assertEqual(calls[0],calls[1])
             self.assertNotIn('VOLIBEAR_TEST_TOKEN',calls[0]);self.assertNotIn('VOLIBEAR_SAVE_PHASE',calls[0])
             self.assertEqual(report['userRoot'],calls[0]['VOLIBEAR_TEST_DATA_ROOT'])
-            descriptor=json.loads((Path(directory)/'artifacts/save-load'/report['pair']/'profile.json').read_text(encoding='utf-8'))
+            descriptor, resumed_descriptor = descriptors
+            self.assertEqual(descriptor, resumed_descriptor)
             self.assertEqual(descriptor['profile'],report['profile']);self.assertEqual(descriptor['userRoot'],report['userRoot'])
             for phase in report['phases']:
                 self.assertEqual(phase['expected']['checkpointPath'],descriptor['checkpointPath'])
                 self.assertEqual(phase['raw']['userRoot'],descriptor['userRoot'])
-            self.assertTrue(Path(report['profile']).is_dir()) # runner did not automatically delete the evidence
+            self.assertFalse(Path(report['profile']).exists())
+            result = Path(report['report'])
+            self.assertEqual(json.loads(result.read_text(encoding='utf-8')), {'passed': True})
+            self.assertEqual({p.name for p in result.parent.iterdir()}, {'report.json', runner.h.test_output.MARKER})
 
 if __name__=='__main__':unittest.main()
