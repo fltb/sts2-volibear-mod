@@ -2,6 +2,8 @@
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 import json
+import shutil
+from tools import test_output
 import os
 from pathlib import Path
 import subprocess
@@ -224,6 +226,28 @@ def run(suite, *, jobs, root, directory, environment, require_native, failfast=F
     nonce = uuid.uuid4().hex
     directory = Path(directory) / ('rp-' + nonce[:12])
     directory.mkdir(parents=True)
+    mode, keep = test_output.settings()
+    scratch = root / 'artifacts/runtime' / ('rp-' + nonce[:12])
+    try:
+        report = _run_workers(expected, tasks, nonce, directory, jobs, root, environment, require_native, failfast)
+        if mode == 'minimal':
+            for worker in report['workers']:
+                for key in ('report', 'result_path', 'log'):
+                    worker.pop(key, None)
+        else:
+            report['worker_artifacts'] = str(directory)
+        return report
+    finally:
+        if scratch.is_dir():
+            shutil.rmtree(scratch)
+        if mode == 'minimal':
+            shutil.rmtree(directory)
+        else:
+            (directory / test_output.MARKER).touch()
+            test_output.rotate(directory.parent, keep)
+
+
+def _run_workers(expected, tasks, nonce, directory, jobs, root, environment, require_native, failfast):
     for index, task in enumerate(tasks):
         task['nonce'] = nonce + ':' + task['name']
         task['slot'] = str(index)
@@ -239,5 +263,5 @@ def run(suite, *, jobs, root, directory, environment, require_native, failfast=F
                 records.append({'task': task['name'], 'nonce': task['nonce'], 'returncode': -1,
                                 'infrastructure_error': repr(error)})
     report = aggregate(expected, tasks, records, require_native=require_native)
-    report.update(jobs=jobs, worker_artifacts=str(directory))
+    report['jobs'] = jobs
     return report

@@ -121,6 +121,7 @@ def main(argv=None):
     # unittest discovery imports the modules from tests; repository modules must also
     # resolve when this entrypoint is executed as a script instead of python -m.
     sys.path.insert(0, str(ROOT))
+    from tools import test_output
     from tools.runtime_test import get_runtime
     runtime = get_runtime(ROOT)
     environment = runtime.environment()
@@ -150,7 +151,8 @@ def main(argv=None):
         if not stable_contract_channel():
             suite, stable_skips = partition_stable_contract(suite)
         if args.jobs == 1:
-            result = unittest.TextTestRunner(verbosity=2, resultclass=RunResult, failfast=args.failfast).run(suite)
+            result = unittest.TextTestRunner(verbosity=2 if test_output.settings()[0] == 'detailed' else 1,
+                                               resultclass=RunResult, failfast=args.failfast).run(suite)
             report = summarize(result, require_native=args.require_native)
             report.setdefault('skipped', []).extend(
                 {'test': test_id, 'reason': 'stable-channel native contract (PBE channel)'} for test_id in stable_skips)

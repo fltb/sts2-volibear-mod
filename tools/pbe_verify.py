@@ -66,6 +66,8 @@ def run(scenario, extra, args) -> dict:
     command = [sys.executable, '-B', str(ROOT / 'tools/headless.py'),
                '--use-deployed', '--scenario', scenario,
                '--display', args.display, '--audio-driver', args.audio]
+    if args.test_output:
+        command += ['--test-output', args.test_output]
     command += extra
     budget = BUDGETS.get(scenario)
     timeout = args.timeout if args.timeout is not None else (budget[1] if budget else 180)
@@ -88,6 +90,8 @@ def run(scenario, extra, args) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--full', action='store_true', help='Run the entire acceptance matrix including media')
+    parser.add_argument('--test-output', choices=('minimal', 'detailed'))
     parser.add_argument('--only', action='append', default=[], help='Limit to scenario names')
     parser.add_argument('--timeout', type=int, default=None)
     parser.add_argument('--frames', type=int, default=None)
@@ -98,9 +102,15 @@ def main():
     if not (os.environ.get('VOLIBEAR_GAME_VERSION') and os.environ.get('VOLIBEAR_GAME_COMMIT')):
         print('Set VOLIBEAR_GAME_VERSION and VOLIBEAR_GAME_COMMIT to the installed channel first.', file=sys.stderr)
         return 2
+    # The routine smoke run exercises loading, API registration and character content.
+    # The full matrix keeps every acceptance assertion when explicitly requested.
+    selected = args.only or (None if args.full else ('baseline', 'api', 'content'))
+    if selected and set(selected) - {scenario for scenario, _ in MATRIX}:
+        parser.error('Unknown scenario in --only')
+    print('PBE scenarios: ' + (', '.join(selected) if selected else 'full acceptance matrix'), flush=True)
     rows = []
     for scenario, extra in MATRIX:
-        if args.only and scenario not in args.only:
+        if selected and scenario not in selected:
             continue
         result = run(scenario, extra, args)
         result['case'] = ' '.join(extra)

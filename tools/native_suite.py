@@ -9,6 +9,7 @@ absence or any failed stage fails the command. Human sensory review is separate.
 import argparse
 from concurrent.futures import ThreadPoolExecutor
 from collections import Counter
+from contextvars import copy_context
 import threading
 import json
 from pathlib import Path
@@ -105,10 +106,10 @@ def _parallel_restart(suite_call, restart_call, catalog_call=None):
     with ThreadPoolExecutor(max_workers=3 if catalog_call is not None else 2,
                             thread_name_prefix='native-restart') as pool:
         try:
-            tasks = [pool.submit(guarded, suite_call, _suite_ok),
-                     pool.submit(guarded, restart_call, lambda result: result.get('passed') is True)]
+            tasks = [pool.submit(copy_context().run, guarded, suite_call, _suite_ok),
+                     pool.submit(copy_context().run, guarded, restart_call, lambda result: result.get('passed') is True)]
             if catalog_call is not None:
-                tasks.append(pool.submit(guarded, catalog_call, _catalog_ok))
+                tasks.append(pool.submit(copy_context().run, guarded, catalog_call, _catalog_ok))
         except BaseException:
             cancel.set()
             raise
@@ -125,6 +126,7 @@ def _parallel_restart(suite_call, restart_call, catalog_call=None):
         return results
 
 
+@h.test_output.session()
 def run_suite(game, *, face_cases=None, lifecycle_cases=None, display=None,
               presentation_mode='cards', audio_driver=None, timeout=3600, frames=216000,
               verify_restart=False, restart_timeout=300, restart_frames=30000, parallel_restart=False,

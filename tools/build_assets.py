@@ -15,7 +15,7 @@ import shutil
 import subprocess
 import sys
 import time
-import uuid
+import tempfile
 
 try:
     from tools import audio_profiles, toolchain, asset_pack_cache
@@ -350,6 +350,13 @@ def validation_markers(audio_profile):
 
 
 def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
+    base = ROOT / '.local/asset-build'
+    base.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=base, prefix='build-') as directory:
+        return _build(godot, output, audio_profile, dotnet, reuse, Path(directory))
+
+
+def _build(godot, output, audio_profile, dotnet, reuse, work):
     started = time.monotonic()
     output = output_path(output)
     godot = godot.resolve()
@@ -370,7 +377,6 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
                                     UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json',
                                     PRESENTATION / 'actor.gd',
                                     *(PRESENTATION / name for name in NATIVE_RESOURCES)]}
-    work = ROOT / '.local/asset-build' / uuid.uuid4().hex
     project = work / 'project'
     art = project / 'VolibearArt'
     project.mkdir(parents=True)
@@ -560,7 +566,12 @@ def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
     output.parent.mkdir(parents=True, exist_ok=True)
     os.replace(temporary_pack, output)
     cold_seconds = time.monotonic() - started
-    asset_pack_cache.publish(output, key, markers, work, cold_seconds)
+    # Cache validation needs only these small logs. Keep one set per output pack.
+    receipts = work.parent / hashlib.sha256(str(output.resolve()).encode()).hexdigest()
+    receipts.mkdir(exist_ok=True)
+    for label in markers:
+        os.replace(work / (label + '.log'), receipts / (label + '.log'))
+    asset_pack_cache.publish(output, key, markers, receipts, cold_seconds)
     print(f'RESOURCE BUILD ONLY executed: {output} ({output.stat().st_size} bytes); '
           f'audio_profile={audio_profile}; cold_seconds={cold_seconds:.3f}; '
           'no game acceptance or deployment')

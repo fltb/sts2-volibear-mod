@@ -92,6 +92,7 @@ internal static class NativeRunAcceptanceProbe
     private static void Record(string kind, object data)
     {
         Events.Add(JsonSerializer.SerializeToElement(new { seq = Events.Count, kind, data }));
+        if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_OUTPUT") != "detailed") return;
         // Dev-probe trace only: the acceptance envelope below is still the sole evidence source.
         var detail = kind is "ui" or "selection-open" or "selection-return" or "shop-request" or "event-choice"
             ? " " + JsonSerializer.Serialize(data)

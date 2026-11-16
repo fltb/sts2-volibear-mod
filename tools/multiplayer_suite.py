@@ -83,6 +83,7 @@ def launch_peer(game, directory, env, command, timeout, display, stock, stock_ev
     return report, log
 
 
+@h.test_output.session()
 def run_suite(game, *, display=None, timeout=900, frames=108000):
     display = display or ('background' if h.IS_WINDOWS else 'xvfb')
     if display not in (('background',) if h.IS_WINDOWS else ('xvfb', 'window')):
@@ -103,6 +104,7 @@ def run_suite(game, *, display=None, timeout=900, frames=108000):
     folder = h.ROOT / 'artifacts' / 'multiplayer' / pair
     control = folder / 'readiness'
     control.mkdir(parents=True, exist_ok=False)
+    h.test_output.register(folder)
     port = free_loopback_port()
     prepared = {}
     for role in ('host', 'client'):

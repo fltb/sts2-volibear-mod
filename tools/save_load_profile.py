@@ -46,7 +46,7 @@ def create_owned_profile():
     """No arbitrary profile argument; atomic creation rejects collisions/reuse.
 
     Return the actual absolute owned path. Do not move old evidence, clear cache,
-    change ACLs/registry, or automatically delete this profile.
+    or change ACLs/registry. The owning run removes its profile after both phases.
     """
     base=_checked_parent();profile=base/uuid.uuid4().hex[:12]
     if h.IS_WINDOWS:require_shader_directory_budget(h.user_data_root(profile))
@@ -55,4 +55,5 @@ def create_owned_profile():
     profile.mkdir(exist_ok=False)
     actual=profile.resolve(strict=True)
     if actual!=profile:raise ValueError('New owned profile was redirected: '+str(profile))
+    h.test_output.scratch(actual)
     return actual

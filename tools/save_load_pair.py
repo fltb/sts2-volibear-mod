@@ -109,6 +109,7 @@ def gate_then_resume(a,checkpoint,resume):
     return resume()
 
 
+@h.test_output.session()
 def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_control=None,audio_driver=None,cancel_event=None):
     h.check_cancelled(cancel_event)
     display=display or ('background' if h.IS_WINDOWS else 'xvfb')
@@ -121,6 +122,7 @@ def run_pair(game,case,mode,timeout=180,frames=30000,display=None,*,_stock_contr
     game=Path(game).expanduser().resolve()
     h.validate_game(game)
     pair_dir=ROOT/'artifacts/save-load'/h.new_run_id();pair_dir.mkdir(parents=True,exist_ok=False)
+    h.test_output.register(pair_dir)
     profile=create_owned_profile() # Unique short owned root, shared unchanged by A and B; never delete its cache.
     env=h.isolated_env(profile)
     for key in list(env):

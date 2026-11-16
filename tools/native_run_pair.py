@@ -104,6 +104,7 @@ def checkpoint_gate(evidence, checkpoint, user_root):
     return []
 
 
+@h.test_output.session()
 def run_pair(game, timeout=300, frames=60000, display=None):
     display = display or ('background' if h.IS_WINDOWS else 'headless')
     validate_options(timeout, frames, display)  # Before profile creation or launch.
@@ -111,6 +112,7 @@ def run_pair(game, timeout=300, frames=60000, display=None):
     h.validate_game(game)
     pair_dir = ROOT / 'artifacts/native-run' / h.new_run_id()
     pair_dir.mkdir(parents=True, exist_ok=False)
+    h.test_output.register(pair_dir)
     profile = create_owned_profile()
     env = h.isolated_env(profile)
     for key in list(env):

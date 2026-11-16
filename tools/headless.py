@@ -17,6 +17,7 @@ import sys
 import time
 import uuid
 
+import test_output
 from dev import ROOT, config, game_executable, validate_game
 from runtime_platform import platform_for
 from beast_evidence import BEAST_CASES, beast_contract_evidence
@@ -990,14 +991,18 @@ def cli_cases(value, allowed, label):
     return finite_cases(allowed if value == 'all' else value.split(','), allowed, label)
 
 
-def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None):
+def prepare_run(game, run_id, frames, display='headless', *, _profile_env=None, stock_report=None):
     directory = ROOT / 'artifacts/headless' / run_id
     directory.mkdir(parents=True)
+    test_output.register(directory, stock_report)
     # Only the paired native runner supplies this environment, from a newly
     # created owned profile. There is deliberately no CLI arbitrary-profile path.
     env = isolated_env(directory) if _profile_env is None else dict(_profile_env)
     if _profile_env is None:
         env['VOLIBEAR_TEST_DATA_ROOT'] = str(user_data_root(directory))
+    env['VOLIBEAR_TEST_OUTPUT'] = test_output.settings()[0]
+    if env['VOLIBEAR_TEST_OUTPUT'] == 'minimal':
+        env['MESA_SHADER_CACHE_DISABLE'] = 'true'
     env['VOLIBEAR_TEST_FAST_MODE'] = 'Fast'
     env.pop('VOLIBEAR_TEST_WINDOW_GUARD', None)
     if display == 'background':
@@ -1039,6 +1044,7 @@ def launch(game, directory, env, command, timeout, display='headless', *, cancel
             close_owned(job)
 
 
+@test_output.session()
 def stock_teardown(game, timeout, frames, display='headless', audio_driver=None):
     """Measure the shipped game's own exit signature with mod initialization disabled."""
     run_id = new_run_id()
@@ -1046,7 +1052,8 @@ def stock_teardown(game, timeout, frames, display='headless', audio_driver=None)
     # launches the original main scene, waits for the real loader to drain, then
     # invokes native NGame.Quit; its deadline/outer watchdog remain failures.
     control_frames = 0
-    directory, env, command = prepare_run(game, run_id, control_frames, display)
+    stock_report = {}
+    directory, env, command = prepare_run(game, run_id, control_frames, display, stock_report=stock_report)
     command = with_audio_driver(command, audio_driver)
     if '--script' in command:
         index = command.index('--script')
@@ -1067,9 +1074,11 @@ def stock_teardown(game, timeout, frames, display='headless', audio_driver=None)
                   and 'Steam initialization skipped' in log
                   and 'write saves to steam storage' not in log)
     categories = teardown_categories(errors) if successful else set()
-    return categories, {'run_id': run_id, 'exit_code': code, 'timed_out': timed_out,
+    control = {'run_id': run_id, 'exit_code': code, 'timed_out': timed_out,
                         'successful': successful, 'frames': control_frames,
                         'runtime_errors': runtime, 'categories': sorted(categories)}
+    stock_report.update(control, scenario='stock', status='passed' if successful else 'failed', errors=runtime)
+    return categories, control
 
 
 def dampen_protocol_log(log, token, checks):
@@ -1151,6 +1160,7 @@ def catalog_face_evidence(log, token, cases, process_identity):
     return {'errors': errors, 'card_faces': faces, 'envelope': final}
 
 
+@test_output.session()
 def run_once(game, timeout, frames, scenario='discovery', display='headless',
              stock=None, stock_evidence=None, engage_case='e01', domain_case='d01',
              beast_case='f01', domain_enemy_case='flutter',
@@ -1254,7 +1264,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
     if scenario == 'native-run':
         # A normal menu/run must never inherit a development character fixture.
         retained = {'VOLIBEAR_TEST_DATA_ROOT', 'VOLIBEAR_TEST_FAST_MODE', 'VOLIBEAR_TEST_PRIVATE_DESKTOP',
-                    'VOLIBEAR_TEST_NO_FOCUS', 'VOLIBEAR_TEST_TOKEN', 'VOLIBEAR_TEST_ARTIFACT_DIR'}
+                    'VOLIBEAR_TEST_NO_FOCUS', 'VOLIBEAR_TEST_TOKEN', 'VOLIBEAR_TEST_ARTIFACT_DIR', 'VOLIBEAR_TEST_OUTPUT'}
         for key in list(env):
             if key.startswith(('VOLIBEAR_TEST_', 'VOLIBEAR_SAVE_', 'VOLIBEAR_NATIVE_RUN_')) and key not in retained:
                 del env[key]
@@ -1539,6 +1549,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--test-output', choices=('minimal', 'detailed'))
     parser.add_argument('--display', choices=['headless', 'xvfb', 'window', 'background'], default='headless')
     parser.add_argument('--scenario', choices=['discovery', 'baseline', 'api', 'content', 'engage-contract',
                                               'domain-contract', 'beast-contract', 'domain-enemy-contract',
@@ -1585,6 +1596,8 @@ def main():
     parser.add_argument('--timeout', type=int)
     parser.add_argument('--frames', type=int)
     args = parser.parse_args()
+    if args.test_output:
+        os.environ['VOLIBEAR_TEST_OUTPUT'] = args.test_output
     batch = args.card_face_batch is not None or args.scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'domain-suppression')
     short_fixture = args.scenario in ('domain-visual', 'architect-ending')
     single_run = batch or short_fixture

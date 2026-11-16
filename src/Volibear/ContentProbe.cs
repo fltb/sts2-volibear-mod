@@ -30,7 +30,8 @@ internal static class ContentProbe
 
     private static async Task CaptureWindow(string filename)
     {
-        if (DisplayServer.GetName() == "headless") return;
+        if (DisplayServer.GetName() == "headless" ||
+            System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_OUTPUT") != "detailed") return;
         var directory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_ARTIFACT_DIR")
             ?? throw new InvalidOperationException("Window capture requires isolated artifact path");
         var game = MegaCrit.Sts2.Core.Nodes.NGame.Instance!;

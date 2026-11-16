@@ -269,6 +269,7 @@ internal static class DomainContractProbe
         CardResolutionHooks.PlayScope? argument = null, Task? native = null, int? resultCount = null,
         ValueProp? props = null, int? nativeState = null)
     {
+        if (System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_OUTPUT") != "detailed") return;
         var current = ((System.Threading.AsyncLocal<CardResolutionHooks.PlayScope?>)
             AccessTools.Field(typeof(CardResolutionHooks), "Current").GetValue(null)!).Value;
         var active = (IEnumerable<CardResolutionHooks.PlayScope>)

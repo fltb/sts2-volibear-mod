@@ -52,6 +52,7 @@ def gate_then_resume(a,checkpoint,resume):
     except (OSError,ValueError,TypeError,KeyError):return None
     return resume()
 
+@h.test_output.session()
 def run_pair(game,case,mode,timeout=240,frames=30000,display='headless',seed=None):
     if case not in CASES or mode not in ('same-process','restart'):raise ValueError('NOT_SUPPORTED: catalog persistence requires S3 and a supported mode')
     seed='VOLIBEAR-CATALOG-'+case if seed is None else seed
@@ -60,6 +61,7 @@ def run_pair(game,case,mode,timeout=240,frames=30000,display='headless',seed=Non
     if display not in ('headless','window'):raise ValueError('PID binding requires a direct executable')
     h.validate_game(game)
     pair_dir=ROOT/'artifacts/save-catalog'/h.new_run_id();pair_dir.mkdir(parents=True,exist_ok=False)
+    h.test_output.register(pair_dir)
     profile=create_owned_profile();env=h.isolated_env(profile)
     for key in list(env):
         if key.startswith(('VOLIBEAR_TEST_','VOLIBEAR_SAVE_')):del env[key]
