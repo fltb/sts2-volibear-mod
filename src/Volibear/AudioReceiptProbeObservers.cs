@@ -102,6 +102,7 @@ internal static partial class AudioReceiptProbe
                     mixDb = mix["sfx_bus"].AsDouble(), activeVoices = voices.Count });
             }
             state.Row.dispatches.Add(new { sequence = Sequence(), eventId = state.Event, cue = state.Cue, accepted,
+                reject = accepted ? "" : state.Root.Call("last_reject").AsString(),
                 master = settings.VolumeMaster, sfx = settings.VolumeSfx, ambience = settings.VolumeAmbience,
                 focused, muteInBackground = SaveManager.Instance.PrefsSave.MuteInBackground,
                 effectiveSfx = gains["Sfx"].AsDouble(), nodes });

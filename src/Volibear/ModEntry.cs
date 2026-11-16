@@ -287,6 +287,6 @@ public static class ModEntry
             }
         }
 #endif
-        GD.Print("[Volibear] LOAD_OK version=0.1.0 target=" + Core.SupportedGameBuild.Version + " " + Core.SupportedGameBuild.LastCheckSummary + " phase=development-candidate gameplay=partial");
+        GD.Print("[Volibear] LOAD_OK version=0.1.0 target=" + Core.SupportedGameBuild.TargetLabel + " " + Core.SupportedGameBuild.LastCheckSummary + " phase=development-candidate gameplay=partial");
     }
 }

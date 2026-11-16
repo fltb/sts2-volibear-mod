@@ -177,25 +177,16 @@ internal static class NativeRunAcceptanceProbe
     public static void Install()
     {
         if (_installed) return; _installed = true;
-        // PBE loads mods after the native startup wrapper has already run, so a postfix on it
-        // never fires. Start immediately when startup is complete (the Godot synchronization
-        // context already exists here); only patch the wrapper on builds where it is still ahead.
-        var wrapper = AccessTools.Method(typeof(MegaCrit.Sts2.Core.Nodes.NGame), "GameStartupWrapper");
-        GD.Print("[Volibear] NATIVE_RUN_INSTALL wrapper=" + (wrapper is not null) +
-                 " ctx=" + (System.Threading.SynchronizationContext.Current?.GetType().Name ?? "null") +
-                 " startupComplete=" + (MegaCrit.Sts2.Core.Nodes.NGame.Instance?.GameStartupComplete.IsCompleted == true));
-        if (wrapper is not null && !StartupComplete())
+        // Start on the Godot main loop once the PBE menu is ready.
+        var tree = (SceneTree)Engine.GetMainLoop();
+        void Tick()
         {
-            var probe = new Harmony("Volibear.NativeRunProbe");
-            probe.Patch(wrapper, postfix: new HarmonyMethod(typeof(NativeRunAcceptanceProbe), nameof(AfterStartup)));
-            // Never idle forever when the wrapper was already invoked or is replaced upstream.
-            var tree = (SceneTree)Engine.GetMainLoop();
-            tree.CreateTimer(10.0).Timeout += () => { if (!_started) AfterStartup(); };
-            return;
+            if (NGame.Instance?.MainMenu is null) return;
+            tree.ProcessFrame -= Tick;
+            AfterStartup();
         }
-        AfterStartup();
+        tree.ProcessFrame += Tick;
     }
-    private static bool StartupComplete() => MegaCrit.Sts2.Core.Nodes.NGame.Instance?.GameStartupComplete.IsCompleted == true;
     private static bool _started;
     private static void AfterStartup()
     {

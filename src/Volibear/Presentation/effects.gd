@@ -26,6 +26,7 @@ var _streams: Dictionary = {}
 var _next = 0
 var _closing = false
 var _refresh_elapsed = 0.0
+var _last_reject := ""
 
 func configure(battle: String, owner: String, gain_provider: Callable = Callable()) -> void:
 	battle_id = battle
@@ -202,22 +203,32 @@ func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, targe
 		play_sound(event_id, effect.audio_cue, persistent_key, lease_seconds)
 	return true
 
+func last_reject() -> String:
+	return _last_reject
+
 func play_sound(event_id: String, cue_id: String, persistent_key: String = "", lease_seconds: float = 10.0, allow_disabled: bool = false) -> bool:
+	_last_reject = ""
 	if _closing or event_id.is_empty() or not _cues.has(cue_id) or lease_seconds <= 0:
+		_last_reject = "closing-or-missing-cue:%s:%s" % [event_id, cue_id]
 		return false
 	var cue: Dictionary = _cues[cue_id]
 	if not cue.default_enabled and not allow_disabled:
+		_last_reject = "cue-disabled:" + cue_id
 		return false
 	if cue.loop and persistent_key.is_empty():
+		_last_reject = "loop-without-key:" + cue_id
 		return false
 	if not _remember("a:" + event_id + ":" + cue_id):
+		_last_reject = "duplicate:" + cue_id
 		return false
 	if cue.loop and _voice_loops.has(persistent_key):
 		if _voices[_voice_loops[persistent_key]].cue.id != cue_id:
+			_last_reject = "loop-key-conflict:" + cue_id
 			return false
 		return renew_loop(persistent_key, lease_seconds)
 	var now = _now()
 	if now - float(_cooldowns.get(cue_id, -1000.0)) < cue.cooldown_ms / 1000.0:
+		_last_reject = "cooldown:" + cue_id
 		return false
 	var same_cue: Array = []
 	for token in _voices:
@@ -227,14 +238,17 @@ func play_sound(event_id: String, cue_id: String, persistent_key: String = "", l
 	while same_cue.size() >= limit:
 		_stop_voice(same_cue.pop_front())
 	if _voices.size() >= MAX_VOICES:
+		_last_reject = "voice-limit"
 		return false
 	if not _streams.has(cue.file):
 		_streams[cue.file] = load("res://VolibearArt/audio/" + cue.file)
 	var source_stream = _streams[cue.file] as AudioStreamOggVorbis
 	if source_stream == null:
+		_last_reject = "missing-stream:" + str(cue.file)
 		return false
 	var stream = source_stream.duplicate() as AudioStreamOggVorbis
 	if stream == null:
+		_last_reject = "duplicate-stream:" + str(cue.file)
 		return false
 	stream.loop = cue.loop
 	var player = AudioStreamPlayer.new()

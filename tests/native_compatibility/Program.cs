@@ -19,6 +19,9 @@ if (args.Contains("--expect-legacy-pbe-rejection"))
     throw new Exception("Legacy DLL unexpectedly accepted on the new PBE.");
 }
 var checks = 0;
+var channelFile = Path.Combine(Path.GetDirectoryName(typeof(SupportedGameBuild).Assembly.Location)!,
+    "BuildChannel.json");
+File.WriteAllText(channelFile, "{\"channel\":\"test\",\"game_version\":\"v0.107.1\",\"game_commit\":\"59260271\"}");
 const string Pinned = "{\"version\":\"v0.107.1\",\"commit\":\"59260271\"}";
 const string Newer = "{\"version\":\"v0.108.0\",\"commit\":\"deadbeef\"}";
 
@@ -52,4 +55,5 @@ catch (InvalidOperationException error) when (error.Message.Contains("Hook.Modif
     checks++;
 }
 
+File.Delete(channelFile);
 Console.WriteLine($"NATIVE_COMPATIBILITY_PASS checks={checks}");

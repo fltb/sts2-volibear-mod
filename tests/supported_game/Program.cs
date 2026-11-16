@@ -3,6 +3,14 @@ using Volibear.Core;
 var checkedCases = 0;
 const string Valid = "{\"version\":\"v0.107.1\",\"commit\":\"59260271\",\"branch\":\"v0.107.1\"}";
 const string Newer = "{\"version\":\"v0.108.0\",\"commit\":\"deadbeef\",\"branch\":\"v0.108.0\"}";
+var channelFile = Path.Combine(Path.GetDirectoryName(typeof(SupportedGameBuild).Assembly.Location)!,
+    "BuildChannel.json");
+void Pin(string version, string commit) => File.WriteAllText(channelFile,
+    "{\"channel\":\"test\",\"game_version\":\"" + version + "\",\"game_commit\":\"" + commit + "\"}");
+void Unpin() { if (File.Exists(channelFile)) File.Delete(channelFile); }
+try
+{
+Pin("v0.107.1", "59260271");
 SupportedGameBuild.EnsureRelease(Valid);
 if (!SupportedGameBuild.LastCheckSummary.Contains("build=verified")) throw new Exception("Pinned build not recorded as verified");
 SupportedGameBuild.EnsureRelease("\uFEFF" + Valid);
@@ -32,6 +40,20 @@ foreach (var invalid in new[]
     checkedCases++;
 }
 
+}
+finally { Unpin(); }
+
+// A package without a channel file never claims a verified build: it always self-checks.
+Unpin();
+SupportedGameBuild.StructuralCheck = () => { };
+SupportedGameBuild.EnsureRelease(Valid);
+if (!SupportedGameBuild.LastCheckSummary.Contains("build=unverified-compatible"))
+    throw new Exception("unpinned package falsely reported verified");
+checkedCases++;
+SupportedGameBuild.StructuralCheck = null;
+Reject(() => SupportedGameBuild.EnsureRelease(Valid), "no native compatibility self-check");
+checkedCases++;
+
 var directory = Path.Combine(Path.GetTempPath(), "volibear-version-" + Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(directory);
 try
@@ -41,7 +63,10 @@ try
     checkedCases++;
     var release = Path.Combine(directory, "release_info.json");
     File.WriteAllText(release, Valid);
+    SupportedGameBuild.StructuralCheck = () => { };
     SupportedGameBuild.EnsureInstalled(executable);
+    if (!SupportedGameBuild.LastCheckSummary.Contains("build=unverified-compatible"))
+        throw new Exception("unpinned package did not self-check on install");
     if (File.ReadAllText(release) != Valid) throw new Exception("Release file was changed");
     checkedCases++;
 }

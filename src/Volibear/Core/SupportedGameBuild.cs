@@ -13,18 +13,19 @@ namespace Volibear.Core;
 /// </summary>
 public static class SupportedGameBuild
 {
-    private const string DefaultVersion = "v0.107.1";
-    private const string DefaultCommit = "59260271";
+    // No build is hardcoded. A packaged channel ships BuildChannel.json next to the DLL; without
+    // it the mod always takes the structural self-check path and loads as unverified-compatible.
+    private static (string Version, string Commit, string Channel, bool Pinned) Channel => LoadChannel();
 
-    // Each packaged channel ships a BuildChannel.json next to the DLL; the stable channel keeps
-    // the compiled defaults. This lets one source tree produce a verified gate for both branches.
-    private static readonly Lazy<(string Version, string Commit, string Channel)> Channel = new(LoadChannel);
+    public static string Version => Channel.Version;
+    public static string Commit => Channel.Commit;
+    public static string ChannelName => Channel.Channel;
+    public static bool Pinned => Channel.Pinned;
 
-    public static string Version => Channel.Value.Version;
-    public static string Commit => Channel.Value.Commit;
-    public static string ChannelName => Channel.Value.Channel;
+    /// <summary>Target shown in boot logs; empty when the package carries no channel file.</summary>
+    public static string TargetLabel => Pinned ? Version + "/" + Commit : "unpinned";
 
-    private static (string, string, string) LoadChannel()
+    private static (string, string, string, bool) LoadChannel()
     {
         try
         {
@@ -37,11 +38,11 @@ public static class SupportedGameBuild
                 var version = StringProperty(root, "game_version");
                 var commit = StringProperty(root, "game_commit");
                 var channel = StringProperty(root, "channel");
-                if (version is not null && commit is not null) return (version, commit, channel ?? "custom");
+                if (version is not null && commit is not null) return (version, commit, channel ?? "custom", true);
             }
         }
         catch (Exception) { }
-        return (DefaultVersion, DefaultCommit, "stable");
+        return (string.Empty, string.Empty, "unpinned", false);
     }
 
     /// <summary>Native-surface verifier for a build other than the pinned one. It must throw a
@@ -82,15 +83,16 @@ public static class SupportedGameBuild
         if (version is null || commit is null)
             throw new InvalidOperationException("Volibear: release_info.json is missing version/commit; " +
                 "cannot determine the installed game build.");
-        if (version == Version && commit == Commit)
+        if (Pinned && version == Version && commit == Commit)
         {
             LastCheckSummary = $"build=verified channel={ChannelName} target={Version}/{Commit}";
             return;
         }
-        // Unknown build: only proceed when every native member the mod actually uses still exists.
+        // Any other build (including every package without a channel file): only proceed when
+        // every native member the mod actually uses still exists.
         if (StructuralCheck is null)
-            throw new InvalidOperationException($"Volibear: game build {version}/{commit} differs from the " +
-                $"acceptance-tested {Version}/{Commit}, and no native compatibility self-check is registered. " +
+            throw new InvalidOperationException($"Volibear: game build {version}/{commit} has no matching " +
+                $"package pin ({TargetLabel}), and no native compatibility self-check is registered. " +
                 "No Volibear patches were installed.");
         try
         {
@@ -101,7 +103,7 @@ public static class SupportedGameBuild
             throw new InvalidOperationException($"Volibear: game build {version}/{commit} is missing native " +
                 $"surface this mod needs ({error.Message}). No Volibear patches were installed.", error);
         }
-        LastCheckSummary = $"build=unverified-compatible found={version}/{commit} tested={Version}/{Commit}";
+        LastCheckSummary = $"build=unverified-compatible found={version}/{commit} target={TargetLabel}";
     }
 
     private static string? StringProperty(JsonElement root, string name) =>
