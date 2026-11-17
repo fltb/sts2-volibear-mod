@@ -120,6 +120,19 @@ public static partial class VolibearPresentationBridge
                 if (StartVoices.TryGetValue(clip, out var cue)) _effects.PlaySound(Next("beast_batch_motion"), cue);
             }
         }
+        private static readonly string[] BiteVoices = ["voice.bite", "voice.w_0", "voice.w_1", "voice.w_2", "voice.w_3", "voice.w_5"];
+        private static readonly string[] CastVoices = ["voice.cast", "voice.e_0", "voice.e_1"];
+        private static readonly string[] LeapVoices = ["voice.r_0", "voice.r_1"];
+
+        private bool _attackLinePlayed;
+        internal void EncounterLine()
+        {
+            if (!OwnsLocalHud() || _owner.Player is not { } player ||
+                player.RunState.CurrentRoom?.RoomType is not (MegaCrit.Sts2.Core.Rooms.RoomType.Elite or MegaCrit.Sts2.Core.Rooms.RoomType.Boss)) return;
+            string cue = VolibearPresentationCues.NextLine(player, "firstencounter", 4);
+            if (_effects.HasPrivateSound(cue)) _effects.PlaySound(Next("encounter"), cue);
+        }
+
         private void StartMotion(PlayMotion? play, string trigger)
         {
             if (!Live || play is null || play.Action != _motionAction || play.Binding.Trigger != trigger ||
@@ -128,7 +141,23 @@ public static partial class VolibearPresentationBridge
             string clip = _domain ? play.Binding.DomainClip ?? play.Binding.Clip : play.Binding.Clip;
             if (play.Binding.HoldFrames > 0 && _lowHealth) clip = _domain ? "domain_weak_loop" : "weak_loop";
             PlayBoundMotion(play.Binding, clip);
-            if (StartVoices.TryGetValue(clip, out var cue))
+            string? cue = play.Binding.Clip switch
+            {
+                "bite" => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, BiteVoices),
+                "storm_leap" => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, LeapVoices),
+                "cast" when CardCapabilities.IsThunderSpell(play.Play.Card) => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, CastVoices),
+                _ => StartVoices.GetValueOrDefault(clip)
+            };
+            if (!_attackLinePlayed && cue is ("voice.attack_01" or "voice.heavy") &&
+                OwnsLocalHud() && _owner.Player is { } player)
+            {
+                _attackLinePlayed = true;
+                var line = VolibearPresentationCues.NextLine(player, "attack", 19);
+                if (_effects.HasPrivateSound(line)) cue = line;
+            }
+            if (MotionKey(play.Play.Card) is "c03" or "c22")
+                _effects.PlaySound(play.Id + ":windup", "sfx.charge");
+            if (cue is not null)
             {
                 if (cue == "voice.attack_01" && ++_voiceCounter % 2 == 0) cue = "voice.attack_02";
                 _effects.PlaySound(play.Id + ":motion:" + play.Starts, cue);

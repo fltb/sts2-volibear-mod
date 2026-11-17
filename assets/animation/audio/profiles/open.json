@@ -3,7 +3,7 @@
   "profile": "open",
   "default": true,
   "runtime_manifest": "../manifest.json",
-  "cue_count": 54,
+  "cue_count": 142,
   "unique_audio_assets": 47,
   "licenses": {
     "recorded_sources": "CC0-1.0; per-source author/URL/SHA in ../sources.json",

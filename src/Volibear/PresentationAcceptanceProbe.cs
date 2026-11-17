@@ -340,7 +340,7 @@ internal static class PresentationAcceptanceProbe
                 {
                     Tree.Root.Size=size;phase=$"resolution-{size.X}x{size.Y}";await Pause(.7);
                     Screens.Add(new {phase,screenshot=Image(phase)});
-                    foreach(string code in new[]{"B01","B02","B03","B04","C03","C05"})
+                    foreach(string code in new[]{"B01","B02","B03","B04","C03","C05","U08","R23","C22","R31"})
                     {var card=await Create(state,player,code);await Paid(card,card.TargetType==TargetType.AnyEnemy?state.Enemies.First():null,player,$"{size.X}-{code}");}
                     await CaptureDomainSpirit(owner);
                 }

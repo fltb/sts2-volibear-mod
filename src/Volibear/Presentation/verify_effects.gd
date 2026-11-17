@@ -54,7 +54,7 @@ func verify() -> void:
 			fail("Original rune icon decode failed: " + path)
 			return
 	var audio = JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/audio/manifest.json"))
-	if audio.cues.size() != 54 or expected.audio.size() != 47:
+	if audio.cues.size() != 142 or expected.audio.size() != 47:
 		fail("Cue coverage mismatch")
 		return
 	if not await verify_energy():
@@ -168,7 +168,7 @@ func verify() -> void:
 	# Native AudioServer retires stopped playback on its mixer thread, not queue_free's frame.
 	# Give it a bounded drain interval before testing clean engine shutdown.
 	await create_timer(0.25).timeout
-	print("VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=54 icons=10 lifecycle=PASS")
+	print("VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=142 icons=10 lifecycle=PASS")
 	quit(0)
 
 func verify_ground_coverage(fx) -> bool:

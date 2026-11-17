@@ -26,7 +26,7 @@ class AudioProfileTests(unittest.TestCase):
             result = audio.verify_open(full_decode=False)
             audio.stage_profile('open', self.directory / 'VolibearArt/audio')
             network.assert_not_called()
-        self.assertEqual((result['assets'], result['cues'], result['cc0_recordings']), (47, 54, 7))
+        self.assertEqual((result['assets'], result['cues'], result['cc0_recordings']), (47, 142, 7))
         runtime = json.loads((self.directory / 'VolibearArt/audio/profiles/runtime.json').read_text())
         self.assertEqual(runtime, {'schema_version': 1, 'profile': 'open', 'overrides': []})
         self.assertFalse((self.directory / 'originals').exists())
@@ -53,7 +53,7 @@ class AudioProfileTests(unittest.TestCase):
 
     def test_pinned_private_sources_keep_english_voice_separate_from_sfx(self):
         data = audio.profile_data('riot_en')
-        self.assertEqual(len(data['overrides']), 11)
+        self.assertEqual(len(data['overrides']), 99)
         by_id = {row['id']: row for row in data['sources']}
         for row in data['overrides']:
             expected = 'voice' if row['cue'].startswith('voice.') else 'sfx'

@@ -117,8 +117,8 @@ def read_effect_inputs():
     visual = json.loads((VFX / 'manifest.json').read_text(encoding='utf-8'))
     audio = json.loads((AUDIO / 'manifest.json').read_text(encoding='utf-8'))
     effects = visual['effects']
-    if len(effects) != 40 or len(audio['cues']) != 54 or len(audio['assets']) != 47:
-        raise ValueError('Expected approved 40 VFX / 54 cues / 47 sound assets')
+    if len(effects) != 40 or len(audio['cues']) != 142 or len(audio['assets']) != 47:
+        raise ValueError('Expected approved 40 VFX / 142 cues / 47 sound assets')
     for effect in effects:
         if sha(safe_source(VFX, effect['atlas']['image'])) != effect['atlas']['sha256']:
             raise ValueError(f'Approved VFX hash mismatch: {effect["id"]}')
@@ -129,7 +129,7 @@ def read_effect_inputs():
         if sha(safe_source(AUDIO, row['file'])) != row['ogg_sha256']:
             raise ValueError(f'Approved audio hash mismatch: {row["id"]}')
     cue_ids = {cue['id'] for cue in audio['cues']}
-    if len(cue_ids) != 54 or len(sounds) != 47:
+    if len(cue_ids) != 142 or len(sounds) != 47:
         raise ValueError('Duplicate sound or cue identity')
     for cue in audio['cues']:
         if cue['file'] not in sounds or cue['max_voices'] < 1:
@@ -344,7 +344,7 @@ def validation_markers(audio_profile):
         'verify-pack-compat': [f'VOLIBEAR_PACK_COMPAT_PASS source_scripts={count} '],
         'verify': ['VOLIBEAR_RESOURCE_PASS clips=26 frames=940 portraits=178',
                    'VOLIBEAR_UI_RESOURCE_PASS scenes=5 transition=1'],
-        'verify-effects': ['VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=54 icons=10 lifecycle=PASS'],
+        'verify-effects': ['VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=142 icons=10 lifecycle=PASS'],
         'verify-audio-profile': [f'VOLIBEAR_AUDIO_PROFILE_PASS profile={audio_profile} '],
     }
 
@@ -533,7 +533,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
         raise RuntimeError('Missing resource verification completion sentinel')
     effect_result = run([godot, '--headless', '--path', verify, '--script', 'verify_effects.gd', '--',
                          temporary_pack, expected_path], work, 'verify-effects', env)
-    if 'VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=54 icons=10 lifecycle=PASS' not in effect_result:
+    if 'VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=142 icons=10 lifecycle=PASS' not in effect_result:
         raise RuntimeError('Missing production effects lifecycle verification completion sentinel')
     profile_expected_path = work / 'expected-audio-profile.json'
     profile_expected_path.write_text(json.dumps(profile_expected), encoding='utf-8')

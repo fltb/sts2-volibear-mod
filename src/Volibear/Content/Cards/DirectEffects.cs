@@ -492,7 +492,7 @@ public sealed class Volibear_R23 : VolibearCard, INativeLightningSpell
     {
         if (play.Target is not { } target) return;
         for (var hit = 0; hit < (int)Value("Hits") && DirectEffects.Live(this) && target.IsHittable; hit++)
-            await LightningCmd.Deal(context, new[] { target }, Value("Lightning"), this);
+            await LightningCmd.DealRepeatedHit(context, target, Value("Lightning"), this, hit);
     }
     protected override void OnUpgrade() => UpgradeVar("Lightning", 3m);
 }

@@ -10,7 +10,7 @@
 | --- | --- | --- |
 | 无内嵌特效角色图集 | `../animations/clean/manifest.json` | 26 个动作/变体、940 帧；优先用于游戏接入 |
 | 独立特效 | `../vfx/manifest.json` | 40 组、1070 帧；按实际源/目标坐标播放 |
-| 音频 | `../audio/manifest.json` | 54 个逻辑 cue；47 个音频文件 |
+| 音频 | `../audio/manifest.json` | 142 个逻辑 cue；47 个音频文件 |
 | 动作音效时序 | `../audio/action_cues.json` | 每动作进入事件和一次性时间点，不在每帧重播 |
 | 卡牌演出语义 | `../vfx/card_vfx_bindings.json` | 卡牌→演出映射，是本项目契约，不是游戏原生 API |
 | 角色界面与状态图标 | `../ui/manifest.json`、`../vfx/icons/manifest.json` | 14个角色UI PNG；16组符号的4尺寸PNG与SVG |

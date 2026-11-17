@@ -355,7 +355,7 @@ public sealed class Volibear_R17 : VolibearCard, INativeLightningSpell
         await StormChargePower.Gain(context, Owner.Creature, effectiveX, this);
         if (play.Target is not { } target) return;
         for (var hit = 0; hit < effectiveX && DirectEffects.Live(this); hit++)
-            await LightningCmd.Deal(context, new[] { target }, Value("Lightning"), this);
+            await LightningCmd.DealRepeatedHit(context, target, Value("Lightning"), this, hit);
     }
     protected override void OnUpgrade() => UpgradeVar("Bonus", 1m);
 }

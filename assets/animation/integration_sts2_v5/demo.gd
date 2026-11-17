@@ -401,7 +401,7 @@ func run_self_test() -> void:
         if FileAccess.get_sha256(path)!=input_hashes[path]:record_error("Input changed during test: "+path)
     if frame_count!=940:record_error("Expected 940 character frames")
     if effect_count!=40 or effect_frames!=1070:record_error("Expected 40 effects / 1070 effect frames")
-    if audio_count!=54:record_error("Expected all 54 logical audio cues to decode")
+    if audio_count!=142:record_error("Expected all 142 logical audio cues to decode")
     var report={"engine_version":Engine.get_version_info().get("string",""),"scope":"standalone Godot asset loading, SpriteFrames, seeks, decode and owned-node cleanup; not STS2 runtime", "animations":animation_count,"animation_frames":frame_count,"effects":effect_count,"effect_frames":effect_frames,"audio_cues_decoded":audio_count,"input_sha256":input_hashes,"failures":failure_messages,"passed":failure_messages.is_empty()}
     var report_path: String=ProjectSettings.globalize_path("res://reports/godot_self_test.json")
     var file:=FileAccess.open(report_path,FileAccess.WRITE)

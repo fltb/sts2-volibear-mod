@@ -33,7 +33,7 @@ def main():
             assert abs(pcm[0])<1/32768 and abs(pcm[-1])<1/32768
         checks.append({'asset':a['id'],'ogg_decode_pass':True,'samples':len(x),'sample_peak':float(np.max(np.abs(x))),'wav_sha256':a['wav_sha256'],'ogg_sha256':a['ogg_sha256']})
     assets={x['id']:x for x in data['assets']};cues={x['id']:x for x in data['cues']}
-    assert len(cues)==len(data['cues'])==54
+    assert len(cues)==len(data['cues'])==142
     for c in cues.values():
         a=assets[c['asset_id']];assert c['file']==a['file'] and c['loop']==a['loop'];assert (ROOT/c['file']).is_file()
     actions=json.loads((ROOT/'action_cues.json').read_text());motions=json.loads((ROOT.parent/'animations/rig/motions.json').read_text());clips={c['name']:c for c in motions['clips']+motions['variants']}

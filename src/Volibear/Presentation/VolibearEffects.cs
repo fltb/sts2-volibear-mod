@@ -72,6 +72,8 @@ public sealed class VolibearEffects : IDisposable
         float leaseSeconds = 10f, bool allowDisabled = false) => Alive &&
         _root.Call("play_sound", eventId, cueId, persistentKey ?? "", leaseSeconds, allowDisabled).AsBool();
 
+    internal bool HasPrivateSound(string cue) => Alive && _root.Call("has_private_sound", cue).AsBool();
+
     public bool RenewLoop(string key, float leaseSeconds = 10f) =>
         Alive && _root.Call("renew_loop", key, leaseSeconds).AsBool();
 

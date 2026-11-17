@@ -17,6 +17,7 @@
   <!-- One source tree, two game channels: the beta channel compiles the same code with the
        PBE assemblies and small #if STS2_BETA adapters where the native API moved. -->
   <PropertyGroup Condition="'$(GameChannel)' == 'beta'">
+    <Version>0.1.1</Version>
     <DefineConstants>$(DefineConstants);STS2_BETA</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IncludeDevProbes)' == 'true'">

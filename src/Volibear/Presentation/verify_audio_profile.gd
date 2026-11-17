@@ -19,7 +19,7 @@ func run() -> void:
 	var base = JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/audio/manifest.json"))
 	var resolver = load("res://VolibearArt/scenes/audio_profile.gd")
 	var resolved = resolver.resolve_manifest(base)
-	if resolved.active_profile != expected.profile or resolved.cues.size() != 54:
+	if resolved.active_profile != expected.profile or resolved.cues.size() != 142:
 		fail("Packed audio profile identity/cue count differs from the selected build")
 	var overrides: Dictionary = {}
 	for row in expected.overrides:
@@ -55,7 +55,7 @@ func run() -> void:
 		if stream == null or abs(stream.get_length() - row.duration_seconds) > 0.01:
 			fail("Private native stream did not load with expected length: " + cue_id)
 			continue
-		var lease = 3.0 if cue_id == "voice.death" else 10.0
+		var lease = 3.0 if cue_id == "voice.death" else (20.0 if cue_id.begins_with("voice.line_move") else 10.0)
 		if stream.get_length() > lease:
 			fail("Private voice would exceed its existing presentation lease: " + cue_id)
 		var playback = stream.instantiate_playback()

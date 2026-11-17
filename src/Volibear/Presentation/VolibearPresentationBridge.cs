@@ -91,7 +91,7 @@ public static partial class VolibearPresentationBridge
         var reset = Required(typeof(CombatManager), nameof(CombatManager.Reset), typeof(bool));
         var lightning = Required(typeof(LightningCmd), "DealCore",
             typeof(PlayerChoiceContext), typeof(Creature), typeof(IEnumerable<Creature>), typeof(decimal), typeof(CardModel),
-            typeof(bool), typeof(Action<IReadOnlyList<LightningHit>>));
+            typeof(bool), typeof(Action<IReadOnlyList<LightningHit>>), typeof(LightningSound));
         var engage = Required(typeof(EngageCmd), nameof(EngageCmd.Perform),
             typeof(PlayerChoiceContext), typeof(Creature), typeof(CardModel));
         var intent = Required(typeof(NCreature), nameof(NCreature.PerformIntent));
@@ -478,6 +478,7 @@ public static partial class VolibearPresentationBridge
             var owner = new OwnerScope(this, creature, node);
             _owners.Add(creature, owner);
             owner.Initialize();
+            owner.EncounterLine();
             return owner;
         }
         internal void DiscoverOwners()
@@ -620,11 +621,12 @@ public static partial class VolibearPresentationBridge
         {
             if (!Live || !ReferenceEquals(batch.Combat, _room.Combat) || !ReferenceEquals(batch.Owner, _owner)) return;
             var actual = batch.Results.Select(hit => hit.Receiver).Distinct(ReferenceEqualityComparer.Instance).Cast<Creature>().ToArray();
-            string effect = actual.Length > 1 ? "lightning_all" : "lightning_strike";
+            string effect = batch.Sound == LightningSound.Area || actual.Length > 1 ? "lightning_all" : "lightning_strike";
+            string cue = batch.Sound == LightningSound.Followup ? "sfx.lightning_chain" : "sfx." + effect;
             string id = $"lightning:{batch.Id}";
-            foreach (var target in actual) AtTarget(id, effect, target);
-            // If all actual receivers' nodes have already gone, still emit exactly one batch sound.
-            _effects.PlaySound(id, "sfx." + effect);
+            foreach (var target in actual) AtTarget(id, effect, target, sound: false);
+            // One confirmed sound per batch, even when a target node has already disappeared.
+            _effects.PlaySound(id, cue);
         }
         internal void AtOwner(string id, string effect)
         {
@@ -632,10 +634,10 @@ public static partial class VolibearPresentationBridge
             if (!_effects.Emit(id, effect, Anchors()) && effect == "energy_gain")
                 _effects.PlaySound(id, "sfx.energy_gain");
         }
-        internal void AtTarget(string id, string effect, Creature target)
+        internal void AtTarget(string id, string effect, Creature target, bool sound = true)
         {
             if (!Live || target.CombatId is null || _room.NodeFor(target) is not { } node) return;
-            _effects.Emit(id, effect, Anchors(node), CreatureId(target));
+            _effects.Emit(id, effect, Anchors(node), CreatureId(target), sound: sound);
         }
         internal void AtCard(string id, string effect, CardModel card)
         {
@@ -892,6 +894,11 @@ public static partial class VolibearPresentationBridge
         {
             if (_disposed || _combatStopped) return;
             _dead = false;
+            if (OwnsLocalHud() && _owner.Player is { } player)
+            {
+                var cue = VolibearPresentationCues.NextLine(player, "respawn", 3);
+                if (_effects.HasPrivateSound(cue)) _effects.PlaySound(Next("revive"), cue);
+            }
             _domainEligible = false; // A fresh Domain rule event, not revival itself, must reopen it.
             if (_room.NodeFor(_owner) is { } node) _node = node;
             if (Valid(_node))

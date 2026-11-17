@@ -20,7 +20,7 @@ MARKER = "[Volibear] PRESENTATION_ACCEPTANCE_RESULT "
 ACCEPTANCE = "native-viewport-paid-actions-game-bus-pcm-not-sensory-or-full-G5"
 # Fixed approved 89-definition denominator, independent of producer enumeration.
 CODES = set("B01 B02 B03 C01 C02 C03 C08 C09 C12 C13 C20 C22 C24 C26 U05 U06 U07 U13 U15 U20 U23 U24 U27 U31 U36 U38 U40 R05 R07 R12 R17 R21 R23 R24 T01 T02 C05 C14 C17 C18 C21 C25 U02 U03 U04 U10 U11 U12 U14 U19 U21 U25 U26 U29 U32 U34 U37 R01 R02 R06 R13 R14 R16 R18 B04 C04 C06 C10 C11 U08 U28 U35 R31 C07 C15 C19 U39 U41 U42 U43 R10 R25 R27 R28 R29 R30 U17 R08 R09".split())
-ACTION_CODES = ("B01", "B02", "B03", "B04", "C03", "C05")
+ACTION_CODES = ("B01", "B02", "B03", "B04", "C03", "C05", "U08", "R23", "C22", "R31")
 ACTION_PHASES = [f"{w}-{code}" for w in (1280, 1920) for code in ACTION_CODES] + ["beast-convert", "converted-claw", "converted-body"]
 PORTRAITS = "res://VolibearArt/cards/production/sts2/Volibear/images/card_portraits/"
 EFFECTS = set("absorb armor_iron armor_retain bite_hit card_discard card_draw card_exhaust card_purify card_replay card_retrieve cast_charge charge claw_slash cost_reduce counter_release domain_enter domain_exit domain_loop domain_suppress energy_gain feral_aura feral_body feral_claw feral_transfer guard_break guard_gain guard_hit heal heavy_impact lifesteal lightning_all lightning_chain lightning_growth lightning_strike mark_bite roar_wave strength thunder_armor weakness wound".split())
@@ -86,7 +86,7 @@ def _structure(p, token, mode):
         need(len(effects)==40 and {r["id"] for r in effects}==EFFECTS, "fixed 40 effect inventory")
         cues=p["authoredAudio"]["cues"]
         cue_ids={r["id"] for r in cues}
-        need(len(cues)==len(cue_ids)==54, "54 distinct authored cues, not 54 heard claims")
+        need(len(cues)==len(cue_ids)==142, "142 distinct authored cues, not 142 heard claims")
         effective_files = _effective_audio_files(p['authoredAudio'], p['audioProfile'])
         if mode in ("cards","all"):
             rows=p["views"]
@@ -129,6 +129,14 @@ def _structure(p, token, mode):
             voices=audio["voices"]
             need(bool(voices) and len({v["node"] for v in voices})==len(voices), "actual unique source audio nodes")
             errors.extend(_source_audio_errors(voices, effective_files))
+            for width, bite, cast, leap in [(1280, "voice.bite", "voice.cast", "voice.r_0"),
+                                            (1920, "voice.w_0", "voice.e_0", "voice.r_1")]:
+                for code, expected in [("U08", {bite: 1}), ("R23", {cast: 1, "sfx.lightning_chain": 2}),
+                                       ("C22", {"sfx.charge": 1}), ("R31", {leap: 1})]:
+                    phase = f"{width}-{code}"
+                    heard = [v["cue"] for v in voices if v["phase"] == phase]
+                    for cue, count in expected.items():
+                        need(heard.count(cue) == count, f"{phase} expected {count} starts of {cue}")
             for v in voices:
                 need(all(number(v[k]) for k in ("first","last","ended")) and 0<=v["first"]<=v["last"]<=v["ended"], "voice start/overlap/end timeline")
             cleanup=p["cleanup"]

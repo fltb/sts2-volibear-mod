@@ -44,14 +44,14 @@ class ProfileSourceIdentity(unittest.TestCase):
 
     def test_open_exact_authored_paths(self):
         files = self.resolve(self.open)
-        self.assertEqual(len(files), 54)
+        self.assertEqual(len(files), 142)
         self.assertFalse(gate._source_audio_errors([self.voice(c['id'], c['file'])
                                                   for c in self.authored['cues']], files))
 
     def test_riot_overrides_and_open_fallbacks(self):
         files = self.resolve(self.runtime)
         overrides = {r['cue']: r['file'] for r in self.runtime['overrides']}
-        self.assertEqual(len(overrides), 11)
+        self.assertEqual(len(overrides), 99)
         for cue in self.authored['cues']:
             expected = overrides.get(cue['id'], cue['file'])
             self.assertEqual(files[cue['id']], expected)
@@ -167,5 +167,5 @@ class ProfileSourceIdentity(unittest.TestCase):
             self.skipTest('private prepared profile unavailable; exact local verification not run')
         runtime = json.loads(path.read_text())
         files = gate._effective_audio_files(self.authored, runtime)
-        self.assertEqual(len(files), 54)
-        self.assertEqual(sum(path.startswith('profiles/riot_en/') for path in files.values()), 11)
+        self.assertEqual(len(files), 142)
+        self.assertEqual(sum(path.startswith('profiles/riot_en/') for path in files.values()), 99)

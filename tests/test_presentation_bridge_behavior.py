@@ -146,7 +146,7 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
         self.assertRegex(install, r'var lightning = Required\(typeof\(LightningCmd\), "DealCore",\s*'
                          r'typeof\(PlayerChoiceContext\), typeof\(Creature\), typeof\(IEnumerable<Creature>\), '
                          r'typeof\(decimal\), typeof\(CardModel\),\s*'
-                         r'typeof\(bool\), typeof\(Action<IReadOnlyList<LightningHit>>\)\);')
+                         r'typeof\(bool\), typeof\(Action<IReadOnlyList<LightningHit>>\), typeof\(LightningSound\)\);')
         self.assertIn('harmony.Patch(lightning, prefix: Handler(nameof(BeforeLightning)));', install)
         lightning = (ROOT / 'src/Volibear/Content/LightningCmd.cs').read_text(encoding='utf-8')
         self.assertEqual(lightning.count('private static async Task<int> DealCore('), 1)

@@ -130,7 +130,7 @@ Keep one `VolibearEffects.Attach(sceneOwner, battleId, ownerId)` instance per pl
 one per card. The owner must already be in the Godot tree. All calls are main-thread only.
 The C# facade loads the shipped `volibear_effects.tscn` / `effects.gd` native controller; it does
 not need a registered game-root conversion. The controller uses all 40 approved effect atlases,
-47 Ogg streams / 54 manifest cues, and no gameplay RNG, calculations, mutation or awaited effect.
+47 Ogg streams / 142 manifest cues, and no gameplay RNG, calculations, mutation or awaited effect.
 
 ```csharp
 // On a confirmed physical hit; ownerVisuals/targetVisuals are existing CanvasItems.

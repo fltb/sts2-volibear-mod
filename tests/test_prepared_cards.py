@@ -113,9 +113,9 @@ class PreparedCardContracts(unittest.TestCase):
 
     def test_lightning_origin_snapshot_native_accounting_and_round_expiry(self):
         light = self.lightning
-        self.assertEqual(light.count('nativeCardOrigin: true'), 2)
+        self.assertEqual(light.count('nativeCardOrigin: true'), 3)
         # Explicit-owner passive calls retain false both with and without hit receipts.
-        self.assertEqual(light.count('nativeCardOrigin: false'), 2)
+        self.assertEqual(light.count('nativeCardOrigin: false'), 3)
         for callback in ('', ', onResolved'):
             self.assertIn(
                 'DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false' + callback + ')', light)

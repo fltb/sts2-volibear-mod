@@ -27,7 +27,7 @@ public static class LightningCmd
         var owner = card.Owner.Creature;
         var combat = state ?? owner.CombatState;
         if (combat is null || !ReferenceEquals(combat, owner.CombatState)) return Task.FromResult(0);
-        return DealCore(choiceContext, owner, combat.Enemies, amount, card, nativeCardOrigin: true);
+        return DealCore(choiceContext, owner, combat.Enemies, amount, card, nativeCardOrigin: true, sound: LightningSound.Area);
     }
 
     public static Task<int> Deal(PlayerChoiceContext choiceContext, IEnumerable<Creature> targets,
@@ -47,7 +47,7 @@ public static class LightningCmd
     {
         var combat = state ?? owner.CombatState;
         if (combat is null || !ReferenceEquals(combat, owner.CombatState)) return Task.FromResult(0);
-        return Deal(choiceContext, owner, combat.Enemies, amount, card);
+        return DealCore(choiceContext, owner, combat.Enemies, amount, card, nativeCardOrigin: false, sound: LightningSound.Area);
     }
 
     public static Task<int> Deal(PlayerChoiceContext choiceContext, Creature owner,
@@ -59,9 +59,14 @@ public static class LightningCmd
                                         Action<IReadOnlyList<LightningHit>>? onResolved) =>
         DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false, onResolved);
 
+    internal static Task<int> DealRepeatedHit(PlayerChoiceContext context, Creature target,
+        decimal amount, CardModel card, int hitIndex) =>
+        DealCore(context, card.Owner.Creature, new[] { target }, amount, card, nativeCardOrigin: true,
+            sound: hitIndex == 0 ? LightningSound.Strike : LightningSound.Followup);
+
     private static async Task<int> DealCore(PlayerChoiceContext choiceContext, Creature owner,
         IEnumerable<Creature> targets, decimal amount, CardModel? card, bool nativeCardOrigin,
-        Action<IReadOnlyList<LightningHit>>? onResolved = null)
+        Action<IReadOnlyList<LightningHit>>? onResolved = null, LightningSound sound = LightningSound.Strike)
     {
         ArgumentNullException.ThrowIfNull(owner);
         ArgumentNullException.ThrowIfNull(targets);
@@ -114,7 +119,7 @@ public static class LightningCmd
                 {
                     var batch = new LightningBatch(ticket.Id, combat, owner, card,
                         ticket.Round, ticket.PlayerTurn, amount, charge, snapshotAmount,
-                        Array.AsReadOnly(living), Array.AsReadOnly(results), count);
+                        Array.AsReadOnly(living), Array.AsReadOnly(results), count) { Sound = sound };
                     await LightningBatches.Notify(choiceContext, scope, batch);
                 }
             }

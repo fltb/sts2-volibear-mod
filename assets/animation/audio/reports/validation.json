@@ -2,13 +2,13 @@
   "status": "pass",
   "scope": "file decoding, format, silence, waveform endpoints, measured true peak, periodic-loop seam, hashes, cue references and action time ranges; not a human listening review or in-game mix test",
   "unique_audio_assets": 47,
-  "cue_count": 54,
+  "cue_count": 142,
   "animation_sequences_mapped": 26,
   "source_files_checked": 7,
-  "manifest_sha256": "d22297d0713fa40042e5c3897ec191660f8876bf87e6032aa8ba2a3a27f54be6",
+  "manifest_sha256": "8a1c68553b7b8ef0cb3ebd78da2fd9ed37f5fe693bdecc4e3904430e776a03ba",
   "action_cues_sha256": "5ccc73d0638905c188996d540c1017821de582e0b72af6620502f9fa6e213505",
-  "build_script_sha256": "d3972342b49c6d087d1269832470d8f6113e136f649d7270db04b6e9066a2d3b",
-  "validator_sha256": "03d8fcb0b569457742eebdf7ea0272ede165821b8ac1532518a816f76781aa78",
+  "build_script_sha256": "a0a4550cac49168055cfac5e6bc2e777c1aeac5d95dea9e6e513e1ec4b2db022",
+  "validator_sha256": "e26b37dd456ae7306fc7e155e703cae74d42f5f2adde670e0d2f4433684bc225",
   "assets": [
     {
       "asset": "claw_slash",
@@ -77,26 +77,26 @@
     {
       "asset": "lightning_strike",
       "ogg_decode_pass": true,
-      "samples": 52800,
-      "sample_peak": 0.7173950672149658,
-      "wav_sha256": "97afee282fe69b1618e8a86342bb75580d1bf69c68397701655dd204743bf407",
-      "ogg_sha256": "be46ffaeb89ba1a76241a4fad0679eaade4dfaf4d08b646b1f992c8bd42bca8f"
+      "samples": 38272,
+      "sample_peak": 0.7180798649787903,
+      "wav_sha256": "8ceada137509c2be27008c2bdaf9ed181d32b7ed5f061fd394ea144eb0633fec",
+      "ogg_sha256": "b1f7e831e06f5edbf964bccfd087d9670b90e427780ff6797d32b4a76f6a9345"
     },
     {
       "asset": "lightning_chain",
       "ogg_decode_pass": true,
-      "samples": 43072,
-      "sample_peak": 0.6853984594345093,
-      "wav_sha256": "0333cf394123b1b577cc7a272fa4fdcc44649d7770352e2b9cee9adda2c95fe8",
-      "ogg_sha256": "40bd42bf70b5a5abe35393e4c7b97197a69d1f0ba3d25bbd344cabc6c007eee1"
+      "samples": 10912,
+      "sample_peak": 0.45075589418411255,
+      "wav_sha256": "7666ded7a312f7d37e7c35f0f451b620a97b0a1e03643ded8fac5d766e71e991",
+      "ogg_sha256": "6f95b19dfa5210cb81b0272078c6f2afc10f30a3309b5b72a1f9054f5a1978cc"
     },
     {
       "asset": "lightning_all",
       "ogg_decode_pass": true,
-      "samples": 69600,
-      "sample_peak": 0.7312843799591064,
-      "wav_sha256": "b287cdca9b7bea69a7dd05a50665df37b6aa3a804eeae425d5edbcdc5950e6fa",
-      "ogg_sha256": "fa309d0de316f947911866e34d0858e6c496d3b9296b7b02f7179f19bc6546ab"
+      "samples": 72960,
+      "sample_peak": 0.7378889918327332,
+      "wav_sha256": "8a7cd7b56acfd6f49d4714191914e53aa91a91fb6987645da09b1d2dec5e8c28",
+      "ogg_sha256": "5b35eb44f3f631ae405820b73382c6f30a77c04b770af08a250b05fa1a709918"
     },
     {
       "asset": "lightning_growth",

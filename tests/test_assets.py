@@ -125,7 +125,7 @@ class AssetTests(unittest.TestCase):
     def test_complete_approved_effect_and_audio_inputs(self):
         effects, audio = assets.read_effect_inputs()
         self.assertEqual(40, len(effects))
-        self.assertEqual(54, len(audio['cues']))
+        self.assertEqual(142, len(audio['cues']))
         self.assertEqual(47, len(audio['assets']))
         text = assets.sprite_frames(assets.effect_clips(effects), {}, 'res://VolibearArt/vfx')
         self.assertEqual(sum(e['frame_count'] for e in effects), text.count('[sub_resource type="AtlasTexture"'))

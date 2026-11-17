@@ -13,6 +13,7 @@ var owner_id = ""
 var volume_provider: Callable
 var _effects: Dictionary = {}
 var _cues: Dictionary = {}
+static var _resolved_audio: Dictionary = {}
 var _mix: Dictionary = {}
 var _frames: SpriteFrames
 var _visuals: Dictionary = {}
@@ -23,6 +24,10 @@ var _cooldowns: Dictionary = {}
 var _seen: Dictionary = {}
 var _seen_order: Array = []
 var _streams: Dictionary = {}
+# Space confirmed rapid hits on the presentation clock without delaying combat.
+const CRACK_INTERVAL = 0.085
+var _pending_cracks: Array[Dictionary] = []
+var _next_crack_at := 0.0
 var _next = 0
 var _closing = false
 var _refresh_elapsed = 0.0
@@ -38,7 +43,9 @@ func _ready() -> void:
 	var visual_manifest = JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/vfx/manifest.json"))
 	for item in visual_manifest.effects:
 		_effects[item.id] = item
-	var audio_manifest = AudioProfile.resolve_manifest(JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/audio/manifest.json")))
+	if _resolved_audio.is_empty():
+		_resolved_audio = AudioProfile.resolve_manifest(JSON.parse_string(FileAccess.get_file_as_string("res://VolibearArt/audio/manifest.json")))
+	var audio_manifest = _resolved_audio
 	for item in audio_manifest.cues:
 		_cues[item.id] = item
 	_mix = audio_manifest.mix_rules
@@ -203,6 +210,9 @@ func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, targe
 		play_sound(event_id, effect.audio_cue, persistent_key, lease_seconds)
 	return true
 
+func has_private_sound(cue_id: String) -> bool:
+	return _cues.has(cue_id) and str(_cues[cue_id].file).begins_with("profiles/riot_en/")
+
 func last_reject() -> String:
 	return _last_reject
 
@@ -226,6 +236,14 @@ func play_sound(event_id: String, cue_id: String, persistent_key: String = "", l
 			_last_reject = "loop-key-conflict:" + cue_id
 			return false
 		return renew_loop(persistent_key, lease_seconds)
+	var now = _now()
+	if cue_id == "sfx.lightning_chain" and (now < _next_crack_at or not _pending_cracks.is_empty()):
+		_pending_cracks.append(cue)
+		return true
+	return _start_sound(cue, persistent_key, lease_seconds)
+
+func _start_sound(cue: Dictionary, persistent_key: String, lease_seconds: float) -> bool:
+	var cue_id: String = cue.id
 	var now = _now()
 	if now - float(_cooldowns.get(cue_id, -1000.0)) < cue.cooldown_ms / 1000.0:
 		_last_reject = "cooldown:" + cue_id
@@ -263,6 +281,8 @@ func play_sound(event_id: String, cue_id: String, persistent_key: String = "", l
 	_cooldowns[cue_id] = now
 	_refresh_volumes()
 	player.play()
+	if cue_id in ["sfx.lightning_strike", "sfx.lightning_chain"]:
+		_next_crack_at = now + CRACK_INTERVAL
 	return true
 
 func _refresh_volumes() -> void:
@@ -330,6 +350,8 @@ func stop_loop(key: String, fade_audio: bool = true) -> void:
 		_stop_voice_key(key, fade_audio)
 
 func stop_all() -> void:
+	_pending_cracks.clear()
+	_next_crack_at = 0.0
 	for token in _visuals.keys():
 		_stop_visual(token)
 	for token in _voices.keys():
@@ -345,6 +367,8 @@ func active_voices() -> int:
 
 func _process(delta: float) -> void:
 	var now = _now()
+	if not _pending_cracks.is_empty() and now >= _next_crack_at:
+		_start_sound(_pending_cracks.pop_front(), "", 10.0)
 	for token in _visuals.keys():
 		var record = _visuals[token]
 		if now >= record.expires or not _position_visual(record) or (not record.effect.loop and not record.node.is_playing()):

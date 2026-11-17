@@ -124,6 +124,41 @@ def emit(name,x,label,origin,loop=False,target=-19):
         slope=np.abs(np.diff(ow));rec['loop_boundary_step']=float(abs(ow[-1]-ow[0]));rec['loop_step_p999']=float(np.quantile(slope,.999));rec['loop_samples']=len(x)
     RECORDS.append(rec);print(name,rec['duration_seconds'],rec['integrated_lufs'],rec['true_peak_dbtp'],flush=True)
     return rec
+def lightning_sounds():
+    # One transient per real segment. A group gets a distinct, rolling low tail.
+    rng = np.random.default_rng(5172027)
+    def burst(seconds, low, high, decay):
+        t = np.arange(round(seconds * SR)) / SR
+        band = norm(filt(rng.normal(size=len(t)), low, high))
+        return fade(band * np.exp(-decay * t), .001, .025)
+    crack = burst(.23, 650, 5400, 19)
+    body = burst(.76, 80, 1100, 6)
+    roll = burst(1.32, 45, 520, 3)
+    return [
+        ('lightning_strike', mix((crack, .82, 0), (body, .73, .012), (tone(.8), .26, 0)),
+         '单次雷击', 'original procedural midrange crack and thunder body'),
+        ('lightning_chain', mix((crack, .8, 0), (burst(.18, 1000, 7800, 24), .38, .016),
+                                (tone(.22, 230, 85, 16), .22, 0)),
+         '连续落雷：单段电裂', 'original procedural short follow-up for one confirmed hit'),
+        ('lightning_all', mix((crack, .82, 0), (body, .72, .018), (roll, .85, .045),
+                              (roll, .45, .20), (tone(1.36, 115, 42, 4), .33, 0)),
+         '群体雷落', 'original procedural crack with layered rolling thunder'),
+    ]
+
+def add_skill_voice_cues(cues):
+    by_id = {row['id']: row for row in cues}
+    for family, indices, fallback in [('w', (0, 1, 2, 3, 5), 'bite'),
+                                      ('e', (0, 1), 'cast'), ('r', (0, 1), 'heavy')]:
+        for index in indices:
+            cues.append(dict(by_id['voice.' + fallback], id=f'voice.{family}_{index}'))
+    # Dialogue-only variants are selected by their native event in private builds.
+    for family, count, fallback in [('attack', 19, 'attack_01'), ('firstencounter', 4, 'roar'),
+                                    ('kill', 4, 'victory'), ('respawn', 3, 'select'),
+                                    ('movefirst', 6, 'select'), ('move', 25, 'select'),
+                                    ('movelong', 18, 'select')]:
+        for index in range(count):
+            cues.append(dict(by_id['voice.' + fallback], id=f'voice.line_{family}_{index}'))
+
 def main():
     for p in ['wav','ogg','reports','previews']: (ROOT/p).mkdir(exist_ok=True)
     # Derive only the selected files, preserving the original licence and archive.
@@ -143,9 +178,7 @@ def main():
       ('guard_break',mix((metal,.45,0),(glass,.6,.08),(sweep(.30),.3,.04)),'护盾破裂','Kenney CC0 metal/glass + original air'),
       ('counter_release',mix((sweep(.22),.65,0),(thunder(.75),.6,.10)),'反击释放','original procedural sound design'),
       ('absorb',mix((sweep(.45,True),.6,0),(pulse(.65),.55,.05)),'吸收收束','original procedural sound design'),
-      ('lightning_strike',thunder(1.1),'单次雷击','original procedural filtered-noise / sub / transient design'),
-      ('lightning_chain',mix((spark(.28),.7,0),(spark(.25),.6,.13),(spark(.22),.5,.27),(thunder(.6,.5),.30,.30)),'链雷','original procedural sound design'),
-      ('lightning_all',mix((thunder(1.45,1.2),.8,0),(spark(.35),.25,.09)),'群体雷落','original procedural sound design'),
+      *lightning_sounds(),
       ('lightning_growth',mix((chime(.42),.30,0),(spark(.18),.16,.03)),'雷电成长','original procedural sound design'),
       ('domain_enter',mix((sweep(.65,True),.6,0),(thunder(1.4,1.2),.65,.42),(chime(.8),.20,.45)),'领域展开','original procedural sound design'),
       ('domain_exit',mix((pulse(.8)[::-1],.45,0),(chime(.65,True),.35,.16)),'领域消散','original procedural sound design'),
@@ -193,23 +226,31 @@ def main():
     byid={r['id']:r for r in RECORDS}
     for eid in effect_ids:
         rec=byid[aliases.get(eid,eid)]
-        CUEDATA.append({'id':'sfx.'+eid,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':rec['loop'],'bus':'Ambience' if rec['loop'] else 'Sfx','gain_db':OPEN_GAIN_DB[rec['id']],'cooldown_ms':250 if eid in ['lightning_growth','domain_suppress','card_draw'] else 60,'max_voices':1 if rec['loop'] else 4,'trigger_policy':'start_once_on_state_enter_stop_on_exit_death_room_cleanup' if rec['loop'] else 'once_per_successful_semantic_event; never per_render_frame','default_enabled':eid!='feral_aura'})
+        CUEDATA.append({'id':'sfx.'+eid,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':rec['loop'],'bus':'Ambience' if rec['loop'] else 'Sfx','gain_db':OPEN_GAIN_DB[rec['id']],'cooldown_ms':250 if eid in ['lightning_growth','domain_suppress','card_draw'] else (0 if eid in ['lightning_all','lightning_strike','lightning_chain'] else 60),'max_voices':1 if rec['loop'] else 4,'trigger_policy':'start_once_on_state_enter_stop_on_exit_death_room_cleanup' if rec['loop'] else 'once_per_successful_semantic_event; never per_render_frame','default_enabled':eid!='feral_aura'})
     for name,*_ in voice_defs:
         rec=byid['voice_'+name]
         CUEDATA.append({'id':'voice.'+name,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':False,'bus':'Voice','gain_db':OPEN_GAIN_DB[rec['id']],'cooldown_ms':1800 if name=='low_health' else 200,'max_voices':1,'trigger_policy':'semantic_action_start; deterministic cosmetic selection, not gameplay RNG','default_enabled':True})
     CUEDATA.append({'id':'sfx.footstep','asset_id':'footstep',**{k:byid['footstep'][k] for k in ['file','wav','duration_seconds','loop']},'bus':'Sfx','gain_db':OPEN_GAIN_DB['footstep'],'cooldown_ms':90,'max_voices':2,'default_enabled':True})
+    add_skill_voice_cues(CUEDATA)
     manifest={'schema_version':1,'sample_rate':SR,'channels':1,'runtime_format':'Ogg Vorbis q5; editable PCM16 WAV masters','official_character_voice':False,'spoken_dialogue':False,'cue_count':len(CUEDATA),'unique_asset_count':len(RECORDS),'cues':CUEDATA,'assets':RECORDS,'mix_rules':{'voice_bus':0,'sfx_bus':0,'ambience_bus':-6,'headroom_db':0,'master_soft_limit_dbtp':-1,'mute_voice_available':True,'loop_fade_out_ms':140,'scope':'combat/room owner; stop all owned handles on death and scene release','randomness':'separate cosmetic deterministic counter; never consume game RNG'}}
+    write_manifest(manifest)
+    make_action_cues()
+    write_overview(RECORDS)
+    print('BUILT',len(RECORDS),'assets',len(CUEDATA),'cues',flush=True)
+
+def write_manifest(manifest):
     (ROOT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     (ROOT/'manifest.js').write_text('window.VOLIBEAR_AUDIO='+json.dumps(manifest,ensure_ascii=False,separators=(',',':'))+';\n')
-    make_action_cues()
-    overview=np.concatenate([np.concatenate([decode(ROOT/r['file']),np.zeros(round(.18*SR))]) for r in RECORDS])
+
+def write_overview(records):
+    overview=np.concatenate([np.concatenate([decode(ROOT/r['file']),np.zeros(round(.18*SR))]) for r in records])
     write_wav(ROOT/'previews/audio_overview.wav',overview)
     subprocess.run(['ffmpeg','-v','error','-i',str(ROOT/'previews/audio_overview.wav'),'-c:a','libvorbis','-q:a','4','-y',str(ROOT/'previews/audio_overview.ogg')],check=True)
     segments=[];pos=0
-    for r in RECORDS:
+    for r in records:
         segments.append({'asset':r['id'],'start_seconds':round(pos,4),'end_seconds':round(pos+r['duration_seconds'],4)});pos+=r['duration_seconds']+.18
     (ROOT/'previews/audio_overview.json').write_text(json.dumps(segments,ensure_ascii=False,indent=2)+'\n')
-    print('BUILT',len(RECORDS),'assets',len(CUEDATA),'cues',flush=True)
+
 
 def make_action_cues():
     motions=json.loads((ROOT.parent/'animations/rig/motions.json').read_text());items=[]

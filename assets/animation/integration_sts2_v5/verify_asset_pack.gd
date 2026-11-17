@@ -87,7 +87,7 @@ func run() -> void:
     for item in staged.get("files",[]):
         if str(item["file"]).ends_with(".json"):
             if FileAccess.get_sha256(root+"/"+str(item["file"]))!=str(item["sha256"]):fail("Packed JSON hash mismatch "+str(item["file"]))
-    var expected_counts={"character_atlases":26,"character_frames":940,"vfx_atlases":40,"vfx_frames":1070,"audio_cues":54,"ui_textures":18,"icon_pngs":64,"icon_svgs":6,"painted_icons":10}
+    var expected_counts={"character_atlases":26,"character_frames":940,"vfx_atlases":40,"vfx_frames":1070,"audio_cues":142,"ui_textures":18,"icon_pngs":64,"icon_svgs":6,"painted_icons":10}
     for key in expected_counts:
         if counts[key]!=expected_counts[key]:fail("Unexpected count "+str(key))
     finish()

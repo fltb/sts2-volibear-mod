@@ -126,8 +126,8 @@ def decode(path):
 def verify_open(*, full_decode=True):
     profile_data('open')
     manifest = read_json(AUDIO / 'manifest.json')
-    if len(manifest['assets']) != 47 or len(manifest['cues']) != 54:
-        raise ValueError('Expected all 47 open assets and 54 cues')
+    if len(manifest['assets']) != 47 or len(manifest['cues']) != 142:
+        raise ValueError('Expected all 47 open assets and 142 cues')
     files = {}
     for row in manifest['assets']:
         for key, hash_key in (('file', 'ogg_sha256'), ('wav', 'wav_sha256')):
@@ -149,7 +149,7 @@ def verify_open(*, full_decode=True):
             raise ValueError('Open recording license/source hash mismatch')
     if 'CC0' not in (AUDIO / 'source/kenney/License.txt').read_text(encoding='utf-8'):
         raise ValueError('Missing original Kenney CC0 license')
-    return {'profile': 'open', 'assets': 47, 'cues': 54, 'cc0_recordings': len(sources),
+    return {'profile': 'open', 'assets': 47, 'cues': 142, 'cc0_recordings': len(sources),
             'decoded': full_decode, 'listening_review': 'not_claimed'}
 
 
@@ -239,7 +239,7 @@ def prepare_profile(*, fetch=False):
                'profile_sha256': digest(PROFILES / 'riot_en.json'), 'processed': processed,
                'sources': data['sources'], 'listening_review': 'not_claimed'})
     return {'profile': 'riot_en', 'processed_assets': len(processed), 'overrides': len(overrides),
-            'open_fallback_cues': 54 - len(overrides)}
+            'open_fallback_cues': 142 - len(overrides)}
 
 
 def verify_prepared(*, full_decode=True):

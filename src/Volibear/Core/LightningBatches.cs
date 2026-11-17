@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Volibear.Core;
 
+public enum LightningSound { Strike, Area, Followup }
+
 /// <summary>A read-only copy of one native damage result (including redirected damage).</summary>
 public sealed record LightningHit(Creature Receiver, int HpLost, int Blocked, int Overkill);
 
@@ -24,6 +26,7 @@ public sealed record LightningBatch(
     decimal Amount, IReadOnlyList<Creature> Targets, IReadOnlyList<LightningHit> Results,
     int CountThisTurn)
 {
+    public LightningSound Sound { get; init; }
     public int HpLost => Results.Sum(result => result.HpLost);
 }
 
