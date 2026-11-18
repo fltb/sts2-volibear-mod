@@ -30,17 +30,22 @@ public static class ModEntry
             try { run(); }
             catch (System.Exception error)
             {
-                if (!diagnostics) throw;
+                var message = "[Volibear] COMPAT_FAIL " + name + " :: " + Describe(error);
+                // Normal player logs need the failing module and shared patch target too.
+                // A missing gameplay hook must remain a visible failure, not a half-working mod.
+                GD.PushError(message);
+                if (!diagnostics)
+                    throw new System.InvalidOperationException(message, error);
                 failures.Add(name);
-                GD.Print("[Volibear] COMPAT_FAIL " + name + " :: " + Describe(error));
+                GD.Print(message);
             }
         }
 #if !STS2_BETA || VOLIBEAR_DEV_PROBES
         DomainSteamNativeObservation.PrepareForTestScenario();
 #endif
-        Presentation.VolibearPresentation.RegisterSceneConversions();
+        Step("Presentation.VolibearPresentation", Presentation.VolibearPresentation.RegisterSceneConversions);
         Step("Presentation.VolibearMerchantIntegration", () => Presentation.VolibearMerchantIntegration.Install());
-        ContentRegistry.Register();
+        Step("Content.ContentRegistry", ContentRegistry.Register);
 #if STS2_BETA
         Step("Content.VolibearEpochs", VolibearEpochs.Install);
         Step("Content.VolibearRunStory", VolibearRunStory.Install);
@@ -72,6 +77,9 @@ public static class ModEntry
         Step("Presentation.VolibearArchitectEnding", () => Presentation.VolibearArchitectEnding.Install());
         Step("Presentation.VolibearInspectPortraits", () => Presentation.VolibearInspectPortraits.Install());
         if (diagnostics) GD.Print("[Volibear] COMPAT_SUMMARY failures=" + failures.Count);
+        if (failures.Count != 0)
+            throw new System.InvalidOperationException("[Volibear] Initialization incomplete; failed modules: " +
+                string.Join(", ", failures));
 #if !STS2_BETA || VOLIBEAR_DEV_PROBES
         var expectedDirectory = System.Environment.GetEnvironmentVariable("VOLIBEAR_TEST_DATA_ROOT");
         if (!string.IsNullOrEmpty(expectedDirectory))

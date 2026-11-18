@@ -121,7 +121,7 @@ public static partial class DomainEnemySpecialContributions
             var harmony = new Harmony(HarmonyId);
             try
             {
-                foreach (var site in Sites.Keys) harmony.Patch(site, transpiler: new HarmonyMethod(Handler(nameof(Rewrite))));
+                foreach (var site in Sites.Keys) NativeTranspiler.Patch(harmony, site, transpiler: new HarmonyMethod(Handler(nameof(Rewrite))));
                 harmony.Patch(flee, prefix: new HarmonyMethod(Handler(nameof(Flee))));
                 InstallSurprise(harmony);
                 DomainSandpitEffects.Install(harmony);

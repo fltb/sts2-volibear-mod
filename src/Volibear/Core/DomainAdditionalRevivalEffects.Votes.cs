@@ -16,7 +16,7 @@ public static partial class DomainAdditionalRevivalEffects
     private static void InstallDispatch(Harmony harmony)
     {
         foreach (var name in new[] { nameof(Hook.ShouldStopCombatFromEnding), nameof(Hook.ShouldAllowHitting), nameof(Hook.ShouldCreatureBeRemovedFromCombatAfterDeath) })
-            harmony.Patch(AccessTools.Method(typeof(Hook), name), transpiler: new HarmonyMethod(Local(nameof(VoteDispatch))));
+            NativeTranspiler.Patch(harmony, AccessTools.Method(typeof(Hook), name), transpiler: new HarmonyMethod(Local(nameof(VoteDispatch))));
         // The native owner-death predicate is a noncapturing LINQ lambda, not the
         // outer RemoveAllPowersAfterDeath method. Patch its actual virtual call.
         var predicates = new[] { typeof(Creature) }.Concat(typeof(Creature).GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic))
@@ -24,7 +24,7 @@ public static partial class DomainAdditionalRevivalEffects
             .Where(m => m.Name.Contains("<RemoveAllPowersAfterDeath>", StringComparison.Ordinal) && m.ReturnType == typeof(bool) &&
                 m.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { typeof(PowerModel) })).ToArray();
         Require(predicates.Length == 1, "owner death removal predicate");
-        harmony.Patch(predicates[0], transpiler: new HarmonyMethod(Local(nameof(VoteDispatch))));
+        NativeTranspiler.Patch(harmony, predicates[0], transpiler: new HarmonyMethod(Local(nameof(VoteDispatch))));
     }
     private static bool EndingDecision(bool original, AbstractModel model)
     {

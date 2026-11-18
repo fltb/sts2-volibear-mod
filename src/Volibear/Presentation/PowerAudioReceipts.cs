@@ -59,7 +59,7 @@ internal static partial class PowerAudioReceipts
         try
         {
             foreach (var method in NativeBodies())
-                h.Patch(method, transpiler: new(typeof(PowerAudioReceipts), nameof(CommandBody)));
+                NativeTranspiler.Patch(h, method, transpiler: new(typeof(PowerAudioReceipts), nameof(CommandBody)));
             InstallPresentationCommits(h);
             installed = true;
         }

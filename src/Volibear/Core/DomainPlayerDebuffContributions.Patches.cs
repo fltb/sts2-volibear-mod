@@ -26,13 +26,13 @@ public static partial class DomainPlayerDebuffContributions
         var harmony = new Harmony(HarmonyId);
         try
         {
-            harmony.Patch(AccessTools.Method(typeof(Hook), "ModifyDamageInternal"),
+            NativeTranspiler.Patch(harmony, AccessTools.Method(typeof(Hook), "ModifyDamageInternal"),
                 transpiler: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(DamageDispatch)));
-            harmony.Patch(AccessTools.Method(typeof(Hook), nameof(Hook.ModifyBlock)),
+            NativeTranspiler.Patch(harmony, AccessTools.Method(typeof(Hook), nameof(Hook.ModifyBlock)),
                 transpiler: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(BlockDispatch)));
-            harmony.Patch(Machine(typeof(ConstrictPower), nameof(ConstrictPower.AfterSideTurnEnd)),
+            NativeTranspiler.Patch(harmony, Machine(typeof(ConstrictPower), nameof(ConstrictPower.AfterSideTurnEnd)),
                 transpiler: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(ConstrictContribution)));
-            harmony.Patch(Machine(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.AfterCardDrawn)),
+            NativeTranspiler.Patch(harmony, Machine(typeof(ChainsOfBindingPower), nameof(ChainsOfBindingPower.AfterCardDrawn)),
                 transpiler: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(ChainsDrawContribution)));
             // This nontrivial concrete method is invoked virtually through the native
             // ShouldPlay dispatcher (and its existing DomainCardContributions wrapper).

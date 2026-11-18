@@ -143,7 +143,7 @@ public static class AttackHistory
                 ?? throw new MissingMethodException("CardModel.OnPlayWrapper");
             var machine = wrapper.GetCustomAttribute<AsyncStateMachineAttribute>()?.StateMachineType
                 ?? throw new InvalidOperationException("Native play wrapper lost its state machine.");
-            harmony.Patch(AccessTools.Method(machine, "MoveNext"),
+            NativeTranspiler.Patch(harmony, AccessTools.Method(machine, "MoveNext"),
                 transpiler: new HarmonyMethod(typeof(AttackHistory), nameof(HookCallsites)));
             harmony.Patch(AccessTools.Method(typeof(CombatManager), nameof(CombatManager.Reset), [typeof(bool)]),
                 prefix: new HarmonyMethod(typeof(AttackHistory), nameof(Reset)));

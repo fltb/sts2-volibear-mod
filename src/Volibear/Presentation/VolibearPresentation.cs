@@ -22,8 +22,7 @@ public static class VolibearPresentation
     public static void RegisterSceneConversions()
     {
         if (_trailRegistered) return;
-        _ = new VolibearTrailFactory();
-        NodeFactory.RegisterSceneType<MegaCrit.Sts2.Core.Nodes.Vfx.NCardTrailVfx>(TrailScenePath);
+        VolibearTrailFactory.Install();
         _trailRegistered = true;
     }
 

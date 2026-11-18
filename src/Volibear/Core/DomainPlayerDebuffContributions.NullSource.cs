@@ -21,7 +21,7 @@ public static partial class DomainPlayerDebuffContributions
     private sealed record NullSource(Creature Source, ICombatState? Combat, HashSet<Creature> Targets);
     private static ConditionalWeakTable<PlayerChoiceContext, NullSource> nullSources = new();
 
-    private static void InstallNullSource(Harmony harmony) => harmony.Patch(
+    private static void InstallNullSource(Harmony harmony) => NativeTranspiler.Patch(harmony,
         Machine(typeof(SlimedBerserker), "LeechingHugMove"),
         transpiler: new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(BerserkerCallsite)));
 

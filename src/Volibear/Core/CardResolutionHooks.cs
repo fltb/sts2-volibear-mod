@@ -94,18 +94,18 @@ public static partial class CardResolutionHooks
                 typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(ResourceInfo), typeof(bool));
             // Native callers can inline the tiny async entry stub and bypass its
             // detour. The actual state machine is the verified lifecycle boundary.
-            harmony.Patch(MoveNext(play), transpiler: Handler(nameof(PlayMoveLifecycle)));
+            NativeTranspiler.Patch(harmony, MoveNext(play), transpiler: Handler(nameof(PlayMoveLifecycle)));
 
             // AttackCommand.Execute calls the native multi-target Damage exactly once
             // per ordinary hit. This callsite, not damage property guesses, defines a
             // segment (AOE is one segment; a three-hit builder is three segments).
-            harmony.Patch(MoveNext(Required(typeof(AttackCommand), nameof(AttackCommand.Execute),
+            NativeTranspiler.Patch(harmony, MoveNext(Required(typeof(AttackCommand), nameof(AttackCommand.Execute),
                 typeof(PlayerChoiceContext))), transpiler: Handler(nameof(AttackDamageCallsite)));
 
             // Only the Add that belongs to an actual Draw is wrapped. Retrieve/move
             // operations elsewhere are not draws, even inside another draw response.
             // PBE split the public Draw wrapper from its async body; stable keeps the body in Draw.
-            harmony.Patch(MoveNext(Required(typeof(CardPileCmd),
+            NativeTranspiler.Patch(harmony, MoveNext(Required(typeof(CardPileCmd),
 #if STS2_BETA
                 "DrawInternal",
 #else

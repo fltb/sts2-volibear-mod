@@ -16,7 +16,7 @@
 <a name="english"></a>
 ## 🌍 English
 
-**This mod is currently a test version.** Install and use a mod load-order adjustment mod; we recommend [Load Order Manager](https://steamcommunity.com/sharedfiles/filedetails/?id=3747605109). Place **Volibear immediately after BaseLib** in the load order.
+**This mod is currently a test version.** Install the matching version of **BaseLib**. Current source builds handle their patch ordering internally; a separate load-order mod and an “immediately after BaseLib” position are no longer required. See [compatibility and verification](docs/LOAD_ORDER_COMPATIBILITY.md) for the tested scope and release status.
 
 > *"Beneath stone walls, there is no wild!! They may forget the old ways, yet the old ways will never forget them."*
 
@@ -54,7 +54,7 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 <a name="简体中文"></a>
 ## 🇨🇳 简体中文
 
-**本模组目前为测试版。**请安装并使用用于调整 Mod 加载顺序的模组，推荐 [Load Order Manager](https://steamcommunity.com/sharedfiles/filedetails/?id=3747605109)。将 **Volibear 设置为 BaseLib 之后第一个加载的模组**，使两者在加载顺序中紧邻。
+**本模组目前为测试版。**请安装匹配版本的 **BaseLib**。当前源码构建由模组自行处理补丁顺序，不再要求额外安装排序模组，也不再要求 Volibear 紧邻 BaseLib。已验证范围和发布状态见[兼容性说明](docs/LOAD_ORDER_COMPATIBILITY.md)。
 
 > *“石墙之下，毫无野性！！他们或许会遗忘古道，但古道，永远不会遗忘他们。”*
 

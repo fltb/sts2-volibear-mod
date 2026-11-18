@@ -36,7 +36,7 @@ public static partial class DomainHopperEffects
         ValidateCombatCommit();
         try
         {
-            foreach (var body in Bodies.Keys) harmony.Patch(body, transpiler: new HarmonyMethod(typeof(DomainHopperEffects), nameof(Rewrite)));
+            foreach (var body in Bodies.Keys) NativeTranspiler.Patch(harmony, body, transpiler: new HarmonyMethod(typeof(DomainHopperEffects), nameof(Rewrite)));
         }
         catch { harmony.UnpatchAll(harmony.Id); throw; }
     }
@@ -58,6 +58,7 @@ public static partial class DomainHopperEffects
     }
     private static IEnumerable<CodeInstruction> Rewrite(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase __originalMethod)
     {
+        input = NativeTranspiler.WithoutUnanchoredNops(input);
         var code = input.Select(i => new CodeInstruction(i)).ToList();
         static MethodInfo[] Registrations(IEnumerable<CodeInstruction> stream) => stream
             .Where(i => i.operand is MethodInfo m && m.DeclaringType == typeof(AsyncTaskMethodBuilder) && m.Name.StartsWith("Await", StringComparison.Ordinal))

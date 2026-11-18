@@ -119,7 +119,7 @@ public static partial class DomainPlayerStatContributions
             var state = type.GetMethod(nameof(PossessStrengthPower.AfterDeath))!.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType;
             var move = state.GetMethod("MoveNext", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)!;
             _ = RewritePossess(PatchProcessor.GetOriginalInstructions(move), move).ToArray();
-            harmony.Patch(move, transpiler: new HarmonyMethod(Handler(nameof(RewritePossess))));
+            NativeTranspiler.Patch(harmony, move, transpiler: new HarmonyMethod(Handler(nameof(RewritePossess))));
         }
     }
 }

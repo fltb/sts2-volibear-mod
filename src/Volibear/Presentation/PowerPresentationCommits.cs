@@ -20,9 +20,9 @@ internal static partial class PowerAudioReceipts
     private static void InstallPresentationCommits(Harmony harmony)
     {
         PowerPresentationDomainScalars.Install(harmony);
-        harmony.Patch(AccessTools.Method(typeof(PowerModel), nameof(PowerModel.SetAmount)),
+        NativeTranspiler.Patch(harmony, AccessTools.Method(typeof(PowerModel), nameof(PowerModel.SetAmount)),
             transpiler: new(typeof(PowerAudioReceipts), nameof(AmountCommitBody)));
-        harmony.Patch(AccessTools.Method(typeof(Creature), nameof(Creature.ApplyPowerInternal)),
+        NativeTranspiler.Patch(harmony, AccessTools.Method(typeof(Creature), nameof(Creature.ApplyPowerInternal)),
             transpiler: new(typeof(PowerAudioReceipts), nameof(DeploymentCommitBody)));
     }
 

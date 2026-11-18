@@ -1,3 +1,4 @@
+using Volibear.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -256,7 +257,7 @@ internal static class PowerStackVisual
         HarmonyMethod Hook(string name) => new(typeof(PowerStackVisual), name);
         try
         {
-            harmony.Patch(LayoutMethod, prefix: Hook(nameof(LayoutPrefix)), transpiler: Hook(nameof(LayoutTranspiler)));
+            NativeTranspiler.Patch(harmony, LayoutMethod, prefix: Hook(nameof(LayoutPrefix)), transpiler: Hook(nameof(LayoutTranspiler)));
             harmony.Patch(AccessTools.DeclaredMethod(typeof(NPowerContainer), nameof(NPowerContainer._EnterTree)), postfix: Hook(nameof(ContainerEnter)));
             harmony.Patch(AccessTools.DeclaredMethod(typeof(NPower), nameof(NPower._Ready)), postfix: Hook(nameof(PowerReady)));
             harmony.Patch(AccessTools.PropertySetter(typeof(NPower), nameof(NPower.Model)), postfix: Hook(nameof(PowerChanged)));
