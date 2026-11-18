@@ -35,7 +35,7 @@ namespace Volibear.Presentation;
 public static partial class VolibearPresentationBridge
 {
     private const string HarmonyId = "Volibear.Presentation.SemanticBridge";
-    private sealed record DamageContact(string Effect);
+    private sealed record DamageContact(string Effect, CombatPresentationProfile? Profile = null, string? Key = null);
     private static readonly Dictionary<string, Motion> Motions = new(StringComparer.OrdinalIgnoreCase);
     private static readonly Dictionary<string, string> ContactEffects = new(StringComparer.OrdinalIgnoreCase);
     private static readonly Dictionary<string, string> StartVoices = new(StringComparer.Ordinal);
@@ -57,7 +57,9 @@ public static partial class VolibearPresentationBridge
         new Dictionary<string, string>
         {
             ["native.card_play_started"] = "authored primary motion + action-start voice",
-            ["native.creature_attacked"] = "claw_slash / heavy_impact / bite_hit",
+            ["native.ordinary_segment_committed"] = "card-specific physical hit at each real native segment",
+            ["native.creature_attacked"] = "result-identity-deduplicated fallback only",
+            ["native.default_animation_trigger"] = "resume current authored motion before BaseLib generic Attack/Cast",
             ["native.block_gained_positive"] = "guard_gain",
             ["native.damage_blocked_positive"] = "guard_hit",
             ["native.hp_lost_positive"] = "hurt voice/pose",
@@ -65,7 +67,7 @@ public static partial class VolibearPresentationBridge
             ["native.card_discarded"] = "card_discard",
             ["native.card_exhausted"] = "card_exhaust",
             ["native.card_replay_started"] = "card_replay",
-            ["lightning.batch_completed"] = "lightning_strike / lightning_all",
+            ["lightning.batch_completed"] = "card-specific spell; distinct domain/conduction/pool/counter provenance",
             ["native.storm_charge_increased"] = "lightning_growth",
             ["native.domain_state_transition"] = "domain_enter / domain_loop / domain_exit",
             ["engage.accepted_native_intent"] = "block telegraph pose (no invented block)",
@@ -91,11 +93,12 @@ public static partial class VolibearPresentationBridge
         var reset = Required(typeof(CombatManager), nameof(CombatManager.Reset), typeof(bool));
         var lightning = Required(typeof(LightningCmd), "DealCore",
             typeof(PlayerChoiceContext), typeof(Creature), typeof(IEnumerable<Creature>), typeof(decimal), typeof(CardModel),
-            typeof(bool), typeof(Action<IReadOnlyList<LightningHit>>), typeof(LightningSound));
+            typeof(bool), typeof(Action<IReadOnlyList<LightningHit>>), typeof(LightningSound), typeof(LightningVisualOrigin));
         var engage = Required(typeof(EngageCmd), nameof(EngageCmd.Perform),
             typeof(PlayerChoiceContext), typeof(Creature), typeof(CardModel));
         var intent = Required(typeof(NCreature), nameof(NCreature.PerformIntent));
         var harmony = new Harmony(HarmonyId);
+        InstallCombatPresentation(harmony);
         harmony.Patch(Required(typeof(NRestSiteRoom), "OnAfterPlayerSelectedRestSiteOption",
             typeof(RestSiteOption), typeof(bool), typeof(ulong)), postfix: Handler(nameof(RestSiteOptionChosen)));
         harmony.Patch(ready, postfix: Handler(nameof(RoomReady)));
@@ -206,7 +209,7 @@ public static partial class VolibearPresentationBridge
         foreach (var row in cards.RootElement.GetProperty("cards").EnumerateArray())
         {
             string key = row.GetProperty("asset_key").GetString()!;
-            Motions[key] = ReadMotion(row.GetProperty("primary_motion"));
+            Motions[key] = CombatMotion(key, ReadMotion(row.GetProperty("primary_motion")));
             if (ReadContactEffect(row) is { } contact) ContactEffects[key] = contact;
         }
         using var voicesFile = Godot.FileAccess.Open("res://VolibearArt/audio/action_cues.json", Godot.FileAccess.ModeFlags.Read)
@@ -264,6 +267,7 @@ public static partial class VolibearPresentationBridge
         _room = null;
         previous?.Dispose();
         DamageContacts = new();
+        PresentedPhysical = new();
         while (Pending.TryDequeue(out _)) { }
     }
     private static void RoomReady(NCombatRoom __instance) => Dispatch("room_ready", () =>
@@ -309,22 +313,21 @@ public static partial class VolibearPresentationBridge
                 break;
             case DamageReceivedEntry damage:
                 if (Bear(damage.Dealer))
-                    DamageContacts.GetValue(damage.Result, _ => new DamageContact(ContactEffectFor(damage.CardSource)));
+                    DamageContacts.GetValue(damage.Result, _ => new DamageContact(ContactEffectFor(damage.CardSource),
+                        CombatPresentationCatalog.For(MotionKey(damage.CardSource)), MotionKey(damage.CardSource)));
                 room.GetOwner(damage.Receiver)?.Incoming(damage.Result, id);
                 break;
             case CreatureAttackedEntry attack:
                 if (room.GetOwner(attack.Actor) is { } attacker)
                 {
-                    for (int i = 0; i < attack.DamageResults.Count; i++)
-                    {
-                        var result = attack.DamageResults[i];
-                        string effect = DamageContacts.TryGetValue(result, out var contact) ? contact.Effect : "claw_slash";
-                        attacker.AtTarget(id + ":hit:" + i, effect, result.Receiver);
-                    }
+                    // Ordinary segments already appeared at their real completion boundary.
+                    // Keep history only as a result-identity-deduplicated fallback.
+                    attacker.PhysicalSegment(null, attack.DamageResults, id);
                 }
                 break;
             case BlockGainedEntry block when block.Amount > 0:
                 room.GetOwner(block.Receiver)?.AtOwner(id, "guard_gain");
+                room.GetOwner(block.Receiver)?.BlockAccent(id + ":shape", block.CardPlay);
                 room.GetOwner(block.Receiver)?.BlockMotion(block.CardPlay);
                 break;
             case CardDrawnEntry draw:
@@ -425,7 +428,11 @@ public static partial class VolibearPresentationBridge
                 !ReferenceEquals(invocation.Receiver.CombatState, invocation.Combat)) return;
             var scope = Owner(invocation.Receiver);
             if (!invocation.Grouped) scope?.ForcedMotion(invocation.Motion);
-            if (result.Absorbed > 0) scope?.AtOwner(invocation.Id + ":absorbed", "absorb");
+            if (result.Absorbed > 0)
+            {
+                scope?.AtOwner(invocation.Id + ":absorbed", "absorb");
+                scope?.CombatAccent(invocation.Id + ":absorb_shape", "absorb");
+            }
         });
     }
     private static Exception? FinishEngageInvocation(Exception? __exception, EngageObservation? __state)
@@ -536,6 +543,7 @@ public static partial class VolibearPresentationBridge
         private bool _disposed;
         private bool _dead;
         private bool _combatStopped;
+        private bool _endingSuspended;
         private bool _domain;
         private bool _lowHealth;
         private sealed record CapturedCard(Vector2 Center, Vector2? Cost, ulong View, ulong At);
@@ -617,14 +625,17 @@ public static partial class VolibearPresentationBridge
                     return Task.CompletedTask;
                 });
         }
-        private void Lightning(LightningBatch batch)
+        internal void Lightning(LightningBatch batch)
         {
-            if (!Live || !ReferenceEquals(batch.Combat, _room.Combat) || !ReferenceEquals(batch.Owner, _owner)) return;
+            if (!ContactLive || !ReferenceEquals(batch.Combat, _room.Combat) || !ReferenceEquals(batch.Owner, _owner) ||
+                !_shownLightning.Add(batch.Id)) return;
+            _shownLightningOrder.Enqueue(batch.Id);
+            if (_shownLightningOrder.Count > 4096) _shownLightning.Remove(_shownLightningOrder.Dequeue());
             var actual = batch.Results.Select(hit => hit.Receiver).Distinct(ReferenceEqualityComparer.Instance).Cast<Creature>().ToArray();
             string effect = batch.Sound == LightningSound.Area || actual.Length > 1 ? "lightning_all" : "lightning_strike";
             string cue = batch.Sound == LightningSound.Followup ? "sfx.lightning_chain" : "sfx." + effect;
             string id = $"lightning:{batch.Id}";
-            foreach (var target in actual) AtTarget(id, effect, target, sound: false);
+            LightningVisuals(batch, id);
             // One confirmed sound per batch, even when a target node has already disappeared.
             _effects.PlaySound(id, cue);
         }
@@ -660,9 +671,11 @@ public static partial class VolibearPresentationBridge
         internal void CardStarted(CardPlay play, string id)
         {
             if (!Live) return;
+            BeginCombatPlay(play);
             if (play.PlayIndex > 0)
             {
                 AtCard(id, "card_replay", play.Card);
+                CombatAccent(id + ":echo", "replay_echo");
                 return; // Repeated effects retain the original paid play's primary motion.
             }
             BeginMotion(play, id);
@@ -671,7 +684,11 @@ public static partial class VolibearPresentationBridge
         internal void Incoming(DamageResult result, string id)
         {
             if (!Live) return;
-            if (result.BlockedDamage > 0) AtOwner(id, "guard_hit");
+            if (result.BlockedDamage > 0)
+            {
+                AtOwner(id, "guard_hit");
+                CombatAccent(id + ":guard", "guard");
+            }
             if (result.UnblockedDamage > 0)
             {
                 Pose(_domain ? "domain_hurt" : "hurt");
@@ -735,7 +752,11 @@ public static partial class VolibearPresentationBridge
             var node = CardAnchor(receipt.Card);
             if (Valid(node) && CardId(receipt.Card) is { } cardId && TryCardAnchors(node!,
                     receipt.Effect == "card_retrieve" ? receipt.From : null, false, out var anchors))
+            {
                 _effects.Emit(id, receipt.Effect, anchors, cardId);
+                if (receipt.Effect == "card_purify")
+                    _effects.EmitSynergy(id + ":purify_shape", "purify", anchors with { Owner = node! }, cardId);
+            }
             // Hidden/removed native cards have no invented card or guessed screen position.
         }
         private static NCard? FindVisibleCard(Node root, CardModel model)
@@ -863,6 +884,7 @@ public static partial class VolibearPresentationBridge
             if (!Valid(_node) && _room.NodeFor(_owner) is { } rebound) _node = rebound;
             if (!_owner.IsAlive) { if (!_dead) Died(_owner); return; }
             if (!Live) return;
+            _endingSuspended = false;
             TickSemanticVisuals();
             SubscribeLightning();
             UpdateDomain(announce: false);
@@ -912,11 +934,16 @@ public static partial class VolibearPresentationBridge
         });
         internal void SuspendEnding()
         {
+            if (_disposed || _combatStopped || _endingSuspended) return;
+            _endingSuspended = true;
             StopSemanticVisuals(false);
-            ClearMotions();
+            StopMotionVisual();
+            ++_motionAction;
             _domain = false;
             ReleaseSpiritForm();
-            _effects.StopAll();
+            // The final native damage result may arrive after IsEnding. Keep its
+            // play identity and dedup ledger until teardown, and let hit tails expire.
+            _effects.StopPersistent();
             ReleaseCapturedAnchors(all: true);
         }
         internal void StopCombat()

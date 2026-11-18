@@ -104,7 +104,10 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <NuGetAudit>false</NuGetAudit><RestoreIgnoreFailedSources>true</RestoreIgnoreFailedSources>
   </PropertyGroup>
-  <ItemGroup><Compile Include="''' + str(LOCALIZATION) + '''" Link="VolibearLoc.cs" /></ItemGroup>
+  <ItemGroup>
+    <Compile Include="''' + str(LOCALIZATION) + '''" Link="VolibearLoc.cs" />
+    <Compile Include="''' + str(SOURCE.with_name('CombatPresentationCatalog.cs')) + '''" Link="CombatPresentationCatalog.cs" />
+  </ItemGroup>
 </Project>''', encoding='utf-8')
         result = cls.invoke('build', str(project), '-c', 'Release', '--nologo')
         if result.returncode:
@@ -132,7 +135,7 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
     def test_native_audio_suppresses_only_this_characters_nonexistent_defaults(self):
         self.run_case('native-audio')
 
-    def test_character_localization_merges_on_reload_and_has_complete_native_keys(self):
+    def test_character_localization_resources_and_menu_reload_have_complete_native_keys(self):
         self.run_case('character-compat')
 
     def test_physical_contacts_follow_all_approved_card_cues(self):
@@ -146,7 +149,8 @@ class PresentationBridgeBehaviorTests(unittest.TestCase):
         self.assertRegex(install, r'var lightning = Required\(typeof\(LightningCmd\), "DealCore",\s*'
                          r'typeof\(PlayerChoiceContext\), typeof\(Creature\), typeof\(IEnumerable<Creature>\), '
                          r'typeof\(decimal\), typeof\(CardModel\),\s*'
-                         r'typeof\(bool\), typeof\(Action<IReadOnlyList<LightningHit>>\), typeof\(LightningSound\)\);')
+                         r'typeof\(bool\), typeof\(Action<IReadOnlyList<LightningHit>>\), typeof\(LightningSound\), '
+                         r'typeof\(LightningVisualOrigin\)\);')
         self.assertIn('harmony.Patch(lightning, prefix: Handler(nameof(BeforeLightning)));', install)
         lightning = (ROOT / 'src/Volibear/Content/LightningCmd.cs').read_text(encoding='utf-8')
         self.assertEqual(lightning.count('private static async Task<int> DealCore('), 1)

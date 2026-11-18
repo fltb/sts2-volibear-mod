@@ -73,7 +73,7 @@ class AssetTests(unittest.TestCase):
     def test_ui_scenes_use_native_types_and_no_borrowed_character(self):
         expected = {'volibear_icon.tscn', 'volibear_energy.tscn', 'volibear_rest.tscn',
                     'volibear_merchant.tscn', 'volibear_trail.tscn', 'volibear_transition.tres',
-                    'volibear_transition.gdshader', 'volibear_effects.tscn', 'effects.gd',
+                    'volibear_transition.gdshader', 'volibear_effects.tscn', 'effects.gd', 'combat_vfx.gd',
                     'energy.gd', 'audio_profile.gd'}
         self.assertEqual(expected, set(assets.NATIVE_RESOURCES))
         for name in expected:

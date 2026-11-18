@@ -44,20 +44,34 @@ public static class LightningCmd
     public static Task<int> DealAllEnemies(PlayerChoiceContext choiceContext, Creature owner,
                                            decimal amount, CardModel? card = null,
                                            ICombatState? state = null)
+        => DealAllEnemiesWithVisual(choiceContext, owner, amount, card, LightningVisualOrigin.Passive, state);
+
+    // Same settlement entry, with presentation provenance only. Existing public signatures stay valid.
+    internal static Task<int> DealAllEnemiesWithVisual(PlayerChoiceContext choiceContext, Creature owner,
+        decimal amount, CardModel? card, LightningVisualOrigin visualOrigin, ICombatState? state = null)
     {
         var combat = state ?? owner.CombatState;
         if (combat is null || !ReferenceEquals(combat, owner.CombatState)) return Task.FromResult(0);
-        return DealCore(choiceContext, owner, combat.Enemies, amount, card, nativeCardOrigin: false, sound: LightningSound.Area);
+        return DealCore(choiceContext, owner, combat.Enemies, amount, card, nativeCardOrigin: false,
+            sound: LightningSound.Area, visualOrigin: visualOrigin);
     }
 
     public static Task<int> Deal(PlayerChoiceContext choiceContext, Creature owner,
                                  IEnumerable<Creature> targets, decimal amount, CardModel? card = null) =>
-        DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false);
+        DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false,
+            visualOrigin: LightningVisualOrigin.Passive);
 
     public static Task<int> Deal(PlayerChoiceContext choiceContext, Creature owner,
                                        IEnumerable<Creature> targets, decimal amount, CardModel? card,
                                         Action<IReadOnlyList<LightningHit>>? onResolved) =>
-        DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false, onResolved);
+        DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false, onResolved,
+            visualOrigin: LightningVisualOrigin.Passive);
+
+    internal static Task<int> DealWithVisual(PlayerChoiceContext choiceContext, Creature owner,
+        IEnumerable<Creature> targets, decimal amount, CardModel? card, LightningVisualOrigin visualOrigin,
+        Action<IReadOnlyList<LightningHit>>? onResolved = null) =>
+        DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false, onResolved,
+            visualOrigin: visualOrigin);
 
     internal static Task<int> DealRepeatedHit(PlayerChoiceContext context, Creature target,
         decimal amount, CardModel card, int hitIndex) =>
@@ -66,7 +80,8 @@ public static class LightningCmd
 
     private static async Task<int> DealCore(PlayerChoiceContext choiceContext, Creature owner,
         IEnumerable<Creature> targets, decimal amount, CardModel? card, bool nativeCardOrigin,
-        Action<IReadOnlyList<LightningHit>>? onResolved = null, LightningSound sound = LightningSound.Strike)
+        Action<IReadOnlyList<LightningHit>>? onResolved = null, LightningSound sound = LightningSound.Strike,
+        LightningVisualOrigin visualOrigin = LightningVisualOrigin.Card)
     {
         ArgumentNullException.ThrowIfNull(owner);
         ArgumentNullException.ThrowIfNull(targets);
@@ -83,6 +98,7 @@ public static class LightningCmd
             target.Side != owner.Side && target.IsHittable && seen.Add(target)).ToArray();
         if (living.Length == 0) return 0;
         var charge = StormChargePower.Current(owner);
+        var presentationPlayId = card is null ? null : CardResolutionHooks.CurrentPlayId(card);
         // R06/U10 affect ONLY the card's own native lightning, including dynamic
         // R07/R09 values. Explicit-owner domain/passive batches never inherit them,
         // even if they carry a source card for presentation. U12 affects EVERY batch.
@@ -119,7 +135,9 @@ public static class LightningCmd
                 {
                     var batch = new LightningBatch(ticket.Id, combat, owner, card,
                         ticket.Round, ticket.PlayerTurn, amount, charge, snapshotAmount,
-                        Array.AsReadOnly(living), Array.AsReadOnly(results), count) { Sound = sound };
+                        Array.AsReadOnly(living), Array.AsReadOnly(results), count)
+                    { Sound = sound, VisualOrigin = visualOrigin, PresentationPlayId = presentationPlayId };
+                    LightningBatches.Present(batch);
                     await LightningBatches.Notify(choiceContext, scope, batch);
                 }
             }

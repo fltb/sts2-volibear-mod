@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading;
+using Volibear.Presentation;
 
 static class Program
 {
@@ -223,33 +225,54 @@ static class Program
         }
         else if (name == "character-compat")
         {
-            var table = new MegaCrit.Sts2.Core.Localization.LocTable();
-            table.Values["OTHER_CHARACTER.title"] = "Unrelated character";
-            Volibear.Content.VolibearLoc.AfterGetTable("characters", ref table);
-            foreach (string key in new[] { "title", "titleObject", "description", "pronounSubject", "pronounObject",
-                "pronounPossessive", "possessiveAdjective", "cardsModifierTitle", "cardsModifierDescription",
-                "eventDeathPrevention", "aromaPrinciple", "goldMonologue", "banter.alive.endTurnPing", "banter.dead.endTurnPing" })
-                Need(table.Values.TryGetValue("VOLIBEAR_CHARACTER." + key, out var text) && !string.IsNullOrWhiteSpace(text),
-                    "Actual native character key must resolve: " + key);
-            Need(table.Values["OTHER_CHARACTER.title"] == "Unrelated character", "Localization must preserve other characters");
-            Need(!table.Values["VOLIBEAR_CHARACTER.eventDeathPrevention"].Contains("{0}"),
-                "The native death-prevention getter supplies no unnamed format argument");
-            var reloaded = new MegaCrit.Sts2.Core.Localization.LocTable();
-            Volibear.Content.VolibearLoc.AfterGetTable("characters", ref reloaded);
-            Need(reloaded.Values["VOLIBEAR_CHARACTER.cardsModifierTitle"] == table.Values["VOLIBEAR_CHARACTER.cardsModifierTitle"],
-                "A newly loaded native language table receives the same complete character text");
-            var relics = new MegaCrit.Sts2.Core.Localization.LocTable();
-            Volibear.Content.VolibearLoc.AfterGetTable("relics", ref relics);
-            Need(relics.Values.ContainsKey("SEA_GLASS.VOLIBEAR_CHARACTER.title"), "The native character-specific Sea Glass title resolves");
-            var ancients = new MegaCrit.Sts2.Core.Localization.LocTable();
-            Volibear.Content.VolibearLoc.AfterGetTable("ancients", ref ancients);
-            string[] expected = ["THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-0r.ancient",
-                "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-1r.char", "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-2r.ancient",
-                "THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.0-3r.char"];
-            var buttons = expected.SkipLast(1).Select(line => line[..line.LastIndexOf('.')] + ".next");
-            Need(ancients.Values.Keys.Order().SequenceEqual(expected.Concat(buttons).Order()),
-                "The finale has one contiguous conversation, with the native repeat suffix on every line");
-            Need(ancients.Values.Values.All(text => !string.IsNullOrWhiteSpace(text)), "Every finale line contains finished text");
+            Godot.FileAccess.Repository = args[1];
+            var manager = MegaCrit.Sts2.Core.Localization.LocManager.Instance;
+            manager.Reload("zhs");
+            Volibear.Content.VolibearLoc.Register();
+            Need(HarmonyLib.Harmony.Patches.Single().Original.Name == "Initialize",
+                "Production localization registers at the native initialization boundary");
+            Need(manager.LocaleSubscriptions == 1, "Production localization observes native locale changes");
+            foreach (var language in new[] { "zhs", "zht", "eng" })
+            {
+                // Native JSON loading is a boundary double; the shipped text and the
+                // production Register/locale callbacks are the subjects of this test.
+                manager.Reload(language);
+                var table = manager.GetTable("characters");
+                foreach (string key in new[] { "title", "titleObject", "description", "pronounSubject", "pronounObject",
+                    "pronounPossessive", "possessiveAdjective", "cardsModifierTitle", "cardsModifierDescription",
+                    "eventDeathPrevention", "aromaPrinciple", "goldMonologue", "banter.alive.endTurnPing", "banter.dead.endTurnPing" })
+                    Need(table.Values.TryGetValue("VOLIBEAR_CHARACTER." + key, out var text) && !string.IsNullOrWhiteSpace(text),
+                        "Actual native character key must resolve: " + key);
+                Need(table.Values["OTHER_CHARACTER.title"] == "Unrelated character", "Localization must preserve other characters");
+                Need(!table.Values["VOLIBEAR_CHARACTER.eventDeathPrevention"].Contains("{0}"),
+                    "The native death-prevention getter supplies no unnamed format argument");
+                manager.Reload(language);
+                var reloaded = manager.GetTable("characters");
+                Need(!ReferenceEquals(table, reloaded), "Locale reload uses a fresh native table boundary");
+                Need(reloaded.Values["VOLIBEAR_CHARACTER.cardsModifierTitle"] == table.Values["VOLIBEAR_CHARACTER.cardsModifierTitle"],
+                    "A newly loaded native language table receives the same complete character text");
+                var relics = manager.GetTable("relics");
+                Need(relics.Values.ContainsKey("SEA_GLASS.VOLIBEAR_CHARACTER.title"), "The native character-specific Sea Glass title resolves");
+                var ancients = manager.GetTable("ancients");
+                // docs/review/沃利贝尔剧情最终定稿.md and the 2026-11-14 handoff replace
+                // the earlier single repeating conversation with four authored groups.
+                string[][] speakers = [["char", "ancient", "char"], ["ancient", "char", "ancient"],
+                    ["ancient", "char"], ["char", "ancient", "char"]];
+                var expected = speakers.SelectMany((group, index) => group.Select((speaker, line) =>
+                    $"THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.{index}-{line}{(index == 3 ? "r" : "")}.{speaker}")).ToArray();
+                var buttons = speakers.SelectMany((group, index) => Enumerable.Range(0, group.Length - 1).Select(line =>
+                    $"THE_ARCHITECT.talk.VOLIBEAR_CHARACTER.{index}-{line}{(index == 3 ? "r" : "")}.next"));
+                Need(ancients.Values.Keys.Where(key => key.StartsWith("THE_ARCHITECT.")).Order()
+                    .SequenceEqual(expected.Concat(buttons).Order()),
+                    "The finale has four contiguous authored groups, with only the fourth group repeatable");
+                Need(ancients.Values.Values.All(text => !string.IsNullOrWhiteSpace(text)), "Every finale line contains finished text");
+                var manifest = MegaCrit.Sts2.Core.Modding.ModManager.Mods[0].manifest!;
+                Need(manifest.name == reloaded.Values["VOLIBEAR_MOD.title"] &&
+                    manifest.description == reloaded.Values["VOLIBEAR_MOD.description"],
+                    "Native language reload refreshes the loaded mod menu from current resource text");
+                Need(MegaCrit.Sts2.Core.Modding.ModManager.Mods[1].manifest!.name == "Other mod",
+                    "Localization must preserve other loaded mod manifests");
+            }
             var character = new CharacterAssets();
             string[] paths = [character.CustomArmPointingTexturePath, character.CustomArmRockTexturePath,
                 character.CustomArmPaperTexturePath, character.CustomArmScissorsTexturePath];
@@ -371,6 +394,8 @@ sealed class Effects
         Visuals.Add(new(effect, anchors));
         return true;
     }
+    internal bool EmitSynergy(string id, string style, EffectAnchors anchors, string targetId = "") =>
+        Emit(id, style, anchors, targetId, sound: false);
 }
 
 sealed class OwnerScope
@@ -387,7 +412,7 @@ sealed class OwnerScope
         _room.Combat.LocalPlayer ??= _owner.Player;
         _node = new(_owner);
     }
-    private bool _disposed = false, _combatStopped = false, _dead = false, _domain = false, _lowHealth;
+    private bool _disposed = false, _combatStopped = false, _dead = false, _domain = false, _lowHealth, _endingSuspended;
     private readonly string _domainKey = "domain";
     internal bool Playable;
     private bool Live => Playable && !_dead && !_disposed && !_combatStopped;
@@ -425,6 +450,10 @@ sealed class OwnerScope
     private void RefreshIdle() { }
     private static string MotionKey(CardModel card) => card.Key;
     private void BeginMotion(CardPlay _, string id) => PrimaryStarts++;
+    // Dedicated combat bookkeeping and shape dispatch are exercised by the complete
+    // production bridge in test_combat_presentation, not simulated in this fixture.
+    private void BeginCombatPlay(CardPlay _) { }
+    private void CombatAccent(string id, string style, Creature? target = null) { }
     internal void AtTarget(string id, string effect, Creature _) { }
     private void Pose(string clip) => Poses.Add(clip);
     private void BatchingBeastMotion(CardModel? _) { }
@@ -442,6 +471,7 @@ static class ContactRouting
     private static readonly Dictionary<string, string> StartVoices = new();
     private static string? MotionKey(CardModel? card) => card?.Key;
     private static string ReadMotion(JsonElement row) => row.GetProperty("clip").GetString()!;
+    private static string CombatMotion(string key, string previous) => CombatPresentationCatalog.For(key).Motion;
     internal static int MotionCount => Motions.Count;
     internal static void Load() => ReadMetadata();
     internal static string For(CardModel? card) => ContactEffectFor(card);
@@ -507,7 +537,59 @@ namespace MegaCrit.Sts2.Core.Localization
     sealed class LocManager
     {
         internal static LocManager Instance { get; } = new();
-        internal LocTable GetTable(string _) => new();
+        internal string Language = "zhs";
+        private readonly Dictionary<string, LocTable> tables = [];
+        private readonly List<Action> localeChanged = [];
+        internal int LocaleSubscriptions => localeChanged.Count;
+        internal LocTable GetTable(string name) => tables[name];
+        internal void Initialize() { }
+        internal void SubscribeToLocaleChange(Action callback) => localeChanged.Add(callback);
+        internal void Reload(string language)
+        {
+            Language = language;
+            tables.Clear();
+            foreach (string name in new[] { "characters", "relics", "ancients" })
+            {
+                var table = new LocTable();
+                if (name == "characters") table.Values["OTHER_CHARACTER.title"] = "Unrelated character";
+                table.MergeWith(JsonSerializer.Deserialize<Dictionary<string, string>>(Godot.FileAccess.GetFileAsString(
+                    $"res://Volibear/localization/{language}/{name}.json"))!);
+                tables[name] = table;
+            }
+            foreach (var callback in localeChanged.ToArray()) callback();
+        }
+    }
+    sealed class LocString(string table, string key)
+    {
+        internal static bool Exists(string table, string key) => LocManager.Instance.GetTable(table).Values.ContainsKey(key);
+        internal string GetFormattedText() => LocManager.Instance.GetTable(table).Values[key];
+    }
+}
+
+namespace HarmonyLib
+{
+    static class AccessTools
+    {
+        internal static MethodInfo Method(Type type, string name) => type.GetMethod(name,
+            BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)!;
+    }
+    sealed class HarmonyMethod(Type type, string name) { internal MethodInfo Method = AccessTools.Method(type, name); }
+    sealed class Harmony(string owner)
+    {
+        internal static readonly List<(MethodInfo Original, HarmonyMethod Postfix)> Patches = [];
+        internal void Patch(MethodInfo original, HarmonyMethod postfix) => Patches.Add((original, postfix));
+    }
+}
+
+namespace MegaCrit.Sts2.Core.Modding
+{
+    sealed class Manifest(string id, string name)
+    { internal string id = id, name = name, description = ""; }
+    sealed class LoadedMod(Manifest manifest) { internal Manifest? manifest = manifest; }
+    static class ModManager
+    {
+        internal static readonly List<LoadedMod> Mods = [new(new("Volibear", "Volibear")), new(new("Other", "Other mod"))];
+        internal static IEnumerable<LoadedMod> GetLoadedMods() => Mods;
     }
 }
 
@@ -526,6 +608,8 @@ namespace Godot
         internal enum ModeFlags { Read }
         internal static FileAccess Open(string resource, ModeFlags _) => new(Path.Combine(Repository,
             resource.Replace("res://VolibearArt/", "assets/animation/")));
+        internal static string GetFileAsString(string resource) => File.ReadAllText(Path.Combine(Repository,
+            resource.Replace("res://Volibear/localization/", "assets/localization/")));
         internal string GetAsText() => File.ReadAllText(path);
         public void Dispose() { }
     }
