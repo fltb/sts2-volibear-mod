@@ -113,18 +113,18 @@ public static partial class CardResolutionHooks
                 typeof(PlayerChoiceContext), typeof(Creature), typeof(bool), typeof(ResourceInfo), typeof(bool));
             // Native callers can inline the tiny async entry stub and bypass its
             // detour. The actual state machine is the verified lifecycle boundary.
-            harmony.Patch(MoveNext(play), transpiler: Handler(nameof(PlayMoveLifecycle)));
+            NativeTranspiler.Patch(harmony, MoveNext(play), transpiler: Handler(nameof(PlayMoveLifecycle)));
 
             // AttackCommand.Execute calls the native multi-target Damage exactly once
             // per ordinary hit. This callsite, not damage property guesses, defines a
             // segment (AOE is one segment; a three-hit builder is three segments).
-            harmony.Patch(MoveNext(Required(typeof(AttackCommand), nameof(AttackCommand.Execute),
+            NativeTranspiler.Patch(harmony, MoveNext(Required(typeof(AttackCommand), nameof(AttackCommand.Execute),
                 typeof(PlayerChoiceContext))), transpiler: Handler(nameof(AttackDamageCallsite)));
 
             // Only the Add that belongs to an actual Draw is wrapped. Retrieve/move
             // operations elsewhere are not draws, even inside another draw response.
             // PBE split the public Draw wrapper from its async body; stable keeps the body in Draw.
-            harmony.Patch(MoveNext(Required(typeof(CardPileCmd),
+            NativeTranspiler.Patch(harmony, MoveNext(Required(typeof(CardPileCmd),
 #if STS2_BETA
                 "DrawInternal",
 #else
@@ -250,7 +250,7 @@ public static partial class CardResolutionHooks
         Current.Value = frame.Previous;
     }
 
-    private static IEnumerable<CodeInstruction> AttackDamageCallsite(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> AttackDamageCallsite(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
         var native = Required(typeof(CreatureCmd), nameof(CreatureCmd.Damage), typeof(PlayerChoiceContext),
             typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
@@ -258,7 +258,9 @@ public static partial class CardResolutionHooks
             , typeof(CardPlay), typeof(ModifyDamageHookType)
 #endif
             );
-        return ReplaceOneCall(instructions, native, OrdinaryAttackCallsiteV1);
+        return NativeAwaitedCall.Compose(instructions, generator, native,
+            AccessTools.Method(typeof(CardResolutionHooks), nameof(CaptureOrdinaryAttack)),
+            AccessTools.Method(typeof(CardResolutionHooks), nameof(ComposeOrdinaryAttackAwaiter)));
     }
 
     private static IEnumerable<CodeInstruction> DrawAddCallsite(IEnumerable<CodeInstruction> instructions,
@@ -292,45 +294,53 @@ public static partial class CardResolutionHooks
         return code;
     }
 
-    // Versioned same-assembly contract: exactly one ordinary AttackCommand hit enters
-    // this callsite. Cooperators may wrap its native dispatch, never skip the pipeline
-    // or infer a paid play/segment from flags, amount, dealer, or a private helper name.
     internal const string OrdinaryAttackOwnerV1 = "Volibear.CardResolution";
-    internal static MethodInfo OrdinaryAttackCallsiteV1 => Required(typeof(CardResolutionHooks), nameof(OrdinaryAttackSegmentV1),
-        typeof(PlayerChoiceContext), typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
-#if STS2_BETA
-        , typeof(CardPlay), typeof(ModifyDamageHookType)
-#endif
-        );
-    internal static Task<IEnumerable<DamageResult>> OrdinaryAttackSegmentV1(PlayerChoiceContext context,
+
+    // Captured at the verified ordinary-hit callsite, before native/foreign dispatch.
+    // A wrapper may suspend or run nested plays before producing its final results;
+    // the paid identity belongs to this descriptor, never the later ambient scope.
+    internal sealed class OrdinaryAttackObservation(PlayScope? scope, PlayerChoiceContext context,
+        ValueProp props, Creature? dealer, CardModel? card)
+    {
+        internal readonly PlayScope? Scope = scope;
+        internal readonly PlayerChoiceContext Context = context;
+        internal readonly ValueProp Props = props;
+        internal readonly ICombatState? Combat = dealer?.CombatState;
+        internal readonly Creature? Dealer = dealer;
+        internal readonly CardModel? Card = card;
+    }
+
+    private readonly struct ExistingDamageAwaitable(TaskAwaiter<IEnumerable<DamageResult>> awaiter)
+    {
+        public TaskAwaiter<IEnumerable<DamageResult>> GetAwaiter() => awaiter;
+    }
+
+    private static OrdinaryAttackObservation CaptureOrdinaryAttack(PlayerChoiceContext context,
         IEnumerable<AttackTarget> targets, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
 #if STS2_BETA
         , CardPlay? cardPlay, ModifyDamageHookType hookType
 #endif
-        ) =>
-        OrdinaryAttackPipelineV1(context, props, dealer, cardSource, () => CreatureCmd.Damage(context, targets, amount, props, dealer, cardSource
-#if STS2_BETA
-            , cardPlay, hookType
-#endif
-            ));
+        ) => new(Current.Value, context, props, dealer, cardSource);
 
-    // The dispatcher is called once, synchronously before the first await. It returns
-    // the genuine native result task. Domain and responders remain owned here, in the
-    // captured paid scope, and run only after that task completes successfully.
-    internal static async Task<IEnumerable<DamageResult>> OrdinaryAttackPipelineV1(PlayerChoiceContext context,
-        ValueProp props, Creature? dealer, CardModel? cardSource, Func<Task<IEnumerable<DamageResult>>> nativeDamage)
+    private static TaskAwaiter<IEnumerable<DamageResult>> ComposeOrdinaryAttackAwaiter(
+        TaskAwaiter<IEnumerable<DamageResult>> native, OrdinaryAttackObservation observation) =>
+        CompleteOrdinaryAttack(native, observation).GetAwaiter();
+
+    // Shared by the live native consumer and managed contribution probes. Both retain
+    // the exact captured scope and await the complete native/foreign operation before
+    // Domain, then snapshot ordinary responders only after Domain has drained.
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    internal static async Task<IEnumerable<DamageResult>> CompleteOrdinaryAttack(
+        TaskAwaiter<IEnumerable<DamageResult>> native, OrdinaryAttackObservation observation)
     {
-        var scope = Current.Value;
-        var presentationCombat = dealer?.CombatState;
-        var results = (await nativeDamage()).ToArray();
-        PresentOrdinarySegment(presentationCombat, dealer, cardSource, scope, results);
+        var results = (await new ExistingDamageAwaitable(native)).ToArray();
+        var scope = observation.Scope;
+        PresentOrdinarySegment(observation.Combat, observation.Dealer, observation.Card, scope, results);
         if (scope is not null && !scope.Gate.Closed && results.Length > 0 &&
-            ReferenceEquals(cardSource, scope.Card) && ReferenceEquals(dealer, scope.Card.Owner.Creature) &&
-            props.HasFlag(ValueProp.Move))
+            ReferenceEquals(observation.Card, scope.Card) && ReferenceEquals(observation.Dealer, scope.Card.Owner.Creature) &&
+            observation.Props.HasFlag(ValueProp.Move))
         {
-            await DomainPower.AttachAfterOrdinarySegment(context, scope);
-            // Reference hitResolved/Domain drains before attackSegmentResolved.
-            // Capture power order here, AFTER Domain, not before its reactions.
+            await DomainPower.AttachAfterOrdinarySegment(observation.Context, scope);
             if (scope.Card.Type == CardType.Attack)
             {
                 var owner = scope.Card.Owner.Creature;
@@ -338,11 +348,20 @@ public static partial class CardResolutionHooks
                 foreach (var responder in responders)
                 {
                     if (scope.Gate.Closed || !owner.IsAlive || CombatManager.Instance.IsOverOrEnding) break;
-                    await responder.AfterOrdinarySegment(context, scope.Card, results);
+                    await responder.AfterOrdinarySegment(observation.Context, scope.Card, results);
                 }
             }
         }
         return results;
+    }
+
+    // Managed callers share the same successful-completion implementation. Production
+    // no longer substitutes this dispatcher for the native AttackCommand damage call.
+    internal static async Task<IEnumerable<DamageResult>> OrdinaryAttackPipelineV1(PlayerChoiceContext context,
+        ValueProp props, Creature? dealer, CardModel? cardSource, Func<Task<IEnumerable<DamageResult>>> nativeDamage)
+    {
+        var observation = new OrdinaryAttackObservation(Current.Value, context, props, dealer, cardSource);
+        return await CompleteOrdinaryAttack(nativeDamage().GetAwaiter(), observation);
     }
 
     private static async Task<CardPileAddResult> AddDrawnCard(CardModel card, CardPile pile,

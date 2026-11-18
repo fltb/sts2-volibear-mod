@@ -17,9 +17,9 @@ internal static class DomainConfusedCosts
     private static readonly FieldInfo Modifiers = AccessTools.Field(typeof(CardEnergyCost), "_localModifiers");
     internal static void Install(Harmony harmony)
     {
-        harmony.Patch(AccessTools.DeclaredMethod(typeof(ConfusedPower), nameof(ConfusedPower.AfterCardDrawn)),
+        NativeTranspiler.Patch(harmony, AccessTools.DeclaredMethod(typeof(ConfusedPower), nameof(ConfusedPower.AfterCardDrawn)),
             transpiler: new HarmonyMethod(typeof(DomainConfusedCosts), nameof(Roll)));
-        harmony.Patch(AccessTools.DeclaredMethod(typeof(CardEnergyCost), nameof(CardEnergyCost.GetWithModifiers)),
+        NativeTranspiler.Patch(harmony, AccessTools.DeclaredMethod(typeof(CardEnergyCost), nameof(CardEnergyCost.GetWithModifiers)),
             transpiler: new HarmonyMethod(typeof(DomainConfusedCosts), nameof(Read)));
     }
     private static IEnumerable<CodeInstruction> Roll(IEnumerable<CodeInstruction> input)

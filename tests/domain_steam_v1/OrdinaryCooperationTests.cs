@@ -93,6 +93,7 @@ internal static class SteamOrdinaryCooperationTests
         var cards=typeof(CardResolutionHooks);var slot=cards.GetField("Current",F)!.GetValue(null)!;var value=slot.GetType().GetProperty("Value")!;
         var oldScope=value.GetValue(slot);var current=Ambient("Current");var origin=Ambient("Origin");
         var handoff=(SteamNativeEntryBinding)Adapter.GetField("DamageHandoff",F)!.GetValue(null)!;
+        var capabilityField=Adapter.GetField("_damageBindingCapability",F)!;var savedCapability=capabilityField.GetValue(null);
         var harmony=new Harmony("Volibear.SteamStage.OrdinaryCooperation");
         try
         {
@@ -125,33 +126,45 @@ internal static class SteamOrdinaryCooperationTests
                 using(handoff.Dispatch(invocation))
                 {
                     var results=((Task<IEnumerable<DamageResult>>)Call("DamageFromCommand",null,new[]{receiver},2m,ValueProp.Unpowered,receiver,null,command)!).GetAwaiter().GetResult();
-                    Need(results.Count()==1,"untagged/tagged ordinary pipeline returns actual result");
+                    Need(results.Count()==1,"untagged/tagged Steam dispatcher returns actual result");
                     ExpectedEpisode=ep;ExpectedCommand=Field(invocation,"Command");
                     var outer=ManagedNativeStub(null!,new[]{receiver},2m,ValueProp.Unpowered,receiver,null).GetAwaiter().GetResult();
                     Need(outer.Count()==1,"outer ticket remains consumable after nested dispatch masking");
                 }
                 Ambient("Current",current);Ambient("Origin",origin);
             }
-            Need(NativeCalls==4,"one exact native dispatch per ordinary invocation");
+            Need(NativeCalls==4,"one exact native dispatch per Steam adapter invocation");
             var attack=AccessTools.Method(AccessTools.Method(typeof(AttackCommand),nameof(AttackCommand.Execute)).GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType,"MoveNext");
-            foreach(var mutation in new[]{"missing","duplicate-native","duplicate-v1","opaque-helper","mixed-v1-native"})
+            foreach(var mutation in new[]{"missing","duplicate-native","duplicate-await","wrong-producer","prefixed-native"})
             {
                 var il=new DynamicMethod("CooperationDrift",typeof(void),Type.EmptyTypes).GetILGenerator();
                 var native=(MethodInfo)Adapter.GetField("NativeDamage",F)!.GetValue(null)!;
                 var code=PatchProcessor.GetOriginalInstructions(attack,il).ToList();
                 if(mutation=="missing")code.RemoveAll(c=>c.Calls(native));
                 else if(mutation=="duplicate-native")code.Add(new CodeInstruction(OpCodes.Call,native));
-                else if(mutation=="opaque-helper")code.Single(c=>c.Calls(native)).operand=typeof(SteamOrdinaryCooperationTests).GetMethod(nameof(ManagedNativeStub),F)!;
-                else
-                {
-                    if(mutation=="duplicate-v1")code.Single(c=>c.Calls(native)).operand=CardResolutionHooks.OrdinaryAttackCallsiteV1;
-                    code.Add(new CodeInstruction(OpCodes.Call,CardResolutionHooks.OrdinaryAttackCallsiteV1));
-                }
-                try{_=((IEnumerable<CodeInstruction>)Call("AttackMachine",code,il,attack)!).ToArray();throw new Exception("ordinary anchor drift accepted");}
+                else if(mutation=="duplicate-await")code.Add(new CodeInstruction(OpCodes.Call,AccessTools.Method(native.ReturnType,"GetAwaiter",Type.EmptyTypes)));
+                else if(mutation=="wrong-producer")code.Single(c=>c.Calls(native)).operand=AccessTools.PropertyGetter(typeof(Task),nameof(Task.CompletedTask));
+                else code.Insert(code.FindIndex(c=>c.Calls(native)),new CodeInstruction(OpCodes.Tailcall));
+                try{_=((IEnumerable<CodeInstruction>)Call("AttackMachine",code,il,attack)!).ToArray();throw new Exception("invalid native anchor shape accepted");}
                 catch(TargetInvocationException caught)when(caught.InnerException is InvalidOperationException){Checks++;}
             }
+            {
+                var il=new DynamicMethod("ForeignDispatchYield",typeof(void),Type.EmptyTypes).GetILGenerator();
+                var native=(MethodInfo)Adapter.GetField("NativeDamage",F)!.GetValue(null)!;
+                var foreign=typeof(SteamOrdinaryCooperationTests).GetMethod(nameof(ManagedNativeStub),F)!;
+                var code=PatchProcessor.GetOriginalInstructions(attack,il).ToList();
+                code.Single(c=>c.Calls(native)).operand=foreign;
+                var patched=((IEnumerable<CodeInstruction>)Call("AttackMachine",code,il,attack)!).ToArray();
+                Need(patched.Count(c=>c.Calls(foreign))==1,"opaque same-result producer is retained without dispatching into it");
+                Need(!patched.Any(c=>c.Calls(Adapter.GetMethod("DamageFromCommand",F)!)),"yielded Steam adapter does not issue a damage provenance ticket");
+                Need(patched.Any(c=>c.Calls(Adapter.GetMethod("Enter",F)!))&&patched.Any(c=>c.Calls(Adapter.GetMethod("CompleteStaleAttack",F)!)),
+                    "yielding exact damage attribution retains attack lifecycle and pre-attack cancellation");
+                var capability=(PatchCompatibilitySnapshot.CapabilityRecord)Adapter.GetField("_damageBindingCapability",F)!.GetValue(null)!;
+                Need(capability.Status=="unavailable"&&capability.Reason.Contains(nameof(ManagedNativeStub))&&capability.Impact.Contains("Mid-hit"),
+                    "yielding records the concrete replacement and the exact unavailable behavior");
+            }
         }
-        finally{harmony.UnpatchAll(harmony.Id);value.SetValue(slot,oldScope);Ambient("Current",current);Ambient("Origin",origin);handoff.Reset();ExpectedEpisode=ExpectedCommand=null;}
+        finally{harmony.UnpatchAll(harmony.Id);value.SetValue(slot,oldScope);Ambient("Current",current);Ambient("Origin",origin);handoff.Reset();capabilityField.SetValue(null,savedCapability);ExpectedEpisode=ExpectedCommand=null;}
         Console.WriteLine($"STEAM_ORDINARY_COOPERATION_PASS checks={Checks} managed-dispatch-domain-combat-stubs=true native-gameplay=NOT_RUN");
     }
 }

@@ -44,7 +44,7 @@ public static class DomainSelfDebuffEffects
         foreach (var name in new[] { nameof(Hook.ModifyEnergyGain), nameof(Hook.ModifyHandDraw),
             nameof(Hook.ModifyMaxEnergy), nameof(Hook.ShouldDraw), nameof(Hook.ModifyOrbValue),
             nameof(Hook.ModifyCardPlayCount), "ModifyDamageInternal" })
-            harmony.Patch(Native(typeof(Hook), name), transpiler: new HarmonyMethod(Own(nameof(Dispatch))));
+            NativeTranspiler.Patch(harmony, Native(typeof(Hook), name), transpiler: new HarmonyMethod(Own(nameof(Dispatch))));
 
         // These exact callbacks contain only the recurring penalty. Their separate
         // removal/turn counters remain native. Mixed damage+expiry bodies are below.
@@ -66,12 +66,12 @@ public static class DomainSelfDebuffEffects
             var body = type == typeof(PoisonPower) && name == nameof(PoisonPower.AfterSideTurnStart) && Native(type, "Trigger") is not null
                 ? Machine(type, "Trigger")   // PBE moved the recurring poison damage into Trigger.
                 : Machine(type, name);
-            try { harmony.Patch(body, transpiler: new HarmonyMethod(Own(nameof(DamageBody)))); }
+            try { NativeTranspiler.Patch(harmony, body, transpiler: new HarmonyMethod(Own(nameof(DamageBody)))); }
             catch (Exception error) { throw new InvalidOperationException("DamageBody failed: " + type.Name + "." + name, error); }
         }
-        harmony.Patch(Machine(typeof(OblivionPower), nameof(OblivionPower.AfterCardPlayed)),
+        NativeTranspiler.Patch(harmony, Machine(typeof(OblivionPower), nameof(OblivionPower.AfterCardPlayed)),
             transpiler: new HarmonyMethod(Own(nameof(OblivionBody))));
-        harmony.Patch(Machine(typeof(TheGambitPower), nameof(TheGambitPower.AfterDamageReceived)),
+        NativeTranspiler.Patch(harmony, Machine(typeof(TheGambitPower), nameof(TheGambitPower.AfterDamageReceived)),
             transpiler: new HarmonyMethod(Own(nameof(KillBody))));
         // Filtering the collection avoids JIT-inlining dependence on IsOwnerDoomed.
         harmony.Patch(Native(typeof(DoomPower), nameof(DoomPower.GetDoomedCreatures),
@@ -82,10 +82,10 @@ public static class DomainSelfDebuffEffects
         harmony.Patch(Native(typeof(DoomPower), "ShouldDoomTrigger",
                 [typeof(System.Collections.Generic.IEnumerable<Creature>)]),
             postfix: new HarmonyMethod(Own(nameof(DoomTriggerGate))));
-        harmony.Patch(Machine(typeof(DoomPower), nameof(DoomPower.BeforeSideTurnEnd)),
+        NativeTranspiler.Patch(harmony, Machine(typeof(DoomPower), nameof(DoomPower.BeforeSideTurnEnd)),
             transpiler: new HarmonyMethod(Own(nameof(DoomBody))));
 #else
-        harmony.Patch(Machine(typeof(DoomPower), nameof(DoomPower.BeforeSideTurnEnd)),
+        NativeTranspiler.Patch(harmony, Machine(typeof(DoomPower), nameof(DoomPower.BeforeSideTurnEnd)),
             transpiler: new HarmonyMethod(Own(nameof(DoomBody))));
 #endif
         harmony.Patch(Native(typeof(ShrinkPower), nameof(ShrinkPower.AfterApplied)),

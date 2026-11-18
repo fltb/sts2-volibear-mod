@@ -57,7 +57,7 @@ public static partial class DomainAdditionalRevivalEffects
         Bodies.Add(Body(Native(typeof(TestSubject), "Revive", typeof(int))), BodyKind.Revive);
         Bodies.Add(Body(Native(typeof(ToughEgg), "HatchMove", typeof(IReadOnlyList<Creature>))), BodyKind.HatchMove);
         Bodies.Add(Body(Native(typeof(ToughEgg), "Hatch")), BodyKind.Hatch);
-        foreach (var body in Bodies.Keys) harmony.Patch(body, transpiler: new HarmonyMethod(Local(nameof(Rewrite))));
+        foreach (var body in Bodies.Keys) NativeTranspiler.Patch(harmony, body, transpiler: new HarmonyMethod(Local(nameof(Rewrite))));
     }
     private static Frame Enter(Task task, int state, object source, int kind)
     {

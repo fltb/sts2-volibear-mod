@@ -70,7 +70,7 @@ public static partial class DomainSummonEffects
         Prepare();
         foreach (var entry in Bodies)
         {
-            try { harmony.Patch(entry.Key, transpiler: new HarmonyMethod(typeof(DomainSummonEffects), nameof(Rewrite))); }
+            try { NativeTranspiler.Patch(harmony, entry.Key, transpiler: new HarmonyMethod(typeof(DomainSummonEffects), nameof(Rewrite))); }
             catch (Exception error)
             {
                 throw new InvalidOperationException("Summon transpiler failed for " +
@@ -205,6 +205,7 @@ public static partial class DomainSummonEffects
 
     private static IEnumerable<CodeInstruction> Rewrite(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase __originalMethod)
     {
+        input = NativeTranspiler.WithoutUnanchoredNops(input);
         int kind = Bodies[__originalMethod];
         var sm = __originalMethod.DeclaringType!;
         var code = input.Select(i => new CodeInstruction(i)).ToList();

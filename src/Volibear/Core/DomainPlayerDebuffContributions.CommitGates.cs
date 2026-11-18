@@ -58,7 +58,7 @@ public static partial class DomainPlayerDebuffContributions
                 ?? throw new MissingMethodException("Native debuff commit method missing: " + name);
             var machine = method.GetCustomAttribute<System.Runtime.CompilerServices.AsyncStateMachineAttribute>()?.StateMachineType
                 ?? throw new InvalidOperationException("Native debuff commit machine missing.");
-            harmony.Patch(AccessTools.Method(machine, "MoveNext"), transpiler:
+            NativeTranspiler.Patch(harmony, AccessTools.Method(machine, "MoveNext"), transpiler:
                 new HarmonyMethod(typeof(DomainPlayerDebuffContributions), nameof(CommitGate))
                 {
                     after = ["Volibear.DomainPassiveEffects", "Volibear.DomainCardContributions"],
@@ -92,6 +92,7 @@ public static partial class DomainPlayerDebuffContributions
     private static IEnumerable<CodeInstruction> CommitGate(IEnumerable<CodeInstruction> input,
         ILGenerator generator, MethodBase __originalMethod)
     {
+        input = NativeTranspiler.WithoutUnanchoredNops(input);
         var machine = __originalMethod.DeclaringType!;
         var code = input.Select(i => new CodeInstruction(i)).ToList();
         bool apply = machine.Name.StartsWith("<Apply>", StringComparison.Ordinal);

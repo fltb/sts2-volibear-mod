@@ -348,6 +348,7 @@ public static class DomainDampenTransactions
     }
     private static IEnumerable<CodeInstruction> Rewrite(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase __originalMethod)
     {
+        input = NativeTranspiler.WithoutUnanchoredNops(input);
         var code = input.Select(c => new CodeInstruction(c)).ToList();
         var kind = Sites[__originalMethod];
         if (kind == Site.Pair)
@@ -468,7 +469,7 @@ public static class DomainDampenTransactions
             VerifyNativeIl(); var harmony = new Harmony(HarmonyId);
             try
             {
-                foreach (var method in Sites.Keys) harmony.Patch(method, transpiler: new HarmonyMethod(Handler(nameof(Rewrite)))
+                foreach (var method in Sites.Keys) NativeTranspiler.Patch(harmony, method, transpiler: new HarmonyMethod(Handler(nameof(Rewrite)))
                 { priority = Priority.Last, after = ["Volibear.DomainPassiveEffects", "Volibear.DomainCardContributions", "Volibear.DomainRevivalEffects"] });
                 harmony.Patch(Method(typeof(CombatManager), "Reset", typeof(bool)), prefix: new HarmonyMethod(Handler(nameof(Reset))));
                 _installed = true;

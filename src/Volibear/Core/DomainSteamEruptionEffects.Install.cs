@@ -34,7 +34,7 @@ public static partial class DomainSteamEruptionEffects
     }
     internal static void InstallPatches(Harmony harmony)
     {
-        void Patch(MethodInfo original, string transpiler) => harmony.Patch(original, transpiler: new HarmonyMethod(Own(transpiler)));
+        void Patch(MethodInfo original, string transpiler) => NativeTranspiler.Patch(harmony, original, transpiler: new HarmonyMethod(Own(transpiler)));
         var steps = new (string Label, Action Run)[]
         {
             ("damage-handoff", () => DamageHandoff.Install(harmony, NativeDamage)),
@@ -50,8 +50,9 @@ public static partial class DomainSteamEruptionEffects
             ("phase-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState))), nameof(PhaseMachine))),
             ("about-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "AboutToBlowMove")), nameof(AboutMachine))),
             ("explode-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "ExplodeMove")), nameof(ExplodeMachine))),
-            ("attack-machine", () => harmony.Patch(Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute))),
-                transpiler: new HarmonyMethod(Own(nameof(AttackMachine))) { after = [CardResolutionHooks.OrdinaryAttackOwnerV1] })),
+            ("attack-machine", () => NativeTranspiler.Patch(harmony, Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute))),
+                transpiler: new HarmonyMethod(Own(nameof(AttackMachine)))
+                { priority = NativeCallCapability.LatePriority, after = [CardResolutionHooks.OrdinaryAttackOwnerV1] })),
             ("damage-machine", () => Patch(Async(NativeDamage), nameof(DamageMachine))),
             ("set-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetCurrentHp))), nameof(SetHpMachine))),
             ("set-max-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetMaxHp))), nameof(SetMaxHpMachine))),

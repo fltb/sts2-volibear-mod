@@ -320,7 +320,7 @@ public static class DomainCardContributions
             var harmony = new Harmony(HarmonyId);
             try
             {
-                foreach (var site in Sites.Keys) harmony.Patch(site, transpiler: new HarmonyMethod(Handler(nameof(Rewrite)))
+                foreach (var site in Sites.Keys) NativeTranspiler.Patch(harmony, site, transpiler: new HarmonyMethod(Handler(nameof(Rewrite)))
                 { after = ["Volibear.DomainPassiveEffects"], priority = Priority.Last });
                 harmony.Patch(Method(typeof(CombatManager), nameof(CombatManager.Reset), typeof(bool)), prefix: new HarmonyMethod(typeof(DomainCardContributions), nameof(Reset)));
                 _installed = true;

@@ -1,3 +1,4 @@
+using Volibear.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,7 +87,17 @@ internal static class PowerStackVisual
         return result;
     }
 
-    private static NodeView View(NPower node) => Views.GetValue(node, n => new NodeView(n));
+    private static bool IsProjected(NPower node) => Model(node) is { } model &&
+        PowerStackPresentation.TryDescribe(model, out _);
+    private static bool HasProjection(NPowerContainer container) => HasProjection(Nodes(container));
+    private static bool HasProjection(IEnumerable<NPower> nodes) => nodes.Any(node =>
+        GodotObject.IsInstanceValid(node) && IsProjected(node));
+    private static NodeView View(NPower node)
+    {
+        var view = Views.GetValue(node, n => new NodeView(n));
+        view.Activate();
+        return view;
+    }
     private static ContainerView Container(NPowerContainer node) => Containers.GetValue(node, n => new ContainerView(n));
     private static void ApplyAmount(NPower node)
     {
@@ -96,26 +107,43 @@ internal static class PowerStackVisual
     private static void Refresh(NPower node)
     {
         if (!node.IsInsideTree()) return;
+        if (!IsProjected(node))
+        {
+            if (Views.TryGetValue(node, out var previous) && previous.Active)
+            {
+                previous.Release();
+                if (node.Container is { } oldContainer && oldContainer.IsInsideTree() &&
+                    Containers.TryGetValue(oldContainer, out _)) UpdatePositions(oldContainer);
+            }
+            return;
+        }
+        var view = View(node);
         if (node.Container is { } container && container.IsInsideTree()) UpdatePositions(container);
         else ApplyAmount(node);
-        if (Views.TryGetValue(node, out var view)) view.RefreshHover();
+        view.RefreshHover();
     }
 
     private sealed class ContainerView
     {
         private readonly NPowerContainer container;
         internal readonly List<NPower> Display = new();
+        internal bool Active { get; private set; }
+        private NPower[] source = [];
+        private bool refreshRequired = true;
         private Action? unsubscribe;
         internal ContainerView(NPowerContainer container)
         {
             this.container = container;
-            container.TreeEntered += () => { Enter(); UpdatePositions(container); };
+            container.TreeEntered += () =>
+            {
+                if (HasProjection(container)) UpdatePositions(container);
+                else Release();
+            };
             container.TreeExiting += Exit;
-            if (container.IsInsideTree()) Enter();
         }
         private void Enter()
         {
-            if (unsubscribe is not null) return;
+            if (unsubscribe is not null || !Active || !container.IsInsideTree()) return;
             var tracker = CombatManager.Instance.StateTracker;
             void Changed(CombatState _) => UpdatePositions(container);
             tracker.CombatStateChanged += Changed;
@@ -124,15 +152,39 @@ internal static class PowerStackVisual
         private void Exit()
         {
             unsubscribe?.Invoke(); unsubscribe = null;
-            foreach (var node in Nodes(container))
+            Active = false;
+            foreach (var node in source.Concat(Nodes(container)).Distinct())
                 if (GodotObject.IsInstanceValid(node) && Views.TryGetValue(node, out var view)) view.SetHidden(false);
+            source = [];
+            refreshRequired = true;
             Display.Clear();
         }
-        internal void Rebuild()
+        internal void Release()
         {
+            Exit();
+            // Removed native children still need their own TreeExiting hover cleanup.
+            foreach (var node in Nodes(container))
+                if (GodotObject.IsInstanceValid(node) && Views.TryGetValue(node, out var view)) view.Release();
+        }
+        internal void Invalidate() => refreshRequired = true;
+        internal bool Matches(List<NPower> nodes) => Active && !refreshRequired && source.SequenceEqual(nodes);
+        internal List<NPower> Project(List<NPower> nodes)
+        {
+            // A neighbouring adapter may filter/reorder the loaded value without changing
+            // _powerNodes. Cache only identical node sequences within this layout call.
+            var next = nodes.ToArray();
+            foreach (var node in source.Except(next))
+                if (GodotObject.IsInstanceValid(node) && Views.TryGetValue(node, out var previous))
+                {
+                    if (Nodes(container).Contains(node)) previous.Release();
+                    else previous.SetHidden(false);
+                }
+            source = next;
+            Active = true;
+            Enter();
             Display.Clear();
             var represented = new HashSet<PowerModel>(ReferenceEqualityComparer.Instance);
-            foreach (var node in Nodes(container))
+            foreach (var node in source)
             {
                 if (!GodotObject.IsInstanceValid(node)) continue;
                 bool hidden = false;
@@ -140,12 +192,16 @@ internal static class PowerStackVisual
                 {
                     hidden = projection.Members.Any(represented.Contains);
                     if (!hidden) represented.UnionWith(projection.Members);
+                    View(node).SetHidden(hidden);
+                    ApplyAmount(node);
                 }
-                View(node).SetHidden(hidden);
-                ApplyAmount(node);
+                else if (Views.TryGetValue(node, out var previous)) previous.Release();
                 if (!hidden) Display.Add(node);
             }
-            foreach (var node in Display) View(node).RefreshHover();
+            foreach (var node in Display)
+                if (Views.TryGetValue(node, out var view) && view.Active) view.RefreshHover();
+            refreshRequired = false;
+            return Display;
         }
     }
 
@@ -157,17 +213,26 @@ internal static class PowerStackVisual
         private Action? removeHover;
         private bool hiddenByStack;
         private bool originalVisible;
+        internal bool Active { get; private set; }
         internal NodeView(NPower node)
         {
             this.node = node;
             nativeHoverRefresh = AccessTools.MethodDelegate<Action<CombatState>>(HoverRefreshMethod, node);
-            node.TreeEntered += () => { Enter(); Refresh(node); };
+            node.TreeEntered += () =>
+            {
+                if (IsProjected(node)) Refresh(node);
+                else Release();
+            };
             node.TreeExiting += Exit;
-            if (node.IsInsideTree()) Enter();
+        }
+        internal void Activate()
+        {
+            Active = true;
+            Enter();
         }
         private void Enter()
         {
-            if (unsubscribe is not null || node.Container is not null) return;
+            if (unsubscribe is not null || !node.IsInsideTree() || node.Container is not null) return;
             var tracker = CombatManager.Instance.StateTracker;
             void Changed(CombatState _) => Refresh(node);
             tracker.CombatStateChanged += Changed;
@@ -175,9 +240,21 @@ internal static class PowerStackVisual
         }
         private void Exit()
         {
+            if (!Active) return;
             EndHover(true);
             unsubscribe?.Invoke(); unsubscribe = null;
             SetHidden(false);
+            Active = false;
+        }
+        internal void Release()
+        {
+            if (!Active) return;
+            unsubscribe?.Invoke(); unsubscribe = null;
+            SetHidden(false);
+            // On a rebind to a foreign power, its already-open native hover remains native.
+            // Forget our cleanup lease without removing the game's subscription or tooltip.
+            removeHover = null;
+            Active = false;
         }
         internal void SetHidden(bool hide)
         {
@@ -188,7 +265,8 @@ internal static class PowerStackVisual
                 EndHover(true);
                 node.Visible = false;
             }
-            else node.Visible = originalVisible;
+            // If another UI adapter has already shown the node, its newer value wins.
+            else if (!node.Visible) node.Visible = originalVisible;
             hiddenByStack = hide;
         }
         internal void BeginHover()
@@ -215,39 +293,73 @@ internal static class PowerStackVisual
         }
     }
 
-    private static void LayoutPrefix(NPowerContainer __instance) => Container(__instance).Rebuild();
-    private static List<NPower> LayoutNodes(NPowerContainer container) => Container(container).Display;
+    private static void LayoutPrefix(NPowerContainer __instance)
+    {
+        if (Containers.TryGetValue(__instance, out var view)) view.Invalidate();
+    }
+    private static List<NPower> LayoutNodes(NPowerContainer container, List<NPower> nativeNodes)
+    {
+        Containers.TryGetValue(container, out var view);
+        if (view is not null && view.Matches(nativeNodes)) return view.Display;
+        if (HasProjection(nativeNodes)) return Container(container).Project(nativeNodes);
+        if (view is not null && view.Active) view.Release();
+        // Return the actual loaded value, including any previous adapter's changes.
+        return nativeNodes;
+    }
     private static IEnumerable<CodeInstruction> LayoutTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         int replaced = 0;
+        OpCode previous = default;
         foreach (var instruction in instructions)
         {
             if (instruction.opcode == OpCodes.Ldfld && Equals(instruction.operand, NodesField))
             {
-                instruction.opcode = OpCodes.Call;
-                instruction.operand = AccessTools.DeclaredMethod(typeof(PowerStackVisual), nameof(LayoutNodes));
+                if (previous.OpCodeType == OpCodeType.Prefix)
+                    throw new InvalidOperationException("Power stack layout cannot wrap a prefixed _powerNodes load");
+                // Preserve the native field anchor for other UI transpilers. The retained
+                // receiver and the loaded (possibly adapted) value feed our projection.
+                var duplicate = new CodeInstruction(OpCodes.Dup);
+                var load = new CodeInstruction(instruction);
+                var project = new CodeInstruction(OpCodes.Call,
+                    AccessTools.DeclaredMethod(typeof(PowerStackVisual), nameof(LayoutNodes)));
+                duplicate.labels.AddRange(load.labels);
+                load.labels.Clear();
+                foreach (var block in load.blocks)
+                    if (block.blockType == ExceptionBlockType.EndExceptionBlock) project.blocks.Add(block);
+                    else duplicate.blocks.Add(block);
+                load.blocks.Clear();
+                yield return duplicate;
+                yield return load;
+                yield return project;
                 replaced++;
             }
-            yield return instruction;
+            else yield return new CodeInstruction(instruction);
+            previous = instruction.opcode;
         }
         if (replaced == 0) throw new InvalidOperationException("Pinned NPowerContainer layout no longer reads _powerNodes");
     }
-    private static void ContainerEnter(NPowerContainer __instance) { Container(__instance); UpdatePositions(__instance); }
-    private static void PowerReady(NPower __instance) { View(__instance); Refresh(__instance); }
+    private static void ContainerEnter(NPowerContainer __instance)
+    {
+        if (HasProjection(__instance)) UpdatePositions(__instance);
+    }
+    private static void PowerReady(NPower __instance) => Refresh(__instance);
     private static void PowerChanged(NPower __instance) => Refresh(__instance);
     private static bool PowerHovered(NPower __instance)
     {
         if (Model(__instance) is null or { IsCanonical: true }) return false;
-        View(__instance).BeginHover();
+        if (IsProjected(__instance)) View(__instance).BeginHover();
         return true;
     }
     private static bool PowerUnhovered(NPower __instance)
     {
-        if (Views.TryGetValue(__instance, out var view)) view.EndHover(false);
+        if (Views.TryGetValue(__instance, out var view) && view.Active) view.EndHover(false);
         return Model(__instance) is { IsCanonical: false };
     }
-    private static void CreatureHover(NCreature __instance, ref IEnumerable<IHoverTip> hoverTips) =>
-        hoverTips = ProjectTips(__instance.Entity, hoverTips);
+    private static void CreatureHover(NCreature __instance, ref IEnumerable<IHoverTip> hoverTips)
+    {
+        if (__instance.Entity.Powers.Any(power => PowerStackPresentation.TryDescribe(power, out _)))
+            hoverTips = ProjectTips(__instance.Entity, hoverTips);
+    }
 
     internal static void Install()
     {
@@ -256,7 +368,8 @@ internal static class PowerStackVisual
         HarmonyMethod Hook(string name) => new(typeof(PowerStackVisual), name);
         try
         {
-            harmony.Patch(LayoutMethod, prefix: Hook(nameof(LayoutPrefix)), transpiler: Hook(nameof(LayoutTranspiler)));
+            NativeTranspiler.Patch(harmony, LayoutMethod, prefix: Hook(nameof(LayoutPrefix)),
+                transpiler: new HarmonyMethod(typeof(PowerStackVisual), nameof(LayoutTranspiler)) { priority = Priority.Normal });
             harmony.Patch(AccessTools.DeclaredMethod(typeof(NPowerContainer), nameof(NPowerContainer._EnterTree)), postfix: Hook(nameof(ContainerEnter)));
             harmony.Patch(AccessTools.DeclaredMethod(typeof(NPower), nameof(NPower._Ready)), postfix: Hook(nameof(PowerReady)));
             harmony.Patch(AccessTools.PropertySetter(typeof(NPower), nameof(NPower.Model)), postfix: Hook(nameof(PowerChanged)));

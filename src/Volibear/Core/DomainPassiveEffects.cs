@@ -89,8 +89,8 @@ public static class DomainPassiveEffects
             var harmony = new Harmony(HarmonyId);
             try
             {
-                foreach (var method in Sources.Keys) harmony.Patch(method, transpiler: new HarmonyMethod(Handler(nameof(SourceCalls))));
-                foreach (var method in Commands.Keys) harmony.Patch(method, transpiler: new HarmonyMethod(Handler(nameof(CommandBody))));
+                foreach (var method in Sources.Keys) NativeTranspiler.Patch(harmony, method, transpiler: new HarmonyMethod(Handler(nameof(SourceCalls))));
+                foreach (var method in Commands.Keys) NativeTranspiler.Patch(harmony, method, transpiler: new HarmonyMethod(Handler(nameof(CommandBody))));
                 harmony.Patch(nativeReset, prefix: new HarmonyMethod(Handler(nameof(BeforeNativeReset))));
                 CombatManager.Instance.CombatSetUp += OnCombatSetUp;
                 CombatManager.Instance.CombatEnded += OnCombatEnded;
@@ -254,6 +254,7 @@ public static class DomainPassiveEffects
 
     private static IEnumerable<CodeInstruction> SourceCalls(IEnumerable<CodeInstruction> instructions, MethodBase __originalMethod)
     {
+        instructions = NativeTranspiler.WithoutUnanchoredNops(instructions);
         var (source, strength, async) = Sources[__originalMethod];
         var code = instructions.Select(c => new CodeInstruction(c)).ToList();
         var native = strength ? StrengthNative() : BlockNative();
@@ -290,6 +291,7 @@ public static class DomainPassiveEffects
 
     private static IEnumerable<CodeInstruction> CommandBody(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase __originalMethod)
     {
+        instructions = NativeTranspiler.WithoutUnanchoredNops(instructions);
         int kind = Commands[__originalMethod]; // 0 block, 1 new strength, 2 stacked strength
         var sm = __originalMethod.DeclaringType!;
         var code = instructions.Select(c => new CodeInstruction(c)).ToList();

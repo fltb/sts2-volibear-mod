@@ -303,10 +303,10 @@ internal static class PersistentBlockHooks
                 ?? throw new MissingMemberException("ClearBlock async state machine");
             var moveNext = AccessTools.Method(machine, "MoveNext")
                 ?? throw new MissingMethodException("ClearBlock.MoveNext");
-            harmony.Patch(moveNext, transpiler: new HarmonyMethod(typeof(PersistentBlockHooks), nameof(ClearAssignment)));
+            NativeTranspiler.Patch(harmony, moveNext, transpiler: new HarmonyMethod(typeof(PersistentBlockHooks), nameof(ClearAssignment)));
             var damage = AccessTools.Method(typeof(Creature), nameof(Creature.DamageBlockInternal), [typeof(decimal), typeof(ValueProp)])
                 ?? throw new MissingMethodException("Creature.DamageBlockInternal(decimal,ValueProp)");
-            harmony.Patch(damage, transpiler: new HarmonyMethod(typeof(PersistentBlockHooks), nameof(DamageAssignment)));
+            NativeTranspiler.Patch(harmony, damage, transpiler: new HarmonyMethod(typeof(PersistentBlockHooks), nameof(DamageAssignment)));
             _installed = true;
         }
         catch

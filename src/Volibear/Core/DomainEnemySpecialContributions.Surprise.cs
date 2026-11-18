@@ -117,7 +117,7 @@ public static partial class DomainEnemySpecialContributions
         foreach (var site in sites)
         {
             _ = RewriteSurprise(PatchProcessor.GetOriginalInstructions(site), site).ToArray();
-            harmony.Patch(site, transpiler: new HarmonyMethod(SpecialHandler(nameof(RewriteSurprise))));
+            NativeTranspiler.Patch(harmony, site, transpiler: new HarmonyMethod(SpecialHandler(nameof(RewriteSurprise))));
         }
         harmony.Patch(Method(typeof(CombatManager), nameof(CombatManager.Reset), typeof(bool)), prefix: new HarmonyMethod(SpecialHandler(nameof(ResetSpecial))));
     }

@@ -1,3 +1,4 @@
+using Volibear.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ internal static class VolibearArchitectEnding
         var harmony = new Harmony(Id);
         try
         {
-            harmony.Patch(NativeBody(), transpiler: new(typeof(VolibearArchitectEnding), nameof(Rewrite)));
+            NativeTranspiler.Patch(harmony, NativeBody(), transpiler: new(typeof(VolibearArchitectEnding), nameof(Rewrite)));
             harmony.Patch(AccessTools.PropertyGetter(typeof(RunState), nameof(RunState.IsGameOver)),
                 postfix: new(typeof(VolibearArchitectEnding), nameof(TerminalState)));
             installed = true;

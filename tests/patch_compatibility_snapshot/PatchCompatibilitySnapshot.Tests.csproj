@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <AssemblyName>PatchCompatibilitySnapshot.Tests</AssemblyName>
+    <AssemblyVersion>1.2.3.4</AssemblyVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NuGetAudit>false</NuGetAudit>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <OutputPath>../../artifacts/patch-compatibility-snapshot/bin/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony"><HintPath>$(HarmonyPath)</HintPath></Reference>
+    <ProjectReference Include="foreign/ForeignFixture.csproj" />
+    <Compile Include="Program.cs" />
+    <Compile Include="../../src/Volibear/Core/PatchCompatibilitySnapshot.cs" Link="Production/PatchCompatibilitySnapshot.cs" />
+  </ItemGroup>
+</Project>

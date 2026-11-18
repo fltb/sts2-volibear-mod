@@ -6,11 +6,11 @@ LightningResponseAdapterTests.Run().GetAwaiter().GetResult();
 SteamOrdinaryCooperationTests.Run();
 PowerScalarMetadataTests.Run();
 SteamAudioObservationTests.Run(SteamFullInstallChainTests.Run);
-// The domain probe must observe the shared pipeline, not the retired private
-// helper or only the canonical entry that Steam legitimately replaces.
+// The domain probe observes the completion entered by the live native awaiter
+// consumer as well as managed pipeline probes.
 Volibear.DomainContractProbe.Install();
 var pipeline = HarmonyLib.AccessTools.Method(typeof(Volibear.Core.CardResolutionHooks),
-    nameof(Volibear.Core.CardResolutionHooks.OrdinaryAttackPipelineV1));
+    nameof(Volibear.Core.CardResolutionHooks.CompleteOrdinaryAttack));
 var observerPatches = HarmonyLib.Harmony.GetPatchInfo(pipeline);
 if (observerPatches is null ||
     observerPatches.Prefixes.Count(p => p.owner == "Volibear.DomainContractObserver") != 1 ||
