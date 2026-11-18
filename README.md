@@ -16,6 +16,8 @@
 <a name="english"></a>
 ## 🌍 English
 
+**This mod is currently a test version.** Install and use a mod load-order adjustment mod; we recommend [Load Order Manager](https://steamcommunity.com/sharedfiles/filedetails/?id=3747605109). Place **Volibear immediately after BaseLib** in the load order.
+
 > *"Beneath stone walls, there is no wild!! They may forget the old ways, yet the old ways will never forget them."*
 
 **Volibear**, the Thunder Demigod of the Freljord, descends upon the Spire! Despising dead stone, cold clockwork, and false order, Valhir forces enemies to fight on his terms, suppresses their tricks inside his Domain, and unleashes primal Lightning and Beast Forms to shatter the Spire's summit.
@@ -40,6 +42,7 @@
 1. **Steam Workshop (Recommended):** Subscribe to [**Volibear - The Relentless Storm**](https://steamcommunity.com/sharedfiles/filedetails/?id=3840408533&l=english) on the Steam Workshop and launch the game with mods enabled.
 2. **Manual Installation:**
    * Download the latest release archive from [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases).
+   * Choose one audio package: `riot-sound.zip` uses Riot English voices (the same build as Steam Workshop); `opensound.zip` uses open audio. Install only one.
    * Extract the folder into your *Slay the Spire 2* `mods` directory.
    * Launch the game and enable the mod in the Mod Menu.
 
@@ -50,6 +53,8 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 
 <a name="简体中文"></a>
 ## 🇨🇳 简体中文
+
+**本模组目前为测试版。**请安装并使用用于调整 Mod 加载顺序的模组，推荐 [Load Order Manager](https://steamcommunity.com/sharedfiles/filedetails/?id=3747605109)。将 **Volibear 设置为 BaseLib 之后第一个加载的模组**，使两者在加载顺序中紧邻。
 
 > *“石墙之下，毫无野性！！他们或许会遗忘古道，但古道，永远不会遗忘他们。”*
 
@@ -75,6 +80,7 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 1. **Steam 创意工坊（推荐）：** 在 Steam 创意工坊搜索并订阅 [**沃利贝尔 · 不灭狂雷**](https://steamcommunity.com/sharedfiles/filedetails/?id=3840408533&l=schinese)，启动游戏启用模组即可。
 2. **手动安装：**
    * 前往本仓库 [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases) 页面下载最新压缩包。
+   * 音频包二选一：`riot-sound.zip` 使用 Riot 英文语音（与创意工坊相同构建），`opensound.zip` 使用 open 音频。只需安装其中一个。
    * 将解压后的模组文件夹放入《杀戮尖塔 2》游戏根目录下的 `mods` 文件夹中。
    * 启动游戏并在模组菜单中勾选启用。
 
