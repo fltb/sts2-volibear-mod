@@ -48,6 +48,9 @@ class CombatPresentationBehaviorTests(unittest.TestCase):
         cls.work = Path(cls.temporary.name)
         hooks = (CORE / 'CardResolutionHooks.cs').read_text(encoding='utf-8')
         pipeline = '\n'.join(method(hooks, signature) for signature in (
+            'internal sealed class OrdinaryAttackObservation(',
+            'private readonly struct ExistingDamageAwaitable(',
+            'internal static async Task<IEnumerable<DamageResult>> CompleteOrdinaryAttack(',
             'private static void PresentOrdinarySegment(',
             'internal static async Task<IEnumerable<DamageResult>> OrdinaryAttackPipelineV1(',
         ))

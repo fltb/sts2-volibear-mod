@@ -20,7 +20,7 @@
       ],
       "time_seconds": 0.0,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+      "raw_rgba_sha256": "e5551860df6cb452a46f2563ead194b79927a7d8839e4e61c4b89d418fc233d9",
       "pivot_px": [
         250,
         442
@@ -36,7 +36,7 @@
       ],
       "time_seconds": 0.041666666666666664,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "134a36739d739ecf975753d126c1fd2011bd381e47badcee8d2cabacbfd652b6",
+      "raw_rgba_sha256": "f4f1f0daf553c1a41c49ec4e6c14e0820709bbb6b27c74c0bf82dde48495e85f",
       "pivot_px": [
         250,
         442
@@ -52,7 +52,7 @@
       ],
       "time_seconds": 0.08333333333333333,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "a4cc93ccd42f58c99bcc8295fc510bf9de3e542935eb437be4fb8e4d6b6ab55b",
+      "raw_rgba_sha256": "637465f31021c5af085de8fd897ddec13952b251a5e2eb93e1d8d0fe6d7ec821",
       "pivot_px": [
         250,
         442
@@ -68,7 +68,7 @@
       ],
       "time_seconds": 0.125,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "d73bdb4c6255497bc8692d696812b3b6124b3f950ece5d525747f8d351ded3ac",
+      "raw_rgba_sha256": "cd4ddcfcc3d41198f0545fcac86508fffc33948b92c40827f9555b415c72ce10",
       "pivot_px": [
         250,
         442
@@ -84,7 +84,7 @@
       ],
       "time_seconds": 0.16666666666666666,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "cb0f60298ed1cce4810d65641ef00134f0dfc77dda372f21e9dc3912ce27fa54",
+      "raw_rgba_sha256": "db348503cf28273e59158d0855983bcaa1f426375c04d43ae71782da14ff6a5f",
       "pivot_px": [
         250,
         442
@@ -100,7 +100,7 @@
       ],
       "time_seconds": 0.20833333333333334,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "ad072426e0f2cfd12b5114642ba2e2eae533f85a6c863cd550b3d701910845b6",
+      "raw_rgba_sha256": "57adb022e8cc768168388e90c7f681af6f066ca7cba0cadd845cfe32e7fc1d84",
       "pivot_px": [
         250,
         442
@@ -116,7 +116,7 @@
       ],
       "time_seconds": 0.25,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "ea7d73998714964c948fb4e975c6ddac5a9a4da0b523358f7fe4f1d81d057a60",
+      "raw_rgba_sha256": "96e3f11054d6366195313a7efb72126bb978a786715604bbe69cf46eaf32441f",
       "pivot_px": [
         250,
         442
@@ -132,7 +132,7 @@
       ],
       "time_seconds": 0.2916666666666667,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "52dd6826eaa26380850ded09acbf6586fab69a6e5c1d51fbeef9f1f0067355ba",
+      "raw_rgba_sha256": "73ab5daecfec63bd55dea96b7fd0d99da0af1f6023be5a101d097fd4c9ee9ac8",
       "pivot_px": [
         250,
         442
@@ -148,7 +148,7 @@
       ],
       "time_seconds": 0.3333333333333333,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "bb4c195ff2a4ad614618bc041933c01444665e12fef2cfb19882a477b4ce578c",
+      "raw_rgba_sha256": "f716ee16a6588a69558322039148dd1e55cbfcd16153bb0a8d2ca6e0236e5f20",
       "pivot_px": [
         250,
         442
@@ -164,7 +164,7 @@
       ],
       "time_seconds": 0.375,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "f02b5ffc11fe84084b6c888e19236bf7c03825a0a2fd7380dc3be6a4d87bb979",
+      "raw_rgba_sha256": "1cb3c69a7d77482b218dbaa5c91b57d245c47a56d5bbd77a8af775f8c5eb67e1",
       "pivot_px": [
         250,
         442
@@ -180,7 +180,7 @@
       ],
       "time_seconds": 0.4166666666666667,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "c957e6b9b24494da60375239bfc85aa0160e6da5ff724f5278ebd51039156938",
+      "raw_rgba_sha256": "ecafaa5464fbac4a5e2d941044b31d6b4c027d588da6afed05ae5550fae3bcdd",
       "pivot_px": [
         250,
         442
@@ -196,7 +196,7 @@
       ],
       "time_seconds": 0.4583333333333333,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "876caf4a2426a58f32c525a39bab5838ad0dd63686f2c1e809b17b05fae63660",
+      "raw_rgba_sha256": "a9ed52a03dec52e081d29811f42ff253aaac51c69fb5512d4c9ed6c0740fab37",
       "pivot_px": [
         250,
         442
@@ -212,7 +212,7 @@
       ],
       "time_seconds": 0.5,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "a2405be41774ffbf725735fbe8fd6df6ff44f1bf0f31964ca2e998d19e43f754",
+      "raw_rgba_sha256": "539e607399993f0b045fa2a11eb8a86d0c3e1768ad1b873e565526456f1fb6d0",
       "pivot_px": [
         250,
         442
@@ -228,7 +228,7 @@
       ],
       "time_seconds": 0.5416666666666666,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "5287a0d7c073aeb0113309d26ece18ec2405c67a6d2fd525dfaa37117f104a84",
+      "raw_rgba_sha256": "b4c1c9ccece2029b99b9757c56ea63aa589c813212bfe960a8754a4b6538b7b6",
       "pivot_px": [
         250,
         442
@@ -244,7 +244,7 @@
       ],
       "time_seconds": 0.5833333333333334,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "b431804bc79bf277027e94c7236f6e69b55e380014fcb69d061535caac484db1",
+      "raw_rgba_sha256": "bab0fae1a809bd56d2ee0a652b6a4216bd8eabaa8206e1d78704296dd3edf847",
       "pivot_px": [
         250,
         442
@@ -260,7 +260,7 @@
       ],
       "time_seconds": 0.625,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "c7178c8d32e0a435e47fa031b73174b8b97c6a81ee2e6dcf3f5e944046feba22",
+      "raw_rgba_sha256": "eec43846d4f6b197ff03cdb67992aef432bae455d7cb713adbeaddd6ab1cfc34",
       "pivot_px": [
         250,
         442
@@ -276,7 +276,7 @@
       ],
       "time_seconds": 0.6666666666666666,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "900dfa8958a1298e8b591f1fc1e9d72e2e8618c885b365ff5a4143cbab241a51",
+      "raw_rgba_sha256": "3e94e20a2ccaffe5825f9743316f43e29ff046dcd10e92b96f4d0063d270a07b",
       "pivot_px": [
         250,
         442
@@ -292,7 +292,7 @@
       ],
       "time_seconds": 0.7083333333333334,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "b8ac353bb886afe1e2ee8e6db605264bcd7c8a122d5006947873bc962316783c",
+      "raw_rgba_sha256": "01d23ec60b79c88f90b5a55b0a77139bf6da4d52ad9f275be44e3a2ec6a78d84",
       "pivot_px": [
         250,
         442
@@ -308,7 +308,7 @@
       ],
       "time_seconds": 0.75,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "080378eb377d680dfdb2b064cbdc5442728ae2903708f45faa38b70764ad0d7f",
+      "raw_rgba_sha256": "be7526bb2258f6da6848769931ed78b2c2284adbafd9e9f71af30abfd5cd860d",
       "pivot_px": [
         250,
         442
@@ -324,7 +324,7 @@
       ],
       "time_seconds": 0.7916666666666666,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "cf9012b8a3f6a74b00b47e13ccbd466c5b628cc3667db0d6941f72bebd128f47",
+      "raw_rgba_sha256": "b924b7c9da4329d3d82a87947f7b3756f2eaef96d043bc331d927c87a0c9861b",
       "pivot_px": [
         250,
         442
@@ -340,7 +340,7 @@
       ],
       "time_seconds": 0.8333333333333334,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "85f186a78a57062bf1d616384e99c0aa5ab4fce9b20dde1e310c872414fab716",
+      "raw_rgba_sha256": "184dde952a4e034089d536e99fee8907e4d048838d70fc5a8687b9c93941503c",
       "pivot_px": [
         250,
         442
@@ -356,7 +356,7 @@
       ],
       "time_seconds": 0.875,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "85fd0b15d7be7d75f09c64f34124cd9f4264c0e9c5c1ec1bd22c377a31d3416a",
+      "raw_rgba_sha256": "769ddc149bb7cfeef8769b87ef078442ad4e73f0b1c3fdbd7a2bdba0f0c4c4e4",
       "pivot_px": [
         250,
         442
@@ -372,7 +372,7 @@
       ],
       "time_seconds": 0.9166666666666666,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "9733242180b0921bc9ce128c978ee81ed30a0da108cd6b36a50b02520b073636",
+      "raw_rgba_sha256": "26083f26a9e2c130474da5142a54945bf6ac067add095f7d7ff6b465f796389e",
       "pivot_px": [
         250,
         442
@@ -388,7 +388,7 @@
       ],
       "time_seconds": 0.9583333333333334,
       "duration_ms": 41.666666666666664,
-      "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+      "raw_rgba_sha256": "e5551860df6cb452a46f2563ead194b79927a7d8839e4e61c4b89d418fc233d9",
       "pivot_px": [
         250,
         442
