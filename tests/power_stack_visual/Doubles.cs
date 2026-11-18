@@ -52,8 +52,8 @@ public class NCombatRoom {public static NCombatRoom? Instance{get;}=new();public
 }
 namespace MegaCrit.Sts2.Core.Nodes.Combat {
 using Godot;using MegaCrit.Sts2.Core.Models;using MegaCrit.Sts2.Core.Entities.Creatures;using MegaCrit.Sts2.Core.HoverTips;using MegaCrit.Sts2.Core.Combat;using MegaCrit.Sts2.addons.mega_text;
-public class NCreature:Control {public Creature Entity=new();public IHoverTip[] Shown=[];public NCreature(){Entity.Node=this;}
- [MethodImpl(MethodImplOptions.NoInlining)] public void ShowHoverTips(IEnumerable<IHoverTip> hoverTips)=>Shown=hoverTips.ToArray();public void HideHoverTips()=>Shown=[];
+public class NCreature:Control {public Creature Entity=new();public IHoverTip[] Shown=[];public IEnumerable<IHoverTip>? LastInput;public NCreature(){Entity.Node=this;}
+ [MethodImpl(MethodImplOptions.NoInlining)] public void ShowHoverTips(IEnumerable<IHoverTip> hoverTips){LastInput=hoverTips;Shown=hoverTips.ToArray();}public void HideHoverTips()=>Shown=[];
 }
 public class NPower:Control {
  private PowerModel? _model;private MegaLabel? _amountLabel;private readonly TextureRect icon=new();public NPowerContainer? Container;public int GetterReads;
@@ -69,11 +69,13 @@ public class NPower:Control {
 }
 public class NPowerContainer:Control {
  private readonly List<NPower> _powerNodes=[];private Vector2? _originalPosition=new(0,0);
+ public int LayoutCalls;
  public IReadOnlyList<NPower> All=>_powerNodes;
  [MethodImpl(MethodImplOptions.NoInlining)] public override void _EnterTree(){}
  public NPower Add(PowerModel p){var n=new NPower{Model=p,Container=this};_powerNodes.Add(n);AddChild(n);UpdatePositions();return n;}
  public void Remove(PowerModel p){var n=_powerNodes.First(n=>n.Model==p);_powerNodes.Remove(n);UpdatePositions();RemoveChild(n);}
  [MethodImpl(MethodImplOptions.NoInlining)] private void UpdatePositions(){
+ LayoutCalls++;
  if(_powerNodes.Count!=0){float x=_powerNodes[0].Size.X;float b=Mathf.CeilToInt(Size.X/x);b=Mathf.Max(Mathf.CeilToInt((float)_powerNodes.Count/2f),b);
  for(int i=0;i<_powerNodes.Count;i++)_powerNodes[i].Position=new Vector2(x*((float)i%b),Mathf.Floor((float)i/b)*x);
  float num=x*Mathf.Min(b,_powerNodes.Count);Position=(_originalPosition??Position)+Vector2.Left*Mathf.Max(0f,num-Size.X)/2f;}}

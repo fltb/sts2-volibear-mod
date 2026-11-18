@@ -32,6 +32,22 @@ public static partial class DomainSteamEruptionEffects
             , typeof(CardPlay), typeof(ModifyDamageHookType)
 #endif
             ]);
+    // Last rewrite candidate is exposed to managed emission fixtures only. Reports
+    // use the tracker so failed Harmony recomposition cannot publish this candidate.
+    private static PatchCompatibilitySnapshot.CapabilityRecord? _damageBindingCapability;
+    private static readonly PatchCapabilityTracker<PatchCompatibilitySnapshot.CapabilityRecord> DamageBindingCapabilities = new();
+    internal static PatchCompatibilitySnapshot.CapabilityRecord DamageBindingCapability
+    {
+        get
+        {
+            var original = Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute)));
+            return DamageBindingCapabilities.TryRead(original, Own(nameof(AttackMachine)), out var capability) ? capability :
+                new("steam_explosion_damage_attribution", "unknown", original.FullDescription(),
+                    "The attack adapter is absent or no capability assessment is confirmed for its currently committed Harmony patch chain.",
+                    "Whether mid-hit Steam Eruption damage suppression is available cannot be confirmed.");
+        }
+    }
+
     private static async Task<AttackCommand> ExplodeAttack(AttackCommand command, PlayerChoiceContext? choice, WaterfallGiant monster)
     {
         var episode = CurrentEpisode(Flow.Explode, monster);
@@ -55,14 +71,14 @@ public static partial class DomainSteamEruptionEffects
         AttackCommand command)
     {
         var episode = CurrentEpisode(Flow.Attack, command);
-        // Every invocation, including player/untagged attacks, retains CardResolution's
-        // paid scope, Domain attachment and ordinary responders. No ticket spans these.
-        return CardResolutionHooks.OrdinaryAttackPipelineV1(choice, props, dealer, card,
-            () => DispatchNativeDamage(choice, targets, amount, props, dealer, card,
+        // This dispatcher is installed only while the exact native call remains.
+        // Ordinary-segment completion is independently composed into its awaiter.
+        // The ticket covers native dispatch only, never foreign before/after hooks.
+        return DispatchNativeDamage(choice, targets, amount, props, dealer, card,
 #if STS2_BETA
-                cardPlay, hookType,
+            cardPlay, hookType,
 #endif
-                command, episode));
+            command, episode);
     }
     private static Task<IEnumerable<DamageResult>> DispatchNativeDamage(PlayerChoiceContext choice, IEnumerable<AttackTarget> targets,
         decimal amount, ValueProp props, Creature? dealer, CardModel? card,
@@ -137,17 +153,22 @@ public static partial class DomainSteamEruptionEffects
     private static IEnumerable<CodeInstruction> AttackMachine(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase __originalMethod)
     {
         var subject = Subject(__originalMethod.DeclaringType!, Flow.Attack);
-        var code = input.ToList();
-        var ordinary = CardResolutionHooks.OrdinaryAttackCallsiteV1;
-        var ordinaryCount = code.Count(instruction => instruction.Calls(ordinary));
-        var nativeCount = code.Count(instruction => instruction.Calls(NativeDamage));
-        MethodInfo anchor;
-        if (ordinaryCount == 1 && nativeCount == 0) anchor = ordinary;
-        else if (ordinaryCount == 0 && nativeCount == 1) anchor = NativeDamage; // Steam alone/install-first/unpatch recomposition; still calls the complete V1 pipeline.
-        else throw new InvalidOperationException($"Steam ordinary-attack V1 contract drift: ordinary={ordinaryCount}, native={nativeCount}.");
-        var body = Replace(code, anchor, nameof(DamageFromCommand), subject: subject);
+        var code = input.Select(instruction => new CodeInstruction(instruction)).ToList();
+        // Run after ordinary extensions. If another adapter owns the awaited hit,
+        // leave it intact: an ambient ticket around an unknown async wrapper would
+        // misattribute damage emitted by its before-hit listeners to Steam.
+        var exact = NativeCallCapability.CanBindExactCall(code, NativeDamage, out var reason);
+        var body = exact ? Replace(code, NativeDamage, nameof(DamageFromCommand), subject: subject) : code;
         body = Scope(body, generator, __originalMethod, Flow.Attack);
-        return EarlyEntry(body, generator, __originalMethod, subject, nameof(CompleteStaleAttack));
+        var result = EarlyEntry(body, generator, __originalMethod, subject, nameof(CompleteStaleAttack)).ToArray();
+        var capability = new PatchCompatibilitySnapshot.CapabilityRecord("steam_explosion_damage_attribution", exact ? "available" : "unavailable",
+            __originalMethod.FullDescription(), reason,
+            exact ? "None. Exact mid-hit Steam Eruption damage suppression remains installed." :
+                "Mid-hit positive damage suppression for Steam Eruption is unavailable for this attack dispatch. " +
+                "Ordinary-segment Domain lightning and responders, pre-attack cancellation, and the remaining Steam lifecycle protections remain installed.");
+        _damageBindingCapability = capability;
+        DamageBindingCapabilities.Observe(__originalMethod, capability);
+        return result;
     }
     private static IEnumerable<CodeInstruction> DamageMachine(IEnumerable<CodeInstruction> input, ILGenerator generator, MethodBase __originalMethod)
     {

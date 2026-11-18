@@ -75,12 +75,12 @@ public static partial class DomainEnemyStatusContributions
             {
                 var method = MoveNext(Required(site.Owner, site.Method));
                 BoundSites[method] = site;
-                try { harmony.Patch(method, transpiler: Handler(nameof(EnemyCreationSite))); }
+                try { NativeTranspiler.Patch(harmony, method, transpiler: Handler(nameof(EnemyCreationSite))); }
                 catch (Exception error) { throw new InvalidOperationException("EnemyCreationSite failed: " + site.Owner.Name + "." + site.Method, error); }
             }
             foreach (var type in new[] { typeof(Burn), typeof(Wither), typeof(Toxic), typeof(Infection), typeof(Beckon) })
             {
-                try { harmony.Patch(MoveNext(Required(type, "OnTurnEndInHand")), transpiler: Handler(nameof(StatusDamageSite))); }
+                try { NativeTranspiler.Patch(harmony, MoveNext(Required(type, "OnTurnEndInHand")), transpiler: Handler(nameof(StatusDamageSite))); }
                 catch (Exception error) { throw new InvalidOperationException("StatusDamageSite failed: " + type.Name, error); }
             }
             try { InstallWitherContributions(harmony); }

@@ -41,9 +41,9 @@ public static partial class DomainEnemyStatusContributions
             (typeof(VitalSparkPower), "BeforeCombatStart"), (typeof(VitalSparkPower), "AfterCardEnteredCombat"),
             (typeof(VitalSparkPower), "AfterCardPlayed"),
             (typeof(PaperCutsPower), "AfterDamageGiven")
-        }) harmony.Patch(MoveNext(Required(type, name)), transpiler: Handler(nameof(StatusPowerCallsite)));
+        }) NativeTranspiler.Patch(harmony, MoveNext(Required(type, name)), transpiler: Handler(nameof(StatusPowerCallsite)));
         // Rewrite the exact Amount contribution in Tainted, not its end-of-enemy-turn removal.
-        harmony.Patch(Required(typeof(TaintedPower), nameof(TaintedPower.ModifyDamageAdditive)),
+        NativeTranspiler.Patch(harmony, Required(typeof(TaintedPower), nameof(TaintedPower.ModifyDamageAdditive)),
             transpiler: Handler(nameof(TaintedDamageContribution)));
     }
 

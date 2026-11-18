@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony"><HintPath>$(HarmonyPath)</HintPath></Reference>
+    <Compile Include="../../src/Volibear/Core/NativeTranspiler.cs" Link="Production/NativeTranspiler.cs" />
     <Compile Include="../../src/Volibear/Core/SteamNativeEntryBinding.cs" Link="Production/SteamNativeEntryBinding.cs" />
     <Compile Include="../../src/Volibear/Core/DomainCardContributions.cs" Link="Production/DomainCardContributions.cs" />
     <Compile Include="../../src/Volibear/Core/DomainCardContributionLedger.cs" Link="Production/DomainCardContributionLedger.cs" />

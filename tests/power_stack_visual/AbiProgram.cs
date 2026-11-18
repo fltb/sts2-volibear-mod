@@ -36,7 +36,9 @@ static class Program
             Need(info.Owners.Count(o => o == "Volibear.PowerStackVisual") == 1, "Pinned UI entry installed once: " + method.Name);
         }
         var rewritten = PatchProcessor.GetCurrentInstructions(layout).ToArray();
-        Need(!rewritten.Any(i => i.opcode == OpCodes.Ldfld && Equals(i.operand, field)), "All layout-only list reads projected");
+        Need(rewritten.Count(i => i.opcode == OpCodes.Ldfld && Equals(i.operand, field)) == loads &&
+            rewritten.Count(i => i.Calls(AccessTools.DeclaredMethod(typeof(PowerStackVisual), "LayoutNodes"))) == loads,
+            "All native field anchors retained and their loaded values projected");
         Need(PatchProcessor.GetOriginalInstructions(AccessTools.DeclaredMethod(typeof(NPowerContainer), "Remove"))
             .Any(i => i.opcode == OpCodes.Ldfld && Equals(i.operand, field)), "Native Remove still sees every model node");
         Console.WriteLine($"POWER_STACK_VISUAL_ABI_PASS checks={checks} native-layout-loads={loads} Godot-render=NOT_RUN");

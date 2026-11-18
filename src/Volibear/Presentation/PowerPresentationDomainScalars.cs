@@ -1,3 +1,4 @@
+using Volibear.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,7 +105,7 @@ internal static class PowerPresentationDomainScalars
             Manifests[body] = new(label, sites);
             // Bind the native call before TargetCosts replaces it with its resolved-target
             // wrapper. The receipt remains after the replacement call in the final body.
-            h.Patch(body, transpiler: new(typeof(PowerPresentationDomainScalars), nameof(NativeCalls))
+            NativeTranspiler.Patch(h, body, transpiler: new(typeof(PowerPresentationDomainScalars), nameof(NativeCalls))
                 { before = ["Volibear.TargetCosts"] });
         }
     }

@@ -23,9 +23,9 @@ public static partial class DomainEnemyStatusContributions
 
     private static void InstallWitherContributions(Harmony harmony)
     {
-        harmony.Patch(MoveNext(Required(typeof(Aeonglass), "IncreasingIntensityMove")),
+        NativeTranspiler.Patch(harmony, MoveNext(Required(typeof(Aeonglass), "IncreasingIntensityMove")),
             transpiler: Handler(nameof(WitherMoveContributions)));
-        harmony.Patch(Required(typeof(Aeonglass), nameof(Aeonglass.MatchWitherToUpgradeCount)),
+        NativeTranspiler.Patch(harmony, Required(typeof(Aeonglass), nameof(Aeonglass.MatchWitherToUpgradeCount)),
             transpiler: Handler(nameof(WitherMatchContributions)));
         // This is the real clone primitive used by native combat clones. Copy only
         // our finite status receipts, not arbitrary fields or a generic lineage graph.

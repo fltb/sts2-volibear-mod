@@ -8,6 +8,73 @@ static class Program {
  static int checks;static void Need(bool ok,string why){checks++;if(!ok)throw new Exception(why);}
  static PowerModel Make(NCreature creature,int amount,string id="MOD_A",bool supported=true){var p=new PowerModel{Owner=creature.Entity,Amount=amount,Id=id,Supported=supported};creature.Entity.Powers.Add(p);return p;}
  static string Description(NCreature c)=>string.Join("|",c.Shown.OfType<HoverTip>().Select(t=>t.Description));
+ static object LayoutList(NPowerContainer container)=>AccessTools.DeclaredMethod(typeof(PowerStackVisual),"LayoutNodes").Invoke(null,new object[]{container,container.All})!;
+ static void ForeignOnlyChecks(){
+  var tracker=CombatManager.Instance.StateTracker;
+  var creature=new NCreature();var container=new NPowerContainer{Size=new(128,32)};container.Enter();
+  Need(tracker.Count==0&&container.LayoutCalls==0,"Empty native container adds no subscription or extra layout");
+  var foreign=Make(creature,9,"FOREIGN_ONLY",false);var node=container.Add(foreign);
+  var second=Make(creature,11,"OTHER_MOD",false);var otherNode=container.Add(second);
+  Need(tracker.Count==0&&container.LayoutCalls==2,"Foreign-only adds run only native layouts");
+  Need(ReferenceEquals(LayoutList(container),container.All),"Foreign-only layout uses exact native list identity");
+  int nativeLayouts=container.LayoutCalls;
+  node.Visible=false;node.Position=new(53,71);container.Position=new(123,456);
+  foreign.Amount=10;node.AmountChanged();tracker.Notify();
+  Need(PowerStackVisual.DisplayedAmount(node)=="10"&&container.LayoutCalls==nativeLayouts,"Foreign amount event updates native label without extra layout");
+  Need(!node.Visible&&node.Position==new Godot.Vector2(53,71)&&container.Position==new Godot.Vector2(123,456),"Unrelated visibility and external layout survive combat notifications");
+  var tips=foreign.HoverTips.Concat(second.HoverTips);creature.ShowHoverTips(tips);
+  Need(ReferenceEquals(creature.LastInput,tips)&&Description(creature)=="native 10|native 11","Unrelated hover receives original enumerable untouched");
+  node.Hover();Need(tracker.Count==1,"Foreign hover owns its one native callback");
+  foreign.Amount=12;tracker.Notify();
+  Need(Description(creature)=="native 12"&&container.LayoutCalls==nativeLayouts,"Foreign native open hover refreshes without a projection layout");
+  node.Unhover();Need(tracker.Count==0,"Foreign unhover removes native callback");
+  container.Exit();container.Enter();
+  Need(tracker.Count==0&&container.LayoutCalls==nativeLayouts&&!node.Visible&&node.Position==new Godot.Vector2(53,71),"Foreign tree reentry does not install projection state or reset layout");
+  var standalone=new NPower{Model=second};standalone.Enter();
+  Need(tracker.Count==0&&PowerStackVisual.DisplayedAmount(standalone)=="11","Standalone foreign Ready stays native");
+  standalone.Hover();Need(tracker.Count==1,"Standalone foreign hover adds only native callback");
+  standalone.Unhover();standalone.Exit();container.Exit();
+  Need(tracker.Count==0&&otherNode.Visible,"Foreign-only lifecycle leaves no added subscriptions or visibility changes");
+ }
+ static void ScopeTransitionChecks(){
+  var tracker=CombatManager.Instance.StateTracker;
+  var creature=new NCreature();var own=Make(creature,4,"TRANSITION");
+  var foreign=Make(creature,8,"TRANSITION_FOREIGN",false);
+  var container=new NPowerContainer();container.Enter();var node=container.Add(own);
+  Need(tracker.Count==1&&!ReferenceEquals(LayoutList(container),container.All),"First supported node activates one container projection");
+  node.Hover();Need(tracker.Count==2,"Supported container hover has container plus native callback");
+  node.Model=foreign;
+  Need(tracker.Count==1&&ReferenceEquals(LayoutList(container),container.All),"Last projected node rebind retires container state but preserves native hover callback");
+  Need(PowerStackVisual.DisplayedAmount(node)=="8","Rebound foreign node keeps native amount");
+  node.Position=new(72,19);container.Position=new(200,300);int nativeLayouts=container.LayoutCalls;
+  foreign.Amount=10;tracker.Notify();
+  Need(Description(creature)=="native 10"&&container.LayoutCalls==nativeLayouts&&node.Position==new Godot.Vector2(72,19),"Retired container leaves foreign layout and native hover updates alone");
+  node.Unhover();Need(tracker.Count==0,"Rebound foreign unhover owns cleanup");
+  container.Exit();container.Enter();
+  Need(tracker.Count==0&&container.LayoutCalls==nativeLayouts&&container.Position==new Godot.Vector2(200,300),"Retired container reentry stays inert while owner has unrelated supported powers");
+  node.Model=own;Need(tracker.Count==1&&PowerStackVisual.DisplayedAmount(node)=="4","Projected rebind reactivates one container subscription");
+  container.Exit();Need(tracker.Count==0,"Reactivated container exits cleanly");
+  var standalone=new NPower{Model=own};standalone.Enter();standalone.Hover();
+  Need(tracker.Count==2,"Standalone supported view has own state plus native hover");
+  var shown=creature.Shown;standalone.Model=foreign;
+  Need(tracker.Count==1&&ReferenceEquals(creature.Shown,shown),"Foreign rebind releases only own state and preserves current native tooltip");
+  foreign.Amount=13;tracker.Notify();Need(Description(creature)=="native 13","Rebound standalone hover continues through native callback");
+  shown=creature.Shown;standalone.Exit();
+  Need(tracker.Count==1&&ReferenceEquals(creature.Shown,shown),"Retired view exit does not revoke foreign hover subscription or hide its tooltip");
+  standalone.Unhover();Need(tracker.Count==0,"Native unhover releases the callback after scope retirement");
+ }
+ static void VisibilityLeaseChecks(){
+  var tracker=CombatManager.Instance.StateTracker;
+  var creature=new NCreature();var container=new NPowerContainer();container.Enter();
+  var first=Make(creature,2,"VISIBILITY");container.Add(first);
+  var duplicate=Make(creature,3,"VISIBILITY");var node=container.Add(duplicate);
+  var foreign=Make(creature,6,"VISIBILITY_FOREIGN",false);
+  container.Exit();node.Visible=false;container.Enter();
+  Need(!node.Visible&&tracker.Count==1,"Projection remembers a duplicate that native UI already hid");
+  node.Visible=true;node.Model=foreign;
+  Need(node.Visible&&PowerStackVisual.DisplayedAmount(node)=="6","A newer external visibility change survives release of our old hidden state");
+  container.Exit();Need(node.Visible&&tracker.Count==0,"Exit retains released foreign visibility and cleans own container subscription");
+ }
  static void OwnKeywordChecks(){
  foreach(var (key,title) in new[]{("UNBREAKABLE","坚甲"),("DOMAIN","领域"),("THUNDER_ARMOR","雷甲")}){
   var creature=new NCreature();var model=Make(creature,3,"MOD_"+key);model.Title=title;model.Suppressed=true;
@@ -30,14 +97,16 @@ static class Program {
   Need(creature.Shown.Length==2,key+": owner possessing a power alone does not remove glossary without its main tip");
  }
  }
- static void Main(){
- PowerStackVisual.Install();PowerStackVisual.Install();OwnKeywordChecks();
+ static void Main(string[] args){
+ if(args.Length>0){InteropChecks.Run(args[0]);return;}
+ PowerStackVisual.Install();PowerStackVisual.Install();OwnKeywordChecks();ForeignOnlyChecks();ScopeTransitionChecks();VisibilityLeaseChecks();
  Need(Harmony.GetPatchInfo(AccessTools.PropertyGetter(typeof(PowerModel),nameof(PowerModel.HoverTips))) is null,"No global model hover patch");
  var creature=new NCreature();var container=new NPowerContainer{Size=new(128,32)};container.Enter();
  var tracker=CombatManager.Instance.StateTracker;
- Need(tracker.Count==1,"One container state subscription");
+ Need(tracker.Count==0,"Empty container has no projection state subscription");
  var a=Make(creature,3);var na=container.Add(a);var b=Make(creature,4);var nb=container.Add(b);
  var foreign=Make(creature,9,"FOREIGN",false);var nf=container.Add(foreign);
+ Need(tracker.Count==1,"Supported container has one shared state subscription");
  Need(container.All.Count==3&&creature.Entity.Powers.Count==3&&a.Amount==3&&b.Amount==4,"All native nodes and model amounts retained");
  Need(na.Visible&&!nb.Visible&&nf.Visible,"One representative plus unchanged third-party node");
  Need(PowerStackVisual.DisplayedAmount(na)=="7"&&PowerStackVisual.DisplayedAmount(nb)=="7","Aggregate labels on representative and reusable hidden node");
@@ -58,12 +127,17 @@ static class Program {
  Need(PowerStackVisual.DisplayedAmount(nb)=="6"&&tracker.Count==1,"Removed hovered representative unsubscribes");
  creature.Entity.Powers.Remove(b);container.Remove(b);
  Need(container.All.Count==1&&nf.Visible&&nf.Position.X==0,"Last member removal leaves no phantom representative");
+ Need(tracker.Count==0&&ReferenceEquals(LayoutList(container),container.All),"Last member removal restores native list and releases projection subscription");
  var c=Make(creature,2);var nc=container.Add(c);var d=Make(creature,5);var nd=container.Add(d);
  container.Exit();Need(tracker.Count==0&&nd.Visible,"Exit unsubscribes and releases only our hidden visibility");
  container.Enter();Need(tracker.Count==1&&nc.Visible&&!nd.Visible&&PowerStackVisual.DisplayedAmount(nc)=="7","Tree reentry groups again without Ready replay");
  nd.Model=foreign;Need(nd.Visible&&PowerStackVisual.DisplayedAmount(nd)=="9","Container model rebind restores previously hidden native node");
  nd.Model=d;Need(!nd.Visible&&PowerStackVisual.DisplayedAmount(nc)=="7","Container rebind back recomputes group immediately");
  nf.Visible=false;tracker.Notify();Need(!nf.Visible,"Unrelated native visibility is never reset");nf.Visible=true;
+ nf.Hover();Need(tracker.Count==2,"Mixed container leaves foreign hover with its native callback only");
+ var foreignTips=creature.Shown;nf.Exit();
+ Need(tracker.Count==2&&ReferenceEquals(creature.Shown,foreignTips),"Mixed container does not own foreign node hover cleanup");
+ nf.Unhover();nf.Enter();Need(tracker.Count==1,"Foreign hover remains natively reversible inside a projected container");
  var otherCreature=new NCreature();var other=Make(otherCreature,100);var otherContainer=new NPowerContainer();otherContainer.Enter();var otherNode=otherContainer.Add(other);
  Need(PowerStackVisual.DisplayedAmount(nc)=="7"&&PowerStackVisual.DisplayedAmount(otherNode)=="100","Same ID from another owner never coalesces");
  var intent=new NPower();intent.Enter();Need(intent.GetterReads==0&&PowerStackVisual.DisplayedAmount(intent)=="","Unbound multiplayer Ready is safe");

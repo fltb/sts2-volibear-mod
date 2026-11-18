@@ -143,7 +143,7 @@ internal sealed class SteamNativeEntryBinding
             // Ordering is explicit and remains stable if a normal foreign prefix is added later.
             // A patch that deliberately runs before this isolation boundary must itself preserve
             // provenance; replacing/transpiling away the native body is not a native contribution.
-            harmony.Patch(method,
+            NativeTranspiler.Patch(harmony, method,
                 prefix: new HarmonyMethod(AccessTools.Method(typeof(SteamNativeEntryBinding), nameof(Prefix))) { priority = int.MaxValue },
                 transpiler: new HarmonyMethod(AccessTools.Method(typeof(SteamNativeEntryBinding), nameof(Wrapper))) { priority = int.MinValue },
                 finalizer: new HarmonyMethod(AccessTools.Method(typeof(SteamNativeEntryBinding), nameof(Finalizer))) { priority = int.MinValue });

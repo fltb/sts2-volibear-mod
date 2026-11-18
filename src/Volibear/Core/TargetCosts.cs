@@ -151,7 +151,7 @@ public static class TargetCosts
                 ?? throw new MissingMethodException("PlayCardAction.ExecuteAction");
             var machine = action.GetCustomAttribute<AsyncStateMachineAttribute>()?.StateMachineType
                 ?? throw new InvalidOperationException("PlayCardAction lost native async state machine.");
-            harmony.Patch(AccessTools.Method(machine, "MoveNext"), transpiler: Handler(nameof(ResolvedTargetCallsites)));
+            NativeTranspiler.Patch(harmony, AccessTools.Method(machine, "MoveNext"), transpiler: Handler(nameof(ResolvedTargetCallsites)));
             harmony.Patch(AccessTools.Method(typeof(CardModel), nameof(CardModel.CanPlayTargeting), [typeof(Creature)]),
                 prefix: Handler(nameof(BeforeTargeting)), finalizer: Handler(nameof(Restore)));
             harmony.Patch(AccessTools.Method(typeof(CardModel), nameof(CardModel.CanPlay),

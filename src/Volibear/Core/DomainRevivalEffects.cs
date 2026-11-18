@@ -80,7 +80,7 @@ public static class DomainRevivalEffects
     internal static void InstallPatches(Harmony harmony)
     {
         ValidateHealTiming();
-        void Transpile(MethodInfo method, string name) => harmony.Patch(method,
+        void Transpile(MethodInfo method, string name) => NativeTranspiler.Patch(harmony, method,
             transpiler: new HarmonyMethod(typeof(DomainRevivalEffects), name));
         Transpile(MoveNext(AccessTools.Method(typeof(CreatureCmd), "KillWithoutCheckingWinCondition")), nameof(DeathMachine));
         Transpile(MoveNext(AccessTools.Method(typeof(Hook), nameof(Hook.AfterDeath))), nameof(DeathDispatch));

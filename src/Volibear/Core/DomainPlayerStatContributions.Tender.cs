@@ -175,8 +175,8 @@ public static partial class DomainPlayerStatContributions
         var harmony = new Harmony(HarmonyId);
         try
         {
-            foreach (var site in tenderSites.Keys) harmony.Patch(site, transpiler: new HarmonyMethod(Handler(nameof(RewriteTender))));
-            harmony.Patch(removeMove, transpiler: new HarmonyMethod(Handler(nameof(RewriteRemove))));
+            foreach (var site in tenderSites.Keys) NativeTranspiler.Patch(harmony, site, transpiler: new HarmonyMethod(Handler(nameof(RewriteTender))));
+            NativeTranspiler.Patch(harmony, removeMove, transpiler: new HarmonyMethod(Handler(nameof(RewriteRemove))));
             harmony.Patch(typeof(CombatManager).GetMethod(nameof(CombatManager.Reset)), prefix: new HarmonyMethod(typeof(DomainPlayerStatContributions), nameof(Reset)));
             InstallPossess(harmony);
             installed = true;
