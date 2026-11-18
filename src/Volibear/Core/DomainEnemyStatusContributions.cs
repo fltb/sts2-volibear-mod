@@ -52,7 +52,7 @@ public static partial class DomainEnemyStatusContributions
         new(typeof(WitheringPresencePower), "AfterCardPlayed", typeof(Wither)),
         new(typeof(PainfulStabsPower), "AfterAttack", typeof(Wound)),
         new(typeof(Noisebot), "NoiseMove", typeof(Dazed), true, 2),
-        #if STS2_BETA
+        #if STS2_0_113
         new(typeof(SoulFysh), "BeckonMove", typeof(Beckon), true, 3),
 #else
         new(typeof(SoulFysh), "BeckonMove", typeof(Beckon), true, 2),

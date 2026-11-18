@@ -67,7 +67,7 @@ internal static class PowerPresentationDisabled
         // Invisible powers have no native icon/tip; expose their real name on the creature.
         if (suppressed && !found)
             yield return new HoverTip(power.Title, Text("badge").GetFormattedText() + "\n" + DisabledDescription(power))
-#if !STS2_BETA
+#if !STS2_0_113
                 { Id = "VOLIBEAR-DISABLED-" + power.Id }
 #endif
                 ;
@@ -84,13 +84,13 @@ internal static class PowerPresentationDisabled
         // domain alone must never claim that every special action is suppressed.
         if (DomainEnemyEffects.ActiveFor(creature) && IsCreatureSuppressed(creature))
             yield return new HoverTip(Text("enemyTitle"), Text("enemyDescription"))
-#if !STS2_BETA
+#if !STS2_0_113
                 { Id = "VOLIBEAR-DISABLED-ENEMY" }
 #endif
                 ;
         else if (creature.Powers.Any(IsSuppressed))
             yield return new HoverTip(Text("selfTitle"), Text("selfDescription"))
-#if !STS2_BETA
+#if !STS2_0_113
                 { Id = "VOLIBEAR-DISABLED-SELF" }
 #endif
                 ;

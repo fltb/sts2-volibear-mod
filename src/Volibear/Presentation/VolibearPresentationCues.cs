@@ -72,7 +72,7 @@ public static class VolibearPresentationCues
         if(installed)return;
         var target=AccessTools.Method(typeof(NCharacterSelectScreen),nameof(NCharacterSelectScreen.SelectCharacter),
             [typeof(NCharacterSelectButton)
-#if !STS2_BETA
+#if !STS2_0_113
             , typeof(CharacterModel)
 #endif
             ])??throw new MissingMethodException("Native SelectCharacter");
@@ -95,12 +95,12 @@ public static class VolibearPresentationCues
         installed=true;
     }
     private static void Selected(NCharacterSelectScreen __instance,NCharacterSelectButton charSelectButton
-#if !STS2_BETA
+#if !STS2_0_113
         , CharacterModel characterModel
 #endif
         ) => Safe(() =>
     {
-#if STS2_BETA
+#if STS2_0_113
         var characterModel = charSelectButton.Character;
 #endif
         if(characterModel is not VolibearCharacter || charSelectButton.IsLocked || charSelectButton.IsRandom)return;

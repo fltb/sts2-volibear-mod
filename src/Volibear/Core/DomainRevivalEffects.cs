@@ -253,13 +253,13 @@ public static class DomainRevivalEffects
         return cached;
     }
     private static async Task DispatchDeath(AbstractModel source, PlayerChoiceContext context, Creature creature,
-#if STS2_BETA
+#if STS2_0_113
         CardModel? cardSource,
 #endif
         bool prevented, float length)
     {
         Task ForwardDeath() => source.AfterDeath(context, creature,
-#if STS2_BETA
+#if STS2_0_113
             cardSource,
 #endif
             prevented, length);

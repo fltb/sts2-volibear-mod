@@ -204,13 +204,13 @@ public static partial class DomainSteamEruptionEffects
             if (!instruction.Calls(native)) { result.Add(instruction); continue; }
             var save = new CodeInstruction(OpCodes.Stloc, recursion); Metadata(instruction, save); result.Add(save);
             result.Add(new(OpCodes.Stloc, force));
-#if STS2_BETA
+#if STS2_0_113
             var card = generator.DeclareLocal(typeof(CardModel));
             result.Add(new(OpCodes.Stloc, card));
 #endif
             result.Add(new(OpCodes.Stloc, owner));
             result.Add(new(OpCodes.Ldloc, owner));
-#if STS2_BETA
+#if STS2_0_113
             result.Add(new(OpCodes.Ldloc, card));
 #endif
             result.Add(new(OpCodes.Ldloc, force)); result.Add(new(OpCodes.Ldloc, recursion));

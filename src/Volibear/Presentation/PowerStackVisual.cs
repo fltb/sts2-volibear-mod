@@ -25,7 +25,7 @@ internal static class PowerStackVisual
     private static bool installed;
     private static readonly Lazy<HashSet<string>> OwnMechanicTipIds = new(() => new(
         MechanicGlossary.Entries.Select(entry =>
-#if STS2_BETA
+#if STS2_0_113
             new HoverTip(new MegaCrit.Sts2.Core.Localization.LocString("static_hover_tips", "VOLIBEAR-" + entry.Key + ".title"),
                 new MegaCrit.Sts2.Core.Localization.LocString("static_hover_tips", "VOLIBEAR-" + entry.Key + ".description")).Id
 #else

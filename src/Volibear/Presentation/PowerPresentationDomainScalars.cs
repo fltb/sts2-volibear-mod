@@ -79,7 +79,7 @@ internal static class PowerPresentationDomainScalars
         foreach (var (method, label, sites) in new (MethodInfo Method, string Label, NativeSite[] Sites)[]
         {
             (damage, "CreatureCmd.Damage", [new(hookDamage, 1),
-#if STS2_BETA
+#if STS2_0_113
                 new(hookHpLost, 4)
 #else
                 new(hookHpLost, 3)

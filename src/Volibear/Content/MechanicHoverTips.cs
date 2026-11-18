@@ -37,7 +37,7 @@ internal static class MechanicHoverTips
             ? "VOLIBEAR-ENGAGE_STATE.empty" : "VOLIBEAR-ENGAGE_STATE.spent");
         if (spent.Length > 0) description.Add("Enemies", string.Join(VolibearLoc.ListSeparator, spent));
         yield return new HoverTip(new LocString("static_hover_tips", "VOLIBEAR-ENGAGE_STATE.title"), description)
-#if !STS2_BETA
+#if !STS2_0_113
                 { Id = "VOLIBEAR-ENGAGE_STATE" }
 #endif
                 ;
@@ -49,7 +49,7 @@ internal static class MechanicHoverTips
             yield return new HoverTip(
                 new LocString("static_hover_tips", "VOLIBEAR-" + entry.Key + ".title"),
                 new LocString("static_hover_tips", "VOLIBEAR-" + entry.Key + ".description"))
-#if !STS2_BETA
+#if !STS2_0_113
                 { Id = "VOLIBEAR-" + entry.Key }
 #endif
                 ;

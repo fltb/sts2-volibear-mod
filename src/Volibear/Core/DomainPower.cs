@@ -91,7 +91,7 @@ public sealed class DomainPower : CustomPowerModel
     }
 
     public override Task AfterDeath(PlayerChoiceContext context, Creature creature,
-#if STS2_BETA
+#if STS2_0_113
         CardModel? cardSource,
 #endif
         bool wasRemovalPrevented, float deathAnimLength)

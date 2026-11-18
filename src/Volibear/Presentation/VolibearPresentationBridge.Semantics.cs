@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
@@ -53,7 +52,6 @@ public static partial class VolibearPresentationBridge
 
     private sealed partial class OwnerScope
     {
-        private readonly Dictionary<Creature, string> _markTargets = new(ReferenceEqualityComparer.Instance);
         private readonly List<WeakReference<NCard>> _selectionCards = [];
 
         internal void RememberSelectionCard(CardModel card, NCard view)
@@ -88,13 +86,7 @@ public static partial class VolibearPresentationBridge
                     _effects.Emit(id, "feral_aura", Anchors(), sound: false);
                     BatchingBeastMotion(receipt.Source as CardModel);
                     break;
-                case "bite_mark_added":
-                    if (receipt.Target is { } marked)
-                    {
-                        string key = $"bite:{CreatureId(_owner)}:{CreatureId(marked)}";
-                        if (_markTargets.TryAdd(marked, key)) BindMark(marked, key, id, sound: true);
-                    }
-                    break;
+                case "bite_mark_added": _effects.PlaySound(id, "sfx.mark_bite"); break;
                 case "card_charge_changed": CardEffect("charge", onCard: true); break;
                 case "card_retain_added": CardEffect("armor_retain", onCard: true); break;
                 case "card_enhancement_committed": CardEffect("strength", onCard: true); break;
@@ -125,11 +117,6 @@ public static partial class VolibearPresentationBridge
             }
         }
 
-        private void BindMark(Creature target, string key, string id, bool sound)
-        {
-            if (!target.IsAlive || !BiteMarks.Has(_owner, target) || _room.NodeFor(target) is not { } node || !Valid(node.Visuals)) return;
-            _effects.Emit(id, "mark_bite", Anchors(node), CreatureId(target), persistentKey: key, leaseSeconds: 2f, sound: sound);
-        }
         internal void TickSemanticVisuals()
         {
             if (!Live) return;
@@ -139,20 +126,7 @@ public static partial class VolibearPresentationBridge
                 { _selectionCards.RemoveAt(i); continue; }
                 if (view.Model is { } card) CaptureVisibleCard(card, view);
             }
-            foreach (var pair in _markTargets)
-            {
-                if (!pair.Key.IsAlive || !BiteMarks.Has(_owner, pair.Key) || _room.NodeFor(pair.Key) is not { } node || !Valid(node.Visuals))
-                { _effects.StopLoop(pair.Value); continue; }
-                // The authoritative identity ledger survives same-entity revival.
-                // A renewed visual never repeats the original mark-added sound.
-                if (!_effects.RenewLoop(pair.Value, 2f)) BindMark(pair.Key, pair.Value, Next("bite_rebind"), sound: false);
-            }
         }
-        internal void StopSemanticVisuals(bool combatEnded)
-        {
-            foreach (var key in _markTargets.Values) _effects.StopLoop(key);
-            _selectionCards.Clear();
-            if (combatEnded) _markTargets.Clear();
-        }
+        internal void StopSemanticVisuals() => _selectionCards.Clear();
     }
 }

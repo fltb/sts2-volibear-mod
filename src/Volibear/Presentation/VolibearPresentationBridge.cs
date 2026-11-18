@@ -877,7 +877,7 @@ public static partial class VolibearPresentationBridge
         {
             if (_disposed || _dead) return;
             _dead = true;
-            StopSemanticVisuals(false);
+            StopSemanticVisuals();
             ClearMotions();
             _domainEligible = false;
             bool domain = _domain;
@@ -912,7 +912,7 @@ public static partial class VolibearPresentationBridge
         });
         internal void SuspendEnding()
         {
-            StopSemanticVisuals(false);
+            StopSemanticVisuals();
             ClearMotions();
             _domain = false;
             ReleaseSpiritForm();
@@ -923,7 +923,7 @@ public static partial class VolibearPresentationBridge
         {
             if (_combatStopped) return;
             _combatStopped = true;
-            StopSemanticVisuals(true);
+            StopSemanticVisuals();
             ClearMotions();
             _domain = false;
             ReleaseSpiritForm();

@@ -202,19 +202,19 @@ internal static class NativeAcceptanceRunHost
                 result.Install(typeof(PreloadManager), "LoadRoomAssets", typeof(Task), typeof(string), typeof(IEnumerable<string>));
                 result.Install(typeof(PreloadManager), "LoadAssetSets", typeof(Task<AssetLoadingSession>), typeof(string), typeof(IEnumerable<string>[]));
                 result.Install(typeof(RunState), "CreateForNewRun", typeof(RunState), typeof(IReadOnlyList<Player>), typeof(IReadOnlyList<ActModel>), typeof(IReadOnlyList<ModifierModel>), typeof(GameMode),
-#if STS2_BETA
+#if STS2_0_113
                     typeof(bool),
 #endif
                     typeof(int), typeof(string));
                 result.Install(typeof(RunManager), "GenerateMap", typeof(Task));
                 result.Install(typeof(NGame), "StartNewSingleplayerRun", typeof(Task<RunState>),
-#if STS2_BETA
+#if STS2_0_113
                     typeof(Player),
 #else
                     typeof(CharacterModel),
 #endif
                     typeof(bool), typeof(IReadOnlyList<ActModel>), typeof(IReadOnlyList<ModifierModel>), typeof(string), typeof(GameMode),
-#if STS2_BETA
+#if STS2_0_113
                     typeof(bool),
 #endif
                     typeof(int), typeof(DateTimeOffset?));

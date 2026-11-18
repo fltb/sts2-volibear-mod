@@ -90,20 +90,20 @@ internal sealed class NativeAutomationSelector : ICardSelector, IDisposable
 internal static class ProbeGameCompat
 {
     internal static ICardSelector? Selector(Player player) =>
-#if STS2_BETA
+#if STS2_0_113
         RunManager.Instance.CardSelectorStack.GetSelector(player);
 #else
         CardSelectCmd.Selector;
 #endif
 
     internal static bool HasSelector(Player player) => Selector(player) is not null
-#if STS2_BETA
+#if STS2_0_113
         || RunManager.Instance.CardSelectorStack.LocalSelector is not null
 #endif
         ;
 
     internal static IDisposable UseSelector(Player player, ICardSelector selector) =>
-#if STS2_BETA
+#if STS2_0_113
         RunManager.Instance.CardSelectorStack.UseSelector(player, selector);
 #else
         CardSelectCmd.UseSelector(selector);
@@ -111,7 +111,7 @@ internal static class ProbeGameCompat
 
     internal static Task<RunState> StartRun(CharacterModel character, bool shouldSave, IReadOnlyList<ActModel> acts,
         IReadOnlyList<ModifierModel> modifiers, string seed, GameMode gameMode, int ascensionLevel) =>
-#if STS2_BETA
+#if STS2_0_113
         MegaCrit.Sts2.Core.Nodes.NGame.Instance!.StartNewSingleplayerRun(
             Player.CreateForNewRun(character, MegaCrit.Sts2.Core.Saves.SaveManager.Instance.GenerateUnlockStateFromProgress(),
                 MegaCrit.Sts2.Core.Multiplayer.NetSingleplayerGameService.defaultNetId),
@@ -121,7 +121,7 @@ internal static class ProbeGameCompat
 #endif
 
     internal static Task ProceedFromRewards() =>
-#if STS2_BETA
+#if STS2_0_113
         RunManager.Instance.ProceedFromTerminalRewardsScreenAsync();
 #else
         RunManager.Instance.ProceedFromTerminalRewardsScreen();
@@ -129,7 +129,7 @@ internal static class ProbeGameCompat
 
     internal static Task<bool> Purchase(MegaCrit.Sts2.Core.Entities.Merchant.MerchantEntry entry,
         MegaCrit.Sts2.Core.Entities.Merchant.MerchantInventory inventory) =>
-#if STS2_BETA
+#if STS2_0_113
         RunManager.Instance.MerchantSynchronizer.PurchaseLocalEntry(entry);
 #else
         entry.OnTryPurchaseWrapper(inventory);

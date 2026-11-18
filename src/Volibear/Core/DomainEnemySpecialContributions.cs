@@ -108,7 +108,7 @@ public static partial class DomainEnemySpecialContributions
         {
             if (installed) return;
             Sites.Clear();
-#if STS2_BETA
+#if STS2_0_113
             Sites.Add(Machine(Method(typeof(GremlinMerc), "Steal")), "steal");
 #else
             foreach (string move in new[] { "GimmeMove", "DoubleSmashMove", "HeheMove" })

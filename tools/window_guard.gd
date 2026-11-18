@@ -12,7 +12,7 @@ func _process(_delta):
 		next_sample_ms = now + 10000
 		if not verify_window_manager("runtime"):
 			return false
-		print("WINDOW_RUNTIME_TIMING ticksMs=", now, " fps=", Engine.get_frames_per_second(), " max_fps=", Engine.max_fps, " low_processor=", OS.low_processor_usage_mode, " low_sleep_usec=", OS.low_processor_usage_mode_sleep_usec, " vsync=", DisplayServer.window_get_vsync_mode())
+		print("WINDOW_RUNTIME_TIMING ticksMs=", now, " fps=", Engine.get_frames_per_second(), " max_fps=", Engine.max_fps, " time_scale=", Engine.time_scale, " low_processor=", OS.low_processor_usage_mode, " low_sleep_usec=", OS.low_processor_usage_mode_sleep_usec, " vsync=", DisplayServer.window_get_vsync_mode())
 		# Ignore startup; fail boundedly instead of spending hours at 1 FPS.
 		if now >= 30000:
 			if Engine.get_frames_per_second() < 10:

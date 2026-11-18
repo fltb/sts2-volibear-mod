@@ -97,7 +97,11 @@ internal static class VolibearEpochs
         var manager = SaveManager.Instance;
         var progress = manager.Progress;
         var chapters = new VolibearStory().Epochs;
+#if STS2_0_113
         var ironclad = progress.GetStatsForCharacter<Ironclad>();
+#else
+        var ironclad = progress.GetStatsForCharacter(ModelDb.GetId<Ironclad>());
+#endif
         bool[] earned = new bool[chapters.Length];
         earned[0] = ironclad != null && (ironclad.TotalWins > 0 || ironclad.TotalLosses > 0);
 

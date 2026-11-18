@@ -14,7 +14,7 @@ using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Audio;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
-#if STS2_BETA
+#if STS2_0_113
 using VictoryResult = MegaCrit.Sts2.Core.Entities.Save.PostRunProgressUpdateResult;
 #else
 using VictoryResult = MegaCrit.Sts2.Core.Saves.SerializableRun;
@@ -102,14 +102,14 @@ internal static class VolibearArchitectEnding
         }
         await Cmd.Wait(1.5f);
         Completed.Add(victory.State, victory);
-        #if !STS2_BETA
+        #if !STS2_0_113
         ShowVictory(victory.Snapshot);
 #endif
         VictoryShown?.Invoke(victory.Snapshot);
     }
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static void EnterDomain(Creature creature) => VolibearPresentationBridge.EnterArchitectDomain(creature);
-    #if !STS2_BETA
+    #if !STS2_0_113
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static void ShowVictory(VictoryResult snapshot)
     {

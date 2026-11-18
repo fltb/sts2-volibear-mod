@@ -16,7 +16,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.ValueProps;
 
-#if STS2_BETA
+#if STS2_0_113
 using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.DamageTargetData;
 #else
 using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.Creature;
@@ -29,7 +29,10 @@ public static partial class DomainSteamEruptionEffects
     internal static readonly MethodInfo NativeDamage = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Damage),
         [typeof(PlayerChoiceContext), typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
 #if STS2_BETA
-            , typeof(CardPlay), typeof(ModifyDamageHookType)
+            , typeof(CardPlay)
+#endif
+#if STS2_0_113
+            , typeof(ModifyDamageHookType)
 #endif
             ]);
     // Last rewrite candidate is exposed to managed emission fixtures only. Reports
@@ -66,7 +69,10 @@ public static partial class DomainSteamEruptionEffects
     private static Task<IEnumerable<DamageResult>> DamageFromCommand(PlayerChoiceContext choice, IEnumerable<AttackTarget> targets,
         decimal amount, ValueProp props, Creature? dealer, CardModel? card,
 #if STS2_BETA
-        CardPlay? cardPlay, ModifyDamageHookType hookType,
+        CardPlay? cardPlay,
+#endif
+#if STS2_0_113
+        ModifyDamageHookType hookType,
 #endif
         AttackCommand command)
     {
@@ -76,21 +82,30 @@ public static partial class DomainSteamEruptionEffects
         // The ticket covers native dispatch only, never foreign before/after hooks.
         return DispatchNativeDamage(choice, targets, amount, props, dealer, card,
 #if STS2_BETA
-            cardPlay, hookType,
+            cardPlay,
+#endif
+#if STS2_0_113
+            hookType,
 #endif
             command, episode);
     }
     private static Task<IEnumerable<DamageResult>> DispatchNativeDamage(PlayerChoiceContext choice, IEnumerable<AttackTarget> targets,
         decimal amount, ValueProp props, Creature? dealer, CardModel? card,
 #if STS2_BETA
-        CardPlay? cardPlay, ModifyDamageHookType hookType,
+        CardPlay? cardPlay,
+#endif
+#if STS2_0_113
+        ModifyDamageHookType hookType,
 #endif
         AttackCommand command, Episode? episode)
     {
         using var binding = DamageHandoff.Dispatch(episode is null ? null : new DamageInvocation(episode, command));
         return CreatureCmd.Damage(choice, targets, amount, props, dealer, card
 #if STS2_BETA
-            , cardPlay, hookType
+            , cardPlay
+#endif
+#if STS2_0_113
+            , hookType
 #endif
             );
     }
@@ -136,7 +151,7 @@ public static partial class DomainSteamEruptionEffects
         if (invocation is not null) Observed?.Invoke(invocation.Episode.Owner, part + "-committed");
         return actual; // Do not change the caller's raw unblockedDamage or WasFullyBlocked calculation.
     }
-#if STS2_BETA
+#if STS2_0_113
     private static DamageResult PreBlockHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "pre-block-hp");
 #endif
     private static DamageResult PrimaryHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "primary-hp");
@@ -184,7 +199,7 @@ public static partial class DomainSteamEruptionEffects
             {
                 hps++;
                 instruction.opcode = OpCodes.Call;
-#if STS2_BETA
+#if STS2_0_113
                 instruction.operand = Own(hps switch { 1 when blocks == 0 => nameof(PreBlockHp), 2 when blocks == 1 => nameof(PrimaryHp),
                     3 when blocks == 1 => nameof(OverflowHp), _ => throw new InvalidOperationException("Unexpected damage write order") });
 #else
@@ -203,7 +218,7 @@ public static partial class DomainSteamEruptionEffects
             if (point is not null)
             { result.Add(new(OpCodes.Ldstr, point)); result.Add(new(OpCodes.Call, Own(nameof(ObserveBoundary)))); }
         }
-        #if STS2_BETA
+        #if STS2_0_113
         const int hpSites = 3;
 #else
         const int hpSites = 2;

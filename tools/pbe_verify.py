@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/env python3
-"""Run the PBE verification matrix in one command and print an aggregate table.
+"""Run the native verification matrix for one game channel and print an aggregate table.
 
 Each scenario keeps its own native receipt validation; this wrapper only sequences the
 runs and collects pass/fail so a channel update is one command, not a manual loop.
@@ -66,6 +66,10 @@ def run(scenario, extra, args) -> dict:
     command = [sys.executable, '-B', str(ROOT / 'tools/headless.py'),
                '--use-deployed', '--scenario', scenario,
                '--display', args.display, '--audio-driver', args.audio]
+    if args.game_dir:
+        command += ['--game-dir', str(args.game_dir)]
+    if args.time_scale is not None:
+        command += ['--time-scale', str(args.time_scale)]
     if args.test_output:
         command += ['--test-output', args.test_output]
     command += extra
@@ -90,15 +94,21 @@ def run(scenario, extra, args) -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--game-dir', type=Path, help='Isolated game directory with a deployed test build')
     parser.add_argument('--full', action='store_true', help='Run the entire acceptance matrix including media')
     parser.add_argument('--test-output', choices=('minimal', 'detailed'))
     parser.add_argument('--only', action='append', default=[], help='Limit to scenario names')
     parser.add_argument('--timeout', type=int, default=None)
     parser.add_argument('--frames', type=int, default=None)
-    parser.add_argument('--display', default='background' if os.name == 'nt' else 'window')
+    parser.add_argument('--display')
+    parser.add_argument('--time-scale', type=float, help='Godot simulation rate for the isolated runs')
     parser.add_argument('--audio', default='WASAPI' if os.name == 'nt' else 'PulseAudio')
     parser.add_argument('--json', type=Path)
     args = parser.parse_args()
+    if args.game_dir:
+        args.game_dir = args.game_dir.expanduser().resolve()
+    if args.display is None:
+        args.display = 'background' if os.name == 'nt' else 'xvfb' if args.game_dir else 'window'
     if not (os.environ.get('VOLIBEAR_GAME_VERSION') and os.environ.get('VOLIBEAR_GAME_COMMIT')):
         print('Set VOLIBEAR_GAME_VERSION and VOLIBEAR_GAME_COMMIT to the installed channel first.', file=sys.stderr)
         return 2
@@ -107,7 +117,7 @@ def main():
     selected = args.only or (None if args.full else ('baseline', 'api', 'content'))
     if selected and set(selected) - {scenario for scenario, _ in MATRIX}:
         parser.error('Unknown scenario in --only')
-    print('PBE scenarios: ' + (', '.join(selected) if selected else 'full acceptance matrix'), flush=True)
+    print(f'Native scenarios ({os.environ["VOLIBEAR_GAME_VERSION"]}): ' + (', '.join(selected) if selected else 'full acceptance matrix'), flush=True)
     rows = []
     for scenario, extra in MATRIX:
         if selected and scenario not in selected:

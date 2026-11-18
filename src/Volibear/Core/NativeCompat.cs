@@ -23,14 +23,14 @@ internal static class NativeCompat
 
     internal static readonly Type[] AfterDeathParameters =
         [typeof(PlayerChoiceContext), typeof(Creature),
-#if STS2_BETA
+#if STS2_0_113
          typeof(CardModel),
 #endif
          typeof(bool), typeof(float)];
 
     internal static readonly Type[] KillWithoutWinParameters =
         [typeof(Creature),
-#if STS2_BETA
+#if STS2_0_113
          typeof(CardModel),
 #endif
          typeof(bool), typeof(int)];

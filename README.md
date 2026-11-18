@@ -16,7 +16,7 @@
 <a name="english"></a>
 ## 🌍 English
 
-**This mod is currently a test version.** Install the matching version of **BaseLib**. Current source builds handle their patch ordering internally; a separate load-order mod and an “immediately after BaseLib” position are no longer required. See [compatibility and verification](docs/LOAD_ORDER_COMPATIBILITY.md) for the tested scope and release status.
+**Game support** · Main v0.111.1 and Public Beta v0.113.1. Install **BaseLib 3.4.8**. Volibear handles its own patch ordering. See the [compatibility notes](docs/LOAD_ORDER_COMPATIBILITY.md) for details.
 
 Compatibility is checked by the actual APIs, patch structure and startup evidence,
 without per-mod exceptions. Shared-target metadata and complete-log diagnostics
@@ -48,10 +48,16 @@ damage suppression yields with a `degraded` report explaining the limited featur
 ### 📦 Installation
 1. **Steam Workshop (Recommended):** Subscribe to [**Volibear - The Relentless Storm**](https://steamcommunity.com/sharedfiles/filedetails/?id=3840408533&l=english) on the Steam Workshop and launch the game with mods enabled.
 2. **Manual Installation:**
-   * Download the latest release archive from [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases).
-   * Choose one audio package: `riot-sound.zip` uses Riot English voices (the same build as Steam Workshop); `opensound.zip` uses open audio. Install only one.
+   * Download the archive for your game branch from [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases).
+   * Choose one audio package: `riot-sound.zip` uses Riot English voices (the audio profile used by Steam Workshop); `opensound.zip` uses open audio. Install only one.
    * Extract the folder into your *Slay the Spire 2* `mods` directory.
    * Launch the game and enable the mod in the Mod Menu.
+
+### Changelog · v0.1.1
+
+- Added a Main v0.111.1 build alongside Public Beta v0.113.1.
+- Frenzied Maul shows the bite mark in the target’s status bar. The duplicate marker above its intent was removed.
+- Updated patch ordering compatibility. BaseLib 3.4.8 is required for both builds.
 
 ### 🐛 Bug Reports & Feedback
 Found a bug, balance issue, or localization typo? Please open an issue on [**GitHub Issues**](https://github.com/fltb/sts2-volibear-mod/issues) with reproduction steps or logs attached.
@@ -61,7 +67,7 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 <a name="简体中文"></a>
 ## 🇨🇳 简体中文
 
-**本模组目前为测试版。**请安装匹配版本的 **BaseLib**。当前源码构建由模组自行处理补丁顺序，不再要求额外安装排序模组，也不再要求 Volibear 紧邻 BaseLib。已验证范围和发布状态见[兼容性说明](docs/LOAD_ORDER_COMPATIBILITY.md)。
+**支持的游戏版本** · 正式分支 v0.111.1 和公开测试分支 v0.113.1。请安装 **BaseLib 3.4.8**。沃利贝尔自行处理补丁顺序，详见[兼容性说明](docs/LOAD_ORDER_COMPATIBILITY.md)。
 
 兼容性按实际接口、补丁结构和完整启动日志判断，不加入针对其他模组的特判。
 不支持的组合会保留具体失败原因和相关补丁信息；共享同一方法只标为待验证，不按模组名称拉黑。
@@ -91,10 +97,16 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 ### 📦 安装方式
 1. **Steam 创意工坊（推荐）：** 在 Steam 创意工坊搜索并订阅 [**沃利贝尔 · 不灭狂雷**](https://steamcommunity.com/sharedfiles/filedetails/?id=3840408533&l=schinese)，启动游戏启用模组即可。
 2. **手动安装：**
-   * 前往本仓库 [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases) 页面下载最新压缩包。
-   * 音频包二选一：`riot-sound.zip` 使用 Riot 英文语音（与创意工坊相同构建），`opensound.zip` 使用 open 音频。只需安装其中一个。
+   * 前往 [**Releases**](https://github.com/fltb/sts2-volibear-mod/releases)，下载与游戏分支匹配的压缩包。
+   * 音频包二选一：`riot-sound.zip` 使用 Riot 英文语音（与创意工坊相同的音频方案），`opensound.zip` 使用 open 音频。只需安装其中一个。
    * 将解压后的模组文件夹放入《杀戮尖塔 2》游戏根目录下的 `mods` 文件夹中。
    * 启动游戏并在模组菜单中勾选启用。
+
+### 更新日志 · v0.1.1
+
+- 新增正式分支 v0.111.1 构建，同时支持公开测试分支 v0.113.1。
+- 暴怒撕咬的咬痕显示在目标状态栏，移除意图上方的重复标记。
+- 更新补丁加载顺序兼容，两套构建均需 BaseLib 3.4.8。
 
 ### 🐛 问题反馈
 如遇到 Bug、数值建议或翻译错误，欢迎前往 [**GitHub Issues**](https://github.com/fltb/sts2-volibear-mod/issues) 提交反馈（附上复现步骤或报错日志最佳）。
@@ -107,13 +119,19 @@ This mod is an unofficial, non-commercial fan project created in compliance with
 
 本模组为《英雄联盟》同人非营利粉丝创作（Fan Project），遵循 Riot Games《Legal Jibber Jabber》同人创作政策制作，与 Riot Games 或《杀戮尖塔 2》官方无任何关联。
 
-## 本地构建 PBE 发布包
+## 本地构建正式版和 PBE 包
 
-在仓库根目录执行 `python tools/build_pbe_release.py`。首次使用时，将
-[配置样例](tools/local_config.example.json) 复制为 `.local/config.json`，填写本机 Steam PBE
-的游戏目录、Godot Mono 4.5.1 和 .NET SDK 9.0.320 的可执行文件路径。
-默认从游戏目录的 `mods/BaseLib/BaseLib.dll` 引用 BaseLib。若通过创意工坊安装，
-可在本机配置中用 `baselib_dll` 指定实际 DLL。首次准备音频需要 FFmpeg 和 ffprobe。
+首次使用时，将[配置样例](tools/local_config.example.json)复制为 `.local/config.json`。
+`stable_game_dir` 指向独立下载的正式版 v0.111.1，`game_dir` 指向 PBE v0.113.x。
+两套构建共用源码，并分别读取对应目录的游戏程序集。Godot 使用 4.5.1 Mono，.NET SDK 使用 9.0.320。
 
-成品位于 `.local/release/pbe/`。任选一个 ZIP 解压到游戏的 `mods/` 目录，
-得到 `mods/Volibear/`。两个包共用相同的角色、语言和玩法，需要另行安装 BaseLib 3.4.8 或兼容版本。
+```sh
+python tools/build_pbe_release.py --channel stable
+python tools/build_pbe_release.py --channel pbe
+```
+
+默认从各游戏副本的 `mods/BaseLib/BaseLib.dll` 引用 BaseLib 3.4.8。也可以在本机配置中用
+`stable_baselib_dll` 和 `baselib_dll` 指定 DLL。首次准备音频需要 FFmpeg 和 ffprobe。
+
+成品分别位于 `.local/release/stable/` 和 `.local/release/pbe/`。选用对应游戏分支的一种音频包，
+解压后得到 `mods/Volibear/`。验收流程见[双通道构建与验证](docs/PBE_CHANNEL.md)。

@@ -104,7 +104,7 @@ public static partial class DomainEnemyStatusContributions
             CreatureCmd.Damage(context, target, amount, props, dealer, card);
 #endif
     private static Task PaperCutMaxHp(PlayerChoiceContext context, Creature target, decimal amount,
-#if STS2_BETA
+#if STS2_0_113
         CardModel? fromCard,
 #else
         bool fromCard,

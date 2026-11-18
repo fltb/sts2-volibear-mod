@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>Volibear</AssemblyName>
     <Version>0.1.0</Version>
-    <BaseLibPath Condition="'$(BaseLibPath)' == '' and '$(GameChannel)' == 'beta'">$(MSBuildProjectDirectory)/../../.local/dependencies/BaseLib-3.4.8/BaseLib.dll</BaseLibPath>
+    <BaseLibPath Condition="'$(BaseLibPath)' == '' and ('$(GameChannel)' == 'stable' or '$(GameChannel)' == 'beta')">$(MSBuildProjectDirectory)/../../.local/dependencies/BaseLib-3.4.8/BaseLib.dll</BaseLibPath>
     <BaseLibPath Condition="'$(BaseLibPath)' == ''">$(MSBuildProjectDirectory)/../../.local/dependencies/BaseLib-3.4.7/BaseLib.dll</BaseLibPath>
     <Deterministic>true</Deterministic>
     <PathMap>$(MSBuildProjectDirectory)=/_/Volibear</PathMap>
@@ -14,11 +14,14 @@
          with a lock-file error that hides the real cause. -->
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
-  <!-- One source tree, two game channels: the beta channel compiles the same code with the
-       PBE assemblies and small #if STS2_BETA adapters where the native API moved. -->
-  <PropertyGroup Condition="'$(GameChannel)' == 'beta'">
+  <!-- Both current channels share the API introduced by the former 0.111 PBE (STS2_BETA).
+       STS2_0_113 selects interfaces and patch targets that changed in the 0.113 series. -->
+  <PropertyGroup Condition="'$(GameChannel)' == 'stable' or '$(GameChannel)' == 'beta'">
     <Version>0.1.1</Version>
     <DefineConstants>$(DefineConstants);STS2_BETA</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GameChannel)' == 'beta'">
+    <DefineConstants>$(DefineConstants);STS2_0_113</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(IncludeDevProbes)' == 'true'">
     <DefineConstants>$(DefineConstants);VOLIBEAR_DEV_PROBES</DefineConstants>
@@ -27,9 +30,8 @@
     <Error Condition="!Exists('$(Sts2DataDir)/sts2.dll')" Text="Set Sts2DataDir to your installed game's managed assembly directory." />
     <Error Condition="!Exists('$(BaseLibPath)')" Text="Fetch the pinned BaseLib with tools/dependencies.py (VOLIBEAR_CHANNEL=pbe for beta)." />
   </Target>
-  <!-- Development probes/acceptance hosts are not part of the player-facing beta build; the
-       stable channel keeps them. This keeps the PBE port limited to production code. -->
-  <ItemGroup Condition="'$(GameChannel)' == 'beta' and '$(IncludeDevProbes)' != 'true'">
+  <!-- Player-facing channel packages exclude the development probes. -->
+  <ItemGroup Condition="('$(GameChannel)' == 'stable' or '$(GameChannel)' == 'beta') and '$(IncludeDevProbes)' != 'true'">
     <Compile Remove="**/*Probe.cs" />
     <Compile Remove="NativeVerificationSuite.cs" />
     <Compile Remove="CatalogFaceSuite.cs" />

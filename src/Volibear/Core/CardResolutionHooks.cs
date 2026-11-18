@@ -18,7 +18,7 @@ using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 
-#if STS2_BETA
+#if STS2_0_113
 using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.DamageTargetData;
 #else
 using AttackTarget = MegaCrit.Sts2.Core.Entities.Creatures.Creature;
@@ -233,12 +233,8 @@ public static partial class CardResolutionHooks
 
     private static IEnumerable<CodeInstruction> AttackDamageCallsite(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
-        var native = Required(typeof(CreatureCmd), nameof(CreatureCmd.Damage), typeof(PlayerChoiceContext),
-            typeof(IEnumerable<AttackTarget>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
-#if STS2_BETA
-            , typeof(CardPlay), typeof(ModifyDamageHookType)
-#endif
-            );
+        var native = DomainSteamEruptionEffects.NativeDamage
+            ?? throw new MissingMethodException(typeof(CreatureCmd).FullName, nameof(CreatureCmd.Damage));
         return NativeAwaitedCall.Compose(instructions, generator, native,
             AccessTools.Method(typeof(CardResolutionHooks), nameof(CaptureOrdinaryAttack)),
             AccessTools.Method(typeof(CardResolutionHooks), nameof(ComposeOrdinaryAttackAwaiter)));
@@ -298,7 +294,10 @@ public static partial class CardResolutionHooks
     private static OrdinaryAttackObservation CaptureOrdinaryAttack(PlayerChoiceContext context,
         IEnumerable<AttackTarget> targets, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource
 #if STS2_BETA
-        , CardPlay? cardPlay, ModifyDamageHookType hookType
+        , CardPlay? cardPlay
+#endif
+#if STS2_0_113
+        , ModifyDamageHookType hookType
 #endif
         ) => new(Current.Value, context, props, dealer, cardSource);
 

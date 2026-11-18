@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 import json
 import hashlib
+import math
 import shutil
 import tempfile
 import os
@@ -1045,7 +1046,7 @@ def launch(game, directory, env, command, timeout, display='headless', *, cancel
 
 
 @test_output.session()
-def stock_teardown(game, timeout, frames, display='headless', audio_driver=None):
+def stock_teardown(game, timeout, frames, display='headless', audio_driver=None, *, time_scale=None):
     """Measure the shipped game's own exit signature with mod initialization disabled."""
     run_id = new_run_id()
     # Frame-count quits race asynchronous native preloading. The no-mod controller
@@ -1055,6 +1056,8 @@ def stock_teardown(game, timeout, frames, display='headless', audio_driver=None)
     stock_report = {}
     directory, env, command = prepare_run(game, run_id, control_frames, display, stock_report=stock_report)
     command = with_audio_driver(command, audio_driver)
+    if time_scale is not None:
+        command.extend(['--time-scale', str(time_scale)])
     if '--script' in command:
         index = command.index('--script')
         if command[index + 1] != str(ROOT / 'tools/window_guard.gd'):
@@ -1172,7 +1175,7 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
              coupon_case='CP-max-preserve', domain_card_case='hex', primal_case='U12-paid-snapshot', dampen_case='off', standing_case='U03-base-extra-turn', steam_case='off', card_face_case='B01-base-plain', hopper_case='off', card_face_batch=None,
              card_lifecycle_cases=None, native_run_mode='three-battle-save', native_run_pair=None,
              presentation_mode='cards', audio_driver=None, _profile_env=None, domain_suppression_family='all',
-             cancel_event=None, record_process_identity=False):
+             cancel_event=None, record_process_identity=False, time_scale=None):
     check_cancelled(cancel_event)
     if scenario == 'domain-suppression' and domain_suppression_family not in DOMAIN_SUPPRESSION_CASES:
         raise RuntimeError('Unknown domain suppression family: ' + str(domain_suppression_family))
@@ -1211,6 +1214,8 @@ def run_once(game, timeout, frames, scenario='discovery', display='headless',
                                if _profile_env is None else
                                prepare_run(game, run_id, frames, display, _profile_env=_profile_env))
     command = with_audio_driver(command, audio_driver)
+    if time_scale is not None:
+        command.extend(['--time-scale', str(time_scale)])
     if scenario in ('native-suite', 'catalog-face-suite'):
         retained = {'VOLIBEAR_TEST_DATA_ROOT','VOLIBEAR_TEST_FAST_MODE','VOLIBEAR_TEST_PRIVATE_DESKTOP',
                     'VOLIBEAR_TEST_NO_FOCUS','VOLIBEAR_TEST_TOKEN','VOLIBEAR_TEST_ARTIFACT_DIR'}
@@ -1568,7 +1573,9 @@ def main():
     parser.add_argument('--native-run-mode', choices=sorted(NATIVE_RUN_MODES - {'resume'}), default='three-battle-save',
                         help='Normal menu/paid-input route; use native_run_pair.py for save/restart/Continue')
     parser.add_argument('--presentation-mode', choices=['cards', 'actions', 'all'], default='cards')
+    parser.add_argument('--time-scale', type=float, help='Godot simulation rate for this isolated launch')
     parser.add_argument('--audio-driver', help='Explicit Godot driver; non-Dummy required for presentation actions/audio')
+    parser.add_argument('--game-dir', type=Path, help='Isolated game directory for --use-deployed')
     parser.add_argument('--use-deployed', action='store_true', help='Run the already deployed candidate; do not rebuild or redeploy')
     parser.add_argument('--steam-case', choices=STEAM_CASES, default='off')
     parser.add_argument('--standing-case', choices=STANDING_CASES, default='U03-base-extra-turn')
@@ -1598,6 +1605,8 @@ def main():
     args = parser.parse_args()
     if args.test_output:
         os.environ['VOLIBEAR_TEST_OUTPUT'] = args.test_output
+    if args.time_scale is not None and (not math.isfinite(args.time_scale) or args.time_scale <= 0):
+        parser.error('--time-scale must be positive and finite')
     batch = args.card_face_batch is not None or args.scenario in ('card-lifecycle', 'native-run', 'presentation-acceptance', 'domain-suppression')
     short_fixture = args.scenario in ('domain-visual', 'architect-ending')
     single_run = batch or short_fixture
@@ -1627,7 +1636,9 @@ def main():
     if IS_WINDOWS and args.display == 'window' and batch and os.environ.get('VOLIBEAR_TEST_NO_FOCUS') != '1':
         parser.error('Acceptance runs require a private background desktop, not a foreground window')
     display_command([], args.display)  # Reject unsupported display before build/deploy side effects.
-    game = Path(config()['game_dir']).expanduser().resolve()
+    if args.game_dir and not args.use_deployed:
+        parser.error('--game-dir requires --use-deployed')
+    game = (args.game_dir or Path(config()['game_dir'])).expanduser().resolve()
     validate_game(game)
     if not args.use_deployed:
         subprocess.run([sys.executable, 'tools/dev.py', 'test'], cwd=ROOT, check=True)
@@ -1635,7 +1646,8 @@ def main():
         subprocess.run([sys.executable, 'tools/dev.py', 'deploy'], cwd=ROOT, check=True)
     # One control launch per invocation defines the exit signature the shipped game produces
     # on its own, so teardown noise is attributed instead of waived.
-    stock, stock_evidence = stock_teardown(game, args.timeout, args.frames, args.display, args.audio_driver)
+    stock, stock_evidence = stock_teardown(game, args.timeout, args.frames, args.display, args.audio_driver,
+                                           time_scale=args.time_scale)
     print(json.dumps({'stock_teardown_control': stock_evidence}))
     reports = [run_once(game, args.timeout, args.frames, args.scenario, args.display,
                         stock, stock_evidence, args.engage_case, args.domain_case,
@@ -1646,7 +1658,8 @@ def main():
                         args.coupon_case, args.domain_card_case, args.primal_case, args.dampen_case, args.standing_case, args.steam_case, args.card_face_case, args.hopper_case,
                         card_face_batch=card_face_batch, card_lifecycle_cases=lifecycle_cases,
                         native_run_mode=args.native_run_mode, presentation_mode=args.presentation_mode,
-                        audio_driver=args.audio_driver, domain_suppression_family=args.domain_suppression_family) for _ in range(args.repeat)]
+                        audio_driver=args.audio_driver, domain_suppression_family=args.domain_suppression_family,
+                        time_scale=args.time_scale) for _ in range(args.repeat)]
     return 0 if all(r['status'] == 'passed' for r in reports) else 1
 
 
