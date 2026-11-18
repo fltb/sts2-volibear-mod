@@ -3,6 +3,7 @@ using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
 using Volibear.Core;
 
@@ -28,11 +29,32 @@ internal static class SteamFullInstallChainTests
             typeof(Volibear.Presentation.VolibearInspectPortraits),
         ];
         var main=typeof(Volibear.ModEntry).GetMethod("Initialize")!;
-        // Derive the actual main Install calls, including dynamic Beast discovery and
-        // Presentation's nested Audio installation. Do not manufacture a subset list.
-        var startup=PatchProcessor.GetOriginalInstructions(main).TakeWhile(c=>c.operand is not MethodInfo m ||
-            m.DeclaringType!=typeof(Environment) || m.Name!=nameof(Environment.GetEnvironmentVariable)).ToArray();
-        var installs=startup.Select(c=>c.operand).OfType<MethodInfo>().Where(m=>m.IsStatic&&m.Name=="Install"&&m.GetParameters().Length==0).ToArray();
+        // Follow the actual Step delegates in Initialize, not calls before its first
+        // environment read (diagnostics is now read before all installers). Lambda
+        // bodies contain Install; direct method-group delegates may be Install too.
+        var startup=PatchProcessor.GetOriginalInstructions(main).ToArray();
+        var stepActions=new List<MethodInfo>();
+        var stepStart=0;
+        for(var index=0;index<startup.Length;index++)
+        {
+            if(startup[index].operand is not MethodInfo step ||
+                !step.Name.StartsWith("<Initialize>g__Step|",StringComparison.Ordinal)) continue;
+            var action=startup.Skip(stepStart).Take(index-stepStart)
+                .LastOrDefault(c=>c.opcode==OpCodes.Ldftn)?.operand as MethodInfo;
+            if(action is null)throw new Exception("ModEntry Step has no verifiable Action delegate.");
+            stepActions.Add(action);stepStart=index+1;
+        }
+        static bool IsInstall(MethodInfo method)=>method.IsStatic&&method.Name=="Install"&&method.GetParameters().Length==0;
+        static bool IsEntryLambda(MethodInfo method)
+        {
+            for(var owner=method.DeclaringType;owner is not null;owner=owner.DeclaringType)
+                if(owner==typeof(Volibear.ModEntry))return method.DeclaringType!=owner;
+            return false;
+        }
+        var installs=stepActions.SelectMany(action=>IsInstall(action)?new[]{action}:
+            IsEntryLambda(action)?PatchProcessor.GetOriginalInstructions(action)
+                .Where(c=>c.opcode==OpCodes.Call||c.opcode==OpCodes.Callvirt).Select(c=>c.operand)
+                .OfType<MethodInfo>().Where(IsInstall).ToArray():Array.Empty<MethodInfo>()).ToArray();
         int checks=0;
         void Need(bool value,string message){checks++;if(!value)throw new Exception(message);}
         MethodInfo Method(Type type,string name)=>AccessTools.Method(type,name);
@@ -90,22 +112,35 @@ internal static class SteamFullInstallChainTests
             Need(Harmony.GetPatchInfo(terminal)!.Postfixes.Count(p => p.owner == "Volibear.ArchitectEnding" && p.PatchMethod == Method(ending, "TerminalState")) == 1,
                 "exact living victory terminal predicate retained");
             var code=PatchProcessor.GetCurrentInstructions(attack).ToArray();
-            Need(code.Count(c=>c.Calls(Method(steam,"DamageFromCommand")))==1,"one cooperative AttackCommand callsite");
-            Need(!code.Any(c=>c.Calls(CardResolutionHooks.OrdinaryAttackCallsiteV1)),"canonical ordinary call replaced exactly once");
-            Need(!code.Any(c=>c.Calls((MethodInfo)steam.GetField("NativeDamage",flags)!.GetValue(null)!)),"no parallel raw damage path");
+            var native=(MethodInfo)steam.GetField("NativeDamage",flags)!.GetValue(null)!;
+            var nativeAwaiter=AccessTools.Method(native.ReturnType,"GetAwaiter",Type.EmptyTypes);
+            var capture=Method(cards,"CaptureOrdinaryAttack");var compose=Method(cards,"ComposeOrdinaryAttackAwaiter");
+            Need(code.Count(c=>c.Calls(Method(steam,"DamageFromCommand")))==1,"one exact Steam native-dispatch binding");
+            Need(code.Count(c=>c.Calls(capture))==1&&code.Count(c=>c.Calls(compose))==1,
+                "ordinary segment captures and composes once independently of Steam dispatch");
+            Need(code.Count(c=>c.Calls(nativeAwaiter))==1,"native task-to-awaiter consumer remains intact");
+            Need(Array.FindIndex(code,c=>c.Calls(capture))<Array.FindIndex(code,c=>c.Calls(Method(steam,"DamageFromCommand")))&&
+                Array.FindIndex(code,c=>c.Calls(compose))>Array.FindIndex(code,c=>c.Calls(nativeAwaiter)),
+                "paid identity captured before dispatch; ordinary tail composed after the native consumer");
+            Need(!code.Any(c=>c.Calls(native)),"exact binding retains only one native dispatch path");
+            Need(DomainSteamEruptionEffects.DamageBindingCapability.Status=="available","installed native producer reports exact binding available");
             var info=Harmony.GetPatchInfo(attack)!;
             Need(info.Transpilers.Single(p=>p.owner==DomainSteamEruptionEffects.HarmonyId).after.Contains(CardResolutionHooks.OrdinaryAttackOwnerV1),"explicit real CardResolution owner ordering");
+            Need(info.Transpilers.Single(p=>p.owner==DomainSteamEruptionEffects.HarmonyId).priority==int.MinValue,
+                "optional exact binding inspects the chain after ordinary-priority extensions");
             Need(info.Transpilers.Count(p=>p.owner==CardResolutionHooks.OrdinaryAttackOwnerV1)==1,"CardResolution callsite remains installed");
             var play=Machine(Method(typeof(CardModel),nameof(CardModel.OnPlayWrapper)));
             var playCode=PatchProcessor.GetCurrentInstructions(play).ToArray();
             Need(playCode.Count(c=>c.Calls(Method(cards,"EnterPlayMove")))==1 && playCode.Any(c=>c.Calls(Method(cards,"LeavePlayMove"))),"paid play lifecycle retained with all owners");
-            var pipeline=PatchProcessor.GetOriginalInstructions(Machine(Method(cards,"OrdinaryAttackPipelineV1"))).ToList();
-            var dispatch=pipeline.FindIndex(c=>c.operand is MethodInfo m&&m.Name=="Invoke"&&m.DeclaringType?.Name.StartsWith("Func`")==true);
+            var pipeline=PatchProcessor.GetOriginalInstructions(Machine(Method(cards,"CompleteOrdinaryAttack"))).ToList();
+            var completed=pipeline.FindIndex(c=>c.Calls(AccessTools.Method(typeof(TaskAwaiter<IEnumerable<DamageResult>>),"GetResult")));
             var domain=pipeline.FindIndex(c=>c.Calls(Method(typeof(DomainPower),"AttachAfterOrdinarySegment")));
             var responders=pipeline.FindIndex(c=>c.operand is MethodInfo m&&m.DeclaringType==typeof(IOrdinarySegmentResponder)&&m.Name=="AfterOrdinarySegment");
-            Need(dispatch>=0&&domain>dispatch&&responders>domain,"native dispatch then complete Domain/ordinary responder pipeline");
+            Need(completed>=0&&domain>completed&&responders>domain,"await dispatched operation then complete Domain/ordinary responder pipeline");
             var wrapper=PatchProcessor.GetOriginalInstructions(Method(steam,"DamageFromCommand")).ToArray();
-            Need(wrapper.Count(c=>c.Calls(Method(cards,"OrdinaryAttackPipelineV1")))==1,"Steam always enters complete ordinary pipeline");
+            Need(wrapper.Count(c=>c.Calls(Method(steam,"DispatchNativeDamage")))==1,"Steam adapter performs exactly one native dispatch");
+            Need(!wrapper.Any(c=>c.Calls(Method(cards,"OrdinaryAttackPipelineV1"))||c.Calls(Method(cards,"CompleteOrdinaryAttack"))),
+                "Steam does not duplicate the independent ordinary tail");
             Need(!wrapper.Any(c=>c.operand is FieldInfo field&&field.Name=="DamageHandoff"),"no handoff ticket spans ordinary pipeline");
             var draw=typeof(MegaCrit.Sts2.Core.Commands.CardPileCmd).GetMethods().Single(m=>m.Name=="Draw"&&m.GetParameters().Length==4);
             var drawCode=PatchProcessor.GetCurrentInstructions(Machine(draw)).ToArray();
@@ -142,6 +177,9 @@ internal static class SteamFullInstallChainTests
         }
         try
         {
+            Need(stepActions.Count>expectedInstallers.Length,"Step delegate discovery includes registration and optional diagnostics");
+            Need(stepActions.Any(action=>action.DeclaringType==typeof(Volibear.ModEntry)&&action.Name=="InstallCompatibilityDiagnostics"),
+                "optional diagnostics remains a discovered Step but not a gameplay installer");
             Need(installs.Select(m=>m.DeclaringType).SequenceEqual(expectedInstallers),"current ModEntry normal Install manifest matches all 25 production adapters in order");
             foreach(var method in installs)
             {

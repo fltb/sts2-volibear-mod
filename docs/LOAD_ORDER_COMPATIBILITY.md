@@ -18,9 +18,11 @@ foreign Harmony patches are rewritten by this change.
 The game already sorts declared dependencies when the saved mod order violates
 them. A `BaseLib` dependency means “after BaseLib”, not “first after BaseLib”.
 Load Order Manager changes the saved list for the next launch; it cannot resolve
-two transpilers which replace the same native operation. Unsupported shared-call replacements are reported with their concrete target and
-patch owners. Volibear does not maintain per-mod replacement bridges or a name-based
-compatibility allowlist.
+two transpilers which replace the same native operation. Volibear now yields an
+optional exact-source adapter when another extension owns that operation, while
+retaining ordinary attack completion. The affected capability, reason and gameplay
+limitation are reported explicitly. Required-core failures still identify their
+target and patch owners. There are no per-mod replacement bridges or name-based lists.
 
 ## What was wrong
 
@@ -40,8 +42,9 @@ The previous README prescribed a global load-order workaround. Inspection of
    RitsuLib 0.6.14. Both frameworks replaced the `CreatureCmd.Damage` call inside
    `AttackCommand.Execute.MoveNext`. RitsuLib requires its own exact awaited
    producer and uses `Priority.Last`. Raising Volibear's priority merely made
-   RitsuLib lose that anchor instead. This requires cooperation at the callsite,
-   not a different whole-mod order.
+   RitsuLib lose that anchor instead. The subsequent yielding change separates
+   ordinary attack completion from optional Steam damage attribution, as described
+   below; the whole-mod order does not need to arbitrate that ownership.
 
 These are confirmed source-level coexistence defects. The original user's failing
 mod set and game log were not available for this change, so no particular foreign
@@ -99,13 +102,56 @@ presentation hook in the mod has become conditional. In particular, the separate
 domain-suppression badge still observes native state changes so it can become
 visible when a domain is acquired later in combat.
 
+### Awaited attack completion and precise-source yielding
+
+`NativeAwaitedCall.Compose` captures the already evaluated damage arguments and
+the exact paid-play scope before dispatch. It retains the native `CreatureCmd.Damage`
+and its original `Task<T>.GetAwaiter`, awaiter store, completion checks and result
+consumer. Two instructions after `GetAwaiter` compose the same awaiter type with
+Volibear's successful-completion pipeline. No new Task producer is inserted between
+the native call and its awaiter, so a later per-hit extension can still replace the
+native producer while preserving its own before/damage/after operation.
+
+The actual attack waits for that entire operation, then Domain lightning, then
+ordinary-segment responders. Responders are captured after Domain has drained.
+An AOE hit remains one segment; multiple hits are processed separately. Faults and
+cancellation do not execute successful-completion effects. Captured paid identity
+does not change when a foreign hook suspends, runs another attack or emits damage
+using the same dealer and card. The domain contract probe observes the new shared
+completion method used by the production path.
+
+Steam Eruption's exact damage dispatcher is now an optional late adapter, using
+`int.MinValue` priority after the ordinary segment adapter. `NativeCallCapability`
+examines the actual rewrite input:
+
+- One native damage call still exists: install the original synchronous,
+  single-use source binding. Its ticket ends before ordinary segment reactions.
+- A concrete same-result operation replaced the native call, with its original
+  awaiter retained: leave that operation intact and declare
+  `steam_explosion_damage_attribution` unavailable.
+- The required await shape is missing or ambiguous: keep an explicit patch failure.
+  A deleted instruction is not accepted as a valid replacement.
+
+The unavailable capability has a specific gameplay cost: if Domain becomes active
+**during** a Steam Eruption hit, Volibear cannot safely gate later positive block/HP
+damage commits inside that foreign operation. Pre-attack cancellation, the other
+Steam lifecycle protections, ordinary-segment Domain lightning and responders are
+retained. No ticket is placed around an unknown foreign before-hit hook, so its
+derived damage cannot borrow Steam attribution. Removing the foreign replacement
+and recomposing the patch restores exact binding without changing settings.
+
+This is a structural capability decision, not a framework-name branch. An extension
+with explicit contradictory ordering, a different await shape, or a replacement
+that removes a required core operation can still fail. Runtime patch changes after
+the startup snapshot require a fresh assessment; no global Harmony behavior is changed.
+
 ### Capability detection, not per-mod exceptions
 
 The community audit is used to identify general failure modes, not to add
-third-party-specific execution paths. No RitsuLib adapter is installed. The attack
-replacement conflict described above remains an unsupported combination until the
-shared native operation can be composed without changing either mod's semantics.
-A mod's name or presence alone is not sufficient to declare it incompatible.
+third-party-specific execution paths. No RitsuLib adapter is installed. The known
+per-hit replacement shape now follows the yielding path above instead of rejecting
+the whole combination solely for losing Steam's exact source anchor. A mod's name
+or presence alone is not sufficient to declare it incompatible.
 
 At the post-mod localization stage, a read-only snapshot lists methods patched by
 both Volibear and another assembly, with patch kinds, owners, method signatures,
@@ -114,6 +160,16 @@ assembly versions, priorities and before/after declarations. These entries are
 Harmony metadata only: it neither rewrites foreign patches nor reruns transpilers.
 Failure to collect the snapshot is logged as `COMPAT_SCAN_ERROR` without turning
 the reporting feature into a new game-loading dependency.
+
+The closing `COMPAT_SCAN` contains an atomic `capabilities` array with each declared
+capability's status, target, reason and impact. `PatchCapabilityTracker` compares
+committed metadata before and after a rewrite and confirms the adapter remains
+registered. A candidate from a failed install, failed removal or diagnostic IL
+replay cannot overwrite the assessment confirmed for the current installed chain.
+Unassessed, unreadable or removed adapters return `unknown`, making the report
+inconclusive. This uses read-only metadata, not global Harmony interception or
+foreign transpiler replay. A confirmed declaration still does not prove arbitrary
+foreign gameplay behavior or certify changes after the startup snapshot.
 
 The complete-log report includes errors from mods loaded after Volibear. This
 matters because a transpiler that fails during IL generation is not committed to
@@ -136,8 +192,9 @@ python tools/compat_report.py --game-dir /path/to/SlayTheSpire2 --json compatibi
 | Report status | Meaning |
 | --- | --- |
 | `unsupported` | The supplied startup log reports a concrete patch/load/API/dependency failure. `failure_details` retains the target, owner, other transpilers and original cause when the log contains them. |
-| `initialization_passed` | Required startup markers and a complete closing `COMPAT_SCAN` are present, and no recognized initialization/patch failures appear in that log. This does not certify gameplay or every foreign feature. |
-| `inconclusive` | Required evidence is absent, the log is truncated, metadata collection/installation failed, or startup sessions cannot be separated reliably. |
+| `degraded` | Startup evidence is complete and no patch failure is reported, but a declared capability was yielded. `capabilities`, `reasons` and `limitations` state which capability and why. The mod may initialize, but `passed` is false and the CLI returns 1 so automation cannot treat restricted functionality as full acceptance. |
+| `initialization_passed` | Required startup markers and a complete closing `COMPAT_SCAN` are present, with no recognized initialization/patch failure or declared unavailable/unknown capability. This does not certify gameplay or every foreign feature. |
+| `inconclusive` | Required evidence is absent, a capability's installed state is unknown, the log is truncated, metadata collection/installation failed, or startup sessions cannot be separated reliably. |
 
 `LOAD_OK` is evidence only of Volibear's entrypoint. A shared target is not itself
 a failure, and a foreign mod may catch or silently suppress its own patch error.
@@ -154,15 +211,17 @@ The supported boundary is capability based:
 | --- | --- |
 | BaseLib available, with unrelated mods between it and Volibear | Normal manifest dependency and local patch constraints; no required adjacency. |
 | Additive observers, foreign prefixes/postfixes, harmless unmarked NOP padding | Preserve native calls/field reads where the adapter is observational; targeted fixtures verify coexistence. |
+| A late per-hit extension replaces the native damage producer but retains its await contract | Retain ordinary attack completion; yield exact Steam damage attribution and report the concrete feature limitation. |
 | Missing native API, lost/ambiguous required callsite, incompatible contribution rewrite | Keep the failure visible, identifying the method and patch chain. Do not silently disable a core mechanic. |
 | A different mod reports a failed patch after Volibear initializes | Full-log report rejects the startup even if Volibear emitted `LOAD_OK`. |
 | Two mods share a target, but no failure is reported | Record the owners and mark the overlap unverified; do not block by mod name. |
 
-For the inspected RitsuLib 0.6.14 per-hit patch, the collision is specifically the
-same awaited `CreatureCmd.Damage` producer. That implementation is presently
-unsupported alongside Volibear's attack adapter. This is not a statement that
-RitsuLib and BaseLib are intrinsically incompatible, nor a permanent ban on every
-version of RitsuLib. No special-case RitsuLib code is shipped.
+For the inspected RitsuLib 0.6.14 per-hit patch, the former collision is specifically
+the same awaited `CreatureCmd.Damage` producer. Its inspected producer/awaiter shape
+now has a general yielding route with the documented Steam limitation. The executed
+fixture independently reproduces its matcher rules; the complete released framework
+and game have not been run together here. No special-case RitsuLib code is shipped,
+and there is no claim that RitsuLib and BaseLib are intrinsically incompatible.
 
 ### Scene-scoped trail conversion
 
@@ -174,13 +233,13 @@ is already an `NCardTrailVfx` unchanged.
 Before replacing its own scene root, it validates the `Node2D` / `Sprites` contract.
 It preserves the original child instances and ownership, visual transforms and
 properties, internal-node order, metadata, and groups. The native trail class
-continues to own following, fading, and cleanup. No animation clips, textures,
-audio, card balance, or combat rules are changed here.
+continues to own following, fading, and cleanup. This scene conversion changes no
+animation clips, textures, audio, card balance, or combat rules.
 
 ## Verification
 
-Focused regression on 2026-11-18 after the community audit:
-**61 Python tests, 59 passed, 2 skipped** (49.520 seconds).
+Focused regression on 2026-11-18 after the community audit and yielding change:
+**81 Python tests, 78 passed, 3 skipped** (62.904 seconds).
 The transpiler tests run **18 independent real-Harmony processes**; metadata
 snapshot tests run **four more independent real-Harmony processes**. The status UI
 fixture passed **83 behavioral assertions**, plus **two same-field interoperability
@@ -196,11 +255,21 @@ synchronous throws, branch labels and real try/catch/finally execution. The fiel
 tests retain another adapter's list filtering/reordering as well as its anchor.
 The metadata cases also reproduce a rejected later transpiler that is absent from
 committed metadata, without replaying any foreign transpiler or patch factory.
-Seventeen log-report tests cover late optional failures, complete error details,
-zero-failure messages, metadata errors, truncation, and multiple startup sessions.
+Twenty-nine log-report tests cover late optional failures, complete error details,
+zero-failure messages, metadata errors, truncation, multiple startup sessions and
+available/unavailable/unknown capability declarations. The new awaited-call suite
+runs seven real Harmony processes, including both installation orders, async
+before/damage/after/tail sequencing, multi-hit AOE, same-argument derived damage,
+nested/concurrent paid scopes, skipped native work, faults/cancellation, benign
+awaiter padding and unpatch/reinstall recovery. A strict independent foreign
+matcher rejects the old Task-wrapper implementation and accepts the new consumer.
+The capability case verifies actual detours after failed install/removal and
+diagnostic replay, so uncommitted candidates cannot become reported capabilities.
 
-The skipped checks were the native UI ABI/patch-installation fixture and native
-history/IL fixture; both require the unavailable installed game assemblies.
+The skipped checks were the native UI ABI/patch-installation fixture, native
+history/IL fixture, and full-source Steam/ordinary cooperation fixture; all require
+the unavailable installed game assemblies. The latter's source contracts and live
+probe target were updated, but were not executed against substitute game types.
 Full production compilation and actual game acceptance remain **NOT_RUN**.
 
 The focused checks distinguish actual engine/library execution from missing game
@@ -209,6 +278,7 @@ validation:
 | Check | Execution boundary |
 | --- | --- |
 | Native transpiler ordering | Real Harmony 2.4.2 detours and generated IL, production compatibility helper; no simulated game assembly |
+| Awaited hit coexistence and optional source binding | Real Harmony 2.4.2, production `NativeAwaitedCall`, `NativeCallCapability` and `SteamNativeEntryBinding`; independently implemented foreign matcher and combat-shaped fixture, not an installed community framework |
 | Trail coexistence | Real Godot 4.5.1 Mono and Harmony; the game's `NCardTrailVfx` is an explicitly identified test double |
 | Existing interoperability and UI tests | Existing production-linked fixtures, preserving their original test-double/native boundaries |
 | Shared-target metadata | Real Harmony 2.4.2 and a separate foreign fixture assembly; no game API doubles, no transpiler replay |
@@ -220,11 +290,11 @@ With the SDK, Harmony, and Godot configured through the repository's existing lo
 runtime settings, run the focused regression:
 
 ```bash
-python -m unittest tests.test_native_transpiler tests.test_trail_compatibility \
+python -m unittest tests.test_native_transpiler tests.test_awaited_call_coexistence tests.test_trail_compatibility \
   tests.test_domain_interop tests.test_power_stack_visual \
   tests.test_supported_game tests.test_history_contracts \
   tests.test_runtime_test tests.test_dependencies \
-  tests.test_patch_compatibility_snapshot tests.test_compat_report -q
+  tests.test_patch_compatibility_snapshot tests.test_compat_report tests.test_domain_steam_v1 -q
 ```
 
 Missing native prerequisites are reported as skipped, not passed. Build the actual
@@ -236,6 +306,8 @@ game as described in the README. The game-level matrix should cover:
 - BaseLib + Volibear + the same gameplay/UI mods.
 - An unrelated mod before BaseLib, followed by Volibear.
 - A second character with its own card-trail factory, in both relative orders.
+- A per-hit framework in both relative orders; confirm the declared Steam limitation,
+  successful ordinary Domain/responders, and restored exact binding when removed.
 - Character selection, card play, summon/debuff suppression, save/continue, and
   multiplayer with matching mod versions.
 
@@ -265,8 +337,10 @@ The first attack collision is visible in
 [RitsuLib's transpiler](https://github.com/BAKAOLC/STS2-RitsuLib/blob/12976e831495e505380b924e680dfbcc6f5cca01/src/Combat/AttackHits/Patches/AttackCommandExecuteHitHookPatch.cs)
 and its
 [real dispatch implementation](https://github.com/BAKAOLC/STS2-RitsuLib/blob/12976e831495e505380b924e680dfbcc6f5cca01/src/Combat/AttackHits/AttackHitHook.cs).
-Its await matcher identifies the nearest Task producer, so simply leaving a native
-call and adding another Task-producing call after it is not enough for this case.
+Its [await matcher](https://github.com/BAKAOLC/STS2-RitsuLib/blob/12976e831495e505380b924e680dfbcc6f5cca01/src/Utils/HarmonyIl/HarmonyAsyncIl.cs)
+identifies the nearest Task producer, so simply leaving a native call and adding
+another Task-producing call after it is not enough. The consumer-side composition
+retains that producer, the original GetAwaiter and a nearby original awaiter store.
 The Runesmith example is in
 [CardModelPatches.cs](https://github.com/Blizzarre/Runesmith2-StS2/blob/308b9423ac55cedc15304ee5e1dd17713fe7199b/Runesmith2Code/Patches/CardModelPatches.cs).
 

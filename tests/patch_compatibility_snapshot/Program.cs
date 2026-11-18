@@ -195,11 +195,48 @@ internal static class Program
         Check(beta.Patches.Single(patch => patch.Owner == "OtherMod.looking-owner").IsOwn, "own ownership is based on patch assembly");
         var factory = snapshot.Targets.Single(target => target.Target.Contains(nameof(SharedFactory)));
         Check(factory.Patches.Any(patch => patch.PatchMethod.Contains(nameof(ForeignPatches.Factory))), "registered factory reported without evaluating its result");
+        CapabilitySnapshotChecks();
         Check((ownTranspilerCalls, ForeignPatches.TranspilerCalls) == transpilersBefore, "capture and serialization never replay transpilers");
         Check(ForeignPatches.FactoryCalls == factoriesBefore, "capture never invokes patch factories");
         Check(MetadataFingerprint() == metadataBefore, "no patch metadata or ordering changes");
         Check((SharedAlpha(3), SharedBeta(4), SharedFactory(5)) == runtimeBefore, "existing native detours preserve behavior after capture");
         foreach (var line in lines) Console.WriteLine(line);
+    }
+
+    private static void CapabilitySnapshotChecks()
+    {
+        var available = new PatchCompatibilitySnapshot.CapabilityRecord("ordinary_segments", "available",
+            "Attack.MoveNext()", "The retained awaiter is observed.", "None.");
+        var unavailable = new PatchCompatibilitySnapshot.CapabilityRecord("exact_damage_attribution", "unavailable",
+            "Attack.MoveNext()", "The native producer was replaced.\nForeign implementation is not inspected.",
+            "Mid-hit suppression is unavailable; ordinary segment responses remain installed.");
+        var supplied = new[] { available, unavailable };
+        var snapshot = PatchCompatibilitySnapshot.Capture(typeof(Program).Assembly, supplied);
+        var before = Lines(snapshot);
+        supplied[0] = unavailable with { Capability = "changed_after_capture" };
+        Check(snapshot.Summary.Capabilities.SequenceEqual(new[] { available, unavailable }), "capture copies the caller-owned capability list");
+        Check(before.SequenceEqual(Lines(snapshot)), "later caller changes cannot rewrite a captured report");
+        var collection = (IList<PatchCompatibilitySnapshot.CapabilityRecord>)snapshot.Summary.Capabilities;
+        Exception? mutationError = null;
+        try { collection[0] = unavailable; }
+        catch (NotSupportedException error) { mutationError = error; }
+        Check(mutationError is not null, "captured capability collection is read-only");
+        Check(before.Length == snapshot.Targets.Count + 1, "capabilities do not add non-atomic side-channel records");
+        Check(before.All(line => !line.Contains('\n')), "multiline capability reasons remain inside one escaped JSON record");
+        Check(before.Take(before.Length - 1).All(line => !line.Contains("\"capabilities\"")), "capabilities occur only in the closing snapshot");
+        using var json = JsonDocument.Parse(before[^1]["[Volibear] COMPAT_SCAN ".Length..]);
+        var entries = json.RootElement.GetProperty("capabilities").EnumerateArray().ToArray();
+        Check(entries.Length == 2, "one closing JSON summary contains every declared capability");
+        Check(entries[0].GetProperty("capability").GetString() == available.Capability &&
+            entries[0].GetProperty("status").GetString() == "available", "available assessment is serialized without promotion to full compatibility");
+        Check(entries[1].GetProperty("capability").GetString() == unavailable.Capability &&
+            entries[1].GetProperty("status").GetString() == "unavailable", "unavailable assessment is serialized distinctly");
+        Check(entries[1].GetProperty("target").GetString() == unavailable.Target &&
+            entries[1].GetProperty("reason").GetString() == unavailable.Reason &&
+            entries[1].GetProperty("impact").GetString() == unavailable.Impact, "target, exact cause and limited behavior survive serialization");
+        Check(json.RootElement.GetProperty("status").GetString() == "metadata_only", "declared capability information does not certify gameplay");
+        Check(PatchCompatibilitySnapshot.Capture(typeof(Program).Assembly).Summary.Capabilities.Count == 0,
+            "absent capability declarations are not inferred from shared patches");
     }
 
     private static void UncommittedFailure()

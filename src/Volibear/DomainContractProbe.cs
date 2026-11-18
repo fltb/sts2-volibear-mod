@@ -309,18 +309,19 @@ internal static class DomainContractProbe
             => TraceScope("LeaveMove:exit", __0.Scope?.Card, argument: __0.Scope, native: __1, nativeState: __2);
     }
 
-    [HarmonyPatch(typeof(CardResolutionHooks), nameof(CardResolutionHooks.OrdinaryAttackPipelineV1))]
+    [HarmonyPatch(typeof(CardResolutionHooks), nameof(CardResolutionHooks.CompleteOrdinaryAttack))]
     private static class ObserveOrdinarySegment
     {
-        private static void Prefix(ValueProp __1, Creature? __2, CardModel? __3)
-            => TraceScope("OrdinarySegment:enter", __3, __2, props: __1);
-        private static void Postfix(Creature? __2, CardModel? __3, ref Task<IEnumerable<DamageResult>> __result)
-            => __result = Record(__result, __2, __3);
+        private static void Prefix(CardResolutionHooks.OrdinaryAttackObservation __1)
+            => TraceScope("OrdinarySegment:enter", __1.Card, __1.Dealer, argument: __1.Scope, props: __1.Props);
+        private static void Postfix(CardResolutionHooks.OrdinaryAttackObservation __1,
+            ref Task<IEnumerable<DamageResult>> __result) => __result = Record(__result, __1);
         private static async Task<IEnumerable<DamageResult>> Record(Task<IEnumerable<DamageResult>> native,
-            Creature? dealer, CardModel? card)
+            CardResolutionHooks.OrdinaryAttackObservation observation)
         {
             var results = await native;
-            TraceScope("OrdinarySegment:exit", card, dealer, native: native, resultCount: results.Count());
+            TraceScope("OrdinarySegment:exit", observation.Card, observation.Dealer, argument: observation.Scope,
+                native: native, resultCount: results.Count());
             return results;
         }
     }

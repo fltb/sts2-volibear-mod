@@ -30,7 +30,11 @@ public static class ModEntry
 
     private static void ReportCompatibilitySnapshot()
     {
-        try { Core.PatchCompatibilitySnapshot.Capture(typeof(ModEntry).Assembly).WriteTo(line => GD.Print(line)); }
+        try
+        {
+            Core.PatchCompatibilitySnapshot.Capture(typeof(ModEntry).Assembly,
+                [Core.DomainSteamEruptionEffects.DamageBindingCapability]).WriteTo(line => GD.Print(line));
+        }
         catch (System.Exception error)
         {
             // A failed read-only report must not become a new game-loading dependency.

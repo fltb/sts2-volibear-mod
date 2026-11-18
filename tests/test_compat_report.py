@@ -15,6 +15,25 @@ CLEAN = '''[Volibear] BUILD_GATE build=verified channel=pbe target=0.113.0/16ac0
 [Volibear] LOAD_OK version=0.1.1
 [Volibear] COMPAT_SCAN {"scanned_targets":10,"own_targets":5,"shared_targets":0,"status":"metadata_only"}
 '''
+UNAVAILABLE = {
+    'capability': 'steam_explosion_damage_attribution',
+    'status': 'unavailable',
+    'target': 'Game.Attack.MoveNext()',
+    'reason': 'The native damage producer has been replaced; exact attribution cannot be established.',
+    'impact': 'Mid-hit positive damage suppression for Steam Eruption is unavailable; other features remain.',
+}
+AVAILABLE = {**UNAVAILABLE, 'status': 'available',
+             'reason': 'The native damage producer is intact and exact attribution is installed.', 'impact': 'None.'}
+UNKNOWN = {**UNAVAILABLE, 'status': 'unknown',
+           'reason': 'The evaluated patch composition has not been confirmed in committed Harmony metadata.',
+           'impact': 'Exact mid-hit suppression has no confirmed binding.'}
+
+
+def with_capabilities(value):
+    prefix, summary = CLEAN.rsplit('[Volibear] COMPAT_SCAN ', 1)
+    record = json.loads(summary)
+    record['capabilities'] = value
+    return prefix + '[Volibear] COMPAT_SCAN ' + json.dumps(record) + '\n'
 
 
 class CompatibilityReportTests(unittest.TestCase):
@@ -24,6 +43,155 @@ class CompatibilityReportTests(unittest.TestCase):
         self.assertEqual('initialization_passed', result['support_status'])
         self.assertIn('not evaluated', result['scope'])
         self.assertEqual([], result['failure_details'])
+
+    def test_missing_or_empty_capability_declarations_do_not_certify_features(self):
+        for text in (CLEAN, with_capabilities([])):
+            with self.subTest(text=text):
+                result = report(text)
+                self.assertTrue(result['passed'])
+                self.assertEqual('initialization_passed', result['support_status'])
+                self.assertEqual([], result['capabilities'])
+                self.assertTrue(any('No capability assessments were declared' in item for item in result['limitations']))
+
+    def test_available_capability_is_retained_in_atomic_snapshot(self):
+        result = report(with_capabilities([AVAILABLE]))
+        self.assertTrue(result['passed'])
+        self.assertEqual('initialization_passed', result['support_status'])
+        self.assertEqual([AVAILABLE], result['capabilities'])
+        self.assertEqual(result['capabilities'], result['patch_snapshot']['capabilities'])
+        self.assertTrue(any('undeclared features are not certified' in item for item in result['limitations']))
+
+    def test_unavailable_capability_is_degraded_without_a_patch_failure(self):
+        result = report(with_capabilities([UNAVAILABLE]))
+        self.assertTrue(result['initialized'])
+        self.assertFalse(result['passed'])
+        self.assertEqual('degraded', result['support_status'])
+        self.assertEqual(0, result['failure_count'])
+        self.assertEqual([], result['failure_details'])
+        self.assertEqual([UNAVAILABLE], result['capabilities'])
+        for field in ('capability', 'reason', 'impact', 'target'):
+            self.assertIn(UNAVAILABLE[field], result['reasons'][0])
+        self.assertTrue(any(UNAVAILABLE['impact'] in item for item in result['limitations']))
+
+    def test_unknown_capability_keeps_complete_startup_inconclusive(self):
+        result = report(with_capabilities([UNKNOWN]))
+        self.assertTrue(result['initialized'])
+        self.assertFalse(result['passed'])
+        self.assertEqual('inconclusive', result['support_status'])
+        self.assertEqual(0, result['failure_count'])
+        self.assertEqual([], result['metadata_errors'])
+        self.assertEqual([], result['missing_evidence'])
+        self.assertEqual([UNKNOWN], result['capabilities'])
+        for field in ('capability', 'reason', 'impact', 'target'):
+            self.assertIn(UNKNOWN[field], result['reasons'][0])
+            self.assertTrue(any(UNKNOWN[field] in item for item in result['limitations']))
+
+    def test_unknown_and_unavailable_preserve_both_impacts_under_failure_precedence(self):
+        unknown = {**UNKNOWN, 'capability': 'another_unconfirmed_binding'}
+        log = with_capabilities([UNAVAILABLE, unknown])
+        for text, expected in ((log, 'inconclusive'),
+                               (log + 'Failed to apply patch External.Operation\n', 'unsupported'),
+                               (log + '[Volibear] COMPAT_SCAN_ERROR snapshot capture incomplete\n', 'inconclusive'),
+                               (log.replace('[Volibear] CONTENT_OK cards=89 character=VolibearCharacter\n', ''), 'inconclusive')):
+            with self.subTest(expected=expected, text=text):
+                result = report(text)
+                self.assertEqual(expected, result['support_status'])
+                self.assertFalse(result['passed'])
+                for capability in (UNAVAILABLE, unknown):
+                    for field in ('capability', 'reason', 'impact'):
+                        self.assertTrue(any(capability[field] in item for item in result['reasons']))
+                        self.assertTrue(any(capability[field] in item for item in result['limitations']))
+                if expected == 'unsupported':
+                    self.assertIn('External.Operation', result['reasons'][0])
+                    self.assertEqual(1, result['failure_count'])
+                    self.assertEqual(['Failed to apply patch External.Operation'], result['failures'])
+
+    def test_multiple_capabilities_keep_each_limitation_and_not_available_as_failure(self):
+        another = {**UNAVAILABLE, 'capability': 'another_shared_operation', 'target': 'Game.Other.MoveNext()',
+                   'reason': 'Native anchor missing after an external replacement.',
+                   'impact': 'Only this additional operation is unavailable.'}
+        available = {**AVAILABLE, 'capability': 'ordinary_attack_segments'}
+        capabilities = [available, UNAVAILABLE, another]
+        result = report(with_capabilities(capabilities))
+        self.assertEqual('degraded', result['support_status'])
+        self.assertEqual(capabilities, result['capabilities'])
+        self.assertEqual(2, len(result['reasons']))
+        self.assertIn(UNAVAILABLE['capability'], result['reasons'][0])
+        self.assertIn(another['capability'], result['reasons'][1])
+        self.assertEqual(0, result['failure_count'])  # JSON reasons are not failure log lines.
+
+    def test_malformed_capability_assessment_is_inconclusive(self):
+        malformed = [None, {}, 'available', [None], [True], [{}],
+                     [{**AVAILABLE, 'status': 'supported'}], [{**AVAILABLE, 'status': None}],
+                     [AVAILABLE, AVAILABLE]]
+        for field in ('capability', 'target', 'reason', 'impact'):
+            malformed.extend([[{key: value for key, value in AVAILABLE.items() if key != field}],
+                              [{**AVAILABLE, field: ''}], [{**AVAILABLE, field: '  '}],
+                              [{**AVAILABLE, field: 1}]])
+        for value in malformed:
+            with self.subTest(value=value):
+                result = report(with_capabilities(value))
+                self.assertFalse(result['passed'])
+                self.assertTrue(result['initialized'])
+                self.assertEqual('inconclusive', result['support_status'])
+                self.assertTrue(result['metadata_errors'])
+                self.assertEqual([], result['capabilities'])
+                self.assertIsNone(result['patch_snapshot'])
+                self.assertEqual(0, result['failure_count'])
+
+    def test_partial_capability_array_does_not_publish_earlier_valid_items(self):
+        result = report(with_capabilities([UNAVAILABLE, {'capability': 'broken'}]))
+        self.assertEqual('inconclusive', result['support_status'])
+        self.assertEqual([], result['capabilities'])
+        self.assertIsNone(result['patch_snapshot'])
+
+    def test_missing_or_failed_metadata_precedes_degraded_status(self):
+        degraded = with_capabilities([UNAVAILABLE])
+        for text in (degraded.replace('[Volibear] CONTENT_OK cards=89 character=VolibearCharacter\n', ''),
+                     degraded + '[Volibear] COMPAT_SCAN_ERROR System.MissingMethodException: diagnostics only\n',
+                     degraded + '[Volibear] COMPAT_SCAN {"capabilities":[',
+                     degraded + '[Volibear] COMPAT_SHARED {"target":"Card.Play","status":"shared_unverified"}',
+                     degraded + '[Volibear] COMPAT_SCAN ' + json.dumps({
+                         'scanned_targets': 10, 'own_targets': 5, 'shared_targets': 0,
+                         'status': 'metadata_only', 'capabilities': [{**AVAILABLE, 'impact': None}]})):
+            with self.subTest(text=text):
+                result = report(text)
+                self.assertEqual('inconclusive', result['support_status'])
+                self.assertFalse(result['passed'])
+                self.assertEqual(0, result['failure_count'])
+
+    def test_concrete_failure_precedes_capability_degradation_or_metadata_error(self):
+        for text in (with_capabilities([UNAVAILABLE]), with_capabilities([AVAILABLE]),
+                     with_capabilities([{'capability': 'incomplete'}]),
+                     with_capabilities([UNAVAILABLE]).replace('[Volibear] CONTENT_OK cards=89 character=VolibearCharacter\n', '')):
+            with self.subTest(text=text):
+                result = report(text + 'Failed to apply patch External.Operation\n')
+                self.assertEqual('unsupported', result['support_status'])
+                self.assertFalse(result['passed'])
+                self.assertEqual(1, result['failure_count'])
+                self.assertIn('External.Operation', result['reasons'][0])
+
+    def test_capabilities_follow_latest_complete_snapshot_without_accumulating(self):
+        for first, last in (([UNAVAILABLE], [AVAILABLE]), ([AVAILABLE], [UNAVAILABLE]),
+                            ([UNAVAILABLE], [])):
+            with self.subTest(first=first, last=last):
+                snapshot = with_capabilities(last).rsplit('[Volibear] COMPAT_SCAN ', 1)[1]
+                result = report(with_capabilities(first) + '[Volibear] COMPAT_SCAN ' + snapshot)
+                self.assertEqual(last, result['capabilities'])
+                self.assertEqual('degraded' if last == [UNAVAILABLE] else 'initialization_passed', result['support_status'])
+
+    def test_previous_boot_capabilities_do_not_contaminate_current_boot(self):
+        for old, new in (([UNAVAILABLE], [AVAILABLE]), ([AVAILABLE], [UNAVAILABLE])):
+            with self.subTest(old=old, new=new):
+                result = report('Godot Engine v4.5.1\n' + with_capabilities(old)
+                                + 'Godot Engine v4.5.1\n' + with_capabilities(new))
+                self.assertEqual(new, result['capabilities'])
+                self.assertEqual('degraded' if new == [UNAVAILABLE] else 'initialization_passed', result['support_status'])
+                self.assertEqual(1, result['discarded_previous_boots'])
+        partial = report('Godot Engine v4.5.1\n' + with_capabilities([AVAILABLE])
+                         + 'Godot Engine v4.5.1\n[Volibear] LOAD_OK version=0.1.1\n')
+        self.assertEqual('inconclusive', partial['support_status'])
+        self.assertEqual([], partial['capabilities'])
 
     def test_shared_target_or_mod_presence_is_not_a_failure(self):
         text = CLEAN + ('[OtherFramework] Patch application complete: 6 applied, 2 ignored, 0 failed, 8 total\n'
@@ -174,7 +342,10 @@ class CompatibilityReportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / 'game.log'
             output = Path(directory) / 'compat.json'
-            for text, exit_code in ((CLEAN, 0), (CLEAN + 'Failed to apply patch SomeOwner', 1), ('', 1)):
+            for text, exit_code in ((CLEAN, 0), (with_capabilities([AVAILABLE]), 0),
+                                    (with_capabilities([UNAVAILABLE]), 1),
+                                    (with_capabilities([UNKNOWN]), 1),
+                                    (CLEAN + 'Failed to apply patch SomeOwner', 1), ('', 1)):
                 with self.subTest(text=text):
                     source.write_text(text, encoding='utf-8')
                     result = subprocess.run([sys.executable, str(ROOT / 'tools/compat_report.py'),

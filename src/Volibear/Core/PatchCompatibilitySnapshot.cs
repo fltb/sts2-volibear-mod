@@ -17,7 +17,8 @@ public static class PatchCompatibilitySnapshot
 {
     private const string Limitations =
         "Only successfully registered Harmony metadata is visible. Rejected patch attempts, " +
-        "non-Harmony detours, gameplay behavior and later changes are not assessed.";
+        "non-Harmony detours, gameplay behavior and later changes are not assessed. " +
+        "Capabilities are adapter declarations confirmed against committed patch metadata, not proof of foreign behavior.";
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
@@ -50,7 +51,12 @@ public static class PatchCompatibilitySnapshot
         public string Status => "metadata_only";
         public string Scope => "metadata_only";
         public string Limitations => PatchCompatibilitySnapshot.Limitations;
+        public IReadOnlyList<CapabilityRecord> Capabilities { get; init; } = [];
     }
+
+    // Declared by our adapters from their own rewrite input, not inferred from
+    // foreign names or shared metadata. Included atomically in the closing record.
+    public sealed record CapabilityRecord(string Capability, string Status, string Target, string Reason, string Impact);
 
     public sealed class Snapshot
     {
@@ -72,7 +78,7 @@ public static class PatchCompatibilitySnapshot
         }
     }
 
-    public static Snapshot Capture(Assembly ownAssembly)
+    public static Snapshot Capture(Assembly ownAssembly, IReadOnlyList<CapabilityRecord>? capabilities = null)
     {
         ArgumentNullException.ThrowIfNull(ownAssembly);
         var methods = Harmony.GetAllPatchedMethods().ToArray();
@@ -105,7 +111,10 @@ public static class PatchCompatibilitySnapshot
             .ThenBy(target => target.TargetAssemblyName, StringComparer.Ordinal)
             .ThenBy(target => target.TargetAssemblyVersion, StringComparer.Ordinal)
             .ToArray();
-        return new(Array.AsReadOnly(targets), new(methods.Length, ownTargets, targets.Length));
+        return new(Array.AsReadOnly(targets), new(methods.Length, ownTargets, targets.Length)
+        {
+            Capabilities = Array.AsReadOnly((capabilities ?? []).ToArray()),
+        });
     }
 
     private static PatchRecord Describe(string kind, Patch patch, Assembly ownAssembly)

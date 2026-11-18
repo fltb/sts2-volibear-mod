@@ -51,7 +51,8 @@ public static partial class DomainSteamEruptionEffects
             ("about-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "AboutToBlowMove")), nameof(AboutMachine))),
             ("explode-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "ExplodeMove")), nameof(ExplodeMachine))),
             ("attack-machine", () => NativeTranspiler.Patch(harmony, Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute))),
-                transpiler: new HarmonyMethod(Own(nameof(AttackMachine))) { after = [CardResolutionHooks.OrdinaryAttackOwnerV1] })),
+                transpiler: new HarmonyMethod(Own(nameof(AttackMachine)))
+                { priority = NativeCallCapability.LatePriority, after = [CardResolutionHooks.OrdinaryAttackOwnerV1] })),
             ("damage-machine", () => Patch(Async(NativeDamage), nameof(DamageMachine))),
             ("set-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetCurrentHp))), nameof(SetHpMachine))),
             ("set-max-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetMaxHp))), nameof(SetMaxHpMachine))),

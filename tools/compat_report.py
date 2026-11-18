@@ -6,6 +6,9 @@ initialization, content registration, and every patch-install failure with the m
 label the mod prints (e.g. "Steam patch failed: attack-machine"). Foreign patch
 failures after Volibear's LOAD_OK are failures too. No mod-name allow/deny list is
 used. A successful initialization check is not gameplay or multiplayer acceptance.
+Declared unavailable capabilities produce a degraded report even when all required
+startup markers are present; they are not counted as patch-install failures.
+Unknown capability bindings keep the result inconclusive until confirmed.
 """
 import argparse
 import json
@@ -102,6 +105,25 @@ def find_executable(game: Path) -> Path:
     raise SystemExit(f'No game executable under {game}')
 
 
+def read_capabilities(record: dict) -> list[dict]:
+    """Validate one atomic capability snapshot without inferring undeclared support."""
+    capabilities = record.get('capabilities', [])
+    if not isinstance(capabilities, list):
+        raise ValueError('capabilities must be an array')
+    seen = set()
+    for capability in capabilities:
+        if not isinstance(capability, dict) or any(
+                not isinstance(capability.get(key), str) or not capability[key].strip()
+                for key in ('capability', 'target', 'reason', 'impact')):
+            raise ValueError('invalid capability assessment; capability, target, reason and impact are required')
+        if capability.get('status') not in ('available', 'unavailable', 'unknown'):
+            raise ValueError('invalid capability status')
+        if capability['capability'] in seen:
+            raise ValueError('duplicate capability assessment: ' + capability['capability'])
+        seen.add(capability['capability'])
+    return capabilities
+
+
 def run(game: Path, log_path: Path, timeout: int, display: str, audio: str) -> str:
     (ROOT / '.local/tmp').mkdir(parents=True, exist_ok=True)
     work = Path(tempfile.mkdtemp(prefix='volibear-compat-', dir=str(ROOT / '.local/tmp')))
@@ -150,6 +172,7 @@ def report(log: str) -> dict:
     shared = []
     pending_shared = []
     scan = None
+    capabilities = []
     metadata_errors = []
     for line in log.splitlines():
         if 'COMPAT_SCAN_ERROR' in line:
@@ -172,19 +195,46 @@ def report(log: str) -> dict:
                         raise ValueError('invalid metadata summary')
                     if record['shared_targets'] != len(pending_shared):
                         raise ValueError('shared-target records are incomplete')
+                    assessed = read_capabilities(record)
                     shared = pending_shared
                     pending_shared = []
                     scan = record
+                    capabilities = assessed
             except (ValueError, TypeError) as error:
                 metadata_errors.append(marker.strip() + ': ' + str(error))
     if pending_shared:
         shared.extend(pending_shared)
         metadata_errors.append('COMPAT_SCAN: shared targets have no closing metadata summary')
     complete = bool(gate and content and load and summary and scan)
-    passed = complete and failure_count == 0 and not metadata_errors and not ambiguous_sessions
-    status = 'inconclusive' if ambiguous_sessions else 'unsupported' if failure_count else 'initialization_passed' if passed else 'inconclusive'
+    startup_passed = complete and failure_count == 0 and not metadata_errors and not ambiguous_sessions
+    unavailable = [item for item in capabilities if item['status'] == 'unavailable']
+    unknown = [item for item in capabilities if item['status'] == 'unknown']
+    capability_reasons = [f"{item['capability']} [{item['status']}]: {item['reason']} Impact: {item['impact']} Target: {item['target']}"
+                          for item in capabilities if item['status'] != 'available']
+    passed = startup_passed and not unavailable and not unknown
+    status = ('inconclusive' if ambiguous_sessions else 'unsupported' if failure_count else
+              'inconclusive' if not startup_passed or unknown else 'degraded' if unavailable else 'initialization_passed')
     missing = [name for name, found in [('BUILD_GATE', gate), ('CONTENT_OK', content),
                                        ('LOAD_OK', load), ('COMPAT_SUMMARY', summary), ('COMPAT_SCAN', scan)] if not found]
+    if ambiguous_sessions:
+        reasons = ['Multiple Volibear startups without a reliable process boundary; provide one complete startup log.']
+    elif failure_count:
+        reasons = list(errors) if errors else ['COMPAT_SUMMARY reports failed modules; detailed cause is missing.']
+    elif not startup_passed or unknown:
+        reasons = metadata_errors + (['Missing startup evidence: ' + ', '.join(missing)] if missing else [])
+    elif unavailable:
+        reasons = []
+    else:
+        reasons = ['No reported initialization or patch failures in the supplied diagnostic log.']
+    reasons.extend(capability_reasons)
+    limitations = ['Startup-log evidence only; gameplay, save/load and multiplayer are not evaluated.']
+    if scan and isinstance(scan.get('limitations'), str) and scan['limitations'].strip():
+        limitations.append(scan['limitations'])
+    if not capabilities:
+        limitations.append('No capability assessments were declared; initialization evidence does not establish full feature support.')
+    else:
+        limitations.append('Only the listed capabilities were assessed; undeclared features are not certified.')
+        limitations.extend(capability_reasons)
     return {
         'channel': channel.group(1) if channel else None,
         'target': target.group(1) if target else None,
@@ -193,16 +243,15 @@ def report(log: str) -> dict:
         'content': content,
         'support_status': status,
         'scope': 'startup-log; gameplay/save-load/multiplayer not evaluated',
-        'reasons': ['Multiple Volibear startups without a reliable process boundary; provide one complete startup log.'] if ambiguous_sessions else
-                   (errors or ['COMPAT_SUMMARY reports failed modules; detailed cause is missing.']) if failure_count else
-                   ['No reported initialization or patch failures in the supplied diagnostic log.'] if passed else
-                   metadata_errors or ['Missing startup evidence: ' + ', '.join(missing)],
+        'reasons': reasons,
         'failures': errors[:24],
         'failure_details': details[:24],
         'failures_truncated': len(details) > 24,
         'failure_count': failure_count,
         'shared_targets': shared,
         'patch_snapshot': scan,
+        'capabilities': capabilities,
+        'limitations': limitations,
         'metadata_errors': metadata_errors,
         'discarded_previous_boots': discarded_boots,
         'missing_evidence': missing,

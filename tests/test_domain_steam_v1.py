@@ -17,7 +17,7 @@ class DomainSteamV1Regression(unittest.TestCase):
         self.assertLess(setup.index('typeof(SfxCmd)'), setup.index('typeof(NCreature)'))
         entry = (ROOT / 'src/Volibear/ModEntry.cs').read_text(encoding='utf-8')
         self.assertLess(entry.index('DomainSteamNativeObservation.PrepareForTestScenario();'),
-                        entry.index('Core.DomainSteamEruptionEffects.Install();'))
+                        entry.index('Core.DomainSteamEruptionEffects.Install('))
 
     def test_current_production_sources_cooperate(self):
         runtime = fixture_runtime(self, 'sdk', 'native', 'baselib', root=ROOT)

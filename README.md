@@ -21,6 +21,9 @@
 Compatibility is checked by the actual APIs, patch structure and startup evidence,
 without per-mod exceptions. Shared-target metadata and complete-log diagnostics
 explain unsupported combinations; a successful load is not a universal compatibility guarantee.
+When an extension owns a per-hit damage operation, ordinary Domain lightning and
+segment responders remain composed into its completion. Exact mid-hit Steam Eruption
+damage suppression yields with a `degraded` report explaining the limited feature.
 
 > *"Beneath stone walls, there is no wild!! They may forget the old ways, yet the old ways will never forget them."*
 
@@ -62,6 +65,8 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 
 兼容性按实际接口、补丁结构和完整启动日志判断，不加入针对其他模组的特判。
 不支持的组合会保留具体失败原因和相关补丁信息；共享同一方法只标为待验证，不按模组名称拉黑。
+其他补丁接管每段伤害时，保留普通攻击段的领域附雷和响应，仅让出无法精确归属的蒸汽爆发中途伤害拦截。
+报告会标为 `degraded`（功能受限），列出能力、原因和具体影响，不把可加载当成全功能兼容。
 
 > *“石墙之下，毫无野性！！他们或许会遗忘古道，但古道，永远不会遗忘他们。”*
 
