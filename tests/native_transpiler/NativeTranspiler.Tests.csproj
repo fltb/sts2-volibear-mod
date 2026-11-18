@@ -12,6 +12,7 @@
   <ItemGroup>
     <Reference Include="0Harmony"><HintPath>$(HarmonyPath)</HintPath></Reference>
     <Compile Include="Program.cs" />
+    <Compile Include="CallObservationTests.cs" />
     <Compile Include="../../src/Volibear/Core/NativeTranspiler.cs" Link="Production/NativeTranspiler.cs" />
   </ItemGroup>
 </Project>

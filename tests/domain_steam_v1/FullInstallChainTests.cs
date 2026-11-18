@@ -80,8 +80,8 @@ internal static class SteamFullInstallChainTests
                 "stack presentation owns exactly eight native UI targets");
             var layout = PatchProcessor.GetCurrentInstructions(AccessTools.DeclaredMethod(container, "UpdatePositions")).ToArray();
             Need(layout.Any(c => c.Calls(Method(stack, "LayoutNodes"))) &&
-                !layout.Any(c => c.opcode == OpCodes.Ldfld && Equals(c.operand, AccessTools.DeclaredField(container, "_powerNodes"))),
-                "stack layout reads the display projection rather than the native model list");
+                layout.Any(c => c.opcode == OpCodes.Ldfld && Equals(c.operand, AccessTools.DeclaredField(container, "_powerNodes"))),
+                "stack layout projects the native list while preserving its shared field-read anchor");
             var ending = typeof(Volibear.Presentation.VolibearArchitectEnding);
             var winBody = Volibear.Presentation.VolibearArchitectEnding.NativeBody();
             Need(Harmony.GetPatchInfo(winBody)!.Transpilers.Count(p => p.owner == "Volibear.ArchitectEnding" && p.PatchMethod == Method(ending, "Rewrite")) == 1,

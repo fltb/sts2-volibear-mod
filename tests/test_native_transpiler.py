@@ -13,6 +13,8 @@ CASES = (
     'metadata-copy', 'legacy-order-conflict', 'foreign-first', 'volibear-first', 'legal-registration-orders',
     'explicit-foreign-order', 'indirect-foreign-order', 'mixed-owner-priorities',
     'explicit-tail-order', 'uninstall-reinstall', 'nop-padding', 'marked-nops', 'real-conflict',
+    'observe-call-composition', 'observe-call-async', 'observe-call-zero-arguments',
+    'observe-call-metadata', 'observe-call-validation',
 )
 PROJECT = ROOT / 'tests/native_transpiler/NativeTranspiler.Tests.csproj'
 DLL = ROOT / 'artifacts/native-transpiler/bin/net9.0/NativeTranspiler.Tests.dll'

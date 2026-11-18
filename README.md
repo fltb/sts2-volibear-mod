@@ -18,6 +18,10 @@
 
 **This mod is currently a test version.** Install the matching version of **BaseLib**. Current source builds handle their patch ordering internally; a separate load-order mod and an “immediately after BaseLib” position are no longer required. See [compatibility and verification](docs/LOAD_ORDER_COMPATIBILITY.md) for the tested scope and release status.
 
+Compatibility is checked by the actual APIs, patch structure and startup evidence,
+without per-mod exceptions. Shared-target metadata and complete-log diagnostics
+explain unsupported combinations; a successful load is not a universal compatibility guarantee.
+
 > *"Beneath stone walls, there is no wild!! They may forget the old ways, yet the old ways will never forget them."*
 
 **Volibear**, the Thunder Demigod of the Freljord, descends upon the Spire! Despising dead stone, cold clockwork, and false order, Valhir forces enemies to fight on his terms, suppresses their tricks inside his Domain, and unleashes primal Lightning and Beast Forms to shatter the Spire's summit.
@@ -55,6 +59,9 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 ## 🇨🇳 简体中文
 
 **本模组目前为测试版。**请安装匹配版本的 **BaseLib**。当前源码构建由模组自行处理补丁顺序，不再要求额外安装排序模组，也不再要求 Volibear 紧邻 BaseLib。已验证范围和发布状态见[兼容性说明](docs/LOAD_ORDER_COMPATIBILITY.md)。
+
+兼容性按实际接口、补丁结构和完整启动日志判断，不加入针对其他模组的特判。
+不支持的组合会保留具体失败原因和相关补丁信息；共享同一方法只标为待验证，不按模组名称拉黑。
 
 > *“石墙之下，毫无野性！！他们或许会遗忘古道，但古道，永远不会遗忘他们。”*
 

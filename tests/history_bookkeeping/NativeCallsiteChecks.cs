@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.Models;
 using Volibear.Core;
 
@@ -31,14 +32,21 @@ internal static class NativeCallsiteChecks
         var wrapper = AccessTools.Method(typeof(CardModel), nameof(CardModel.OnPlayWrapper));
         var wrapperMove = AccessTools.Method(wrapper.GetCustomAttribute<AsyncStateMachineAttribute>()!.StateMachineType, "MoveNext");
         var historyAdapter = AccessTools.Method(typeof(AttackHistory), "HookCallsites");
-        var historyCode = ((IEnumerable<CodeInstruction>)historyAdapter.Invoke(null, [PatchProcessor.GetOriginalInstructions(wrapperMove)])!).ToList();
-        foreach (var name in new[] { "BeforeNativeHooks", "AfterNativeHooks" })
+        var historyInput = PatchProcessor.GetOriginalInstructions(wrapperMove, out var historyGenerator);
+        var historyCode = ((IEnumerable<CodeInstruction>)historyAdapter.Invoke(null, [historyInput, historyGenerator])!).ToList();
+        foreach (var name in new[] { "BeforeNativeHooks", "BeforeAfterNativeHooks", "AfterNativeHooks" })
         {
             if (historyCode.Count(i => i.operand is MethodInfo m && m.DeclaringType == typeof(AttackHistory) && m.Name == name) != 1)
                 throw new Exception("Expected one native history hook adapter: " + name);
             checks++;
         }
-        try { historyAdapter.Invoke(null, [new List<CodeInstruction>()]); throw new Exception("History drift did not fail closed."); }
+        foreach (var name in new[] { nameof(Hook.BeforeCardPlayed), nameof(Hook.AfterCardPlayed) })
+        {
+            if (historyCode.Count(i => i.operand is MethodInfo m && m.DeclaringType == typeof(Hook) && m.Name == name) != 1)
+                throw new Exception("History observation removed the native hook call: " + name);
+            checks++;
+        }
+        try { historyAdapter.Invoke(null, [new List<CodeInstruction>(), historyGenerator]); throw new Exception("History drift did not fail closed."); }
         catch (TargetInvocationException e) when (e.InnerException is InvalidOperationException) { checks++; }
         // Check the crucial payment timing assumption on the actual pinned binary:
         // the cost is computed once, before the first await continuation registration.

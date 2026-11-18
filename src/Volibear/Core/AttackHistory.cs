@@ -144,7 +144,7 @@ public static class AttackHistory
             var machine = wrapper.GetCustomAttribute<AsyncStateMachineAttribute>()?.StateMachineType
                 ?? throw new InvalidOperationException("Native play wrapper lost its state machine.");
             NativeTranspiler.Patch(harmony, AccessTools.Method(machine, "MoveNext"),
-                transpiler: new HarmonyMethod(typeof(AttackHistory), nameof(HookCallsites)));
+                transpiler: new HarmonyMethod(typeof(AttackHistory), nameof(HookCallsites)) { priority = Priority.Normal });
             harmony.Patch(AccessTools.Method(typeof(CombatManager), nameof(CombatManager.Reset), [typeof(bool)]),
                 prefix: new HarmonyMethod(typeof(AttackHistory), nameof(Reset)));
             CombatManager.Instance.CombatEnded += _ => Reset();
@@ -154,29 +154,20 @@ public static class AttackHistory
         catch { harmony.UnpatchAll(harmony.Id); throw; }
     }
 
-    private static IEnumerable<CodeInstruction> HookCallsites(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> HookCallsites(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
         var before = AccessTools.Method(typeof(Hook), nameof(Hook.BeforeCardPlayed), [typeof(ICombatState), typeof(CardPlay)]);
         var after = AccessTools.Method(typeof(Hook), nameof(Hook.AfterCardPlayed),
             [typeof(ICombatState), typeof(PlayerChoiceContext), typeof(CardPlay)]);
-        var code = instructions.ToList();
-        var beforeCount = 0;
-        var afterCount = 0;
-        foreach (var instruction in code)
-        {
-            if (instruction.opcode != OpCodes.Call && instruction.opcode != OpCodes.Callvirt) continue;
-            if (Equals(instruction.operand, before))
-            { instruction.opcode = OpCodes.Call; instruction.operand = AccessTools.Method(typeof(AttackHistory), nameof(BeforeNativeHooks)); beforeCount++; }
-            else if (Equals(instruction.operand, after))
-            { instruction.opcode = OpCodes.Call; instruction.operand = AccessTools.Method(typeof(AttackHistory), nameof(AfterNativeHooks)); afterCount++; }
-        }
-        if (beforeCount != 1 || afterCount != 1)
-            throw new InvalidOperationException($"Native actual-play hook callsites drifted: before={beforeCount}, after={afterCount}.");
-        return code;
+        var code = NativeTranspiler.ObserveCall(instructions, generator, before,
+            before: AccessTools.Method(typeof(AttackHistory), nameof(BeforeNativeHooks)));
+        return NativeTranspiler.ObserveCall(code, generator, after,
+            before: AccessTools.Method(typeof(AttackHistory), nameof(BeforeAfterNativeHooks)),
+            after: AccessTools.Method(typeof(AttackHistory), nameof(AfterNativeHooks)));
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static Task BeforeNativeHooks(ICombatState combat, CardPlay play)
+    private static void BeforeNativeHooks(ICombatState combat, CardPlay play)
     {
         TargetCosts.ObserveOwner(play.Card.Owner);
         var ledger = Ledger(play.Card.Owner, combat);
@@ -190,14 +181,18 @@ public static class AttackHistory
         }
         else if (ledger.Find(id) is null)
             throw new InvalidOperationException("Native replay has no initial actual-play snapshot.");
-        return Hook.BeforeCardPlayed(combat, play);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static async Task AfterNativeHooks(ICombatState combat, PlayerChoiceContext context, CardPlay play)
+    private static void BeforeAfterNativeHooks(ICombatState combat, PlayerChoiceContext context, CardPlay play)
     {
         if (play.IsLastInSeries) Ledger(play.Card.Owner, combat).Complete(PlayId(play.Card));
-        await Hook.AfterCardPlayed(combat, context, play);
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task AfterNativeHooks(Task nativeTask, ICombatState combat, PlayerChoiceContext context, CardPlay play)
+    {
+        await nativeTask;
         TargetCosts.RefreshHand(play.Card.Owner);
     }
 

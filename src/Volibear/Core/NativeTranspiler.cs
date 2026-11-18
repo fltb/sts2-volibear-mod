@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading.Tasks;
 using HarmonyLib;
 
 namespace Volibear.Core;
@@ -97,6 +98,89 @@ public static class NativeTranspiler
             Edge(owner, group.Key);
         }
         ordered.before = before.ToArray();
+    }
+
+    /// <summary>
+    /// Observes one static, Task-returning call without replacing its native operand.
+    /// Arguments are evaluated once and saved in locals. The optional before observer
+    /// accepts those arguments and returns void; the optional after observer accepts
+    /// the native task followed by those arguments and returns the same task type.
+    /// Existing labels and exception boundaries cover the entire inserted sequence.
+    /// This preserves the call anchor, not arbitrary foreign assumptions about adjacent IL.
+    /// </summary>
+    public static IEnumerable<CodeInstruction> ObserveCall(IEnumerable<CodeInstruction> instructions,
+        ILGenerator generator, MethodInfo native, MethodInfo? before = null, MethodInfo? after = null)
+    {
+        ArgumentNullException.ThrowIfNull(instructions);
+        ArgumentNullException.ThrowIfNull(generator);
+        ArgumentNullException.ThrowIfNull(native);
+        if (before is null && after is null)
+            throw new ArgumentException("At least one call observer is required.");
+
+        static bool Supported(Type type) => !type.IsByRef && !type.IsPointer && !type.IsByRefLike &&
+            !type.ContainsGenericParameters && !type.IsFunctionPointer;
+        static void StaticMethod(MethodInfo method)
+        {
+            if (!method.IsStatic || method.ContainsGenericParameters ||
+                (method.CallingConvention & CallingConventions.VarArgs) != 0 ||
+                method.GetParameters().Any(p => !Supported(p.ParameterType)))
+                throw new NotSupportedException($"Call observation requires a closed static method with value parameters: {method}.");
+        }
+        StaticMethod(native);
+        if (!typeof(Task).IsAssignableFrom(native.ReturnType))
+            throw new NotSupportedException($"Call observation requires a Task return type: {native}.");
+        var parameters = native.GetParameters().Select(p => p.ParameterType).ToArray();
+        if (before is not null)
+        {
+            StaticMethod(before);
+            if (before.ReturnType != typeof(void) ||
+                !before.GetParameters().Select(p => p.ParameterType).SequenceEqual(parameters))
+                throw new ArgumentException($"Before observer must return void and accept the native parameters: {before}.", nameof(before));
+        }
+        if (after is not null)
+        {
+            StaticMethod(after);
+            if (after.ReturnType != native.ReturnType ||
+                !after.GetParameters().Select(p => p.ParameterType).SequenceEqual(new[] { native.ReturnType }.Concat(parameters)))
+                throw new ArgumentException($"After observer must accept the native task and parameters and return the same task type: {after}.", nameof(after));
+        }
+
+        var code = instructions.Select(instruction => new CodeInstruction(instruction)).ToList();
+        var matches = code.Select((instruction, index) => (instruction, index))
+            .Where(site => site.instruction.Calls(native)).ToArray();
+        if (matches.Length != 1)
+            throw new InvalidOperationException($"Expected one native {native} callsite; found {matches.Length}.");
+        var (call, position) = matches[0];
+        if (call.opcode != OpCodes.Call || position > 0 && code[position - 1].opcode.OpCodeType == OpCodeType.Prefix)
+            throw new NotSupportedException($"Call observation does not support instance dispatch or IL prefixes: {native}.");
+
+        var locals = parameters.Select(generator.DeclareLocal).ToArray();
+        var inserted = new List<CodeInstruction>();
+        for (var index = locals.Length - 1; index >= 0; index--)
+            inserted.Add(new CodeInstruction(OpCodes.Stloc, locals[index]));
+        void LoadArguments()
+        {
+            foreach (var local in locals) inserted.Add(new CodeInstruction(OpCodes.Ldloc, local));
+        }
+        if (before is not null)
+        {
+            LoadArguments();
+            inserted.Add(new CodeInstruction(OpCodes.Call, before));
+        }
+        LoadArguments();
+        inserted.Add(new CodeInstruction(call) { labels = [], blocks = [] });
+        if (after is not null)
+        {
+            LoadArguments();
+            inserted.Add(new CodeInstruction(OpCodes.Call, after));
+        }
+
+        inserted[0].labels.AddRange(call.labels);
+        inserted[0].blocks.AddRange(call.blocks.Where(block => block.blockType != ExceptionBlockType.EndExceptionBlock));
+        inserted[^1].blocks.AddRange(call.blocks.Where(block => block.blockType == ExceptionBlockType.EndExceptionBlock));
+        code.RemoveAt(position);
+        code.InsertRange(position, inserted);
+        return code;
     }
 
     /// <summary>

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using HarmonyLib;
 using Volibear.Core;
 
-internal static class Program
+internal static partial class Program
 {
     private const string Adapter = "Volibear.Adapter";
     private const string Foreign = "Foreign.Observer";
@@ -27,6 +27,11 @@ internal static class Program
         ["nop-padding"] = NopPadding,
         ["marked-nops"] = MarkedNops,
         ["real-conflict"] = RealConflict,
+        ["observe-call-composition"] = ObserveComposition,
+        ["observe-call-async"] = ObserveAsyncOutcomes,
+        ["observe-call-zero-arguments"] = ObserveZeroArguments,
+        ["observe-call-metadata"] = ObserveMetadata,
+        ["observe-call-validation"] = ObserveValidation,
     };
 
     private static int Main(string[] args)

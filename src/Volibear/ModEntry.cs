@@ -7,6 +7,37 @@ namespace Volibear;
 [ModInitializer(nameof(Initialize))]
 public static class ModEntry
 {
+    private static bool compatibilityDiagnosticsInstalled;
+
+    private static void InstallCompatibilityDiagnostics()
+    {
+        if (compatibilityDiagnosticsInstalled) return;
+        // Localization initializes after all mod entrypoints. Observe only committed
+        // patch metadata; do not re-run third-party transpilers to inspect their IL.
+        try
+        {
+            new HarmonyLib.Harmony("Volibear.CompatibilityDiagnostics").Patch(
+                HarmonyLib.AccessTools.Method(typeof(MegaCrit.Sts2.Core.Localization.LocManager), "Initialize"),
+                postfix: new HarmonyLib.HarmonyMethod(typeof(ModEntry), nameof(ReportCompatibilitySnapshot))
+                    { priority = HarmonyLib.Priority.Last });
+            compatibilityDiagnosticsInstalled = true;
+        }
+        catch (System.Exception error)
+        {
+            GD.PushWarning("[Volibear] COMPAT_SCAN_ERROR installation: " + error);
+        }
+    }
+
+    private static void ReportCompatibilitySnapshot()
+    {
+        try { Core.PatchCompatibilitySnapshot.Capture(typeof(ModEntry).Assembly).WriteTo(line => GD.Print(line)); }
+        catch (System.Exception error)
+        {
+            // A failed read-only report must not become a new game-loading dependency.
+            GD.PushWarning("[Volibear] COMPAT_SCAN_ERROR " + error);
+        }
+    }
+
     public static void Initialize()
     {
         // Pinned builds are accepted directly; any other build must show the native surface this
@@ -76,7 +107,8 @@ public static class ModEntry
         Step("Presentation.PowerStackVisual", () => Presentation.PowerStackVisual.Install());
         Step("Presentation.VolibearArchitectEnding", () => Presentation.VolibearArchitectEnding.Install());
         Step("Presentation.VolibearInspectPortraits", () => Presentation.VolibearInspectPortraits.Install());
-        if (diagnostics) GD.Print("[Volibear] COMPAT_SUMMARY failures=" + failures.Count);
+        Step("Core.CompatibilityDiagnostics", InstallCompatibilityDiagnostics);
+        GD.Print("[Volibear] COMPAT_SUMMARY failures=" + failures.Count);
         if (failures.Count != 0)
             throw new System.InvalidOperationException("[Volibear] Initialization incomplete; failed modules: " +
                 string.Join(", ", failures));
