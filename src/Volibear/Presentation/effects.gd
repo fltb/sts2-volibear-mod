@@ -1,10 +1,12 @@
 extends Node2D
 ## Production presentation owner. Never computes rules or waits on gameplay.
 const AudioProfile = preload("res://VolibearArt/scenes/audio_profile.gd")
+const CombatVfx = preload("res://VolibearArt/scenes/combat_vfx.gd")
 const MAX_VISUALS = 64
 const MAX_VOICES = 24
 const DEDUP_WINDOW = 4096
 const MAX_LEASE = 60.0
+const COALESCED_ACCENTS = ["domain_echo", "storm_charge", "thunder_armor", "replay_echo", "beast", "absorb", "purify"]
 # The approved ground atlases have a ~190px footprint; the native actor's feet
 # span its 310px bounds. Enclose both feet without changing the raster or timing.
 const OWNER_GROUND_SCALE = 1.8
@@ -17,6 +19,7 @@ static var _resolved_audio: Dictionary = {}
 var _mix: Dictionary = {}
 var _frames: SpriteFrames
 var _visuals: Dictionary = {}
+var _combat_visuals: Dictionary = {}
 var _voices: Dictionary = {}
 var _loops: Dictionary = {}
 var _voice_loops: Dictionary = {}
@@ -165,6 +168,9 @@ func _position_visual(record: Dictionary) -> bool:
 		sprite.transform = Transform2D(along * stretch * u.x + across * v.x, along * stretch * u.y + across * v.y, a)
 	else:
 		sprite.position = b if bundle.target_position else a
+		if effect.anchor == "owner_ground":
+			var owner_scale: Vector2 = (inverse * bundle.owner.get_global_transform_with_canvas()).get_scale()
+			sprite.scale = Vector2(absf(owner_scale.x), absf(owner_scale.y)) * OWNER_GROUND_SCALE
 	return true
 
 func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, target_id: String = "", persistent_key: String = "", lease_seconds: float = 10.0, sound: bool = true) -> bool:
@@ -184,7 +190,7 @@ func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, targe
 			return false
 		existing.bundle = bundle
 		return renew_loop(persistent_key, lease_seconds)
-	if _visuals.size() >= MAX_VISUALS:
+	if active_visuals() >= MAX_VISUALS:
 		return false
 	var sprite = AnimatedSprite2D.new()
 	sprite.sprite_frames = _frames
@@ -209,6 +215,77 @@ func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, targe
 	if sound and effect.has("audio_cue"):
 		play_sound(event_id, effect.audio_cue, persistent_key, lease_seconds)
 	return true
+
+## Committed combat geometry, independent of the legacy atlas/audio dispatcher.
+## The stable event + target identity deduplicates observations, while hit_index
+## controls stroke direction/offset only. It never means an extra damage event.
+func emit_combat(event_id: String, style: String, anchors: Dictionary, target_id: String = "", options: Dictionary = {}) -> bool:
+	if _closing or event_id.is_empty() or not CombatVfx.supports(style):
+		return false
+	if anchors.has("target") and target_id.is_empty():
+		return false
+	var owner = anchors.get("owner")
+	var target = anchors.get("target", anchors.get("card", owner))
+	var source = anchors.get("source", anchors.get("hand", owner))
+	if not _valid(owner) or not _valid(target) or not _valid(source):
+		return false
+	if not _remember("combat:" + event_id + ":" + style + ":" + target_id):
+		return false
+	# Repeated passive receipts refresh one short accent instead of stacking
+	# shields/halos over the actor's head. Actual attack strokes and thunder paths
+	# remain independent per hit. This changes no receipt or gameplay count.
+	if style in COALESCED_ACCENTS:
+		for record in _combat_visuals.values():
+			if record.node.style == style and record.owner == owner and record.target == target:
+				record.node.configure(style, event_id, options)
+				record.node.age = 0.0
+				record.source = source
+				return _position_combat(record)
+	if active_visuals() >= MAX_VISUALS:
+		return false
+	var visual = CombatVfx.new()
+	visual.configure(style, event_id, options)
+	add_child(visual)
+	_next += 1
+	var record = {"node": visual, "owner": owner, "source": source, "target": target}
+	if not _position_combat(record):
+		visual.queue_free()
+		return false
+	_combat_visuals[_next] = record
+	return true
+
+func _position_combat(record: Dictionary) -> bool:
+	if not _valid(record.node) or not _valid(record.owner) or not _valid(record.source) or not _valid(record.target):
+		return false
+	var inverse := get_global_transform_with_canvas().affine_inverse()
+	var target: CanvasItem = record.target
+	var center: Vector2 = inverse * _point(target)
+	var ground: Vector2 = inverse * _point(target, "ground")
+	var size := Vector2(120, 160)
+	# Bounds is the native visual contract. Do not infer species, armor or flying
+	# rules from the model name, a sprite texture, or the last selected enemy.
+	var bounds = target if target is Control else target.find_child("Bounds", true, false)
+	if bounds is Control and bounds.size.x > 0 and bounds.size.y > 0:
+		var local: Transform2D = inverse * bounds.get_global_transform_with_canvas()
+		var top_left: Vector2 = local * Vector2.ZERO
+		var top_right: Vector2 = local * Vector2(bounds.size.x, 0)
+		var bottom_left: Vector2 = local * Vector2(0, bounds.size.y)
+		size = Vector2(top_left.distance_to(top_right), top_left.distance_to(bottom_left))
+		# CenterPos remains the authoritative contact anchor, including a flyer.
+		# The ground stroke belongs at the visual's own feet/bottom, never the HUD.
+		ground = local * Vector2(bounds.size.x * 0.5, bounds.size.y)
+		if target is Control:
+			center = local * (bounds.size * 0.5)
+	record.node.set_endpoints(inverse * _point(record.source), center, ground, size)
+	return true
+
+func _stop_combat(token) -> void:
+	if not _combat_visuals.has(token):
+		return
+	var record = _combat_visuals[token]
+	_combat_visuals.erase(token)
+	if is_instance_valid(record.node):
+		record.node.queue_free()
 
 func has_private_sound(cue_id: String) -> bool:
 	return _cues.has(cue_id) and str(_cues[cue_id].file).begins_with("profiles/riot_en/")
@@ -349,18 +426,33 @@ func stop_loop(key: String, fade_audio: bool = true) -> void:
 	else:
 		_stop_voice_key(key, fade_audio)
 
+## Combat can enter IsEnding immediately after its final damage receipt. Remove
+## persistent fields at that boundary while allowing the confirmed strike and
+## its already-started sound to finish their own bounded lifetime. Room teardown
+## and owner death still call stop_all(), which clears every transient as well.
+func stop_persistent() -> void:
+	for key in _loops.keys():
+		stop_loop(key, false)
+	# A fading loop has already relinquished its lookup key. Stop by the actual
+	# voice's authored loop flag as well, so no detached loop survives ending.
+	for token in _voices.keys():
+		if _voices[token].cue.loop:
+			_stop_voice(token)
+
 func stop_all() -> void:
 	_pending_cracks.clear()
 	_next_crack_at = 0.0
 	for token in _visuals.keys():
 		_stop_visual(token)
+	for token in _combat_visuals.keys():
+		_stop_combat(token)
 	for token in _voices.keys():
 		_stop_voice(token)
 	_loops.clear()
 	_voice_loops.clear()
 
 func active_visuals() -> int:
-	return _visuals.size()
+	return _visuals.size() + _combat_visuals.size()
 
 func active_voices() -> int:
 	return _voices.size()
@@ -373,6 +465,10 @@ func _process(delta: float) -> void:
 		var record = _visuals[token]
 		if now >= record.expires or not _position_visual(record) or (not record.effect.loop and not record.node.is_playing()):
 			_stop_visual(token)
+	for token in _combat_visuals.keys():
+		var record = _combat_visuals[token]
+		if not _position_combat(record) or not record.node.advance(delta):
+			_stop_combat(token)
 	for token in _voices.keys():
 		var record = _voices[token]
 		if now >= record.expires or not is_instance_valid(record.node) or not record.node.playing:

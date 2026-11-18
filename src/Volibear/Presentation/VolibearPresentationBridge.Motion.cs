@@ -98,7 +98,11 @@ public static partial class VolibearPresentationBridge
             _plays.Add(motion);
             StartMotion(motion, "on_play");
         }
-        internal void CardFinished(CardPlay play) => _plays.RemoveAll(p => ReferenceEquals(p.Play, play));
+        internal void CardFinished(CardPlay play)
+        {
+            _plays.RemoveAll(p => ReferenceEquals(p.Play, play));
+            FinishCombatPlay(play);
+        }
         internal void BlockMotion(CardPlay? play)
         {
             if (play is not null) StartMotion(_plays.LastOrDefault(p => ReferenceEquals(p.Play, play)), "after_block_gain");
@@ -143,9 +147,14 @@ public static partial class VolibearPresentationBridge
             PlayBoundMotion(play.Binding, clip);
             string? cue = play.Binding.Clip switch
             {
-                "bite" => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, BiteVoices),
+                "bite" or "bite_rend" => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, BiteVoices),
                 "storm_leap" => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, LeapVoices),
-                "cast" when CardCapabilities.IsThunderSpell(play.Play.Card) => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, CastVoices),
+                "cast" or "thunder_call" or "chain_channel" or "storm_channel" when CardCapabilities.IsThunderSpell(play.Play.Card) => VolibearPresentationCues.NextSkillVoice(play.Play.Card.Owner, CastVoices),
+                "ground_slam" or "stomp_chain" or "uppercut" => StartVoices.GetValueOrDefault("attack_heavy"),
+                "double_claw" or "claw_flurry" or "backhand" or "sweep" or "lunge" => StartVoices.GetValueOrDefault("attack"),
+                "iron_guard" => StartVoices.GetValueOrDefault("block"),
+                "primal_charge" => StartVoices.GetValueOrDefault("cast"),
+                "thunder_call" or "chain_channel" or "storm_channel" => StartVoices.GetValueOrDefault("cast"),
                 _ => StartVoices.GetValueOrDefault(clip)
             };
             if (!_attackLinePlayed && cue is ("voice.attack_01" or "voice.heavy") &&
@@ -243,6 +252,7 @@ public static partial class VolibearPresentationBridge
         {
             StopMotionVisual();
             _plays.Clear();
+            ClearCombatPresentation();
             ++_motionAction;
         }
     }

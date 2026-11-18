@@ -78,14 +78,18 @@ public static partial class VolibearPresentationBridge
             switch (receipt.Kind)
             {
                 case "target_block_removed": TargetEffect("guard_break"); break;
-                case "counter_thunder_resolved": TargetEffect("counter_release"); break;
+                case "counter_thunder_resolved": _effects.PlaySound(id, "sfx.counter_release"); break;
                 case "domain_suppression_applied": TargetEffect("domain_suppress"); break;
                 case "vulnerable_applied": TargetEffect("wound"); break;
                 case "weakness_applied": TargetEffect("weakness"); break;
-                case "lifesteal_health_recovered": TargetEffect("lifesteal"); break;
+                case "lifesteal_health_recovered":
+                    CombatAccent(id, "lifesteal", receipt.Target);
+                    _effects.PlaySound(id, "sfx.lifesteal");
+                    break;
                 case "feral_target_confirmed": CardEffect("feral_transfer"); break;
                 case "feral_batch_committed":
                     _effects.Emit(id, "feral_aura", Anchors(), sound: false);
+                    CombatAccent(id + ":shape", "beast");
                     BatchingBeastMotion(receipt.Source as CardModel);
                     break;
                 case "bite_mark_added":
@@ -98,9 +102,16 @@ public static partial class VolibearPresentationBridge
                 case "card_charge_changed": CardEffect("charge", onCard: true); break;
                 case "card_retain_added": CardEffect("armor_retain", onCard: true); break;
                 case "card_enhancement_committed": CardEffect("strength", onCard: true); break;
-                case "power_instance_deployed": AtOwner(id, "cast_charge"); break;
+                case "power_instance_deployed":
+                    AtOwner(id, "cast_charge");
+                    if (receipt.Card is { } source && CombatPresentationCatalog.For(MotionKey(source)).Accent is { } accent)
+                        CombatAccent(id + ":shape", accent);
+                    break;
                 case "thunder_modifier_changed": AtOwner(id, "lightning_growth"); break;
-                case "thunder_armor_block_committed": AtOwner(id, "thunder_armor"); break;
+                case "thunder_armor_block_committed":
+                    CombatAccent(id, "thunder_armor");
+                    _effects.PlaySound(id, "sfx.thunder_armor");
+                    break;
                 case "dexterity_changed": AtOwner(id, "armor_retain"); break;
                 case "scry_selection_opened": CardEffect("card_retrieve", fromDraw: true); break;
                 case "selected_card_discarded": CardEffect("card_discard", toDiscard: true); break;

@@ -1,0 +1,6233 @@
+{
+  "schema_version": 1,
+  "render_complete": true,
+  "canvas_size": [
+    512,
+    512
+  ],
+  "pivot_px": [
+    250,
+    442
+  ],
+  "fps": 24,
+  "facing": "right",
+  "contains_baked_effects": false,
+  "contains_domain_tint": false,
+  "base_art": "skeletal_v9 existing authored parts and unchanged anatomy",
+  "total_sequences": 14,
+  "total_frames": 358,
+  "source_integrity": {
+    "combat/render_combat.py": "626b6f4d13a47393e70164f1be6cd8daf81817b8b697289ed6c3917ab6e7cb45",
+    "skeletal_v9/rig.json": "082dec702dc28009477a0d45aeec06c2a5e5162c8f77b07a3d767f3ebf087770",
+    "skeletal_v9/scripts/render.py": "29d12bbdac8f2aae6bba71a7994fcde7ed1a0969d96ab588b97da3cbb96d569c",
+    "skeletal_v9/scripts/leg_deformation.py": "a6e66430c2abc8bfd22bcd38c8c78417c5b2ed393e1f4e2cde90fe7bcc047050",
+    "rig/motions.json": "58bae5c7bfde4b5e7a19d4a4fc1ff293531511502455fc2416b62df8bb4003c3",
+    "skeletal_v9/parts/back_spikes.png": "941e8feb1bd4c0f47dcd0af175a7be9bb0994d580d3074a1b950f0de2677a6f5",
+    "skeletal_v9/parts/braid_far.png": "b42f62737da92ce045eea99fcf51e89bd32b3987bd07c852d2c682cc39d635d0",
+    "skeletal_v9/parts/braid_near.png": "51321fe29f56f5d0e95dae6913e9f79085184c65c25244b19b0b37ac3e041560",
+    "skeletal_v9/parts/foot_far.png": "07d4bce408e216c98a0bae64e03e3035724303614d9161134038d75b64d20bdf",
+    "skeletal_v9/parts/foot_near.png": "f5579b1f63c96fac5831cc231219e179e3c89ab346c0e3538fa68f7290506b39",
+    "skeletal_v9/parts/forearm_far.png": "97c6d3677cad5c37ebdf322f421d452340d00ea8d01c5f57398c684d4970f5f2",
+    "skeletal_v9/parts/forearm_near.png": "0b5c538df0fc55a23c8687ccfbc3e5cf43e8bf7c61bbbffe51e1f9346d70b5c4",
+    "skeletal_v9/parts/hand_far.png": "97e49d5efddadeb394b199f1088679a90e5a54f55895ed3dd14ab41619c78e52",
+    "skeletal_v9/parts/hand_near.png": "49f6d91df2fccac98dfc3caeee0732699d41d09fbb40b60f07183eafd380384b",
+    "skeletal_v9/parts/head.png": "3d1769177de853a0246f14942ae7d391c1648392b5795393010b5f9c250e1843",
+    "skeletal_v9/parts/head_half.png": "bfce9cf4633d11adb698610f8d8fcbffefd03a3fdb36d661ed8e8eed31489a35",
+    "skeletal_v9/parts/head_open.png": "b45b87268cb785cc47e5bf197a4b375fc07c1c4c28521c980ac6fd673b8d1100",
+    "skeletal_v9/parts/shin_far.png": "3e024052bd1b11e10aa38e5bab91d296f01ab33f0d0b6c1909af1d494c357770",
+    "skeletal_v9/parts/shin_near.png": "fb7d1e24932e660cd1ecfa4a6965b11a15958641e7fb0125d531cdb82caaa4b2",
+    "skeletal_v9/parts/thigh_far.png": "f784a9892f0ca83d497fa1e0a2121c9bc3d477b9057c7301728607ffafd5d229",
+    "skeletal_v9/parts/thigh_near.png": "ceab9d6800c7fe2f0e754209a193dd17046658f75f828effb947c6a68a3ff8d0",
+    "skeletal_v9/parts/torso.png": "f041b4fad501c42d5c5dc7aef62b955c0fd9650701adac96990c6c934d6e2e73",
+    "skeletal_v9/parts/upper_arm_far.png": "26dcbb546c599152461ed0260a6a4270005ea32b99e321739c023523e0db42e6",
+    "skeletal_v9/parts/upper_arm_near.png": "572bd0ede74241943ef1d817f672899a8833655c6b55fa716debe4fcea3a4ce8",
+    "skeletal_v9/parts/upper_arm_socket_near.png": "6d265b786cb1fd01b78ce602f78d1fd61f113284d2ef1c45a34dfa8575915177"
+  },
+  "render_input_sha256": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+  "clips": [
+    {
+      "name": "backhand",
+      "fps": 24,
+      "frame_count": 18,
+      "duration": 0.75,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        7
+      ],
+      "description": "近爪收肘后反手掠出，远爪守胸，回收时肘部保持弯曲。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c3256498d21f4a1ed337e1a3484c9203746782917130666af1cdcc7d81c5668d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4a84c2b858a6495b9f7fc052b152c742db72c8b23fc303d82bd4934f82ba86f2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3558c1fae1822dd5f80e4cffa4f9b5aaa3543237fc7cdd43c917bf2e86f1fe8c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3c06b3bc2a3dd898f90ffcfb64b86ebbb0ae15a67bd68935f34fd754b88c2610",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a795b1e3e59596b137ce8614e6e435c1bf73cf6f24395d64995824a82651e5db",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "627fe824b1613786341e1ca4d5d111422c8d7f8bcd033d35800d669a085c0758",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e214d63f7f8e866bc1aaaf662e3dbea282b10925294d7b2a6f392eca50ccca44",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bae7e8b66498c119ef46eb74e190693bbe3e8a9789b6eaa826cd707575c46788",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2fd137970ba9fbb68b4b6b7505d08addbc8dfda574e4d5a6956ac7f5a39b3f18",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fd5b4bcd6bdabe6c199471df7b084875731dd4b455ed592aef3657baf04b6e02",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1f024d1140df6832afa9e7114aab46e924d07aeb8a6b05563e106ba8cfb7d04c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "20c266c8cc1a5e603643fcc978f8a1d8d0eff874e061d0f2550d7a13f7174357",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d4ada0c42657c2fe9cacbc57b2c64f3348d8454554f2826134120e27980b6f8f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "31c7820f06bf6cbfbacae9321627c0c090c5f9c516a87b45bbf78c7b1e865ef7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "06463aa532da2f0956242b5c0cf177afce25c5df99c8808430e412ab241e0770",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0c948ff0025de643d2c67883a81fb5832a205814e2e3e5a8cc4c6ba6112bcb3a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/backhand.png",
+        "json": "atlases/backhand.json",
+        "columns": 8,
+        "rows": 3,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "dff5ecd2284ccd56b15c91680d7c22f159e42f0709a34f28a1d4e55cd00b5cde",
+      "atlas_json_sha256": "d59be161039d6504e645dd90443d84e1c5b65ddbc7e27b467436d5c452bd38c8"
+    },
+    {
+      "name": "double_claw",
+      "fps": 24,
+      "frame_count": 24,
+      "duration": 1.0,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        7,
+        15
+      ],
+      "description": "近爪横挥后远爪追击，两侧肩肘交错，第二击不重播起手。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "96ea81968ace9871fe1be74c5ed4b6e2d81826bea399aab3c011eb569be93821",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "5836a5f02bf381602dfe77a7c574016cf65468ed18bb95d01c5e048995865802",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "541e111378175f5113ea5160abd8dc47d05cbe0abe6e90d483f623fd9736afdc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3c949aca99d0ebdef1e253315864a549e751f03b23850b4a69ab9e1e58ef76b8",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "973f118dbba98a1aa0f21d4f3e952b64a8d4fafd4fb421bc0f0d74581cae8481",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "48fbbe2d3448a6d67b23d1e30042424ca7df1930abd88593e16604b150a7402e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "57864c9381cae61c6fc4095d5612db637f54afeae1e1511af0bfd37bffe351cc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ab84624f6b77380362e611353b14644b0b68ed82d7c26ad04bd9e655aec84d7e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e1edd4d686ac62063823a20c97f74f82afc99dc12de034e85cf3bc6f1bb243a0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2a7990e2c231ad6acb98f640606f1a096e136884832abc5b5e5cf68ed8168798",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "88a83e6782ee00cd175b03d4c2b0b84b53db9e50a7e69e03c9cab3d90e2851b4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7eed6e2839f436fa4305c6785fa8f4c0c30f0496ac128783141d868cebbb6b8e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8b98bc97592ea97971461f1f16849c1cc4ee7fc50a72367bd27207343ac4ff25",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8cf570b0770dafa366e0a15546c9ec0843f9625a2e0be9b560843be200833ff3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "5adaa17f21b29239a192ccf8429a8780cc02c7b345997e7d39c30605bc5931ce",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7a319e2898564a6988b1b52fed63e7f3331cef2f6aa25fc7de3140b1502af39e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0a7160a42fc24ca96d0d94ed14b7ab5909bbd45b7bcbd960ad92ce0948bc10e5",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bd236da60fbfe4e650a3857cefa7b8f3e9a62e914326f925efa3c4b2ffcf636d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "64fef29895a913c2ee96aab5503a50c3b9a49e3116870bcc5bf8546b687b2246",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "742d353fb1f9b87dc71587ea1ee7b35e65cb876a0e71917844cd55fef1714071",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "59df7d94a5a2b72fb1846024d428d76b762b27ecbe59f7ea27a05d22ecbea94e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b13602e79d5298cb5a0119e34fb2e57ce387d3edb126598b78e11e46d59bd713",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/double_claw.png",
+        "json": "atlases/double_claw.json",
+        "columns": 8,
+        "rows": 3,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "677a277a9e4dede5f90c6af1a794b163e5b3d90af91935b8357a995e699cac55",
+      "atlas_json_sha256": "91a8981709cc752e72e477bed35025c960b5929a1cb5fdc2ced48da0cae85281"
+    },
+    {
+      "name": "claw_flurry",
+      "fps": 24,
+      "frame_count": 26,
+      "duration": 1.0833333333333333,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        6,
+        12,
+        18
+      ],
+      "description": "三段交替挥爪：近爪、远爪、近爪反撕，各段均有收肘。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9b702c726d1bf717677da8492d7023e493ad9647f934ff8216840425f01852f2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "238f3d5fe523c6b92ff7647a762a905505b4256ba1d18133c0350ca1c26e2a0e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bd99d6b54bb5e7261711cd4f9fef7b72c093458889ae074e45895800fe75bfe2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "6882ee68c3cd7e63c4a4c23de79800693e37aed08f6804667ea2a8baf9216884",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7b3ca36668888fe39b75720cc6b659988482120c03b3aaab742508d90d1d6edd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fc8375144101275205b9f10172750ce5892307d9f50c40f98e0babac92f4c619",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "10975ee85a57ebbe164086e6c456ecc8920685c944a40ff6b56fb6ad71cba768",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0dc4f49135640b92750471808f6046a0908a81928cd1933202dc1c5b74ac0cf3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "aabf5e73b7e4b8be4166d59473958fc75199c01d4779fa5623f5e6ea56506bc4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bfdde27f91c9981605f969730e6bf756eeb807fb6ee38db5998cdbc9cacd6e61",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8fe67ba437d6e193bc9662663e8a946ad980a1a524a4d084a0153b306ff8c59e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ee97ca30ad2a64e5d92624f2b1b30a1defef5ef3974fa4184771978c23b1360d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0d05dd4accbc54cafbb86c6a71a71c1ffa310cffb486eb3009e50ddfde4aa338",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b97f6c85f0a7aa60215c80db67563dbaf377978a21a4f5bc8448c3925b0d376a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f18c2ab02e062cc66539b9c72c70e9a06fafa981214c43c5c3f17920e1e0bfe2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "6ced456fe5f17c6c5279ee0e7a59f7143cca14867350c4a5c7b9f898ef521358",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "beb8f84088966c79ac141f6669d7202df973c454ed8daebc25c2007eca2e85ee",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "298e69e2efba3c79feaa743a4e1b1bc392231ba0c667c52013db302ee53383ea",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a3a26ba5595b2cfd5a7d31977438ba8f92b858b4ebcd3df842fe21909fa716bf",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "27faedde71754b2eb5b90450c037e29fd720a667532a9c18f080626f7c69893f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "49ae6d6e8256caca46106f566ab2288779dae4d280512c0390ead3ebe7c4dbc7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9f6076baf429731c8c78e9708d88eb9e377c7adfbb0c518cc9f7e0c9b012cec1",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7e01010091471d2436e2aa6b5e829daf3afd62075b3030d814e9d697a46991a7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d822792a71b949c8c71c6f249e0c2f9c3aa70f1a07a314d0e9b790f55a280b64",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/claw_flurry.png",
+        "json": "atlases/claw_flurry.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "bdd28cc05ad5aa06a770b78da7872f648d8af188668c506207819a7e05cc0eda",
+      "atlas_json_sha256": "d31a9c085f6ba2693708b9a7e88271025541b6d5af8d1530e0b908ce351aae87"
+    },
+    {
+      "name": "sweep",
+      "fps": 24,
+      "frame_count": 24,
+      "duration": 1.0,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        10
+      ],
+      "description": "压低身体蓄势，伸展开的近爪从低处向外横扫，头随肩回转。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c9e4f212c88f63a998e59d31a4c22636df707af796a929cd10bd900965f00f4c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2f9390dc40978f00d15b2e8491e0ed1e320af7d67f7e2034a9a24f9c5025c70c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1ec5a08333bd10aa07a6c580512ec434f23ddc6dcaf7fcdefbcd6a4e1eb71414",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "506fa3d827092685e9cad990b44537edc7381ff8aa86c93be6839daad89a07aa",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "5a23bad4d190e9284cbe03f34115e042dc4eabf19d9592b52ddb9ed8eb9c528c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b2e8a43317b39256b3d184bc82deab508e90c88c9b669941e246cec56af47ccc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "45c9b903c8124ecde99d53ed5b275d53123f809b872f9a41bd0bd17a6df1a985",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9354a8266bd00ca8ed249c5f9e8cb56ed9c580956207541ab2609a876a415f43",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "574fcb86db65680219ea3f247d6e55334e4f712a8e572838ce6e2dde236db13d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4fada019c941374f8f9c6552a8e6257c03fe41803c99c302143fdcd7e11f7984",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "87fd780bd1cba7123d7388c0f140dd599b5eedf7f0fb2397bfb5963d8117fd16",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8736fa2e796adc32ac8e23dea46e60044b99e1cb0934859686535f9882c275ae",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4d6dc5f765ce2d90a4276c8a734ba259c1447afb2b993ca5786079f69ba5d993",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "04d2ed6cb0fb196a7d64141c03183a1ce0c198c1bc43c19332b579ea4d09ec12",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "afdbef24e9bb0618985238c3a241082ba965961ade55c4d4ea930a7c5d49e056",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "68350b68f3f660c283a1d62297354eb9b46cebd6fafef34f159b1ec8998be8bd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fa0b508dc794e74f2b34f02aa668178776cdb612d4eb5a475f49340f59680e30",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7976d1a2357ac27ec0c01838ac9221931d2d6fc9fde34230d61a0f3fa3979ef9",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "93a7eaa292414503bda1d1e9d427fe77bc0e7c44ea320b12df89a4158925d583",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f0f03754f18ca7ae3d3615de4dcd1fa00e518814e4b868309e250a5a32e36cb8",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "43fd1559c2c5821bdfd1fd7f4e6d5272075268eeb7d6dd1582b6161c65898e84",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b8d1ab312716221df16804ead303ef19d1e837ba012abd40479f42e366657ccd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/sweep.png",
+        "json": "atlases/sweep.json",
+        "columns": 8,
+        "rows": 3,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "e842a430785aebd2097e75c499656e7776210f95bcfd92df0375ed056b758875",
+      "atlas_json_sha256": "6afd37d437b5fe837d4d02f62753609e3e509935ae4a1bc3f1b09395638c0403"
+    },
+    {
+      "name": "uppercut",
+      "fps": 24,
+      "frame_count": 22,
+      "duration": 0.9166666666666666,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        10
+      ],
+      "description": "屈膝收爪后向上挑击，肘部先收后展，远臂反向平衡。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ff5cc2daeaab2e9e3065c0d1021553c8bf4dd6068012e03f3da073d22aa75297",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c4b82150867b3499efb4b026ec8ea5506f4be175b283de004657908788705822",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "38bc1e321425ccc6c97e0ec2224c28ee272eba9351d5eb880f443c077c6f58b2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f525713bec0e84e510ae6dd2c825eb16ec78518d14ad0ac94a5becf929dd57d4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "721de75a0c5de8d71a94ce339e841b3ef9657cae7a53fa47b4b711a85e3dfa3d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "546ad46b4ed1255f438de5e3005e66654f2a2ed9c3ca053da0c51df422ed6d54",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "89df3b7192dc63c11e8b3a146cadef4486436a0a5c1deaf6e12c28603d545a21",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "357bd6e9369b58ad09993133c294d817b2eda045ab43cc2614be42ea81585031",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "23e9ddc91d2462dcd2b47d27deeb08e075b0dc84d4d25ee4dbbc2e8050bac599",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1de5f4bb68f09b4459c4ced010ad6dd2851c94fc99e5a87a611859a7d7bf51e4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7ae829379597db06f3520c859efea5635f571fe7574b7fb67cf9255bb2f06be8",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1b08fd9cf795da26e4dd9475437e43028cb11420d977a81e85f01c418034cfe3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "75e8b1cd965dca86bdeef287dbc15a9447de334f84b5f77ddc69c9a446f67a23",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a31814716b6262fa3001e2a8d0589858c084a87de0d18711bef957136aa87ad5",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0c1b52505622339e92616c168b8e06d387115b975cbe5af09a060ab589571e21",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d77f6c435094f35258ed1ba0165729d18b440823a090e790b28c6073efb8b482",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "6e02a50b742ba3d7eed8bc8d5d92fbb9d0dba304ce60330eb4c98dd8359cd280",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "aabb65b57e0585a1cc5680d36d892362c83eeb4aa28d974a2bd9f827144bb493",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b8cea14678702d7f60fdd9cfcc445f04706a4ce3287c9ae122b8188075f9f1c3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9cda3228af26c69708400e02e5648cea13b5b4cd2a417b97a83e49f4ae8ee330",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/uppercut.png",
+        "json": "atlases/uppercut.json",
+        "columns": 8,
+        "rows": 3,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "106520fc7101a1764c3ab1911d5efc293a829ded30ea64ea856bbf1a998b2984",
+      "atlas_json_sha256": "d82f6122701c3e2ac0b9f6b73dd13554af64e43bbda10321c7398024aaf16d6c"
+    },
+    {
+      "name": "lunge",
+      "fps": 24,
+      "frame_count": 20,
+      "duration": 0.8333333333333334,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        8
+      ],
+      "description": "低身蓄势，近脚向前踏，肩与爪同时送出，收脚回到战斗站姿。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d93e8c652504e9eb4f1bce6b62a23045e7b252a7a3893875f2b430175841d15e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d55d03ca0beee6dd4fd33230ef2e70336a8b2effbd085138defbbaed6b789853",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d2145b58488c3bfc8f363f934ecd69ba095fb523f94623cb8548c3810c64b6f9",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8d52fefc6a669b7b7ebd8e823eba7b73fb4f8b5685f76e01e40d64ff32541a59",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "637d76cc32165c0b4ef2ab55b3c5ad639fe8ec5bbc7f420d9023393379a61907",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0a658a8623d47470f5b72e31860ea16d0d70505e72e5c459cfaddf35dbe8e478",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3e445c24053d14885722e5b0aebbe384dee59196dd4e254dc2d70585fa714419",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "6594d5d62c2de6b1a072438c1ecc142f733fb17af4b30918055746be14764d59",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fd8f4c9022894a3ea8ce8e8995a19e43971d857b3149b346f49cd3e932ef5279",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e68f1cabbabf618241578b7307fa9d45a078306df7104db675a52489cf4622bf",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "671bf03e4436a1ab9b84d1c311b377a910cb5b7ff478aff763700d2e936cf0f4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7e5155e2c3e8e57931fee286295b774598be3400f8cc5483e9547117b3f6cedd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "43fc026b2209fe062a2b895065228e3d00de55ff0bc2184aaed891f48c0e977c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e202dedaff0194568d00f0696072485ea93958fb0d9db313b3074979b59c1865",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "752a8cdd0234f48239b3e499a1d647abdc841f9da937b517c887c6809ae1c8a1",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "76b4d277a326b69b951080f9a3548a201fbfe07c2b0d67604e72271191afe5ca",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f3012e81ddbe732d2312936beee42e627ac55bd493cf963dda01ce0736bc8bc1",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "71bd94c9711054cf5554e27d09a9eb361ca578e194dda96ae257e0c16ce0a176",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/lunge.png",
+        "json": "atlases/lunge.json",
+        "columns": 8,
+        "rows": 3,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "3759aae14f0e6374b6d6740ea0937bbe5dd3f9ac2798220d03498ab9f53cb256",
+      "atlas_json_sha256": "108f4b2baa0b8cc22fcf78b7ec985a719902f026140f299fc7afd5830bcc7b88"
+    },
+    {
+      "name": "ground_slam",
+      "fps": 24,
+      "frame_count": 28,
+      "duration": 1.1666666666666667,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        14
+      ],
+      "description": "双臂举起收肘后向下砸击，膝盖承重下沉，再起身回收。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "df5871a001a2d05dd5ba333fd92804c63d863e6b78a0d7e2dfc255d9c196e775",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "6b331c6496aea64121feb4a517ba1013d23064e49d3cc5e8acfd84d454db84e2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ad1823c4c55cbe237f6c104cb152f4768bf222cdde986cca52d8a68c2933c0ba",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0f0ae39353bd15565ef89a65e99499f975490380bd7914ce3c22ab70e9360d79",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a8ccbec6cbc47908fb59aaf58fe0585a97bdcb770a23ea65035326e8418c0d95",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "83139d5b8bc6b2ea7e76121995af2d941fc0f30bf006852906dd2e779980afad",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bfd9388ec12c3f5d520a93da3ebd85b1778d3ef9384d2b7d352d7b263fd7f853",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f45b07d82461c6b7317bd02468ecb3d3d2bffe7411c93b214be1792d3c245eb2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "283dd12a5d0fdc4ed35d90334bb7956711f0e0308649edbc5455da3caa7b7998",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "34b786a6683c325f29ffd56ba547d91395130849f6ddba0a33aea6a427a815a2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c631042a2ff5200247529d76b24a09d69b413496d0c54da5d6c3f4512da48b50",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e000b3ee98727ec5ee0470d6279ba2d1d1fae813c44d67c0945aaeb7fbc26029",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9d10c9faf9bd0de53d89b0b78a4b3bdb9654d35f3f68fbb5f9e002fa5ec86f90",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "5ae7975d222bf41434740687a7cfa8b9d416f67c0c388f0863619ccf8a9ea616",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "11dc283cb955a55c62bb15d5b9202e6e585966270a93f82f6a7c529b7facc130",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a3b0e34d71d83ad159a130762e5f7f04b235596dd5de3444acb3554560f6c471",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0cd5d6cbc0c7a64c903298c30df78dec570afcd219b23e5ba78dd8ebbdc8a644",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c55261695660f959830d24d87146ce0dd80b8d19543690d5a115103774d30a3f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "900178534ea813750f95c74bd3a75bc0f0cdfc59f6ff48ac22bf119edbf527c1",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3f82be162d1684f46b4f01bfbcb36f3564cc8905a54baf18d7afd46fe65b17ed",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f564361658590452c9bd4468eff7a294c8daeb3277fc6474fd4911fdc0160b41",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "65782bdd026897c814b6c5d7ff6e6abfa27ebcd649d7d637e4f2db1c40cc1800",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "65c54203ae902b1f717c5176479c6acb014f3435a311d9eabfd4b00a4efd5b3e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a3561845f5f30454606f668982a9bb5023f0e86df035b3646ced14c4f2393eac",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "018b0df8b00391a4ff6a2aba42f55fb3aa085cc17458db3f26edd1eb02c84b1e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 26,
+          "rect": [
+            1024,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0833333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d747649f7ae7696b926b0c95a7019c1a952ab36a59480c95f6e2810e7b5cbd9f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 27,
+          "rect": [
+            1536,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/ground_slam.png",
+        "json": "atlases/ground_slam.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "5b2927fee2f925a2d2e500ec6f7feb201c8a59359fd2c0dd54c734255238f118",
+      "atlas_json_sha256": "8c9ca2561c596f90a8dd4c2d9a1aadb9985c9c89eae4ef27a55e478ff79abc45"
+    },
+    {
+      "name": "stomp_chain",
+      "fps": 24,
+      "frame_count": 30,
+      "duration": 1.25,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        8,
+        17,
+        24
+      ],
+      "description": "近脚与远脚轮流提膝落踏，最后双脚压地；手臂随每次承重摆动。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f6fac8f4a71760f7b30e2a3337994c9b545249bfc6ca86864c9bc715670e3ced",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a0fdab42abbbb414ecfd7fc61f62e1dec5be48b8033dd7632fc3041c4003ce30",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f242fe26270c9bd6eea560c83954033b8450d3daa8b56058b331e40d3737cb53",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2b458b91d08ac19850346c69d33abd0af68673c6da56ba13a48812c6a9bb8632",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "71fae61013dc669120509e22764480eca6ca8d2a498eb70c8896884b6601bf86",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "243dbdb6d1bd5622f418ade158d67d3d8a4a2fe66a4387d78fd9b3a03567f5de",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "224fede56de32a883f6109c1ce713b666a20844da634095d63acc2ce9263454a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "399bf55a92b38fd95fa4f60ea0be510e3c36de5390e8ed75c6152ebad9480d51",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d82699f8d0470ee8e1f414fcbe06708b73e9b9ce442f7c1e1f873d44cebd83b4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "23e07252df3c916ab20a1c1ebb2b0c3335d9f4050cb91411fa6c70f66d540c30",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0312c3436b7c584903d5104165a91c635c86493c37f21586256629167f95df50",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b16f721bdabceadc83f3f4fa3d87761803734eb3ceff00ef5657c4721459a81c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ec6c09ecaf658b8f90f668709f6d38888e6b755ecd033fde94644bfcf89823a7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "535f9a0facab0a5fb6dadfb5c586f820adeb7a493aac36e32df84568268955c5",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ba22ac29a189905758df2b267eab931e44a4df9800d9c4df4921c8b1355a61b0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "88a795727ba69cb7d1e851d1c977839dab9c53542828a9cd4d926f738ecc9c38",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "33a86a8d24d88f1fe10f76f20fa6a9345cd9408cdb53a09fc87f3ebd62544f6e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ea189c8521fc8352750cc0ca2be4272b6701d90269155717dd3f25c82a208e04",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3ed1e00e3a3622e8a7fe941bf9228a793dff5d1fa165da26f427c4efcccc8972",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1e6adc02e3ce9e6eb379708e7c2070686bf3eb5c70519086424948a6b89015be",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7b9cc97b2fc5271e54139c724bb5c70116e85278f4a13aa5431ea8b39ee2eb58",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b1aebfc2bb8fd8e06586247011630f474431f0b3f02765558675ced9e53661f3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1b4d48ffc2aebba9b34e780fd636587483c22581c210d488f5c683c0e5c9ff1c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3ba09a05c861f975f51c5d76c337769e46af1ff4fdfa7fd8466e7db6935a81c6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f11938297e7910a56129103733022c1aef50aaebcccaddef001899f3d7b9b832",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 26,
+          "rect": [
+            1024,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0833333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0a366065e26dd0491c51da0d5f82a2740f1d08abe83310afe2380d48dd8956b7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 27,
+          "rect": [
+            1536,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "eeca1229415bdc679beda410b0ccdc98a885b7d8b5452484d25809cb770a0450",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 28,
+          "rect": [
+            2048,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.1666666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7fb6095894b30648de576496309bfd9ce94c28022651c8a1e58b0fbbaafd7403",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 29,
+          "rect": [
+            2560,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.2083333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/stomp_chain.png",
+        "json": "atlases/stomp_chain.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "a3ad13d70804ca26390e021235d671a3bd34b0973a52ef67fed921324817a11e",
+      "atlas_json_sha256": "23d671feaa41f29d97e0662110ee0d7e9f1d578386085588a068f0c4829fa60a"
+    },
+    {
+      "name": "bite_rend",
+      "fps": 24,
+      "frame_count": 26,
+      "duration": 1.0833333333333333,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        9,
+        17
+      ],
+      "description": "张口前探咬住，再向后撕扯，头颈与躯干有两次不同方向的发力。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fb26df71fbf1a673852a3e6a8c0a21f37fdb224aeae080adf524eb1711e393b0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c96251e1ffd7e4d2dbbb3971d8d8f964a5fe36b787e7624c0ab387b3de0cf337",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8cff892b9f8382e6b4f619fe35c795142b4f16a6b323f2eecd3757fbcfd11212",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "47248007961a2557b3612ecf6e6d4a824597eb5479b4b9fa4a85602a7130a03a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "84c078ddba5f00f28ff35fd01839c4abb0e44e63b2fc094ede1556820a598a27",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "86e733d8e88318ec569bed3919ae3ff428343cf9a67b1327c753e8197e04c21a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0981c112e5304cb633d68f8521ddf70dfa2a90b4ba36b57a08b813d12d815f4d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c3336e567fe6254a16f3f4fa86fd88821f32a221c459b047664943f66a623660",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f68117a839bf575955640ab437b07f8364f2b6bed153939eea50e89aea4711bf",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "eda5df972117b6d5c7fa4824f1743c60ba86490fa28b089ccb58f93e615b7f50",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9957ebeb15bc698e265c7c6238ff7f04dd6241773b490d482634c558474b384c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0e5eeb1cb4489c79776edd66c6f20685add03ecd4a6dc47576843ff8654245cf",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "71205d9442498b6439fd3d08ca2910c8a3c9bfe76d8dba014668f4880a515c0e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cf2e74faa3b4d0bf1a5a4047572344f67aa61763a4ff62484961b54fee03a5ec",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e0d8117f5749442967f96354a02b495b5bea7bf4eee80ab2711992e4396b29b5",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3b194a08507a052002a42107546d868aa536a5867d5f36c4be34bb7c68b5faae",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "42122160f116fd53fa22751065990e492e53eb433812739e06e72417806ea2b8",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cf8b18e5af81a9d8d105abe5a9083c5f5b9b691ac738ffbdde168a476f9c2b2f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "344ac57bf32026025c7dabb1a4d044c4643ad51d36ac58e7e40fe672bcbd2c71",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8422a5c5f51d450476817f6ec6cd7f3461fe39f9cd7ca375719455a1f0f17ad3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "140e3e3ba5a26eb876046725be6621e7427f4c1871996ca13c7519853e173ce2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "32fb9574eb935d805a602a282be1435392f8b622aea684c861d435f620fcd6e7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "18f7f96421edbcc5f4bae1507eda0055dba149128b597804e558f8634a6cf097",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "dfa7ee8414411450d44545fea18c3dfa6d885e398ca8760f4fdc6188516c6054",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/bite_rend.png",
+        "json": "atlases/bite_rend.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "51bebaf7ba11400050f00fb167254d62f036fce804126d2f6c50608c738a453c",
+      "atlas_json_sha256": "bd4f0a46e5738cc7761b57e646c55d7482a196e985e749067516b871c803172a"
+    },
+    {
+      "name": "thunder_call",
+      "fps": 24,
+      "frame_count": 28,
+      "duration": 1.1666666666666667,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        13
+      ],
+      "description": "抬头举起近掌唤雷，远掌护胸，落雷时近臂向下引导。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7e7ec37c70ad691d0997e54bbb75b13059d27bcaafc81d6d30db939ceeadccfb",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "07d17678a073ea94d4250987cd01cb4102d4973729ac93071b619994073cb28f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bc886297e02839670bb4e32cd74aa3a072cc61e114a4d432fddc6340232299ad",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cac3e3a89d36b5f76695e0856e8fbe6267bf32ecf73660ced275bf74326050c3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "107f369994ad464e85f8714361c74b73976bb8be7076c3669d8c787811a80d10",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7c82def9a27e1d427898d5ec3fd2733a55cd9a1e7b3df1df350ddacc2a39942e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f8fdb5840def04229c785a3270668fac5913e790223f74a1224c29b964e1a8b9",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "210a181ba3526ebac758463350863e5f6f7b3c49f6484c9500497137bb016bab",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b96b33f6356f657181f80fa77516e3b39b0a36ebc9418a00f4955152bdbf8519",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "86f4aa6478268d317985e36441e9378ac85c498f4ba4ac0e62aad1babce99161",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "5c61fc14e3c574ecb025f072d41105ebc7bc1afdea7124d615ab4ee51b19457b",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "79fb4b5c13171d8228f40567cfc509daf8aa8b8a6ca2ab9993717b5982361485",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "feea086c4f90323b846263e6abfad491471c85935ffa1c5cd44ef0d471bf39ed",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9a258a1148a756f896790df38663388ea00876bcab3968462d2380b7f9a2f753",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f41f7c7c586d2782b3c44db937866a24a7a36a6b56c788d9ed53a03ce3df20a6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ab776b3fc2cf0d679c71bff1d95d83c971bc0dcc4a2978d208794fb0f38902ec",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "52b4925258cf1705d24b42e24183f09802a3d891f81b69de9670c3bce414c937",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8e135708ea22220d45fd0f53212ea066f1ea30dd96d1154e4443a3c7daf47d9d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "098edf4e0314f0e836cdb40ec72e3dee213a18e44105523c8298c7373a9f8bd6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c757aa0fea3a02da907c8555fe5906a5b4eb5b6dc1c2bcd9bbf149400b02ce41",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "419f887f118852488810b74c54a0f09c7294e2875db6a43fd37d7e11851e8720",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3e4ec44ef62822529461b085c7417579414d432c804b49c3624778d92ec4ff3d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cae9095336529fb056d8693ae78302890781aaf5cb4cbe31a7c90e96abdaf341",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4067ff2b538a26a7e0f4b68e397236270e78ef17294c4970d38d9fdff26442ac",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0c49a93d0934d17f9ad5c5a98bb40b97afca9bbf274d2e0b9410c1de09937f05",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 26,
+          "rect": [
+            1024,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0833333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "53355dbf8a42604231902b374fc08ea4f5317fe8898e91ca7921f36bd633f221",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 27,
+          "rect": [
+            1536,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/thunder_call.png",
+        "json": "atlases/thunder_call.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "6f04495c7c17ddfba117ec16ca5886cdf8cd13df03a27f478d067370cf685d45",
+      "atlas_json_sha256": "3517eb17fe717691ab00146a88a4b30f3d8546ca4d32f883ef81409e872ade61"
+    },
+    {
+      "name": "chain_channel",
+      "fps": 24,
+      "frame_count": 28,
+      "duration": 1.1666666666666667,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        9,
+        15,
+        21
+      ],
+      "description": "两掌交替导引雷弧，头跟随指向，三个脉冲使用不同肩肘姿态。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f11b9e8a870c995bf7d6bd733d5b8a61a15f92c9ebe6f9f79e4dea8bb03688e1",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "67307e36dc390e990661ecfc84e75770c6d60d0cf0320b103deac3c1d87bf9a4",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "32d52a0b63e5bfbca988abd4a41b150df6f6691920feb62c4a8152741e93a422",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "7be4855bd03ae8137ce2e5d390bffbf230e6ff052824047c530b0af66f666f37",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a27be752e8745cbf7dfdf4011c0b1f6ee268172966c8a63caf89090df1a1b3cd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2b3035c4e899c49f49fe1d2c31a85c248cbf3c94d0d6045c162aec56e405664e",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "61953407ab7f61e2ff4d88d49e9cbde1bdeb17d0b7486c60109876d41ddd5737",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0a767f41d292a0331c7185b0805ef7f4f60921315d309c23ab8d0f07945f212a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9d3d32e163cb4c90249090369b0d0e7a80e4b21ccbe2c98402ba1e8d0f56ba13",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "8e01a20215c98c0e73f1077dd16c52fcd87b758eb6dfb3d266b71ef5c47293d6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "39881bab36ac2bbe7ba16367a58af84d3f9debcbb25e7dca01d3c3d0a9c2b29c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "239a5953ef41233cc99e7b4fde866bc01efd71c47a5ca9a2de7f8232103660bd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "57b3a979b842c02af8f91fffd338e7dfe9142bbc3d9ae0fe0a24b61ffd53dc4d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fa4ec8e9e4e20d6ce2b7c02f8ce4b6d43cfb852fdcb16a1a6712a8cf0a32f1c0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2b58d108f8b473d2f950ba1538f8b1e018ac9516505a99f55585a002d7530a65",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "03aa978ab3c966936b1ae7469eb0b7e9fcdf885d9a6774602421310cbb2ea87f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "51393a0a9bba625f779bf32ab4a514801882dfc4823b3ceea1a1b023cb7f5d98",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1a451b03d15cf979296766eae0784f06b50228b4f9d230d49e472f48004462af",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "66330c280b8a4300894f479c9b11ca7a65dd6e72a6bc3109a1ceef6c64781a7c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2683c52d98b863990e5e2f84ed4b38f2acfd1f15171be077ad92ad29954975f0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cfe829f5989dcff04f0175937a3b07ad4fb30d8c3d86fc28b2c142dd40d8da13",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bd7df7b5e6140c8b8e2759260d42e311445c04cf62af8f8318363a2463765de8",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "067ea33bae04c4071ddaf602c76d4c4b2a249a856885aa1e51883ac7763bc627",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e3599262e6df2d1ee61ff2eb66382cb700c935efb0b25b9bad485cbef975ad4d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "90522eea9a962fe20c78bbccde337fc067ab1220780aed8fa74dc051bb19defb",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 26,
+          "rect": [
+            1024,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0833333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "0c818b2a15f615b2f6f593de5de60bcd4bdd3bddcb6951a7222974c476121843",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 27,
+          "rect": [
+            1536,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/chain_channel.png",
+        "json": "atlases/chain_channel.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "97e3f37fddb127c14cc600a490c44625406bda7dca6802d8f03b776cd2d784db",
+      "atlas_json_sha256": "6fb3d48ea385afe71869623e5f28e957f254ba5d42cb9eb047473434445f892c"
+    },
+    {
+      "name": "storm_channel",
+      "fps": 24,
+      "frame_count": 32,
+      "duration": 1.3333333333333333,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        15
+      ],
+      "description": "双臂张开向上托起风暴，胸部展开，释放时下压并张口咆哮。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "51998c3519318bc2f5a75250258e2f81a74828e2854172b47d4d88e5338480cd",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "29f7e312993e0901bfe566c6deaafa7adfbdd755a9ff541365d317412205306a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "adb8feeed82a9c9134b1d1470931a57d39d49e42e61ed0b5a64517df296aad52",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a714e6a524000184cf89dc84cd3de980819265918241953cea9997aa0a3c4001",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c0b2dd7aa92c865b29a4d553a24634c02bf80b60cd7d3bddb545971ae2b89634",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "04d85da13540b634e941c9da6327bc6a19757dff23af86bf85416c8e96db6e1f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "be981310423089d9e2b424ccbfdd68e61ccce0a9b3d25989fdbe31e1dbc5ac8c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "84dba2bdacae044a1f458371350827cf4e624f2c91935e822c200db210535862",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e2b295d9153ef855a1f671e9958e48bfa740f23d2161ab7504e3cad5091ba3a0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4e2c9a853a24b128a5ecb04a7196fd9a1b06dcee3f001a4ecc0d25c9bbf1b851",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2d8864fb8ff473683b17a4628dd24521482bdd7fac805ebd7546a1f9a04b857b",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1b20a10b0b52e9826814f71ffcf3c78ba487a3ef617336c6d64f0469afcd8a11",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "60848e849a844b2442fbbd038612a8e92876310584596b93f07da4732a3e9088",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "03b6fc4029c10984e9c799b9c7c3cdfe4343f622ff1ea31e3bb2d440d56ff794",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "edf6bbdee9c20f7f09cb09156a0a940b6268a27895786942bfd62f99ef4dfab0",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "1963e5481ef5dccf0171f477fa1656704e93585affb0546222bb0a2e31164efc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fcf92902de0b66b67e5b39d3e35216f290de1f324518d8c1aeb3fe62d437d1dc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "81fb169e78e08a9ead66cee2a1fffffc2c82f28abeea7f04db3da36874fa8271",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2f93c857d69d3ebd592b94a4921ac6ed3cf3f2c1fa5bee1a46e65884efc056c9",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "12240efe0d6e736dcdaab71acba58bf730be7ab701b0effb84080fc285621fb3",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b70c9abfdd5c08e413f39bb3fa509e7120b43de581824d6ac0e284c2e425749a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c011a8a66fc73f8d8a68e120ef0f60a1e885456138c37ddfd7949ef5a19da6be",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "aafa4c83dd1b366edc90094ac87d462d472ae374cd9a4bf0a839347806a9a269",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "145c38fd953e7f148ffdca3b231e1204437667037504a9685b82a6ad83bb1e6d",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "018f0174b8d5c25e468a014fbd0a1db7603379afb53203f38694331f58a34adb",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 26,
+          "rect": [
+            1024,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0833333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b8587467ff80f612f07cf82afa5ce6df95bbc9cbd537b0ac88ea94d63ee208f5",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 27,
+          "rect": [
+            1536,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "84921b8d1f6177bc420db44caeb6bd2649d358e06e05a0e73f50473d57d84451",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 28,
+          "rect": [
+            2048,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.1666666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4bce3839e9a3a49f59e5e39ab08e20797593e19b9f1eb1d6871a8d8c1f4ed244",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 29,
+          "rect": [
+            2560,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.2083333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "32870f14e87507d17c8288abd7b1de51a1b2652beebd9f4234095af7d94116d2",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 30,
+          "rect": [
+            3072,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "6bef90496f01d1ce08cbddbe1b44269b83433846fdf7e530bd5083e6fdad2630",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 31,
+          "rect": [
+            3584,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/storm_channel.png",
+        "json": "atlases/storm_channel.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "ee776eae818355871a407db046eed32636955ebb4e9d1a1c153974d68f70e7b8",
+      "atlas_json_sha256": "af9e9395f2601b939d2a9abe1afd3beab01594c7b34a75c4c52581c4b7e44ae6"
+    },
+    {
+      "name": "iron_guard",
+      "fps": 24,
+      "frame_count": 24,
+      "duration": 1.0,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        9
+      ],
+      "description": "双臂交错护住胸口、下沉重心，受力前保持稳固支撑姿态。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "134a36739d739ecf975753d126c1fd2011bd381e47badcee8d2cabacbfd652b6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a4cc93ccd42f58c99bcc8295fc510bf9de3e542935eb437be4fb8e4d6b6ab55b",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d73bdb4c6255497bc8692d696812b3b6124b3f950ece5d525747f8d351ded3ac",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cb0f60298ed1cce4810d65641ef00134f0dfc77dda372f21e9dc3912ce27fa54",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ad072426e0f2cfd12b5114642ba2e2eae533f85a6c863cd550b3d701910845b6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ea7d73998714964c948fb4e975c6ddac5a9a4da0b523358f7fe4f1d81d057a60",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "52dd6826eaa26380850ded09acbf6586fab69a6e5c1d51fbeef9f1f0067355ba",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bb4c195ff2a4ad614618bc041933c01444665e12fef2cfb19882a477b4ce578c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f02b5ffc11fe84084b6c888e19236bf7c03825a0a2fd7380dc3be6a4d87bb979",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c957e6b9b24494da60375239bfc85aa0160e6da5ff724f5278ebd51039156938",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "876caf4a2426a58f32c525a39bab5838ad0dd63686f2c1e809b17b05fae63660",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a2405be41774ffbf725735fbe8fd6df6ff44f1bf0f31964ca2e998d19e43f754",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "5287a0d7c073aeb0113309d26ece18ec2405c67a6d2fd525dfaa37117f104a84",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b431804bc79bf277027e94c7236f6e69b55e380014fcb69d061535caac484db1",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "c7178c8d32e0a435e47fa031b73174b8b97c6a81ee2e6dcf3f5e944046feba22",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "900dfa8958a1298e8b591f1fc1e9d72e2e8618c885b365ff5a4143cbab241a51",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b8ac353bb886afe1e2ee8e6db605264bcd7c8a122d5006947873bc962316783c",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "080378eb377d680dfdb2b064cbdc5442728ae2903708f45faa38b70764ad0d7f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "cf9012b8a3f6a74b00b47e13ccbd466c5b628cc3667db0d6941f72bebd128f47",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "85f186a78a57062bf1d616384e99c0aa5ab4fce9b20dde1e310c872414fab716",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "85fd0b15d7be7d75f09c64f34124cd9f4264c0e9c5c1ec1bd22c377a31d3416a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9733242180b0921bc9ce128c978ee81ed30a0da108cd6b36a50b02520b073636",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/iron_guard.png",
+        "json": "atlases/iron_guard.json",
+        "columns": 8,
+        "rows": 3,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "0c73810b68ca9de8854bae845191e8914ea6fb5a412d82095e357f431f8a882a",
+      "atlas_json_sha256": "b2c6febf24411b2ce4747c32cd5b20131600d4bdd1c9fe8bb5336af131489da5"
+    },
+    {
+      "name": "primal_charge",
+      "fps": 24,
+      "frame_count": 28,
+      "duration": 1.1666666666666667,
+      "loop": false,
+      "skin": "neutral",
+      "contact_frames": [
+        13
+      ],
+      "description": "双爪向胸前聚拢再展开，抬头咆哮，蓄势与普通施法有不同轮廓。",
+      "frames": [
+        {
+          "frame": 0,
+          "rect": [
+            0,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 1,
+          "rect": [
+            512,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.041666666666666664,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2041621ad733bc2aafd59a57540775b8c2026a0bdf5cd09d08f33c4ea5b02dcb",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 2,
+          "rect": [
+            1024,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.08333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "63556b1881609c8fbd4330ccd41eb7b409e778c85bd09ee2afc40b8944c4f1d7",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 3,
+          "rect": [
+            1536,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "3a87fe882bb0506516b648858b54d18e3d1a8a768b0dc13f59627ebe2a41d789",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 4,
+          "rect": [
+            2048,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.16666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "ea6c98e387c3c5cc3417eeb4d944eb331b88eace13f6932341ff60fe77dfa18f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 5,
+          "rect": [
+            2560,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.20833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "335607c5d34ada717aa6103e5a97d7cd68fbc2da874c99c9ed8641a7f44bf231",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 6,
+          "rect": [
+            3072,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.25,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "9e72a39de1ce7753b010e712fbbbfbba19da5d030f8c0dac3d445697256e2515",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 7,
+          "rect": [
+            3584,
+            0,
+            512,
+            512
+          ],
+          "time_seconds": 0.2916666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "efd96f5ec6906274de1c427970c1c687d2876d05aa7eeb093267d6cca7ea61cc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 8,
+          "rect": [
+            0,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.3333333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "2b31d2ae7ac05cda20af8d869a4cbb2b3ed4b20c273ca09b8c6a8a0994e13621",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 9,
+          "rect": [
+            512,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.375,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "aab0e16f81e211de76cb74bb651fa89205f436c3d323e013f4b029d0fc726560",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 10,
+          "rect": [
+            1024,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4166666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "fed5632bd2669a5242f68fc779674073b1a48460d70dde48f627f94e5ac39b7f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 11,
+          "rect": [
+            1536,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.4583333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "4122764d175867250c6340d61ffacdc13e0e4df60931128668612fe1d57800a6",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 12,
+          "rect": [
+            2048,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "55ddaf96cc56df4db3cdec7b58cdddc26776b8e4ffa663ee5f50573808c18734",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 13,
+          "rect": [
+            2560,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5416666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a58f617942016f0af97565e9fdf960cf747aa4d56d630f576e5c8fd9b553200a",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 14,
+          "rect": [
+            3072,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.5833333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a14eee7ccf11cd605200bc3e083bae68fe5d9626cbdd34346fb8076bfbace1dc",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 15,
+          "rect": [
+            3584,
+            512,
+            512,
+            512
+          ],
+          "time_seconds": 0.625,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a905909233f3553c13f2cdac9091f4490f9a93efde3a494b3dcada9c9bef6cfe",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 16,
+          "rect": [
+            0,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.6666666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e337537e38eee6a5f393cc98982763a25bf54bc55c7f09027027e35b6b5bc71f",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 17,
+          "rect": [
+            512,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7083333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "a243688cb348b5f8445b15673c95c651932afd770c3edbbfc0bf68a0feca5a74",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 18,
+          "rect": [
+            1024,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.75,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e9a789b6aec5b0d749a33021a38b39f367deec29370e791405c6dc1620688268",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 19,
+          "rect": [
+            1536,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.7916666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b75f77b401d1405d9ce2720935509f7bef0df3ed6784192e730544cb87db07af",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 20,
+          "rect": [
+            2048,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.8333333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f11ff23613fcce5a8d741a77df9215965dd308951e45ba858730166957bd1360",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 21,
+          "rect": [
+            2560,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.875,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "d8154b317d8e2fbc62816295b01285c37a4be990c38351b1983b7f2d1323b1cf",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 22,
+          "rect": [
+            3072,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9166666666666666,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bd5bee87f14d9b1634181b33f26978a74b3e6b8a7486b25fdbea023d72e58146",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 23,
+          "rect": [
+            3584,
+            1024,
+            512,
+            512
+          ],
+          "time_seconds": 0.9583333333333334,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "f67e41318cff01b0188c3dd87867d71682c6101b36788f4923ae5dd6ba347911",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 24,
+          "rect": [
+            0,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "309b3ebf5b40236be4b21cb8b675a789895a8e1bcf92f74586343fd33bee7c61",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 25,
+          "rect": [
+            512,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0416666666666667,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "e695c0cdd629c99af0f4406a6dba54b6797f2382d4381cfeaee059164c59ba33",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 26,
+          "rect": [
+            1024,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.0833333333333333,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "bcddb6e2f1b21346792ee0e8fd80b17fe7d37e000f45adbf20d4029d96fdea30",
+          "pivot_px": [
+            250,
+            442
+          ]
+        },
+        {
+          "frame": 27,
+          "rect": [
+            1536,
+            1536,
+            512,
+            512
+          ],
+          "time_seconds": 1.125,
+          "duration_ms": 41.666666666666664,
+          "raw_rgba_sha256": "b4625f6dd0b34edd92a6f539bbd74e1ce6e3995274aafd2f1a1a5e25f31f0797",
+          "pivot_px": [
+            250,
+            442
+          ]
+        }
+      ],
+      "pivot_px": [
+        250,
+        442
+      ],
+      "atlas": {
+        "image": "atlases/primal_charge.png",
+        "json": "atlases/primal_charge.json",
+        "columns": 8,
+        "rows": 4,
+        "tile_size": [
+          512,
+          512
+        ]
+      },
+      "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+      "technique": "existing_weighted_skeleton_new_joint_keyframes",
+      "atlas_sha256": "ca4a89a942c27c5efbdb91a5d2ed2ee19bd8c547f90bc807f796ef93b3a594be",
+      "atlas_json_sha256": "7332acaa3cc016e3cfa0f44b076c00084c5261dc3eac2f676484d66dfb44e786"
+    }
+  ]
+}

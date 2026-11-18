@@ -12,6 +12,9 @@ namespace Volibear.Core;
 
 public enum LightningSound { Strike, Area, Followup }
 
+/// <summary>Cosmetic provenance; never used by damage, counters, target selection or responders.</summary>
+public enum LightningVisualOrigin { Card, Domain, Conduction, Pool, Counter, Passive }
+
 /// <summary>A read-only copy of one native damage result (including redirected damage).</summary>
 public sealed record LightningHit(Creature Receiver, int HpLost, int Blocked, int Overkill);
 
@@ -27,6 +30,8 @@ public sealed record LightningBatch(
     int CountThisTurn)
 {
     public LightningSound Sound { get; init; }
+    public LightningVisualOrigin VisualOrigin { get; init; }
+    public long? PresentationPlayId { get; init; }
     public int HpLost => Results.Sum(result => result.HpLost);
 }
 
@@ -38,6 +43,16 @@ public sealed record LightningBatch(
 /// </summary>
 public static class LightningBatches
 {
+    /// <summary>Confirmed visual-only completion, including a killing final batch. This event
+    /// does not relax CanUse/Notify: ending combat still cannot start gameplay responders.</summary>
+    public static event Action<LightningBatch>? VisualCommitted;
+
+    internal static void Present(LightningBatch batch)
+    {
+        foreach (Action<LightningBatch> observer in VisualCommitted?.GetInvocationList() ?? [])
+            try { observer(batch); } catch { /* Cosmetics cannot change a committed batch. */ }
+    }
+
     internal sealed class OwnerScope
     {
         internal readonly LightningCounter Counter = new();

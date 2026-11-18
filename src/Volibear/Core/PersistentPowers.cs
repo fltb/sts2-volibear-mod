@@ -72,7 +72,8 @@ public abstract class InstancedPersistentPower : PersistentPower
 public sealed class StormConductionPower : InstancedPersistentPower, IOrdinarySegmentResponder
 {
     public Task AfterOrdinarySegment(PlayerChoiceContext context, CardModel source, IReadOnlyList<DamageResult> results) =>
-        Live && Own(source) ? LightningCmd.DealAllEnemies(context, Owner, Amount, null) : Task.CompletedTask;
+        Live && Own(source) ? LightningCmd.DealAllEnemiesWithVisual(context, Owner, Amount, null,
+            LightningVisualOrigin.Conduction) : Task.CompletedTask;
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_STANDING")]
@@ -270,10 +271,12 @@ public sealed class ThunderPoolPower : InstancedPersistentPower, IEngageResponde
 {
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
         ReferenceEquals(completion.Receiver, Owner) && TryFirstThisTurn()
-            ? LightningCmd.DealAllEnemies(completion.Choices, Owner, Amount, null) : Task.CompletedTask;
+            ? LightningCmd.DealAllEnemiesWithVisual(completion.Choices, Owner, Amount, null,
+                LightningVisualOrigin.Pool) : Task.CompletedTask;
     public override Task BeforeSideTurnEnd(PlayerChoiceContext context, CombatSide side, IEnumerable<Creature> participants) =>
         Live && side == CombatSide.Player && participants.Contains(Owner)
-            ? LightningCmd.DealAllEnemies(context, Owner, Amount, null) : Task.CompletedTask;
+            ? LightningCmd.DealAllEnemiesWithVisual(context, Owner, Amount, null,
+                LightningVisualOrigin.Pool) : Task.CompletedTask;
 }
 
 /// <summary>Only changes the two native block assignments. Native absorption,

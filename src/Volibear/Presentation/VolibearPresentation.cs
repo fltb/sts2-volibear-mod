@@ -32,7 +32,7 @@ public static class VolibearPresentation
     public static NCreatureVisuals CreateCombatVisuals() =>
         NodeFactory<NCreatureVisuals>.CreateFromScene(CombatScenePath);
 
-    /// <summary>Explicit presentation events can address any of the 26 authored clips.</summary>
+    /// <summary>Explicit presentation events can address any authored combat clip.</summary>
     public static void Play(NCreatureVisuals visuals, string clip)
     {
         var sprite = visuals.GetNode<AnimatedSprite2D>("Visuals/AnimatedSprite2D");
