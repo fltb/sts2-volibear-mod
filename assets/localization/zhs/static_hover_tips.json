@@ -30,7 +30,7 @@
   "VOLIBEAR-DEPLOYMENT.title": "能力叠加",
   "VOLIBEAR-DISCOUNT.description": "为指定牌降低费用。",
   "VOLIBEAR-DISCOUNT.title": "减费",
-  "VOLIBEAR-DOMAIN.description": "展开指定轮数，每轮领域持续到下回合抽牌后。领域期间禁用敌方的特殊能力，禁用自身的负面状态，每抽到状态或诅咒消耗并补抽1张牌，每打出一张攻击牌对全体造成4雷伤。",
+  "VOLIBEAR-DOMAIN.description": "展开指定轮数，每轮领域持续到下回合抽牌后。领域期间禁用敌方的特殊能力，禁用自身的负面状态，每抽到状态或诅咒消耗并补抽1张牌，每打出一张攻击牌对全体造成3雷伤。",
   "VOLIBEAR-DOMAIN.title": "领域",
   "VOLIBEAR-DRAIN.description": "按照实际造成的伤害恢复生命。",
   "VOLIBEAR-DRAIN.title": "汲取",

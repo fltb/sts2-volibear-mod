@@ -133,7 +133,7 @@ def validate(raw, token, case):
             same(fixture['starterSetup'],None,'nonstarter setup not bulk')
     ability = code in POWER_TYPES
     same(labels.count('first-instance-native-PowerCmd-not-paid-card'), int(ability), 'first instance disclosure')
-    expected_amount = {'U02':4 if up else 3,'U03':3 if up else 6,'U04':2 if up else 1,'U19':1,'U21':1,'U25':2 if up else 1,
+    expected_amount = {'U02':3 if up else 2,'U03':3 if up else 6,'U04':2 if up else 1,'U19':1,'U21':1,'U25':2 if up else 1,
                        'U26':2 if up else 1,'U26-extra':2 if up else 1,'U29':3 if up else 2,'U32':2 if up else 1,'U34':4 if up else 3,
                        'R02':1,'R14':1,'R16':1,'R18':6 if up else 4,'R28':2 if up else 1,'R30':9 if up else 6,'R06':3}.get(code)
     first_power_ids = []
@@ -193,7 +193,8 @@ def validate(raw, token, case):
             for k,v in dict(cardRef=actual['cardRef'],index=i,count=repeat,autoPlay=False,spent=cost).items(): same(effect[k],v,label+'.effect.'+k)
         bases=[]; refund=0; draw=0; block_gain=0; ordinary=[]
         if deployment:
-            if code in ('U02','R18'): bases=[9 if up else 6]
+            if code=='U02': bases=[5 if up else 3]
+            if code=='R18': bases=[9 if up else 6]
             if code=='U03': block_gain=8 if up else 5
             if code=='U04': block_gain=9 if up else 6
             if code=='U19': domain=1; draw=2 if up else 1
@@ -234,8 +235,8 @@ def validate(raw, token, case):
                 if card=='U08': block_gain=(9 if spec['upgraded'] else 6)+dex
                 if card=='U20' and previous_attack: refund=2*repeat
                 if not fresh and code=='R30' and card=='T01' and beast_plays==1: block_gain+=2*(9 if up else 6)
-                if not fresh and code=='U02': bases += [4 if up else 3]*2*len(ordinary)
-                if domain>0: bases += [4]
+                if not fresh and code=='U02': bases += [3 if up else 2]*2*len(ordinary)
+                if domain>0: bases += [3]
                 target_counts[target]+=1
                 if not fresh and code=='U25' and target_counts[target]==2 and target==target_ids[0]: draw=2*(2 if up else 1)
                 if card=='B04':

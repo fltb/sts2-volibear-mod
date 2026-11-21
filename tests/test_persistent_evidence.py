@@ -187,14 +187,14 @@ def additional_report(case):
     two=case.startswith('PP-U02');standing=case.startswith('PP-U03');ids=[1,2] if two else [1,2,3]
     specs={
         'PP-U02-instances':([('StormConductionPower',3),('StormConductionPower',4)],[87,93],0,2,[(3,0,None,0),(4,0,None,0)],[],0),
-        'PP-U02-domain-order':([('DomainPower',1),('StormConductionPower',3),('StormChargePower',2)],[83,89],0,2,[(4,2,'played',0),(3,2,None,0)],[],0),
+        'PP-U02-domain-order':([('DomainPower',1),('StormConductionPower',2),('StormChargePower',2)],[85,91],0,2,[(3,2,'played',0),(2,2,None,0)],[],0),
         'PP-U03-min-stack':([('StandingPower',3)],[100,100,100],17,0,[],[],0),
         'PP-U03-other-retention':([('StandingPower',3),('BarricadePower',1)],[100,100,100],20,0,[],[],0),
         'PP-U03-clamp-priority':([('StandingPower',3)],[100,100,100],17,0,[],[],0),
         'PP-U34-per-batch':([('ThunderArmorPower',3),('ThunderArmorPower',4)],[100,100,100],7,1,[(1,0,None,1)],[],0),
         'PP-R16-positive-own-block':([('BattleBodyPower',2)],[100,100,100],10,0,[],[('DexterityPower',2)],1),
         'PP-R16-attack-block-excluded':([('BattleBodyPower',2)],[90,100,100],10,0,[],[('StrengthPower',2)],1),
-        'PP-R16-passive-block-excluded':([('BattleBodyPower',1),('ThunderArmorPower',3),('DomainPower',1)],[90,96,96],3,1,[(4,0,'played',0)],[('StrengthPower',1)],0),
+        'PP-R16-passive-block-excluded':([('BattleBodyPower',1),('ThunderArmorPower',3),('DomainPower',1)],[91,97,97],3,1,[(3,0,'played',0)],[('StrengthPower',1)],0),
     }
     powers,hp,block,count,batches,extra,replay=specs[case]
     power_rows=lambda values:[dict(powerRef=i+1,type=t,amount=n) for i,(t,n) in enumerate(values)]
@@ -205,7 +205,7 @@ def additional_report(case):
     app=lambda t,n:dict(type=t,amount=n)
     setups={
         'PP-U02-instances':[app('StormConductionPower',3),app('StormConductionPower',4)],
-        'PP-U02-domain-order':[app('StormConductionPower',3)],
+        'PP-U02-domain-order':[app('StormConductionPower',2)],
         'PP-U03-min-stack':[app('StandingPower.Deploy',6),app('StandingPower.Deploy',3),app('StandingPower.Deploy',6)],
         'PP-U03-other-retention':[app('StandingPower.Deploy',3),app('BarricadePower',1)],
         'PP-U03-clamp-priority':[app('StandingPower.Deploy',3),app('SturdyClamp.Obtain',1)],

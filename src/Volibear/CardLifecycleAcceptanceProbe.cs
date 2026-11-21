@@ -242,7 +242,7 @@ internal static class CardLifecycleAcceptanceProbe
                 case "R06": await PowerCmd.Apply<UnifyPower>(Choices, Owner, 3, Owner, null); break;
                 case "U03": await PowerCmd.Apply<StandingPower>(Choices, Owner, upgraded ? 3 : 6, Owner, null); break;
                 case "R02": await PowerCmd.Apply<ImmovableBodyPower>(Choices, Owner, 1, Owner, null); break;
-                case "U02": await PowerCmd.Apply<StormConductionPower>(Choices, Owner, upgraded ? 4 : 3, Owner, null); break;
+                case "U02": await PowerCmd.Apply<StormConductionPower>(Choices, Owner, upgraded ? 3 : 2, Owner, null); break;
                 case "U04": await PowerCmd.Apply<BattleScarsPower>(Choices, Owner, strength, Owner, null); break;
                 case "U19": await PowerCmd.Apply<LingeringStormPower>(Choices, Owner, 1, Owner, null); break;
                 case "U21": await PowerCmd.Apply<ThunderAftershockPower>(Choices, Owner, 1, Owner, null); break;

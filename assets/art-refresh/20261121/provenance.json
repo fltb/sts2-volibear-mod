@@ -1,0 +1,41 @@
+{
+  "generator": "imagegen",
+  "reference": "assets/art-refresh/20261102/status-preview.png",
+  "designs": {
+    "battle_scars": "Three tapered red-orange diagonal claw scars.",
+    "battle_body": "A blue breastplate with a single gold chevron.",
+    "thunder_pool": "A cyan lightning bolt striking two concentric water ripples."
+  },
+  "exports": [
+    {
+      "path": "src/Volibear/Presentation/icons/powers/battle_scars.png",
+      "size": 64,
+      "sha256": "13d9f52aa13093388bf164de2faa3dc9405fb7c932b1bb5229acac8f6061df7a"
+    },
+    {
+      "path": "src/Volibear/Presentation/icons/powers/big/battle_scars.png",
+      "size": 256,
+      "sha256": "73ef9763d8dcbffdd9cb3bd00fd6115456aeec7f0d2c990a205d350e4256192e"
+    },
+    {
+      "path": "src/Volibear/Presentation/icons/powers/battle_body.png",
+      "size": 64,
+      "sha256": "33dca85b2b636be784c621f18d2764411482480329cacca6d9fa93a69e52da41"
+    },
+    {
+      "path": "src/Volibear/Presentation/icons/powers/big/battle_body.png",
+      "size": 256,
+      "sha256": "e69d63ebe3c9c8a5e9f673dc9e8de2dd844282e1b792a44d2e7632101bb3ab72"
+    },
+    {
+      "path": "src/Volibear/Presentation/icons/powers/thunder_pool.png",
+      "size": 64,
+      "sha256": "0a0cd1e0e4308d60cbf64aaa8a0042c4af35b1a9fd195c1a2fdf7d27cbf89730"
+    },
+    {
+      "path": "src/Volibear/Presentation/icons/powers/big/thunder_pool.png",
+      "size": 256,
+      "sha256": "9497423d5afca8c478d8b9b7358836147e6f6eb1f34e93a308693990caed2180"
+    }
+  ]
+}

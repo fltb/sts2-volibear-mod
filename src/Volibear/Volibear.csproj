@@ -17,7 +17,7 @@
   <!-- Both current channels share the API introduced by the former 0.111 PBE (STS2_BETA).
        STS2_0_113 selects interfaces and patch targets that changed in the 0.113 series. -->
   <PropertyGroup Condition="'$(GameChannel)' == 'stable' or '$(GameChannel)' == 'beta'">
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <DefineConstants>$(DefineConstants);STS2_BETA</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(GameChannel)' == 'beta'">

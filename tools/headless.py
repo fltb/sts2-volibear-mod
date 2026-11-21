@@ -299,7 +299,7 @@ def domain_contract_evidence(log, run_id, variant):
                            cards=[dict(cardRef=ref, type='Volibear_B01' if variant == 'd01' else 'TwinStrike',
                                        upgrade=False, replay=replay) for ref in refs])
     n = 2 if variant == 'd01' else 1
-    hp = [76, 88, 88] if variant == 'd01' else [86, 96, 96] if variant == 'd02' else [76, 96, 96] if variant == 'd03' else [100] * 3
+    hp = [78, 90, 90] if variant == 'd01' else [87, 97, 97] if variant == 'd02' else [77, 97, 97] if variant == 'd03' else [100] * 3
     projection = dict(inputs=expected_inputs, beforeHp=[100] * 3,
                       beforeBlock=[10 if variant == 'l02' else 0] * 3,
                       afterHp=hp, afterBlock=[7 if variant == 'l02' else 0] * 3,
@@ -318,7 +318,7 @@ def domain_contract_evidence(log, run_id, variant):
     else:
         for ref in refs:
             damage_history.append(damage(ids[0], 6 if variant == 'd01' else 5, 0, 8, ref))
-            damage_history.extend(damage(i, 6 if variant == 'd01' else 4, 0, 4, ref) for i in ids)
+            damage_history.extend(damage(i, 5 if variant == 'd01' else 3, 0, 4, ref) for i in ids)
             damage_history.extend(damage(ids[0], 5, 0, 8, ref) for _ in range(0 if variant == 'd01' else 3 if variant == 'd03' else 1))
     projection['damageHistory'] = damage_history
     if not equal(data, projection) or len(batches) != n:
@@ -330,11 +330,11 @@ def domain_contract_evidence(log, run_id, variant):
             return result, False
         batch_ids.append(batch['id'])
         play_ids.append(batch.get('playId'))
-        expected = dict(id=batch['id'], round=1, turn=1, baseDamage=0 if variant == 'l02' else 4,
-                        storm=force, amount=3 if variant == 'l02' else 6 if variant == 'd01' else 4,
+        expected = dict(id=batch['id'], round=1, turn=1, baseDamage=0 if variant == 'l02' else 3,
+                        storm=force, amount=3 if variant == 'l02' else 5 if variant == 'd01' else 3,
                         count=index + 1, cardRef=None if variant == 'l02' else refs[index if variant == 'd01' else 0],
                         playId=None if variant == 'l02' else batch['playId'], targets=ids,
-                        hits=[dict(target=i, hpLost=0 if variant == 'l02' else 6 if variant == 'd01' else 4,
+                        hits=[dict(target=i, hpLost=0 if variant == 'l02' else 5 if variant == 'd01' else 3,
                                    blocked=3 if variant == 'l02' else 0, overkill=0) for i in ids])
         if not equal(batch, expected):
             return result, False

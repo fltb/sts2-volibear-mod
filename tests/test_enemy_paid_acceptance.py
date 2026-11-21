@@ -131,7 +131,7 @@ def threshold_fixture(spec):
                 absorbed=0
                 if code=='C10': player['block']+=8; absorbed=enemy_move()
                 damage(6+absorbed,actor,'player',cr)
-                if domain: damage(4,actor,'player',cr)
+                if domain: damage(3,actor,'player',cr)
             add('CardPlayFinishedEntry',cardRef=cr)
             card['pile']='Discard'
             play.update(endSeq=tick(),domainAfter=active_domain,enemiesAfter=copy.deepcopy([actor])); inputs.append(play)

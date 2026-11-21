@@ -10,7 +10,7 @@
   "VOLIBEAR-ENGAGE.title": "迎戰",
   "VOLIBEAR-ENGAGE.description": "令目標立即執行當前意圖。",
   "VOLIBEAR-DOMAIN.title": "領域",
-  "VOLIBEAR-DOMAIN.description": "展開指定輪數，每輪領域持續到下回合抽牌後。領域期間禁用敵方的特殊能力，禁用自身的負面狀態，每抽到狀態或詛咒消耗並補抽1張牌，每打出一張攻擊牌對全體造成4雷電傷害。",
+  "VOLIBEAR-DOMAIN.description": "展開指定輪數，每輪領域持續到下回合抽牌後。領域期間禁用敵方的特殊能力，禁用自身的負面狀態，每抽到狀態或詛咒消耗並補抽1張牌，每打出一張攻擊牌對全體造成3雷電傷害。",
   "VOLIBEAR-SUPPRESSION.title": "領域壓制",
   "VOLIBEAR-SUPPRESSION.description": "壓制對敵人有利的特殊效果，例如復活、保護階段、限傷、不可選和給玩家施加負面效果。保留普通攻擊、已有及直接獲得的力量與格擋。",
   "VOLIBEAR-ABSORPTION.title": "吸收",

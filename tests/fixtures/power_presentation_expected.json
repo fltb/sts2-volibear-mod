@@ -60,7 +60,7 @@
     "model": "StormConductionPower",
     "title": "狂雷渐起",
     "text": "每段普通攻击后，对全体造成{Amount}雷伤。",
-    "icon": null
+    "icon": "counter_thunder"
   },
   {
     "file": "Core/PersistentPowers.cs",
@@ -81,7 +81,7 @@
     "model": "LingeringStormPower",
     "title": "风暴不散",
     "text": "每次完成迎战后，抽1张牌，再获得领域1。",
-    "icon": null
+    "icon": "replay"
   },
   {
     "file": "Core/PersistentPowers.cs",
@@ -95,21 +95,21 @@
     "model": "PreyStillStandsPower",
     "title": "猎物未倒",
     "text": "每回合首次对同一目标打出第2张单体攻击后，抽{Amount}张牌，其中的攻击本回合减费1。",
-    "icon": null
+    "icon": "bite_mark"
   },
   {
     "file": "Core/PersistentPowers.cs",
     "model": "GrowingFuryPower",
     "title": "愈战愈烈",
     "text": "每回合打出第2张攻击时，先获得{Amount}力量和{Amount}雷势。",
-    "icon": null
+    "icon": "enhance"
   },
   {
     "file": "Core/PersistentPowers.cs",
     "model": "WelcomeThunderPower",
     "title": "迎雷",
     "text": "每回合首次完成迎战后，本回合下一张攻击减费{Amount}。",
-    "icon": null
+    "icon": "cost_reduce"
   },
   {
     "file": "Core/PersistentPowers.cs",
@@ -164,7 +164,7 @@
     "file": "Core/DomainPower.cs",
     "model": "DomainPower",
     "title": "领域",
-    "text": "剩余{Amount}轮，每轮持续到下回合抽牌后。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。",
+    "text": "剩余{Amount}轮，每轮持续到下回合抽牌后。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成3雷伤。",
     "icon": null
   },
   {

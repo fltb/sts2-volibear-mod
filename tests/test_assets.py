@@ -143,8 +143,8 @@ class AssetTests(unittest.TestCase):
                 assets.read_effect_inputs()
 
     def test_native_relic_exports_and_painted_power_icons(self):
-        self.assertEqual(14, len(assets.ICON_EXPORTS))
-        for name in ('domain', 'thunder_force', 'bear_spirit', 'wilderness'):
+        self.assertEqual(20, len(assets.ICON_EXPORTS))
+        for name in ('domain', 'thunder_force', 'bear_spirit', 'wilderness', 'battle_scars', 'battle_body', 'thunder_pool'):
             self.assertEqual((f'powers/{name}.png', 64), assets.ICON_EXPORTS[f'powers/{name}.png'])
             self.assertEqual((f'powers/big/{name}.png', 256), assets.ICON_EXPORTS[f'powers/big/{name}.png'])
         for destination, (source, size) in assets.ICON_EXPORTS.items():

@@ -23,11 +23,11 @@ def expected_paths(spec):
     if spec['icon']:
         root = 'res://VolibearArt/vfx/icons'
         return f"{root}/64/{spec['icon']}.png", f"{root}/256/{spec['icon']}.png", True
-    # Approved 20261102/provenance.json exports: all four power aliases are
-    # dedicated 64/256 PNGs, including the former Bear/Wilderness card portraits.
-    # PersistentPower subclasses without an override inherit ThunderForce.
+    # Named status icons have dedicated 64px and 256px exports.
     name = {'BearSpiritPower': 'bear_spirit', 'WildernessPower': 'wilderness',
-            'DomainPower': 'domain'}.get(spec['model'], 'thunder_force')
+            'BattleBodyPower': 'battle_body', 'ThunderPoolPower': 'thunder_pool',
+            'BattleScarsPower': 'battle_scars',
+            'DomainPower': 'domain', 'StormChargePower': 'thunder_force'}[spec['model']]
     root = 'res://VolibearArt/icons/powers'
     return f'{root}/{name}.png', f'{root}/big/{name}.png', True
 

@@ -284,7 +284,7 @@ internal static class CardFaceAcceptanceProbe
             if (branch == "frail") await PowerCmd.Apply<FrailPower>(fixtureContext,owner,1m,owner,null);
             if (branch == "second-instance")
             {
-                if (id == "U02") await PowerCmd.Apply<StormConductionPower>(fixtureContext,owner,upgraded ? 4m : 3m,owner,null);
+                if (id == "U02") await PowerCmd.Apply<StormConductionPower>(fixtureContext,owner,upgraded ? 3m : 2m,owner,null);
                 else if (id == "U21") await PowerCmd.Apply<ThunderAftershockPower>(fixtureContext,owner,1m,owner,null);
                 else if (id == "U34") await PowerCmd.Apply<ThunderArmorPower>(fixtureContext,owner,upgraded ? 4m : 3m,owner,null);
                 else await StormChargePower.Gain(fixtureContext,owner,upgraded ? 3 : 2);

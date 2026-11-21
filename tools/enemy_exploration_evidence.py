@@ -678,7 +678,7 @@ def validate_threshold_case(case, spec):
     """Finite legal damage path, not a full-HP idle trace or injected block break.
 
     TunnelerWeak source HP87, BITE13, direct BURROW32, BELOW23; B01=6,
-    C10=6+actual absorbed, Domain lightning4. Only actual paid actions produce damage.
+    C10=6+actual absorbed, Domain lightning3. Only actual paid actions produce damage.
     """
     errors=[]
     def need(ok,msg):
@@ -694,7 +694,7 @@ def validate_threshold_case(case, spec):
         sequence=['BITE_MOVE','BURROW_MOVE','BELOW_MOVE','BELOW_MOVE'] if domain else (
             ['BITE_MOVE','BURROW_MOVE','BELOW_MOVE','BELOW_MOVE','STUNNED'] if engage else ['BITE_MOVE','BURROW_MOVE','BELOW_MOVE','STUNNED','BITE_MOVE'])
         final='BELOW_MOVE' if domain else 'BITE_MOVE' if engage else 'BURROW_MOVE'
-        expected_hp=([87,64,64,41,18] if engage else [87,67,47,47,27]) if domain else (
+        expected_hp=([87,65,65,43,21] if engage else [87,69,51,51,33]) if domain else (
             [87,73,73,73,71,65] if engage else [87,69,51,51,47,29])
         expected_block=([0,0,0,0,0] if engage else [0,0,32,0,0]) if domain else (
             [0,0,26,12,0,0] if engage else [0,0,32,14,0,0])

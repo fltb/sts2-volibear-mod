@@ -22,13 +22,13 @@ internal static class PersistentEffects
 public sealed class Volibear_U02 : VolibearCard
 {
     public Volibear_U02() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.AllEnemies, "u02") { }
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 6m), new DynamicVar("Conduction", 3m)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new DynamicVar("Lightning", 3m), new DynamicVar("Conduction", 2m)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await LightningCmd.DealAllEnemies(context, Value("Lightning"), this);
         await PersistentEffects.Deploy<StormConductionPower>(context, this, Value("Conduction"));
     }
-    protected override void OnUpgrade() { UpgradeVar("Lightning", 3m); UpgradeVar("Conduction", 1m); }
+    protected override void OnUpgrade() { UpgradeVar("Lightning", 2m); UpgradeVar("Conduction", 1m); }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_U03")]

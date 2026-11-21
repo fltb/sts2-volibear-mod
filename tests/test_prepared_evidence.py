@@ -28,20 +28,20 @@ def specimen(case, medium='LeafSlimeM'):
                 ('thunder-absorb','R09',2,block,[rest]*3,pending,1,2), ('attack','U05',1,block,[450,rest,rest],base,0,2)]
     elif case == 'PR-training-native-domain':
         rows = [('unify','R06',2,10,[500]*3,base,0,0), ('training','U10',1,10,[500]*3,pending,1,0),
-                ('guard','C14',2,18,[500]*3,domain,0,0), ('attack','B03',1,18,[470,487,487],guard1,0,2)]
+                ('guard','C14',2,18,[500]*3,domain,0,0), ('attack','B03',1,18,[471,488,488],guard1,0,2)]
     elif case == 'PR-guard-instances':
         rows = [('unify','R06',2,10,[500]*3,base,0,0), ('guard-base','C14',2,18,[500]*3,guard1,0,0),
                 ('guard-upgrade','C14',2,29,[500]*3,guard2,0,0)]
     elif case == 'PR-bite-segments':
-        active = guard1 + [('StormConductionPower',3)]
+        active = guard1 + [('StormConductionPower',2)]
         prepared = active + [('NextAttackTrainingPower',3)]
         rows = [('unify','R06',2,10,[500]*3,base,0,0), ('guard','C14',2,18,[500]*3,guard1,0,0),
-                ('conduction','U02',1,18,[494]*3,active,0,1),
-                ('bite-mark','U08',1,24,[471,487,487],active,0,3),
-                ('training','U10',1,24,[471,487,487],prepared,1,3),
-                ('replay','U11',1,24,[471,487,487],prepared+[('NextAttackReplayPower',1)],0,3),
-                ('bite-trained','U08',1,36,[387,471,471],active,0,8),
-                ('bite-upgrade','U08',1,45,[342,461,461],active,0,11)]
+                ('conduction','U02',1,18,[497]*3,active,0,1),
+                ('bite-mark','U08',1,24,[476,492,492],active,0,3),
+                ('training','U10',1,24,[476,492,492],prepared,1,3),
+                ('replay','U11',1,24,[476,492,492],prepared+[('NextAttackReplayPower',1)],0,3),
+                ('bite-trained','U08',1,36,[397,481,481],active,0,8),
+                ('bite-upgrade','U08',1,45,[355,474,474],active,0,11)]
     else:
         rows = [('replay','U11',1,0,[500]*3,[('NextAttackReplayPower',1)],0,0),
                 ('bite-first','U08',1,12,[480,500,500],[],0,0), ('bite-next','U08',1,18,[464,500,500],[],0,0)]
@@ -104,18 +104,18 @@ def specimen(case, medium='LeafSlimeM'):
                    dict(enemy=13,move='CLUMP_SHOT' if medium=='LeafSlimeM' else 'POKEY_POUNCE_MOVE')]
         elif code=='U05': hits=[damage(11,hit,label,8)]
         elif code=='B03':
-            hits=[damage(11,17,label,8)]+[damage(e,n,label) for n in (4,9) for e in ids]
-            batch(4,4,label);batch(3,9,label)
+            hits=[damage(11,17,label,8)]+[damage(e,n,label) for n in (3,9) for e in ids]
+            batch(3,3,label);batch(3,9,label)
         elif code=='U02':
-            hits=[damage(e,6,label) for e in ids];batch(6,6,label)
+            hits=[damage(e,3,label) for e in ids];batch(3,3,label)
         elif code=='U08':
             amounts = {'bite-first':[10,10], 'bite-next':[10,6], 'bite-mark':[16],
                        'bite-trained':[19,15,19,15], 'bite-upgrade':[20,15]}[label]
             hits=[damage(11,n,label,8) for n in amounts]
             if case=='PR-bite-segments':
-                hits += [damage(e,4,label) for e in ids];batch(4,4,label)
+                hits += [damage(e,3,label) for e in ids];batch(3,3,label)
                 for _ in amounts:
-                    hits += [damage(e,3,None) for e in ids];batch(3,3,None)
+                    hits += [damage(e,2,None) for e in ids];batch(2,2,None)
         lookup={c['cardRef']:c['modelId'] for c in cards}
         r['steps'].append(dict(cardRef=label,before=before,after=copy.deepcopy(after),finalPile=None if code=='U02' else 'Exhaust' if code=='R06' or code=='C14' and not upgraded else 'Discard',
                                training=trained,plays=[dict(cardRef=label,index=j,count=repeat) for j in range(repeat)],

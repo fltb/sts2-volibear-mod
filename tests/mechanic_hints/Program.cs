@@ -29,7 +29,7 @@ static class Program
                 Need(engage == "令目标立即执行当前意图。", "Approved engage copy preserved exactly");
                 Need(!engage.Contains("实际开始"), "Engineering explanations are not restored to player copy");
                 var domain = Tips(MechanicHoverTips.ForText("领域1"));
-                Need(domain[0].Description.Contains("下回合抽牌后") && domain[0].Description.Contains("对全体造成4雷伤"), "Approved duration and lightning effects visible");
+                Need(domain[0].Description.Contains("下回合抽牌后") && domain[0].Description.Contains("对全体造成3雷伤"), "Approved duration and lightning effects visible");
                 Need(domain[0].Description.Contains("禁用自身debuff") && domain[0].Description.Contains("每抽到状态或诅咒消耗并补抽1张牌"), "Approved self suppression and purification visible");
                 Need(domain[1].Description.Contains("保留普通攻击、已有及直接获得的力量与格挡"), "Approved beneficial-effect boundary visible");
                 var beast = Tips(MechanicHoverTips.ForText("兽化")).Single().Description;

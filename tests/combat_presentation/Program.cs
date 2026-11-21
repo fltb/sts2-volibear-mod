@@ -241,7 +241,7 @@ namespace Volibear.Presentation
             { _room = room; _owner = owner; _node = node; }
             private EffectAnchors Anchors(NCreature? target = null) => new(_node.Visuals, target?.Visuals);
             private void StopMotionVisual() { }
-            private void StopSemanticVisuals(bool all) { }
+            private void StopSemanticVisuals() { }
             private void ReleaseSpiritForm() { }
             private void ReleaseCapturedAnchors(bool all) { }
             // PRODUCTION_CLEAR_MOTIONS

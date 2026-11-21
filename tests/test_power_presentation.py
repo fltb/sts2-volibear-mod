@@ -3,7 +3,6 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
-import re
 import sys
 import unittest
 
@@ -56,13 +55,16 @@ class PowerPresentationTests(unittest.TestCase):
         source_root = Path(os.environ.get('VOLIBEAR_POWER_SOURCE_ROOT', ROOT / 'src/Volibear'))
         catalog = json.loads((ROOT / 'assets/animation/vfx/icons/manifest.json').read_text(encoding='utf-8'))
         icon_ids = {row['id'] for row in catalog['icons']}
-        pattern = re.compile(r'new PowerLoc\(\s*"([^"]+)",\s*"([^"]+)",\s*"([^"]+)"')
+        locale = json.loads((ROOT / 'assets/localization/zhs/powers.json').read_text(encoding='utf-8'))
         self.assertEqual(len(gate.EXPECTED), 25)
-        self.assertEqual(sum(s['icon'] is not None for s in gate.EXPECTED), 13)
+        self.assertEqual(sum(s['icon'] is not None for s in gate.EXPECTED), 18)
         for spec in gate.EXPECTED:
             source = (source_root / spec['file']).read_text(encoding='utf-8')
-            texts = [match[3] for match in pattern.finditer(source) if match[1] == spec['title']]
-            self.assertEqual(texts, [spec['text']], spec['model'])
+            keys = [key.removesuffix('.title') for key, value in locale.items()
+                    if key.endswith('.title') and value == spec['title']]
+            self.assertEqual(len(keys), 1, spec['model'])
+            for suffix in ('description', 'smartDescription'):
+                self.assertEqual(locale[keys[0] + '.' + suffix], spec['text'], spec['model'])
             if spec['icon']:
                 self.assertIn(spec['icon'], icon_ids)
                 block = source.split('public sealed class ' + spec['model'] + ' ', 1)[1].split('public sealed class ', 1)[0]
@@ -70,11 +72,14 @@ class PowerPresentationTests(unittest.TestCase):
                     self.assertIn(f'{getter} => "res://VolibearArt/vfx/icons/{size}/{spec["icon"]}.png";', block)
                     self.assertTrue((ROOT / f'assets/animation/vfx/icons/{size}/{spec["icon"]}.png').is_file())
         domain = (source_root / 'Core/DomainPower.cs').read_text(encoding='utf-8')
-        self.assertIn('("permanentDescription", "' + gate.PERMANENT + '")', domain)
+        self.assertIn('Id.Entry + ".permanentDescription"', domain)
+        self.assertEqual(locale['VOLIBEAR-DOMAIN_POWER.permanentDescription'], gate.PERMANENT)
 
     def test_power_alias_pngs_match_approved_exports_and_production_constants(self):
         manifest = json.loads((ROOT / 'assets/art-refresh/20261102/provenance.json').read_text())
         exports = {row['path']: row for row in manifest['exports']}
+        dedicated = json.loads((ROOT / 'assets/art-refresh/20261121/provenance.json').read_text())
+        exports.update({row['path']: row for row in dedicated['exports']})
         constants = (ROOT / 'src/Volibear/Presentation/VolibearIcons.cs').read_text()
         for alias, stem in [('Domain', 'domain'), ('ThunderForce', 'thunder_force'), ('BearSpirit', 'bear_spirit'), ('Wilderness', 'wilderness')]:
             self.assertIn(stem, manifest['status_sheet']['ids'])
@@ -87,12 +92,14 @@ class PowerPresentationTests(unittest.TestCase):
                 self.assertEqual((int.from_bytes(content[16:20], 'big'), int.from_bytes(content[20:24], 'big')), (size, size))
                 self.assertIn(f'{alias}{suffix} = "res://VolibearArt/icons/powers/{folder}{stem}.png";', constants)
         for spec in gate.EXPECTED:
-            if spec['icon'] is None:
-                small, big, exact = gate.expected_paths(spec)
-                self.assertTrue(exact)
-                for resource, size in [(small, 64), (big, 256)]:
-                    path = resource.replace('res://VolibearArt/', 'src/Volibear/Presentation/')
-                    self.assertEqual(exports[path]['size'], size)
+            small, big, exact = gate.expected_paths(spec)
+            self.assertTrue(exact)
+            for resource, size in [(small, 64), (big, 256)]:
+                path = resource.removeprefix('res://VolibearArt/')
+                source = ('assets/animation/' if path.startswith('vfx/') else 'src/Volibear/Presentation/') + path
+                self.assertIn(source, exports, spec['model'])
+                self.assertEqual(exports[source]['size'], size)
+                self.assertEqual(sha256((ROOT / source).read_bytes()).hexdigest(), exports[source]['sha256'])
 
     def test_legacy_svg_portraits_and_wrong_beast_sizes_are_rejected_with_diagnostics(self):
         baseline = sample_report()
@@ -201,7 +208,7 @@ class PowerPresentationTests(unittest.TestCase):
         sentences = (
             '禁用敌方特殊能力与全队负面状态。',
             '你每抽到状态或诅咒，消耗该牌并补抽1张；',
-            '每打出一张攻击牌，对全体造成4雷伤。',
+            '每打出一张攻击牌，对全体造成3雷伤。',
         )
         baseline = sample_report()
         for index, row in enumerate(baseline['rows']):

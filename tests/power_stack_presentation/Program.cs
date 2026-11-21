@@ -140,7 +140,7 @@ internal static class Program
                 var result = Describe(domain);
                 Need(result.AmountText == "" && result.Description.StartsWith("领域持续。") && !result.Description.Contains("本战") &&
                      !result.Description.Contains("剩余") && result.Description.Contains("禁用敌方特殊能力与全队负面状态。") &&
-                     result.Description.Contains("每打出一张攻击牌，对全体造成4雷伤。"), "permanent domain omits meaningless counter and keeps full lifetime text");
+                     result.Description.Contains("每打出一张攻击牌，对全体造成3雷伤。"), "permanent domain omits meaningless counter and keeps full lifetime text");
                 var tempOwner = Owner(); var temp = Make(typeof(VolibearChargeStrengthPower), -3, tempOwner);
                 Need(Describe(temp).AmountText == "-3" && Describe(temp).Description == "本回合失去3力量，回合结束时恢复3力量。", "temporary strength negative reversal remains correct");
             }

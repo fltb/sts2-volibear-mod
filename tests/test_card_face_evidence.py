@@ -289,7 +289,7 @@ class CardFaceEvidenceTests(unittest.TestCase):
         self.assertEqual(len(r['history']['plays']),2)
 
     def test_each_segment_conduction_vs_once_per_play_domain(self):
-        r=synthetic('C22-base-domain');self.assertEqual([x['amount'] for x in r['batches']],[4,2,2])
+        r=synthetic('C22-base-domain');self.assertEqual([x['amount'] for x in r['batches']],[3,2,2])
         r=synthetic('C22-base-conduction');self.assertEqual([x['amount'] for x in r['batches']],[3,2,3,2])
         self.assertEqual([x['cardRef'] for x in r['batches']],[None,'source',None,'source'])
         r['batches'][0]['cardRef']='source';self.assertFalse(self.valid(r))
@@ -300,7 +300,7 @@ class CardFaceEvidenceTests(unittest.TestCase):
             self.assertTrue(self.valid(r))
             ordinary=[d for d in r['history']['damage'] if d['props']==8]
             self.assertEqual([d['hpLost'] for d in ordinary],[3]*hits)
-            self.assertEqual([b['amount'] for b in r['batches']],[4]+[3]*hits)
+            self.assertEqual([b['amount'] for b in r['batches']],[3]+[3]*hits)
             self.assertEqual([b['cardRef'] for b in r['batches']],['source']+[None]*hits)
             self.assertEqual(r['after']['lightningCount'],1+hits)
             bad=deepcopy(r);bad['batches'].append(deepcopy(bad['batches'][0]))
@@ -424,8 +424,8 @@ class CardFaceEvidenceTests(unittest.TestCase):
     def test_distinct_native_instances_and_later_real_payments(self):
         r=synthetic('U02-base-second-instance')
         self.assertEqual(r['after']['powerInstances'],{'StormConductionPower':2})
-        self.assertEqual(r['response']['after']['enemyHp'],[470,482,482])
-        self.assertEqual([b['amount'] for b in r['response']['batches']],[3,3,3,3])
+        self.assertEqual(r['response']['after']['enemyHp'],[477,489,489])
+        self.assertEqual([b['amount'] for b in r['response']['batches']],[2,2,2,2])
         self.assertEqual(r['response']['payments'],[dict(cardRef='response-card',amount=1,energy=8)])
         broken=deepcopy(r);broken['after']['powerInstances']['StormConductionPower']=1;self.assertFalse(self.valid(broken))
         broken=deepcopy(r);broken['response']=None;self.assertFalse(self.valid(broken))

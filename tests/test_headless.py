@@ -469,7 +469,7 @@ class DomainEvidenceTests(unittest.TestCase):
         refs = ['starting-0', 'starting-1'] if variant == 'd01' else [] if variant == 'l02' else ['native-twin-strike']
         force = {'d01': 2, 'd02': 0, 'd03': 0, 'l02': 3}.get(variant, 2)
         replay = 1 if variant == 'd03' else 0
-        hp = {'d01': [76, 88, 88], 'd02': [86, 96, 96], 'd03': [76, 96, 96], 'l02': [100, 100, 100]}.get(variant)
+        hp = {'d01': [78, 90, 90], 'd02': [87, 97, 97], 'd03': [77, 97, 97], 'l02': [100, 100, 100]}.get(variant)
         r = dict(token='current', scenario='domain-contract', variant=variant, completed=True, testMode=False,
                  acceptance='effect-only-not-payment', character='VolibearCharacter',
                  fixtureApi='CreatureCmd.SetMaxAndCurrentHp;CardPileCmd.Add;PowerCmd;CardCmd.AutoPlay',
@@ -511,15 +511,15 @@ class DomainEvidenceTests(unittest.TestCase):
         else:
             for ref in refs:
                 history.append(damage(10, 6 if variant == 'd01' else 5, 0, 8, ref))
-                history.extend(damage(i, 6 if variant == 'd01' else 4, 0, 4, ref) for i in r['enemyIds'])
+                history.extend(damage(i, 5 if variant == 'd01' else 3, 0, 4, ref) for i in r['enemyIds'])
                 history.extend(damage(10, 5, 0, 8, ref) for _ in range(0 if variant == 'd01' else 3 if variant == 'd03' else 1))
         r['data']['damageHistory'] = history
         for i in range(count):
-            r['batches'].append(dict(id=i + 1, round=1, turn=1, baseDamage=0 if variant == 'l02' else 4,
-                storm=force, amount=3 if variant == 'l02' else 6 if variant == 'd01' else 4, count=i + 1,
+            r['batches'].append(dict(id=i + 1, round=1, turn=1, baseDamage=0 if variant == 'l02' else 3,
+                storm=force, amount=3 if variant == 'l02' else 5 if variant == 'd01' else 3, count=i + 1,
                 cardRef=None if variant == 'l02' else refs[i if variant == 'd01' else 0],
                 playId=None if variant == 'l02' else i + 100, targets=r['enemyIds'],
-                hits=[dict(target=t, hpLost=0 if variant == 'l02' else 6 if variant == 'd01' else 4,
+                hits=[dict(target=t, hpLost=0 if variant == 'l02' else 5 if variant == 'd01' else 3,
                            blocked=3 if variant == 'l02' else 0, overkill=0) for t in r['enemyIds']]))
         return r
 

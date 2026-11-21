@@ -22,7 +22,7 @@ ORDER = ['NextAttackDiscount', 'NextEngageDiscount', 'NextAttackReplayPower', 'N
 PERMANENT_DURATION = 999_999_999
 # Permanent domain lasts the whole combat by default, so the native amount label
 # shows nothing and the hover text states the lifetime in words instead of 本战.
-PERMANENT = '领域持续。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成4雷伤。'
+PERMANENT = '领域持续。禁用敌方特殊能力与全队负面状态。你每抽到状态或诅咒，消耗该牌并补抽1张；每打出一张攻击牌，对全体造成3雷伤。'
 
 
 def label_for(model, amounts):

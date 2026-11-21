@@ -62,7 +62,7 @@ class PowerStackEvidenceTests(unittest.TestCase):
             return value, next(r for r in value['samples'] if r['phase'] == 'domain-permanent')
         for tips in (['领域持续本战。禁用敌方特殊能力与全队负面状态。'],
                      [gate.PERMANENT, '本战'],
-                     ['禁用敌方特殊能力与全队负面状态。每打出一张攻击牌，对全体造成4雷伤。'],
+                     ['禁用敌方特殊能力与全队负面状态。每打出一张攻击牌，对全体造成3雷伤。'],
                      ['领域持续。']):
             value, row = permanent_row()
             row['tips'] = tips

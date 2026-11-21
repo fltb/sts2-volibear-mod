@@ -327,7 +327,7 @@ class CardFixtureContractTests(unittest.TestCase):
         self.assertEqual(self.cases["C10-upgraded"]["expected_state"]["enemy_hp"], 83)
 
     def test_domain_batch_and_replay_examples(self):
-        for cid, batches, hp in [("D01", 2, 76), ("D02", 1, 86), ("D03", 1, 76)]:
+        for cid, batches, hp in [("D01", 2, 78), ("D02", 1, 85), ("D03", 1, 73)]:
             self.assertEqual(self.cases[cid]["expected_state"]["lightning_count"], batches)
             self.assertEqual(self.cases[cid]["expected_state"]["enemy_hp"], hp)
         self.assertEqual(self.cases["D03"]["expected_state"]["payments"], 1)

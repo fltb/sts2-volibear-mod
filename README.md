@@ -53,11 +53,12 @@ damage suppression yields with a `degraded` report explaining the limited featur
    * Extract the folder into your *Slay the Spire 2* `mods` directory.
    * Launch the game and enable the mod in the Mod Menu.
 
-### Changelog · v0.1.1
+### Changelog · v0.1.2
 
-- Added a Main v0.111.1 build alongside Public Beta v0.113.1.
-- Frenzied Maul shows the bite mark in the target’s status bar. The duplicate marker above its intent was removed.
-- Updated patch ordering compatibility. BaseLib 3.4.8 is required for both builds.
+- Added 14 combat animations and 29 visual effects, with presentation configured for all 89 cards. Multi-hit effects play as each attack hit lands.
+- Updated eight power icons, including Battle Scars, Battle-Forged Deity, and Pool of Thunder.
+- Domain's base Lightning damage to all enemies is now 3. Hold the Ground draws 1 card at base and 2 when upgraded.
+- The Relentless Storm deals 3/5 Lightning damage on deployment and 2/3 after each attack hit (base/upgraded).
 
 ### 🐛 Bug Reports & Feedback
 Found a bug, balance issue, or localization typo? Please open an issue on [**GitHub Issues**](https://github.com/fltb/sts2-volibear-mod/issues) with reproduction steps or logs attached.
@@ -90,7 +91,7 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 | 机制 | 效果说明 |
 | :--- | :--- |
 | **迎战 (Engage)** | 令目标立即执行当前意图。配合高额格挡与「吸收」机制，在敌人攻击的瞬间反制爆发、过牌与回能。 |
-| **领域 (Domain)** | 展开持续数轮的雷霆领域：期间**禁用敌方特殊能力**（复活、限伤、护盾阶段、召唤、偷牌偷钱等全部失效），禁用自身负面状态，抽到状态/诅咒牌自动消耗并补抽，且每次打出攻击牌对全体敌人造成 4 点雷伤。 |
+| **领域 (Domain)** | 展开持续数轮的雷霆领域：期间**禁用敌方特殊能力**（复活、限伤、护盾阶段、召唤、偷牌偷钱等全部失效），禁用自身负面状态，抽到状态/诅咒牌自动消耗并补抽，且每次打出攻击牌对全体敌人造成 3 点雷伤。 |
 | **雷伤与雷势** | 雷伤为法术伤害，受「雷势」与各类能力牌层层增幅，高频触发回能、叠甲与减费。 |
 | **兽化 (Beastify)** | 消耗手牌并将其转化为野性「兽形」：攻击牌化为 **「裂骨之爪」**，非攻击牌化为 **「风暴之躯」**，继承原牌升级并触发专属联动。 |
 
@@ -102,11 +103,12 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
    * 将解压后的模组文件夹放入《杀戮尖塔 2》游戏根目录下的 `mods` 文件夹中。
    * 启动游戏并在模组菜单中勾选启用。
 
-### 更新日志 · v0.1.1
+### 更新日志 · v0.1.2
 
-- 新增正式分支 v0.111.1 构建，同时支持公开测试分支 v0.113.1。
-- 暴怒撕咬的咬痕显示在目标状态栏，移除意图上方的重复标记。
-- 更新补丁加载顺序兼容，两套构建均需 BaseLib 3.4.8。
+- 新增 14 组战斗动作和 29 类特效，为 89 张卡牌配置战斗表现。多段攻击的特效随每段实际命中播放。
+- 更新 8 个能力图标，其中战痕、愈战神躯、雷池使用专属图标。
+- 领域对全体敌人的基础附雷降到 3。稳住阵脚基础抽 1 张牌，升级后抽 2 张。
+- 狂雷渐起部署时造成 3／5 雷伤，每段普通攻击后追雷 2／3 点（基础／升级）。
 
 ### 🐛 问题反馈
 如遇到 Bug、数值建议或翻译错误，欢迎前往 [**GitHub Issues**](https://github.com/fltb/sts2-volibear-mod/issues) 提交反馈（附上复现步骤或报错日志最佳）。

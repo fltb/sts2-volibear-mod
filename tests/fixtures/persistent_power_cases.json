@@ -10,7 +10,7 @@
   "common": "No other powers/relic responses/modifiers. Keep combat alive; enemy HP sufficiently high. Reset combat per case. Engine effects and normal payment are separate assertions; these vectors do not bypass the real enemy move for Engage.",
   "cases": [
     {"id":"PP-U02-instances", "initial":"two enemies HP100 each; Conduction native instances amount3 and4; no storm/domain", "action":"B01 ordinary6 hits first enemy", "expected":{"enemy_hp":[87,93],"lightning_batches":2,"conduction_instances":2}},
-    {"id":"PP-U02-domain-order", "initial":"two enemies HP100; Domain1; Conduction3; storm2", "action":"B01 ordinary6 hits first", "expected":{"enemy_hp":[83,89],"lightning_base_sequence":[4,3],"lightning_amount_sequence":[6,5],"batches":2}},
+    {"id":"PP-U02-domain-order", "initial":"two enemies HP100; Domain1; Conduction2; storm2", "action":"B01 ordinary6 hits first", "expected":{"enemy_hp":[85,91],"lightning_base_sequence":[3,2],"lightning_amount_sequence":[5,4],"batches":2}},
     {"id":"PP-U03-min-stack", "initial":"Standing6 then Standing3 then Standing6; player block20; advance to next normal player start, no other draw effects", "action":"native clear block boundary", "expected":{"standing_instances":1,"standing_amount":3,"block":17,"block_gain_events":0}},
     {"id":"PP-U03-other-retention", "initial":"Standing3 and native Barricade; block20", "action":"next normal player start", "expected":{"block":20,"standing_decay_events":0,"native_barricade_preventer":true}},
     {"id":"PP-U03-clamp-priority", "initial":"Standing3 and native SturdyClamp relic; block20", "action":"next normal player start", "expected":{"block":17,"standing_preventer":"StandingPower","cap_relic_does_not_clamp":true}},

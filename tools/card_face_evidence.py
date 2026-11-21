@@ -102,13 +102,13 @@ ROWS = {
 }
 # Deployment/entry expectations are still not the required multi-instance lifecycle tests.
 ROWS.update({
-    'C05': [(1,0,0,3,2,4,1,True),(1,0,0,3,3,4,1,True)],
+    'C05': [(1,0,0,3,2,3,1,True),(1,0,0,3,3,3,1,True)],
     'C14': [(2,8,0,0,0,0,0,False),(2,11,0,0,0,0,0,False)],
     'C17': [(0,0,0,0,0,0,0,False)]*2,
     'C18': [(1,0,0,0,0,0,0,False)]*2,
-    'C21': [(1,5,2,0,0,0,0,False),(1,8,2,0,0,0,0,False)],
+    'C21': [(1,5,1,0,0,0,0,False),(1,8,2,0,0,0,0,False)],
     'C25': [(1,0,0,0,0,0,0,False)]*2,
-    'U02': [(1,0,0,0,0,6,1,True),(1,0,0,0,0,9,1,True)],
+    'U02': [(1,0,0,0,0,3,1,True),(1,0,0,0,0,5,1,True)],
     'U03': [(1,5,0,0,0,0,0,False),(1,8,0,0,0,0,0,False)],
     'U04': [(1,6,0,0,0,0,0,False),(1,9,0,0,0,0,0,False)],
     'U10': [(1,0,1,0,0,0,0,False),(1,0,2,0,0,0,0,False)],
@@ -140,7 +140,7 @@ ROWS.update({
     'U08':[(1,6,0,10,1,0,0,False),(1,9,0,14,1,0,0,False)],
     'U28':[(2,12,1,0,0,7,1,True),(2,17,1,0,0,9,1,True)],
     'U35':[(1,8,1,0,0,3,1,True),(1,11,1,0,0,5,1,True)],
-    'R31':[(2,8,0,20,1,4,1,True),(2,12,0,28,1,4,1,True)],
+    'R31':[(2,8,0,20,1,3,1,True),(2,12,0,28,1,3,1,True)],
 })
 ROWS.update({
     'C07':[(1,0,0,8,1,0,0,False),(1,0,0,11,1,0,0,False)],
@@ -202,7 +202,7 @@ ENTRY_POWERS = {
     'C17':({'StrengthPower':4,'VolibearChargeStrengthPower':4},{'StrengthPower':6,'VolibearChargeStrengthPower':6}),
     'C18':({'DomainPower':1},{'DomainPower':1}), 'C21':({'DomainPower':1},{'DomainPower':1}),
     'C25':({'StormChargePower':1,'NextAttackDiscount':1},{'StormChargePower':2,'NextAttackDiscount':1}),
-    'U02':({'StormConductionPower':3},{'StormConductionPower':4}),
+    'U02':({'StormConductionPower':2},{'StormConductionPower':3}),
     'U03':({'StandingPower':6},{'StandingPower':3}), 'U04':({'BattleScarsPower':1},{'BattleScarsPower':2}),
     'U10':({'NextAttackTrainingPower':3},{'NextAttackTrainingPower':5}), 'U11':({'NextAttackReplayPower':1},{'NextAttackReplayPower':1}),
     'U14':({'NextEngageDiscount':1},{'NextEngageDiscount':1}),
@@ -364,7 +364,7 @@ def expected_observations(variant, draw_order, *, random_targets=None, medium='L
                 if after['enemyHp'][target] > 0: receipt(target,bite if c=='U08' and i==1 else hit,8)
             if len(damage)>segment_start:damage_groups.append(damage[segment_start:])
             extras=[]
-            if i==0 and (b=='domain' or c=='C05'): extras.append((4,'source'))
+            if i==0 and (b=='domain' or c=='C05'): extras.append((3,'source'))
             if b=='conduction': extras.append((3,None))
             for extra,extra_ref in extras:
                 targets=[t for t in range(3) if after['enemyHp'][t]>0]
@@ -498,7 +498,7 @@ def expected_response(c,up,source_after):
     if c=='U02':
         for _ in range(2):
             ordinary()
-            for _ in range(2):thunder(4 if up else 3,4 if up else 3,range(3),None)
+            for _ in range(2):thunder(3 if up else 2,3 if up else 2,range(3),None)
     elif c=='U21':
         for _ in range(3):thunder(8,8,(0,),'response-card')
         after['energy']+=2

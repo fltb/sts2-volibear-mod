@@ -49,7 +49,7 @@
   "VOLIBEAR_C20.title": "Press the Attack",
   "VOLIBEAR_C20.description": "Deal {Damage:diff()} damage. If you played an Attack earlier this turn, draw {Cards:diff()} cards.",
   "VOLIBEAR_C21.title": "Hold the Ground",
-  "VOLIBEAR_C21.description": "Gain {Block:diff()} Block. Domain {Domain:diff()}. Draw {Cards:diff()} cards.",
+  "VOLIBEAR_C21.description": "Gain {Block:diff()} Block. Domain {Domain:diff()}. Draw {Cards:diff()} card{Cards:plural:|s}.",
   "VOLIBEAR_C22.title": "Thunderquake",
   "VOLIBEAR_C22.description": "Deal {Damage:diff()} damage and {Lightning:diff()} Lightning damage to ALL enemies {Hits:diff()} times.",
   "VOLIBEAR_C24.title": "Thunderbolt",

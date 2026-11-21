@@ -163,14 +163,14 @@ def validate_prepared_result(r, token, variant):
                 domain = next((p[1] for p in powers if p[0] == 'DomainPower'), 0)
                 powers = [p for p in powers if p[0] != 'DomainPower'] + [('DomainPower', domain+1), ('ThunderGuardPower', 5 if upgraded else 3)]
             elif model == 'B03':
-                hp[0] -= 17; hp = [x-4-9 for x in hp]
-                damage = [hit(ids[0], 17, label, 8)] + [hit(e, amount, label) for amount in (4,9) for e in ids]
-                expected_batches += [(4,4,label,ids), (3,9,label,ids)]; count += 2
+                hp[0] -= 17; hp = [x-3-9 for x in hp]
+                damage = [hit(ids[0], 17, label, 8)] + [hit(e, amount, label) for amount in (3,9) for e in ids]
+                expected_batches += [(3,3,label,ids), (3,9,label,ids)]; count += 2
                 powers = [p for p in powers if p[0] != 'NextAttackTrainingPower']
             elif model == 'U02':
-                hp = [x-6 for x in hp]; damage = [hit(e, 6, label) for e in ids]
-                expected_batches.append((6,6,label,ids)); count += 1
-                powers += [('StormConductionPower', 3)]
+                hp = [x-3 for x in hp]; damage = [hit(e, 3, label) for e in ids]
+                expected_batches.append((3,3,label,ids)); count += 1
+                powers += [('StormConductionPower', 2)]
             elif model == 'U11':
                 powers += [('NextAttackReplayPower', 1)]
             elif model == 'U08':
@@ -185,9 +185,9 @@ def validate_prepared_result(r, token, variant):
                 powers = [p for p in powers if p[0] not in ('NextAttackTrainingPower', 'NextAttackReplayPower')]
                 if variant == 'PR-bite-segments':
                     # One Domain batch per actual card; one U02 batch per ordinary hit.
-                    batches_for_card = [(4,4,label,ids)] + [(3,3,None,ids)] * len(segments)
+                    batches_for_card = [(3,3,label,ids)] + [(2,2,None,ids)] * len(segments)
                     expected_batches += batches_for_card; count += len(batches_for_card)
-                    hp = [x - 4 - 3*len(segments) for x in hp]
+                    hp = [x - 3 - 2*len(segments) for x in hp]
                     damage += [hit(e, amount, source) for _, amount, source, _ in batches_for_card for e in ids]
             expected_draw = s['before']['draw'][:draw_count]
             _need(_eq(s['draws'], [dict(cardRef=c, modelId=lookup[c]['modelId'], fromHandDraw=False) for c in expected_draw]))

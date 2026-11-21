@@ -1062,12 +1062,12 @@
           "face_id": "C21",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "获得5格挡。领域1。抽2张牌。",
-          "display_text_zh": "获得5格挡。领域1。抽2张牌。",
+          "rules_text_zh": "获得5格挡。领域1。抽1张牌。",
+          "display_text_zh": "获得5格挡。领域1。抽1张牌。",
           "numeric_literals": [
             5,
             1,
-            2
+            1
           ],
           "self_exhaust": false,
           "keywords": [
@@ -1291,11 +1291,11 @@
           "face_id": "U02",
           "upgrade": false,
           "cost": 1,
-          "rules_text_zh": "对全体造成6雷伤。每段普通攻击结算后，对全体造成3雷伤。",
-          "display_text_zh": "对所有敌人造成6雷伤。此后每段普通攻击后，对所有敌人造成3雷伤。",
+          "rules_text_zh": "对全体造成3雷伤。每段普通攻击结算后，对全体造成2雷伤。",
+          "display_text_zh": "对所有敌人造成3雷伤。此后每段普通攻击后，对所有敌人造成2雷伤。",
           "numeric_literals": [
-            6,
-            3
+            3,
+            2
           ],
           "self_exhaust": false,
           "keywords": [
@@ -1306,11 +1306,11 @@
           "face_id": "U02+",
           "upgrade": true,
           "cost": 1,
-          "rules_text_zh": "对全体造成9雷伤。每段普通攻击结算后，对全体造成4雷伤。",
-          "display_text_zh": "对所有敌人造成9雷伤。此后每段普通攻击后，对所有敌人造成4雷伤。",
+          "rules_text_zh": "对全体造成5雷伤。每段普通攻击结算后，对全体造成3雷伤。",
+          "display_text_zh": "对所有敌人造成5雷伤。此后每段普通攻击后，对所有敌人造成3雷伤。",
           "numeric_literals": [
-            9,
-            4
+            5,
+            3
           ],
           "self_exhaust": false,
           "keywords": [
@@ -4427,7 +4427,7 @@
         {
           "event": "lightning_batch",
           "play_id": "p1",
-          "damage_per_target": 6
+          "damage_per_target": 5
         },
         {
           "event": "ordinary_attack",
@@ -4437,11 +4437,11 @@
         {
           "event": "lightning_batch",
           "play_id": "p2",
-          "damage_per_target": 6
+          "damage_per_target": 5
         }
       ],
       "expected_state": {
-        "enemy_hp": 76,
+        "enemy_hp": 78,
         "lightning_count": 2,
         "thunder": 2,
         "energy": 1
@@ -4483,21 +4483,21 @@
         {
           "event": "ordinary_attack",
           "play_id": "p1",
-          "damage": 5
+          "damage": 6
         },
         {
           "event": "lightning_batch",
           "play_id": "p1",
-          "damage_per_target": 4
+          "damage_per_target": 3
         },
         {
           "event": "ordinary_attack",
           "play_id": "p1",
-          "damage": 5
+          "damage": 6
         }
       ],
       "expected_state": {
-        "enemy_hp": 86,
+        "enemy_hp": 85,
         "lightning_count": 1,
         "energy": 2
       },
@@ -4539,17 +4539,17 @@
         {
           "event": "ordinary_attack",
           "play_id": "p1",
-          "damage": 5
+          "damage": 6
         },
         {
           "event": "lightning_batch",
           "play_id": "p1",
-          "damage_per_target": 4
+          "damage_per_target": 3
         },
         {
           "event": "ordinary_attack",
           "play_id": "p1",
-          "damage": 5
+          "damage": 6
         },
         {
           "event": "replay_started",
@@ -4558,16 +4558,16 @@
         {
           "event": "ordinary_attack",
           "play_id": "p1",
-          "damage": 5
+          "damage": 6
         },
         {
           "event": "ordinary_attack",
           "play_id": "p1",
-          "damage": 5
+          "damage": 6
         }
       ],
       "expected_state": {
-        "enemy_hp": 76,
+        "enemy_hp": 73,
         "lightning_count": 1,
         "energy": 2,
         "actual_plays": 1,

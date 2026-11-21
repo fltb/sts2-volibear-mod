@@ -266,8 +266,8 @@ def _additional(r,token,case):
         powers=[('StormConductionPower',3),('StormConductionPower',4)];setup=[app(t,n) for t,n in powers]
         enemyHp=oracle['enemy_hp'];count=oracle['lightning_batches'];batch_specs=[(3,0,None,0),(4,0,None,0)]
     elif case=='PP-U02-domain-order':
-        powers=[('DomainPower',1),('StormConductionPower',3),('StormChargePower',2)];setup=[app('StormConductionPower',3)]
-        enemyHp=oracle['enemy_hp'];count=oracle['batches'];batch_specs=[(4,2,'played',0),(3,2,None,0)]
+        powers=[('DomainPower',1),('StormConductionPower',2),('StormChargePower',2)];setup=[app('StormConductionPower',2)]
+        enemyHp=oracle['enemy_hp'];count=oracle['batches'];batch_specs=[(3,2,'played',0),(2,2,None,0)]
     elif standing:
         powers=[('StandingPower',3)];block0=20;block1=oracle['block']
         setup=[app('StandingPower.Deploy',n) for n in ([6,3,6] if case=='PP-U03-min-stack' else [3])]
@@ -285,8 +285,8 @@ def _additional(r,token,case):
             played_type='IronWave';enemyHp=oracle['enemy_hp'];damage=[hit(ids[0],5)]*2;final=[('StrengthPower',strength)]
     else:
         powers=[('BattleBodyPower',1),('ThunderArmorPower',3),('DomainPower',1)];setup=[app('BattleBodyPower',1),app('ThunderArmorPower',3)]
-        strength=oracle['strength_gained'];dexterity=oracle['dexterity_gained'];block1=oracle['block'];count=1;enemyHp=[90,96,96]
-        batch_specs=[(4,0,'played',0)];final=[('StrengthPower',1)]
+        strength=oracle['strength_gained'];dexterity=oracle['dexterity_gained'];block1=oracle['block'];count=1;enemyHp=[91,97,97]
+        batch_specs=[(3,0,'played',0)];final=[('StrengthPower',1)]
     _need(_eq(r['setup'],setup))
     def snapshot(row,after):
         wanted=powers+(final if after else [])

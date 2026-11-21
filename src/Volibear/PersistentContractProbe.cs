@@ -575,7 +575,7 @@ internal static class PersistentContractProbe
         }
         else if (variant == "PP-U02-domain-order")
         {
-            await DomainPower.Open(context, owner, 1); await Apply<StormConductionPower>(3);
+            await DomainPower.Open(context, owner, 1); await Apply<StormConductionPower>(2);
             await StormChargePower.Gain(context, owner, 2);
         }
         else if (standing)

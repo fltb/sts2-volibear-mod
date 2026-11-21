@@ -179,14 +179,14 @@ public sealed class Volibear_C18 : VolibearCard
 public sealed class Volibear_C21 : VolibearCard
 {
     public Volibear_C21() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self, "c21") { }
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move), new DynamicVar("Domain", 1m), new CardsVar(2)];
+    protected override IEnumerable<DynamicVar> CanonicalVars => [new BlockVar(5m, Move), new DynamicVar("Domain", 1m), new CardsVar(1)];
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         await DirectEffects.Block(this, play, Value("Block"));
         await DomainPower.Open(context, Owner.Creature, (int)Value("Domain"), this);
         await DirectEffects.Draw(context, this, Value("Cards"));
     }
-    protected override void OnUpgrade() => UpgradeVar("Block", 3m);
+    protected override void OnUpgrade() { UpgradeVar("Block", 3m); UpgradeVar("Cards", 1m); }
 }
 
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_C22")]

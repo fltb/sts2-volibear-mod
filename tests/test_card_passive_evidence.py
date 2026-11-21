@@ -21,21 +21,21 @@ def sample(case):
     if curl:
         p['blockHistory']=([dict(targetId='1',amount=14,props=4)] if not on else [])+[dict(targetId='1',amount=14,props=8)]
         p['powerHistory']=[dict(targetId='1',power='StrengthPower',amount=5,applierId='1')]
-        p['rosterAfterTurn']=[dict(id='1',type='LouseProgenitor',slot=None,hp=980 if on else 988,strength=4,enlarge=None)]
+        p['rosterAfterTurn']=[dict(id='1',type='LouseProgenitor',slot=None,hp=982 if on else 988,strength=4,enlarge=None)]
         p['moves']=[dict(sourceId='1',type='LouseProgenitor',slot=None,move=m) for m in ('WEB_CANNON_MOVE','CURL_AND_GROW_MOVE')]
     else:
         p['blockHistory']=[dict(targetId='1',amount=6,props=4)]*2 if not on else []
         p['powerHistory']=[]; p['rosterAfterTurn']=[]; p['moves']=[]
         for i,(slot,move) in enumerate(zip(('first','second','third','fourth'),('FLAIL_MOVE','BITE_MOVE','LASH_MOVE','ENLARGE_MOVE')),1):
             p['rosterAfterTurn'].append(dict(id=str(i),type='PhantasmalGardener',slot=slot,
-                hp=(980 if on else 988) if i==1 else 992 if on else 1000,strength=4 if i==1 else 2 if i==4 else 0,enlarge=1 if i==4 else 0))
+                hp=(982 if on else 988) if i==1 else 994 if on else 1000,strength=4 if i==1 else 2 if i==4 else 0,enlarge=1 if i==4 else 0))
             p['moves'].append(dict(sourceId=str(i),type='PhantasmalGardener',slot=slot,move=move))
     p['batches']=[]
     if on:
         target_ids=['1'] if curl else ['1','2','3','4']
         for i in range(2 if curl else 3):
-            p['batches'].append(dict(cardRef='strike-'+str(i+1),baseDamage=4,amount=4,count=1 if i==2 else i+1,targetIds=target_ids,
-                hits=[dict(targetId=t,hpLost=4,blocked=0,overkill=0) for t in target_ids]))
+            p['batches'].append(dict(cardRef='strike-'+str(i+1),baseDamage=3,amount=3,count=1 if i==2 else i+1,targetIds=target_ids,
+                hits=[dict(targetId=t,hpLost=3,blocked=0,overkill=0) for t in target_ids]))
     return p
 
 
@@ -56,7 +56,7 @@ class CardPassiveEvidenceTests(unittest.TestCase):
         self.assertTrue(gate.expectations('skittish-on')['secondCard']['latch'])
         self.assertFalse(gate.expectations('skittish-on')['nextTurn']['latch'])
         self.assertTrue(gate.expectations('skittish-on')['final']['latch'])
-        self.assertEqual(gate.expectations('skittish-on')['final']['hp'],970)
+        self.assertEqual(gate.expectations('skittish-on')['final']['hp'],973)
         self.assertEqual(gate.expectations('skittish-off')['final']['hp'],982)
 
     def test_every_actual_snapshot_field_is_asserted(self):

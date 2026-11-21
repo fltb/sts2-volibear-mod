@@ -18,15 +18,15 @@ def expectations(variant):
     result = {'directBefore': dict(s)}
     s.update(strength=4, block=7); result['directAfter'] = dict(s)
     s['block'] = 0; result['beforeCards'] = dict(s)
-    s.update(hp=990 if on else 994, block=0 if on else 14 if curl else 6,
+    s.update(hp=991 if on else 994, block=0 if on else 14 if curl else 6,
         curlup=0, curled=True if curl else None, latch=None if curl else True)
     result['firstCard'] = dict(s)
     s['block'] = 0; result['beforeSecond'] = dict(s)
-    s['hp'] = 980 if on else 988; result['secondCard'] = dict(s)
+    s['hp'] = 982 if on else 988; result['secondCard'] = dict(s)
     s.update(round=2, domain=4 if on else 0, curled=False if curl else None, latch=None if curl else False)
     result['nextTurn'] = dict(s)
     if curl: s.update(round=3, domain=3 if on else 0, block=14, strength=9, curled=True)
-    else: s.update(hp=970 if on else 982, block=0 if on else 6, latch=True)
+    else: s.update(hp=973 if on else 982, block=0 if on else 6, latch=True)
     result['final'] = dict(s)
     first = dict(result['firstCard'], block=0)
     if curl: first.update(curlup=14, curled=False)
@@ -80,7 +80,7 @@ def validate(payload, token, variant):
         return errors + ['invalid/duplicate actual enemy identities']
     moves = payload.get('moves')
     if curl:
-        eq(roster, [dict(id=target, type='LouseProgenitor', slot=None, hp=980 if on else 988, strength=4, enlarge=None)], 'native louse after WEB')
+        eq(roster, [dict(id=target, type='LouseProgenitor', slot=None, hp=982 if on else 988, strength=4, enlarge=None)], 'native louse after WEB')
         eq(moves, [dict(sourceId=target,type='LouseProgenitor',slot=None,move=x) for x in ('WEB_CANNON_MOVE','CURL_AND_GROW_MOVE')], 'actual louse moves')
     else:
         slots = ('first','second','third','fourth')
@@ -89,7 +89,7 @@ def validate(payload, token, variant):
         if by_slot['first']['id'] != target: errors.append('first-slot target identity mismatch')
         for slot in slots:
             eq(by_slot[slot], dict(id=by_slot[slot]['id'], type='PhantasmalGardener', slot=slot,
-                hp=(980 if on else 988) if slot == 'first' else (992 if on else 1000),
+                hp=(982 if on else 988) if slot == 'first' else (994 if on else 1000),
                 strength=4 if slot == 'first' else 2 if slot == 'fourth' else 0,
                 enlarge=1 if slot == 'fourth' else 0), 'native gardener ' + slot)
         if not isinstance(moves,list) or len(moves)!=4 or not all(isinstance(m,dict) for m in moves):
@@ -104,7 +104,7 @@ def validate(payload, token, variant):
         return errors + ['exact real Domain lightning batch count required']
     for i, batch in enumerate(batches):
         if not isinstance(batch,dict): errors.append('batch object required'); continue
-        for k,v in dict(cardRef='strike-'+str(i+1),baseDamage=4,amount=4,count=1 if i==2 else i+1).items():
+        for k,v in dict(cardRef='strike-'+str(i+1),baseDamage=3,amount=3,count=1 if i==2 else i+1).items():
             eq(batch.get(k),v,'actual lightning '+k)
         targets = batch.get('targetIds'); hits = batch.get('hits')
         if not isinstance(targets,list) or len(targets)!=expected_count or set(targets)!=set(native_ids): errors.append('actual lightning target identities mismatch')
@@ -112,7 +112,7 @@ def validate(payload, token, variant):
         else:
             by_id = {h.get('targetId'):h for h in hits}
             if set(by_id)!=set(native_ids): errors.append('actual lightning hit identities mismatch')
-            for native_id in native_ids: eq(by_id.get(native_id),dict(targetId=native_id,hpLost=4,blocked=0,overkill=0),'actual lightning hit')
+            for native_id in native_ids: eq(by_id.get(native_id),dict(targetId=native_id,hpLost=3,blocked=0,overkill=0),'actual lightning hit')
     return errors
 
 

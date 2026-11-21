@@ -71,6 +71,9 @@ public abstract class InstancedPersistentPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_STORM_CONDUCTION")]
 public sealed class StormConductionPower : InstancedPersistentPower, IOrdinarySegmentResponder
 {
+    public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/counter_thunder.png";
+    public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/counter_thunder.png";
+
     public Task AfterOrdinarySegment(PlayerChoiceContext context, CardModel source, IReadOnlyList<DamageResult> results) =>
         Live && Own(source) ? LightningCmd.DealAllEnemiesWithVisual(context, Owner, Amount, null,
             LightningVisualOrigin.Conduction) : Task.CompletedTask;
@@ -126,6 +129,9 @@ public sealed class StandingPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_BATTLE_SCARS")]
 public sealed class BattleScarsPower : InstancedPersistentPower, IEngageResponder
 {
+    public override string CustomPackedIconPath => Presentation.VolibearIcons.BattleScars;
+    public override string CustomBigIconPath => Presentation.VolibearIcons.BattleScarsBig;
+
     public async Task AfterEngageCompleted(EngageCmd.Completion completion)
     {
         if (!ReferenceEquals(completion.Receiver, Owner) || !TryFirstThisTurn()) return;
@@ -137,6 +143,9 @@ public sealed class BattleScarsPower : InstancedPersistentPower, IEngageResponde
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_LINGERING_STORM")]
 public sealed class LingeringStormPower : InstancedPersistentPower, IEngageResponder
 {
+    public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/replay.png";
+    public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/replay.png";
+
     public async Task AfterEngageCompleted(EngageCmd.Completion completion)
     {
         if (!Live || !ReferenceEquals(completion.Receiver, Owner)) return;
@@ -164,6 +173,9 @@ public sealed class ThunderAftershockPower : InstancedPersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_PREY_STILL_STANDS")]
 public sealed class PreyStillStandsPower : InstancedPersistentPower
 {
+    public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/bite_mark.png";
+    public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/bite_mark.png";
+
     public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsLastInSeries) return;
@@ -183,6 +195,9 @@ public sealed class PreyStillStandsPower : InstancedPersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_GROWING_FURY")]
 public sealed class GrowingFuryPower : InstancedPersistentPower
 {
+    public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/enhance.png";
+    public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/enhance.png";
+
     public override async Task BeforeCardPlayed(CardPlay play)
     {
         if (!Live || !Own(play.Card) || !play.IsFirstInSeries ||
@@ -197,6 +212,9 @@ public sealed class GrowingFuryPower : InstancedPersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_WELCOME_THUNDER")]
 public sealed class WelcomeThunderPower : InstancedPersistentPower, IEngageResponder
 {
+    public override string CustomPackedIconPath => "res://VolibearArt/vfx/icons/64/cost_reduce.png";
+    public override string CustomBigIconPath => "res://VolibearArt/vfx/icons/256/cost_reduce.png";
+
     public static Task Prepare(PlayerChoiceContext context, Creature owner, int amount, CardModel? source) =>
         NextAttackDiscount.Grant(context, owner, amount);
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
@@ -248,6 +266,9 @@ public sealed class ImmovableBodyPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_BATTLE_BODY")]
 public sealed class BattleBodyPower : PersistentPower
 {
+    public override string CustomPackedIconPath => Presentation.VolibearIcons.BattleBody;
+    public override string CustomBigIconPath => Presentation.VolibearIcons.BattleBodyBig;
+
     public override Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
         if (Live && ReferenceEquals(creature, Owner) && amount > 0 && cardSource is not null &&
@@ -269,6 +290,9 @@ public sealed class BattleBodyPower : PersistentPower
 [BaseLib.Utils.Attributes.CustomID("VOLIBEAR_THUNDER_POOL")]
 public sealed class ThunderPoolPower : InstancedPersistentPower, IEngageResponder
 {
+    public override string CustomPackedIconPath => Presentation.VolibearIcons.ThunderPool;
+    public override string CustomBigIconPath => Presentation.VolibearIcons.ThunderPoolBig;
+
     public Task AfterEngageCompleted(EngageCmd.Completion completion) =>
         ReferenceEquals(completion.Receiver, Owner) && TryFirstThisTurn()
             ? LightningCmd.DealAllEnemiesWithVisual(completion.Choices, Owner, Amount, null,

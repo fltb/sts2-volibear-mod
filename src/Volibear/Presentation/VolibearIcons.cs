@@ -17,4 +17,10 @@ public static class VolibearIcons
     public const string BearSpiritBig = "res://VolibearArt/icons/powers/big/bear_spirit.png";
     public const string Wilderness = "res://VolibearArt/icons/powers/wilderness.png";
     public const string WildernessBig = "res://VolibearArt/icons/powers/big/wilderness.png";
+    public const string BattleScars = "res://VolibearArt/icons/powers/battle_scars.png";
+    public const string BattleScarsBig = "res://VolibearArt/icons/powers/big/battle_scars.png";
+    public const string BattleBody = "res://VolibearArt/icons/powers/battle_body.png";
+    public const string BattleBodyBig = "res://VolibearArt/icons/powers/big/battle_body.png";
+    public const string ThunderPool = "res://VolibearArt/icons/powers/thunder_pool.png";
+    public const string ThunderPoolBig = "res://VolibearArt/icons/powers/big/thunder_pool.png";
 }

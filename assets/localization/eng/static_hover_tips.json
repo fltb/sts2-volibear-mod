@@ -10,7 +10,7 @@
   "VOLIBEAR-ENGAGE.title": "Engage",
   "VOLIBEAR-ENGAGE.description": "Force the target to immediately execute its current intent.",
   "VOLIBEAR-DOMAIN.title": "Domain",
-  "VOLIBEAR-DOMAIN.description": "Deploy for the specified number of rounds, each lasting until after you draw next turn. While active, enemy special abilities and your debuffs are disabled; whenever you draw a Status or Curse, Exhaust it and draw 1 card; whenever you play an Attack, deal 4 Lightning damage to ALL enemies.",
+  "VOLIBEAR-DOMAIN.description": "Deploy for the specified number of rounds, each lasting until after you draw next turn. While active, enemy special abilities and your debuffs are disabled; whenever you draw a Status or Curse, Exhaust it and draw 1 card; whenever you play an Attack, deal 3 Lightning damage to ALL enemies.",
   "VOLIBEAR-SUPPRESSION.title": "Domain Suppression",
   "VOLIBEAR-SUPPRESSION.description": "Suppresses beneficial enemy special effects such as revival, protective phases, damage caps, untargetability, and applying debuffs to the player. Preserves normal attacks, existing Strength/Block, and directly gained Strength/Block.",
   "VOLIBEAR-ABSORPTION.title": "Absorption",
