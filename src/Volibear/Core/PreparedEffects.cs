@@ -167,7 +167,8 @@ public sealed class ThunderGuardPower : PreparedPower
         if (!ReferenceEquals(target, Owner) || !Owner.IsHittable || !props.IsPoweredAttack() || dealer is null ||
             dealer.Side == Owner.Side || !dealer.IsHittable || !LightningBatches.CanUse(Owner, out var combat) ||
             !ReferenceEquals(dealer.CombatState, combat)) return;
-        await LightningCmd.Deal(context, Owner, new[] { dealer }, Amount, null, hits =>
+        await LightningCmd.DealWithVisual(context, Owner, new[] { dealer }, Amount, null,
+            LightningVisualOrigin.Counter, hits =>
         {
             foreach (var hit in hits)
             {

@@ -130,6 +130,6 @@ public sealed class DomainPower : CustomPowerModel
     {
         var owner = scope.Card.Owner.Creature;
         if (scope.Card.Type != CardType.Attack || !scope.Gate.TryAttach(IsActive(owner))) return;
-        await LightningCmd.DealAllEnemies(context, owner, 4m, scope.Card);
+        await LightningCmd.DealAllEnemiesWithVisual(context, owner, 4m, scope.Card, LightningVisualOrigin.Domain);
     }
 }

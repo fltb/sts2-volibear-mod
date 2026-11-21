@@ -1,0 +1,1492 @@
+{
+  "name": "claw_flurry",
+  "fps": 24,
+  "frame_count": 26,
+  "duration": 1.0833333333333333,
+  "loop": false,
+  "skin": "neutral",
+  "contact_frames": [
+    6,
+    12,
+    18
+  ],
+  "description": "三段交替挥爪：近爪、远爪、近爪反撕，各段均有收肘。",
+  "frames": [
+    {
+      "frame": 0,
+      "rect": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.0,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "e5551860df6cb452a46f2563ead194b79927a7d8839e4e61c4b89d418fc233d9",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 1,
+      "rect": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.041666666666666664,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "9251de1a05b754f70362b965e838736a5cfcf41ae5066134cb156e6b26f79a88",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 2,
+      "rect": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.08333333333333333,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "038d6342fbba506ac6946c16bb2c8d511f7d0b36b60411554605fd15d3dede97",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 3,
+      "rect": [
+        1536,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.125,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "a887583c3eca0b3c92a0f2ff513753ae1eef4387dc4672b4bf9dd13d81aba8af",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 4,
+      "rect": [
+        2048,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.16666666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "34c232bf9e59c5228e0389ee7dfc0c9eab09ae83f1ca82ca300e73e1ecad26da",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 5,
+      "rect": [
+        2560,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.20833333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "5d1fbbce99db477976b4aa5acdfdabe5f7db137c126831ecaf47448dcad40ffa",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 6,
+      "rect": [
+        3072,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.25,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "c343f62118c00c14f194b78d9e22c309843f87a2b3a154a5f815f21cea0fb2e3",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 7,
+      "rect": [
+        3584,
+        0,
+        512,
+        512
+      ],
+      "time_seconds": 0.2916666666666667,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "004bdfc820259dac14b8145a87da1ee70ebd72425ad7fadccdfff5d02a0e9585",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 8,
+      "rect": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.3333333333333333,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "85934181d0cc7a21f89f6d9c9385b3977256b80c8011c6d94eae59266b3ee5d6",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 9,
+      "rect": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.375,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "ba163fa523167b20b2b9423a5dc470992cb26129b37fa7f38bd556a03f1505a8",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 10,
+      "rect": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.4166666666666667,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "c9d8807f48d1f44220ad3f1ab07f7e008a1daf2b54043a05722e9a5480d119fa",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 11,
+      "rect": [
+        1536,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.4583333333333333,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "628941a37a39d1d47faed206d1fb75e037e2e7271b52d0641bf3c7865419cb6b",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 12,
+      "rect": [
+        2048,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.5,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "3ae69baf74ce27f9727757f32f65191cd954a1205fd0c7e2d802b63aa647d794",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 13,
+      "rect": [
+        2560,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.5416666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "ef224af06cea8d6a5c3244676905047863f08de039895e9b2f34640a4762c4c5",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 14,
+      "rect": [
+        3072,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.5833333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "750d6da1b95b0e30cd982c2930c18f99387185d3ed8a63b506bc995ce77d1745",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 15,
+      "rect": [
+        3584,
+        512,
+        512,
+        512
+      ],
+      "time_seconds": 0.625,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "d92c0149a287e5a26eaffb0250c815e4a867cfbc105a5bfb256cbe8a6d14a4e9",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 16,
+      "rect": [
+        0,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.6666666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "a305555053a7919f0f2c287a655b61f91555b134e114303a78d2e8f576299175",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 17,
+      "rect": [
+        512,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.7083333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "9e5a0082ca51fdabcf357118d9501241809002aece3c0bd017d7e823c18d1861",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 18,
+      "rect": [
+        1024,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.75,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "b160e9306c1159a5429b2b0ca7bbf842ec56e4d2a72d8ab15baaff0b7f62a044",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 19,
+      "rect": [
+        1536,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.7916666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "f04ccc8d9bd99bdc4ff5d522f2bb085779be30b7fdb2ede09989075df9915f34",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 20,
+      "rect": [
+        2048,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.8333333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "94d3284aceb9cbaf2da31022374636946a88375e66dbad1a421f791f234b51ec",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 21,
+      "rect": [
+        2560,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.875,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "afad8ddb4abeccec6e2bde4cda1a24bdc827ec9146475935dfce63e3454c4070",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 22,
+      "rect": [
+        3072,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.9166666666666666,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "d227e73b366a0a0096b5bbf01b355094e60aa49896e1aca93e2ebe9671612848",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 23,
+      "rect": [
+        3584,
+        1024,
+        512,
+        512
+      ],
+      "time_seconds": 0.9583333333333334,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "f64eae48d3655dc0546cbfd2cb1575c52acaf5c740cd19269fabaccdee1451ab",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 24,
+      "rect": [
+        0,
+        1536,
+        512,
+        512
+      ],
+      "time_seconds": 1.0,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "d822792a71b949c8c71c6f249e0c2f9c3aa70f1a07a314d0e9b790f55a280b64",
+      "pivot_px": [
+        250,
+        442
+      ]
+    },
+    {
+      "frame": 25,
+      "rect": [
+        512,
+        1536,
+        512,
+        512
+      ],
+      "time_seconds": 1.0416666666666667,
+      "duration_ms": 41.666666666666664,
+      "raw_rgba_sha256": "e5551860df6cb452a46f2563ead194b79927a7d8839e4e61c4b89d418fc233d9",
+      "pivot_px": [
+        250,
+        442
+      ]
+    }
+  ],
+  "poses": [
+    {
+      "frame": 0,
+      "channels": {
+        "near_shoulder": 0,
+        "near_elbow": 0,
+        "far_shoulder": 0,
+        "far_elbow": 0,
+        "torso_rot": 0,
+        "root_x": 0,
+        "root_y": 0
+      },
+      "markers_px": {
+        "head": [
+          313.467,
+          169.067
+        ],
+        "wrist_near": [
+          106.467,
+          307.067
+        ],
+        "wrist_far": [
+          397.8,
+          304.0
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 1,
+      "channels": {
+        "near_shoulder": 2.41664,
+        "near_elbow": -9.66656,
+        "far_shoulder": -1.933312,
+        "far_elbow": -4.349952,
+        "torso_rot": -0.724992,
+        "root_x": -1.449984,
+        "root_y": 0.966656
+      },
+      "markers_px": {
+        "head": [
+          311.56,
+          168.832
+        ],
+        "wrist_near": [
+          114.832,
+          313.719
+        ],
+        "wrist_far": [
+          401.416,
+          299.812
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 2,
+      "channels": {
+        "near_shoulder": 7.045120000000001,
+        "near_elbow": -28.180480000000003,
+        "far_shoulder": -5.636096,
+        "far_elbow": -12.681216000000001,
+        "torso_rot": -2.113536,
+        "root_x": -4.227072,
+        "root_y": 2.818048
+      },
+      "markers_px": {
+        "head": [
+          307.885,
+          168.433
+        ],
+        "wrist_near": [
+          133.019,
+          321.488
+        ],
+        "wrist_far": [
+          407.319,
+          290.762
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 3,
+      "channels": {
+        "near_shoulder": 9.95328,
+        "near_elbow": -39.81312,
+        "far_shoulder": -7.962624,
+        "far_elbow": -17.915904,
+        "torso_rot": -2.985984,
+        "root_x": -5.971968,
+        "root_y": 3.981312
+      },
+      "markers_px": {
+        "head": [
+          305.56,
+          168.194
+        ],
+        "wrist_near": [
+          145.127,
+          322.77
+        ],
+        "wrist_far": [
+          410.259,
+          284.458
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 4,
+      "channels": {
+        "near_shoulder": -10.659968000000003,
+        "near_elbow": -36.17408,
+        "far_shoulder": -11.82592,
+        "far_elbow": -19.530368,
+        "torso_rot": -1.4696319999999998,
+        "root_x": -1.4088959999999995,
+        "root_y": 5.147776
+      },
+      "markers_px": {
+        "head": [
+          310.614,
+          170.163
+        ],
+        "wrist_near": [
+          168.436,
+          330.695
+        ],
+        "wrist_far": [
+          415.999,
+          284.293
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 5,
+      "channels": {
+        "near_shoulder": -59.98400000000001,
+        "near_elbow": -27.04,
+        "far_shoulder": -20.96,
+        "far_elbow": -23.184,
+        "torso_rot": 2.184000000000001,
+        "root_x": 9.552000000000003,
+        "root_y": 7.888000000000001
+      },
+      "markers_px": {
+        "head": [
+          322.611,
+          175.065
+        ],
+        "wrist_near": [
+          228.408,
+          338.225
+        ],
+        "wrist_far": [
+          428.607,
+          283.752
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 6,
+      "channels": {
+        "near_shoulder": -96.036992,
+        "near_elbow": -20.36352,
+        "far_shoulder": -27.63648,
+        "far_elbow": -25.854592,
+        "torso_rot": 4.854591999999999,
+        "root_x": 17.563775999999997,
+        "root_y": 9.890944
+      },
+      "markers_px": {
+        "head": [
+          331.235,
+          178.793
+        ],
+        "wrist_near": [
+          273.651,
+          332.671
+        ],
+        "wrist_far": [
+          436.919,
+          283.025
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 7,
+      "channels": {
+        "near_shoulder": -88.41996799999998,
+        "near_elbow": -24.064256000000007,
+        "far_shoulder": -22.774527999999993,
+        "far_elbow": -28.322432000000003,
+        "torso_rot": 3.838783999999998,
+        "root_x": 15.967871999999996,
+        "root_y": 9.274239999999999
+      },
+      "markers_px": {
+        "head": [
+          328.937,
+          177.433
+        ],
+        "wrist_near": [
+          267.521,
+          332.88
+        ],
+        "wrist_far": [
+          433.486,
+          284.646
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 8,
+      "channels": {
+        "near_shoulder": -59.088511999999994,
+        "near_elbow": -36.507904,
+        "far_shoulder": -6.775551999999998,
+        "far_elbow": -35.433088,
+        "torso_rot": 0.28345599999999926,
+        "root_x": 9.746047999999998,
+        "root_y": 7.05216
+      },
+      "markers_px": {
+        "head": [
+          320.329,
+          172.78
+        ],
+        "wrist_near": [
+          241.552,
+          332.774
+        ],
+        "wrist_far": [
+          419.979,
+          288.525
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 9,
+      "channels": {
+        "near_shoulder": -34.623104,
+        "near_elbow": -46.887168,
+        "far_shoulder": 6.569215999999997,
+        "far_elbow": -41.364096,
+        "torso_rot": -2.682048,
+        "root_x": 4.5564160000000005,
+        "root_y": 5.19872
+      },
+      "markers_px": {
+        "head": [
+          312.985,
+          169.072
+        ],
+        "wrist_near": [
+          220.675,
+          329.858
+        ],
+        "wrist_far": [
+          407.004,
+          290.14
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 10,
+      "channels": {
+        "near_shoulder": -30.543999999999997,
+        "near_elbow": -46.751999999999995,
+        "far_shoulder": 1.1359999999999895,
+        "far_elbow": -41.168,
+        "torso_rot": -2.0639999999999983,
+        "root_x": 5.664000000000002,
+        "root_y": 5.7280000000000015
+      },
+      "markers_px": {
+        "head": [
+          314.545,
+          169.923
+        ],
+        "wrist_near": [
+          214.848,
+          330.067
+        ],
+        "wrist_far": [
+          412.454,
+          287.056
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 11,
+      "channels": {
+        "near_shoulder": -24.580224,
+        "near_elbow": -41.640192,
+        "far_shoulder": -26.978944,
+        "far_elbow": -37.760128,
+        "torso_rot": 1.7698559999999999,
+        "root_x": 12.479744,
+        "root_y": 8.709888
+      },
+      "markers_px": {
+        "head": [
+          324.043,
+          175.118
+        ],
+        "wrist_near": [
+          199.317,
+          330.231
+        ],
+        "wrist_far": [
+          434.557,
+          268.924
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 12,
+      "channels": {
+        "near_shoulder": -18.960512,
+        "near_elbow": -36.823296,
+        "far_shoulder": -53.47187199999999,
+        "far_elbow": -34.548864,
+        "torso_rot": 5.382527999999999,
+        "root_x": 18.902271999999996,
+        "root_y": 11.519744
+      },
+      "markers_px": {
+        "head": [
+          332.761,
+          180.245
+        ],
+        "wrist_near": [
+          184.459,
+          326.528
+        ],
+        "wrist_far": [
+          444.355,
+          247.233
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 13,
+      "channels": {
+        "near_shoulder": -22.116480000000006,
+        "near_elbow": -36.617472,
+        "far_shoulder": -55.667328,
+        "far_elbow": -33.451136,
+        "torso_rot": 5.313919999999999,
+        "root_x": 19.039488,
+        "root_y": 11.519744
+      },
+      "markers_px": {
+        "head": [
+          332.771,
+          180.197
+        ],
+        "wrist_near": [
+          188.672,
+          327.941
+        ],
+        "wrist_far": [
+          444.545,
+          244.516
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 14,
+      "channels": {
+        "near_shoulder": -46.20096000000004,
+        "near_elbow": -40.23014400000001,
+        "far_shoulder": -42.01945599999998,
+        "far_elbow": -30.239871999999995,
+        "torso_rot": 1.2998399999999934,
+        "root_x": 13.419775999999992,
+        "root_y": 8.709887999999996
+      },
+      "markers_px": {
+        "head": [
+          324.076,
+          174.724
+        ],
+        "wrist_near": [
+          228.932,
+          332.639
+        ],
+        "wrist_far": [
+          440.817,
+          251.098
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 15,
+      "channels": {
+        "near_shoulder": -71.75999999999999,
+        "near_elbow": -44.064,
+        "far_shoulder": -27.53600000000001,
+        "far_elbow": -26.832,
+        "torso_rot": -2.9599999999999973,
+        "root_x": 7.456000000000003,
+        "root_y": 5.7280000000000015
+      },
+      "markers_px": {
+        "head": [
+          314.547,
+          169.213
+        ],
+        "wrist_near": [
+          269.116,
+          320.533
+        ],
+        "wrist_far": [
+          433.325,
+          257.891
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 16,
+      "channels": {
+        "near_shoulder": -79.351296,
+        "near_elbow": -43.767936,
+        "far_shoulder": -23.523072,
+        "far_elbow": -25.920512,
+        "torso_rot": -3.5628159999999993,
+        "root_x": 6.715392000000001,
+        "root_y": 5.357696000000001
+      },
+      "markers_px": {
+        "head": [
+          313.243,
+          168.5
+        ],
+        "wrist_near": [
+          278.505,
+          315.959
+        ],
+        "wrist_far": [
+          431.064,
+          261.601
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 17,
+      "channels": {
+        "near_shoulder": -91.95468800000002,
+        "near_elbow": -32.27660799999998,
+        "far_shoulder": -19.07481599999999,
+        "far_elbow": -25.179136,
+        "torso_rot": 0.5147520000000068,
+        "root_x": 13.38777600000001,
+        "root_y": 8.693888000000005
+      },
+      "markers_px": {
+        "head": [
+          323.054,
+          173.999
+        ],
+        "wrist_near": [
+          283.887,
+          323.098
+        ],
+        "wrist_far": [
+          430.963,
+          281.036
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 18,
+      "channels": {
+        "near_shoulder": -107.064832,
+        "near_elbow": -18.49971200000001,
+        "far_shoulder": -13.741824000000003,
+        "far_elbow": -24.290304,
+        "torso_rot": 5.403327999999997,
+        "root_x": 21.387263999999995,
+        "root_y": 12.693631999999997
+      },
+      "markers_px": {
+        "head": [
+          334.443,
+          180.96
+        ],
+        "wrist_near": [
+          288.919,
+          330.079
+        ],
+        "wrist_far": [
+          428.087,
+          303.021
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 19,
+      "channels": {
+        "near_shoulder": -110.509568,
+        "near_elbow": -14.290816000000001,
+        "far_shoulder": -11.963648,
+        "far_elbow": -23.81824,
+        "torso_rot": 6.90912,
+        "root_x": 23.709184,
+        "root_y": 13.836416
+      },
+      "markers_px": {
+        "head": [
+          337.77,
+          183.137
+        ],
+        "wrist_near": [
+          288.445,
+          332.431
+        ],
+        "wrist_far": [
+          426.37,
+          309.61
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 20,
+      "channels": {
+        "near_shoulder": -83.13599999999997,
+        "near_elbow": -19.63200000000001,
+        "far_shoulder": -11.296,
+        "far_elbow": -20.479999999999997,
+        "torso_rot": 5.2399999999999975,
+        "root_x": 18.36799999999999,
+        "root_y": 10.831999999999995
+      },
+      "markers_px": {
+        "head": [
+          332.234,
+          179.854
+        ],
+        "wrist_near": [
+          254.283,
+          338.373
+        ],
+        "wrist_far": [
+          423.162,
+          305.748
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 21,
+      "channels": {
+        "near_shoulder": -45.68627200000003,
+        "near_elbow": -26.939263999999994,
+        "far_shoulder": -10.382592,
+        "far_elbow": -15.912960000000004,
+        "torso_rot": 2.9564800000000018,
+        "root_x": 11.060736000000006,
+        "root_y": 6.721664000000003
+      },
+      "markers_px": {
+        "head": [
+          324.58,
+          175.432
+        ],
+        "wrist_near": [
+          207.341,
+          337.092
+        ],
+        "wrist_far": [
+          418.568,
+          300.379
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 22,
+      "channels": {
+        "near_shoulder": -29.85984,
+        "near_elbow": -29.85984,
+        "far_shoulder": -9.95328,
+        "far_elbow": -13.934592,
+        "torso_rot": 1.990656,
+        "root_x": 7.962624,
+        "root_y": 4.97664
+      },
+      "markers_px": {
+        "head": [
+          321.309,
+          173.573
+        ],
+        "wrist_near": [
+          187.868,
+          333.385
+        ],
+        "wrist_far": [
+          416.499,
+          298.123
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 23,
+      "channels": {
+        "near_shoulder": -21.135359999999984,
+        "near_elbow": -21.135359999999984,
+        "far_shoulder": -7.045119999999995,
+        "far_elbow": -9.863167999999995,
+        "torso_rot": 1.4090239999999992,
+        "root_x": 5.636095999999997,
+        "root_y": 3.5225599999999977
+      },
+      "markers_px": {
+        "head": [
+          319.025,
+          172.249
+        ],
+        "wrist_near": [
+          162.975,
+          330.837
+        ],
+        "wrist_far": [
+          411.406,
+          300.195
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 24,
+      "channels": {
+        "near_shoulder": -7.249920000000014,
+        "near_elbow": -7.249920000000014,
+        "far_shoulder": -2.4166400000000046,
+        "far_elbow": -3.3832960000000067,
+        "torso_rot": 0.48332800000000087,
+        "root_x": 1.9333120000000035,
+        "root_y": 1.2083200000000023
+      },
+      "markers_px": {
+        "head": [
+          315.377,
+          170.162
+        ],
+        "wrist_near": [
+          124.738,
+          317.913
+        ],
+        "wrist_far": [
+          402.649,
+          302.917
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    },
+    {
+      "frame": 25,
+      "channels": {
+        "near_shoulder": 0,
+        "near_elbow": 0,
+        "far_shoulder": 0,
+        "far_elbow": 0,
+        "torso_rot": 0,
+        "root_x": 0,
+        "root_y": 0
+      },
+      "markers_px": {
+        "head": [
+          313.467,
+          169.067
+        ],
+        "wrist_near": [
+          106.467,
+          307.067
+        ],
+        "wrist_far": [
+          397.8,
+          304.0
+        ],
+        "ankle_near": [
+          126.4,
+          411.333
+        ],
+        "ankle_far": [
+          331.867,
+          405.2
+        ]
+      }
+    }
+  ],
+  "alpha_bounds": [
+    [
+      70,
+      75,
+      449,
+      442
+    ],
+    [
+      77,
+      76,
+      455,
+      442
+    ],
+    [
+      82,
+      79,
+      465,
+      442
+    ],
+    [
+      84,
+      81,
+      471,
+      442
+    ],
+    [
+      86,
+      79,
+      477,
+      442
+    ],
+    [
+      86,
+      76,
+      492,
+      442
+    ],
+    [
+      86,
+      74,
+      502,
+      442
+    ],
+    [
+      43,
+      75,
+      498,
+      442
+    ],
+    [
+      86,
+      78,
+      483,
+      442
+    ],
+    [
+      86,
+      81,
+      469,
+      442
+    ],
+    [
+      86,
+      80,
+      476,
+      442
+    ],
+    [
+      86,
+      77,
+      501,
+      442
+    ],
+    [
+      86,
+      74,
+      507,
+      442
+    ],
+    [
+      86,
+      74,
+      507,
+      442
+    ],
+    [
+      86,
+      77,
+      506,
+      510
+    ],
+    [
+      86,
+      82,
+      499,
+      442
+    ],
+    [
+      86,
+      82,
+      497,
+      442
+    ],
+    [
+      86,
+      78,
+      495,
+      442
+    ],
+    [
+      86,
+      75,
+      489,
+      442
+    ],
+    [
+      86,
+      74,
+      487,
+      442
+    ],
+    [
+      86,
+      74,
+      483,
+      442
+    ],
+    [
+      86,
+      74,
+      477,
+      442
+    ],
+    [
+      86,
+      75,
+      475,
+      442
+    ],
+    [
+      53,
+      75,
+      468,
+      442
+    ],
+    [
+      86,
+      75,
+      456,
+      442
+    ],
+    [
+      70,
+      75,
+      449,
+      442
+    ]
+  ],
+  "pivot_px": [
+    250,
+    442
+  ],
+  "atlas": {
+    "image": "atlases/claw_flurry.png",
+    "json": "atlases/claw_flurry.json",
+    "columns": 8,
+    "rows": 4,
+    "tile_size": [
+      512,
+      512
+    ]
+  },
+  "input_fingerprint": "25e316768ab0c0c0aa6b713d74040af365652a6b5ab862dfb46b8b6ebe7732e8",
+  "technique": "existing_weighted_skeleton_new_joint_keyframes"
+}

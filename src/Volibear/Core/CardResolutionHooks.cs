@@ -64,6 +64,25 @@ public static partial class CardResolutionHooks
     private static long _nextPlay;
     private static bool _installed;
 
+    /// <summary>Read-only presentation boundary for one native ordinary segment. It precedes
+    /// domain/passive followups and is never awaited. Native result identity permits deduplication
+    /// against the later aggregate CreatureAttacked history entry.</summary>
+    public static event Action<ICombatState, Creature, CardModel?, long?, IReadOnlyList<DamageResult>>? OrdinarySegmentCommitted;
+
+    private static void PresentOrdinarySegment(ICombatState? combat, Creature? dealer,
+        CardModel? source, PlayScope? play, DamageResult[] results)
+    {
+        if (combat is null || dealer is null || results.Length == 0 ||
+            !ReferenceEquals(dealer.CombatState, combat) ||
+            !ReferenceEquals(CombatManager.Instance.DebugOnlyGetState(), combat) ||
+            play is { Gate.Closed: true }) return;
+        var snapshot = Array.AsReadOnly(results);
+        foreach (Action<ICombatState, Creature, CardModel?, long?, IReadOnlyList<DamageResult>> observer
+                 in OrdinarySegmentCommitted?.GetInvocationList() ?? [])
+            try { observer(combat, dealer, source, play?.Id, snapshot); }
+            catch { /* Cosmetic observers cannot fail or delay native settlement. */ }
+    }
+
     public static long? CurrentPlayId(CardModel card) => Current.Value is { } scope &&
         !scope.Gate.Closed && ReferenceEquals(scope.Card, card) ? scope.Id : null;
 
@@ -282,6 +301,7 @@ public static partial class CardResolutionHooks
         internal readonly PlayScope? Scope = scope;
         internal readonly PlayerChoiceContext Context = context;
         internal readonly ValueProp Props = props;
+        internal readonly ICombatState? Combat = dealer?.CombatState;
         internal readonly Creature? Dealer = dealer;
         internal readonly CardModel? Card = card;
     }
@@ -314,6 +334,7 @@ public static partial class CardResolutionHooks
     {
         var results = (await new ExistingDamageAwaitable(native)).ToArray();
         var scope = observation.Scope;
+        PresentOrdinarySegment(observation.Combat, observation.Dealer, observation.Card, scope, results);
         if (scope is not null && !scope.Gate.Closed && results.Length > 0 &&
             ReferenceEquals(observation.Card, scope.Card) && ReferenceEquals(observation.Dealer, scope.Card.Owner.Creature) &&
             observation.Props.HasFlag(ValueProp.Move))

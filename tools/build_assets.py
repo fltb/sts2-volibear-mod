@@ -25,6 +25,14 @@ except ModuleNotFoundError:
 ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION = ROOT / 'src/Volibear/Presentation'
 ANIMATIONS = ROOT / 'assets/animation/animations/clean'
+COMBAT_ANIMATIONS = ANIMATIONS.parent / 'combat'
+# Authored additions have their own manifest; the accepted 26 / 940 base is immutable.
+COMBAT_FRAME_COUNTS = {
+    'backhand': 18, 'double_claw': 24, 'claw_flurry': 26, 'sweep': 24,
+    'uppercut': 22, 'lunge': 20, 'ground_slam': 28, 'stomp_chain': 30,
+    'bite_rend': 26, 'thunder_call': 28, 'chain_channel': 28,
+    'storm_channel': 32, 'iron_guard': 24, 'primal_charge': 28,
+}
 CAMP = ANIMATIONS.parent / 'camp'
 CAMP_OPTIONS = ('heal', 'smith', 'mend', 'cook', 'dig', 'lift', 'clone', 'hatch', 'evolve', 'kindle', 'restore')
 LOCALIZATION = ROOT / 'assets/localization'
@@ -55,7 +63,7 @@ NATIVE_RESOURCES = (
     'volibear_icon.tscn', 'volibear_energy.tscn', 'volibear_rest.tscn',
     'volibear_merchant.tscn', 'volibear_trail.tscn',
     'volibear_transition.tres', 'volibear_transition.gdshader',
-    'volibear_effects.tscn', 'effects.gd', 'energy.gd', 'audio_profile.gd',
+    'volibear_effects.tscn', 'effects.gd', 'combat_vfx.gd', 'energy.gd', 'audio_profile.gd',
 )
 PACK = ROOT / '.local/packs/Volibear.pck'
 ALIASES = {
@@ -111,6 +119,62 @@ def read_ui_inputs():
         if sha(safe_source(UI, row['file'])) != row['sha256']:
             raise ValueError(f'Approved UI hash mismatch: {row["id"]}')
     return rows
+
+
+def read_combat_inputs():
+    """Verify the independent bone-authored additions without rewriting base assets."""
+    manifest = json.loads((COMBAT_ANIMATIONS / 'manifest.json').read_text(encoding='utf-8'))
+    rows = manifest['clips']
+    if (not manifest.get('render_complete')
+            or {row['name']: row['frame_count'] for row in rows} != COMBAT_FRAME_COUNTS
+            or len(rows) != len(COMBAT_FRAME_COUNTS)
+            or manifest.get('pivot_px') != [250, 442]
+            or manifest.get('contains_baked_effects') is not False):
+        raise ValueError('Incomplete bone-authored combat animation set')
+    for relative, expected in manifest['source_integrity'].items():
+        if sha(safe_source(ANIMATIONS.parent, relative)) != expected:
+            raise ValueError('Combat animation authoring input changed; rerender: ' + relative)
+    result = []
+    for row in rows:
+        if (row['loop'] or row['fps'] != 24 or len(row['frames']) != row['frame_count']
+                or not row['contact_frames'] or any(frame < 0 or frame >= row['frame_count']
+                                                   for frame in row['contact_frames'])):
+            raise ValueError('Invalid combat action frames: ' + row['name'])
+        for key, expected in [('image', 'atlas_sha256'), ('json', 'atlas_json_sha256')]:
+            if sha(safe_source(COMBAT_ANIMATIONS, row['atlas'][key])) != row[expected]:
+                raise ValueError('Combat animation atlas hash mismatch: ' + row['name'])
+        result.append({**row, 'atlas': {**row['atlas'],
+                       **{key: 'combat/' + row['atlas'][key] for key in ('image', 'json')}}})
+    return result
+
+
+def animation_source(relative):
+    if relative.startswith('combat/'):
+        return safe_source(COMBAT_ANIMATIONS, relative.removeprefix('combat/'))
+    return safe_source(ANIMATIONS, relative)
+
+
+def stage_combat_animations(art, clips):
+    for clip in clips:
+        for key in ('image', 'json'):
+            relative = clip['atlas'][key]
+            destination = art / 'animations' / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(animation_source(relative), destination)
+    manifest_path = art / 'animations/combat/manifest.json'
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(COMBAT_ANIMATIONS / 'manifest.json', manifest_path)
+    # Runtime manifest describes everything exposed by the native SpriteFrames.
+    staged = art / 'animations/manifest.json'
+    manifest = json.loads(staged.read_text(encoding='utf-8'))
+    manifest['combat_clips'] = [{key: value for key, value in clip.items() if key != 'frames'}
+                              for clip in clips]
+    staged.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+
+def resource_marker(clips, portraits):
+    return (f'VOLIBEAR_RESOURCE_PASS clips={len(clips)} '
+            f'frames={sum(clip["frame_count"] for clip in clips)} portraits={len(portraits)}')
 
 
 def read_effect_inputs():
@@ -311,8 +375,10 @@ def pack_input_paths(clips, portraits, ui, effects, audio, audio_profile):
              PRESENTATION / 'actor.gd',
              *(PRESENTATION / name for name in NATIVE_RESOURCES),
              *(PRESENTATION / name for name in ('verify_pack.gd', 'verify_effects.gd', 'verify_audio_profile.gd'))]
-    for root, rows in ((ANIMATIONS, clips), (VFX, effects)):
-        paths.extend(safe_source(root, row['atlas'][kind]) for row in rows for kind in ('image', 'json'))
+    paths.extend(animation_source(row['atlas'][kind]) for row in clips for kind in ('image', 'json'))
+    if any(row['atlas']['image'].startswith('combat/') for row in clips):
+        paths.append(COMBAT_ANIMATIONS / 'manifest.json')
+    paths.extend(safe_source(VFX, row['atlas'][kind]) for row in effects for kind in ('image', 'json'))
     paths.extend(sorted(LOCALIZATION.glob('*/*.json')))
     paths.extend(EPOCH_DIR / (name + '.png') for name in EPOCH_ART)
     paths.extend(CAMP / (name + '.png') for name in CAMP_OPTIONS)
@@ -338,11 +404,11 @@ def pack_input_paths(clips, portraits, ui, effects, audio, audio_profile):
     return paths
 
 
-def validation_markers(audio_profile):
+def validation_markers(audio_profile, clips=None, portraits=None):
     count = sum(name.endswith('.gd') for name in ('actor.gd', *NATIVE_RESOURCES))
     return {
         'verify-pack-compat': [f'VOLIBEAR_PACK_COMPAT_PASS source_scripts={count} '],
-        'verify': ['VOLIBEAR_RESOURCE_PASS clips=26 frames=940 portraits=178',
+        'verify': [resource_marker(clips, portraits) if clips is not None else 'VOLIBEAR_RESOURCE_PASS clips=26 frames=940 portraits=178',
                    'VOLIBEAR_UI_RESOURCE_PASS scenes=5 transition=1'],
         'verify-effects': ['VOLIBEAR_EFFECTS_PASS vfx=40 audio=47 cues=142 icons=10 lifecycle=PASS'],
         'verify-audio-profile': [f'VOLIBEAR_AUDIO_PROFILE_PASS profile={audio_profile} '],
@@ -363,6 +429,8 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
     if not godot.is_file():
         raise ValueError('Godot executable does not exist')
     manifest, clips, portraits = read_inputs()
+    combat_clips = read_combat_inputs()
+    clips = clips + combat_clips
     ui = read_ui_inputs()
     effects, audio = read_effect_inputs()
     audio_profiles.profile_data(audio_profile)
@@ -373,7 +441,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
         # pinned originals and prepared clips needs no FFmpeg install.
         runtime_profile = audio_profiles.verify_prepared(full_decode=False)
         profile_expected = {'profile': 'riot_en', 'overrides': runtime_profile['overrides']}
-    snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',
+    snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', COMBAT_ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',
                                     UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json',
                                     PRESENTATION / 'actor.gd',
                                     *(PRESENTATION / name for name in NATIVE_RESOURCES)]}
@@ -403,7 +471,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
             [*pack_input_paths(clips, portraits, ui, effects, audio, audio_profile),
              godot, dotnet, Path(sys.executable)], identity)
     key = current_key()
-    markers = validation_markers(audio_profile)
+    markers = validation_markers(audio_profile, clips, portraits)
     cached = asset_pack_cache.lookup(output, key, markers, ROOT / '.local/asset-build') if reuse else None
     if cached is not None:
         try:
@@ -420,6 +488,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
     # Reuse the existing runtime-only asset selection, never the legacy build output.
     run([sys.executable, ROOT / 'assets/animation/integration_sts2_v5/stage_assets.py',
          '--output', art], work, 'stage', env)
+    stage_combat_animations(art, combat_clips)
     audio_profiles.stage_profile(audio_profile, art / 'audio')
     shutil.copytree(LOCALIZATION, project / 'Volibear/localization')
     # EpochModel resolves the inspect illustration and the slot thumbnail separately.
@@ -528,7 +597,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
     expected_path.write_text(json.dumps(expected), encoding='utf-8')
     result = run([godot, '--headless', '--path', verify, '--script', 'verify_pack.gd', '--',
                   temporary_pack, expected_path], work, 'verify', env)
-    if ('VOLIBEAR_RESOURCE_PASS clips=26 frames=940 portraits=178' not in result
+    if (resource_marker(clips, portraits) not in result
             or 'VOLIBEAR_UI_RESOURCE_PASS scenes=5 transition=1' not in result):
         raise RuntimeError('Missing resource verification completion sentinel')
     effect_result = run([godot, '--headless', '--path', verify, '--script', 'verify_effects.gd', '--',
@@ -547,6 +616,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
             raise ValueError(f'Production input changed during build: {source}')
     # Recheck approved source and staged atlas hashes before publishing the candidate pack.
     read_inputs()
+    read_combat_inputs()
     for clip in clips:
         if sha(art / 'animations' / clip['atlas']['image']) != clip['atlas_sha256']:
             raise ValueError('Staged atlas changed during build')

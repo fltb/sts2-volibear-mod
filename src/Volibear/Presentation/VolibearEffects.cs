@@ -72,6 +72,36 @@ public sealed class VolibearEffects : IDisposable
         float leaseSeconds = 10f, bool allowDisabled = false) => Alive &&
         _root.Call("play_sound", eventId, cueId, persistentKey ?? "", leaseSeconds, allowDisabled).AsBool();
 
+    /// <summary>
+    /// A committed hit's geometry follows the actual visual Bounds and CenterPos.
+    /// Index changes stroke direction only; this method does not schedule damage,
+    /// select an enemy, play duplicate audio, or wait for the visual to finish.
+    /// </summary>
+    public bool EmitCombat(string eventId, string style, EffectAnchors anchors,
+        string targetId = "", int hitIndex = 0, bool blocked = false, float intensity = 1f)
+    {
+        if (!Alive) return false;
+        ArgumentException.ThrowIfNullOrWhiteSpace(eventId);
+        if ((anchors.Target != null || anchors.Card != null) && string.IsNullOrWhiteSpace(targetId))
+            throw new ArgumentException("Combat target/card events require a stable entity ID", nameof(targetId));
+        var endpoints = new GDictionary { ["owner"] = anchors.Owner };
+        Add(endpoints, "target", anchors.Target);
+        Add(endpoints, "source", anchors.Source);
+        Add(endpoints, "card", anchors.Card);
+        Add(endpoints, "hand", anchors.OwnerHand);
+        Add(endpoints, "mouth", anchors.OwnerMouth);
+        var options = new GDictionary
+        {
+            ["hit_index"] = Math.Max(0, hitIndex),
+            ["blocked"] = blocked,
+            ["intensity"] = float.IsFinite(intensity) ? Math.Clamp(intensity, 0.45f, 1.8f) : 1f
+        };
+        return _root.Call("emit_combat", eventId, style, endpoints, targetId, options).AsBool();
+    }
+
+    public bool EmitSynergy(string eventId, string style, EffectAnchors anchors, string targetId = "") =>
+        EmitCombat(eventId, style, anchors, targetId);
+
     internal bool HasPrivateSound(string cue) => Alive && _root.Call("has_private_sound", cue).AsBool();
 
     public bool RenewLoop(string key, float leaseSeconds = 10f) =>
@@ -85,6 +115,12 @@ public sealed class VolibearEffects : IDisposable
     public void StopAll()
     {
         if (Alive) _root.Call("stop_all");
+    }
+
+    /// <summary>Stop sustained fields at combat ending; let committed hit tails expire.</summary>
+    public void StopPersistent()
+    {
+        if (Alive) _root.Call("stop_persistent");
     }
 
     public int ActiveVisuals => Alive ? _root.Call("active_visuals").AsInt32() : 0;

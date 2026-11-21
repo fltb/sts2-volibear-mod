@@ -152,7 +152,7 @@ class BuilderReuseTests(unittest.TestCase):
             patcher = mock.patch.object(build_assets, name, value)
             patcher.start()
             self.addCleanup(patcher.stop)
-        for target, value in [('read_inputs', ({}, [], [])), ('read_ui_inputs', []),
+        for target, value in [('read_inputs', ({}, [], [])), ('read_combat_inputs', []), ('read_ui_inputs', []),
                               ('read_effect_inputs', ([], {'assets': []})), ('sha', 'digest'),
                               ('pack_input_paths', [self.godot])]:
             patcher = mock.patch.object(build_assets, target, return_value=value)
