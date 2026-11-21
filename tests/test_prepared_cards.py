@@ -114,11 +114,15 @@ class PreparedCardContracts(unittest.TestCase):
     def test_lightning_origin_snapshot_native_accounting_and_round_expiry(self):
         light = self.lightning
         self.assertEqual(light.count('nativeCardOrigin: true'), 3)
-        # Explicit-owner passive calls retain false both with and without hit receipts.
-        self.assertEqual(light.count('nativeCardOrigin: false'), 3)
+        # Explicit-owner Lightning stays passive when it carries a visual origin or a hit receipt.
+        self.assertEqual(light.count('nativeCardOrigin: false'), 4)
+        passive_call = 'DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false'
+        one_line = ' '.join(light.split())
         for callback in ('', ', onResolved'):
-            self.assertIn(
-                'DealCore(choiceContext, owner, targets, amount, card, nativeCardOrigin: false' + callback + ')', light)
+            self.assertIn(passive_call + callback + ', visualOrigin: LightningVisualOrigin.Passive)', one_line)
+        self.assertIn(passive_call + ', onResolved, visualOrigin: visualOrigin)', one_line)
+        self.assertIn('DealCore(choiceContext, owner, combat.Enemies, amount, card, nativeCardOrigin: false, '
+                      'sound: LightningSound.Area, visualOrigin: visualOrigin)', one_line)
         self.assertIn('CardDamageTraining.Current(card) + UnifyPower.NativeThunderBonus(card)', light)
         self.assertIn('amount + charge + cardBonus + roundBonus', light)
         self.assertLess(light.index('var roundBonus ='), light.index('await CreatureCmd.Damage'))
@@ -136,7 +140,8 @@ class PreparedCardContracts(unittest.TestCase):
         self.assertIn('PowerInstanceType.Instanced', guard)
         self.assertIn('AfterDamageReceived', guard)
         self.assertIn('!Owner.IsHittable', guard)
-        self.assertIn('LightningCmd.Deal(context, Owner, new[] { dealer }, Amount, null, hits =>', guard)
+        self.assertIn('LightningCmd.DealWithVisual(context, Owner, new[] { dealer }, Amount, null, '
+                      'LightningVisualOrigin.Counter, hits =>', ' '.join(guard.split()))
         self.assertIn('BeforeSideTurnStart', guard)
         self.assertNotIn('result.UnblockedDamage > 0', guard)
 
