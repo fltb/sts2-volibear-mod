@@ -8,6 +8,7 @@ Approved exports are copied byte-for-byte; no art exporter is invoked.
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -26,6 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PRESENTATION = ROOT / 'src/Volibear/Presentation'
 ANIMATIONS = ROOT / 'assets/animation/animations/clean'
 COMBAT_ANIMATIONS = ANIMATIONS.parent / 'combat'
+COMBAT_TIMING = COMBAT_ANIMATIONS / 'timing.json'
 # Authored additions have their own manifest; the accepted 26 / 940 base is immutable.
 COMBAT_FRAME_COUNTS = {
     'backhand': 18, 'double_claw': 24, 'claw_flurry': 26, 'sweep': 24,
@@ -127,6 +129,32 @@ def read_ui_inputs():
     return rows
 
 
+def retime_combat_frames(row, spans):
+    """Redistribute dwell within each contact interval without replacing its poses."""
+    frames = row['frames']
+    weights = []
+    for end, weight in spans:
+        if (type(end) is not int or not len(weights) < end <= len(frames)
+                or type(weight) not in (float, int) or not math.isfinite(weight) or weight <= 0):
+            raise ValueError('Invalid combat timing span: ' + row['name'])
+        weights.extend([weight] * (end - len(weights)))
+    if len(weights) != len(frames):
+        raise ValueError('Combat timing does not cover all frames: ' + row['name'])
+
+    result = []
+    anchors = [0, *(frame for frame in row['contact_frames'] if frame > 0), len(frames)]
+    for start, end in zip(anchors, anchors[1:]):
+        interval = frames[start:end]
+        durations = [frame['duration_ms'] * weight for frame, weight in zip(interval, weights[start:end])]
+        scale = sum(frame['duration_ms'] for frame in interval) / sum(durations)
+        elapsed = interval[0]['time_seconds'] * 1000
+        for frame, dwell in zip(interval, durations):
+            duration = dwell * scale
+            result.append({**frame, 'time_seconds': elapsed / 1000, 'duration_ms': duration})
+            elapsed += duration
+    return result
+
+
 def read_combat_inputs():
     """Verify the independent bone-authored additions without rewriting base assets."""
     manifest = json.loads((COMBAT_ANIMATIONS / 'manifest.json').read_text(encoding='utf-8'))
@@ -140,15 +168,21 @@ def read_combat_inputs():
     for relative, expected in manifest['source_integrity'].items():
         if sha(safe_source(ANIMATIONS.parent, relative)) != expected:
             raise ValueError('Combat animation authoring input changed; rerender: ' + relative)
+    timing = json.loads(COMBAT_TIMING.read_text(encoding='utf-8'))
+    if timing.keys() - COMBAT_FRAME_COUNTS.keys():
+        raise ValueError('Combat timing refers to an unknown animation')
     result = []
     for row in rows:
+        contacts = row['contact_frames']
         if (row['loop'] or row['fps'] != 24 or len(row['frames']) != row['frame_count']
-                or not row['contact_frames'] or any(frame < 0 or frame >= row['frame_count']
-                                                   for frame in row['contact_frames'])):
+                or not contacts or contacts != sorted(set(contacts))
+                or contacts[0] < 0 or contacts[-1] >= row['frame_count']):
             raise ValueError('Invalid combat action frames: ' + row['name'])
         for key, expected in [('image', 'atlas_sha256'), ('json', 'atlas_json_sha256')]:
             if sha(safe_source(COMBAT_ANIMATIONS, row['atlas'][key])) != row[expected]:
                 raise ValueError('Combat animation atlas hash mismatch: ' + row['name'])
+        if row['name'] in timing:
+            row = {**row, 'frames': retime_combat_frames(row, timing[row['name']])}
         result.append({**row, 'atlas': {**row['atlas'],
                        **{key: 'combat/' + row['atlas'][key] for key in ('image', 'json')}}})
     return result
@@ -169,7 +203,11 @@ def stage_combat_animations(art, clips):
             shutil.copyfile(animation_source(relative), destination)
     manifest_path = art / 'animations/combat/manifest.json'
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(COMBAT_ANIMATIONS / 'manifest.json', manifest_path)
+    authored = json.loads((COMBAT_ANIMATIONS / 'manifest.json').read_text(encoding='utf-8'))
+    frames = {clip['name']: clip['frames'] for clip in clips}
+    for clip in authored['clips']:
+        clip['frames'] = frames[clip['name']]
+    manifest_path.write_text(json.dumps(authored, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     # Runtime manifest describes everything exposed by the native SpriteFrames.
     staged = art / 'animations/manifest.json'
     manifest = json.loads(staged.read_text(encoding='utf-8'))
@@ -383,7 +421,7 @@ def pack_input_paths(clips, portraits, ui, effects, audio, audio_profile):
              *(PRESENTATION / name for name in ('verify_pack.gd', 'verify_effects.gd', 'verify_audio_profile.gd'))]
     paths.extend(animation_source(row['atlas'][kind]) for row in clips for kind in ('image', 'json'))
     if any(row['atlas']['image'].startswith('combat/') for row in clips):
-        paths.append(COMBAT_ANIMATIONS / 'manifest.json')
+        paths.extend((COMBAT_ANIMATIONS / 'manifest.json', COMBAT_TIMING))
     paths.extend(safe_source(VFX, row['atlas'][kind]) for row in effects for kind in ('image', 'json'))
     paths.extend(sorted(LOCALIZATION.glob('*/*.json')))
     paths.extend(EPOCH_DIR / (name + '.png') for name in EPOCH_ART)
@@ -447,7 +485,7 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
         # pinned originals and prepared clips needs no FFmpeg install.
         runtime_profile = audio_profiles.verify_prepared(full_decode=False)
         profile_expected = {'profile': 'riot_en', 'overrides': runtime_profile['overrides']}
-    snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', COMBAT_ANIMATIONS / 'manifest.json', CARDS / 'data/asset_manifest.json',
+    snapshots = {p: sha(p) for p in [ANIMATIONS / 'manifest.json', COMBAT_ANIMATIONS / 'manifest.json', COMBAT_TIMING, CARDS / 'data/asset_manifest.json',
                                     UI / 'manifest.json', VFX / 'manifest.json', AUDIO / 'manifest.json',
                                     PRESENTATION / 'actor.gd',
                                     *(PRESENTATION / name for name in NATIVE_RESOURCES)]}

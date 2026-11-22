@@ -53,6 +53,11 @@ damage suppression yields with a `degraded` report explaining the limited featur
    * Extract the folder into your *Slay the Spire 2* `mods` directory.
    * Launch the game and enable the mod in the Mod Menu.
 
+### Changelog · v0.1.3
+
+- Raised 85 quieter lines in the Riot English voice profile to a consistent level. Sound-effect levels are unchanged.
+- Refined the pacing of eight combat animations using the existing poses and hit timing.
+
 ### Changelog · v0.1.2
 
 - Added 14 combat animations and 29 visual effects, with presentation configured for all 89 cards. Multi-hit effects play as each attack hit lands.
@@ -102,6 +107,11 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
    * 音频包二选一：`riot-sound.zip` 使用 Riot 英文语音（与创意工坊相同的音频方案），`opensound.zip` 使用 open 音频。只需安装其中一个。
    * 将解压后的模组文件夹放入《杀戮尖塔 2》游戏根目录下的 `mods` 文件夹中。
    * 启动游戏并在模组菜单中勾选启用。
+
+### 更新日志 · v0.1.3
+
+- 提高 Riot 英文音频中 85 条偏轻台词的响度，音效维持原响度。
+- 调整 8 套战斗动作的起手、出招和收招节奏，沿用原有姿势与命中时点。
 
 ### 更新日志 · v0.1.2
 

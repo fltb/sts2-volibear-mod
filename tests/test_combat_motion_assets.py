@@ -71,6 +71,23 @@ class CombatMotionAssetTests(unittest.TestCase):
             heights = [pose['markers_px']['ankle_' + side][1] for pose in stomp['poses']]
             self.assertGreater(max(heights) - min(heights), 16, 'A stomp must lift the actual foot')
 
+    def test_timing_preserves_drawn_frames_and_contact_boundaries(self):
+        authored = {row['name']: row for row in self.manifest['clips']}
+        timing = json.loads(build_assets.COMBAT_TIMING.read_text(encoding='utf-8'))
+        for row in self.rows:
+            original = authored[row['name']]
+            with self.subTest(clip=row['name']):
+                self.assertEqual(original['contact_frames'], row['contact_frames'])
+                self.assertEqual(row['name'] in timing, row['frames'] != original['frames'])
+                for frame, source in zip(row['frames'], original['frames'], strict=True):
+                    self.assertEqual({**frame, 'duration_ms': source['duration_ms'],
+                                      'time_seconds': source['time_seconds']}, source)
+                    self.assertGreater(frame['duration_ms'], 0)
+                for anchor in [*row['contact_frames'], len(row['frames'])]:
+                    self.assertAlmostEqual(
+                        sum(item['duration_ms'] for item in original['frames'][:anchor]),
+                        sum(item['duration_ms'] for item in row['frames'][:anchor]))
+
     def test_modified_atlas_cannot_be_packed(self):
         real_sha = build_assets.sha
         def mismatched(path):
