@@ -156,6 +156,23 @@ python tools/compat_report.py --game-dir .local/game-0.114 --display headless --
 
 `tools/compat_report.py` 判定：`failure_count=0`、`missing_evidence=[]`、`support_status=degraded`（因一项 capability 声明为 unavailable；这是设计内的降级，不是补丁失败）。
 
+### 复现这套启动证据（Windows）
+
+游戏在「用户尚未确认 mod 警告」时会跳过所有 mod（日志：
+`Skipping loading mod … user has not yet seen the mods warning`）。因此在隔离 profile 里先写入一次性同意，
+再启动；全程不碰操作者的真实 `%APPDATA%`：
+
+```powershell
+$iso = "$PWD\.local\tmp\compat-appdata"
+New-Item -ItemType Directory -Force "$iso\Roaming\SlayTheSpire2\default\1" | Out-Null
+# settings.save 至少要含 {"mod_settings":{"mods_enabled":true},"schema_version":8,...}
+$env:APPDATA="$iso\Roaming"; $env:LOCALAPPDATA="$iso\Local"; $env:TEMP="$iso\Temp"
+python tools/compat_report.py --game-dir .local/game-0.114 --display headless --audio-driver Dummy
+```
+
+`.local/game-0.114` 是 Steam 安装目录的整份副本（`release_info.json` = v0.114.0 / a7b9a9c0），
+`mods/` 只放 BaseLib 3.4.8 五文件与本仓库构建的 `Volibear.dll` + `Volibear.pck` + `Volibear.pbe.json`（改名 `Volibear.json`）。
+
 ## 8. 未验证（NOT_RUN）
 
 - **stable（v0.111.1）编译与启动**：需要一份 0.111.1 游戏副本，本机没有；`GameChannel=stable` 尚未在 0.111.1 上编译过（本轮只完成 beta=0.114.0）。
