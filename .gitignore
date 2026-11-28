@@ -11,6 +11,8 @@
 /src/**/obj/
 /tests/**/bin/
 /tests/**/obj/
+/tools/**/bin/
+/tools/**/obj/
 /.local/
 /artifacts/
 /.godot/

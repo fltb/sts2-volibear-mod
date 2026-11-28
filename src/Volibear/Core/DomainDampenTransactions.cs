@@ -26,6 +26,9 @@ public static class DomainDampenTransactions
     private static readonly object Sync = new();
     private static long _epoch, _nonce;
     private static bool _installed;
+    // Set while rewriting the native dampen pair: whether that build removes the whole
+    // upgrade debt (0.114) or a single level (earlier builds).
+    private static bool _nativeRemoveAllUpgrades;
     private static long Epoch => Interlocked.Read(ref _epoch);
     private static long Nonce() => Interlocked.Increment(ref _nonce);
     private sealed class Outer(DampenLifetime life, MagiKnight source, Creature caster, ICombatState? combat)
@@ -209,7 +212,7 @@ public static class DomainDampenTransactions
         bool domain = source && DomainEnemyEffects.ActiveFor(apply!.Request.Move.Outer.Combat);
         int before = card.CurrentUpgradeLevel, count = ledger.Count;
         ledger.Add(card, oldLevel);
-        CardCmd.Downgrade(card);
+        if (_nativeRemoveAllUpgrades) CardCmd.RemoveAllUpgrades(card); else CardCmd.Downgrade(card);
         // Keep the native debt so the penalty resumes when Domain expires. The loan
         // is returned before native removal restores that debt, avoiding double upgrades.
         DomainDampenRestoration.Refresh(invocation.Power);
@@ -358,7 +361,13 @@ public static class DomainDampenTransactions
                 !code[^3].Calls(AccessTools.Method(typeof(PowerModel), "Flash")))
                 throw new InvalidOperationException("Native Dampen no longer has its synchronous Flash/CompletedTask tail");
             var add = Method(typeof(Dictionary<CardModel, int>), "Add", typeof(CardModel), typeof(int));
-            var downgrade = Method(typeof(CardCmd), "Downgrade", typeof(CardModel));
+            // 0.114 applies the whole upgrade debt through RemoveAllUpgrades; older builds
+            // downgrade a single level. Mirror whichever call this native pair really makes,
+            // and replay that same call from CommitPair instead of guessing.
+            var removeAll = AccessTools.Method(typeof(CardCmd), nameof(CardCmd.RemoveAllUpgrades), [typeof(CardModel)]);
+            var downgrade = removeAll is not null && code.Any(x => x.Calls(removeAll))
+                ? removeAll : Method(typeof(CardCmd), nameof(CardCmd.Downgrade), typeof(CardModel));
+            _nativeRemoveAllUpgrades = ReferenceEquals(downgrade, removeAll);
             int i = Unique(code, add), d = Unique(code, downgrade);
             if (i < 6 || d != i + 2 || code[i - 6].opcode != OpCodes.Ldarg_0 ||
                 code[i - 5].operand is not MethodInfo getter || getter.Name != "GetInternalData" || getter.DeclaringType != typeof(PowerModel) ||

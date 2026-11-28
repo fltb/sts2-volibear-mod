@@ -78,11 +78,14 @@ internal static class PowerPresentationDomainScalars
         var keywords = AccessTools.PropertyGetter(typeof(CardModel), nameof(CardModel.Keywords));
         foreach (var (method, label, sites) in new (MethodInfo Method, string Label, NativeSite[] Sites)[]
         {
-            (damage, "CreatureCmd.Damage", [new(hookDamage, 1),
-#if STS2_0_113
-                new(hookHpLost, 4)
-#else
-                new(hookHpLost, 3)
+            (damage, "CreatureCmd.Damage", [
+                new(hookDamage, 1)
+                // 0.114 moved every HP-loss query out of CreatureCmd.Damage into its
+                // GetDamageResults/ApplyDamageResults split, so this body pins the damage
+                // query only. HP-loss scalar receipts therefore have no 0.114 pin; that
+                // loss is declared rather than counted loosely.
+#if !STS2_0_113
+                , new(hookHpLost, 3)
 #endif
             ]),
             (block, "CreatureCmd.GainBlock", [new(hookBlock, 1)]),

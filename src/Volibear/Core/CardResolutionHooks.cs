@@ -116,10 +116,11 @@ public static partial class CardResolutionHooks
             NativeTranspiler.Patch(harmony, MoveNext(play), transpiler: Handler(nameof(PlayMoveLifecycle)));
 
             // AttackCommand.Execute calls the native multi-target Damage exactly once
-            // per ordinary hit. This callsite, not damage property guesses, defines a
+            // per ordinary hit. 0.114 moved that loop into ExecuteInternal; the anchor
+            // follows the body that owns the call (see NativeAttackAnchor).
+            // This callsite, not damage property guesses, defines a
             // segment (AOE is one segment; a three-hit builder is three segments).
-            NativeTranspiler.Patch(harmony, MoveNext(Required(typeof(AttackCommand), nameof(AttackCommand.Execute),
-                typeof(PlayerChoiceContext))), transpiler: Handler(nameof(AttackDamageCallsite)));
+            NativeTranspiler.Patch(harmony, NativeAttackAnchor.MoveNext(), transpiler: Handler(nameof(AttackDamageCallsite)));
 
             // Only the Add that belongs to an actual Draw is wrapped. Retrieve/move
             // operations elsewhere are not draws, even inside another draw response.

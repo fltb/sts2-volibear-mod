@@ -50,10 +50,10 @@ public static partial class DomainSteamEruptionEffects
             ("phase-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), nameof(WaterfallGiant.TriggerAboutToBlowState))), nameof(PhaseMachine))),
             ("about-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "AboutToBlowMove")), nameof(AboutMachine))),
             ("explode-machine", () => Patch(Async(AccessTools.Method(typeof(WaterfallGiant), "ExplodeMove")), nameof(ExplodeMachine))),
-            ("attack-machine", () => NativeTranspiler.Patch(harmony, Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute))),
+            ("attack-machine", () => NativeTranspiler.Patch(harmony, Async(NativeAttackAnchor.Method()),
                 transpiler: new HarmonyMethod(Own(nameof(AttackMachine)))
                 { priority = NativeCallCapability.LatePriority, after = [CardResolutionHooks.OrdinaryAttackOwnerV1] })),
-            ("damage-machine", () => Patch(Async(NativeDamage), nameof(DamageMachine))),
+            ("damage-machine", () => InstallDamageMachine(harmony)),
             ("set-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetCurrentHp))), nameof(SetHpMachine))),
             ("set-max-hp-machine", () => Patch(Async(AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.SetMaxHp))), nameof(SetMaxHpMachine))),
             ("move-tail", () => Patch(Async(AccessTools.Method(typeof(MonsterModel), nameof(MonsterModel.PerformMove))), nameof(MoveTail))),
@@ -65,5 +65,28 @@ public static partial class DomainSteamEruptionEffects
             try { step.Run(); }
             catch (Exception error) { throw new InvalidOperationException("Steam patch failed: " + step.Label, error); }
         }
+    }
+
+    /// <summary>
+    /// Installs the write-level Steam adapter only when this game build still writes HP/block
+    /// inside CreatureCmd.Damage. 0.114 moved those writes into ApplyDamageResults, after the
+    /// DamageResult values are fixed and with the commit results discarded, so gating them there
+    /// would desync HP from results, history and hooks. That shape is reported as an unavailable
+    /// capability instead of a failed patch; see docs/NATIVE_SURFACE_0.114.md.
+    /// </summary>
+    private static void InstallDamageMachine(Harmony harmony)
+    {
+        var native = Async(NativeDamage);
+        var shape = NativeWriteShape.Measure(native);
+        PublishDamageWriteShape(shape);
+        Godot.GD.Print("[Volibear] NATIVE_DAMAGE_SHAPE " + shape.Describe() +
+            " relocated=" + (shape.IsWriteRelocated ? "true" : "false"));
+        if (shape.IsWriteRelocated)
+        {
+            Godot.GD.Print("[Volibear] NATIVE_DAMAGE_WRITE_CAPABILITY unavailable;" +
+                " the inline HP/block write points this adapter gates are not in CreatureCmd.Damage.");
+            return;
+        }
+        NativeTranspiler.Patch(harmony, native, transpiler: new HarmonyMethod(Own(nameof(DamageMachine))));
     }
 }

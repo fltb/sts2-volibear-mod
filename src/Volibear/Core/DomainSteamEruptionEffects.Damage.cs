@@ -38,18 +38,36 @@ public static partial class DomainSteamEruptionEffects
     // Last rewrite candidate is exposed to managed emission fixtures only. Reports
     // use the tracker so failed Harmony recomposition cannot publish this candidate.
     private static PatchCompatibilitySnapshot.CapabilityRecord? _damageBindingCapability;
+    // Measured once during installation from the native damage body itself; null means the
+    // body was never read, which is not evidence of either shape.
+    private static NativeWriteShape? _damageWriteShape;
     private static readonly PatchCapabilityTracker<PatchCompatibilitySnapshot.CapabilityRecord> DamageBindingCapabilities = new();
     internal static PatchCompatibilitySnapshot.CapabilityRecord DamageBindingCapability
     {
         get
         {
-            var original = Async(AccessTools.Method(typeof(AttackCommand), nameof(AttackCommand.Execute)));
-            return DamageBindingCapabilities.TryRead(original, Own(nameof(AttackMachine)), out var capability) ? capability :
-                new("steam_explosion_damage_attribution", "unknown", original.FullDescription(),
+            var original = Async(NativeAttackAnchor.Method());
+            if (!DamageBindingCapabilities.TryRead(original, Own(nameof(AttackMachine)), out var capability))
+                return new("steam_explosion_damage_attribution", "unknown", original.FullDescription(),
                     "The attack adapter is absent or no capability assessment is confirmed for its currently committed Harmony patch chain.",
                     "Whether mid-hit Steam Eruption damage suppression is available cannot be confirmed.");
+            // The attack-side binding alone does not make attribution available: it needs the
+            // inline HP/block writes this build may no longer have. Report the measured shape.
+            if (_damageWriteShape is { } shape && shape.IsWriteRelocated)
+                return new("steam_explosion_damage_attribution", "unavailable", original.FullDescription(),
+                    "CreatureCmd.Damage no longer contains the inline HP/block writes this adapter gates " +
+                    $"(measured block/hp/beforeDamage/beforeOsty/afterOsty/afterHp = {shape.Describe()}). " +
+                    "The native pipeline now computes DamageResult first (LoseHpInternal(dryRun) / DamageBlockInternal(dryRun)) " +
+                    "and applies it in ApplyDamageResults, discarding the commit results, so a write-level gate cannot keep HP, " +
+                    "DamageResult, damage history and hooks coherent.",
+                    "Once Steam Eruption cancellation is decided while an attack is already running, that attack's remaining " +
+                    "damage is no longer suppressed. Cancellation decided before an attack starts (explosion command, phase and " +
+                    "move gates) still prevents it. Steam write receipts and mid-hit boundary observations are unavailable.");
+            return capability;
         }
     }
+    /// <summary>Publishes the measured native shape so the capability report cites evidence.</summary>
+    internal static void PublishDamageWriteShape(NativeWriteShape shape) => _damageWriteShape = shape;
 
     private static async Task<AttackCommand> ExplodeAttack(AttackCommand command, PlayerChoiceContext? choice, WaterfallGiant monster)
     {
@@ -140,6 +158,26 @@ public static partial class DomainSteamEruptionEffects
         if (invocation is not null) Observed?.Invoke(invocation.Episode.Owner, "block-committed");
         return actual; // Preserve the native blockedDamage return and every already-consumed block point.
     }
+#if STS2_0_113
+    // 0.114 write primitive: LoseHpInternal(decimal, bool dryRun) -> HpLossResult. The commit
+    // call sites in ApplyDamageResults pass only the amount, so these adapters match that arity.
+    // They are installed only when the measured body still contains inline writes, which 0.114
+    // does not (see NativeWriteShape and docs/NATIVE_SURFACE_0.114.md).
+    private static HpLossResult HpCommit(Creature receiver, decimal amount)
+    {
+        var invocation = CurrentDamage;
+        var before = receiver.CurrentHp;
+        var committedAmount = GateDamage(invocation, receiver, amount);
+        ObserveLethalWrite(receiver, receiver.IsAlive && committedAmount >= receiver.CurrentHp);
+        var actual = receiver.LoseHpInternal(committedAmount);
+        invocation?.Episode.Decision.RecordNativeWrite(new object(), "hp:" + invocation.TargetOrdinal, receiver, before, receiver.CurrentHp);
+        if (invocation is not null) Observed?.Invoke(invocation.Episode.Owner, "hp-committed");
+        return actual; // Do not change the caller's raw unblockedDamage or WasFullyBlocked calculation.
+    }
+    private static HpLossResult PreBlockHp(Creature receiver, decimal amount) => HpCommit(receiver, amount);
+    private static HpLossResult PrimaryHp(Creature receiver, decimal amount) => HpCommit(receiver, amount);
+    private static HpLossResult OverflowHp(Creature receiver, decimal amount) => HpCommit(receiver, amount);
+#else
     private static DamageResult HpCommit(Creature receiver, decimal amount, ValueProp props, string part)
     {
         var invocation = CurrentDamage;
@@ -151,11 +189,10 @@ public static partial class DomainSteamEruptionEffects
         if (invocation is not null) Observed?.Invoke(invocation.Episode.Owner, part + "-committed");
         return actual; // Do not change the caller's raw unblockedDamage or WasFullyBlocked calculation.
     }
-#if STS2_0_113
     private static DamageResult PreBlockHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "pre-block-hp");
-#endif
     private static DamageResult PrimaryHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "primary-hp");
     private static DamageResult OverflowHp(Creature receiver, decimal amount, ValueProp props) => HpCommit(receiver, amount, props, "overflow-hp");
+#endif
     private static async Task ObserveBoundary(Task native, string point)
     {
         await native;

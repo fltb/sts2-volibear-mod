@@ -328,8 +328,13 @@ internal static class PersistentBlockHooks
             var moveNext = AccessTools.Method(machine, "MoveNext")
                 ?? throw new MissingMethodException("ClearBlock.MoveNext");
             NativeTranspiler.Patch(harmony, moveNext, transpiler: new HarmonyMethod(typeof(PersistentBlockHooks), nameof(ClearAssignment)));
-            var damage = AccessTools.Method(typeof(Creature), nameof(Creature.DamageBlockInternal), [typeof(decimal), typeof(ValueProp)])
-                ?? throw new MissingMethodException("Creature.DamageBlockInternal(decimal,ValueProp)");
+            // 0.114 added an optional dryRun to the block write primitive; the setter this
+            // adapter replaces stays inside the native !dryRun branch, so trial damage is
+            // never observed as a real block change.
+            var damage = AccessTools.Method(typeof(Creature), nameof(Creature.DamageBlockInternal),
+                    [typeof(decimal), typeof(ValueProp), typeof(bool)])
+                ?? AccessTools.Method(typeof(Creature), nameof(Creature.DamageBlockInternal), [typeof(decimal), typeof(ValueProp)])
+                ?? throw new MissingMethodException("Creature.DamageBlockInternal(decimal,ValueProp[,bool])");
             NativeTranspiler.Patch(harmony, damage, transpiler: new HarmonyMethod(typeof(PersistentBlockHooks), nameof(DamageAssignment)));
             _installed = true;
         }

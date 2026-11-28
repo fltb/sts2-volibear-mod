@@ -12,7 +12,7 @@
 
 | 依赖 | 版本 |
 | --- | --- |
-| Slay the Spire 2 | PBE 0.113.0 / 16ac0fe3 |
+| Slay the Spire 2 | PBE 0.114.0 / a7b9a9c0 |
 | Godot | 4.5.1 stable Mono/.NET |
 | .NET SDK | 9.0.320 |
 | BaseLib | PBE 3.4.8（含 BaseLibCompatibilityHelper） |

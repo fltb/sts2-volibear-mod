@@ -81,6 +81,11 @@ public static class DomainEnemyEffects
             Type[] received = [typeof(PlayerChoiceContext), typeof(Creature), typeof(DamageResult), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
             // PBE added CardPlay to damage-multiplier hooks but not to HP-loss/osty hooks.
             Type[] hpLoss = [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
+            // 0.114 moved HardToKillPower's protection from the damage cap into the late
+            // HP-loss modifier (same shape as HardenedShellPower); older builds keep the cap.
+            PatchSpec hardToKill = AccessTools.Method(typeof(HardToKillPower), "ModifyHpLostBeforeOstyLate", hpLoss) is not null
+                ? new(typeof(HardToKillPower), "ModifyHpLostBeforeOstyLate", typeof(decimal), hpLoss, nameof(NeutralHpLoss))
+                : new(typeof(HardToKillPower), "ModifyDamageCap", typeof(decimal), cap, nameof(NeutralCap));
             PatchSpec[] specs =
             [
                 new(typeof(VigorPower), "ModifyDamageAdditive", typeof(decimal), damage, nameof(NeutralEnemyAttackBonus)),
@@ -91,7 +96,7 @@ public static class DomainEnemyEffects
                 new(typeof(IntangiblePower), "ModifyHpLostAfterOsty", typeof(decimal), hpLoss, nameof(NeutralHpLoss)),
                 new(typeof(IntangiblePower), "ModifyDamageCap", typeof(decimal), cap, nameof(NeutralCap)),
                 new(typeof(SlipperyPower), "ModifyHpLostAfterOsty", typeof(decimal), hpLoss, nameof(NeutralHpLoss)),
-                new(typeof(HardToKillPower), "ModifyDamageCap", typeof(decimal), cap, nameof(NeutralCap)),
+                hardToKill,
                 new(typeof(HardenedShellPower), "ModifyHpLostBeforeOstyLate", typeof(decimal), hpLoss, nameof(NeutralShell)),
                 new(typeof(HardenedShellPower), "BeforeSideTurnStart", typeof(Task),
                     [typeof(PlayerChoiceContext), typeof(CombatSide), typeof(System.Collections.Generic.IReadOnlyList<Creature>), typeof(ICombatState)],

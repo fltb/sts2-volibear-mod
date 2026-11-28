@@ -1,6 +1,6 @@
 # 正式版和 PBE 通道工作流
 
-两个本地构建目标为正式版 v0.111.1（`GameChannel=stable`）和 PBE v0.113.x（`GameChannel=beta`）。
+两个本地构建目标为正式版 v0.111.1（`GameChannel=stable`）和 PBE v0.114.0（`GameChannel=beta`）。
 为每个通道保留一份独立游戏副本，编译时分别指定 `Sts2DataDir` 和 `BaseLibPath`。
 使用 `python tools/build_pbe_release.py --channel stable` 或 `--channel pbe` 打包。
 
@@ -11,7 +11,7 @@ PCK，以及使用该通道的 `GameChannel` 和 `IncludeDevProbes=true` 编译�
 ```sh
 VOLIBEAR_GAME_VERSION=v0.111.1 VOLIBEAR_GAME_COMMIT=cc1f9462 \
   python tools/pbe_verify.py --game-dir .local/game-stable --display xvfb --audio Dummy
-VOLIBEAR_GAME_VERSION=v0.113.1 VOLIBEAR_GAME_COMMIT=d09d48e5 \
+VOLIBEAR_GAME_VERSION=v0.114.0 VOLIBEAR_GAME_COMMIT=a7b9a9c0 \
   python tools/pbe_verify.py --game-dir .local/game-pbe --display xvfb --audio Dummy
 ```
 
@@ -60,7 +60,7 @@ python tools/compat_report.py --game-dir .local/game-pbe
 运行时把游戏目录暴露为 `.local/game`（runner 的窗口保护只认这一路径），并设置通道版本：
 
 ```bash
-export VOLIBEAR_GAME_VERSION=v0.113.0 VOLIBEAR_GAME_COMMIT=16ac0fe3
+export VOLIBEAR_GAME_VERSION=v0.114.0 VOLIBEAR_GAME_COMMIT=a7b9a9c0
 python tools/headless.py --use-deployed --scenario persistent-contract --persistent-case PP-U03-clamp-priority
 python tools/headless.py --use-deployed --scenario persistent-contract --persistent-case PP-U03-min-stack
 python tools/headless.py --use-deployed --scenario persistent-contract --persistent-case PP-U03-other-retention
@@ -75,10 +75,13 @@ python tools/headless.py --use-deployed --scenario domain-suppression
 
 ## 当前移植状态
 
-PBE v0.113.0 / 16ac0fe3 的生产 DLL 与开发探针 DLL 均已编译。隔离游戏启动记录了
-89 张卡、BaseLib 3.4.8 和零个补丁安装失败。以旧版 PBE DLL 对照时，自检同时报告三个
-选择上下文缺少 GameActionType 和 AfterDeath 签名不匹配。尚未执行本版本的完整玩法矩阵。
-旧包的 BuildChannel.json 仅标识此前的已测基线；新版本走结构自检。
+PBE v0.114.0 / a7b9a9c0 的生产 DLL 已编译（开发探针 DLL 本轮未构建）。隔离副本启动记录：
+89 张卡、BaseLib 3.4.8、`COMPAT_SUMMARY failures=0`、`LOAD_OK`，报告状态 `degraded`
+（`steam_explosion_damage_attribution` 声明为 unavailable，原因与玩法代价见
+`docs/NATIVE_SURFACE_0.114.md`）。0.114 把伤害结算拆成「试算→提交」，攻击伤害调用点、
+伤害写入点、HardToKillPower 保护点、DamageBlockInternal 签名、DampenPower 降级对、
+PainfulStabsPower 投票覆写共 6 处锚点已按新结构改写或声明降级。
+尚未执行本版本的完整玩法矩阵；stable（v0.111.1）通道也未编译（本机没有该副本）。
 
 ## 出包
 
@@ -86,9 +89,9 @@ PBE v0.113.0 / 16ac0fe3 的生产 DLL 与开发探针 DLL 均已编译。隔离�
 沿用已测基线的通道文件；仅通过启动检查时保持未知版本自检。
 
 ```bash
-VOLIBEAR_CHANNEL=pbe VOLIBEAR_PACKAGE_GAME_VERSION=0.113.0 VOLIBEAR_PACKAGE_GAME_BUILD=16ac0fe3 \
+VOLIBEAR_CHANNEL=pbe VOLIBEAR_PACKAGE_GAME_VERSION=0.114.0 VOLIBEAR_PACKAGE_GAME_BUILD=a7b9a9c0 \
 python tools/release_package.py --manifest src/Volibear/Volibear.pbe.json \
-  --output .local/release/Volibear-0.1.0-StS2-0.113.0-pbe-open.zip
+  --output .local/release/Volibear-0.1.0-StS2-0.114.0-pbe-open.zip
 ```
 
 ## 已知边界
@@ -100,7 +103,7 @@ python tools/release_package.py --manifest src/Volibear/Volibear.pbe.json \
 ## 开发循环约束（2026-11-08）
 
 - 实机只用于**最终验收**，不作开发循环：每轮先完成“双通道编译 + `VOLIBEAR_CHANNEL=pbe` 回归 + 定向单测/反射与 IL 对照”，确认没有已知问题后再开游戏。
-- 验收只有一条命令：`VOLIBEAR_GAME_VERSION=v0.113.0 VOLIBEAR_GAME_COMMIT=16ac0fe3 python tools/pbe_verify.py`。
+- 验收只有一条命令：`VOLIBEAR_GAME_VERSION=v0.114.0 VOLIBEAR_GAME_COMMIT=a7b9a9c0 python tools/pbe_verify.py`。
   它按场景自动选择预算（卡面/生命周期/native-run/表现验收使用 216000 帧、900 秒上限），失败只输出场景与失败门，不逐个手开。
 - `enemy-exploration` 是探索生成器（需要 catalog/selection fixture 输入），不属于验收矩阵；需要时单独用 `tools/headless.py` 带 fixture 参数运行。
 - 探针必须在 `Install()` 打印 `<SCENARIO>_INSTALLED` 并带“错过 TurnStarted”的兜底，否则实机日志无法区分“没安装/没开始/失败”。

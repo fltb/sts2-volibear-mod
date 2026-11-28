@@ -16,7 +16,7 @@
 <a name="english"></a>
 ## 🌍 English
 
-**Game support** · Main v0.111.1 and Public Beta v0.113.1. Install **BaseLib 3.4.8**. Volibear handles its own patch ordering. See the [compatibility notes](docs/LOAD_ORDER_COMPATIBILITY.md) for details.
+**Game support** · Main v0.111.1 and Public Beta v0.114.0. Install **BaseLib 3.4.8**. Volibear handles its own patch ordering. See the [compatibility notes](docs/LOAD_ORDER_COMPATIBILITY.md) for details.
 
 Compatibility is checked by the actual APIs, patch structure and startup evidence,
 without per-mod exceptions. Shared-target metadata and complete-log diagnostics
@@ -73,7 +73,7 @@ Found a bug, balance issue, or localization typo? Please open an issue on [**Git
 <a name="简体中文"></a>
 ## 🇨🇳 简体中文
 
-**支持的游戏版本** · 正式分支 v0.111.1 和公开测试分支 v0.113.1。请安装 **BaseLib 3.4.8**。沃利贝尔自行处理补丁顺序，详见[兼容性说明](docs/LOAD_ORDER_COMPATIBILITY.md)。
+**支持的游戏版本** · 正式分支 v0.111.1 和公开测试分支 v0.114.0。请安装 **BaseLib 3.4.8**。沃利贝尔自行处理补丁顺序，详见[兼容性说明](docs/LOAD_ORDER_COMPATIBILITY.md)。
 
 兼容性按实际接口、补丁结构和完整启动日志判断，不加入针对其他模组的特判。
 不支持的组合会保留具体失败原因和相关补丁信息；共享同一方法只标为待验证，不按模组名称拉黑。
@@ -134,7 +134,7 @@ This mod is an unofficial, non-commercial fan project created in compliance with
 ## 本地构建正式版和 PBE 包
 
 首次使用时，将[配置样例](tools/local_config.example.json)复制为 `.local/config.json`。
-`stable_game_dir` 指向独立下载的正式版 v0.111.1，`game_dir` 指向 PBE v0.113.x。
+`stable_game_dir` 指向独立下载的正式版 v0.111.1，`game_dir` 指向 PBE v0.114.0。
 两套构建共用源码，并分别读取对应目录的游戏程序集。Godot 使用 4.5.1 Mono，.NET SDK 使用 9.0.320。
 
 ```sh

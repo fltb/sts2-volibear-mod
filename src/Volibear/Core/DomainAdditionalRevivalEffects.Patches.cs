@@ -32,7 +32,19 @@ public static partial class DomainAdditionalRevivalEffects
         ?? throw new InvalidOperationException("Native additional revival async body missing: " + method), "MoveNext");
     internal static void InstallPatches(Harmony harmony)
     {
-        void Prefix(Type type, string name, string patch, params Type[] args) => harmony.Patch(Native(type, name, args), prefix: new HarmonyMethod(Local(patch)));
+        void Prefix(Type type, string name, string patch, params Type[] args)
+        {
+            var method = Native(type, name, args);
+            // A model that no longer overrides the vote has nothing to intercept: AccessTools
+            // then resolves the abstract base declaration, which Harmony refuses to patch.
+            if (method.GetMethodBody() is null || method.DeclaringType != type)
+            {
+                Godot.GD.Print("[Volibear] REVIVAL_VOTE_SITE_ABSENT " + type.Name + "." + name +
+                    "; the native override no longer exists in this build");
+                return;
+            }
+            harmony.Patch(method, prefix: new HarmonyMethod(Local(patch)));
+        }
         Prefix(typeof(StockPower), nameof(StockPower.ShouldStopCombatFromEnding), nameof(StopEnding));
         Prefix(typeof(AdaptablePower), nameof(AdaptablePower.ShouldStopCombatFromEnding), nameof(StopEnding));
         Prefix(typeof(AdaptablePower), nameof(AdaptablePower.ShouldAllowHitting), nameof(AllowHitting), typeof(Creature));
