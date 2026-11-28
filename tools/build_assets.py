@@ -72,7 +72,6 @@ NATIVE_RESOURCES = (
     'volibear_merchant.tscn', 'volibear_trail.tscn',
     'volibear_transition.tres', 'volibear_transition.gdshader',
     'volibear_effects.tscn', 'effects.gd', 'combat_vfx.gd', 'energy.gd', 'audio_profile.gd',
-    'fmod_audio.gd',
 )
 PACK = ROOT / '.local/packs/Volibear.pck'
 ALIASES = {

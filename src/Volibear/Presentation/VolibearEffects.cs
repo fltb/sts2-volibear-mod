@@ -39,7 +39,8 @@ public sealed class VolibearEffects : IDisposable
             ["Voice"] = Math.Clamp(gain("Voice"), 0f, 1f),
             ["Ambience"] = Math.Clamp(gain("Ambience"), 0f, 1f)
         });
-        root.Call("configure", battleId, ownerId, provider);
+        root.Call("configure", battleId, ownerId, provider,
+            Callable.From<string, float>((path, volume) => VolibearAudioBridge.PlayCue(path, volume)));
         sceneOwner.AddChild(root);
         return new VolibearEffects(root);
     }

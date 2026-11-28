@@ -35,8 +35,12 @@ internal static class VolibearNativeAudio
         installed = true;
     }
 
-    internal static bool BeforeNativeOneShot(string? path)
+    internal static bool BeforeNativeOneShot(string? path, Dictionary<string, float> parameters, float volume)
     {
+        if (path is null) return true;
+        // Our own bank events resolve through the game's entry instead of the raw path.
+        if (VolibearAudioBridge.IsVolibearEvent(path))
+            return !VolibearAudioBridge.PlayMapped(path, volume);
         // Exact matches only: do not silence another character, user resource,
         // added event, or even another mod's legitimate event under this prefix.
         return path is not (

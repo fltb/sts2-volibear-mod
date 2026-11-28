@@ -109,32 +109,11 @@ public static class ModEntry
         Step("Core.CompatibilityDiagnostics", InstallCompatibilityDiagnostics);
         try
         {
-            var server = Engine.GetSingleton("FmodServer");
-            if (server is null)
-            {
-                GD.Print("[Volibear] AUDIO fmod=absent");
-            }
-            else
-            {
-                var loaded = server.Call("load_bank", "res://VolibearArt/audio/fmod/Volibear.bank", 0);
-                var guids = new System.Collections.Generic.Dictionary<string, string>(System.StringComparer.Ordinal);
-                using (var guidFile = Godot.FileAccess.Open("res://VolibearArt/audio/fmod/GUIDs.txt", Godot.FileAccess.ModeFlags.Read))
-                {
-                    while (guidFile is not null && !guidFile.EofReached())
-                    {
-                        var line = guidFile.GetLine().Trim();
-                        var space = line.IndexOf(' ');
-                        if (space > 0) guids[line[(space + 1)..].Trim()] = line[..space].Trim();
-                    }
-                }
-                var eventPath = "event:/volibear/open/claw_slash";
-                var guid = guids.TryGetValue(eventPath, out var found) ? found : null;
-                var probe = guid is not null
-                    ? server.Call("create_event_instance_with_guid", guid)
-                    : server.Call("create_event_instance", eventPath);
-                GD.Print("[Volibear] AUDIO bank=" + loaded.ToString() + " guids=" + guids.Count
-                    + " guid=" + (guid is not null) + " probe=" + (probe.VariantType != Godot.Variant.Type.Nil));
-            }
+            Presentation.VolibearAudioBridge.EnsureBank();
+            var eventPath = "event:/volibear/open/claw_slash";
+            var guid = Presentation.VolibearAudioBridge.GuidFor(eventPath);
+            GD.Print("[Volibear] AUDIO registered=" + Presentation.VolibearAudioBridge.BankPath
+                + " mapped=" + (guid is not null));
         }
         catch (System.Exception error)
         {
