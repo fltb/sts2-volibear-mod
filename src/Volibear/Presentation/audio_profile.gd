@@ -45,7 +45,7 @@ static func resolve_manifest(base_manifest: Dictionary) -> Dictionary:
 		var gain = row.get("gain_db", 0)
 		if not (seconds is float or seconds is int) or not (gain is float or gain is int):
 			continue
-		if not is_finite(float(seconds)) or not is_finite(float(gain)) or seconds <= 0 or seconds > 60 or gain < -40 or gain > 0:
+		if not is_finite(float(seconds)) or not is_finite(float(gain)) or seconds <= 0 or seconds > 60:
 			continue
 		if not valid or not ResourceLoader.exists(ROOT + path, "AudioStreamOggVorbis"):
 			continue

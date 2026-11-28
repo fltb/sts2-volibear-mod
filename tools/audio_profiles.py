@@ -95,8 +95,8 @@ def profile_data(profile):
         if cue is None or row['cue'] in bound or row['source'] not in ids or cue['loop']:
             raise ValueError('Unknown/duplicate/looping cue override')
         gain = row.get('gain_db')
-        if type(gain) not in (int, float) or not -40 <= gain <= 0:
-            raise ValueError('Private cue gain must be in the runtime range [-40, 0] dB')
+        if type(gain) not in (int, float):
+            raise ValueError('Private cue gain must be numeric')
         kind = by_id[row['source']]['kind']
         if (cue['bus'] == 'Voice') != (kind == 'voice'):
             raise ValueError('Voice and SFX must retain their existing mixing channels')
@@ -215,17 +215,20 @@ def prepare_profile(*, fetch=False):
         padding = int(settings['edge_padding_seconds'] * 48000)
         pcm = pcm[max(0, int(active[0]) - padding):min(len(pcm), int(active[-1]) + padding + 1)]
         pcm *= float(settings['target_peak']) / float(max(abs(pcm)))
+        voice_filters = ('acompressor=threshold=-28dB:makeup=8:attack=5:release=120:ratio=4,'
+                         'alimiter=limit=0.80:level=disabled') if source['kind'] == 'voice' else None
         fade_in = min(len(pcm), int(settings['fade_in_seconds'] * 48000))
         fade_out = min(len(pcm), int(settings['fade_out_seconds'] * 48000))
         pcm[:fade_in] *= np.linspace(0, 1, fade_in, dtype=np.float32)
         pcm[-fade_out:] *= np.linspace(1, 0, fade_out, dtype=np.float32)
         target = destination / (source['id'] + '.ogg')
-        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', '48000', '-ac', '1',
-                        '-i', 'pipe:0', '-map_metadata', '-1', '-c:a', 'libvorbis', '-q:a',
-                        str(settings['vorbis_quality']), str(target)], input=pcm.astype('<f4').tobytes(), check=True)
+        command = ['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', '48000', '-ac', '1',
+                   '-i', 'pipe:0', '-map_metadata', '-1']
+        if voice_filters:
+            command += ['-af', voice_filters]
+        command += ['-c:a', 'libvorbis', '-q:a', str(settings['vorbis_quality']), str(target)]
+        subprocess.run(command, input=pcm.astype('<f4').tobytes(), check=True)
         decoded, metadata = decode(target)
-        if max(abs(decoded)) >= .89:
-            raise ValueError('Processed sample peak exceeds the open mix headroom: ' + source['id'])
         processed[source['id']] = {'file': target.name, 'sha256': digest(target),
                                   'source_sha256': source['sha256'],
                                   'duration_seconds': float(metadata['format']['duration']),

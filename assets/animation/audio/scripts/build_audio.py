@@ -29,12 +29,12 @@ OPEN_GAIN_DB = {
     'roar_wave': -5.5, 'cast_charge': -9, 'card_draw': -17.5,
     'card_discard': -23, 'card_retrieve': -7.5, 'card_exhaust': -5,
     'card_replay': -5.5, 'energy_gain': -7.5, 'lifesteal': -10.5,
-    'heal': -8, 'footstep': -3, 'voice_select': 0,
-    'voice_attack_01': -0.5, 'voice_attack_02': -0.5, 'voice_bite': -1.0,
-    'voice_heavy': -0.5, 'voice_cast': -0.5, 'voice_roar': -0.5,
-    'voice_feral': -1.5, 'voice_hurt_01': -2.5, 'voice_hurt_02': -3.5,
-    'voice_low_health': -5, 'voice_death': -2.0, 'voice_victory': 0,
-    'domain_loop': 0, 'feral_aura': 0,
+    'heal': -8, 'footstep': -3, 'voice_select': 4,
+    'voice_attack_01': 3.5, 'voice_attack_02': 3.5, 'voice_bite': 3.0,
+    'voice_heavy': 3.5, 'voice_cast': 3.5, 'voice_roar': 3.5,
+    'voice_feral': 2.5, 'voice_hurt_01': 1.5, 'voice_hurt_02': 0.5,
+    'voice_low_health': -1, 'voice_death': 2.0, 'voice_victory': 4,
+    'domain_loop': 5, 'feral_aura': 0,
 }
 
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -108,13 +108,13 @@ def write_wav(p,x):
 def loudness(p):
     r=subprocess.run(['ffmpeg','-hide_banner','-i',str(p),'-af','loudnorm=I=-18:TP=-2:LRA=9:print_format=json','-f','null','-'],capture_output=True,text=True,check=True)
     s=r.stderr;return json.loads(s[s.rfind('{'):s.rfind('}')+1])
-def emit(name,x,label,origin,loop=False,target=-19):
+def emit(name,x,label,origin,loop=False,target=-19,tp_cap=-2.5):
     x=x-np.mean(x)
     if not loop:x=fade(x,.004,.055)
     x=norm(x)*.70
     wav=ROOT/'wav'/f'{name}.wav';ogg=ROOT/'ogg'/f'{name}.ogg'
     write_wav(wav,x);lm=loudness(wav);level=float(lm['input_i']);tp=float(lm['input_tp'])
-    gain=min(target-level,-2.5-tp) if math.isfinite(level) else -3
+    gain=min(target-level,tp_cap-tp) if math.isfinite(level) else -3
     x*=10**(gain/20);write_wav(wav,x)
     subprocess.run(['ffmpeg','-v','error','-i',str(wav),'-c:a','libvorbis','-q:a','5','-metadata','comment=Volibear V5 asset; CC0 recordings and original procedural sound design','-y',str(ogg)],check=True)
     ow=decode(ogg);final=loudness(ogg)
@@ -201,7 +201,10 @@ def main():
       ('cast_charge',mix((sweep(.8,True),.42,0),(spark(.28),.2,.38),(chime(.60),.24,.19)),'施法前摇','original procedural sound design'),
       ('footstep',impact('footstep_snow_000.ogg'),'落地/脚步','Kenney CC0 footstep_snow_000'),
     ]
-    for name,x,label,origin in definitions:emit(name,x,label,origin,target=-23 if name.startswith('card_') or name in ['lightning_growth','energy_gain','mark_bite','heal'] else -19)
+    strike_target={'claw_slash':-14.5,'heavy_impact':-14.5,'bite_hit':-15.5,'guard_hit':-16.0,'counter_release':-15.5,'feral_claw':-15.0,'charge':-16.0,'roar_wave':-16.0,'lightning_strike':-15.0,'lightning_chain':-15.0,'lightning_all':-14.5}
+    for name,x,label,origin in definitions:
+        target=strike_target.get(name,-23 if name.startswith('card_') or name in ['lightning_growth','energy_gain','mark_bite','heal'] else -19)
+        emit(name,x,label,origin,target=target,tp_cap=-0.5 if name in strike_target else -2.5)
     emit('domain_loop',periodic_rumble(4),'领域持续低鸣','original periodic spectral synthesis',True,-29)
     emit('feral_aura',periodic_rumble(4,True),'兽化持续气息','original periodic spectral synthesis',True,-32)
     voice_defs=[

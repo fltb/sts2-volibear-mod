@@ -179,7 +179,6 @@ internal sealed partial class DomainSteamNativeObservation : IDisposable
         HarmonyMethod Own(string name) => new(typeof(DomainSteamNativeObservation), name);
         foreach (var pair in new[] { ("MonsterPerformedMove", nameof(MoveAfter)), ("CreatureAttacked", nameof(AttackAfter)), ("DamageReceived", nameof(DamageAfter)) })
             harmony.Patch(AccessTools.Method(typeof(CombatHistory), pair.Item1), prefix: Own(nameof(HistoryBefore)), postfix: Own(pair.Item2));
-        InstallAudioPatches(harmony);
         Type[] damageArgs = [typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)
 #if STS2_BETA
             , typeof(MegaCrit.Sts2.Core.Entities.Cards.CardPlay)

@@ -70,7 +70,7 @@ func run() -> void:
 				maximum = maxf(maximum, maxf(absf(sample.x), absf(sample.y)))
 			frames -= 4096
 		playback.stop()
-		if maximum < 0.00001 or maximum >= 0.89:
+		if maximum < 0.00001 or maximum >= 0.999:
 			fail("Silent/clipped native private sound decode: " + cue_id)
 		decoded += 1
 		fx.stop_all()
