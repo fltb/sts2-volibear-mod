@@ -83,7 +83,11 @@ public static class DomainEnemyEffects
             Type[] hpLoss = [typeof(Creature), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel)];
             // 0.114 moved HardToKillPower's protection from the damage cap into the late
             // HP-loss modifier (same shape as HardenedShellPower); older builds keep the cap.
-            PatchSpec hardToKill = AccessTools.Method(typeof(HardToKillPower), "ModifyHpLostBeforeOstyLate", hpLoss) is not null
+            // Probe with Resolve's own strictness: DeclaredOnly. On older builds the inherited
+            // HardenedShell method must not masquerade as a declared HardToKill anchor.
+            MethodInfo? hardToKillLate = typeof(HardToKillPower).GetMethod("ModifyHpLostBeforeOstyLate",
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly, null, hpLoss, null);
+            PatchSpec hardToKill = hardToKillLate is not null
                 ? new(typeof(HardToKillPower), "ModifyHpLostBeforeOstyLate", typeof(decimal), hpLoss, nameof(NeutralHpLoss))
                 : new(typeof(HardToKillPower), "ModifyDamageCap", typeof(decimal), cap, nameof(NeutralCap));
             PatchSpec[] specs =

@@ -1,70 +1,42 @@
 # 分享给别人：该发哪个包、怎么发
 
-## 1. 先选对包：公开分享只用 open 音频版
+> 2026-11-28 重写。此前版本仍写游戏 0.107.1 / BaseLib 3.4.7，与当前双通道清单（两者都要求
+> BaseLib 3.4.8）矛盾，按当前事实整体替换。
 
-| 包 | 能不能公开分享 | 说明 |
-| --- | --- | --- |
-| `Volibear-0.1.0-StS2-0.107.1-share-open.zip` | ✅ 可以 | 完整开放音频（CC0 录音 + 本项目原创音效），`PACKAGE.json` 里 `private_audio: false` |
-| `Volibear-0.1.0-StS2-0.107.1-riot_en-private.zip` | ❌ 不要分发 | 含 Riot 官方角色录音，版权归 Riot，仓库未获得转授权；只适合本机自用 |
+## 1. 目标版本与依赖（两个通道）
 
-两个包的代码、卡牌、美术、UI 完全一致，只是音频来源不同。分享前用
-`PACKAGE.json` 核对 `audio_profile`/`private_audio`，别把私有包发出去了。
+| 通道 | 游戏版本 | Volibear 清单 | BaseLib |
+| --- | --- | --- | --- |
+| 正式版（public） | **0.111.1 / cc1f9462** | `Volibear.stable.json`（min_game_version 0.111.1） | **3.4.8**（含 CompatibilityHelper 五文件） |
+| 公测（public-beta） | **0.114.0 / a7b9a9c0** | `Volibear.pbe.json`（min_game_version 0.114.0） | 同上 |
 
-## 2. 接收方需要满足
+游戏加载器会同时强制 `min_game_version` 与依赖 `min_version`：BaseLib 版本过低或游戏版本不符时
+Volibear 会拒绝初始化，这是预期行为，不要绕过。两个通道共用同一份 BaseLib 3.4.8；
+`tools/dependencies.py` 固定拉取该版本并校验 SHA-256。
 
-- 《Slay the Spire 2》**0.107.1 / 构建 59260271** 为完整验收版本；其他版本会在启动时做原生接口自检，
-  接口齐全则标注 unverified 后加载，缺失则拒绝并在日志列出缺失项。
-- **BaseLib 3.4.7**：open ZIP 内已随附在 `mods/BaseLib/`；如果只发 `mods/Volibear`，
-  要提醒对方另装同版本 BaseLib（Steam Workshop 订阅 `3737335127`）。
-- 不需要源码、SDK、Godot 或任何测试启动参数。
+## 2. 音频两个变体
 
-## 3. 三种发布方式
+- `riot-sound`：Riot 英文语音。仓库的保守默认是**不公开分发**（Riot 录音再分发权在 Riot）。
+  **2026-11-28 用户明示覆盖**：本仓库所有者将 riot 变体直接发布到自己的创意工坊条目
+  （“自己玩、无人订阅”），风险自担；此决定仅适用于所有者本人的创意工坊条目。
+- `opensound`：开放音频（CC0 + 自制音效），公开渠道的保守选择。
 
-### A. 直接发 ZIP（最快，适合小范围）
-把 open ZIP 发过去，对方退出游戏后解压合并到游戏目录：
+## 3. 创意工坊更新（当前流程）
 
-```
-<游戏目录>/
-  mods/
-    Volibear/  (Volibear.dll / .pck / .json)
-    BaseLib/   (BaseLib.dll / .pck / .json)
-```
+1. 构建对应通道的 `mods/Volibear`（DLL/PCK/JSON，用 `tools/build_pbe_release.py --channel stable|pbe`）。
+2. 用官方 [sts2-mod-uploader](https://github.com/megacrit/sts2-mod-uploader)（v0.2.0，本地
+   `.local/moduploader/`）更新条目：workspace 的 `content/` 放 `Volibear` 三件套，
+   `workshop.json` 填 `changeNote`（更新说明会显示为 changelog），`mod_id.txt` 保存条目 ID。
+3. `ModUploader.exe upload -w <workspace>`（走本机 Steam 客户端会话）。
+4. 条目分支范围用 `minBranch`/`maxBranch` 标注（public-beta 条目记得 scope 到 public-beta）。
 
-解压后保留 `PACKAGE.json`；包的 `INSTALL_ZH.md` 里有逐文件 SHA-256 核对方法，
-以及 Windows / Linux 的 Steam 游戏目录定位步骤。多人游玩要求双方装同一版本。
+## 4. 私发 ZIP（小范围）
 
-### B. Steam Workshop（公开分发，自动更新）
-用官方上传器 [megacrit/sts2-mod-uploader](https://github.com/megacrit/sts2-mod-uploader)
-上传 `mods/Volibear` 整目录。Workshop 页面需要写清：依赖 BaseLib 3.4.7、
-适用游戏 0.107.1/59260271、本 Mod 为非官方同人作品、许可见仓库 `LICENSING.md`。
-上传前先确认 Steam 账号与 Workshop 条款允许你发布这类同人内容。
+用 `tools/build_pbe_release.py --channel <stable|pbe>` 出包；文件命名含通道与游戏版本。
+接收方解压合并到游戏目录即可；版本不符会在启动时被拒绝并列出缺失面。
+多人游玩要求双方同通道同版本。
 
-### C. GitHub Release / 网盘
-仓库已含完整源码与许可；可在 Release 里附上 open ZIP 作为安装包。
-版本更新时 bump `Volibear.json` 版本号、重新构建并重新上传。
+## 5. 不打包不分享的东西
 
-## 4. 重新出包（改过任何代码或资产之后）
-
-```sh
-python3 -B tools/local_delivery.py --game-dir "<游戏目录>" --godot "<Godot 4.5.1 mono>" \
-  --dotnet "<.NET 9 SDK>" --audio-profile open
-```
-
-产物在 `.local/release/`；公开分发请用带 `share-open` 的这一份，不要用 `-riot_en-private`。
-构建/验收细节见 [LOCAL_WORKFLOW.md](LOCAL_WORKFLOW.md)。
-
-## 5. 不要打包或分享的东西
-
-游戏程序集与本体文件、`.local/`（工具链、日志、存档、私钥）、测试报告与产物、
-Riot 官方音频源文件、以及任何本机路径/配置。open ZIP 已按这些规则打好了。
-
-## 6. 授权与署名（发给别人时保留）
-
-- 代码：GPL-3.0-only（`LICENSE`）。
-- 本项目原创美术/音效/文档：CC-BY-SA-4.0（`LICENSE-ASSETS`），署名需注明
-  fltb / sts2-volibear-mod、仓库链接、是否修改，并按相同许可分享衍生作品。
-- BaseLib 3.4.7：MIT，随包附许可文本。
-- 沃利贝尔角色、Slay the Spire 及相关第三方素材的权利归各自权利人；本项目为非官方项目，
-  无 Riot Games / Mega Crit 背书，本仓库的 GPL/CC 声明不覆盖第三方角色衍生权。
-- 本次只在 Linux + 游戏 0.107.1 实测；Mod DLL 为 .NET 程序集，理论跨平台但未在
-  Windows / macOS 实机验收。
+游戏程序集与本体文件、`.local/`、测试报告与产物、本机配置、存档。Riot 音频源文件只留在忽略目录，
+只进 riot 私有包与所有者自己的工坊条目。

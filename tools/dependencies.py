@@ -10,15 +10,17 @@ import urllib.request
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-PBE = os.environ.get('VOLIBEAR_CHANNEL') == 'pbe' or os.environ.get('VOLIBEAR_PACKAGE_GAME_VERSION') == '0.113.0'
-VERSION = '3.4.8' if PBE else '3.4.7'
-ARCHIVE = f'BaseLib.v{VERSION}.zip' if PBE else f'BaseLib.{VERSION}.zip'
+# Both current channels (stable 0.111.1 and PBE 0.114.0) require BaseLib 3.4.8: every
+# channel manifest declares min_version 3.4.8, Volibear.csproj references this cache for
+# GameChannel=stable and beta alike, and the loader refuses Volibear above an older
+# dependency. The helper assembly ships in the same release and loads on both channels.
+VERSION = '3.4.8'
+ARCHIVE = f'BaseLib.v{VERSION}.zip'
 URL = f'https://github.com/Alchyr/BaseLib-StS2/releases/download/v{VERSION}/{ARCHIVE}'
-SHA256 = 'ad30d8aa4dee8e5d31150ab75eae6e6b927fa83ce30af93f4b2a144c3b09f82f' if PBE else 'd28c649a3aea9ef4869050a06bfbadc4863016bcbd4c1740acc4cd07809e4bd8'
+SHA256 = 'ad30d8aa4dee8e5d31150ab75eae6e6b927fa83ce30af93f4b2a144c3b09f82f'
 CACHE = ROOT / '.local/dependencies' / f'BaseLib-{VERSION}'
-FILES = ('BaseLib.dll', 'BaseLib.pck', 'BaseLib.json')
-if PBE:
-    FILES += ('BaseLibCompatibilityHelper.dll', 'BaseLibCompatibilityHelper.json')
+FILES = ('BaseLib.dll', 'BaseLib.pck', 'BaseLib.json',
+         'BaseLibCompatibilityHelper.dll', 'BaseLibCompatibilityHelper.json')
 
 
 def digest(data):

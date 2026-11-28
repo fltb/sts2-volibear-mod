@@ -175,7 +175,51 @@ python tools/compat_report.py --game-dir .local/game-0.114 --display headless --
 
 ## 8. 未验证（NOT_RUN）
 
-- **stable（v0.111.1）编译与启动**：需要一份 0.111.1 游戏副本，本机没有；`GameChannel=stable` 尚未在 0.111.1 上编译过（本轮只完成 beta=0.114.0）。
 - **玩法矩阵**：`tools/pbe_verify.py` 一个场景都没在 0.114 上跑过；本报告不声称任何玩法结果。
 - **领域标量回执退化**与 `PainfulStabsPower` 投票缺位：只做了启动验证，玩法未验证。
 - **静态回归**：`tools/regression.py` 在本轮之前即已失败（`src/Volibear/Content/InlineModelLocalization.cs` 不在 HEAD 中，多个测试工程引用它；另有 Linux 专属窗口守卫用例），与本次改动无关，未计入 T1 结论。
+
+## 9. stable（v0.111.1）补验与两处修复（2026-11-28 下午）
+
+用 Steam 控制台 `download_depot 2868840 2868841 5729339753299691508`（= public 分支
+buildid 26655341，manifest 从本机 appcache 解出）取得 0.111.1/cc1f9462 副本后，
+`GameChannel=stable` 对着真实 0.111.1 程序集暴露并修复了两处 T1 遗留缺陷：
+
+1. **编译断裂**：`DomainDampenTransactions` 用 `nameof(CardCmd.RemoveAllUpgrades)`（0.114 专有）
+   未加通道门控。修复：两处调用与探测包进 `#if STS2_0_113`，stable 走回原 `CardCmd.Downgrade`
+   单级路径。
+2. **假回退（运行时）**：`DomainEnemyEffects` 的 HardToKill 探测用无 `DeclaredOnly` 的
+   `AccessTools.Method`，在 0.111.1 上探到从 `HardenedShellPower` **继承**的
+   `ModifyHpLostBeforeOstyLate` → 误选 0.114 分支 → `Resolve`（DeclaredOnly+DeclaringType==Owner）
+   抛 `MissingMethodException` → **stable 上整个初始化中止**。该回退分支从未在 stable 上执行过。
+   修复：探测改用与 `Resolve` 同样的 `DeclaredOnly` 严格度，stable 正确回落到 `ModifyDamageCap`。
+
+修后启动证据（0.111.1 隔离副本，`.local/game-stable`，生产初始化路径）：
+
+```text
+[Volibear] BUILD_GATE build=unverified-compatible found=v0.111.1/cc1f9462 target=unpinned
+[Volibear] CONTENT_OK cards=89 character=VolibearCharacter framework=BaseLib-3.4.8.0
+[Volibear] COMPAT_SUMMARY failures=0
+[Volibear] LOAD_OK version=0.1.3 target=unpinned build=unverified-compatible found=v0.111.1/cc1f9462
+```
+
+加载顺序夹层矩阵（外来 Mod `CompanionCards` 置于 BaseLib 与 Volibear 之间，`CompanionCards`
+的 `min_game_version` 留空以便双通道加载）在 **两个通道** 各跑三轮全过：
+
+| 通道 | 基线 | 观察者外来 Mod | Nop 注入攻击异步体 |
+| --- | --- | --- | --- |
+| PBE 0.114.0 | failures=0 / 89卡 / LOAD_OK | 同左，COMPAT_SHARED 正确 +1 | 同左，`<ExecuteInternal>d__92` 双 transpiler 共存 |
+| stable 0.111.1 | failures=0 / 89卡 / LOAD_OK | 同左 | 同左，`<Execute>d__90` 双 transpiler 共存 |
+
+结论：「必须紧邻 BaseLib 否则初始化爆炸」的历史缺陷在当前源码 + BaseLib 3.4.8 上不复现；
+历史报障更可能来自旧包或随附文档指定的 BaseLib 3.4.7。矩阵为启动/安装级证据；真实对局执行
+仍属 NOT_RUN（探针场景被 0.114 的 `BootstrapSettings` 缺口阻断，见第 10 节）。
+
+## 10. 探针矩阵在 0.114 的阻断（新发现）
+
+`DevelopmentBootstrap` 在 0.114 要求游戏源码树里的 `BootstrapSettings.cs`
+（`src/Core/Nodes/Debug/BootstrapSettings.cs.template`），发行版游戏与 mod 目录均无此类型。
+后果：所有依赖 `DevelopmentBootstrap` 的场景（`tools/pbe_verify.py` 全矩阵、`baseline`、
+`engage-contract` 等）在 0.114 上全部无法启动（0.111.1 未测同一路径）。T5 的运行时验收不能照搬
+探针路线，需先给 mod 提供一个 `IBootstrapSettings` 实现，或全部改用生产标记启动
+（BUILD_GATE/CONTENT_OK/COMPAT_SUMMARY/COMPAT_SCAN）作运行时证据。
