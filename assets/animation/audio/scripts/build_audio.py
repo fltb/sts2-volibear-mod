@@ -29,11 +29,11 @@ OPEN_GAIN_DB = {
     'roar_wave': -5.5, 'cast_charge': -9, 'card_draw': -17.5,
     'card_discard': -23, 'card_retrieve': -7.5, 'card_exhaust': -5,
     'card_replay': -5.5, 'energy_gain': -7.5, 'lifesteal': -10.5,
-    'heal': -8, 'footstep': -3, 'voice_select': 4,
-    'voice_attack_01': 3.5, 'voice_attack_02': 3.5, 'voice_bite': 3.0,
-    'voice_heavy': 3.5, 'voice_cast': 3.5, 'voice_roar': 3.5,
-    'voice_feral': 2.5, 'voice_hurt_01': 1.5, 'voice_hurt_02': 0.5,
-    'voice_low_health': -1, 'voice_death': 2.0, 'voice_victory': 4,
+    'heal': -8, 'footstep': -3, 'voice_select': -4,
+    'voice_attack_01': -4.5, 'voice_attack_02': -4.5, 'voice_bite': -5,
+    'voice_heavy': -4.5, 'voice_cast': -4.5, 'voice_roar': -4.5,
+    'voice_feral': -5.5, 'voice_hurt_01': -6.5, 'voice_hurt_02': -7.5,
+    'voice_low_health': -9, 'voice_death': -6, 'voice_victory': -4,
     'domain_loop': 5, 'feral_aura': 0,
 }
 
@@ -64,11 +64,15 @@ def mix(*tracks):
 def tone(seconds,f0=100,f1=45,decay=7):
     t=np.arange(round(seconds*SR))/SR
     return np.sin(2*np.pi*(f0*t+(f1-f0)*t*t/(2*seconds)))*np.exp(-decay*t)
-def sweep(seconds=.30,reverse=False):
-    t=np.arange(round(seconds*SR))/SR;n=noise(seconds,250,6500)
-    env=np.sin(np.pi*np.clip(t/seconds,0,1))**1.4
-    out=n*env*(.55+.45*np.cos(2*np.pi*(90*t+900*t*t)))
-    return fade(out[::-1] if reverse else out)
+def glide(seconds=.30,reverse=False):
+    # Motion layer with no noise component at all: three partials of a gliding tone under
+    # a single swell envelope. Movement comes from the pitch contour, not from noise.
+    t=np.arange(round(seconds*SR))/SR;p=np.clip(t/seconds,0,1)
+    low,high=(180.0,420.0) if not reverse else (420.0,180.0)
+    f=low+(high-low)*p**1.5
+    phase=2*np.pi*np.cumsum(f)/SR
+    tone=np.sin(phase)*.72+np.sin(phase*2.0)*.20+np.sin(phase*.5)*.18
+    return fade(tone*np.sin(np.pi*p)**.7*np.exp(-1.2*t),.004,.09)
 def impact(name='impactPunch_heavy_000.ogg'):
     return fade(filt(decode(ROOT/'source/kenney'/name),35,6500),.002,.04)
 def spark(seconds=.24):
@@ -170,35 +174,35 @@ def main():
     punch=impact();metal=impact('impactMetal_heavy_000.ogg');wood=impact('impactWood_heavy_000.ogg')
     light=impact('impactGeneric_light_000.ogg');glass=impact('impactGlass_light_001.ogg')
     definitions=[
-      ('claw_slash',mix((sweep(.29),.70,0),(punch,.38,.14)),'爪击：挥动与接触','Kenney CC0 impactPunch_heavy_000 + procedural filtered sweep'),
+      ('claw_slash',mix((punch,.85,0),(wood,.30,.012),(tone(.32,150,60,11),.45,0)),'爪击：接触与低频体感','Kenney CC0 impactPunch/impactWood + original low body; no filtered sweep'),
       ('heavy_impact',mix((wood,.7,0),(punch,.6,.018),(tone(.8,80,28,5),.6,0)),'重击：低频冲击','Kenney CC0 wood/punch + original sub impact'),
       ('bite_hit',mix((punch,.65,0),(glass,.20,.02),(tone(.35,150,65,14),.20,0)),'咬击：短促咬合','Kenney CC0 punch/glass + original transient'),
-      ('guard_gain',mix((sweep(.3,True),.5,0),(chime(.55),.3,.08)),'格挡建立','original procedural sound design'),
+      ('guard_gain',mix((chime(.55),.5,0),(metal,.22,.03)),'格挡建立','Kenney CC0 metal + original chime; native block gain is kept'),
       ('guard_hit',mix((metal,.55,0),(tone(.42,130,60,12),.45,0)),'格挡接触','Kenney CC0 impactMetal_heavy_000 + original low body'),
-      ('guard_break',mix((metal,.45,0),(glass,.6,.08),(sweep(.30),.3,.04)),'护盾破裂','Kenney CC0 metal/glass + original air'),
-      ('counter_release',mix((sweep(.22),.65,0),(thunder(.75),.6,.10)),'反击释放','original procedural sound design'),
-      ('absorb',mix((sweep(.45,True),.6,0),(pulse(.65),.55,.05)),'吸收收束','original procedural sound design'),
+      ('guard_break',mix((metal,.55,0),(glass,.65,.06),(tone(.34,120,48,10),.32,0)),'护盾破裂','Kenney CC0 metal/glass + original low body; no filtered sweep'),
+      ('counter_release',mix((thunder(.75),1.0,0),(tone(.5,90,40,6),.35,0)),'反击释放','original procedural thunder body'),
+      ('absorb',mix((pulse(.65),.95,0),(metal,.20,.02)),'吸收收束','original low pulse + Kenney metal'),
       *lightning_sounds(),
       ('lightning_growth',mix((chime(.42),.30,0),(spark(.18),.16,.03)),'雷电成长','original procedural sound design'),
-      ('domain_enter',mix((sweep(.65,True),.6,0),(thunder(1.4,1.2),.65,.42),(chime(.8),.20,.45)),'领域展开','original procedural sound design'),
+      ('domain_enter',mix((thunder(1.4,1.2),1.0,0),(chime(.8),.30,0),(tone(1.2,70,32,4),.40,0)),'领域展开','original procedural thunder and chime'),
       ('domain_exit',mix((pulse(.8)[::-1],.45,0),(chime(.65,True),.35,.16)),'领域消散','original procedural sound design'),
       ('domain_suppress',mix((pulse(.50),.55,0),(spark(.12),.12,.04)),'领域压制','original procedural sound design'),
-      ('card_purify',mix((sweep(.4),.4,0),(chime(.65),.6,.05)),'卡牌净化','original procedural sound design'),
-      ('feral_transfer',mix((sweep(.52),.6,0),(spark(.18),.25,.30),(pulse(.35),.3,.35)),'兽化侵染：流向目标再附着','original procedural directional sweep and contact'),
-      ('feral_claw',mix((sweep(.22),.60,0),(punch,.42,.10),(spark(.13),.18,.12)),'爪形转换/触发','Kenney CC0 punch + original sweep'),
+      ('card_purify',mix((chime(.65),1.0,0),(spark(.10),.12,.02)),'卡牌净化','original chime + short transient'),
+      ('feral_transfer',mix((pulse(.45),.6,0),(metal,.22,.02),(chime(.4,True),.25,.30)),'兽化侵染：接触与附着','original procedural contact, attach pulse and low chime; no filtered sweep'),
+      ('feral_claw',mix((punch,.85,0),(light,.25,.03),(tone(.26,140,55,13),.32,0)),'爪形转换/触发','Kenney CC0 punch/generic impact + original low body; no filtered sweep'),
       ('feral_body',mix((pulse(.7),.6,0),(metal,.25,.26)),'躯形转换/触发','Kenney CC0 metal + original body pulse'),
       ('mark_bite',mix((light,.35,0),(tone(.28,210,70,12),.30,0)),'咬痕印记','Kenney CC0 generic impact + original stamp'),
-      ('charge',mix((sweep(.7,True),.45,0),(chime(.8),.30,.2)),'蓄势/充能','original procedural sound design'),
-      ('card_draw',sweep(.23),'抽牌','original procedural paper-like filtered air'),
-      ('card_retrieve',mix((sweep(.28,True),.50,0),(chime(.35),.22,.08)),'检索/回收','original procedural sound design'),
-      ('card_discard',sweep(.3),'弃牌','original procedural paper-like filtered air'),
+      ('charge',mix((chime(.8),1.0,0),(tone(.7,80,36,5),.45,0)),'蓄势/充能','original chime and low body'),
+      ('card_draw',mix((metal,.18,0),(chime(.18),.10,0)),'抽牌（已交回本体，不再触发）','Kenney CC0 metal tick, unused at runtime'),
+      ('card_retrieve',mix((chime(.35),.55,0),(metal,.16,0)),'检索/回收','original chime + Kenney metal'),
+      ('card_discard',mix((metal,.20,0),(chime(.20),.10,0)),'弃牌（已交回本体，不再触发）','Kenney CC0 metal tick, unused at runtime'),
       ('card_exhaust',mix((noise(.55,300,6000)*np.exp(-np.arange(round(.55*SR))/SR*7),.50,0),(chime(.40,True),.20,0)),'消耗','original procedural sound design'),
       ('energy_gain',chime(.58),'能量获得','original procedural harmonic chime'),
-      ('card_replay',mix((sweep(.27,True),.4,0),(chime(.45),.25,.10),(spark(.12),.13,.21)),'重演','original procedural sound design'),
-      ('lifesteal',mix((sweep(.65,True),.40,0),(chime(.45),.3,.33)),'汲取回流','original procedural sound design'),
+      ('card_replay',mix((chime(.45),.45,0),(spark(.12),.20,.06),(metal,.15,0)),'重演','original chime + short transient'),
+      ('lifesteal',mix((chime(.45),.60,0),(pulse(.55),.45,.10)),'汲取回流','original chime and low pull'),
       ('heal',chime(.8),'恢复','original procedural harmonic chime'),
-      ('roar_wave',mix((pulse(.9),.5,0),(sweep(.40),.35,.12)),'吼声冲击波底层','original procedural sound design'),
-      ('cast_charge',mix((sweep(.8,True),.42,0),(spark(.28),.2,.38),(chime(.60),.24,.19)),'施法前摇','original procedural sound design'),
+      ('roar_wave',mix((pulse(.9),1.0,0),(tone(.7,85,38,5),.40,0)),'吼声冲击波底层','original low roar body'),
+      ('cast_charge',mix((spark(.28),.28,.30),(chime(.60),.55,0),(tone(.6,90,40,5),.30,0)),'施法前摇','original spark and chime'),
       ('footstep',impact('footstep_snow_000.ogg'),'落地/脚步','Kenney CC0 footstep_snow_000'),
     ]
     strike_target={'claw_slash':-14.5,'heavy_impact':-14.5,'bite_hit':-15.5,'guard_hit':-16.0,'counter_release':-15.5,'feral_claw':-15.0,'charge':-16.0,'roar_wave':-16.0,'lightning_strike':-15.0,'lightning_chain':-15.0,'lightning_all':-14.5}
@@ -235,7 +239,7 @@ def main():
         CUEDATA.append({'id':'voice.'+name,'asset_id':rec['id'],'file':rec['file'],'wav':rec['wav'],'duration_seconds':rec['duration_seconds'],'loop':False,'bus':'Voice','gain_db':OPEN_GAIN_DB[rec['id']],'cooldown_ms':1800 if name=='low_health' else 200,'max_voices':1,'trigger_policy':'semantic_action_start; deterministic cosmetic selection, not gameplay RNG','default_enabled':True})
     CUEDATA.append({'id':'sfx.footstep','asset_id':'footstep',**{k:byid['footstep'][k] for k in ['file','wav','duration_seconds','loop']},'bus':'Sfx','gain_db':OPEN_GAIN_DB['footstep'],'cooldown_ms':90,'max_voices':2,'default_enabled':True})
     add_skill_voice_cues(CUEDATA)
-    manifest={'schema_version':1,'sample_rate':SR,'channels':1,'runtime_format':'Ogg Vorbis q5; editable PCM16 WAV masters','official_character_voice':False,'spoken_dialogue':False,'cue_count':len(CUEDATA),'unique_asset_count':len(RECORDS),'cues':CUEDATA,'assets':RECORDS,'mix_rules':{'voice_bus':0,'sfx_bus':0,'ambience_bus':-6,'headroom_db':0,'master_soft_limit_dbtp':-1,'mute_voice_available':True,'loop_fade_out_ms':140,'scope':'combat/room owner; stop all owned handles on death and scene release','randomness':'separate cosmetic deterministic counter; never consume game RNG'}}
+    manifest={'schema_version':1,'sample_rate':SR,'channels':1,'runtime_format':'Ogg Vorbis q5; editable PCM16 WAV masters','official_character_voice':False,'spoken_dialogue':False,'cue_count':len(CUEDATA),'unique_asset_count':len(RECORDS),'cues':CUEDATA,'assets':RECORDS,'mix_rules':{'voice_bus':-8,'sfx_bus':0,'ambience_bus':-6,'headroom_db':0,'master_soft_limit_dbtp':-1,'mute_voice_available':True,'loop_fade_out_ms':140,'scope':'combat/room owner; stop all owned handles on death and scene release','randomness':'separate cosmetic deterministic counter; never consume game RNG'}}
     write_manifest(manifest)
     make_action_cues()
     write_overview(RECORDS)

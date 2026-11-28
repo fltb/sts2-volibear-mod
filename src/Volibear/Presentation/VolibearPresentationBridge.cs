@@ -63,8 +63,8 @@ public static partial class VolibearPresentationBridge
             ["native.block_gained_positive"] = "guard_gain",
             ["native.damage_blocked_positive"] = "guard_hit",
             ["native.hp_lost_positive"] = "hurt voice/pose",
-            ["native.card_drawn"] = "card_draw",
-            ["native.card_discarded"] = "card_discard",
+            ["native.card_drawn"] = "card VFX anchor only; the native draw sound is kept",
+            ["native.card_discarded"] = "card VFX anchor only; the native discard sound is kept",
             ["native.card_exhausted"] = "card_exhaust",
             ["native.card_replay_started"] = "card_replay",
             ["lightning.batch_completed"] = "card-specific spell; distinct domain/conduction/pool/counter provenance",
@@ -331,10 +331,12 @@ public static partial class VolibearPresentationBridge
                 room.GetOwner(block.Receiver)?.BlockMotion(block.CardPlay);
                 break;
             case CardDrawnEntry draw:
-                room.GetOwner(draw.Actor)?.AtCard(id, "card_draw", draw.Card);
+                // Draw/discard keep the game's own pile-movement sound; our cue's dry
+                // filtered-noise texture read as a scrape on top of it. VFX unchanged.
+                room.GetOwner(draw.Actor)?.AtCard(id, "card_draw", draw.Card, sound: false);
                 break;
             case CardDiscardedEntry discard:
-                room.GetOwner(discard.Actor)?.AtCard(id, "card_discard", discard.Card);
+                room.GetOwner(discard.Actor)?.AtCard(id, "card_discard", discard.Card, sound: false);
                 break;
             case CardExhaustedEntry exhaust:
                 room.GetOwner(exhaust.Actor)?.AtCard(id, "card_exhaust", exhaust.Card);
@@ -650,7 +652,7 @@ public static partial class VolibearPresentationBridge
             if (!Live || target.CombatId is null || _room.NodeFor(target) is not { } node) return;
             _effects.Emit(id, effect, Anchors(node), CreatureId(target), sound: sound);
         }
-        internal void AtCard(string id, string effect, CardModel card)
+        internal void AtCard(string id, string effect, CardModel card, bool sound = true)
         {
             if (!Live || !ReferenceEquals(card.Owner.Creature, _owner)) return;
             // Exhaust/replay can remove the original view before native history is published.
@@ -659,9 +661,9 @@ public static partial class VolibearPresentationBridge
             var cardId = CardId(card);
             if (Valid(node) && cardId is not null && TryCardAnchors(node!,
                     effect == "card_draw" ? PileType.Draw : null, effect == "card_discard", out var anchors))
-                _effects.Emit(id, effect, anchors, cardId);
+                _effects.Emit(id, effect, anchors, cardId, sound: sound);
             // Missing remote/hidden cards never cause fake card nodes or guessed screen positions.
-            _effects.PlaySound(id, "sfx." + effect);
+            if (sound) _effects.PlaySound(id, "sfx." + effect);
         }
         private void Pose(string clip)
         {

@@ -26,7 +26,7 @@ AUDIO = ROOT / 'assets/animation/audio'
 PROFILES = AUDIO / 'profiles'
 WORK = ROOT / '.local/audio-profiles'
 HOSTS = {'static.wikia.nocookie.net', 'cmsassets.rgpub.io'}
-PROCESSING_VERSION = 1
+PROCESSING_VERSION = 2
 
 
 def digest(path):
@@ -215,8 +215,10 @@ def prepare_profile(*, fetch=False):
         padding = int(settings['edge_padding_seconds'] * 48000)
         pcm = pcm[max(0, int(active[0]) - padding):min(len(pcm), int(active[-1]) + padding + 1)]
         pcm *= float(settings['target_peak']) / float(max(abs(pcm)))
-        voice_filters = ('acompressor=threshold=-28dB:makeup=8:attack=5:release=120:ratio=4,'
-                         'alimiter=limit=0.80:level=disabled') if source['kind'] == 'voice' else None
+        # No dynamics processing: the recordings already carry their own peaks and
+        # quiet detail. Compressing them flattened the performance and the limiter
+        # turned peaks into distortion; level is set by the cue gain at playback.
+        voice_filters = None
         fade_in = min(len(pcm), int(settings['fade_in_seconds'] * 48000))
         fade_out = min(len(pcm), int(settings['fade_out_seconds'] * 48000))
         pcm[:fade_in] *= np.linspace(0, 1, fade_in, dtype=np.float32)

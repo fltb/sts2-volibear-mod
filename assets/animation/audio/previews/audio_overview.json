@@ -2,236 +2,236 @@
   {
     "asset": "claw_slash",
     "start_seconds": 0,
-    "end_seconds": 0.789
+    "end_seconds": 0.649
   },
   {
     "asset": "heavy_impact",
-    "start_seconds": 0.969,
-    "end_seconds": 1.769
+    "start_seconds": 0.829,
+    "end_seconds": 1.629
   },
   {
     "asset": "bite_hit",
-    "start_seconds": 1.949,
-    "end_seconds": 2.5981
+    "start_seconds": 1.809,
+    "end_seconds": 2.4581
   },
   {
     "asset": "guard_gain",
-    "start_seconds": 2.7781,
-    "end_seconds": 3.4081
+    "start_seconds": 2.6381,
+    "end_seconds": 3.1881
   },
   {
     "asset": "guard_hit",
-    "start_seconds": 3.5881,
-    "end_seconds": 4.0081
+    "start_seconds": 3.3681,
+    "end_seconds": 3.7881
   },
   {
     "asset": "guard_break",
-    "start_seconds": 4.1881,
-    "end_seconds": 4.5281
+    "start_seconds": 3.9681,
+    "end_seconds": 4.3081
   },
   {
     "asset": "counter_release",
-    "start_seconds": 4.7081,
-    "end_seconds": 5.5581
+    "start_seconds": 4.4881,
+    "end_seconds": 5.2381
   },
   {
     "asset": "absorb",
-    "start_seconds": 5.7381,
-    "end_seconds": 6.4381
+    "start_seconds": 5.4181,
+    "end_seconds": 6.0681
   },
   {
     "asset": "lightning_strike",
-    "start_seconds": 6.6181,
-    "end_seconds": 7.4181
+    "start_seconds": 6.2481,
+    "end_seconds": 7.0481
   },
   {
     "asset": "lightning_chain",
-    "start_seconds": 7.5981,
-    "end_seconds": 7.8281
+    "start_seconds": 7.2281,
+    "end_seconds": 7.4581
   },
   {
     "asset": "lightning_all",
-    "start_seconds": 8.0081,
-    "end_seconds": 9.5281
+    "start_seconds": 7.6381,
+    "end_seconds": 9.1581
   },
   {
     "asset": "lightning_growth",
-    "start_seconds": 9.7081,
-    "end_seconds": 10.1281
+    "start_seconds": 9.3381,
+    "end_seconds": 9.7581
   },
   {
     "asset": "domain_enter",
-    "start_seconds": 10.3081,
-    "end_seconds": 12.1281
+    "start_seconds": 9.9381,
+    "end_seconds": 11.3381
   },
   {
     "asset": "domain_exit",
-    "start_seconds": 12.3081,
-    "end_seconds": 13.1181
+    "start_seconds": 11.5181,
+    "end_seconds": 12.3281
   },
   {
     "asset": "domain_suppress",
-    "start_seconds": 13.2981,
-    "end_seconds": 13.7981
+    "start_seconds": 12.5081,
+    "end_seconds": 13.0081
   },
   {
     "asset": "card_purify",
-    "start_seconds": 13.9781,
-    "end_seconds": 14.6781
+    "start_seconds": 13.1881,
+    "end_seconds": 13.8381
   },
   {
     "asset": "feral_transfer",
-    "start_seconds": 14.8581,
-    "end_seconds": 15.5581
+    "start_seconds": 14.0181,
+    "end_seconds": 14.7181
   },
   {
     "asset": "feral_claw",
-    "start_seconds": 15.7381,
-    "end_seconds": 16.4871
+    "start_seconds": 14.8981,
+    "end_seconds": 15.5471
   },
   {
     "asset": "feral_body",
-    "start_seconds": 16.6671,
-    "end_seconds": 17.3671
+    "start_seconds": 15.7271,
+    "end_seconds": 16.4271
   },
   {
     "asset": "mark_bite",
-    "start_seconds": 17.5471,
-    "end_seconds": 17.8271
+    "start_seconds": 16.6071,
+    "end_seconds": 16.8871
   },
   {
     "asset": "charge",
-    "start_seconds": 18.0071,
-    "end_seconds": 19.0071
+    "start_seconds": 17.0671,
+    "end_seconds": 17.8671
   },
   {
     "asset": "card_draw",
-    "start_seconds": 19.1871,
-    "end_seconds": 19.4171
+    "start_seconds": 18.0471,
+    "end_seconds": 18.2271
   },
   {
     "asset": "card_retrieve",
-    "start_seconds": 19.5971,
-    "end_seconds": 20.0271
+    "start_seconds": 18.4071,
+    "end_seconds": 18.7571
   },
   {
     "asset": "card_discard",
-    "start_seconds": 20.2071,
-    "end_seconds": 20.5071
+    "start_seconds": 18.9371,
+    "end_seconds": 19.1371
   },
   {
     "asset": "card_exhaust",
-    "start_seconds": 20.6871,
-    "end_seconds": 21.2371
+    "start_seconds": 19.3171,
+    "end_seconds": 19.8671
   },
   {
     "asset": "energy_gain",
-    "start_seconds": 21.4171,
-    "end_seconds": 21.9971
+    "start_seconds": 20.0471,
+    "end_seconds": 20.6271
   },
   {
     "asset": "card_replay",
-    "start_seconds": 22.1771,
-    "end_seconds": 22.7271
+    "start_seconds": 20.8071,
+    "end_seconds": 21.2571
   },
   {
     "asset": "lifesteal",
-    "start_seconds": 22.9071,
-    "end_seconds": 23.6871
+    "start_seconds": 21.4371,
+    "end_seconds": 22.0871
   },
   {
     "asset": "heal",
-    "start_seconds": 23.8671,
-    "end_seconds": 24.6671
+    "start_seconds": 22.2671,
+    "end_seconds": 23.0671
   },
   {
     "asset": "roar_wave",
-    "start_seconds": 24.8471,
-    "end_seconds": 25.7471
+    "start_seconds": 23.2471,
+    "end_seconds": 24.1471
   },
   {
     "asset": "cast_charge",
-    "start_seconds": 25.9271,
-    "end_seconds": 26.7271
+    "start_seconds": 24.3271,
+    "end_seconds": 24.9271
   },
   {
     "asset": "footstep",
-    "start_seconds": 26.9071,
-    "end_seconds": 27.2785
+    "start_seconds": 25.1071,
+    "end_seconds": 25.4785
   },
   {
     "asset": "domain_loop",
-    "start_seconds": 27.4585,
-    "end_seconds": 31.4585
+    "start_seconds": 25.6585,
+    "end_seconds": 29.6585
   },
   {
     "asset": "feral_aura",
-    "start_seconds": 31.6385,
-    "end_seconds": 35.6385
+    "start_seconds": 29.8385,
+    "end_seconds": 33.8385
   },
   {
     "asset": "voice_select",
-    "start_seconds": 35.8185,
-    "end_seconds": 37.1376
+    "start_seconds": 34.0185,
+    "end_seconds": 35.3376
   },
   {
     "asset": "voice_attack_01",
-    "start_seconds": 37.3176,
-    "end_seconds": 37.8937
+    "start_seconds": 35.5176,
+    "end_seconds": 36.0937
   },
   {
     "asset": "voice_attack_02",
-    "start_seconds": 38.0737,
-    "end_seconds": 38.8397
+    "start_seconds": 36.2737,
+    "end_seconds": 37.0397
   },
   {
     "asset": "voice_heavy",
-    "start_seconds": 39.0197,
-    "end_seconds": 40.2419
+    "start_seconds": 37.2197,
+    "end_seconds": 38.4419
   },
   {
     "asset": "voice_bite",
-    "start_seconds": 40.4219,
-    "end_seconds": 41.0219
+    "start_seconds": 38.6219,
+    "end_seconds": 39.2219
   },
   {
     "asset": "voice_cast",
-    "start_seconds": 41.2019,
-    "end_seconds": 41.9573
+    "start_seconds": 39.4019,
+    "end_seconds": 40.1573
   },
   {
     "asset": "voice_hurt_01",
-    "start_seconds": 42.1373,
-    "end_seconds": 42.7549
+    "start_seconds": 40.3373,
+    "end_seconds": 40.9549
   },
   {
     "asset": "voice_hurt_02",
-    "start_seconds": 42.9349,
-    "end_seconds": 43.5466
+    "start_seconds": 41.1349,
+    "end_seconds": 41.7466
   },
   {
     "asset": "voice_low_health",
-    "start_seconds": 43.7266,
-    "end_seconds": 44.5522
+    "start_seconds": 41.9266,
+    "end_seconds": 42.7522
   },
   {
     "asset": "voice_roar",
-    "start_seconds": 44.7322,
-    "end_seconds": 46.6222
+    "start_seconds": 42.9322,
+    "end_seconds": 44.8222
   },
   {
     "asset": "voice_feral",
-    "start_seconds": 46.8022,
-    "end_seconds": 48.5911
+    "start_seconds": 45.0022,
+    "end_seconds": 46.7911
   },
   {
     "asset": "voice_death",
-    "start_seconds": 48.7711,
-    "end_seconds": 51.2354
+    "start_seconds": 46.9711,
+    "end_seconds": 49.4354
   },
   {
     "asset": "voice_victory",
-    "start_seconds": 51.4154,
-    "end_seconds": 52.6341
+    "start_seconds": 49.6154,
+    "end_seconds": 50.8341
   }
 ]

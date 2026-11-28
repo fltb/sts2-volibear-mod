@@ -54,6 +54,16 @@ internal static class VolibearAudioBridge
         return Guids.TryGetValue(eventPath, out var guid) ? guid : null;
     }
 
+    private static bool _gainLogged;
+
+    /// <summary>
+    /// The gain the game's native SFX travel through (master bus squared, then SFX bus
+    /// squared). Our bank's events land on the FMOD root bus, where neither of those buses
+    /// attenuates them, so the cue applies the same chain itself before handing the volume
+    /// to NAudioManager. This keeps a cue's level equal to the native layer it was anchored to.
+    /// </summary>
+    internal static float SfxBusGain() => VolibearEffects.SfxChainGain();
+
     /// <summary>Plays one of our cues through NAudioManager, exactly like a native sound.</summary>
     internal static bool PlayCue(string eventPath, float volume)
     {
@@ -64,7 +74,7 @@ internal static class VolibearAudioBridge
         }
         var manager = NAudioManager.Instance;
         if (manager is null) return false;
-        manager.PlayOneShot(eventPath, new Dictionary<string, float>(), Math.Clamp(volume, 0f, 2f));
+        manager.PlayOneShot(eventPath, new Dictionary<string, float>(), volume);
         return true;
     }
 
@@ -91,8 +101,46 @@ internal static class VolibearAudioBridge
         }
         var obj = instance.AsGodotObject();
         if (obj is null) return false;
-        obj.Set("volume", Math.Clamp(volume, 0f, 2f));
+        // No artificial ceiling: the authored level is the level. Only a non-finite
+        // value is rejected, because FMOD cannot represent it.
+        var applied = volume * SfxBusGain();
+        if (!float.IsFinite(applied)) return false;
+        GD.Print($"[Volibear] CUE {eventPath} vol={applied:0.####}");
+        if (!_gainLogged)
+        {
+            _gainLogged = true;
+            LogMixState(server, volume, applied);
+        }
+        obj.Set("volume", applied);
         obj.Call("start");
         return true;
+    }
+
+    /// <summary>One-shot diagnostic: what the game's buses actually hold when a cue plays.</summary>
+    private static void LogMixState(GodotObject server, float requested, float applied)
+    {
+        var buses = "";
+        try
+        {
+            if (server.Call("get_all_buses").AsGodotArray() is { } list)
+            {
+                foreach (var entry in list)
+                {
+                    var bus = entry.AsGodotObject();
+                    if (bus is null) continue;
+                    var path = bus.Call("get_path").AsString();
+                    var volume = bus.Call("get_volume").AsSingle();
+                    buses += $"{path}={volume:0.###} ";
+                }
+            }
+        }
+        catch (Exception error)
+        {
+            buses = "unavailable(" + error.GetType().Name + ")";
+        }
+        var sliders = VolibearEffects.ChainSliders();
+        GD.Print($"[Volibear] AUDIO requested={requested:0.###} applied={applied:0.###} " +
+                 $"master={sliders.Master:0.###} sfx={sliders.Sfx:0.###} chain={sliders.Master * sliders.Master * sliders.Sfx * sliders.Sfx:0.####} " +
+                 $"buses: {buses}".TrimEnd());
     }
 }

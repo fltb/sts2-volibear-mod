@@ -147,17 +147,39 @@ public sealed class VolibearEffects : IDisposable
     // must honor the same settings explicitly. We never change the global Godot bus/driver.
     private static GDictionary ReadGameVolume()
     {
-        var settings = SaveManager.Instance.SettingsSave;
-        bool focused = DisplayServer.GetName() == "headless" || DisplayServer.WindowIsFocused();
-        float master = !focused && SaveManager.Instance.PrefsSave.MuteInBackground
-            ? 0f : Math.Clamp(settings.VolumeMaster, 0f, 1f);
-        float sfx = Math.Clamp(settings.VolumeSfx, 0f, 1f);
-        float ambience = Math.Clamp(settings.VolumeAmbience, 0f, 1f);
+        (float master, float sfx, float ambience) = ChainSliders();
         return new GDictionary
         {
             ["Sfx"] = master * master * sfx * sfx,
             ["Voice"] = master * master * sfx * sfx,
             ["Ambience"] = master * master * ambience * ambience
         };
+    }
+
+    /// <summary>
+    /// The gain the game's own SFX pass through: master bus squared, then SFX bus squared.
+    /// Our bank events carry their own master bus, so the game's FMOD buses never attenuate
+    /// them; a cue has to apply this factor itself to sit at the native level.
+    /// </summary>
+    internal static float SfxChainGain()
+    {
+        try
+        {
+            (float master, float sfx, _) = ChainSliders();
+            return master * master * sfx * sfx;
+        }
+        catch (Exception)
+        {
+            return 1f;
+        }
+    }
+
+    internal static (float Master, float Sfx, float Ambience) ChainSliders()
+    {
+        var settings = SaveManager.Instance.SettingsSave;
+        bool focused = DisplayServer.GetName() == "headless" || DisplayServer.WindowIsFocused();
+        float master = !focused && SaveManager.Instance.PrefsSave.MuteInBackground
+            ? 0f : Math.Clamp(settings.VolumeMaster, 0f, 1f);
+        return (master, Math.Clamp(settings.VolumeSfx, 0f, 1f), Math.Clamp(settings.VolumeAmbience, 0f, 1f));
     }
 }

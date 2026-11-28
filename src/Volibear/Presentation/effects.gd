@@ -215,7 +215,9 @@ func emit_effect(event_id: String, effect_id: String, anchors: Dictionary, targe
 	if effect.loop:
 		_loops[persistent_key] = token
 	sprite.play(effect_id)
-	if sound and effect.has("audio_cue"):
+	# Cues the native game already owns: playing our own layer on top only doubles it.
+	const NATIVE_OWNED = {"sfx.guard_gain": true, "sfx.card_draw": true, "sfx.card_discard": true}
+	if sound and effect.has("audio_cue") and not NATIVE_OWNED.has(str(effect.audio_cue)):
 		play_sound(event_id, effect.audio_cue, persistent_key, lease_seconds)
 	return true
 
