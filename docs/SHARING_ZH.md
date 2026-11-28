@@ -27,7 +27,10 @@ Volibear 会拒绝初始化，这是预期行为，不要绕过。两个通道�
 2. 用官方 [sts2-mod-uploader](https://github.com/megacrit/sts2-mod-uploader)（v0.2.0，本地
    `.local/moduploader/`）更新条目：workspace 的 `content/` 放 `Volibear` 三件套，
    `workshop.json` 填 `changeNote`（更新说明会显示为 changelog），`mod_id.txt` 保存条目 ID。
-3. `ModUploader.exe upload -w <workspace>`（走本机 Steam 客户端会话）。
+3. `ModUploader.exe upload -w <workspace>`（走本机 Steam 客户端会话）。当前条目 ID
+   `3840408533`（"Volibear - The Relentless Storm (沃利贝尔 · 不灭狂雷)"），已随 0.1.4
+   更新于 2026-11-28；提交末尾可能报 `k_EResultTimeout`，以 `time_updated`/`file_size`
+   （Steam Web API `GetPublishedFileDetails`）确认实际生效。
 4. 条目分支范围用 `minBranch`/`maxBranch` 标注（public-beta 条目记得 scope 到 public-beta）。
 
 ## 4. 私发 ZIP（小范围）
