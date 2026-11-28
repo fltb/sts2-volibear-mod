@@ -462,7 +462,10 @@ def validation_markers(audio_profile, clips=None, portraits=None):
 def build(godot, output=PACK, *, audio_profile='open', dotnet=None, reuse=True):
     base = ROOT / '.local/asset-build'
     base.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(dir=base, prefix='build-') as directory:
+    # ignore_cleanup_errors: Godot's exporter briefly holds a handle to .godot/editor on
+    # Windows after exit; the cleanup crash used to fail whole releases after the pack
+    # and all verifications had already succeeded. Stale build-* dirs stay behind instead.
+    with tempfile.TemporaryDirectory(dir=base, prefix='build-', ignore_cleanup_errors=True) as directory:
         return _build(godot, output, audio_profile, dotnet, reuse, Path(directory))
 
 

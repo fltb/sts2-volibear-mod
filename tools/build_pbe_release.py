@@ -52,7 +52,10 @@ def build(channel='pbe', game_dir=None):
     output.mkdir(parents=True, exist_ok=True)
     stem = f"{mod}-{metadata['version']}-{channel}-{game_version}"
     game_channel = 'beta' if channel == 'pbe' else 'stable'
-    with tempfile.TemporaryDirectory(dir=output, prefix='.build-') as temporary:
+    # ignore_cleanup_errors: Godot's export leaves a locked .godot/editor handle on Windows
+    # for a moment after exit; the cleanup crash used to kill packaging after successful
+    # builds. Stale .build-* dirs under .local stay behind instead of failing the release.
+    with tempfile.TemporaryDirectory(dir=output, prefix='.build-', ignore_cleanup_errors=True) as temporary:
         stage = Path(temporary)
         subprocess.run([tools['dotnet'], 'build', str(PROJECT / 'Volibear.csproj'), '-c', 'Release',
                         f'-p:GameChannel={game_channel}', '-p:IncludeDevProbes=false', f'-p:Sts2DataDir={data}',

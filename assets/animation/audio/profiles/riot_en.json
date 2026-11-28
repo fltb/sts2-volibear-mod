@@ -1526,31 +1526,31 @@
       "cue": "voice.attack_01",
       "source": "en_us_volibear_original_basicattack_0",
       "selection_basis": "Basic-attack vocal exertion, variation A.",
-      "gain_db": -8.0
+      "gain_db": -1.5
     },
     {
       "cue": "voice.attack_02",
       "source": "en_us_volibear_original_basicattack_1",
       "selection_basis": "Basic-attack vocal exertion, variation B.",
-      "gain_db": -7.0
+      "gain_db": -0.5
     },
     {
       "cue": "voice.heavy",
       "source": "en_us_volibear_original_basicattack_2",
       "selection_basis": "Third basic-attack exertion reused for the authored heavy action.",
-      "gain_db": -6.0
+      "gain_db": -1.5
     },
     {
       "cue": "voice.bite",
       "source": "en_us_volibear_original_w_4",
       "selection_basis": "Frenzied Maul W vocal family, reused for the bite action.",
-      "gain_db": -8.5
+      "gain_db": -2.5
     },
     {
       "cue": "voice.cast",
       "source": "en_us_volibear_original_e_2",
       "selection_basis": "Sky Splitter E vocal family, reused for the cast action.",
-      "gain_db": -3.0
+      "gain_db": -2.0
     },
     {
       "cue": "voice.roar",
@@ -1562,7 +1562,7 @@
       "cue": "voice.death",
       "source": "en_us_volibear_original_death_2",
       "selection_basis": "Death vocal family; a bounded 2.6 second excerpt fits the existing three-second death lease.",
-      "gain_db": -9.0
+      "gain_db": -2.5
     },
     {
       "cue": "voice.victory",
@@ -1574,13 +1574,13 @@
       "cue": "sfx.charge",
       "source": "riot_dev_q_layers",
       "selection_basis": "Riot 2020 development article: Q sound layers. Development sample, not certified current game SFX.",
-      "gain_db": -7.5
+      "gain_db": -3.5
     },
     {
       "cue": "sfx.heavy_impact",
       "source": "riot_dev_q_impact",
       "selection_basis": "Riot 2020 development article: Q impact/cast demonstration, adapted to heavy impact. Development sample, not certified current game SFX.",
-      "gain_db": -5.0
+      "gain_db": -2.5
     },
     {
       "cue": "voice.w_0",

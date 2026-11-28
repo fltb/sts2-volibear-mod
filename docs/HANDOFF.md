@@ -1,5 +1,15 @@
 # 当前源码交接：PR #1
 
+## 2026-11-28 · 0.1.4 双通道修复 + 音量收敛 + 发布
+
+- **stable（0.111.1）双缺陷修复**（详见 `NATIVE_SURFACE_0.114.md` §9）：`CardCmd.RemoveAllUpgrades`（0.114 专有）补 `STS2_0_113` 门控；`HardToKillPower.ModifyHpLostBeforeOstyLate` 探测改用 `Resolve` 同款 `DeclaredOnly` 严格度——原探测在 0.111.1 上探到基类 `HardenedShellPower` 继承的同名方法，误判后 `Resolve` 拒绝、**stable 整体初始化中止**（该回退从未在 stable 上执行过）。
+- **加载顺序双通道实机矩阵**（§9 末表）：基线 / 外来 Mod 夹层 / Nop 注入攻击异步体，PBE `<ExecuteInternal>d__92` 与 stable `<Execute>d__90` 双 transpiler 共存，全部 failures=0。「必须紧邻 BaseLib」历史缺陷不复现；历史报障指向旧包或文档指定的 BaseLib 3.4.7。
+- **音量修复**：语音族有效响度收敛至 −19.0~−19.7 LUFS（原 6–10 dB 内部差距，cast 一度 −28.6）、domain_suppress −20.2、card_draw +6 dB 安全抬升（片源本底仍待重合成）。生成器 `OPEN_GAIN_DB` / 运行时 `manifest.json` / `profiles/riot_en.json` 三处一致；**这是对齐自身一致性的修复，不冒充原生校准**，原生参照捕获列为后续方法。
+- **0.114 探针矩阵阻断**（§10）：发行版缺 `BootstrapSettings`，`pbe_verify.py` 全场景无法启动；运行时验收改走生产标记路线（BUILD_GATE/CONTENT_OK/COMPAT_SUMMARY/COMPAT_SCAN）。
+- `dependencies.py` 双通道统一 BaseLib 3.4.8；`SHARING_ZH.md` 重写（含用户 2026-11-28 明示：riot 变体直接发布到所有者自己的创意工坊条目，风险自担）。
+- 打包脚本 Windows 收尾崩溃修复（`build_assets` / `build_pbe_release` 的 `TemporaryDirectory(ignore_cleanup_errors=True)`，Godot `.godot/editor` 短暂句柄不再杀掉已成功的打包）。
+- 产物：`.local/release/{stable,pbe}/Volibear-0.1.4-*-{opensound,riot-sound}.zip` 四包；真实 Steam 安装已部署 0.1.4 beta+riot 并实测 `LOAD_OK version=0.1.4`（0.114.0、BaseLib 3.4.8、89 卡、failures=0）。
+
 ## 2026-11-15 · 本地 PBE 发布包
 
 `python tools/build_pbe_release.py` 从本机 PBE 和 BaseLib 编译一次 DLL，按两种声音方案导出 PCK。
