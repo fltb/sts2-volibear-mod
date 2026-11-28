@@ -389,7 +389,11 @@ func _refresh_volumes() -> void:
 	for record in _voices.values():
 		var category = str(record.cue.bus)
 		var db = float(record.cue.gain_db) + float(_mix.get(category.to_lower() + "_bus", 0.0))
-		var gain = clampf(float(gains.get(category, 0.0)), 0.0, 1.0) * db_to_linear(db)
+		var gain = db_to_linear(db)
+		if not record.has("sound"):
+			# Only the legacy Godot players need the slider emulation; bank
+			# events are mixed by the game's own FMOD buses.
+			gain *= clampf(float(gains.get(category, 0.0)), 0.0, 1.0)
 		if record.fade_end > 0:
 			gain *= clampf((record.fade_end - _now()) / 0.14, 0.0, 1.0)
 		if record.has("sound"):
