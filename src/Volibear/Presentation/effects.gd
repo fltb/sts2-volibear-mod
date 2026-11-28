@@ -2,6 +2,7 @@ extends Node2D
 ## Production presentation owner. Never computes rules or waits on gameplay.
 const AudioProfile = preload("res://VolibearArt/scenes/audio_profile.gd")
 const CombatVfx = preload("res://VolibearArt/scenes/combat_vfx.gd")
+const FmodAudio = preload("res://VolibearArt/scenes/fmod_audio.gd")
 const MAX_VISUALS = 64
 const MAX_VOICES = 24
 const DEDUP_WINDOW = 4096
@@ -27,6 +28,8 @@ var _cooldowns: Dictionary = {}
 var _seen: Dictionary = {}
 var _seen_order: Array = []
 var _streams: Dictionary = {}
+var _fmod = null
+static var _bank_loaded := false
 # Space confirmed rapid hits on the presentation clock without delaying combat.
 const CRACK_INTERVAL = 0.085
 var _pending_cracks: Array[Dictionary] = []
@@ -52,6 +55,9 @@ func _ready() -> void:
 	for item in audio_manifest.cues:
 		_cues[item.id] = item
 	_mix = audio_manifest.mix_rules
+	_fmod = FmodAudio.new()
+	if _fmod.available() and not _bank_loaded:
+		_bank_loaded = _fmod.load_bank("res://VolibearArt/audio/fmod/Volibear.bank")
 
 func _now() -> float:
 	return Time.get_ticks_msec() / 1000.0
@@ -335,29 +341,45 @@ func _start_sound(cue: Dictionary, persistent_key: String, lease_seconds: float)
 	if _voices.size() >= MAX_VOICES:
 		_last_reject = "voice-limit"
 		return false
-	if not _streams.has(cue.file):
-		_streams[cue.file] = load("res://VolibearArt/audio/" + cue.file)
-	var source_stream = _streams[cue.file] as AudioStreamOggVorbis
-	if source_stream == null:
-		_last_reject = "missing-stream:" + str(cue.file)
-		return false
-	var stream = source_stream.duplicate() as AudioStreamOggVorbis
-	if stream == null:
-		_last_reject = "duplicate-stream:" + str(cue.file)
-		return false
-	stream.loop = cue.loop
-	var player = AudioStreamPlayer.new()
-	player.stream = stream
-	player.bus = "Master"
-	add_child(player)
-	_next += 1
-	var duration = minf(lease_seconds, MAX_LEASE) if cue.loop else minf(lease_seconds, stream.get_length() + 0.2)
-	_voices[_next] = {"node": player, "cue": cue, "expires": now + duration, "key": persistent_key if cue.loop else "", "fade_end": 0.0}
+	var duration = minf(lease_seconds, MAX_LEASE) if cue.loop else minf(lease_seconds, float(cue.duration_seconds) + 0.2)
+	var player = null
+	var sound = null
+	if _fmod != null and _fmod.available() and _bank_loaded:
+		var event_path: String
+		if str(cue.file).begins_with("profiles/riot_en/"):
+			event_path = "event:/volibear/riot/" + str(cue.id)
+		else:
+			event_path = "event:/volibear/open/" + str(cue.asset_id)
+		sound = _fmod.create(event_path)
+	if sound != null:
+		_next += 1
+		_voices[_next] = {"sound": sound, "cue": cue, "expires": now + duration, "key": persistent_key if cue.loop else "", "fade_end": 0.0}
+	else:
+		if not _streams.has(cue.file):
+			_streams[cue.file] = load("res://VolibearArt/audio/" + cue.file)
+		var source_stream = _streams[cue.file] as AudioStreamOggVorbis
+		if source_stream == null:
+			_last_reject = "missing-stream:" + str(cue.file)
+			return false
+		var stream = source_stream.duplicate() as AudioStreamOggVorbis
+		if stream == null:
+			_last_reject = "duplicate-stream:" + str(cue.file)
+			return false
+		stream.loop = cue.loop
+		player = AudioStreamPlayer.new()
+		player.stream = stream
+		player.bus = "Master"
+		add_child(player)
+		_next += 1
+		_voices[_next] = {"node": player, "cue": cue, "expires": now + duration, "key": persistent_key if cue.loop else "", "fade_end": 0.0}
 	if cue.loop:
 		_voice_loops[persistent_key] = _next
 	_cooldowns[cue_id] = now
 	_refresh_volumes()
-	player.play()
+	if player != null:
+		player.play()
+	elif sound != null:
+		_fmod.start(sound)
 	if cue_id in ["sfx.lightning_strike", "sfx.lightning_chain"]:
 		_next_crack_at = now + CRACK_INTERVAL
 	return true
@@ -370,7 +392,10 @@ func _refresh_volumes() -> void:
 		var gain = clampf(float(gains.get(category, 0.0)), 0.0, 1.0) * db_to_linear(db)
 		if record.fade_end > 0:
 			gain *= clampf((record.fade_end - _now()) / 0.14, 0.0, 1.0)
-		record.node.volume_linear = gain
+		if record.has("sound"):
+			_fmod.set_volume(record.sound, gain)
+		else:
+			record.node.volume_linear = gain
 
 func renew_loop(key: String, lease_seconds: float = 10.0) -> bool:
 	if lease_seconds <= 0 or _closing:
@@ -392,7 +417,9 @@ func _stop_voice(token) -> void:
 	_voices.erase(token)
 	if not str(record.key).is_empty() and _voice_loops.get(record.key) == token:
 		_voice_loops.erase(record.key)
-	if is_instance_valid(record.node):
+	if record.has("sound"):
+		_fmod.stop(record.sound)
+	elif is_instance_valid(record.node):
 		record.node.stop()
 		record.node.stream = null
 		record.node.queue_free()
@@ -471,7 +498,20 @@ func _process(delta: float) -> void:
 			_stop_combat(token)
 	for token in _voices.keys():
 		var record = _voices[token]
-		if now >= record.expires or not is_instance_valid(record.node) or not record.node.playing:
+		if now >= record.expires:
+			_stop_voice(token)
+		elif record.has("sound"):
+			if not _fmod.playing(record.sound):
+				if record.cue.loop:
+					var loop_path := ("event:/volibear/riot/" + str(record.cue.id)) if str(record.cue.file).begins_with("profiles/riot_en/") else ("event:/volibear/open/" + str(record.cue.asset_id))
+					var again = _fmod.create(loop_path)
+					if again != null:
+						record.sound = again
+						_refresh_volumes()
+						_fmod.start(again)
+				else:
+					_stop_voice(token)
+		elif not is_instance_valid(record.node) or not record.node.playing:
 			_stop_voice(token)
 	_refresh_elapsed += delta
 	if _refresh_elapsed >= 0.025:

@@ -32,8 +32,7 @@ public static class ModEntry
     {
         try
         {
-            Core.PatchCompatibilitySnapshot.Capture(typeof(ModEntry).Assembly,
-                [Core.DomainSteamEruptionEffects.DamageBindingCapability]).WriteTo(line => GD.Print(line));
+            Core.PatchCompatibilitySnapshot.Capture(typeof(ModEntry).Assembly).WriteTo(line => GD.Print(line));
         }
         catch (System.Exception error)
         {
@@ -75,9 +74,6 @@ public static class ModEntry
                 GD.Print(message);
             }
         }
-#if !STS2_BETA || VOLIBEAR_DEV_PROBES
-        DomainSteamNativeObservation.PrepareForTestScenario();
-#endif
         Step("Presentation.VolibearPresentation", Presentation.VolibearPresentation.RegisterSceneConversions);
         Step("Presentation.VolibearMerchantIntegration", () => Presentation.VolibearMerchantIntegration.Install());
         Step("Content.ContentRegistry", ContentRegistry.Register);
@@ -98,7 +94,6 @@ public static class ModEntry
         Step("Core.DomainPassiveEffects", () => Core.DomainPassiveEffects.Install());
         Step("Core.DomainCardContributions", () => Core.DomainCardContributions.Install());
         Step("Core.DomainDampenTransactions", () => Core.DomainDampenTransactions.Install());
-        Step("Core.DomainSteamEruptionEffects", () => Core.DomainSteamEruptionEffects.Install());
         Step("Core.DomainPlayerStatContributions", () => Core.DomainPlayerStatContributions.Install());
         Core.DomainPlayerDebuffContributions.StatCancellation = Core.DomainPlayerStatContributions.ShouldCancel;
         Core.DomainPlayerDebuffContributions.StatCancellation = Core.DomainPlayerStatContributions.ShouldCancel;
@@ -112,6 +107,39 @@ public static class ModEntry
         Step("Presentation.VolibearArchitectEnding", () => Presentation.VolibearArchitectEnding.Install());
         Step("Presentation.VolibearInspectPortraits", () => Presentation.VolibearInspectPortraits.Install());
         Step("Core.CompatibilityDiagnostics", InstallCompatibilityDiagnostics);
+        try
+        {
+            var server = Engine.GetSingleton("FmodServer");
+            if (server is null)
+            {
+                GD.Print("[Volibear] AUDIO fmod=absent");
+            }
+            else
+            {
+                var loaded = server.Call("load_bank", "res://VolibearArt/audio/fmod/Volibear.bank", 0);
+                var guids = new System.Collections.Generic.Dictionary<string, string>(System.StringComparer.Ordinal);
+                using (var guidFile = Godot.FileAccess.Open("res://VolibearArt/audio/fmod/GUIDs.txt", Godot.FileAccess.ModeFlags.Read))
+                {
+                    while (guidFile is not null && !guidFile.EofReached())
+                    {
+                        var line = guidFile.GetLine().Trim();
+                        var space = line.IndexOf(' ');
+                        if (space > 0) guids[line[(space + 1)..].Trim()] = line[..space].Trim();
+                    }
+                }
+                var eventPath = "event:/volibear/open/claw_slash";
+                var guid = guids.TryGetValue(eventPath, out var found) ? found : null;
+                var probe = guid is not null
+                    ? server.Call("create_event_instance_with_guid", guid)
+                    : server.Call("create_event_instance", eventPath);
+                GD.Print("[Volibear] AUDIO bank=" + loaded.ToString() + " guids=" + guids.Count
+                    + " guid=" + (guid is not null) + " probe=" + (probe.VariantType != Godot.Variant.Type.Nil));
+            }
+        }
+        catch (System.Exception error)
+        {
+            GD.PushWarning("[Volibear] AUDIO bank load failed: " + error.GetType().Name + ": " + error.Message);
+        }
         GD.Print("[Volibear] COMPAT_SUMMARY failures=" + failures.Count);
         if (failures.Count != 0)
             throw new System.InvalidOperationException("[Volibear] Initialization incomplete; failed modules: " +
@@ -288,11 +316,6 @@ public static class ModEntry
             {
                 DevelopmentBootstrap.Install(installDriver: false);
                 CouponContractProbe.Install();
-            }
-            else if (scenario == "domain-steam")
-            {
-                DevelopmentBootstrap.Install(installDriver: false);
-                DomainSteamEruptionProbe.Install();
             }
             else if (scenario == "standing-extra-turn")
             {

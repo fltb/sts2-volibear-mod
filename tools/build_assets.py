@@ -72,6 +72,7 @@ NATIVE_RESOURCES = (
     'volibear_merchant.tscn', 'volibear_trail.tscn',
     'volibear_transition.tres', 'volibear_transition.gdshader',
     'volibear_effects.tscn', 'effects.gd', 'combat_vfx.gd', 'energy.gd', 'audio_profile.gd',
+    'fmod_audio.gd',
 )
 PACK = ROOT / '.local/packs/Volibear.pck'
 ALIASES = {
@@ -401,6 +402,12 @@ def source_export_preset(preset, resources):
                            + ', '.join(json.dumps(p) for p in resources) + ')', preset, flags=re.MULTILINE)
     if count != 1:
         raise ValueError('Expected exactly one resource-export preset')
+    preset, count = re.subn(r'^include_filter="([^"]*)"$',
+                            lambda m: 'include_filter="' + m.group(1)
+                            + ',VolibearArt/audio/fmod/*.bank,VolibearArt/audio/fmod/*.txt"',
+                            preset, flags=re.MULTILINE)
+    if count != 1:
+        raise ValueError('Expected exactly one non-resource include filter')
     preset, count = re.subn(r'^script_export_mode=\d+$', 'script_export_mode=0', preset, flags=re.MULTILINE)
     if count != 1:
         raise ValueError('Expected exactly one GDScript export mode')
@@ -537,6 +544,9 @@ def _build(godot, output, audio_profile, dotnet, reuse, work):
          '--output', art], work, 'stage', env)
     stage_combat_animations(art, combat_clips)
     audio_profiles.stage_profile(audio_profile, art / 'audio')
+    fmod_source = AUDIO / 'fmod'
+    if fmod_source.is_dir():
+        shutil.copytree(fmod_source, art / 'audio/fmod', dirs_exist_ok=True)
     shutil.copytree(LOCALIZATION, project / 'Volibear/localization')
     # EpochModel resolves the inspect illustration and the slot thumbnail separately.
     illustrations = project / 'images/timeline/epoch_portraits'
